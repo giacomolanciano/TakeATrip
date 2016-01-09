@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.android.support/design/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
+        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-3e9b0bc1ad4e4f81ae15894d234ed92ebf6b7c30.jar" />
+    </item>
+
+</items>
