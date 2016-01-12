@@ -4,4 +4,4 @@
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>
-<!-- From: file:/C:/Users/Giacomo/AndroidStudioProjects/TakeATrip/mobile/src/main/res/menu/menu_main.xml -->
+<!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/res/menu/menu_main.xml -->

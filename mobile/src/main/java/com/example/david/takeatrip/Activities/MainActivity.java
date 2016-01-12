@@ -37,7 +37,7 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String ADDRESS_VERIFICA_LOGIN = "http://www.musichangman.com/TakeATrip/VerificaLogin.php";
+    private final String ADDRESS_VERIFICA_LOGIN = "http://www.musichangman.com/TakeATrip/InserimentoDati/VerificaLogin.php";
 
 
     private TextView btnRegistrati;
