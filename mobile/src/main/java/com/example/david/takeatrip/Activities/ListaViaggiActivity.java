@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 public class ListaViaggiActivity extends AppCompatActivity {
 
-    private final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/QueryViaggi.php";
+    private final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryViaggi.php";
     private ListView lista;
     private ArrayList<Viaggio> viaggi;
 
@@ -130,12 +130,16 @@ public class ListaViaggiActivity extends AppCompatActivity {
                         String result = sb.toString();
 
                         JSONArray jArray = new JSONArray(result);
-                        for(int i=0;i<jArray.length();i++){
-                            JSONObject json_data = jArray.getJSONObject(i);
-                            String codiceViaggio = json_data.getString("codiceViaggio").toString();
-                            String nomeViaggio = json_data.getString("nomeViaggio").toString();
-                            viaggi.add(new Viaggio(codiceViaggio, nomeViaggio));
+
+                        if(jArray != null){
+                            for(int i=0;i<jArray.length();i++){
+                                JSONObject json_data = jArray.getJSONObject(i);
+                                String codiceViaggio = json_data.getString("codiceViaggio").toString();
+                                String nomeViaggio = json_data.getString("nomeViaggio").toString();
+                                viaggi.add(new Viaggio(codiceViaggio, nomeViaggio));
+                            }
                         }
+
 
                     } catch (Exception e) {
                         Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();

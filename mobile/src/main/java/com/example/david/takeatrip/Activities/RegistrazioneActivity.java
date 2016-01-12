@@ -35,7 +35,7 @@ public class RegistrazioneActivity extends AppCompatActivity {
 
 
 
-    private final String ADDRESS_INSERIMENTO_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoProfilo.php";
+    private final String ADDRESS_INSERIMENTO_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoProfilo.php";
 
     private Button btnInvio;
 
