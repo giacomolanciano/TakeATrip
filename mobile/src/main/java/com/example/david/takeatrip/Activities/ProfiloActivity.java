@@ -80,6 +80,8 @@ public class ProfiloActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 // definisco l'intenzione
                 Intent openListaViaggi = new Intent(ProfiloActivity.this, ListaViaggiActivity.class);
+                openListaViaggi.putExtra("email", email);
+
                 // passo all'attivazione dell'activity
                 startActivity(openListaViaggi);
             }

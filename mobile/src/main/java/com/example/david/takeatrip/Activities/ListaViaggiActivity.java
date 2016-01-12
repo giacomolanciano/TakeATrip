@@ -18,9 +18,12 @@ import com.example.david.takeatrip.R;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -34,6 +37,7 @@ public class ListaViaggiActivity extends AppCompatActivity {
     private final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryViaggi.php";
     private ListView lista;
     private ArrayList<Viaggio> viaggi;
+    private String email;
 
 
 
@@ -45,6 +49,13 @@ public class ListaViaggiActivity extends AppCompatActivity {
         lista = (ListView)findViewById(R.id.listViewTravels);
 
         viaggi = new ArrayList<Viaggio>();
+
+
+
+        if(getIntent() != null){
+            Intent intent = getIntent();
+            email = intent.getStringExtra("email");
+        }
 
 
         MyTask mT = new MyTask();
@@ -107,10 +118,17 @@ public class ListaViaggiActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
 
+
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("email", email));
+
+
+
             try {
 
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost httppost = new HttpPost(ADDRESS_PRELIEVO);
+                httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                 HttpResponse response = httpclient.execute(httppost);
 
                 HttpEntity entity = response.getEntity();
@@ -131,7 +149,7 @@ public class ListaViaggiActivity extends AppCompatActivity {
 
                         JSONArray jArray = new JSONArray(result);
 
-                        if(jArray != null){
+                        if(jArray != null && result != null){
                             for(int i=0;i<jArray.length();i++){
                                 JSONObject json_data = jArray.getJSONObject(i);
                                 String codiceViaggio = json_data.getString("codiceViaggio").toString();
