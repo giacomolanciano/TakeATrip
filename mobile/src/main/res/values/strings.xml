@@ -12,7 +12,6 @@
     <string name="Registration">Registration</string>
 
 
-
     <string name="Name">Name</string>
     <string name="Surname">Surname</string>
     <string name="Email">Email</string>
@@ -26,17 +25,10 @@
     <string name="Categoria">Categoria</string>
 
 
-
-
-
-
-
-
     <string name="LoginError">Incorrect Data</string>
     <string name="title_activity_categoria">CategoriaActivity</string>
     <string name="title_activity_viaggio">ViaggioActivity</string>
-
-
+    <string name="title_activity_lista_tappe">ListaTappeActivity</string>
 
 
 </resources>

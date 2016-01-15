@@ -12,11 +12,13 @@ public class Tappa {
     private Tappa tappaPrecedente;
     private Date data;
     private String paginaDiario;
+    private POI poi;
 
-    public Tappa(Itinerario itinerario, int ordine, Date data) {
+    public Tappa(Itinerario itinerario, int ordine, Date data, POI poi) {
         this.itinerario = itinerario;
         this.ordine = ordine;
         this.data = data;
+        this.poi = poi;
     }
 
     public Itinerario getItinerario() {
@@ -57,6 +59,20 @@ public class Tappa {
 
     public void setPaginaDiario(String paginaDiario) {
         this.paginaDiario = paginaDiario;
+    }
+
+    public POI getPoi() {
+        return poi;
+    }
+
+    public void setPoi(POI poi) {
+        this.poi = poi;
+    }
+
+    public String getNome() {
+
+        //return this.poi.getNome();
+        return "tappa";
     }
 
     @Override
