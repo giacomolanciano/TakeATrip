@@ -11,7 +11,7 @@
     <string name="Login">Login</string>
     <string name="Registration">Registration</string>
 
-    <string name="Splash">Bella CUCCIOLI!! </string>
+    <string name="Splash">Take A Trip</string>
 
 
 
@@ -29,15 +29,10 @@
 
 
 
-
-
-
-
-
     <string name="LoginError">Incorrect Data</string>
     <string name="title_activity_categoria">CategoriaActivity</string>
     <string name="title_activity_viaggio">ViaggioActivity</string>
-    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_splash">TakeATrip</string>
 
 
 
