@@ -11,8 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.david.takeatrip.Classes.ManualAdapter;
-import com.example.david.takeatrip.Classes.Profilo;
+import com.example.david.takeatrip.Classes.ViaggioAdapter;
 import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
 
@@ -67,7 +66,7 @@ public class ListaViaggiActivity extends AppCompatActivity {
 
     private void PopolaLista(){
 
-        final ManualAdapter adapter = new ManualAdapter(this,R.layout.entry_travels_listview, viaggi);
+        final ViaggioAdapter adapter = new ViaggioAdapter(this,R.layout.entry_travels_listview, viaggi);
         lista.setAdapter(adapter);
 
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
