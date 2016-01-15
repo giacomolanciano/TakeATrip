@@ -20,4 +20,4 @@
         android:id="@+id/imageView"
         android:layout_weight="0.7"/>
 </LinearLayout>
-<!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/res/layout/entry_category_listview.xml -->
+<!-- From: file:/C:/Users/david/AndroidStudioProjects/TakeATrip/mobile/src/main/res/layout/entry_category_listview.xml -->
