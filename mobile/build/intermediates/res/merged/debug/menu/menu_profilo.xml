@@ -5,4 +5,4 @@
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>
-<!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/res/menu/menu_profilo.xml -->
+<!-- From: file:/C:/Users/david/AndroidStudioProjects/TakeATrip/mobile/src/main/res/menu/menu_profilo.xml -->
