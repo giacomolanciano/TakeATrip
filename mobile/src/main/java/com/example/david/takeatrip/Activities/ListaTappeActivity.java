@@ -62,17 +62,17 @@ public class ListaTappeActivity extends AppCompatActivity {
 
 
         //TODO prova statica
-        Date data = new Date(System.currentTimeMillis());
+        /* Date data = new Date(System.currentTimeMillis());
         Viaggio vi = new Viaggio("123", "Corsica 2013");
         Profilo pr = new Profilo("ciao@gmail.com", "giac", "lan");
         Itinerario it = new Itinerario(vi, pr, data, data);
         tappe.add(new Tappa(it, 1, data , null));
         tappe.add(new Tappa(it, 2, data , null));
         tappe.add(new Tappa(it, 3, data , null));
-        PopolaLista();
+        PopolaLista(); */
 
-        //MyTask mT = new MyTask();
-        //mT.execute();
+        MyTask mT = new MyTask();
+        mT.execute();
     }
 
 
@@ -169,8 +169,9 @@ public class ListaTappeActivity extends AppCompatActivity {
                                 Tappa tappaPrecedente = (Tappa) json_data.get("tappa");
                                 String paginaDiario = json_data.getString("paginaDiario");
                                 POI poi = (POI) json_data.get("poi");
-                                String dataString = json_data.getString("data");
-                                Date data = Date.valueOf(dataString);
+                              /*  String dataString = json_data.getString("data");
+                                Date data = Date.valueOf(dataString);*/
+                                Date data = (Date) json_data.get("data");
 
                                 tappe.add(new Tappa(itinerario, ordine, tappaPrecedente, data, paginaDiario, poi));
                             }
