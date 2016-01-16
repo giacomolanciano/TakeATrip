@@ -13,8 +13,10 @@ import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.Itinerario;
 import com.example.david.takeatrip.Classes.POI;
+import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.Tappa;
 import com.example.david.takeatrip.Classes.TappaAdapter;
+import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
 
 import org.apache.http.HttpEntity;
@@ -59,8 +61,18 @@ public class ListaTappeActivity extends AppCompatActivity {
         }
 
 
-        MyTask mT = new MyTask();
-        mT.execute();
+        //TODO prova statica
+        Date data = new Date(System.currentTimeMillis());
+        Viaggio vi = new Viaggio("123", "Corsica 2013");
+        Profilo pr = new Profilo("ciao@gmail.com", "giac", "lan");
+        Itinerario it = new Itinerario(vi, pr, data, data);
+        tappe.add(new Tappa(it, 1, data , null));
+        tappe.add(new Tappa(it, 2, data , null));
+        tappe.add(new Tappa(it, 3, data , null));
+        PopolaLista();
+
+        //MyTask mT = new MyTask();
+        //mT.execute();
     }
 
 
@@ -151,15 +163,15 @@ public class ListaTappeActivity extends AppCompatActivity {
                         if(jArray != null && result != null){
                             for(int i=0;i<jArray.length();i++){
                                 JSONObject json_data = jArray.getJSONObject(i);
-                                String codiceViaggio = json_data.getString("codiceViaggio").toString();
-                                String nomeViaggio = json_data.getString("nomeViaggio").toString();
+                                String codiceViaggio = json_data.getString("codiceViaggio");
+                                String nomeViaggio = json_data.getString("nomeViaggio");
 
                                 Itinerario itinerario = (Itinerario) json_data.get("itinerario");
                                 int ordine = json_data.getInt("ordine");
                                 Tappa tappaPrecedente = (Tappa) json_data.get("tappa");
-                                String paginaDiario = json_data.getString("paginaDiario").toString();
+                                String paginaDiario = json_data.getString("paginaDiario");
                                 POI poi = (POI) json_data.get("poi");
-                                String dataString = json_data.getString("data").toString();
+                                String dataString = json_data.getString("data");
                                 Date data = Date.valueOf(dataString);
 
                                 tappe.add(new Tappa(itinerario, ordine, tappaPrecedente, data, paginaDiario, poi));

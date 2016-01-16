@@ -29,7 +29,7 @@ public class TappaAdapter extends ArrayAdapter<Tappa> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView == null){
-            convertView= LayoutInflater.from(context).inflate(R.layout.entry_travels_listview, null);
+            convertView= LayoutInflater.from(context).inflate(R.layout.entry_tappe_listview, null);
         }
         Tappa tappa;
         TextView viewNome;

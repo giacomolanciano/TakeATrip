@@ -60,6 +60,7 @@
             android:name="com.example.david.takeatrip.Activities.ListaTappeActivity"
             android:label="@string/title_activity_lista_tappe"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="com.example.david.takeatrip.Activities.TappaActivity" />
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"

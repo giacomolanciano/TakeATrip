@@ -80,6 +80,7 @@ public class Tappa {
 
     public String getNome() {
 
+        //TODO
         //return this.poi.getNome();
         return "tappa";
     }

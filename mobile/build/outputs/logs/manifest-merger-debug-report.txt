@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:2:1-42:12
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:2:1-43:12
 	xmlns:android
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:2:11-69
 	package
@@ -14,7 +14,7 @@ ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\Andr
 		INJECTED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml
 application
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:5:5-40:19
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:5:5-41:19
 MERGED from [com.android.support:appcompat-v7:23.0.1] C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.0.1] C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services:8.1.0] C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.google.android.gms\play-services\8.1.0\AndroidManifest.xml:19:5-20
@@ -152,25 +152,25 @@ ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\Andr
 	android:name
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:16:27-74
 activity#com.example.david.takeatrip.Activities.RegistrazioneActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:19:9-21:77
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:19:9-21:68
 	android:label
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:21:13-65
 	android:name
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:20:13-61
 activity#com.example.david.takeatrip.Activities.ProfiloActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:22:9-24:71
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:22:9-24:62
 	android:label
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:24:13-59
 	android:name
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:23:13-55
 activity#com.example.david.takeatrip.Activities.ListaViaggiActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:25:9-27:76
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:25:9-27:67
 	android:label
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:27:13-64
 	android:name
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:26:13-59
 activity#com.example.david.takeatrip.Activities.CategoriaActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:28:9-31:68
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:28:9-31:59
 	android:label
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:30:13-61
 	android:theme
@@ -178,7 +178,7 @@ ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\Andr
 	android:name
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:29:13-57
 activity#com.example.david.takeatrip.Activities.ViaggioActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:32:9-35:68
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:32:9-35:59
 	android:label
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:34:13-59
 	android:theme
@@ -186,13 +186,17 @@ ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\Andr
 	android:name
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:33:13-55
 activity#com.example.david.takeatrip.Activities.ListaTappeActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:36:9-39:68
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:36:9-39:59
 	android:label
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:38:13-63
 	android:theme
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:39:13-56
 	android:name
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:37:13-58
+activity#com.example.david.takeatrip.Activities.TappaActivity
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:40:9-62
+	android:name
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:40:19-59
 uses-sdk
 INJECTED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:23.0.1] C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\AndroidManifest.xml:20:5-43
@@ -444,7 +448,7 @@ MERGED from [com.google.android.gms:play-services-maps:8.1.0] C:\Users\Giacomo\A
 	android:glEsVersion
 		ADDED from [com.google.android.gms:play-services-maps:8.1.0] C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\8.1.0\AndroidManifest.xml:24:8-40
 android:uses-permission#android.permission.READ_EXTERNAL_STORAGE
-IMPLIED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:2:1-42:12 reason: com.google.android.gms.maps requested WRITE_EXTERNAL_STORAGE
+IMPLIED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:2:1-43:12 reason: com.google.android.gms.maps requested WRITE_EXTERNAL_STORAGE
 uses-permission#com.google.android.c2dm.permission.RECEIVE
 ADDED from [com.google.android.gms:play-services-gcm:8.1.0] C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\8.1.0\AndroidManifest.xml:21:5-82
 	android:name
