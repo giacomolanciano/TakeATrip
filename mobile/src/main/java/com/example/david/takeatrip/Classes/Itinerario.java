@@ -9,25 +9,26 @@ import java.util.List;
  */
 public class Itinerario {
 
-    private String codice;
     private Profilo profilo;
     private ArrayList tappe;
     private Date dataInizio, dataFine;
+    private Viaggio viaggio;
 
-    public Itinerario(String codice, Profilo profilo, Date dataInizio) {
+    public Itinerario(Viaggio viaggio, Profilo profilo, Date dataInizio, Date dataFine) {
 
-        this.codice = codice;
+        this.viaggio = viaggio;
         this.profilo = profilo;
         this.tappe = new ArrayList();
         this.dataInizio = dataInizio;
+        this.dataFine = dataFine;
     }
 
-    public String getCodice() {
-        return codice;
+    public Viaggio getViaggio() {
+        return viaggio;
     }
 
-    public void setCodice(String codice) {
-        this.codice = codice;
+    public void setViaggio(Viaggio viaggio) {
+        this.viaggio = viaggio;
     }
 
     public Profilo getProfilo() {
@@ -73,15 +74,15 @@ public class Itinerario {
 
         Itinerario that = (Itinerario) o;
 
-        if (!getCodice().equals(that.getCodice())) return false;
-        return getProfilo().equals(that.getProfilo());
+        if (!getProfilo().equals(that.getProfilo())) return false;
+        return getViaggio().equals(that.getViaggio());
 
     }
 
     @Override
     public int hashCode() {
-        int result = getCodice().hashCode();
-        result = 31 * result + getProfilo().hashCode();
+        int result = getProfilo().hashCode();
+        result = 31 * result + getViaggio().hashCode();
         return result;
     }
 }

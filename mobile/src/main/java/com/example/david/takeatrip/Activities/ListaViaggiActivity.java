@@ -2,8 +2,8 @@ package com.example.david.takeatrip.Activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,8 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.david.takeatrip.Classes.ViaggioAdapter;
 import com.example.david.takeatrip.Classes.Viaggio;
+import com.example.david.takeatrip.Classes.ViaggioAdapter;
 import com.example.david.takeatrip.R;
 
 import org.apache.http.HttpEntity;
@@ -51,8 +51,8 @@ public class ListaViaggiActivity extends AppCompatActivity {
 
 
 
-        if(getIntent() != null){
-            Intent intent = getIntent();
+        Intent intent;
+        if((intent = getIntent()) != null){
             email = intent.getStringExtra("email");
         }
 
@@ -76,7 +76,12 @@ public class ListaViaggiActivity extends AppCompatActivity {
                 final Viaggio viaggio = (Viaggio) adattatore.getItemAtPosition(pos);
                 Toast.makeText(getBaseContext(), "hai cliccato il viaggio: " + viaggio.getNome(), Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(ListaViaggiActivity.this, ViaggioActivity.class);
+                //TODO per ora non ci interessano tutti gli itinerari associati al viaggio
+                //Intent intent = new Intent(ListaViaggiActivity.this, ViaggioActivity.class);
+
+                Intent intent = new Intent(ListaViaggiActivity.this, ListaTappeActivity.class);
+                intent.putExtra("email", email);
+                intent.putExtra("codiceViaggio", viaggio.getCodice());
 
                 startActivity(intent);
 

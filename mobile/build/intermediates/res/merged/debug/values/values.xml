@@ -433,6 +433,7 @@
     <!-- From: file:/C:/Users/Giacomo/AndroidStudioProjects/TakeATrip/mobile/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="title_activity_categoria">CategoriaActivity</string>
+    <string name="title_activity_lista_tappe">ListaTappeActivity</string>
     <string name="title_activity_lista_viaggi">ListTravels</string>
     <string name="title_activity_profilo">Profile</string>
     <string name="title_activity_registrazione">Registration</string>

@@ -21,6 +21,15 @@ public class Tappa {
         this.poi = poi;
     }
 
+    public Tappa(Itinerario itinerario, int ordine, Tappa tappaPrecedente, Date data, String paginaDiario, POI poi) {
+        this.itinerario = itinerario;
+        this.ordine = ordine;
+        this.tappaPrecedente = tappaPrecedente;
+        this.data = data;
+        this.paginaDiario = paginaDiario;
+        this.poi = poi;
+    }
+
     public Itinerario getItinerario() {
         return itinerario;
     }

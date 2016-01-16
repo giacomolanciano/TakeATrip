@@ -18,25 +18,26 @@
         </activity>
         <activity
             android:name=".Activities.RegistrazioneActivity"
-            android:label="@string/title_activity_registrazione"></activity>
+            android:label="@string/title_activity_registrazione" />
         <activity
             android:name=".Activities.ProfiloActivity"
-            android:label="@string/title_activity_profilo"></activity>
+            android:label="@string/title_activity_profilo" />
         <activity
             android:name=".Activities.ListaViaggiActivity"
-            android:label="@string/title_activity_lista_viaggi"></activity>
+            android:label="@string/title_activity_lista_viaggi" />
         <activity
             android:name=".Activities.CategoriaActivity"
             android:label="@string/title_activity_categoria"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.ViaggioActivity"
             android:label="@string/title_activity_viaggio"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.ListaTappeActivity"
             android:label="@string/title_activity_lista_tappe"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activities.TappaActivity"></activity>
     </application>
 
 </manifest>

@@ -41,26 +41,25 @@
         </activity>
         <activity
             android:name="com.example.david.takeatrip.Activities.RegistrazioneActivity"
-            android:label="@string/title_activity_registrazione" >
-        </activity>
+            android:label="@string/title_activity_registrazione" />
         <activity
             android:name="com.example.david.takeatrip.Activities.ProfiloActivity"
-            android:label="@string/title_activity_profilo" >
-        </activity>
+            android:label="@string/title_activity_profilo" />
         <activity
             android:name="com.example.david.takeatrip.Activities.ListaViaggiActivity"
-            android:label="@string/title_activity_lista_viaggi" >
-        </activity>
+            android:label="@string/title_activity_lista_viaggi" />
         <activity
             android:name="com.example.david.takeatrip.Activities.CategoriaActivity"
             android:label="@string/title_activity_categoria"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.example.david.takeatrip.Activities.ViaggioActivity"
             android:label="@string/title_activity_viaggio"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.david.takeatrip.Activities.ListaTappeActivity"
+            android:label="@string/title_activity_lista_tappe"
+            android:theme="@style/AppTheme.NoActionBar" />
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
