@@ -33,11 +33,6 @@
         <activity
             android:name="com.example.david.takeatrip.Activities.MainActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.example.david.takeatrip.Activities.RegistrazioneActivity"
@@ -61,6 +56,15 @@
             android:label="@string/title_activity_lista_tappe"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="com.example.david.takeatrip.Activities.TappaActivity" />
+        <activity
+            android:name="com.example.david.takeatrip.Activities.SplashActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
