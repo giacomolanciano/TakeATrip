@@ -163,8 +163,6 @@ public class ListaTappeActivity extends AppCompatActivity {
                         if(jArray != null && result != null){
                             for(int i=0;i<jArray.length();i++){
                                 JSONObject json_data = jArray.getJSONObject(i);
-                                String codiceViaggio = json_data.getString("codiceViaggio");
-                                String nomeViaggio = json_data.getString("nomeViaggio");
 
                                 Itinerario itinerario = (Itinerario) json_data.get("itinerario");
                                 int ordine = json_data.getInt("ordine");
