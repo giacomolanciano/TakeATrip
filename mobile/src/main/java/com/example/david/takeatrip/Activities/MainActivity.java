@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
 
 
     private EditText campoEmail, campoPassword;
-    private String email, password, nome, cognome, data;;
+    private String email, password, nome, cognome, data;
 
 
 
@@ -212,10 +212,7 @@ public class MainActivity extends Activity {
                                 email = json_data.getString("email").toString();
                                 nome =  json_data.getString("nome").toString();
                                 cognome = json_data.getString("cognome").toString();
-
-
-                                //TODO: cambiare formato data
-                                data = json_data.getString("data").toString();
+                                data = json_data.getString("dataNascita").toString();
 
                             }
 
@@ -259,6 +256,9 @@ public class MainActivity extends Activity {
                 Toast.makeText(getBaseContext(), getResources().getString(R.string.LoginError), Toast.LENGTH_LONG).show();
             }
             else{
+
+                //Toast.makeText(getBaseContext(), data, Toast.LENGTH_LONG).show();
+
                 Intent openAccedi = new Intent(MainActivity.this, ProfiloActivity.class);
                 openAccedi.putExtra("email", email);
                 openAccedi.putExtra("name", nome);

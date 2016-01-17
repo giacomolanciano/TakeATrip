@@ -39,10 +39,7 @@ public class ProfiloActivity extends AppCompatActivity {
             name = intent.getStringExtra("name");
             surname = intent.getStringExtra("surname");
             email = intent.getStringExtra("email");
-
-
-            //TODO: modify from String to Date
-            date = intent.getStringExtra("dataOfBirth");
+            date = intent.getStringExtra("dateOfBirth");
 
             viewName.setText(name);
             viewSurname.setText(surname);

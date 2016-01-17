@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.Viaggio;
@@ -39,6 +40,7 @@ public class ListaViaggiActivity extends AppCompatActivity {
     private String email;
 
 
+    private TextView ViewCaricamentoInCorso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,8 @@ public class ListaViaggiActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lista_viaggi);
 
         lista = (ListView)findViewById(R.id.listViewTravels);
+
+        ViewCaricamentoInCorso = (TextView)findViewById(R.id.TextViewCaricamentoInCorso);
 
         viaggi = new ArrayList<Viaggio>();
 
@@ -56,6 +60,8 @@ public class ListaViaggiActivity extends AppCompatActivity {
             email = intent.getStringExtra("email");
         }
 
+
+        ViewCaricamentoInCorso.setVisibility(View.VISIBLE);
 
         MyTask mT = new MyTask();
         mT.execute();
@@ -74,7 +80,7 @@ public class ListaViaggiActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adattatore, final View componente, int pos, long id) {
 
                 final Viaggio viaggio = (Viaggio) adattatore.getItemAtPosition(pos);
-                Toast.makeText(getBaseContext(), "hai cliccato il viaggio: " + viaggio.getNome(), Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getBaseContext(), "hai cliccato il viaggio: " + viaggio.getNome(), Toast.LENGTH_SHORT).show();
 
                 //TODO per ora non ci interessano tutti gli itinerari associati al viaggio
                 //Intent intent = new Intent(ListaViaggiActivity.this, ViaggioActivity.class);
@@ -184,6 +190,8 @@ public class ListaViaggiActivity extends AppCompatActivity {
             //popolamento della ListView
             //Toast.makeText(getBaseContext(), "stringa risultante: " + stringaFinale, Toast.LENGTH_LONG).show();
             PopolaLista();
+
+            ViewCaricamentoInCorso.setVisibility(View.INVISIBLE);
 
             super.onPostExecute(aVoid);
 

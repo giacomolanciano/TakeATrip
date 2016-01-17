@@ -36,15 +36,18 @@ public class TappaAdapter extends ArrayAdapter<Tappa> {
         TextView viewNome;
 
         viewNome = (TextView)convertView.findViewById(R.id.NameTappa);
-        viewNome.setText((tappa.getNome()));
+
+        //TODO rispristinare
+        //viewNome.setText((tappa.getNome()));
+        viewNome.setText((tappa.getPaginaDiario()));
         viewNome.setTextSize(18);
 
 
         viewNome = (TextView)convertView.findViewById(R.id.DateTappa);
 
         //TODO rispristinare
-        //viewNome.setText((tappa.getData().toString()));
-        viewNome.setText("data");
+        viewNome.setText((tappa.getData().toString()));
+        //viewNome.setText("data");
         viewNome.setTextSize(18);
 
 

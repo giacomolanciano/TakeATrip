@@ -30,8 +30,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.ListaTappeActivity"
-            android:label="@string/title_activity_lista_tappe"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_lista_tappe" />
         <activity android:name=".Activities.TappaActivity" />
         <activity
             android:name=".Activities.SplashActivity"

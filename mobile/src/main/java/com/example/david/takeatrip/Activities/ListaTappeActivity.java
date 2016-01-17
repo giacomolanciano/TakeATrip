@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.Itinerario;
@@ -44,6 +44,8 @@ public class ListaTappeActivity extends AppCompatActivity {
     private ArrayList<Tappa> tappe;
     private String email, codiceViaggio;
 
+    private TextView ViewCaricamentoInCorso;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,8 @@ public class ListaTappeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lista_viaggi);
 
         lista = (ListView)findViewById(R.id.listViewTravels);
+
+        ViewCaricamentoInCorso = (TextView)findViewById(R.id.TextViewCaricamentoInCorso);
 
         tappe = new ArrayList<Tappa>();
 
@@ -71,6 +75,8 @@ public class ListaTappeActivity extends AppCompatActivity {
         tappe.add(new Tappa(it, 2, data , null));
         tappe.add(new Tappa(it, 3, data , null));
         PopolaLista(); */
+
+        ViewCaricamentoInCorso.setVisibility(View.VISIBLE);
 
         MyTask mT = new MyTask();
         mT.execute();
@@ -124,6 +130,7 @@ public class ListaTappeActivity extends AppCompatActivity {
     private class MyTask extends AsyncTask<Void, Void, Void> {
         private final static int DEFAULT_INT = 0;
         private static final String DEFAULT_STRING = "default";
+        private static final String DEFAULT_DATE = "2010-01-11";
         InputStream is = null;
         String stringaFinale = "";
 
@@ -161,7 +168,7 @@ public class ListaTappeActivity extends AppCompatActivity {
 
                         String result = sb.toString();
 
-                        Log.e("TEST", "json ricevuto:\n" + result);
+                        //Log.e("TEST", "json ricevuto:\n" + result);
 
                         JSONArray jArray = new JSONArray(result);
 
@@ -211,15 +218,16 @@ public class ListaTappeActivity extends AppCompatActivity {
 
                                 POI poi = new POI(codicePOI, fontePOI);
 
-                                //String dataString = json_data.getString("data");
-                                //Date data = Date.valueOf(dataString);
+
+                                String dataString = json_data.optString("data", DEFAULT_DATE);
+                                Date data = Date.valueOf(dataString);
 
 
                                 //TODO rispristinare
                                 //Date data = (Date) json_data.get("data");
-                                Date data = null;
+                                //Date data = null;
 
-                                //Log.e("TEST", "data:\n" + data);SS
+                                //Log.e("TEST", "data:\n" + data);
 
                                 //stringaFinale = itinerario + " " + ordine +" "+ tappaPrecedente +" "+ data +" "+ paginaDiario+" " + poi;
                                 tappe.add(new Tappa(itinerario, ordine, tappaPrecedente, data, paginaDiario, poi));
@@ -248,6 +256,8 @@ public class ListaTappeActivity extends AppCompatActivity {
             //popolamento della ListView
             //Toast.makeText(getBaseContext(), "stringa risultante: "+ stringaFinale, Toast.LENGTH_LONG).show();
             PopolaLista();
+
+            ViewCaricamentoInCorso.setVisibility(View.INVISIBLE);
 
             super.onPostExecute(aVoid);
 
