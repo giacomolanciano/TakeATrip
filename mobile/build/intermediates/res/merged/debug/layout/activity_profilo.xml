@@ -9,6 +9,9 @@
     tools:context=".ProfiloActivity">
 
 
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,63 +25,6 @@
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/Name"
-                    android:id="@+id/Nome"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginTop="44dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Cognome"
-                    android:id="@+id/Cognome"
-                    android:layout_below="@+id/Nome"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Data di Nascita"
-                    android:id="@+id/DataDiNascita"
-                    android:layout_below="@+id/Cognome"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Email"
-                    android:id="@+id/Email"
-                    android:layout_below="@+id/DataDiNascita"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
-
-
-
-
-            </LinearLayout>
-
-
-
-
-            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -89,28 +35,87 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/imageProfile"
+                    android:background="@drawable/profile"
 
-                    />
+                    android:layout_gravity="center" />
             </LinearLayout>
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
 
 
 
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/Name"
+                android:id="@+id/Nome"
+                 />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Cognome"
+                android:id="@+id/Cognome"
+                android:layout_below="@+id/Nome"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Data di Nascita"
+                android:id="@+id/DataDiNascita"
+                android:layout_below="@+id/Cognome"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Email"
+                android:id="@+id/Email"
+                android:layout_below="@+id/DataDiNascita"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+
+
+
+        </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:id="@+id/layoutBottoniProfilo"
-            >
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal">
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Viaggi"
+                android:text="@string/Viaggi"
                 android:id="@+id/Listaviaggi"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/DestinationSelection"
+                android:id="@+id/DestinationSelection"
+                android:onClick="ModificaCategoria"
                 />
 
 
@@ -123,18 +128,10 @@
                 android:onClick="ModificaCategoria"
                 />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/DestinationSelection"
-                android:id="@+id/DestinationSelection"
-                android:onClick="ModificaCategoria"
-                />
+
 
 
         </LinearLayout>
-
-
 
 
     </LinearLayout>
@@ -150,4 +147,4 @@
 
 
 </FrameLayout>
-<!-- From: file:/C:/Users/Giacomo/AndroidStudioProjects/TakeATrip/mobile/src/main/res/layout/activity_profilo.xml -->
+<!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/res/layout/activity_profilo.xml -->

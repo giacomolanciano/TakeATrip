@@ -17,10 +17,8 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
-    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
- <!-- Permissions required for GCM -->
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
- <!-- Optional permission for App measurement to run. -->
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Permissions required for GCM -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" /> <!-- Optional permission for App measurement to run. -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
@@ -75,6 +73,8 @@
                 android:value="com.example.david.takeatrip.Activities.ProfiloActivity" />
         </activity>
         <activity android:name="com.example.david.takeatrip.Activities.PossibleDestinationActivity" >
+        </activity>
+        <activity android:name="com.example.david.takeatrip.Activities.MetaActivity" >
         </activity>
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity

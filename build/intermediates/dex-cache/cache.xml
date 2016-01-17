@@ -2,83 +2,6 @@
 <items version="2" >
 
     <item
-        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="d0dda274b703dd9c5bb056867649d22b4171ae7d">
-        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-616a2a82bc6fdb2a5d31d798aa12842ea9dca007.jar" />
-    </item>
-    <item
-        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="dcf8c83c3dead00a6c4fe313e95f7aaca20dc641">
-        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-00de5ba5679a8f2dddbe419d67a98e7ab7fe1254.jar" />
-    </item>
-    <item
-        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-plus/8.1.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="d61920aba361832a9545a43fa8c9453eb02f18f7">
-        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-1e5b0dfe3fe79d409d5beff7f5943862f57697c9.jar" />
-    </item>
-    <item
-        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-measurement/8.1.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="482de223655d06253cc6a4955d653f8994169500">
-        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-e4244f982e4cc5deff9a60e9736e01abea408789.jar" />
-    </item>
-    <item
-        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/8.1.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="dcb5b75baf05d92e61d5706737200ee55949f97b">
-        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-de641cb073ca4254d03c23179fec0a404034d4c1.jar" />
-    </item>
-    <item
-        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/jars/libs/internal_impl-22.2.0.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="0632f06970823b7e3436f649bfa65b47035c91d0">
-        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/internal_impl-22.2.0-7d2e834363ce70ee9d4c61558f357d557bc8f56f.jar" />
-    </item>
-    <item
-        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.1.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="2a7e47da654546f9457deb6132364f1bf33a1857">
-        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-00a834ede05e8d56efe8cd22ae4757ce66babb1b.jar" />
-    </item>
-    <item
-        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.android.support/design/23.0.1/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
-        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-3e9b0bc1ad4e4f81ae15894d234ed92ebf6b7c30.jar" />
-    </item>
-    <item
-        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/8.1.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="4477ea44f5ec5ad064022a22691732d7638ff197">
-        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-86183bc5d99005b056276e29b28ccc8fad8672ba.jar" />
-    </item>
-    <item
-        jar="/Users/lucagiacomelli/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
-        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/support-annotations-23.0.1-7ef09e57b7cc89d79a4dee75858e5d693cc71be2.jar" />
-    </item>
-    <item
-        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-games/8.1.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="993834cb17d07d51b92db89d2c330243592ebf77">
-        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-42af6aa725e6515f594734bbc07a38b55257bb36.jar" />
-    </item>
-    <item
         jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/8.1.0/jars/classes.jar"
         jumboMode="false"
         revision="23.0.1"
@@ -100,6 +23,13 @@
         <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-a9b4ca2d184a39a4b883d05aaa365cc30be4ce0e.jar" />
     </item>
     <item
+        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d0dda274b703dd9c5bb056867649d22b4171ae7d">
+        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-616a2a82bc6fdb2a5d31d798aa12842ea9dca007.jar" />
+    </item>
+    <item
         jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-safetynet/8.1.0/jars/classes.jar"
         jumboMode="false"
         revision="23.0.1"
@@ -114,11 +44,25 @@
         <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-23cabcfecb6f9938923856406e54bc8926d4d447.jar" />
     </item>
     <item
+        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="dcf8c83c3dead00a6c4fe313e95f7aaca20dc641">
+        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-00de5ba5679a8f2dddbe419d67a98e7ab7fe1254.jar" />
+    </item>
+    <item
         jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
         jumboMode="false"
         revision="23.0.1"
         sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
         <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-46ce99529d1bfb379eef6b9462449a2df62aa492.jar" />
+    </item>
+    <item
+        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-plus/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d61920aba361832a9545a43fa8c9453eb02f18f7">
+        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-1e5b0dfe3fe79d409d5beff7f5943862f57697c9.jar" />
     </item>
     <item
         jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-vision/8.1.0/jars/classes.jar"
@@ -142,11 +86,25 @@
         <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-6521a57e8df3260bbf81f93e08cabca16ec7171a.jar" />
     </item>
     <item
+        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-measurement/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="482de223655d06253cc6a4955d653f8994169500">
+        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-e4244f982e4cc5deff9a60e9736e01abea408789.jar" />
+    </item>
+    <item
         jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics/8.1.0/jars/classes.jar"
         jumboMode="false"
         revision="23.0.1"
         sha1="95758a2905669affbffc5ddd262921d375674fad">
         <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-ef05c591ea7eef53bfb9d0a6a1334fc5d61f6862.jar" />
+    </item>
+    <item
+        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="dcb5b75baf05d92e61d5706737200ee55949f97b">
+        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-de641cb073ca4254d03c23179fec0a404034d4c1.jar" />
     </item>
     <item
         jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast/8.1.0/jars/classes.jar"
@@ -170,6 +128,27 @@
         <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-b9ce8f383a68fa6fd0323711929f2665c0de8564.jar" />
     </item>
     <item
+        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/jars/libs/internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="0632f06970823b7e3436f649bfa65b47035c91d0">
+        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/internal_impl-22.2.0-7d2e834363ce70ee9d4c61558f357d557bc8f56f.jar" />
+    </item>
+    <item
+        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="2a7e47da654546f9457deb6132364f1bf33a1857">
+        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-00a834ede05e8d56efe8cd22ae4757ce66babb1b.jar" />
+    </item>
+    <item
+        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.android.support/design/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
+        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-3e9b0bc1ad4e4f81ae15894d234ed92ebf6b7c30.jar" />
+    </item>
+    <item
         jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
         jumboMode="false"
         revision="23.0.1"
@@ -191,11 +170,32 @@
         <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-5b8d7cedf8251480f1848f7fa011f22657ef32a5.jar" />
     </item>
     <item
+        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="4477ea44f5ec5ad064022a22691732d7638ff197">
+        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-86183bc5d99005b056276e29b28ccc8fad8672ba.jar" />
+    </item>
+    <item
         jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-nearby/8.1.0/jars/classes.jar"
         jumboMode="false"
         revision="23.0.1"
         sha1="041d93cf0533591c29d1d7263b2fa114dbfb20bd">
         <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-59bce92d05b671a952ee025ee970b9023e858e6d.jar" />
+    </item>
+    <item
+        jar="/Users/lucagiacomelli/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/support-annotations-23.0.1-7ef09e57b7cc89d79a4dee75858e5d693cc71be2.jar" />
+    </item>
+    <item
+        jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-games/8.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="993834cb17d07d51b92db89d2c330243592ebf77">
+        <dex dex="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/pre-dexed/debug/classes-42af6aa725e6515f594734bbc07a38b55257bb36.jar" />
     </item>
     <item
         jar="/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.1.0/jars/classes.jar"

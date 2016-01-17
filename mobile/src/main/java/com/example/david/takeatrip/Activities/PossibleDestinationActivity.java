@@ -5,8 +5,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.david.takeatrip.Classes.Meta;
+import com.example.david.takeatrip.Classes.MetaAdapter;
+import com.example.david.takeatrip.Classes.ViaggioAdapter;
 import com.example.david.takeatrip.R;
 
 import org.apache.http.HttpEntity;
@@ -32,19 +39,33 @@ public class PossibleDestinationActivity extends AppCompatActivity {
     private final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/ScegliMeta.php";
     private String ADDRESS_PRELIEVO2 = "http://www.musichangman.com/TakeATrip/InserimentoDati/";
 
+    private TextView ViewCaricamentoInCorso;
 
     private String temperature, pressure, humidity, speedWind;
     private String email;
     private String TextFile = "";
 
-    private List<String> nomiCitta;
+    private List<Meta> listaMete;
+    private List<String> codiciMete;
+
+    private ListView lista;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_possible_destination);
 
-        nomiCitta = new ArrayList<String>();
+        listaMete = new ArrayList<Meta>();
+        codiciMete = new ArrayList<String>();
+
+        lista = (ListView)findViewById(R.id.listViewMete);
+
+
+        ViewCaricamentoInCorso = (TextView)findViewById(R.id.TextViewCaricamentoInCorso);
+
+
 
 
         Intent intent;
@@ -58,13 +79,13 @@ public class PossibleDestinationActivity extends AppCompatActivity {
         }
 
         if(humidity.toLowerCase().equals("low level")){
-            humidity = "15";
+            humidity = "60";
         }
         else if(humidity.toLowerCase().equals("medium level")){
-            humidity = "45";
+            humidity = "76";
         }
         else if(humidity.toLowerCase().equals("high level")){
-            humidity = "85";
+            humidity = "92";
         }
 
 
@@ -81,12 +102,8 @@ public class PossibleDestinationActivity extends AppCompatActivity {
 
         }
 
-        double temperature2 = Double.parseDouble(temperature);
-        temperature2 = temperature2 + 273.15;
-        temperature = String.valueOf(temperature2);
 
-
-
+        ViewCaricamentoInCorso.setVisibility(View.VISIBLE);
 
         MyTask mT = new MyTask();
         mT.execute();
@@ -101,27 +118,22 @@ public class PossibleDestinationActivity extends AppCompatActivity {
 
 
 
-    /*
+
     private void PopolaLista(){
 
-        final ViaggioAdapter adapter = new ViaggioAdapter(this,R.layout.entry_travels_listview, viaggi);
+        final MetaAdapter adapter = new MetaAdapter(this,R.layout.entry_possibili_mete, listaMete);
         lista.setAdapter(adapter);
 
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adattatore, final View componente, int pos, long id) {
 
-                final Viaggio viaggio = (Viaggio) adattatore.getItemAtPosition(pos);
-                Toast.makeText(getBaseContext(), "hai cliccato il nome: " + viaggio.getNome(), Toast.LENGTH_SHORT).show();
+                final Meta meta = (Meta) adattatore.getItemAtPosition(pos);
+                //Toast.makeText(getBaseContext(), "hai cliccato il nome: " + meta.getNome(), Toast.LENGTH_SHORT).show();
 
 
-
-                //TODO per ora non ci interessano tutti gli itinerari associati al viaggio
-                //Intent intent = new Intent(ListaViaggiActivity.this, ViaggioActivity.class);
-
-                Intent intent = new Intent(ListaViaggiActivity.this, ListaTappeActivity.class);
-                intent.putExtra("email", email);
-                intent.putExtra("codiceViaggio", viaggio.getCodice());
+                Intent intent = new Intent(PossibleDestinationActivity.this, MetaActivity.class);
+                intent.putExtra("nomeMeta", meta.getNome());
 
                 startActivity(intent);
 
@@ -132,7 +144,7 @@ public class PossibleDestinationActivity extends AppCompatActivity {
 
     }
 
-*/
+
 
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
@@ -202,7 +214,7 @@ public class PossibleDestinationActivity extends AppCompatActivity {
             emailPerAddress = emailPerAddress.substring(0,positionDot);
 
             ADDRESS_PRELIEVO2 = ADDRESS_PRELIEVO2 + "ScegliMeta2" + emailPerAddress + ".php";
-            Toast.makeText(getBaseContext(), "stringa risultante: " + ADDRESS_PRELIEVO2, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getBaseContext(), "stringa risultante: " + ADDRESS_PRELIEVO2, Toast.LENGTH_LONG).show();
 
 
             new MyTask2().execute();
@@ -270,9 +282,11 @@ public class PossibleDestinationActivity extends AppCompatActivity {
                         if(jArray != null && result2 != null){
                             for(int i=0;i<jArray.length();i++){
                                 JSONObject json_data = jArray.getJSONObject(i);
+                                String codiceMeta = json_data.getString("codiceMeta").toString();
                                 String nomeMeta = json_data.getString("nome").toString();
 
-                                nomiCitta.add(nomeMeta);
+                                codiciMete.add(codiceMeta);
+                                listaMete.add(new Meta(codiceMeta, nomeMeta));
                             }
                         }
 
@@ -298,17 +312,21 @@ public class PossibleDestinationActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
 
             //popolamento della ListView
-            Toast.makeText(getBaseContext(), "stringa risultante2: " + temperature + " " + pressure + " " + humidity + " " +speedWind , Toast.LENGTH_LONG).show();
-            Toast.makeText(getBaseContext(), "stringa risultante2: " + stringaFinale , Toast.LENGTH_LONG).show();
+            //Toast.makeText(getBaseContext(), "stringa risultante2: " + temperature + " " + pressure + " " + humidity + " " +speedWind , Toast.LENGTH_LONG).show();
+            //Toast.makeText(getBaseContext(), "stringa risultante2: " + stringaFinale , Toast.LENGTH_LONG).show();
 
-
-            for(int i=0; i<nomiCitta.size(); i++){
-                Log.d("TEST", nomiCitta.get(i));
+/*
+            for(int i=0; i<codiciMete.size(); i++){
+                Log.d("TEST", codiciMete.get(i));
 
             }
             //Log.d("TEST", nomiCitta);
 
-            //PopolaLista();
+            */
+
+            PopolaLista();
+
+            ViewCaricamentoInCorso.setVisibility(View.INVISIBLE);
 
             super.onPostExecute(aVoid);
 

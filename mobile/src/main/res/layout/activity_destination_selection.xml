@@ -24,10 +24,11 @@
 
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/SceltaMeta"
+                android:textSize="26dp"
+                android:layout_gravity="center_horizontal"
                 android:id="@+id/sceltaMeta"
                  />
 
@@ -39,14 +40,15 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/Temperatura"
                 android:id="@+id/TestoTemperatura"
+                android:paddingTop="20dp"
                  />
 
-            <NumberPicker
-                android:layout_width="wrap_content"
+            <Spinner
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/TemperaturePicker"
-                android:layout_gravity="center_horizontal"
-                />
+                android:id="@+id/spinnerTemperature"
+                android:layout_gravity="right" />
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -54,6 +56,8 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/Pressione"
                 android:id="@+id/testoPressione"
+                android:paddingTop="20dp"
+
                 />
 
             <NumberPicker
@@ -70,6 +74,8 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/Umidita"
                 android:id="@+id/testoUmidita"
+                android:paddingTop="20dp"
+
                 />
 
             <Spinner
@@ -87,6 +93,8 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/VelocitaVento"
                 android:id="@+id/ValoreVento"
+                android:paddingTop="20dp"
+
                 />
 
             <Spinner

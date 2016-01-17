@@ -28,6 +28,13 @@ public class Meta {
         this.codiceMeta = codiceMeta;
     }
 
+    public Meta(String codiceMeta, String nome) {
+        this.codiceMeta = codiceMeta;
+        this.nome = nome;
+    }
+
+
+
     public String getCodiceMeta() {
         return codiceMeta;
     }

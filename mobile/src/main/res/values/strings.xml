@@ -41,7 +41,7 @@
     <string name="DestinationSelection">Search destination</string>
     <string name="title_activity_destination_selection">DestinationSelectionActivity</string>
 
-    <string name="SceltaMeta">Choose your destination</string>
+    <string name="SceltaMeta">Choose your parameters</string>
     <string name="Altitudine">Altitude</string>
     <string name="Temperatura">Temperature</string>
     <string name="Pressione">Pressure</string>
@@ -65,6 +65,16 @@
         <item>low level</item>
         <item>medium level</item>
         <item>high level</item>
+    </string-array>
+
+    <string-array name="livelloTemperatura">
+        <item>very very cold</item>
+        <item>very cold</item>
+        <item>cold</item>
+        <item>moderate</item>
+        <item>hot</item>
+        <item>very hot</item>
+
     </string-array>
 
 
