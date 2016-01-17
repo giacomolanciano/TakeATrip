@@ -2,25 +2,19 @@ package com.example.david.takeatrip.Activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.R;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -28,6 +22,10 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 
@@ -37,16 +35,34 @@ public class RegistrazioneActivity extends AppCompatActivity {
 
     private final String ADDRESS_INSERIMENTO_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoProfilo.php";
 
+
+    private final int YEAR_MAX_PICKER = 2016;
+    private final int YEAR_MIN_PICKER = 1900;
+    private final int YEAR_DEFAULT_PICKER = 2000;
+    private final int MONTH_MAX_PICKER = 12;
+    private final int MONTH_MIN_PICKER = 1;
+    private final int MONTH_DEFAULT_PICKER = 1;
+    private final int DAY_MAX_PICKER = 31;
+    private final int DAY_MIN_PICKER = 1;
+    private final int DAY_DEFAULT_PICKER = 1;
+
+    private final int TEN = 10;
+
     private Button btnInvio;
 
     private EditText campoNome;
     private EditText campoCognome;
     private EditText campoEmail;
     private EditText campoPassword;
+    private EditText campoData;
 
     private String data;
 
     private String nome, cognome, email, password;
+
+    private NumberPicker pickerYear, pickerMonth, pickerDay;
+
+    private int month, day;
 
 
     @Override
@@ -59,6 +75,27 @@ public class RegistrazioneActivity extends AppCompatActivity {
         campoCognome = (EditText) findViewById(R.id.Cognome);
         campoEmail = (EditText) findViewById(R.id.Email);
         campoPassword = (EditText) findViewById(R.id.Password);
+        campoData = (EditText) findViewById(R.id.DataDiNascita);
+
+
+        pickerYear = (NumberPicker)findViewById(R.id.pickerYear);
+        pickerYear.setMaxValue(YEAR_MAX_PICKER);
+        pickerYear.setMinValue(YEAR_MIN_PICKER);
+        pickerYear.setWrapSelectorWheel(false);
+        pickerYear.setValue(YEAR_DEFAULT_PICKER);
+
+        pickerMonth = (NumberPicker)findViewById(R.id.pickerMonth);
+        pickerMonth.setMaxValue(MONTH_MAX_PICKER);
+        pickerMonth.setMinValue(MONTH_MIN_PICKER);
+        pickerMonth.setWrapSelectorWheel(false);
+        pickerMonth.setValue(MONTH_DEFAULT_PICKER);
+
+        pickerDay = (NumberPicker)findViewById(R.id.pickerDay);
+        pickerDay.setMaxValue(DAY_MAX_PICKER);
+        pickerDay.setMinValue(DAY_MIN_PICKER);
+        pickerDay.setWrapSelectorWheel(false);
+        pickerDay.setValue(DAY_DEFAULT_PICKER);
+
 
 
         btnInvio=(Button)findViewById(R.id.Invio);
@@ -72,11 +109,22 @@ public class RegistrazioneActivity extends AppCompatActivity {
                 password = campoPassword.getText().toString();
 
 
+                data = String.valueOf(pickerYear.getValue()) + "-";
+                if((month = pickerMonth.getValue()) < TEN) {
+                    data += "0" + month + "-";
+                }
+                else {
+                    data += month + "-";
+                }
+                if((day = pickerDay.getValue()) < TEN) {
+                    data += "0" + day;
+                }
+                else {
+                    data += day;
+                }
 
-                //TODO
-                data = "";
 
-
+                //Toast.makeText(getBaseContext(), data, Toast.LENGTH_LONG).show();
 
 
                 boolean emailValida = isEmailValida(email);
@@ -100,7 +148,7 @@ public class RegistrazioneActivity extends AppCompatActivity {
                     openProfilo.putExtra("name", nome);
                     openProfilo.putExtra("surname", cognome);
                     openProfilo.putExtra("email", email);
-                    openProfilo.putExtra("dataOfBirth", data);
+                    openProfilo.putExtra("dateOfBirth", data);
 
 
                     // passo all'attivazione dell'activity
@@ -206,7 +254,7 @@ public class RegistrazioneActivity extends AppCompatActivity {
             //Toast.makeText(getBaseContext(), "ID facebook: " + profile.getId(), Toast.LENGTH_LONG).show();
             //Toast.makeText(getBaseContext(), "name facebook: " + profile.getName(), Toast.LENGTH_LONG).show();
 
-            Toast.makeText(getBaseContext(), "caricati i dati sul DB " + nome + " " + cognome + " " + data + " " + email + " " + password , Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getBaseContext(), "caricati i dati sul DB " + nome + " " + cognome + " " + data + " " + email + " " + password , Toast.LENGTH_SHORT).show();
 
 
 
