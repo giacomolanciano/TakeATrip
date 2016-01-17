@@ -1,8 +1,8 @@
 package com.example.david.takeatrip.Activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,7 +14,7 @@ import com.example.david.takeatrip.R;
 public class ProfiloActivity extends AppCompatActivity {
 
 
-    private Button btnViaggi, buttonCategoria;
+    private Button btnViaggi, buttonCategoria, buttonDestinationSelection;
     private TextView viewName;
     private TextView viewSurname, viewDate, viewEmail;
 
@@ -84,6 +84,19 @@ public class ProfiloActivity extends AppCompatActivity {
 
                 // passo all'attivazione dell'activity
                 startActivity(openListaViaggi);
+            }
+        });
+
+        buttonDestinationSelection=(Button)findViewById(R.id.DestinationSelection);
+        buttonDestinationSelection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                // definisco l'intenzione
+                Intent intent = new Intent(ProfiloActivity.this, DestinationSelectionActivity.class);
+                intent.putExtra("email", email);
+
+                // passo all'attivazione dell'activity
+                startActivity(intent);
             }
         });
 

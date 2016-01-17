@@ -36,5 +36,37 @@
     <string name="Splash">Take a Trip</string>
 
 
+    <string name="Viaggi">Travels</string>
+
+    <string name="DestinationSelection">Search destination</string>
+    <string name="title_activity_destination_selection">DestinationSelectionActivity</string>
+
+    <string name="SceltaMeta">Choose your destination</string>
+    <string name="Altitudine">Altitude</string>
+    <string name="Temperatura">Temperature</string>
+    <string name="Pressione">Pressure</string>
+    <string name="Umidita">Humidity</string>
+    <string name="tempMax">Temperatura Massima</string>
+    <string name="tempMin">Temperatura Minima</string>
+    <string name="VelocitaVento">Speed of Wind</string>
+
+    <string name="AvviaRicerca">Search</string>
+
+
+
+
+    <string-array name="livelliUmidita">
+        <item>low level</item>
+        <item>medium level</item>
+        <item>high level</item>
+
+    </string-array>
+    <string-array name="livelloVento">
+        <item>low level</item>
+        <item>medium level</item>
+        <item>high level</item>
+    </string-array>
+
+
 
 </resources>
