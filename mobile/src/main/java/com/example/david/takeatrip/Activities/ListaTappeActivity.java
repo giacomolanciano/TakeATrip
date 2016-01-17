@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -121,6 +122,8 @@ public class ListaTappeActivity extends AppCompatActivity {
 
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
+        private final static int DEFAULT_INT = 0;
+        private static final String DEFAULT_STRING = "default";
         InputStream is = null;
         String stringaFinale = "";
 
@@ -158,35 +161,81 @@ public class ListaTappeActivity extends AppCompatActivity {
 
                         String result = sb.toString();
 
+                        Log.e("TEST", "json ricevuto:\n" + result);
+
                         JSONArray jArray = new JSONArray(result);
 
                         if(jArray != null && result != null){
                             for(int i=0;i<jArray.length();i++){
                                 JSONObject json_data = jArray.getJSONObject(i);
 
-                                Itinerario itinerario = (Itinerario) json_data.get("itinerario");
-                                int ordine = json_data.getInt("ordine");
-                                Tappa tappaPrecedente = (Tappa) json_data.get("tappa");
-                                String paginaDiario = json_data.getString("paginaDiario");
-                                POI poi = (POI) json_data.get("poi");
-                              /*  String dataString = json_data.getString("data");
-                                Date data = Date.valueOf(dataString);*/
-                                Date data = (Date) json_data.get("data");
 
+                                String email = json_data.getString("emailProfilo");
+
+                                //Log.e("TEST", "email:\n" + email);
+
+                                String codiceViaggio = json_data.getString("codiceViaggio");
+
+                                //Log.e("TEST", "codiceViaggio:\n" + codiceViaggio);
+
+                                Itinerario itinerario = new Itinerario(new Profilo(email), new Viaggio(codiceViaggio));
+
+                                int ordine = json_data.getInt("ordine");
+
+                                //Log.e("TEST", "ordine:\n" + ordine);
+
+                                stringaFinale = email + " " + codiceViaggio  +" "+ ordine;
+
+
+
+                                int ordineTappaPrecedente = json_data.optInt("ordineTappaPrecedente", DEFAULT_INT);
+
+                                //Log.e("TEST", "ordinePrec:\n" + ordineTappaPrecedente);
+
+                                Tappa tappaPrecedente = new Tappa(itinerario, (ordineTappaPrecedente));
+
+
+                                String paginaDiario = json_data.getString("paginaDiario");
+
+                                //Log.e("TEST", "pagina diario:\n" + paginaDiario);
+
+
+                                String codicePOI = json_data.optString("codicePoi", DEFAULT_STRING);
+
+                                //Log.e("TEST", "codicePOI:\n" + codicePOI);
+
+                                String fontePOI = json_data.optString("fontePoi", DEFAULT_STRING);
+
+                                //Log.e("TEST", "fontePOI:\n" + fontePOI);
+
+
+                                POI poi = new POI(codicePOI, fontePOI);
+
+                                //String dataString = json_data.getString("data");
+                                //Date data = Date.valueOf(dataString);
+
+
+                                //TODO rispristinare
+                                //Date data = (Date) json_data.get("data");
+                                Date data = null;
+
+                                //Log.e("TEST", "data:\n" + data);SS
+
+                                //stringaFinale = itinerario + " " + ordine +" "+ tappaPrecedente +" "+ data +" "+ paginaDiario+" " + poi;
                                 tappe.add(new Tappa(itinerario, ordine, tappaPrecedente, data, paginaDiario, poi));
                             }
                         }
 
 
                     } catch (Exception e) {
-                        Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
                 }
 
             } catch (Exception e) {
-                Toast.makeText(getBaseContext(), "Errore nella connessione http " + e.toString(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(getBaseContext(), "Errore nella connessione http " + e.toString(), Toast.LENGTH_LONG).show();
                 //Log.e("TEST", "Errore nella connessione http "+e.toString());
             }
 
@@ -197,7 +246,7 @@ public class ListaTappeActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
 
             //popolamento della ListView
-            //Toast.makeText(getBaseContext(), "stringa risultante: " + stringaFinale, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getBaseContext(), "stringa risultante: "+ stringaFinale, Toast.LENGTH_LONG).show();
             PopolaLista();
 
             super.onPostExecute(aVoid);

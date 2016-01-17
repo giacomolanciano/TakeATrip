@@ -23,6 +23,11 @@ public class Itinerario {
         this.dataFine = dataFine;
     }
 
+    public Itinerario(Profilo profilo, Viaggio viaggio) {
+        this.profilo = profilo;
+        this.viaggio = viaggio;
+    }
+
     public Viaggio getViaggio() {
         return viaggio;
     }

@@ -8,17 +8,28 @@ public class Viaggio {
 
     private String codice, nome;
 
-    public Viaggio(String c, String n){
-        codice = c;
-        nome = n;
+    public Viaggio(String codice, String nome) {
+        this.codice = codice;
+        this.nome = nome;
     }
 
+    public Viaggio(String codice) {
+        this.codice = codice;
+    }
 
     public String getCodice() {
         return codice;
     }
 
+    public void setCodice(String codice) {
+        this.codice = codice;
+    }
+
     public String getNome() {
         return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }

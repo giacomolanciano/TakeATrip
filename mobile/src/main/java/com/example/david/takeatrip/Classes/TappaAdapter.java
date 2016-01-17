@@ -31,17 +31,20 @@ public class TappaAdapter extends ArrayAdapter<Tappa> {
         if(convertView == null){
             convertView= LayoutInflater.from(context).inflate(R.layout.entry_tappe_listview, null);
         }
-        Tappa tappa;
+
+        Tappa tappa = getItem(position);
         TextView viewNome;
 
-        tappa = getItem(position);
         viewNome = (TextView)convertView.findViewById(R.id.NameTappa);
         viewNome.setText((tappa.getNome()));
         viewNome.setTextSize(18);
 
-        tappa = getItem(position);
+
         viewNome = (TextView)convertView.findViewById(R.id.DateTappa);
-        viewNome.setText((tappa.getData().toString()));
+
+        //TODO rispristinare
+        //viewNome.setText((tappa.getData().toString()));
+        viewNome.setText("data");
         viewNome.setTextSize(18);
 
 
