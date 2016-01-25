@@ -14,7 +14,7 @@ import com.example.david.takeatrip.R;
 public class ProfiloActivity extends AppCompatActivity {
 
 
-    private Button btnViaggi, buttonCategoria, buttonDestinationSelection;
+    private Button btnViaggi, buttonCategoria, buttonDestinationSelection, buttonRegistra;
     private TextView viewName;
     private TextView viewSurname, viewDate, viewEmail;
 
@@ -97,6 +97,16 @@ public class ProfiloActivity extends AppCompatActivity {
             }
         });
 
+
+        buttonRegistra=(Button)findViewById(R.id.ButtonRegistraViaggio);
+        buttonRegistra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                // definisco l'intenzione
+                Intent intent = new Intent(ProfiloActivity.this, MapsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
