@@ -14,19 +14,23 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/wallet_dim_foreground_inverse_holo_dark">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/DateTappa" />
+            android:id="@+id/DateTappa"
+            android:textColor="@color/white"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/NameTappa" />
+            android:id="@+id/NameTappa"
+            android:textColor="@color/white"/>
+
 
 
     </LinearLayout>
