@@ -40,6 +40,7 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.PlacePhotoMetadataResult;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -90,9 +91,10 @@ public class ListaTappeActivity extends AppCompatActivity implements OnMapReadyC
         mGoogleApiClient = new GoogleApiClient
                 .Builder( this )
                 .addApi(Places.GEO_DATA_API)
-                .addApi( Places.PLACE_DETECTION_API )
+                .addApi(Places.PLACE_DETECTION_API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
+                .enableAutoManage(this, this)
                 .build();
 
 
@@ -181,66 +183,39 @@ public class ListaTappeActivity extends AppCompatActivity implements OnMapReadyC
 
     }
 
-
-
-
-
-
-/*
-    public LatLng getGeoCoordsFromAddress(Context c, String address)
-    {
-        Geocoder geocoder = new Geocoder(c);
-        List<Address> addresses;
-        try
-        {
-            addresses = geocoder.getFromLocationName(address, 1);
-            if(addresses.size() > 0)
-            {
-                double latitude = addresses.get(0).getLatitude();
-                double longitude = addresses.get(0).getLongitude();
-                Log.d("TEST", String.valueOf(latitude));
-                Log.d("TEST", String.valueOf(longitude));
-                return new LatLng(latitude, longitude);
-            }
-            else
-            {
-                return null;
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-    }
-    */
-
-/*
-    private void findPlaceById( String id ) {
-        if( TextUtils.isEmpty(id) || mGoogleApiClient == null){
-            Log.i("TEST", "codice tappa: " + id);
+    private void findPlaceById( Tappa t) {
+        if( TextUtils.isEmpty(t.getPoi().getCodicePOI()) || mGoogleApiClient == null){
+            Log.i("TEST", "codice tappa: " + t.getPoi().getCodicePOI());
             Log.i("TEST", "return");
             return;
         }
+
+
         if(!mGoogleApiClient.isConnected()){
             mGoogleApiClient.connect();
+        }
 
-            Places.GeoDataApi.getPlaceById( mGoogleApiClient, id ).setResultCallback(new ResultCallback<PlaceBuffer>() {
+            Places.GeoDataApi.getPlaceById( mGoogleApiClient, t.getPoi().getCodicePOI() )
+                    .setResultCallback(new ResultCallback<PlaceBuffer>() {
+
                 @Override
                 public void onResult(PlaceBuffer places) {
                     Log.i("TEST", "sono in onResult");
-
                     Log.i("TEST", "PlaceBuffer: " + places.toString());
                     Log.i("TEST", "Status PlaceBuffer: " + places.getStatus());
                     Log.i("TEST", "Count PlaceBuffer: " + places.getCount());
 
-
-
-                    //Place place = places.get(0);
-                    //Log.i("TEST", "nome place: " + place.getName());
-
-
                     if (places.getStatus().isSuccess()) {
+                        Place place = places.get(0);
+                        Log.i("TEST", "nome place: " + place.getName());
+
+
+                        googleMap.addMarker(new MarkerOptions()
+                                .title(place.getName().toString())
+                                .position(place.getLatLng()));
+
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 10));
+
 
 
                     }
@@ -253,62 +228,17 @@ public class ListaTappeActivity extends AppCompatActivity implements OnMapReadyC
 
 
 
-        }
+
+
+
     }
-    */
+
 
     private void AggiungiMarkedPointsOnMap(List<Tappa> tappe) {
-
         mGoogleApiClient.connect();
-
-        //findPlaceById(tappe.get(0).getPoi().getCodicePOI());
-
-
-
-        Log.i("TEST", "codice tappa: " + tappe.get(0).getPoi().getCodicePOI());
-
-        Places.GeoDataApi.getPlaceById( mGoogleApiClient, tappe.get(0).getPoi().getCodicePOI()).setResultCallback(new ResultCallback<PlaceBuffer>() {
-            @Override
-            public void onResult(PlaceBuffer places) {
-                Log.i("TEST", "sono in onResult");
-
-                Log.i("TEST", "PlaceBuffer: " + places.toString());
-                Log.i("TEST", "Status PlaceBuffer: " + places.getStatus());
-                Log.i("TEST", "Count PlaceBuffer: " + places.getCount());
-
-
-                //Place place = places.get(0);
-                //Log.i("TEST", "nome place: " + place.getName());
-
-
-                if (places.getStatus().isSuccess()) {
-
-
-                }
-
-                //Release the PlaceBuffer to prevent a memory leak
-                places.release();
-            }
-        });
-
-
-
-        /*
         for(Tappa t : tappe){
-            //LatLng latlng = getGeoCoordsFromAddress(this,t.getPoi().getCodicePOI());
-
-            /*
-            googleMap.addMarker(new MarkerOptions()
-                    .title(t.getNome())
-                    .snippet(t.getPaginaDiario())
-                    .position(latlng));
-
-
-
+            findPlaceById(t);
         }
-
-        */
-
 
     }
 
