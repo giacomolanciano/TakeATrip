@@ -1,9 +1,15 @@
 package com.example.david.takeatrip.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.media.browse.MediaBrowser;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +26,27 @@ import com.example.david.takeatrip.Classes.TappaAdapter;
 import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
 
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.AddPlaceRequest;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.AutocompletePredictionBuffer;
+import com.google.android.gms.location.places.GeoDataApi;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.PlacePhotoMetadataResult;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -32,12 +59,21 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
-public class ListaTappeActivity extends AppCompatActivity {
+public class ListaTappeActivity extends AppCompatActivity implements OnMapReadyCallback,
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
+    private static final int GOOGLE_API_CLIENT_ID = 0;
+
+    private GoogleMap googleMap;
+    private GoogleApiClient mGoogleApiClient;
+
 
     private final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryTappe.php";
     private ListView lista;
@@ -50,11 +86,26 @@ public class ListaTappeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_tappe);
-        setContentView(R.layout.activity_lista_viaggi);
 
-        lista = (ListView)findViewById(R.id.listViewTravels);
+        mGoogleApiClient = new GoogleApiClient
+                .Builder( this )
+                .addApi(Places.GEO_DATA_API)
+                .addApi( Places.PLACE_DETECTION_API )
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+
+
+
+        lista = (ListView)findViewById(R.id.listViewTappe);
 
         ViewCaricamentoInCorso = (TextView)findViewById(R.id.TextViewCaricamentoInCorso);
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+
 
         tappe = new ArrayList<Tappa>();
 
@@ -82,6 +133,32 @@ public class ListaTappeActivity extends AppCompatActivity {
         mT.execute();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.connect();
+        }
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(mGoogleApiClient.isConnected()){
+            mGoogleApiClient.disconnect();
+
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mGoogleApiClient.isConnected()){
+            mGoogleApiClient.disconnect();
+
+        }
+    }
 
     private void PopolaLista(){
 
@@ -104,6 +181,139 @@ public class ListaTappeActivity extends AppCompatActivity {
 
     }
 
+
+
+
+
+
+/*
+    public LatLng getGeoCoordsFromAddress(Context c, String address)
+    {
+        Geocoder geocoder = new Geocoder(c);
+        List<Address> addresses;
+        try
+        {
+            addresses = geocoder.getFromLocationName(address, 1);
+            if(addresses.size() > 0)
+            {
+                double latitude = addresses.get(0).getLatitude();
+                double longitude = addresses.get(0).getLongitude();
+                Log.d("TEST", String.valueOf(latitude));
+                Log.d("TEST", String.valueOf(longitude));
+                return new LatLng(latitude, longitude);
+            }
+            else
+            {
+                return null;
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+    */
+
+/*
+    private void findPlaceById( String id ) {
+        if( TextUtils.isEmpty(id) || mGoogleApiClient == null){
+            Log.i("TEST", "codice tappa: " + id);
+            Log.i("TEST", "return");
+            return;
+        }
+        if(!mGoogleApiClient.isConnected()){
+            mGoogleApiClient.connect();
+
+            Places.GeoDataApi.getPlaceById( mGoogleApiClient, id ).setResultCallback(new ResultCallback<PlaceBuffer>() {
+                @Override
+                public void onResult(PlaceBuffer places) {
+                    Log.i("TEST", "sono in onResult");
+
+                    Log.i("TEST", "PlaceBuffer: " + places.toString());
+                    Log.i("TEST", "Status PlaceBuffer: " + places.getStatus());
+                    Log.i("TEST", "Count PlaceBuffer: " + places.getCount());
+
+
+
+                    //Place place = places.get(0);
+                    //Log.i("TEST", "nome place: " + place.getName());
+
+
+                    if (places.getStatus().isSuccess()) {
+
+
+                    }
+
+                    //Release the PlaceBuffer to prevent a memory leak
+                    places.release();
+                }
+            });
+
+
+
+
+        }
+    }
+    */
+
+    private void AggiungiMarkedPointsOnMap(List<Tappa> tappe) {
+
+        mGoogleApiClient.connect();
+
+        //findPlaceById(tappe.get(0).getPoi().getCodicePOI());
+
+
+
+        Log.i("TEST", "codice tappa: " + tappe.get(0).getPoi().getCodicePOI());
+
+        Places.GeoDataApi.getPlaceById( mGoogleApiClient, tappe.get(0).getPoi().getCodicePOI()).setResultCallback(new ResultCallback<PlaceBuffer>() {
+            @Override
+            public void onResult(PlaceBuffer places) {
+                Log.i("TEST", "sono in onResult");
+
+                Log.i("TEST", "PlaceBuffer: " + places.toString());
+                Log.i("TEST", "Status PlaceBuffer: " + places.getStatus());
+                Log.i("TEST", "Count PlaceBuffer: " + places.getCount());
+
+
+                //Place place = places.get(0);
+                //Log.i("TEST", "nome place: " + place.getName());
+
+
+                if (places.getStatus().isSuccess()) {
+
+
+                }
+
+                //Release the PlaceBuffer to prevent a memory leak
+                places.release();
+            }
+        });
+
+
+
+        /*
+        for(Tappa t : tappe){
+            //LatLng latlng = getGeoCoordsFromAddress(this,t.getPoi().getCodicePOI());
+
+            /*
+            googleMap.addMarker(new MarkerOptions()
+                    .title(t.getNome())
+                    .snippet(t.getPaginaDiario())
+                    .position(latlng));
+
+
+
+        }
+
+        */
+
+
+    }
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -124,6 +334,28 @@ public class ListaTappeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        googleMap = map;
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        Log.e("TEST", "sono in onConnected");
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Log.e("TEST", "sono in onConnectionSuspended");
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Log.e("TEST", "sono in onConnectionFailed");
+
     }
 
 
@@ -207,12 +439,12 @@ public class ListaTappeActivity extends AppCompatActivity {
                                 //Log.e("TEST", "pagina diario:\n" + paginaDiario);
 
 
-                                String codicePOI = json_data.optString("codicePoi", DEFAULT_STRING);
-
+                                //String codicePOI = json_data.optString("codicePoi", DEFAULT_STRING);
+                                String codicePOI = json_data.getString("codicePOI");
                                 //Log.e("TEST", "codicePOI:\n" + codicePOI);
 
-                                String fontePOI = json_data.optString("fontePoi", DEFAULT_STRING);
-
+                                //String fontePOI = json_data.optString("fontePOI", DEFAULT_STRING);
+                                String fontePOI = json_data.getString("fontePOI");
                                 //Log.e("TEST", "fontePOI:\n" + fontePOI);
 
 
@@ -258,6 +490,12 @@ public class ListaTappeActivity extends AppCompatActivity {
             PopolaLista();
 
             ViewCaricamentoInCorso.setVisibility(View.INVISIBLE);
+
+
+
+            AggiungiMarkedPointsOnMap(tappe);
+
+
 
             super.onPostExecute(aVoid);
 

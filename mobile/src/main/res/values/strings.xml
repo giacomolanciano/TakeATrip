@@ -53,6 +53,9 @@
     <string name="AvviaRicerca">Search</string>
     <string name="CaricamentoInCorso">Loading...</string>
 
+    <string name="Satellite">Satellite</string>
+    <string name="Hybrid">Hybrid</string>
+    <string name="Terrain">Terrain</string>
 
 
 

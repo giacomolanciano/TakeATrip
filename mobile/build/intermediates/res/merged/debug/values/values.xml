@@ -53,11 +53,6 @@
     <color name="abc_search_url_text_selected">@android:color/black</color>
     <color name="accent_material_dark">@color/material_deep_teal_200</color>
     <color name="accent_material_light">@color/material_deep_teal_500</color>
-    <!-- From: file:/Users/lucagiacomelli/Desktop/workshop/TakeATrip/mobile/src/main/res/values/color.xml -->
-    <eat-comment/>
-    <color name="altroColore">#333300</color>
-    <!-- From: file:/Users/lucagiacomelli/Desktop/workshop/TakeATrip/mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
-    <eat-comment/>
     <color name="background_floating_material_dark">@color/material_grey_800</color>
     <color name="background_floating_material_light">@android:color/white</color>
     <color name="background_material_dark">@color/material_grey_850</color>
@@ -172,6 +167,9 @@
     <color name="wallet_hint_foreground_holo_light">#808080</color>
     <color name="wallet_holo_blue_light">#ff33b5e5</color>
     <color name="wallet_link_text_light">#0000ee</color>
+    <!-- From: file:/Users/lucagiacomelli/Desktop/workshop/TakeATrip/mobile/src/main/res/values/color.xml -->
+    <eat-comment/>
+    <color name="white">#FFFFFF</color>
     <declare-styleable name="ActionBar"><attr name="navigationMode"><enum name="normal" value="0"/><enum name="listMode" value="1"/><enum name="tabMode" value="2"/></attr><attr name="displayOptions"><flag name="none" value="0"/><flag name="useLogo" value="0x1"/><flag name="showHome" value="0x2"/><flag name="homeAsUp" value="0x4"/><flag name="showTitle" value="0x8"/><flag name="showCustom" value="0x10"/><flag name="disableHome" value="0x20"/></attr><attr name="title"/><attr format="string" name="subtitle"/><attr format="reference" name="titleTextStyle"/><attr format="reference" name="subtitleTextStyle"/><attr format="reference" name="icon"/><attr format="reference" name="logo"/><attr format="reference" name="divider"/><attr format="reference" name="background"/><attr format="reference|color" name="backgroundStacked"/><attr format="reference|color" name="backgroundSplit"/><attr format="reference" name="customNavigationLayout"/><attr name="height"/><attr format="reference" name="homeLayout"/><attr format="reference" name="progressBarStyle"/><attr format="reference" name="indeterminateProgressStyle"/><attr format="dimension" name="progressBarPadding"/><attr name="homeAsUpIndicator"/><attr format="dimension" name="itemPadding"/><attr format="boolean" name="hideOnContentScroll"/><attr format="dimension" name="contentInsetStart"/><attr format="dimension" name="contentInsetEnd"/><attr format="dimension" name="contentInsetLeft"/><attr format="dimension" name="contentInsetRight"/><attr format="dimension" name="elevation"/><attr format="reference" name="popupTheme"/></declare-styleable>
     <declare-styleable name="ActionBarLayout"><attr name="android:layout_gravity"/></declare-styleable>
     <declare-styleable name="ActionMenuItemView"><attr name="android:minWidth"/></declare-styleable>
@@ -406,6 +404,7 @@
     <string name="DateOfBirth">Date of birth</string>
     <string name="DestinationSelection">Search destination</string>
     <string name="Email">Email</string>
+    <string name="Hybrid">Hybrid</string>
     <string name="Login">Login</string>
     <string name="LoginError">Incorrect Data</string>
     <string name="Name">Name</string>
@@ -413,10 +412,12 @@
     <string name="Pressione">Pressure</string>
     <string name="Register">Register</string>
     <string name="Registration">Registration</string>
+    <string name="Satellite">Satellite</string>
     <string name="SceltaMeta">Choose your parameters</string>
     <string name="Splash">Take a Trip</string>
     <string name="Surname">Surname</string>
     <string name="Temperatura">Temperature</string>
+    <string name="Terrain">Terrain</string>
     <string name="Umidita">Humidity</string>
     <string name="VelocitaVento">Speed of Wind</string>
     <string name="Viaggi">Travels</string>
