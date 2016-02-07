@@ -51,7 +51,7 @@
                     <RatingBar
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:saveEnabled="false"
+                        android:visibility="invisible"
                         android:id="@+id/ratingBar" />
 
                 </LinearLayout>
