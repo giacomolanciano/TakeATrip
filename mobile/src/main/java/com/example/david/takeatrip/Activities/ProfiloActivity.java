@@ -1,13 +1,21 @@
 package com.example.david.takeatrip.Activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.david.takeatrip.R;
 
@@ -136,4 +144,41 @@ public class ProfiloActivity extends AppCompatActivity {
     public void ModificaCategoria(View v){
 
     }
+
+    public void ClickImageProfile(View v){
+        try{
+            ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
+            LayoutInflater inflater = this.getLayoutInflater();
+            builder.setItems(R.array.CommandsImageProfile, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which){
+                                case 0: //view image profile
+                                    startActivity(new Intent(Intent.ACTION_VIEW, MediaStore.Images.Media.INTERNAL_CONTENT_URI));
+
+                                    break;
+                                case 1: //change image profile
+                                    startActivity(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI));
+                                    break;
+                                case 2:  //take a photo
+                                    startActivity(new Intent("android.media.action.IMAGE_CAPTURE"));
+                                    break;
+                                case 3: //exit
+                                    break;
+                            }
+                        }
+                    });
+
+
+                // Create the AlertDialog object and return it
+                builder.create().show();
+
+            }
+            catch(Exception e){
+                Log.e(e.toString().toUpperCase(), e.getMessage());
+            }
+    }
+
 }

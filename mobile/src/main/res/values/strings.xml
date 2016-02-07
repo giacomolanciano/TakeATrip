@@ -83,5 +83,17 @@
     </string-array>
 
 
+    <string-array name="CommandsImageProfile">
+        <item>view image</item>
+        <item>change image</item>
+        <item>take a photo</item>
+        <item>exit</item>
+    </string-array>
+
+    <string name="title_activity_main">MainActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+
 
 </resources>

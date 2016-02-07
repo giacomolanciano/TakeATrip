@@ -1,100 +1,89 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.david.takeatrip.Activities.MainActivity">
 
 
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
 
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_gravity="center">
+            android:layout_weight="0.5"
+            android:background="#dcafd5fb">
 
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="336dp"
-                    android:id="@+id/image"
-                    android:src="@drawable/logo"/>
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:ems="10"
-                    android:id="@+id/campoEmail"
-                    android:layout_above="@+id/campoPassword"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:ems="10"
-                    android:id="@+id/campoPassword"
-                    android:layout_centerVertical="true"
-                    android:password="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignRight="@+id/campoEmail"
-                    android:layout_alignEnd="@+id/campoEmail"
-                    />
-
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/layoutBottoni"
                 android:orientation="vertical"
-                android:weightSum="1">
-
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/Login"
-                    android:id="@+id/Accedi"
-                    android:layout_weight="0.5"/>
+                android:layout_gravity="center"
+                android:onClick="ClickTravels">
 
 
                 <TextView
-                    style="?android:attr/buttonStyleSmall"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:text="@string/Registration"
-                    android:id="@+id/Registrati"
-                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Viaggi"
+                    android:textSize="25dp"
                     />
 
-
             </LinearLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="0.5"
+            android:background="@color/green">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:onClick="ClickNewTravel">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="New Travel"
+                    android:textSize="25dp"/>
+            </LinearLayout>
+        </FrameLayout>
 
 
 
 
-        </LinearLayout>
+    </LinearLayout>
 
-    </ScrollView>
 
+
+
+
+
+    <com.example.david.takeatrip.Utilities.RoundedImageView
+        android:id="@+id/imageView_round"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:src="@drawable/profile_default"
+        android:onClick="ClickImageProfile"/>
 
 
 </FrameLayout>
-<!-- From: file:/Users/lucagiacomelli/Desktop/workshop/TakeATrip/mobile/src/main/res/layout/activity_main.xml -->
+<!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/res/layout/activity_main.xml -->

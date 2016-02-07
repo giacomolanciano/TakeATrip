@@ -144,7 +144,7 @@ public class RegistrazioneActivity extends AppCompatActivity {
 
 
                     // definisco l'intenzione
-                    Intent openProfilo = new Intent(RegistrazioneActivity.this, ProfiloActivity.class);
+                    Intent openProfilo = new Intent(RegistrazioneActivity.this, MainActivity.class);
                     openProfilo.putExtra("name", nome);
                     openProfilo.putExtra("surname", cognome);
                     openProfilo.putExtra("email", email);
