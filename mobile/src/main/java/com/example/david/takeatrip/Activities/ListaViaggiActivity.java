@@ -88,6 +88,7 @@ public class ListaViaggiActivity extends AppCompatActivity {
                 Intent intent = new Intent(ListaViaggiActivity.this, ListaTappeActivity.class);
                 intent.putExtra("email", email);
                 intent.putExtra("codiceViaggio", viaggio.getCodice());
+                intent.putExtra("nomeViaggio", viaggio.getNome());
 
                 startActivity(intent);
 

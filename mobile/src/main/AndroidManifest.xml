@@ -47,9 +47,6 @@
             android:name=".Activities.ViaggioActivity"
             android:label="@string/title_activity_viaggio"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Activities.ListaTappeActivity"
-            android:label="@string/title_activity_lista_tappe" />
         <activity android:name=".Activities.TappaActivity" />
         <activity
             android:name=".Activities.SplashActivity"
@@ -80,6 +77,11 @@
         <activity android:name=".Activities.InfoActivity" >
         </activity>
         <activity android:name=".Activities.StatsActivity" >
+        </activity>
+        <activity
+            android:name=".Activities.ListaTappeActivity"
+            android:label="@string/title_activity_lista_tappe2"
+            android:theme="@style/AppTheme" >
         </activity>
     </application>
 

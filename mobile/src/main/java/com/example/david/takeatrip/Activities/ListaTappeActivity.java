@@ -1,20 +1,19 @@
 package com.example.david.takeatrip.Activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
-import android.media.browse.MediaBrowser;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,30 +21,18 @@ import com.example.david.takeatrip.Classes.Itinerario;
 import com.example.david.takeatrip.Classes.POI;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.Tappa;
-import com.example.david.takeatrip.Classes.TappaAdapter;
 import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
-
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.AddPlaceRequest;
-import com.google.android.gms.location.places.AutocompleteFilter;
-import com.google.android.gms.location.places.AutocompletePredictionBuffer;
-import com.google.android.gms.location.places.GeoDataApi;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
-import com.google.android.gms.location.places.PlacePhotoMetadataResult;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.apache.http.HttpEntity;
@@ -60,33 +47,54 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListaTappeActivity extends AppCompatActivity implements OnMapReadyCallback,
+public class ListaTappeActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
+    private final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryTappe.php";
     private static final int GOOGLE_API_CLIENT_ID = 0;
 
     private GoogleMap googleMap;
     private GoogleApiClient mGoogleApiClient;
 
-
-    private final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryTappe.php";
-    private ListView lista;
     private ArrayList<Tappa> tappe;
-    private String email, codiceViaggio;
+    private ArrayList<String> nomiTappe;
 
+
+    private String email, codiceViaggio, nomeViaggio;
+
+    private NavigationView navigationView;
     private TextView ViewCaricamentoInCorso;
+    private TextView ViewNomeViaggio;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_tappe);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        ViewCaricamentoInCorso = (TextView)findViewById(R.id.TextViewCaricamentoInCorso);
+        ViewNomeViaggio = (TextView)findViewById(R.id.textViewNomeViaggio);
+
 
         mGoogleApiClient = new GoogleApiClient
                 .Builder( this )
@@ -97,43 +105,30 @@ public class ListaTappeActivity extends AppCompatActivity implements OnMapReadyC
                 .enableAutoManage(this, this)
                 .build();
 
-
-
-        lista = (ListView)findViewById(R.id.listViewTappe);
-
-        ViewCaricamentoInCorso = (TextView)findViewById(R.id.TextViewCaricamentoInCorso);
-
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
 
-
         tappe = new ArrayList<Tappa>();
+        nomiTappe = new ArrayList<String>();
 
 
         Intent intent;
         if((intent = getIntent()) != null){
             email = intent.getStringExtra("email");
             codiceViaggio = intent.getStringExtra("codiceViaggio");
+            nomeViaggio = intent.getStringExtra("nomeViaggio");
         }
 
-
-        //TODO prova statica
-        /* Date data = new Date(System.currentTimeMillis());
-        Viaggio vi = new Viaggio("123", "Corsica 2013");
-        Profilo pr = new Profilo("ciao@gmail.com", "giac", "lan");
-        Itinerario it = new Itinerario(vi, pr, data, data);
-        tappe.add(new Tappa(it, 1, data , null));
-        tappe.add(new Tappa(it, 2, data , null));
-        tappe.add(new Tappa(it, 3, data , null));
-        PopolaLista(); */
-
-        ViewCaricamentoInCorso.setVisibility(View.VISIBLE);
+        ViewNomeViaggio.setText(nomeViaggio);
 
         MyTask mT = new MyTask();
         mT.execute();
+
+
     }
+
 
     @Override
     protected void onResume() {
@@ -162,26 +157,96 @@ public class ListaTappeActivity extends AppCompatActivity implements OnMapReadyC
         }
     }
 
-    private void PopolaLista(){
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 
-        final TappaAdapter adapter = new TappaAdapter(this,R.layout.entry_tappe_listview, tappe);
-        lista.setAdapter(adapter);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.lista_tappe_activity2, menu);
+        return true;
+    }
 
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adattatore, final View componente, int pos, long id) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-                final Tappa tappa = (Tappa) adattatore.getItemAtPosition(pos);
-                Toast.makeText(getBaseContext(), "hai cliccato la tappa: " + tappa.getNome(), Toast.LENGTH_SHORT).show();
+        /*
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        */
 
-                Intent intent = new Intent(ListaTappeActivity.this, TappaActivity.class);
+        return super.onOptionsItemSelected(item);
+    }
 
-                startActivity(intent);
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
 
+        Toast.makeText(getBaseContext(), "tappa selezionata" + tappe.get(id).getPoi().getCodicePOI(), Toast.LENGTH_LONG).show();
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
+
+    private void CreaMenu(List<Tappa> tappe, List<String> nomiTappe){
+        Menu menu = navigationView.getMenu();
+        if(menu != null){
+            int i=0;
+            for(Tappa t : tappe){
+
+                Log.i("TEST", "tappa: " + t.getPoi().getCodicePOI());
+
+                if(nomiTappe.size() > 0){
+                    Log.i("TEST", "nome tappa: " + nomiTappe.get(i));
+                    menu.add(0, i, Menu.NONE, nomiTappe.get(i));
+                }
+                else{
+                    menu.add(0, i, Menu.NONE, t.getPoi().getCodicePOI());
+                }
+
+                i++;
             }
-        });
+
+        }
+    }
+
+
+
+    private void AggiungiMarkedPointsOnMap(List<Tappa> tappe) {
+        int i=0;
+        mGoogleApiClient.connect();
+        for(Tappa t : tappe){
+            findPlaceById(t);
+            i++;
+        }
+
+        Log.i("TEST", "nomi tappe: " + nomiTappe);
+        CreaMenu(tappe, nomiTappe);
 
     }
+
+
+
+
+
 
     private void findPlaceById( Tappa t) {
         if( TextUtils.isEmpty(t.getPoi().getCodicePOI()) || mGoogleApiClient == null){
@@ -195,97 +260,60 @@ public class ListaTappeActivity extends AppCompatActivity implements OnMapReadyC
             mGoogleApiClient.connect();
         }
 
-            Places.GeoDataApi.getPlaceById( mGoogleApiClient, t.getPoi().getCodicePOI() )
-                    .setResultCallback(new ResultCallback<PlaceBuffer>() {
+        Places.GeoDataApi.getPlaceById( mGoogleApiClient, t.getPoi().getCodicePOI() )
+                .setResultCallback(new ResultCallback<PlaceBuffer>() {
 
-                @Override
-                public void onResult(PlaceBuffer places) {
-                    Log.i("TEST", "sono in onResult");
-                    Log.i("TEST", "PlaceBuffer: " + places.toString());
-                    Log.i("TEST", "Status PlaceBuffer: " + places.getStatus());
-                    Log.i("TEST", "Count PlaceBuffer: " + places.getCount());
+                    @Override
+                    public void onResult(PlaceBuffer places) {
+                        Log.i("TEST", "sono in onResult");
+                        Log.i("TEST", "PlaceBuffer: " + places.toString());
+                        Log.i("TEST", "Status PlaceBuffer: " + places.getStatus());
+                        Log.i("TEST", "Count PlaceBuffer: " + places.getCount());
 
-                    if (places.getStatus().isSuccess()) {
-                        Place place = places.get(0);
-                        Log.i("TEST", "nome place: " + place.getName());
-
-
-                        googleMap.addMarker(new MarkerOptions()
-                                .title(place.getName().toString())
-                                .position(place.getLatLng()));
-
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 10));
+                        if (places.getStatus().isSuccess()) {
+                            Place place = places.get(0);
+                            Log.i("TEST", "nome place: " + place.getName());
+                            nomiTappe.add(place.getName().toString());
+                            Log.i("TEST", "aggiunto ai nomi: " + nomiTappe);
 
 
+                            googleMap.addMarker(new MarkerOptions()
+                                    .title(place.getName().toString())
+                                    .position(place.getLatLng()));
 
+                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 10));
+
+
+
+                        }
+
+                        //Release the PlaceBuffer to prevent a memory leak
+                        places.release();
                     }
-
-                    //Release the PlaceBuffer to prevent a memory leak
-                    places.release();
-                }
-            });
-
-
-
-
-
-
-
-    }
-
-
-    private void AggiungiMarkedPointsOnMap(List<Tappa> tappe) {
-        mGoogleApiClient.connect();
-        for(Tappa t : tappe){
-            findPlaceById(t);
-        }
-
+                });
     }
 
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_lista_viaggi, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onMapReady(GoogleMap map) {
-        googleMap = map;
-    }
 
     @Override
     public void onConnected(Bundle bundle) {
-        Log.e("TEST", "sono in onConnected");
+
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.e("TEST", "sono in onConnectionSuspended");
 
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.e("TEST", "sono in onConnectionFailed");
 
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        googleMap = map;
     }
 
 
@@ -415,17 +443,9 @@ public class ListaTappeActivity extends AppCompatActivity implements OnMapReadyC
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            //popolamento della ListView
-            //Toast.makeText(getBaseContext(), "stringa risultante: "+ stringaFinale, Toast.LENGTH_LONG).show();
-            PopolaLista();
-
             ViewCaricamentoInCorso.setVisibility(View.INVISIBLE);
 
-
-
             AggiungiMarkedPointsOnMap(tappe);
-
-
 
             super.onPostExecute(aVoid);
 
