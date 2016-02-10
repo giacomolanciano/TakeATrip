@@ -89,6 +89,10 @@
         </activity>
         <activity android:name="com.example.david.takeatrip.Activities.MainActivity" >
         </activity>
+        <activity android:name="com.example.david.takeatrip.Activities.InfoActivity" >
+        </activity>
+        <activity android:name="com.example.david.takeatrip.Activities.StatsActivity" >
+        </activity>
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"

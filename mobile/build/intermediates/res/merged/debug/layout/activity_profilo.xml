@@ -1,30 +1,29 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+
     tools:context=".ProfiloActivity">
 
-
-
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="1">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:background="@drawable/sfondo_nuvole1"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:layout_weight="0.8">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -36,16 +35,17 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="@string/Name"
+                        android:textColor="@color/white"
+
                         android:id="@+id/Nome"
                         />
-
-
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Cognome"
+                        android:textColor="@color/white"
                         android:id="@+id/Cognome" />
 
                     <RatingBar
@@ -68,8 +68,8 @@
 
                     <com.example.david.takeatrip.Utilities.RoundedImageView
                         android:id="@+id/imageView_round"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
                         android:layout_gravity="right"
                         android:src="@drawable/profile_default"
                         android:onClick="ClickImageProfile"/>
@@ -78,99 +78,114 @@
 
             </LinearLayout>
 
-
-
-
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Data di Nascita"
-                    android:id="@+id/DataDiNascita" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Email"
-                    android:id="@+id/Email" />
-
-            </LinearLayout>
-
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:id="@+id/layoutBottoniProfilo"
-                android:layout_marginTop="20dp"
-                android:layout_gravity="center_horizontal">
+                android:layout_weight="0.2">
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="invisible"
+                <TabHost
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@android:id/tabhost"
+                    android:layout_gravity="center_horizontal">
 
-                    android:text="@string/Viaggi"
-                    android:id="@+id/Listaviaggi"
-                    android:layout_gravity="center_horizontal"
-                    />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="invisible"
-                    android:text="@string/DestinationSelection"
-                    android:id="@+id/DestinationSelection"
-                    />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="invisible"
-                    android:id="@+id/ButtonRegistraViaggio"
-                    android:layout_gravity="center_horizontal"
-
-                    />
+                        <TabWidget
+                            android:id="@android:id/tabs"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:baselineAligned="false"
+                            android:background="@drawable/side_nav_bar"></TabWidget>
 
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/Categoria"
-                    android:visibility="invisible"
-                    android:id="@+id/CategoriaViaggio"
-                    />
+
+                            <FrameLayout
+                                android:id="@android:id/tabcontent"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/sfondo_nuvole2"
+                                >
+
+                                <!--LinearLayout
+                                    android:id="@+id/linearLayout2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
 
 
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/linearLayout3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"></LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/linearLayout4"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"></LinearLayout-->
+
+                            </FrameLayout>
+
+                    </LinearLayout>
+                </TabHost>
 
 
             </LinearLayout>
-
-
         </LinearLayout>
 
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/layoutBottoniProfilo"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+
+            android:text="@string/Viaggi"
+            android:id="@+id/Listaviaggi"
+            android:layout_gravity="center_horizontal"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:text="@string/DestinationSelection"
+            android:id="@+id/DestinationSelection"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:id="@+id/ButtonRegistraViaggio"
+            android:layout_gravity="center_horizontal"
+
+            />
 
 
-    </ScrollView>
-
-
-
-
-
-
-
-
-
-
-
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Categoria"
+            android:visibility="invisible"
+            android:id="@+id/CategoriaViaggio"
+            />
+    </LinearLayout>
 
 
 </FrameLayout>

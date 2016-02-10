@@ -1,11 +1,14 @@
 package com.example.david.takeatrip.Activities;
 
 import android.app.AlertDialog;
+import android.app.TabActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.MediaStore;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -14,32 +17,35 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.R;
 
-public class ProfiloActivity extends AppCompatActivity {
+
+@SuppressWarnings("deprecation")
+public class ProfiloActivity extends TabActivity{
 
 
     private Button btnViaggi, buttonCategoria, buttonDestinationSelection, buttonRegistra;
     private TextView viewName;
     private TextView viewSurname, viewDate, viewEmail;
 
+
     private String name, surname, email;
     private String date;
 
+
+    private TabHost TabHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profilo);
 
-
         viewName = (TextView) findViewById(R.id.Nome);
         viewSurname = (TextView) findViewById(R.id.Cognome);
-        viewDate = (TextView) findViewById(R.id.DataDiNascita);
-        viewEmail = (TextView) findViewById(R.id.Email);
 
 
         if(getIntent() != null){
@@ -51,18 +57,42 @@ public class ProfiloActivity extends AppCompatActivity {
 
             viewName.setText(name);
             viewSurname.setText(surname);
-            viewDate.setText(date);
-            viewEmail.setText(email);
-
-
-
         }
         else{
-
-
             //Prendi i dati dal database perche è gia presente l'utente
-
         }
+
+
+
+        TabHost = (TabHost)findViewById(android.R.id.tabhost);
+
+        TabHost.TabSpec tab1 = TabHost.newTabSpec("INFO");
+        TabHost.TabSpec tab2 = TabHost.newTabSpec("STATS");
+        TabHost.TabSpec tab3 = TabHost.newTabSpec("DESTINATIONS");
+
+
+        //TODO: usare setIndicator(View) per personalizzare i tab
+        tab1.setIndicator("INFO");
+        tab2.setIndicator("STATS");
+        tab3.setIndicator("DEST");
+
+
+
+        Intent intentInfo = new Intent(this, InfoActivity.class);
+        intentInfo.putExtra("email", email);
+        intentInfo.putExtra("dateOfBirth", date);
+        tab1.setContent(intentInfo);
+
+
+        tab2.setContent(new Intent(this, StatsActivity.class));
+        tab3.setContent(new Intent(this, MapsActivity.class));
+
+
+        //TabHost.setup();
+        TabHost.addTab(tab1);
+        TabHost.addTab(tab2);
+        TabHost.addTab(tab3);
+
 
 
 
@@ -180,5 +210,6 @@ public class ProfiloActivity extends AppCompatActivity {
                 Log.e(e.toString().toUpperCase(), e.getMessage());
             }
     }
+
 
 }
