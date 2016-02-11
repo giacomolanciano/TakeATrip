@@ -1638,11 +1638,16 @@
         <item>very hot</item>
 
     </string-array><string name="CaricamentoInCorso">Loading...</string><string-array name="CommandsImageProfile">
-        <item>view image</item>
-        <item>change image</item>
+        <item>view image profile</item>
+        <item>change image profile</item>
         <item>take a photo</item>
         <item>exit</item>
-    </string-array><string name="Hybrid">Hybrid</string><string name="Splash">Take a Trip</string><string name="Viaggi">Travels</string><string name="tempMin">Temperatura Minima</string><string name="title_activity_registrazione">Registration</string><string name="Register">Register</string><string name="navigation_drawer_open">Open navigation drawer</string><string name="Altitudine">Altitude</string><string name="Surname">Surname</string><string name="SceltaMeta">Choose your parameters</string><string name="Login">Login</string><string name="Umidita">Humidity</string><string name="dummy_button">Dummy Button</string><string name="action_settings">Settings</string><string name="app_name">TakeATrip</string><string name="Edit">Edit</string><string name="Registration">Registration</string><string name="title_activity_main2">Main2Activity</string><string name="Name">Name</string><string name="title_activity_main">MainActivity</string><string name="title_activity_viaggio">ViaggioActivity</string><string name="title_activity_lista_tappe">ListaTappeActivity</string><string name="Terrain">Terrain</string><string name="title_activity_categoria">CategoriaActivity</string><string name="Password">Password</string><string name="LoginError">Incorrect Data</string><string name="title_activity_lista_viaggi">ListTravels</string><string name="Email">Email</string><string-array name="livelliUmidita">
+    </string-array><string name="Hybrid">Hybrid</string><string name="Splash">Take a Trip</string><string name="Viaggi">Travels</string><string name="tempMin">Temperatura Minima</string><string name="title_activity_registrazione">Registration</string><string name="Register">Register</string><string name="navigation_drawer_open">Open navigation drawer</string><string name="Altitudine">Altitude</string><string name="Surname">Surname</string><string name="SceltaMeta">Choose your parameters</string><string name="Login">Login</string><string name="Umidita">Humidity</string><string name="dummy_button">Dummy Button</string><string name="action_settings">Settings</string><string name="app_name">TakeATrip</string><string name="Edit">Edit</string><string name="Registration">Registration</string><string name="title_activity_main2">Main2Activity</string><string name="Name">Name</string><string name="title_activity_main">MainActivity</string><string-array name="CommandsCoverImage">
+        <item>view cover image</item>
+        <item>change cover image</item>
+        <item>take a photo</item>
+        <item>exit</item>
+    </string-array><string name="title_activity_viaggio">ViaggioActivity</string><string name="title_activity_lista_tappe">ListaTappeActivity</string><string name="Terrain">Terrain</string><string name="title_activity_categoria">CategoriaActivity</string><string name="Password">Password</string><string name="LoginError">Incorrect Data</string><string name="title_activity_lista_viaggi">ListTravels</string><string name="Email">Email</string><string-array name="livelliUmidita">
         <item>low level</item>
         <item>medium level</item>
         <item>high level</item>

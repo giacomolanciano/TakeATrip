@@ -231,20 +231,11 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
     private void AggiungiMarkedPointsOnMap(List<Tappa> tappe) {
-        int i=0;
         mGoogleApiClient.connect();
         for(Tappa t : tappe){
             findPlaceById(t);
-            i++;
         }
-
-        Log.i("TEST", "nomi tappe: " + nomiTappe);
-        CreaMenu(tappe, nomiTappe);
-
     }
-
-
-
 
 
 
@@ -281,9 +272,13 @@ public class ListaTappeActivity extends AppCompatActivity
                                     .title(place.getName().toString())
                                     .position(place.getLatLng()));
 
-                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 10));
+                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 5) );
 
 
+                            if(nomiTappe.size() == tappe.size()){
+                                Log.i("TEST", "nomi tappe: " + nomiTappe);
+                                CreaMenu(tappe, nomiTappe);
+                            }
 
                         }
 
