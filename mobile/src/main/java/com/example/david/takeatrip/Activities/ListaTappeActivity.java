@@ -196,6 +196,8 @@ public class ListaTappeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+
+
         Toast.makeText(getBaseContext(), "tappa selezionata" + tappe.get(id).getPoi().getCodicePOI(), Toast.LENGTH_LONG).show();
 
 
@@ -203,6 +205,9 @@ public class ListaTappeActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
 
 
 

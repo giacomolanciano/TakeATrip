@@ -155,14 +155,14 @@ public final class R {
 		public static final int common_plus_signin_btn_text_light_focused = 0x7f02006b;
 		public static final int common_plus_signin_btn_text_light_normal = 0x7f02006c;
 		public static final int common_plus_signin_btn_text_light_pressed = 0x7f02006d;
-		public static final int ic_plusone_medium_off_client = 0x7f02008b;
-		public static final int ic_plusone_small_off_client = 0x7f02008c;
-		public static final int ic_plusone_standard_off_client = 0x7f02008d;
-		public static final int ic_plusone_tall_off_client = 0x7f02008e;
-		public static final int places_ic_clear = 0x7f0200a1;
-		public static final int places_ic_search = 0x7f0200a2;
-		public static final int powered_by_google_dark = 0x7f0200a3;
-		public static final int powered_by_google_light = 0x7f0200a4;
+		public static final int ic_plusone_medium_off_client = 0x7f02008c;
+		public static final int ic_plusone_small_off_client = 0x7f02008d;
+		public static final int ic_plusone_standard_off_client = 0x7f02008e;
+		public static final int ic_plusone_tall_off_client = 0x7f02008f;
+		public static final int places_ic_clear = 0x7f0200a3;
+		public static final int places_ic_search = 0x7f0200a4;
+		public static final int powered_by_google_dark = 0x7f0200a5;
+		public static final int powered_by_google_light = 0x7f0200a6;
 	}
 	public static final class id {
 		public static final int adjust_height = 0x7f0e0032;
@@ -196,14 +196,14 @@ public final class R {
 		public static final int monochrome = 0x7f0e005d;
 		public static final int none = 0x7f0e0010;
 		public static final int normal = 0x7f0e000c;
-		public static final int place_autocomplete_clear_button = 0x7f0e00eb;
-		public static final int place_autocomplete_powered_by_google = 0x7f0e00ed;
-		public static final int place_autocomplete_prediction_primary_text = 0x7f0e00ef;
-		public static final int place_autocomplete_prediction_secondary_text = 0x7f0e00f0;
-		public static final int place_autocomplete_progress = 0x7f0e00ee;
-		public static final int place_autocomplete_search_button = 0x7f0e00e9;
-		public static final int place_autocomplete_search_input = 0x7f0e00ea;
-		public static final int place_autocomplete_separator = 0x7f0e00ec;
+		public static final int place_autocomplete_clear_button = 0x7f0e00f0;
+		public static final int place_autocomplete_powered_by_google = 0x7f0e00f2;
+		public static final int place_autocomplete_prediction_primary_text = 0x7f0e00f4;
+		public static final int place_autocomplete_prediction_secondary_text = 0x7f0e00f5;
+		public static final int place_autocomplete_progress = 0x7f0e00f3;
+		public static final int place_autocomplete_search_button = 0x7f0e00ee;
+		public static final int place_autocomplete_search_input = 0x7f0e00ef;
+		public static final int place_autocomplete_separator = 0x7f0e00f1;
 		public static final int production = 0x7f0e0047;
 		public static final int sandbox = 0x7f0e0048;
 		public static final int satellite = 0x7f0e0035;
@@ -220,21 +220,21 @@ public final class R {
 		public static final int google_play_services_version = 0x7f0b0005;
 	}
 	public static final class layout {
-		public static final int place_autocomplete_fragment = 0x7f040044;
-		public static final int place_autocomplete_item_powered_by_google = 0x7f040045;
-		public static final int place_autocomplete_item_prediction = 0x7f040046;
-		public static final int place_autocomplete_progress = 0x7f040047;
+		public static final int place_autocomplete_fragment = 0x7f040045;
+		public static final int place_autocomplete_item_powered_by_google = 0x7f040046;
+		public static final int place_autocomplete_item_prediction = 0x7f040047;
+		public static final int place_autocomplete_progress = 0x7f040048;
 	}
 	public static final class raw {
 		public static final int gtm_analytics = 0x7f060000;
 	}
 	public static final class string {
-		public static final int accept = 0x7f070056;
-		public static final int auth_google_play_services_client_facebook_display_name = 0x7f07005a;
-		public static final int auth_google_play_services_client_google_display_name = 0x7f07005b;
-		public static final int cast_notification_connected_message = 0x7f07005c;
-		public static final int cast_notification_connecting_message = 0x7f07005d;
-		public static final int cast_notification_disconnect = 0x7f07005e;
+		public static final int accept = 0x7f07005d;
+		public static final int auth_google_play_services_client_facebook_display_name = 0x7f070061;
+		public static final int auth_google_play_services_client_google_display_name = 0x7f070062;
+		public static final int cast_notification_connected_message = 0x7f070063;
+		public static final int cast_notification_connecting_message = 0x7f070064;
+		public static final int cast_notification_disconnect = 0x7f070065;
 		public static final int common_google_play_services_api_unavailable_text = 0x7f070011;
 		public static final int common_google_play_services_enable_button = 0x7f070012;
 		public static final int common_google_play_services_enable_text = 0x7f070013;
@@ -264,13 +264,13 @@ public final class R {
 		public static final int common_open_on_phone = 0x7f07002b;
 		public static final int common_signin_button_text = 0x7f07002c;
 		public static final int common_signin_button_text_long = 0x7f07002d;
-		public static final int create_calendar_message = 0x7f07005f;
-		public static final int create_calendar_title = 0x7f070060;
-		public static final int decline = 0x7f070061;
+		public static final int create_calendar_message = 0x7f070066;
+		public static final int create_calendar_title = 0x7f070067;
+		public static final int decline = 0x7f070068;
 		public static final int place_autocomplete_clear_button = 0x7f070039;
 		public static final int place_autocomplete_search_hint = 0x7f07003a;
-		public static final int store_picture_message = 0x7f070066;
-		public static final int store_picture_title = 0x7f070067;
+		public static final int store_picture_message = 0x7f07006d;
+		public static final int store_picture_title = 0x7f07006e;
 		public static final int wallet_buy_button_place_holder = 0x7f07003c;
 	}
 	public static final class style {

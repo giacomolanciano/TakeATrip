@@ -1,7 +1,6 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -10,7 +9,135 @@
     android:paddingBottom="@dimen/activity_vertical_margin">
 
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/empty_image"
+                        android:id="@+id/imageTravel"
+                        android:onClick="onClickImageTravel"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/titoloViaggio"
+                        android:textSize="28sp"
+                        android:text="@string/YourTravel"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:layout_gravity="center_vertical"/>
+
+
+
+                </LinearLayout>
+
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:textSize="24dp"
+                    android:text="@string/Partecipants"
+                    android:layout_gravity="left"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/activity_vertical_margin">
+
+
+
+                    <com.example.david.takeatrip.Utilities.RoundedImageView
+                        android:id="@+id/imageView_round_Profile"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="right"
+                        android:src="@drawable/profile_default"/>
+
+
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/activity_vertical_margin">
+
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/tappa"
+                        android:onClick="onClickImageTappa"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="24dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/Stops" />
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:textSize="24dp"
+                    android:text="@string/Settings"
+                    android:layout_gravity="left"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:textSize="24dp"
+                    android:text="@string/Photos"
+                    android:layout_gravity="left"/>
+
+
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layoutForPhotos">
+
+
+
+                </TableLayout>
+
+
+
+            </LinearLayout>
+
+
+        </FrameLayout>
+
+    </ScrollView>
 
 </FrameLayout>

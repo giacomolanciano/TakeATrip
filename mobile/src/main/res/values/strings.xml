@@ -26,9 +26,16 @@
 
 
     <string name="LoginError">Incorrect Data</string>
+
+
     <string name="title_activity_categoria">CategoriaActivity</string>
     <string name="title_activity_viaggio">ViaggioActivity</string>
     <string name="title_activity_lista_tappe">ListaTappeActivity</string>
+
+    <string name="title_activity_lista_tappe2">Lista Tappe</string>
+
+
+
     <string name="title_activity_main2">Main2Activity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -59,6 +66,16 @@
 
 
     <string name="Edit">Edit</string>
+
+    <string name="YourTravel">Your Travel</string>
+    <string name="InsertNameTravel">Insert Name Travel</string>
+    <string name="Partecipants">Partecipants</string>
+    <string name="Stops">Stops</string>
+    <string name="Settings">Settings</string>
+    <string name="Photos">Photos</string>
+    <string name="Create">Create</string>
+
+
 
 
     <string-array name="livelliUmidita">
@@ -98,11 +115,15 @@
         <item>exit</item>
     </string-array>
 
+    <string-array name="CommandsTravelImage">
+        <item>view travel image</item>
+        <item>change travel image</item>
+        <item>exit</item>
+    </string-array>
 
     <string name="title_activity_main">MainActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="title_activity_lista_tappe2">ListaTappeActivity2</string>
 
 
 

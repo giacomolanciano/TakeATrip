@@ -14,6 +14,11 @@
         <item>take a photo</item>
         <item>exit</item>
     </string-array>
+    <string-array name="CommandsTravelImage">
+        <item>view travel image</item>
+        <item>change travel image</item>
+        <item>exit</item>
+    </string-array>
     <string-array name="livelliUmidita">
         <item>low level</item>
         <item>medium level</item>
@@ -427,27 +432,34 @@
     <string name="AvviaRicerca">Search</string>
     <string name="CaricamentoInCorso">Loading...</string>
     <string name="Categoria">Categoria</string>
+    <string name="Create">Create</string>
     <string name="DateOfBirth">Date of birth</string>
     <string name="DestinationSelection">Search destination</string>
     <string name="Edit">Edit</string>
     <string name="Email">Email</string>
     <string name="Hybrid">Hybrid</string>
+    <string name="InsertNameTravel">Insert Name Travel</string>
     <string name="Login">Login</string>
     <string name="LoginError">Incorrect Data</string>
     <string name="Name">Name</string>
+    <string name="Partecipants">Partecipants</string>
     <string name="Password">Password</string>
+    <string name="Photos">Photos</string>
     <string name="Pressione">Pressure</string>
     <string name="Register">Register</string>
     <string name="Registration">Registration</string>
     <string name="Satellite">Satellite</string>
     <string name="SceltaMeta">Choose your parameters</string>
+    <string name="Settings">Settings</string>
     <string name="Splash">Take a Trip</string>
+    <string name="Stops">Stops</string>
     <string name="Surname">Surname</string>
     <string name="Temperatura">Temperature</string>
     <string name="Terrain">Terrain</string>
     <string name="Umidita">Humidity</string>
     <string name="VelocitaVento">Speed of Wind</string>
     <string name="Viaggi">Travels</string>
+    <string name="YourTravel">Your Travel</string>
     <!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
     <eat-comment/>
     <string name="abc_action_bar_home_description">Navigate home</string>
@@ -565,7 +577,7 @@
     <string name="title_activity_categoria">CategoriaActivity</string>
     <string name="title_activity_destination_selection">DestinationSelectionActivity</string>
     <string name="title_activity_lista_tappe">ListaTappeActivity</string>
-    <string name="title_activity_lista_tappe2">ListaTappeActivity2</string>
+    <string name="title_activity_lista_tappe2">Lista Tappe</string>
     <string name="title_activity_lista_viaggi">ListTravels</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_main2">Main2Activity</string>

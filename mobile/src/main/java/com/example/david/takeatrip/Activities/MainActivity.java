@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     public void ClickNewTravel(View v){
         //Bitmap icon = BitmapFactory.decodeResource(getResources(),R.drawable.logo);
         //imageViewProfileRound.setImageBitmap(icon);
-        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+        Intent intent = new Intent(MainActivity.this, ViaggioActivity.class);
         startActivity(intent);
 
 

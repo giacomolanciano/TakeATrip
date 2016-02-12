@@ -1,9 +1,22 @@
 package com.example.david.takeatrip.Activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,13 +41,21 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class ListaViaggiActivity extends AppCompatActivity {
 
+
     private final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryViaggi.php";
+
+
     private ListView lista;
     private ArrayList<Viaggio> viaggi;
     private String email;
@@ -85,7 +106,7 @@ public class ListaViaggiActivity extends AppCompatActivity {
                 //TODO per ora non ci interessano tutti gli itinerari associati al viaggio
                 //Intent intent = new Intent(ListaViaggiActivity.this, ViaggioActivity.class);
 
-                Intent intent = new Intent(ListaViaggiActivity.this, ListaTappeActivity.class);
+                Intent intent = new Intent(ListaViaggiActivity.this, ViaggioActivity.class);
                 intent.putExtra("email", email);
                 intent.putExtra("codiceViaggio", viaggio.getCodice());
                 intent.putExtra("nomeViaggio", viaggio.getNome());
@@ -96,6 +117,9 @@ public class ListaViaggiActivity extends AppCompatActivity {
         });
 
     }
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
