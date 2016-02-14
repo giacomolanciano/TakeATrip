@@ -1,4 +1,4 @@
-# TakeATrip
+# <img src="http://www.katadoryu.it/images/TakeATrip/Logo/LogoDef.png" width="100" height="100" />TakeATrip
 Do not miss anything you love in your journey!
 
 TakeATrip is an application developed for Google Technologies for Cloud and Web Development (Rome 2015/2016 edition). 
