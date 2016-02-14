@@ -10,7 +10,7 @@ We made a brief survey to test our initial assumptions.
 * [Form](http://goo.gl/forms/hjVDd3tLq2)
 * [Results](https://docs.google.com/forms/d/1n9uKqaEmyjwLud_UkX-K7g0x_Mleak6ntySzlvlE-xI/viewanalytics)
 
-# Milestones 1 - Proof of concept
+# Milestone 1 - Proof of concept
 * Server and Database setup (collecting data from users, social media, blog,...)
 * User registration (profile)
 * UI for user profile and destination selection
@@ -20,12 +20,12 @@ On the 18-th of January we presented our work to the staff.
 * [Pilot application apk file](https://drive.google.com/a/studenti.uniroma1.it/file/d/0B0FHkIijDk2ha1pvZ1o4VGItanc/view?usp=sharing)
 * [Time effort file](https://docs.google.com/a/studenti.uniroma1.it/spreadsheets/d/1tKu6xwchNxW2zoH1tnrCPVRw9B3wqaj5OwztRczQbiw/edit?usp=sharing)
 
-# Milestones 2 - Release candidate
+# Milestone 2 - Release candidate
 * Google Maps API integration
 * Path registration and storing
 * UI for journey advices and path planning
 
-# Milestones 3 - Final
+# Milestone 3 - Final
 * Journey advice system based on a social network
 * UI for experiences sharing
 * Facebook API integration
