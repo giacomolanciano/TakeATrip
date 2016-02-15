@@ -180,7 +180,7 @@ MERGED from [com.android.support:support-v4:23.0.1] /Users/lucagiacomelli/Deskto
 	android:allowBackup
 		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:24:9-35
 	android:icon
-		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:25:9-43
+		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:25:9-41
 	android:theme
 		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:27:9-40
 meta-data#com.google.android.gms.version

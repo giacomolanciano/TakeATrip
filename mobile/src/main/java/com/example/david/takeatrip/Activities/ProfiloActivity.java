@@ -214,6 +214,10 @@ public class ProfiloActivity extends TabActivity {
     }
 
 
+
+
+
+
     String mCurrentPhotoPath;
     String imageFileName;
 

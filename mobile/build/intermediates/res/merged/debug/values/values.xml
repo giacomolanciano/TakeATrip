@@ -74,12 +74,15 @@
     <color name="background_floating_material_light">@android:color/white</color>
     <color name="background_material_dark">@color/material_grey_850</color>
     <color name="background_material_light">@color/material_grey_50</color>
+    <!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/res/values/color.xml -->
+    <eat-comment/>
+    <color name="biancoPallido">#FAFAFA</color>
     <!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="black_overlay">#66000000</color>
     <!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/res/values/color.xml -->
     <eat-comment/>
-    <color name="blue">#0066FF</color>
+    <color name="blue">#90CAF9</color>
     <!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
     <eat-comment/>
     <color name="bright_foreground_disabled_material_dark">#80ffffff</color>
@@ -438,7 +441,7 @@
     <string name="Edit">Edit</string>
     <string name="Email">Email</string>
     <string name="Hybrid">Hybrid</string>
-    <string name="InsertNameTravel">Insert Name Travel</string>
+    <string name="InsertNameTravel">Name of Travel</string>
     <string name="Login">Login</string>
     <string name="LoginError">Incorrect Data</string>
     <string name="Name">Name</string>
@@ -599,7 +602,6 @@
         <item name="android:panelColorBackground">@color/blue</item>
         <item name="android:colorPrimaryDark">@color/blue</item>
         <!--  <item name="android:windowBackground">@color/blue</item> -->
-          <item name="android:navigationBarColor">@color/blue</item>
 
 
           <!-- Customize your theme here. -->
