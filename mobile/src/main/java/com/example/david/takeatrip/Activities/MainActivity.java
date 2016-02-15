@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     private String name, surname, email;
     private String date;
 
+    private String parolaAggiuntaPerPush;
+
     private ImageView imageViewProfileRound;
     private FrameLayout layoutNewTravel;
     private LinearLayout layoutPartecipants;
