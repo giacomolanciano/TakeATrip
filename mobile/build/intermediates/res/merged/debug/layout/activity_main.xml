@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.david.takeatrip.Activities.MainActivity"
-    android:background="@drawable/sfondo_main_activity">
+    android:background="@drawable/sfondo_main_activity4">
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -154,5 +154,20 @@
         android:onClick="ClickImageProfile"/>
 
 
+
+
+    <FrameLayout
+        android:layout_width="240dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:id="@+id/FrameNewTravel"
+        android:visibility="invisible">
+
+        <include layout="@layout/activity_viaggio2">
+
+        </include>
+
+
+    </FrameLayout>
 </FrameLayout>
 <!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/res/layout/activity_main.xml -->

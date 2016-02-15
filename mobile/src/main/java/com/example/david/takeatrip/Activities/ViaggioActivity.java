@@ -1,5 +1,6 @@
 package com.example.david.takeatrip.Activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,8 +24,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
 
@@ -45,7 +48,7 @@ public class ViaggioActivity extends AppCompatActivity {
     private String email, codiceViaggio, nomeViaggio;
 
     private TextView viewTitoloViaggio;
-    private ImageView imageTravel;
+    private LinearLayout layoutCopertinaViaggio;
 
     private EditText editTextNomeViaggio;
 
@@ -71,18 +74,24 @@ public class ViaggioActivity extends AppCompatActivity {
             viewTitoloViaggio = (TextView)findViewById(R.id.titoloViaggio);
             editTextNomeViaggio = (EditText)findViewById(R.id.editTextNameTravel);
 
-            imageTravel = (ImageView)findViewById(R.id.imageTravel);
+            layoutCopertinaViaggio = (LinearLayout)findViewById(R.id.layoutCoverImageTravel);
 
 
             viewTitoloViaggio.setText(nomeViaggio);
         }
-        else{
-            setContentView(R.layout.activity_viaggio2);
-
-        }
 
     }
 
+
+
+    public void onClickSettingsIcon(View v){
+
+    }
+
+
+    public void onClickImagePartecipant(View v){
+
+    }
 
 
     public void onClickImageTappa(View v){
@@ -149,10 +158,8 @@ public class ViaggioActivity extends AppCompatActivity {
 
 
                 //TODO: update the db with new profile image
-
-
-                imageTravel.setImageBitmap(thumbnail);
-
+                Drawable d = new BitmapDrawable(getResources(), thumbnail);
+                layoutCopertinaViaggio.setBackground(d);
 
             }
         }
