@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -35,6 +36,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
+import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +51,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static android.R.drawable.ic_dialog_info;
 
 
 @SuppressWarnings("deprecation")
@@ -73,6 +77,8 @@ public class ProfiloActivity extends TabActivity {
 
     private TabHost TabHost;
 
+    private ImageView imageInfoTab;
+
 
     private Animator mCurrentAnimator;
     private int mShortAnimationDuration;
@@ -88,6 +94,8 @@ public class ProfiloActivity extends TabActivity {
         viewSurname = (TextView) findViewById(R.id.Cognome);
         imageProfile = (RoundedImageView) findViewById(R.id.imageView_round_Profile);
         layoutCoverImage = (LinearLayout) findViewById(R.id.layoutCoverImage);
+
+        imageInfoTab = (ImageView)findViewById(R.id.imageInfoTab);
 
 
         thumb1View = findViewById(R.id.imageView_round_Profile);
@@ -108,6 +116,8 @@ public class ProfiloActivity extends TabActivity {
         }
 
 
+
+
         TabHost = (TabHost) findViewById(android.R.id.tabhost);
 
         TabHost.TabSpec tab1 = TabHost.newTabSpec("INFO");
@@ -121,6 +131,7 @@ public class ProfiloActivity extends TabActivity {
         tab3.setIndicator("DEST");
 
 
+
         Intent intentInfo = new Intent(this, InfoActivity.class);
         intentInfo.putExtra("name", name);
         intentInfo.putExtra("surname", surname);
@@ -129,8 +140,6 @@ public class ProfiloActivity extends TabActivity {
         intentInfo.putExtra("pwd", password);
 
         tab1.setContent(intentInfo);
-
-
         tab2.setContent(new Intent(this, StatsActivity.class));
         tab3.setContent(new Intent(this, MapsActivity.class));
 
@@ -165,13 +174,17 @@ public class ProfiloActivity extends TabActivity {
     }
 
 
-    public void ModificaCategoria(View v) {
 
+
+
+    public void onClickInfoTab(View v) {
+        Intent intentInfo = new Intent(this, InfoActivity.class);
+        intentInfo.putExtra("name", name);
+        intentInfo.putExtra("surname", surname);
+        intentInfo.putExtra("email", email);
+        intentInfo.putExtra("dateOfBirth", date);
+        intentInfo.putExtra("pwd", password);
     }
-
-
-
-
 
 
 

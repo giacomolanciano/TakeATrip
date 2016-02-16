@@ -32,6 +32,7 @@ import java.util.regex.Pattern;
 public class RegistrazioneActivity extends AppCompatActivity {
 
     private final String ADDRESS_INSERIMENTO_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoProfilo.php";
+    private final String ADDRESS_UPDATE_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/UpdateProfilo.php";
 
     private boolean update;
 
@@ -44,6 +45,8 @@ public class RegistrazioneActivity extends AppCompatActivity {
     private final int DAY_MAX_PICKER = 31;
     private final int DAY_MIN_PICKER = 1;
     private final int DAY_DEFAULT_PICKER = 1;
+
+    private final int MAX_LENGTH_PWD = 5;
 
     private final int TEN = 10;
 
@@ -58,6 +61,7 @@ public class RegistrazioneActivity extends AppCompatActivity {
     private String data;
 
     private String nome, cognome, email, password;
+    private String previousEmail;
 
     private NumberPicker pickerYear, pickerMonth, pickerDay;
 
@@ -115,6 +119,8 @@ public class RegistrazioneActivity extends AppCompatActivity {
                 year = Integer.parseInt(splittedDate[0]);
                 month = Integer.parseInt(splittedDate[1]);
                 day = Integer.parseInt(splittedDate[2]);
+
+                previousEmail = email;
             }
 
 
@@ -124,6 +130,7 @@ public class RegistrazioneActivity extends AppCompatActivity {
             campoNome.setText(nome);
             campoCognome.setText(cognome);
             campoEmail.setText(email);
+            campoEmail.setEnabled(false);
             campoPassword.setText(password);
             pickerYear.setValue(year);
             pickerMonth.setValue(month);
@@ -164,7 +171,7 @@ public class RegistrazioneActivity extends AppCompatActivity {
                 if (!emailValida) {
 
                     Toast.makeText(getBaseContext(), "Attenzione! \nL'email inserita non è valida!", Toast.LENGTH_LONG).show();
-                } else if (password.length() < 5) {
+                } else if (password.length() < MAX_LENGTH_PWD) {
                     Toast.makeText(getBaseContext(), "Attenzione! \nLa password deve contenere almeno 5 caratteri!", Toast.LENGTH_LONG).show();
                 } else if (nome.length()==0 ) {
                     Toast.makeText(getBaseContext(), "Attenzione! \nInserire il nome!", Toast.LENGTH_LONG).show();
@@ -184,12 +191,10 @@ public class RegistrazioneActivity extends AppCompatActivity {
                     openProfilo.putExtra("dateOfBirth", data);
                     openProfilo.putExtra("pwd", password);
 
-
-
                     // passo all'attivazione dell'activity
                     startActivity(openProfilo);
 
-                    onDestroy();
+                    //onDestroy();
                 }
             }
         });
@@ -243,6 +248,69 @@ public class RegistrazioneActivity extends AppCompatActivity {
 
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("nome", nome));
+            dataToSend.add(new BasicNameValuePair("cognome", cognome));
+            dataToSend.add(new BasicNameValuePair("dataNascita",data));
+            dataToSend.add(new BasicNameValuePair("email", email));
+            dataToSend.add(new BasicNameValuePair("password", password));
+
+
+            try {
+                if (InternetConnection.haveInternetConnection(RegistrazioneActivity.this)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost;
+
+                    if(update){
+                        httppost = new HttpPost(ADDRESS_UPDATE_UTENTE);
+                    }
+                    else{
+                        httppost = new HttpPost(ADDRESS_INSERIMENTO_UTENTE);
+                    }
+
+
+
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+
+
+
+                    httpclient.execute(httppost);
+                }
+                else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(e.toString(),e.getMessage());
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            //Toast.makeText(getBaseContext(), "ID facebook: " + profile.getId(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(getBaseContext(), "name facebook: " + profile.getName(), Toast.LENGTH_LONG).show();
+
+            //Toast.makeText(getBaseContext(), "caricati i dati sul DB " + nome + " " + cognome + " " + data + " " + email + " " + password , Toast.LENGTH_SHORT).show();
+
+
+
+
+            super.onPostExecute(aVoid);
+
+        }
+    }
+
+
+
+
+    private class MyTaskUpdate extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {

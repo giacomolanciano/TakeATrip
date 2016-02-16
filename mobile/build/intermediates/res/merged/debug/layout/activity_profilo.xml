@@ -98,7 +98,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@android:id/tabhost"
-                    android:layout_gravity="center_horizontal">
+                    android:layout_gravity="center_horizontal"
+                    >
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -108,9 +109,11 @@
                         <TabWidget
                             android:id="@android:id/tabs"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="40dp"
                             android:baselineAligned="false"
-                            android:background="@drawable/side_nav_bar"></TabWidget>
+                            android:background="@color/blue">
+
+                        </TabWidget>
 
 
 
@@ -151,6 +154,44 @@
         </LinearLayout>
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:id="@+id/imageInfoTab"
+            android:src="@drawable/info"
+            android:background="@color/blue"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:onClick="onClickInfoTab"
+            />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:src="@drawable/icon_stats"
+            android:background="@color/green"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:src="@drawable/tappa"
+            android:background="@color/red"
+            />
+
+    </LinearLayout>
 
 </FrameLayout>
 <!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/res/layout/activity_profilo.xml -->
