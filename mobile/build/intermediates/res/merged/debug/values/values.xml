@@ -19,6 +19,9 @@
         <item>change travel image</item>
         <item>exit</item>
     </string-array>
+    <string-array name="CommandsViewProfile">
+        <item>view profile</item>
+    </string-array>
     <string-array name="livelliUmidita">
         <item>low level</item>
         <item>medium level</item>

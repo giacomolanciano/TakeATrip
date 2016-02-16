@@ -120,6 +120,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void onClickSearchTravels(View v){
+        Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+        startActivity(intent);
+    }
+
+
     public void ClickTravels(View v){
         Intent openListaViaggi = new Intent(MainActivity.this, ListaViaggiActivity.class);
         openListaViaggi.putExtra("email", email);

@@ -161,35 +161,7 @@
         android:layout_weight="1"
         android:visibility="invisible">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.3"
-            android:id="@+id/imageInfoTab"
-            android:src="@drawable/info"
-            android:background="@color/blue"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            android:onClick="onClickInfoTab"
-            />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.3"
-            android:src="@drawable/icon_stats"
-            android:background="@color/green"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.3"
-            android:src="@drawable/tappa"
-            android:background="@color/red"
-            />
 
     </LinearLayout>
 

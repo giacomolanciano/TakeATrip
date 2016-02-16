@@ -77,7 +77,8 @@ public class ProfiloActivity extends TabActivity {
 
     private TabHost TabHost;
 
-    private ImageView imageInfoTab;
+    private boolean externalView = false;
+
 
 
     private Animator mCurrentAnimator;
@@ -95,7 +96,6 @@ public class ProfiloActivity extends TabActivity {
         imageProfile = (RoundedImageView) findViewById(R.id.imageView_round_Profile);
         layoutCoverImage = (LinearLayout) findViewById(R.id.layoutCoverImage);
 
-        imageInfoTab = (ImageView)findViewById(R.id.imageInfoTab);
 
 
         thumb1View = findViewById(R.id.imageView_round_Profile);
@@ -109,8 +109,20 @@ public class ProfiloActivity extends TabActivity {
             date = intent.getStringExtra("dateOfBirth");
             password = intent.getStringExtra("pwd");
 
-            viewName.setText(name);
-            viewSurname.setText(surname);
+            if(name == null || surname == null || email == null || password == null || date == null){
+                externalView = true;
+
+                //TODO: prendere i dati dal DB per visualizzarli in una schermata non modificabile
+
+
+
+            }
+            else{
+                viewName.setText(name);
+                viewSurname.setText(surname);
+            }
+
+
         } else {
             //Prendi i dati dal database perche è gia presente l'utente
         }

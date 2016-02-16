@@ -90,6 +90,43 @@ public class ViaggioActivity extends AppCompatActivity {
 
 
     public void onClickImagePartecipant(View v){
+        try {
+            ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog);
+
+
+            //TODO: custom dialog con titolo = nomeProfilo
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
+            LayoutInflater inflater = this.getLayoutInflater();
+            builder.setItems(R.array.CommandsViewProfile, new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case 0:
+
+                            //TODO: gestire visualizzazione esterna profilo
+                            Intent intent = new Intent(ViaggioActivity.this, ProfiloActivity.class);
+                            startActivity(intent);
+
+                            break;
+                        case 1: //change image profile
+                            Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(intentPick, REQUEST_IMAGE_PICK);
+                            break;
+
+                        case 3: //exit
+                            break;
+                    }
+                }
+            });
+
+
+            // Create the AlertDialog object and return it
+            builder.create().show();
+
+        } catch (Exception e) {
+            Log.e(e.toString().toUpperCase(), e.getMessage());
+        }
 
     }
 

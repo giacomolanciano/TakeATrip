@@ -124,6 +124,13 @@
         <item>exit</item>
     </string-array>
 
+
+    <string-array name="CommandsViewProfile">
+        <item>view profile</item>
+    </string-array>
+
+
+
     <string name="title_activity_main">MainActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
