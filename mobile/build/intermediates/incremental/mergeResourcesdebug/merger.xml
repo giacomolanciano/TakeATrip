@@ -1636,7 +1636,6 @@
         <item>moderate</item>
         <item>hot</item>
         <item>very hot</item>
-
     </string-array><string name="CaricamentoInCorso">Loading...</string><string name="Hybrid">Hybrid</string><string-array name="CommandsViewProfile">
         <item>view profile</item>
     </string-array><string name="Surname">Surname</string><string name="SceltaMeta">Choose your parameters</string><string name="Umidita">Humidity</string><string-array name="CommandsTravelImage">

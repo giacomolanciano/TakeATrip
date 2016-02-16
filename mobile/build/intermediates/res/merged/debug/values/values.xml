@@ -35,7 +35,6 @@
         <item>moderate</item>
         <item>hot</item>
         <item>very hot</item>
-
     </string-array>
     <string-array name="livelloVento">
         <item>low level</item>
