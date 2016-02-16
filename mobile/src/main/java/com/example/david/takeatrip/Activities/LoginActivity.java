@@ -264,6 +264,8 @@ public class LoginActivity extends Activity {
                 openAccedi.putExtra("name", nome);
                 openAccedi.putExtra("surname", cognome);
                 openAccedi.putExtra("dateOfBirth", data);
+                openAccedi.putExtra("pwd", password);
+
 
 
 

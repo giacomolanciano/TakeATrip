@@ -433,6 +433,7 @@
     <eat-comment/>
     <string name="Altitudine">Altitude</string>
     <string name="AvviaRicerca">Search</string>
+    <string name="Cancel">Cancel</string>
     <string name="CaricamentoInCorso">Loading...</string>
     <string name="Categoria">Categoria</string>
     <string name="Create">Create</string>

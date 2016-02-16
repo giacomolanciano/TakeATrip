@@ -100,6 +100,8 @@
             android:label="@string/title_activity_lista_tappe2"
             android:theme="@style/AppTheme" >
         </activity>
+        <activity android:name="com.example.david.takeatrip.Activities.SearchActivity" >
+        </activity>
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"

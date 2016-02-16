@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -88,6 +87,8 @@
             android:name=".Activities.ListaTappeActivity"
             android:label="@string/title_activity_lista_tappe2"
             android:theme="@style/AppTheme" >
+        </activity>
+        <activity android:name=".Activities.SearchActivity" >
         </activity>
     </application>
 

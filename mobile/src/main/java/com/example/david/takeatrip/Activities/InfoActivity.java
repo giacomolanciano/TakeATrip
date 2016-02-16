@@ -3,13 +3,14 @@ package com.example.david.takeatrip.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.david.takeatrip.R;
 
 public class InfoActivity extends AppCompatActivity {
 
-    private String email, date;
+    private String name, surname, email, date, password;
     private TextView viewDate, viewEmail;
 
 
@@ -22,8 +23,12 @@ public class InfoActivity extends AppCompatActivity {
 
         if(getIntent() != null){
             Intent intent = getIntent();
+            name = intent.getStringExtra("name");
+            surname = intent.getStringExtra("surname");
             email = intent.getStringExtra("email");
             date = intent.getStringExtra("dateOfBirth");
+            password = intent.getStringExtra("pwd");
+
         }
     }
 
@@ -32,5 +37,23 @@ public class InfoActivity extends AppCompatActivity {
         super.onResume();
         viewDate.setText(date);
         viewEmail.setText(email);
+    }
+
+
+    public void onClickEditButton(View v){
+
+
+        Intent intent = new Intent(InfoActivity.this, RegistrazioneActivity.class);
+        intent.putExtra("name", name);
+        intent.putExtra("surname",surname);
+        intent.putExtra("date", date);
+        intent.putExtra("email", email);
+        intent.putExtra("pwd", password);
+
+
+
+        //TODO vedere se i nuovi valori possono essere ritornati tramite la chiamata startActivityForResult
+        startActivity(intent);
+
     }
 }

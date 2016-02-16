@@ -314,6 +314,7 @@ public class ListaTappeActivity extends AppCompatActivity
     @Override
     public void onMapReady(GoogleMap map) {
         googleMap = map;
+        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
     }
 
 

@@ -75,7 +75,8 @@
                         android:layout_height="60dp"
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
                         app:backgroundTint="@color/blue"
-                        android:src="@drawable/pulsante_piu">
+                        android:src="@android:drawable/ic_menu_add"
+                        >
                     </android.support.design.widget.FloatingActionButton>
                 </LinearLayout>
 
@@ -83,14 +84,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingTop="@dimen/activity_vertical_margin">
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:onClick="onClickImageTappa">
 
 
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="40dp"
                         android:src="@drawable/tappa"
-                        android:onClick="onClickImageTappa"/>
+                        />
 
                     <TextView
                         android:layout_width="match_parent"

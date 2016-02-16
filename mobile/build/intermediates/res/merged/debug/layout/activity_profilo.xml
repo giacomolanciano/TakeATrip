@@ -151,58 +151,6 @@
         </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/layoutBottoniProfilo"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-
-            android:text="@string/Viaggi"
-            android:id="@+id/Listaviaggi"
-            android:layout_gravity="center_horizontal"
-            />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:text="@string/DestinationSelection"
-            android:id="@+id/DestinationSelection"
-            />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:id="@+id/ButtonRegistraViaggio"
-            android:layout_gravity="center_horizontal"
-
-            />
-
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Categoria"
-            android:visibility="invisible"
-            android:id="@+id/CategoriaViaggio"
-            />
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/expanded_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible" />
-
-
 
 </FrameLayout>
 <!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/res/layout/activity_profilo.xml -->

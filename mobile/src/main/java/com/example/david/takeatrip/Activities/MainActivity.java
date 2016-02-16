@@ -55,16 +55,14 @@ public class MainActivity extends AppCompatActivity {
     private final String ADDRESS = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryNomiUtenti.php";
 
     private String name, surname, email;
-    private String date;
-
-    private String parolaAggiuntaPerPush;
+    private String date, password;
 
     private ImageView imageViewProfileRound;
     private FrameLayout layoutNewTravel;
     private LinearLayout layoutPartecipants;
 
     AutoCompleteTextView text;
-    List<String> names;
+    List<String> names,partecipants;
 
 
 
@@ -81,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             surname = intent.getStringExtra("surname");
             email = intent.getStringExtra("email");
             date = intent.getStringExtra("dateOfBirth");
-
+            password = intent.getStringExtra("pwd");
         }
         else{
             //Prendi i dati dal database perche è gia presente l'utente
@@ -98,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         names = new ArrayList<String>();
+        partecipants = new ArrayList<String>();
+
 
 
         new MyTask().execute();
@@ -111,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
         openProfilo.putExtra("surname", surname);
         openProfilo.putExtra("email", email);
         openProfilo.putExtra("dateOfBirth", date);
+        openProfilo.putExtra("pwd", password);
+
 
 
         // passo all'attivazione dell'activity
@@ -136,14 +138,25 @@ public class MainActivity extends AppCompatActivity {
 
     public void ClickNewPartecipant(View v){
 
-
-
         RoundedImageView view = new RoundedImageView(this,null);
-        //view.setImageResource(R.drawable.defaultprofile_picture);
+        view.setImageResource(R.drawable.defaultprofile_picture);
+        view.setMaxWidth(4);
+        view.setMaxHeight(5);
         layoutPartecipants.addView(view);
+        layoutPartecipants.setDividerPadding(5);
 
-
+        partecipants.add(text.getText().toString());
         text.setText("");
+
+    }
+
+    public void onClickCancelButton(View v){
+        layoutNewTravel.setVisibility(View.INVISIBLE);
+    }
+
+
+    public void onClickCreateTravel(View v){
+        //TODO: immagazzina il viaggio nel DB
 
     }
 

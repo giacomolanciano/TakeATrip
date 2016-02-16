@@ -42,6 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:text="@string/Edit"
+        android:onClick="onClickEditButton"
         />
 
 

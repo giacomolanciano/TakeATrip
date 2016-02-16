@@ -31,10 +31,9 @@ import java.util.regex.Pattern;
 
 public class RegistrazioneActivity extends AppCompatActivity {
 
-
-
     private final String ADDRESS_INSERIMENTO_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoProfilo.php";
 
+    private boolean update;
 
     private final int YEAR_MAX_PICKER = 2016;
     private final int YEAR_MIN_PICKER = 1900;
@@ -62,7 +61,7 @@ public class RegistrazioneActivity extends AppCompatActivity {
 
     private NumberPicker pickerYear, pickerMonth, pickerDay;
 
-    private int month, day;
+    private int year, month, day;
 
 
     @Override
@@ -75,7 +74,6 @@ public class RegistrazioneActivity extends AppCompatActivity {
         campoCognome = (EditText) findViewById(R.id.Cognome);
         campoEmail = (EditText) findViewById(R.id.Email);
         campoPassword = (EditText) findViewById(R.id.Password);
-        campoData = (EditText) findViewById(R.id.DataDiNascita);
 
 
         pickerYear = (NumberPicker)findViewById(R.id.pickerYear);
@@ -96,9 +94,44 @@ public class RegistrazioneActivity extends AppCompatActivity {
         pickerDay.setWrapSelectorWheel(false);
         pickerDay.setValue(DAY_DEFAULT_PICKER);
 
-
-
         btnInvio=(Button)findViewById(R.id.Invio);
+
+
+
+        update = false;
+        Intent intent = getIntent();
+        if(intent != null){
+            nome = intent.getStringExtra("name");
+            cognome = intent.getStringExtra("surname");
+            email = intent.getStringExtra("email");
+            data = intent.getStringExtra("date");
+            password = intent.getStringExtra("pwd");
+
+
+            if(nome != null || cognome != null || email != null || data != null){
+                update = true;
+
+                String[] splittedDate = data.split("-");
+                year = Integer.parseInt(splittedDate[0]);
+                month = Integer.parseInt(splittedDate[1]);
+                day = Integer.parseInt(splittedDate[2]);
+            }
+
+
+        }
+
+        if(update) {
+            campoNome.setText(nome);
+            campoCognome.setText(cognome);
+            campoEmail.setText(email);
+            campoPassword.setText(password);
+            pickerYear.setValue(year);
+            pickerMonth.setValue(month);
+            pickerDay.setValue(day);
+            btnInvio.setText("SAVE");
+        }
+
+
         btnInvio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -149,10 +182,14 @@ public class RegistrazioneActivity extends AppCompatActivity {
                     openProfilo.putExtra("surname", cognome);
                     openProfilo.putExtra("email", email);
                     openProfilo.putExtra("dateOfBirth", data);
+                    openProfilo.putExtra("pwd", password);
+
 
 
                     // passo all'attivazione dell'activity
                     startActivity(openProfilo);
+
+                    onDestroy();
                 }
             }
         });
@@ -209,18 +246,12 @@ public class RegistrazioneActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-
-
-
-
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("nome", nome));
             dataToSend.add(new BasicNameValuePair("cognome", cognome));
             dataToSend.add(new BasicNameValuePair("dataNascita",data));
             dataToSend.add(new BasicNameValuePair("email", email));
             dataToSend.add(new BasicNameValuePair("password", password));
-
-
 
 
             try {

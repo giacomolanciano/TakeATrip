@@ -38,6 +38,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
 
@@ -60,7 +61,6 @@ public class ProfiloActivity extends TabActivity {
     private static final int REQUEST_COVER_IMAGE_PICK = 4;
 
 
-    private Button btnViaggi, buttonCategoria, buttonDestinationSelection, buttonRegistra;
     private TextView viewName;
     private TextView viewSurname, viewDate, viewEmail;
 
@@ -68,7 +68,7 @@ public class ProfiloActivity extends TabActivity {
     private LinearLayout layoutCoverImage;
 
     private String name, surname, email;
-    private String date;
+    private String date, password;
 
 
     private TabHost TabHost;
@@ -99,6 +99,7 @@ public class ProfiloActivity extends TabActivity {
             surname = intent.getStringExtra("surname");
             email = intent.getStringExtra("email");
             date = intent.getStringExtra("dateOfBirth");
+            password = intent.getStringExtra("pwd");
 
             viewName.setText(name);
             viewSurname.setText(surname);
@@ -121,8 +122,12 @@ public class ProfiloActivity extends TabActivity {
 
 
         Intent intentInfo = new Intent(this, InfoActivity.class);
+        intentInfo.putExtra("name", name);
+        intentInfo.putExtra("surname", surname);
         intentInfo.putExtra("email", email);
         intentInfo.putExtra("dateOfBirth", date);
+        intentInfo.putExtra("pwd", password);
+
         tab1.setContent(intentInfo);
 
 
@@ -135,55 +140,6 @@ public class ProfiloActivity extends TabActivity {
         TabHost.addTab(tab2);
         TabHost.addTab(tab3);
 
-
-        buttonCategoria = (Button) findViewById(R.id.CategoriaViaggio);
-        buttonCategoria.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                // definisco l'intenzione
-                Intent openListaViaggi = new Intent(ProfiloActivity.this, CategoriaActivity.class);
-                // passo all'attivazione dell'activity
-                startActivity(openListaViaggi);
-            }
-        });
-
-
-        btnViaggi = (Button) findViewById(R.id.Listaviaggi);
-        btnViaggi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                // definisco l'intenzione
-                Intent openListaViaggi = new Intent(ProfiloActivity.this, ListaViaggiActivity.class);
-                openListaViaggi.putExtra("email", email);
-
-                // passo all'attivazione dell'activity
-                startActivity(openListaViaggi);
-            }
-        });
-
-        buttonDestinationSelection = (Button) findViewById(R.id.DestinationSelection);
-        buttonDestinationSelection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                // definisco l'intenzione
-                Intent intent = new Intent(ProfiloActivity.this, DestinationSelectionActivity.class);
-                intent.putExtra("email", email);
-
-                // passo all'attivazione dell'activity
-                startActivity(intent);
-            }
-        });
-
-
-        buttonRegistra = (Button) findViewById(R.id.ButtonRegistraViaggio);
-        buttonRegistra.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                // definisco l'intenzione
-                Intent intent = new Intent(ProfiloActivity.this, MapsActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -212,6 +168,8 @@ public class ProfiloActivity extends TabActivity {
     public void ModificaCategoria(View v) {
 
     }
+
+
 
 
 
