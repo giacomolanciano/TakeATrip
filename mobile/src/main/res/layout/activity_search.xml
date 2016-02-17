@@ -8,7 +8,9 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.david.takeatrip.Activities.SearchActivity">
+    tools:context="com.example.david.takeatrip.Activities.SearchActivity"
+    android:background="@color/screen_background_holo_light"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,46 +33,46 @@
             android:orientation="vertical">
 
 
+
+            <fragment
+                android:id="@+id/place_autocomplete_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+                />
+
+
+
+
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/activity_vertical_margin">
 
-                <AutoCompleteTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Search by user"
-                    android:id="@+id/editTextUser"
-                    android:layout_weight="0.9"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="25dp"
                     android:src="@android:drawable/ic_search_category_default"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="9dp"
                     android:layout_weight="0.1"
                     android:onClick="onClickSearchUser"/>
 
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:orientation="horizontal">
-
                 <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Search by destination"
-                    android:id="@+id/editTextDestination"
-                    android:layout_weight="0.9"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_search_category_default"
-                    android:layout_weight="0.1"/>
+                    android:id="@+id/editTextUser"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:hint="Search by user"
+                    android:textColorHint="@color/color_hint"
+                    android:textSize="20sp"
+                    android:layout_weight="0.9"
+                    android:background="@color/screen_background_holo_light"
+                    />
 
             </LinearLayout>
 

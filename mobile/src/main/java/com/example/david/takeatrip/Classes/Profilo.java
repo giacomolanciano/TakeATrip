@@ -52,4 +52,9 @@ public class Profilo {
     public void setDataNascita(Date dataNascita) {
         this.dataNascita = dataNascita;
     }
+
+    public String toString() {
+        return getName() + " " + getSurname() + " " + getEmail();
+    }
+
 }

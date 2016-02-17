@@ -85,15 +85,21 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <!--TableLayout
+                    android:id="@+id/tableLayout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:shrinkColumns="*"
+                    android:stretchColumns="*" >
+                </TableLayout-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:id="@+id/LayoutPartecipantsAdded">
+                    android:orientation="vertical"
+                    android:id="@+id/layoutPartecipants"
+                    ></LinearLayout>
 
-
-
-                </LinearLayout>
 
 
 

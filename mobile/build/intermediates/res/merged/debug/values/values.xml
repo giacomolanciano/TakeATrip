@@ -95,6 +95,9 @@
     <color name="bright_foreground_material_light">@android:color/black</color>
     <color name="button_material_dark">#ff5a595b</color>
     <color name="button_material_light">#ffd6d7d7</color>
+    <!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/res/values/color.xml -->
+    <eat-comment/>
+    <color name="color_hint">#BDBDBD</color>
     <!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/values/base_colors.xml -->
     <eat-comment/>
     <color name="common_action_bar_splitter">#d2d2d2</color>
@@ -179,6 +182,11 @@
     <eat-comment/>
     <color name="ripple_material_dark">#42ffffff</color>
     <color name="ripple_material_light">#1f000000</color>
+    <!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/res/values/colors.xml -->
+    <eat-comment/>
+    <color name="screen_background_holo_light">#fff3f3f5</color>
+    <!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml -->
+    <eat-comment/>
     <color name="secondary_text_default_material_dark">#b3ffffff</color>
     <color name="secondary_text_default_material_light">#8a000000</color>
     <color name="secondary_text_disabled_material_dark">#36ffffff</color>
