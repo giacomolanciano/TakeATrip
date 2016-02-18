@@ -217,8 +217,15 @@ public class MainActivity extends AppCompatActivity {
     public void onClickCancelButton(View v){
         //TODO: eliminare layout esistente
         layoutNewTravel.setVisibility(View.INVISIBLE);
-        layoutNewTravel.destroyDrawingCache();
-        layoutNewTravel = (FrameLayout) findViewById(R.id.FrameNewTravel);
+
+        namesPartecipants.clear();
+        partecipants.clear();
+        layoutNewPartecipants.removeAllViews();
+        editTextNameTravel.setText("");
+
+        Log.i("TEST", "lista nomi partecipanti:" + namesPartecipants);
+        Log.i("TEST", "lista partecipanti:" + partecipants);
+
     }
 
 
