@@ -27,6 +27,9 @@ On the 18-th of January we presented our work to the staff.
 * Path registration and storing
 * UI for journey advices and path planning
 
+* [Pilot application apk file](https://drive.google.com/open?id=0B-jeZ3u4QMn1dlVic2xxV3g2aW8)
+
+
 # Milestone 3 - Final
 * Journey advice system based on a social network
 * UI for experiences sharing
