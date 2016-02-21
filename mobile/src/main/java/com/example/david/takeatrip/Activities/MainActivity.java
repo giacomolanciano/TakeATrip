@@ -254,6 +254,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void onClickSocialButton(View v){
+        Intent intent = new Intent(MainActivity.this, SocialActivity.class);
+        startActivity(intent);
+    }
+
+
+
+
     private class MyTask extends AsyncTask<Void, Void, Void> {
 
         InputStream is = null;

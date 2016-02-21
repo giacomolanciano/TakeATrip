@@ -102,6 +102,10 @@
         </activity>
         <activity android:name="com.example.david.takeatrip.Activities.SearchActivity" >
         </activity>
+        <activity
+            android:name="com.example.david.takeatrip.Activities.SocialActivity"
+            android:theme="@style/Widget.AppCompat.ActionBar.Solid" >
+        </activity>
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
