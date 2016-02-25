@@ -90,8 +90,9 @@
         </activity>
         <activity android:name=".Activities.SearchActivity" >
         </activity>
-        <activity android:name=".Activities.SocialActivity"
-            android:theme="@style/Widget.AppCompat.ActionBar.Solid">
+        <activity
+            android:name=".Activities.SocialActivity"
+            android:theme="@style/Widget.AppCompat.ActionBar.Solid" >
         </activity>
     </application>
 

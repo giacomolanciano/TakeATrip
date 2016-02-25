@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public class LoginActivity extends Activity {
 
     private final String ADDRESS_VERIFICA_LOGIN = "http://www.musichangman.com/TakeATrip/InserimentoDati/VerificaLogin.php";
@@ -43,9 +44,6 @@ public class LoginActivity extends Activity {
     private TextView btnRegistrati;
     private Button btnAccedi;
     private ImageView miaImmagine;
-
-
-
 
     private EditText campoEmail, campoPassword;
     private String email, password, nome, cognome, data;

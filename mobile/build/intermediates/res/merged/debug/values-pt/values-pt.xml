@@ -54,6 +54,9 @@
     <string msgid="311697239335516384" name="common_open_on_phone">"Abrir no smartphone"</string>
     <string msgid="3156914698180786012" name="common_signin_button_text">"Fazer login"</string>
     <string msgid="1483290677806110088" name="common_signin_button_text_long">"Fazer login com o Google"</string>
+    <!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.1.0/res/values-pt/values.xml -->
+    <eat-comment/>
+    <string name="messenger_send_button_text">Enviar</string>
     <!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/23.0.0/res/values-pt/values-pt.xml -->
     <eat-comment/>
     <string msgid="8327680881775995150" name="mr_media_route_button_content_description">"Transmitir"</string>
