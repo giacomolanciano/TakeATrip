@@ -42,6 +42,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA1YAGqN4CRpchUly-R5MkllvnM99I872A" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
         <activity
             android:name="com.example.david.takeatrip.Activities.LoginActivity"
@@ -106,6 +109,12 @@
             android:name="com.example.david.takeatrip.Activities.SocialActivity"
             android:theme="@style/Widget.AppCompat.ActionBar.Solid" >
         </activity>
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"

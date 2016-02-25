@@ -1,9 +1,11 @@
 package com.example.david.takeatrip.Activities;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +17,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
+import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.Scopes;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.common.api.Status;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -32,14 +57,21 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends AppCompatActivity implements
+        GoogleApiClient.OnConnectionFailedListener,View.OnClickListener {
 
     private final String ADDRESS_VERIFICA_LOGIN = "http://www.musichangman.com/TakeATrip/InserimentoDati/VerificaLogin.php";
+    private static final int RC_SIGN_IN = 9001;
+    private static final String WEBAPP_ID   = "272164392045-84rf9p4med24s1i0u6shu13fiila6k1e.apps.googleusercontent.com";
 
+    private GoogleApiClient mGoogleApiClient;
+    private ProgressDialog mProgressDialog;
+    private SignInButton signInButton;
 
     private TextView btnRegistrati;
     private Button btnAccedi;
@@ -48,21 +80,119 @@ public class LoginActivity extends Activity {
     private EditText campoEmail, campoPassword;
     private String email, password, nome, cognome, data;
 
+    LoginButton blogin;
+    AccessToken accessToken;
+    AccessTokenTracker tracker;
+    ProfileTracker profileTracker;
+    Profile profile;
+
+    private CallbackManager callbackManager;
+
+    private FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
+        @Override
+        public void onSuccess(LoginResult loginResult) {
+            accessToken = loginResult.getAccessToken();
+            if(accessToken != null){
+                Log.i("TEST", "accessToken:" +  "user id: " + accessToken.getUserId() + "  token: " + accessToken.getToken());
+            }
+            profile = Profile.getCurrentProfile();
+            if(profile != null){
+                Toast.makeText(getBaseContext(), "profile" + profile.getId(), Toast.LENGTH_LONG);
+            }
+
+            Log.i("TEST", "onSuccess!");
+
+            //DisplayMessage(profile);
+        }
+
+        @Override
+        public void onCancel() {
+        }
+
+        @Override
+        public void onError(FacebookException e) {
+            Log.e(e.toString().toUpperCase(), e.getMessage());
+        }
+    };
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+
+
+
         setContentView(R.layout.activity_login);
-      /*  miaImmagine = (ImageView) findViewById(R.id.image);
-        miaImmagine.setImageResource(R.drawable.ImmagineEsempio);*/
-
-
 
         campoEmail = (EditText) findViewById(R.id.campoEmail);
         campoPassword = (EditText) findViewById(R.id.campoPassword);
 
 
+        tracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken old, AccessToken newToken) {
+                Log.i("TEST", "onCurrentAccessTokenChanged");
+                accessToken = newToken;
+                if(accessToken != null){
+                    Log.i("TEST", "accessToken:" +  "user id: " + accessToken.getUserId() +"  token: " + accessToken.getToken());
+                }
+            }
+        };
+
+        profileTracker = new ProfileTracker() {
+            @Override
+            protected void onCurrentProfileChanged(Profile oldProfile, Profile newProfile) {
+                profile = newProfile;
+                Log.i("TEST", "Profile changed");
+                if(profile!=null){
+                    Toast.makeText(getBaseContext(), "profile" + profile.getId(), Toast.LENGTH_LONG);
+
+                }
+            }
+        };
+
+        // If the access token is available already assign it.
+        accessToken = AccessToken.getCurrentAccessToken();
+        if(accessToken != null){
+            Log.i("TEST", "accessToken:" +  "user id: " + accessToken.getUserId() +"  token: " + accessToken.getToken());
+            //Intent openAccedi = new Intent(LoginActivity.this, MainActivity.class);
+            //startActivity(openAccedi);
+        }
+        Log.i("TEST", "accessToken:" );
+
+
+        tracker.startTracking();
+        profileTracker.startTracking();
+
+
+
+
+        /*
+
+        //Sign-in with Google
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(WEBAPP_ID)
+                .requestEmail()
+                .build();
+
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+
+
+        signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        signInButton.setScopes(gso.getScopeArray());
+        signInButton.setOnClickListener(this);
+
+
+
+        */
 
 
 
@@ -98,24 +228,128 @@ public class LoginActivity extends Activity {
                             .show();
                 } else {
 
-
                     //verifica se l'utente ha inserito i dati correttamente (matching con il DB)
                     new MyTask().execute();
 
-
-
-                    /*
-                    // definisco l'intenzione
-                    Intent openAccedi = new Intent(LoginActivity.this, ProfiloActivity.class);
-                    // passo all'attivazione dell'activity
-                    startActivity(openAccedi);
-                    */
                 }
             }
 
 
         });
     }
+
+
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        blogin = (LoginButton) findViewById(R.id.LoginButtonFb);
+        blogin.setReadPermissions("user_friends");
+        blogin.setReadPermissions(Arrays.asList("user_status"));
+        blogin.registerCallback(callbackManager, callback);
+    }
+
+
+
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
+        /*
+
+        if (requestCode == RC_SIGN_IN) {
+            if (!mGoogleApiClient.isConnecting() &&
+                    !mGoogleApiClient.isConnected()) {
+                mGoogleApiClient.connect();
+            }
+
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            Log.i("TEST", "result: " + result.toString());
+            handleSignInResult(result);
+        }
+        else{
+        }
+*/
+    }
+
+
+    protected void handleSignInResult(GoogleSignInResult result) {
+        Log.i("TEST", "handleSignInResult:" + result.isSuccess());
+        Log.i("TEST", "status:" + result.getStatus().toString());
+
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
+            //acct.getEmail();
+
+
+        } else {
+            // Signed out, show unauthenticated UI.
+        }
+    }
+
+    private void signIn() {
+        if (!mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.connect();
+        }
+        Log.i("TEST", "status ApiClient:" + mGoogleApiClient.isConnected());
+
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+
+
+    /*
+    public void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+        if (opr.isDone()) {
+            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+            // and the GoogleSignInResult will be available instantly.
+            Log.d("TEST", "Got cached sign-in");
+            GoogleSignInResult result = opr.get();
+            handleSignInResult(result);
+        } else {
+            // If the user has not previously signed in on this device or the sign-in has expired,
+            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
+            // single sign-on will occur in this branch.
+            showProgressDialog();
+            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                @Override
+                public void onResult(GoogleSignInResult googleSignInResult) {
+                    hideProgressDialog();
+                    handleSignInResult(googleSignInResult);
+                }
+            });
+        }
+    }
+    */
+
+
+    /*
+
+    protected void onStop() {
+        super.onStop();
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+    }
+
+*/
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        tracker.stopTracking();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -135,7 +369,6 @@ public class LoginActivity extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -153,6 +386,21 @@ public class LoginActivity extends Activity {
         return isValid;
     }
 
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Log.d("TEST", "onConnectionFailed:" + connectionResult);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.sign_in_button:
+                signIn();
+                break;
+
+        }
+    }
 
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
@@ -164,10 +412,6 @@ public class LoginActivity extends Activity {
 
         @Override
         protected Void doInBackground(Void... params) {
-
-
-
-
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("email", email));
             dataToSend.add(new BasicNameValuePair("password", password));
@@ -223,14 +467,6 @@ public class LoginActivity extends Activity {
                     else {
                         Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
                     }
-
-
-
-
-
-
-
-
                 }
                 else
                     Log.e("CONNESSIONE Internet", "Assente!");
@@ -282,6 +518,25 @@ public class LoginActivity extends Activity {
 
             super.onPostExecute(aVoid);
 
+        }
+    }
+
+
+
+
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
         }
     }
 

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_id": "takeatrip-ed1d1",
+    "project_number": "272164392045",
+    "name": "TakeATrip"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:272164392045:android:36c7cba02e592ed8",
+        "client_id": "android:com.example.david.takeatrip",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.example.david.takeatrip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "272164392045-42unuj5k43vqden7pfhm4e63o5c72sf6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.david.takeatrip",
+            "certificate_hash": "FF88A7FEEB898F1FEF80FB330B8A8A33DB87015C"
+          }
+        },
+        {
+          "client_id": "272164392045-84rf9p4med24s1i0u6shu13fiila6k1e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

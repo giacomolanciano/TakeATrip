@@ -30,23 +30,18 @@
 
 
                     <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="336dp"
+                        android:layout_width="200dp"
+                        android:layout_height="300dp"
+                        android:layout_gravity="center_horizontal"
                         android:id="@+id/image"
                         android:src="@drawable/logodef"/>
 
                     <EditText
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
-                        android:ems="10"
                         android:id="@+id/campoEmail"
-                        android:hint="@string/Email"
-                        android:layout_above="@+id/campoPassword"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true" />
+                        android:hint="@string/Email" />
 
                     <EditText
                         android:layout_width="wrap_content"
@@ -57,10 +52,6 @@
                         android:hint="@string/Password"
                         android:layout_centerVertical="true"
                         android:password="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignRight="@+id/campoEmail"
-                        android:layout_alignEnd="@+id/campoEmail"
                         />
 
 
@@ -74,26 +65,50 @@
                     android:orientation="vertical"
                     android:weightSum="1">
 
-
-                    <Button
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="@string/Login"
-                        android:id="@+id/Accedi"
-                        android:layout_weight="0.5"/>
-
-
-                    <TextView
-                        style="?android:attr/buttonStyleSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:text="@string/Registration"
-                        android:id="@+id/Registrati"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:layout_weight="0.5"
+                        android:weightSum="1">
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="@string/Login"
+                            android:id="@+id/Accedi"
+                            android:layout_weight="0.5"/>
+
+
+                        <TextView
+                            style="?android:attr/buttonStyleSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:text="@string/Register"
+                            android:id="@+id/Registrati"
+                            android:layout_weight="0.5"
+                            />
+
+
+                    </LinearLayout>
+
+
+                        <com.facebook.login.widget.LoginButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/LoginWithFb"
+                            android:id="@+id/LoginButtonFb"
+                            />
+
+                    <com.google.android.gms.common.SignInButton
+                        android:id="@+id/sign_in_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/LoginWithGoogle"
                         />
-
-
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>

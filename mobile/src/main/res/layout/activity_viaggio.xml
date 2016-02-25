@@ -21,7 +21,7 @@
                 android:id="@+id/layoutCoverImageTravel"
                 android:layout_weight="0.7"
                 android:weightSum="1"
-                android:background="@drawable/sfondo_nuvole1"
+                android:background="@drawable/empty_image"
                 android:onClick="onClickImageTravel">
 
 
@@ -67,7 +67,7 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_gravity="right"
-                        android:src="@drawable/profile_default"
+                        android:src="@drawable/logodef"
                         android:onClick="onClickImagePartecipant"/>
 
                     <android.support.design.widget.FloatingActionButton

@@ -35,6 +35,7 @@ import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
+import com.facebook.appevents.AppEventsLogger;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -126,6 +127,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+        AppEventsLogger.activateApp(this);
+    }
+
+    protected void onPause() {
+        super.onPause();
+
+        // Logs 'app deactivate' App Event.
+        AppEventsLogger.deactivateApp(this);
+    }
 
 
 

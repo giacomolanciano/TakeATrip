@@ -494,6 +494,8 @@
     <string name="InsertNameTravel">Name of Travel</string>
     <string name="Login">Login</string>
     <string name="LoginError">Incorrect Data</string>
+    <string name="LoginWithFb">Login with Facebook</string>
+    <string name="LoginWithGoogle">Login with Google</string>
     <string name="Name">Name</string>
     <string name="Partecipants">Partecipants</string>
     <string name="Password">Password</string>
@@ -613,6 +615,8 @@
     <eat-comment/>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="facebook_app_id">1024572710947061</string>
+    <string name="google_app_id">854482298731</string>
     <!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.1.0/res/values/values.xml -->
     <eat-comment/>
     <string name="messenger_send_button_text">Send</string>

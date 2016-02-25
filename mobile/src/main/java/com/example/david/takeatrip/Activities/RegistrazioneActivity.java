@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 
 
 
-public class RegistrazioneActivity extends AppCompatActivity {
+public class  RegistrazioneActivity extends AppCompatActivity {
 
     private final String ADDRESS_INSERIMENTO_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoProfilo.php";
     private final String ADDRESS_UPDATE_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/UpdateProfilo.php";
