@@ -188,6 +188,20 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
 
+                data = String.valueOf(pickerYear.getValue()) + "-";
+                if((month = pickerMonth.getValue()) < TEN) {
+                    data += "0" + month + "-";
+                }
+                else {
+                    data += month + "-";
+                }
+                if((day = pickerDay.getValue()) < TEN) {
+                    data += "0" + day;
+                }
+                else {
+                    data += day;
+                }
+
 
                 if (!update) {
                     nome = campoNome.getText().toString();
@@ -195,21 +209,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                     email = campoEmail.getText().toString();
                     password = campoPassword.getText().toString();
                     confermaPassword = campoConfermaPassword.getText().toString();
-
-
-                    data = String.valueOf(pickerYear.getValue()) + "-";
-                    if((month = pickerMonth.getValue()) < TEN) {
-                        data += "0" + month + "-";
-                    }
-                    else {
-                        data += month + "-";
-                    }
-                    if((day = pickerDay.getValue()) < TEN) {
-                        data += "0" + day;
-                    }
-                    else {
-                        data += day;
-                    }
+                    Log.i("TEST", "dati modificati: " + nome +" " + cognome + " " + data +" "+  email + " "+ password+" "+ nuovaPassword);
 
 
                     //Toast.makeText(getBaseContext(), data, Toast.LENGTH_LONG).show();
@@ -243,6 +243,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                     vecchiaPassword = PasswordHashing.sha1Hash(campoVecchiaPassword.getText().toString());
                     nuovaPassword = campoNuovaPassword.getText().toString();
                     confermaNuovaPassword = campoConfermaNuovaPassword.getText().toString();
+                    Log.i("TEST", "dati modificati: " + nome +" " + cognome + " " + data +" "+  email + " "+ password+" "+ nuovaPassword);
 
 
                     if(confermaCredenziali(nuovaPassword, confermaNuovaPassword)) {
@@ -351,6 +352,8 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                 dataToSend.add(new BasicNameValuePair("password", password));
 
 
+            Log.i("TEST", "dati modificati: " + nome +" " + cognome + " " + data +" "+  email + " "+ password+" "+ nuovaPassword);
+
             try {
                 if (InternetConnection.haveInternetConnection(RegistrazioneActivity.this)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
@@ -450,11 +453,6 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
                             if(json_data != null){
                                 stringaFinale = json_data.getString("email").toString() + " " + json_data.getString("password").toString();
-                                email = json_data.getString("email").toString();
-                                nome =  json_data.getString("nome").toString();
-                                cognome = json_data.getString("cognome").toString();
-                                data = json_data.getString("dataNascita").toString();
-
                             }
 
 
