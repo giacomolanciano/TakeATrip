@@ -15,14 +15,22 @@ import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.PasswordHashing;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,6 +41,8 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
     private final String ADDRESS_INSERIMENTO_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoProfilo.php";
     private final String ADDRESS_UPDATE_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/UpdateProfilo.php";
+    private final String ADDRESS_VERIFICA_LOGIN = "http://www.musichangman.com/TakeATrip/InserimentoDati/VerificaLogin.php";
+
 
     private boolean update;
 
@@ -56,11 +66,15 @@ public class  RegistrazioneActivity extends AppCompatActivity {
     private EditText campoCognome;
     private EditText campoEmail;
     private EditText campoPassword;
+    private EditText campoConfermaPassword;
     private EditText campoData;
+    private EditText campoVecchiaPassword;
+    private EditText campoNuovaPassword;
+    private EditText campoConfermaNuovaPassword;
 
     private String data;
 
-    private String nome, cognome, email, password;
+    private String nome, cognome, email, password, confermaPassword, vecchiaPassword, nuovaPassword, confermaNuovaPassword;
     private String previousEmail;
 
     private NumberPicker pickerYear, pickerMonth, pickerDay;
@@ -71,13 +85,47 @@ public class  RegistrazioneActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registrazione);
+
+        update = false;
+        Intent intent = getIntent();
+        if(intent != null){
+            nome = intent.getStringExtra("name");
+            cognome = intent.getStringExtra("surname");
+            email = intent.getStringExtra("email");
+            data = intent.getStringExtra("date");
+
+            if(nome != null || cognome != null || email != null || data != null){
+                update = true;
+
+                setContentView(R.layout.edit_info);
+
+                campoVecchiaPassword = (EditText) findViewById(R.id.VecchiaPassword);
+                campoNuovaPassword = (EditText) findViewById(R.id.NuovaPassword);
+                campoConfermaNuovaPassword = (EditText) findViewById(R.id.ConfermaNuovaPassword);
+
+                String[] splittedDate = data.split("-");
+                year = Integer.parseInt(splittedDate[0]);
+                month = Integer.parseInt(splittedDate[1]);
+                day = Integer.parseInt(splittedDate[2]);
+
+                previousEmail = email;
+            } else {
+                setContentView(R.layout.activity_registrazione);
+            }
+
+
+        } else {
+            setContentView(R.layout.activity_registrazione);
+        }
 
 
         campoNome = (EditText) findViewById(R.id.Nome);
         campoCognome = (EditText) findViewById(R.id.Cognome);
         campoEmail = (EditText) findViewById(R.id.Email);
         campoPassword = (EditText) findViewById(R.id.Password);
+        campoConfermaPassword = (EditText) findViewById(R.id.ConfermaPassword);
+
+
 
 
         pickerYear = (NumberPicker)findViewById(R.id.pickerYear);
@@ -102,15 +150,13 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
 
 
-        update = false;
+        /*update = false;
         Intent intent = getIntent();
         if(intent != null){
             nome = intent.getStringExtra("name");
             cognome = intent.getStringExtra("surname");
             email = intent.getStringExtra("email");
             data = intent.getStringExtra("date");
-            password = intent.getStringExtra("pwd");
-
 
             if(nome != null || cognome != null || email != null || data != null){
                 update = true;
@@ -124,14 +170,13 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             }
 
 
-        }
+        }*/
 
         if(update) {
             campoNome.setText(nome);
             campoCognome.setText(cognome);
             campoEmail.setText(email);
             campoEmail.setEnabled(false);
-            campoPassword.setText(password);
             pickerYear.setValue(year);
             pickerMonth.setValue(month);
             pickerDay.setValue(day);
@@ -143,58 +188,80 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
 
-                nome = campoNome.getText().toString();
-                cognome = campoCognome.getText().toString();
-                email = campoEmail.getText().toString();
-                password = campoPassword.getText().toString();
+
+                if (!update) {
+                    nome = campoNome.getText().toString();
+                    cognome = campoCognome.getText().toString();
+                    email = campoEmail.getText().toString();
+                    password = campoPassword.getText().toString();
+                    confermaPassword = campoConfermaPassword.getText().toString();
 
 
-                data = String.valueOf(pickerYear.getValue()) + "-";
-                if((month = pickerMonth.getValue()) < TEN) {
-                    data += "0" + month + "-";
-                }
-                else {
-                    data += month + "-";
-                }
-                if((day = pickerDay.getValue()) < TEN) {
-                    data += "0" + day;
-                }
-                else {
-                    data += day;
-                }
+                    data = String.valueOf(pickerYear.getValue()) + "-";
+                    if((month = pickerMonth.getValue()) < TEN) {
+                        data += "0" + month + "-";
+                    }
+                    else {
+                        data += month + "-";
+                    }
+                    if((day = pickerDay.getValue()) < TEN) {
+                        data += "0" + day;
+                    }
+                    else {
+                        data += day;
+                    }
 
 
-                //Toast.makeText(getBaseContext(), data, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getBaseContext(), data, Toast.LENGTH_LONG).show();
 
 
-                boolean emailValida = isEmailValida(email);
-                if (!emailValida) {
+                    if(confermaCredenziali(password, confermaPassword)){
 
-                    Toast.makeText(getBaseContext(), "Attenzione! \nL'email inserita non è valida!", Toast.LENGTH_LONG).show();
-                } else if (password.length() < MAX_LENGTH_PWD) {
-                    Toast.makeText(getBaseContext(), "Attenzione! \nLa password deve contenere almeno 5 caratteri!", Toast.LENGTH_LONG).show();
-                } else if (nome.length()==0 ) {
-                    Toast.makeText(getBaseContext(), "Attenzione! \nInserire il nome!", Toast.LENGTH_LONG).show();
-                }else if (cognome.length()==0) {
-                    Toast.makeText(getBaseContext(), "Attenzione! \nInserire il cognome!", Toast.LENGTH_LONG).show();
+                        password = PasswordHashing.sha1Hash(campoPassword.getText().toString());
+
+                        new MyTask().execute();
+
+
+                        // definisco l'intenzione
+                        Intent openProfilo = new Intent(RegistrazioneActivity.this, MainActivity.class);
+                        openProfilo.putExtra("name", nome);
+                        openProfilo.putExtra("surname", cognome);
+                        openProfilo.putExtra("email", email);
+                        openProfilo.putExtra("dateOfBirth", data);
+                        openProfilo.putExtra("pwd", password);
+
+                        // passo all'attivazione dell'activity
+                        startActivity(openProfilo);
+
+                        //onDestroy();
+                    }
                 } else {
 
+                    nome = campoNome.getText().toString();
+                    cognome = campoCognome.getText().toString();
+                    email = campoEmail.getText().toString();
+                    vecchiaPassword = PasswordHashing.sha1Hash(campoVecchiaPassword.getText().toString());
+                    nuovaPassword = campoNuovaPassword.getText().toString();
+                    confermaNuovaPassword = campoConfermaNuovaPassword.getText().toString();
 
-                    new MyTask().execute();
 
+                    if(confermaCredenziali(nuovaPassword, confermaNuovaPassword)) {
 
-                    // definisco l'intenzione
-                    Intent openProfilo = new Intent(RegistrazioneActivity.this, MainActivity.class);
-                    openProfilo.putExtra("name", nome);
-                    openProfilo.putExtra("surname", cognome);
-                    openProfilo.putExtra("email", email);
-                    openProfilo.putExtra("dateOfBirth", data);
-                    openProfilo.putExtra("pwd", password);
+                        nuovaPassword = PasswordHashing.sha1Hash(campoNuovaPassword.getText().toString());
 
-                    // passo all'attivazione dell'activity
-                    startActivity(openProfilo);
+                        new MyTaskUpdate().execute();
 
-                    //onDestroy();
+                        Intent openProfilo = new Intent(RegistrazioneActivity.this, MainActivity.class);
+                        openProfilo.putExtra("name", nome);
+                        openProfilo.putExtra("surname", cognome);
+                        openProfilo.putExtra("email", email);
+                        openProfilo.putExtra("dateOfBirth", data);
+                        openProfilo.putExtra("pwd", nuovaPassword);
+
+                        // passo all'attivazione dell'activity
+                        startActivity(openProfilo);
+                    }
+
                 }
             }
         });
@@ -243,6 +310,28 @@ public class  RegistrazioneActivity extends AppCompatActivity {
     }
 
 
+    private boolean confermaCredenziali(String password, String confermaPassword) {
+        boolean result = false;
+
+        boolean emailValida = isEmailValida(email);
+        if (!emailValida) {
+            Toast.makeText(getBaseContext(), "Attenzione! \nL'email inserita non è valida!", Toast.LENGTH_LONG).show();
+        } else if (password.length() < MAX_LENGTH_PWD) {
+            Toast.makeText(getBaseContext(), "Attenzione! \nLa password deve contenere almeno 5 caratteri!", Toast.LENGTH_LONG).show();
+        } else if (nome.length()==0 ) {
+            Toast.makeText(getBaseContext(), "Attenzione! \nInserire il nome!", Toast.LENGTH_LONG).show();
+        }else if (cognome.length()==0) {
+            Toast.makeText(getBaseContext(), "Attenzione! \nInserire il cognome!", Toast.LENGTH_LONG).show();
+        } else if (!password.equals(confermaPassword)) {
+            Toast.makeText(getBaseContext(), "Attenzione! \nLa password non è stata confermata!", Toast.LENGTH_LONG).show();
+        }else {
+            result = true;
+        }
+
+        return result;
+
+    }
+
 
 
 
@@ -256,7 +345,10 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             dataToSend.add(new BasicNameValuePair("cognome", cognome));
             dataToSend.add(new BasicNameValuePair("dataNascita",data));
             dataToSend.add(new BasicNameValuePair("email", email));
-            dataToSend.add(new BasicNameValuePair("password", password));
+            if(update)
+                dataToSend.add(new BasicNameValuePair("password", nuovaPassword));
+            else
+                dataToSend.add(new BasicNameValuePair("password", password));
 
 
             try {
@@ -312,29 +404,68 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
     private class MyTaskUpdate extends AsyncTask<Void, Void, Void> {
 
+        InputStream is = null;
+        String result, stringaFinale = "";
+
+
+
         @Override
         protected Void doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("nome", nome));
-            dataToSend.add(new BasicNameValuePair("cognome", cognome));
-            dataToSend.add(new BasicNameValuePair("dataNascita",data));
             dataToSend.add(new BasicNameValuePair("email", email));
-            dataToSend.add(new BasicNameValuePair("password", password));
+            dataToSend.add(new BasicNameValuePair("password", vecchiaPassword));
+
+
 
 
             try {
                 if (InternetConnection.haveInternetConnection(RegistrazioneActivity.this)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(ADDRESS_INSERIMENTO_UTENTE);
-
-
-
+                    HttpPost httppost = new HttpPost(ADDRESS_VERIFICA_LOGIN);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                    HttpResponse response = httpclient.execute(httppost);
+
+                    HttpEntity entity = response.getEntity();
+
+                    is = entity.getContent();
+
+                    if (is != null) {
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+
+
+                            JSONArray jArray = new JSONArray(result);
+                            //for(int i=0;i<jArray.length();i++){
+                            JSONObject json_data = jArray.getJSONObject(0);
+
+                            if(json_data != null){
+                                stringaFinale = json_data.getString("email").toString() + " " + json_data.getString("password").toString();
+                                email = json_data.getString("email").toString();
+                                nome =  json_data.getString("nome").toString();
+                                cognome = json_data.getString("cognome").toString();
+                                data = json_data.getString("dataNascita").toString();
+
+                            }
 
 
 
-                    httpclient.execute(httppost);
+                        } catch (Exception e) {
+                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    }
                 }
                 else
                     Log.e("CONNESSIONE Internet", "Assente!");
@@ -350,10 +481,21 @@ public class  RegistrazioneActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            //Toast.makeText(getBaseContext(), "ID facebook: " + profile.getId(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(getBaseContext(), "Stringa finale: " + stringaFinale, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getBaseContext(), "Stringa finale: " + stringaFinale, Toast.LENGTH_LONG).show();
+
+
+            if(stringaFinale == ""){
+                Toast.makeText(getBaseContext(), getResources().getString(R.string.LoginError), Toast.LENGTH_LONG).show();
+            }
+            else{
+
+                new MyTask().execute();
+
+            }
+
             //Toast.makeText(getBaseContext(), "name facebook: " + profile.getName(), Toast.LENGTH_LONG).show();
 
-            //Toast.makeText(getBaseContext(), "caricati i dati sul DB " + nome + " " + cognome + " " + data + " " + email + " " + password , Toast.LENGTH_SHORT).show();
 
 
 

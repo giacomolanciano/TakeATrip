@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.PasswordHashing;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -227,6 +228,10 @@ public class LoginActivity extends AppCompatActivity implements
                     Toast.makeText(getBaseContext(), "Attenzione! \nLa password deve contenere almeno 5 caratteri!", Toast.LENGTH_LONG)
                             .show();
                 } else {
+
+                    password = PasswordHashing.sha1Hash(campoPassword.getText().toString());
+
+                    Log.i("TEST", "hash password: " + password);
 
                     //verifica se l'utente ha inserito i dati correttamente (matching con il DB)
                     new MyTask().execute();
