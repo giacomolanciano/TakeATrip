@@ -48,14 +48,14 @@ import java.util.Set;
 
 public class SearchActivity extends AppCompatActivity {
 
-
     private final String ADDRESS = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryNomiUtenti.php";
     private final String ADDRESS_PER_VIAGGI_DA_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryViaggiDiUtente.php";
     private final String ADDRESS_PER_VIAGGI_DA_DESTINAZIONE = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryViaggiDaDestinazione.php";
 
-
-
     private String nomeScelto, cognomeScelto, destination;
+    private String emailUtente;
+
+
 
     private AutoCompleteTextView editTextUser;
     List<String> users, destinations;
@@ -71,6 +71,10 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        Intent intent;
+        if((intent = getIntent()) != null){
+            emailUtente = intent.getStringExtra("email");
+        }
 
         editTextUser = (AutoCompleteTextView) findViewById(R.id.editTextUser);
 
@@ -165,7 +169,7 @@ public class SearchActivity extends AppCompatActivity {
 
 
                 Intent intent = new Intent(SearchActivity.this, ViaggioActivity.class);
-                //intent.putExtra("email", email);
+                intent.putExtra("email", emailUtente);
                 intent.putExtra("codiceViaggio", viaggio.getCodice());
                 intent.putExtra("nomeViaggio", viaggio.getNome());
 
@@ -347,7 +351,7 @@ public class SearchActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Log.i("TEST", "Mappa mappaProvvisoria:" +mappaProvvisoria);
+            Log.i("TEST", "mappaProvvisoria:" +mappaProvvisoria);
 
             PopolaLista(mappaProvvisoria);
             autocompleteFragment.setText("");
@@ -421,11 +425,11 @@ public class SearchActivity extends AppCompatActivity {
 
 
                         } catch (Exception e) {
-                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                            Log.e("TEST", "Errore nel risultato o nel convertire il risultato");
                         }
                     }
                     else {
-                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                        Log.e("TEST", "Input Stream uguale a null");
                     }
 
                 }

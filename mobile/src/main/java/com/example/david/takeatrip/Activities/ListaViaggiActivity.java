@@ -79,6 +79,8 @@ public class ListaViaggiActivity extends AppCompatActivity {
         Intent intent;
         if((intent = getIntent()) != null){
             email = intent.getStringExtra("email");
+            Log.i("TEST", "email utente in lista viaggi: " + email);
+
         }
 
 
@@ -182,28 +184,40 @@ public class ListaViaggiActivity extends AppCompatActivity {
 
                         String result = sb.toString();
 
-                        JSONArray jArray = new JSONArray(result);
+                        Log.i("TEST", "result da queryViaggi: " + result);
 
-                        if(jArray != null && result != null){
-                            for(int i=0;i<jArray.length();i++){
-                                JSONObject json_data = jArray.getJSONObject(i);
-                                String codiceViaggio = json_data.getString("codiceViaggio").toString();
-                                String nomeViaggio = json_data.getString("nomeViaggio").toString();
-                                viaggi.add(new Viaggio(codiceViaggio, nomeViaggio));
+
+                        if(result.equals("null\n")){
+                            //TODO: convertire in values
+                            stringaFinale = "Non sono presenti viaggi";
+                            Log.i("TEST", "result da queryViaggi: " + stringaFinale);
+
+                        }
+                        else{
+                            JSONArray jArray = new JSONArray(result);
+
+                            if(jArray != null && result != null){
+                                for(int i=0;i<jArray.length();i++){
+                                    JSONObject json_data = jArray.getJSONObject(i);
+                                    String codiceViaggio = json_data.getString("codiceViaggio").toString();
+                                    String nomeViaggio = json_data.getString("nomeViaggio").toString();
+                                    viaggi.add(new Viaggio(codiceViaggio, nomeViaggio));
+                                }
                             }
+
+                            Log.i("TEST", "lista viaggi di " + email + ": " + viaggi);
                         }
 
 
                     } catch (Exception e) {
-                        Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        Log.e("TEST", "Errore nel risultato o nel convertire il risultato");
                     }
                 } else {
-                    Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    Log.e("TEST", "Input Stream uguale a null");
                 }
 
             } catch (Exception e) {
-                Toast.makeText(getBaseContext(), "Errore nella connessione http " + e.toString(), Toast.LENGTH_LONG).show();
-                //Log.e("TEST", "Errore nella connessione http "+e.toString());
+                Log.e("TEST", "Errore nella connessione http "+e.toString());
             }
 
             return null;
@@ -212,11 +226,17 @@ public class ListaViaggiActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            //popolamento della ListView
-            //Toast.makeText(getBaseContext(), "stringa risultante: " + stringaFinale, Toast.LENGTH_LONG).show();
-            PopolaLista();
-
             ViewCaricamentoInCorso.setVisibility(View.INVISIBLE);
+
+
+            if(stringaFinale.equals("")) {
+                PopolaLista();
+            }
+            else{
+                //TODO: creare un dialog più carino, con la possibiltà di aggiungere da qui un nuovo viaggio
+                Toast.makeText(getBaseContext(), stringaFinale, Toast.LENGTH_LONG).show();
+            }
+
 
             super.onPostExecute(aVoid);
 

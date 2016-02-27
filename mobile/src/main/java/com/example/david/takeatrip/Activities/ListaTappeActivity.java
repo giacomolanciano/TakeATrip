@@ -123,10 +123,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
         ViewNomeViaggio.setText(nomeViaggio);
 
-        MyTask mT = new MyTask();
-        mT.execute();
-
-
     }
 
 
@@ -136,6 +132,9 @@ public class ListaTappeActivity extends AppCompatActivity
         if(!mGoogleApiClient.isConnected()) {
             mGoogleApiClient.connect();
         }
+        MyTask mT = new MyTask();
+        mT.execute();
+
     }
 
 
@@ -276,11 +275,10 @@ public class ListaTappeActivity extends AppCompatActivity
                             googleMap.addMarker(new MarkerOptions()
                                     .title(place.getName().toString())
                                     .position(place.getLatLng()));
+                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 5));
 
-                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 5) );
 
-
-                            if(nomiTappe.size() == tappe.size()){
+                            if (nomiTappe.size() == tappe.size()) {
                                 Log.i("TEST", "nomi tappe: " + nomiTappe);
                                 CreaMenu(tappe, nomiTappe);
                             }
@@ -318,6 +316,17 @@ public class ListaTappeActivity extends AppCompatActivity
     }
 
 
+
+    public void onClickAddStop(View v){
+        Intent intent = new Intent(ListaTappeActivity.this, NuovaTappaActivity.class);
+
+        startActivity(intent);
+    }
+
+
+
+
+
     private class MyTask extends AsyncTask<Void, Void, Void> {
         private final static int DEFAULT_INT = 0;
         private static final String DEFAULT_STRING = "default";
@@ -333,8 +342,6 @@ public class ListaTappeActivity extends AppCompatActivity
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("email", email));
             dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
-
-
 
             try {
 

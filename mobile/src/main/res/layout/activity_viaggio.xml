@@ -59,25 +59,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/Partecipants"
                     android:orientation="horizontal"
                     android:paddingTop="@dimen/activity_vertical_margin">
 
-                    <com.example.david.takeatrip.Utilities.RoundedImageView
-                        android:id="@+id/imageView_round_Profile"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="right"
-                        android:src="@drawable/logodef"
-                        android:onClick="onClickImagePartecipant"/>
-
-                    <android.support.design.widget.FloatingActionButton
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        app:backgroundTint="@color/blue"
-                        android:src="@android:drawable/ic_menu_add"
-                        >
-                    </android.support.design.widget.FloatingActionButton>
                 </LinearLayout>
 
                 <LinearLayout

@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private final String ADDRESS = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryNomiUtenti.php";
     private final String ADDRESS_INSERIMENTO_VIAGGIO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoViaggio.php";
     private final String ADDRESS_INSERIMENTO_ITINERARIO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoItinerario.php";
+    private final String ADDRESS_INSERIMENTO_FILTRO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoFiltro.php";
 
     private String name, surname, email;
     private String date, password;
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout layoutNewPartecipants;
 
 
-    String nomeViaggio, UUIDViaggio;
+    String nomeViaggio, UUIDViaggio, filtro;
     AutoCompleteTextView text;
     List<String> names, namesPartecipants;
     Set<Profilo> profiles, partecipants;
@@ -196,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickSearchTravels(View v){
         Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+        intent.putExtra("email", email);
         startActivity(intent);
     }
 
@@ -448,6 +450,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
 
+            Log.i("TEST", "lista partecipanti:" + partecipants);
+
+
             for(Profilo p : partecipants){
                 ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
                 dataToSend.add(new BasicNameValuePair("codice", UUIDViaggio));
@@ -466,26 +471,53 @@ public class MainActivity extends AppCompatActivity {
 
                         is = entity.getContent();
 
-                        if (is != null) {
-                            //converto la risposta in stringa
-                            try {
-                                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                                StringBuilder sb = new StringBuilder();
-                                String line = null;
-                                while ((line = reader.readLine()) != null) {
-                                    sb.append(line + "\n");
-                                }
-                                is.close();
+                    }
+                    else
+                        Log.e("CONNESSIONE Internet", "Assente!");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e(e.toString(),e.getMessage());
+                }
+            }
+            return null;
+        }
 
-                                result = sb.toString();
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            String stringaFiltro = nomeViaggio.split(" ")[0];
+            filtro = stringaFiltro.toLowerCase();
 
-                            } catch (Exception e) {
-                                Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                        else {
-                            Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
-                        }
+            Log.i("TEST", "filtro: " + filtro);
+
+            new TaskForFilter().execute();
+
+            super.onPostExecute(aVoid);
+
+        }
+    }
+
+
+    private class TaskForFilter extends AsyncTask<Void, Void, Void> {
+
+        InputStream is = null;
+        String result, stringaFinale = "";
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            for(Profilo p : partecipants){
+                ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+                dataToSend.add(new BasicNameValuePair("codiceViaggio", UUIDViaggio));
+                dataToSend.add(new BasicNameValuePair("filtro", filtro));
+
+
+                try {
+                    if (InternetConnection.haveInternetConnection(MainActivity.this)) {
+                        Log.i("CONNESSIONE Internet", "Presente!");
+                        HttpClient httpclient = new DefaultHttpClient();
+                        HttpPost httppost = new HttpPost(ADDRESS_INSERIMENTO_FILTRO);
+                        httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                        HttpResponse response = httpclient.execute(httppost);
 
                     }
                     else
@@ -503,8 +535,25 @@ public class MainActivity extends AppCompatActivity {
 
             layoutNewTravel.setVisibility(View.INVISIBLE);
 
+            try {
+                Thread.currentThread().sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             //TODO: stringa in inglese
             Toast.makeText(getBaseContext(), "Viaggio creato con successo", Toast.LENGTH_LONG).show();
+
+
+            /*
+            //TODO: fa partire l'activity del Viaggio
+            Intent intent = new Intent(MainActivity.this, ViaggioActivity.class);
+            intent.putExtra("email", email);
+            intent.putExtra("codiceViaggio", UUIDViaggio);
+            intent.putExtra("nomeViaggio", nomeViaggio);
+
+            startActivity(intent);
+
+            */
             super.onPostExecute(aVoid);
 
         }

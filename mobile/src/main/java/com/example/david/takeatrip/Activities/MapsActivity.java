@@ -64,8 +64,6 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
             googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
 
-
-            /*
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
@@ -79,9 +77,6 @@ public class MapsActivity extends Activity implements OnMapReadyCallback {
             }
         }
         map.setMyLocationEnabled(true);
-        map.addMarker(new MarkerOptions()
-                .title("Sydney")
-                .snippet("The most populous city in Australia.")
-                .position(sydney));*/
+
     }
 }

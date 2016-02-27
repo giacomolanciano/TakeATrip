@@ -109,10 +109,17 @@ public class ProfiloActivity extends TabActivity {
             date = intent.getStringExtra("dateOfBirth");
             password = intent.getStringExtra("pwd");
 
-            if(name == null || surname == null || email == null || password == null || date == null){
+            if(password == null){
                 externalView = true;
 
-                //TODO: prendere i dati dal DB per visualizzarli in una schermata non modificabile
+
+                //TODO
+                Log.i("TEST", "visualizzazione esterna del profilo");
+
+                viewName.setText(name);
+                viewSurname.setText(surname);
+
+
 
 
 

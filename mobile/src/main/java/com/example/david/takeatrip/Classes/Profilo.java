@@ -8,9 +8,9 @@ import java.sql.Date;
 public class Profilo {
 
     private String email, name, surname;
-    private Date dataNascita;
+    private String dataNascita;
 
-    public Profilo(String email, String name, String surname, Date dataNascita) {
+    public Profilo(String email, String name, String surname, String dataNascita) {
         this.email = email;
         this.name = name;
         this.surname = surname;
@@ -45,11 +45,11 @@ public class Profilo {
         this.surname = surname;
     }
 
-    public Date getDataNascita() {
+    public String getDataNascita() {
         return dataNascita;
     }
 
-    public void setDataNascita(Date dataNascita) {
+    public void setDataNascita(String dataNascita) {
         this.dataNascita = dataNascita;
     }
 

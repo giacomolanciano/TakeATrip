@@ -48,6 +48,8 @@ public class InfoActivity extends AppCompatActivity {
         intent.putExtra("surname",surname);
         intent.putExtra("date", date);
         intent.putExtra("email", email);
+        intent.putExtra("password", password);
+
 
 
 

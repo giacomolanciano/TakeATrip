@@ -44,7 +44,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
     private final String ADDRESS_VERIFICA_LOGIN = "http://www.musichangman.com/TakeATrip/InserimentoDati/VerificaLogin.php";
 
 
-    private boolean update;
+    private boolean update, passwordModificata;
 
     private final int YEAR_MAX_PICKER = 2016;
     private final int YEAR_MIN_PICKER = 1900;
@@ -93,6 +93,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             cognome = intent.getStringExtra("surname");
             email = intent.getStringExtra("email");
             data = intent.getStringExtra("date");
+            password = intent.getStringExtra("password");
 
             if(nome != null || cognome != null || email != null || data != null){
                 update = true;
@@ -243,24 +244,45 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                     vecchiaPassword = PasswordHashing.sha1Hash(campoVecchiaPassword.getText().toString());
                     nuovaPassword = campoNuovaPassword.getText().toString();
                     confermaNuovaPassword = campoConfermaNuovaPassword.getText().toString();
-                    Log.i("TEST", "dati modificati: " + nome +" " + cognome + " " + data +" "+  email + " "+ password+" "+ nuovaPassword);
+                    Log.i("TEST", "dati modificati: " + nome +" " + cognome + " " + data +" "+  email + "vpwd "+ password+" nuovapwd: "+ nuovaPassword);
+
+                    if(nuovaPassword == null || nuovaPassword.equals("")){
+                        passwordModificata = false;
+
+                        Log.i("TEST", "dati modificati: " + nome +" " + cognome + " " + data +" "+  email + "vpwd "+ password);
 
 
-                    if(confermaCredenziali(nuovaPassword, confermaNuovaPassword)) {
-
-                        nuovaPassword = PasswordHashing.sha1Hash(campoNuovaPassword.getText().toString());
-
-                        new MyTaskUpdate().execute();
+                        new MyTask().execute();
 
                         Intent openProfilo = new Intent(RegistrazioneActivity.this, MainActivity.class);
                         openProfilo.putExtra("name", nome);
                         openProfilo.putExtra("surname", cognome);
                         openProfilo.putExtra("email", email);
                         openProfilo.putExtra("dateOfBirth", data);
-                        openProfilo.putExtra("pwd", nuovaPassword);
+                        openProfilo.putExtra("pwd", password);
 
-                        // passo all'attivazione dell'activity
                         startActivity(openProfilo);
+
+
+                    }
+                    else{
+                        passwordModificata = true;
+                        if(confermaCredenziali(nuovaPassword, confermaNuovaPassword)) {
+
+                            nuovaPassword = PasswordHashing.sha1Hash(campoNuovaPassword.getText().toString());
+
+                            new MyTaskUpdate().execute();
+
+                            Intent openProfilo = new Intent(RegistrazioneActivity.this, MainActivity.class);
+                            openProfilo.putExtra("name", nome);
+                            openProfilo.putExtra("surname", cognome);
+                            openProfilo.putExtra("email", email);
+                            openProfilo.putExtra("dateOfBirth", data);
+                            openProfilo.putExtra("pwd", nuovaPassword);
+
+                            // passo all'attivazione dell'activity
+                            startActivity(openProfilo);
+                        }
                     }
 
                 }
@@ -346,7 +368,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             dataToSend.add(new BasicNameValuePair("cognome", cognome));
             dataToSend.add(new BasicNameValuePair("dataNascita",data));
             dataToSend.add(new BasicNameValuePair("email", email));
-            if(update)
+            if(update && passwordModificata)
                 dataToSend.add(new BasicNameValuePair("password", nuovaPassword));
             else
                 dataToSend.add(new BasicNameValuePair("password", password));
