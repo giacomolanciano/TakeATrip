@@ -1,6 +1,7 @@
 package com.example.david.takeatrip.Activities;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -213,6 +214,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void ClickNewTravel(View v){
         nomeViaggio = "";
+
+        //final Dialog dialog = new Dialog(this);
+        //dialog.setContentView(R.layout.activity_viaggio2);
 
         text=(AutoCompleteTextView)findViewById(R.id.autoCompleteTextView1);
         layoutNewTravel.setVisibility(View.VISIBLE);

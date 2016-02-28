@@ -16,18 +16,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/layoutProprietariItinerari"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="60dp"
             android:orientation="horizontal"
             android:background="@color/blue">
 
-            <com.example.david.takeatrip.Utilities.RoundedImageView
-                android:id="@+id/imageView_round_Profile"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="5dp"
-                android:src="@drawable/logodef"/>
+
 
         </LinearLayout>
 
@@ -53,6 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
+        android:id="@+id/buttonAddStop"
         app:backgroundTint="@color/blue"
         android:src="@android:drawable/ic_menu_add"
         android:layout_marginRight="@dimen/activity_horizontal_margin"

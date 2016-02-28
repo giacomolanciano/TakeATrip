@@ -3,15 +3,26 @@ package com.example.david.takeatrip.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.david.takeatrip.R;
 
 public class InfoActivity extends AppCompatActivity {
 
+    private static final String TAG = "InfoActivity";
+
+
     private String name, surname, email, date, password;
     private TextView viewDate, viewEmail;
+
+
+
+    private boolean visualizzazioneEsterna = false;
+
+    private Button buttonEdit;
 
 
     @Override
@@ -20,6 +31,7 @@ public class InfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_info);
         viewDate = (TextView) findViewById(R.id.DataDiNascita);
         viewEmail = (TextView) findViewById(R.id.Email);
+        buttonEdit = (Button) findViewById(R.id.buttonEditProfile);
 
         if(getIntent() != null){
             Intent intent = getIntent();
@@ -28,6 +40,15 @@ public class InfoActivity extends AppCompatActivity {
             email = intent.getStringExtra("email");
             date = intent.getStringExtra("dateOfBirth");
             password = intent.getStringExtra("pwd");
+
+
+            if(password == null){
+                visualizzazioneEsterna = true;
+                buttonEdit.setVisibility(View.INVISIBLE);
+
+                Log.i(TAG, "visualizzazione esterna del profilo");
+
+            }
 
         }
     }

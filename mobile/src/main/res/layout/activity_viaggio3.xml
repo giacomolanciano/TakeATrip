@@ -59,9 +59,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/Partecipants"
                 android:orientation="horizontal"
                 android:paddingTop="@dimen/activity_vertical_margin">
-
 
             </LinearLayout>
 
@@ -69,7 +69,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:id="@+id/Partecipants"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:onClick="onClickImageTappa">
 

@@ -111,32 +111,12 @@ public class ProfiloActivity extends TabActivity {
 
             if(password == null){
                 externalView = true;
-
-
                 //TODO
                 Log.i("TEST", "visualizzazione esterna del profilo");
-
-                viewName.setText(name);
-                viewSurname.setText(surname);
-
-
-
-
-
             }
-            else{
-                viewName.setText(name);
-                viewSurname.setText(surname);
-            }
-
-
-        } else {
-            //Prendi i dati dal database perche è gia presente l'utente
+            viewName.setText(name);
+            viewSurname.setText(surname);
         }
-
-
-
-
         TabHost = (TabHost) findViewById(android.R.id.tabhost);
 
         TabHost.TabSpec tab1 = TabHost.newTabSpec("INFO");

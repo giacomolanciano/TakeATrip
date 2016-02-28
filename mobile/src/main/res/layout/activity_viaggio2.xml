@@ -75,6 +75,7 @@
                         <android.support.design.widget.FloatingActionButton
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:id="@+id/floatingButtonAdd"
                             android:layout_gravity="center_vertical"
                             app:backgroundTint="@color/blue"
                             android:src="@android:drawable/ic_menu_add"
@@ -121,6 +122,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:id="@+id/buttonCreateTravel"
             android:layout_weight="0.5"
             android:text="@string/Create"
             android:onClick="onClickCreateTravel"/>
@@ -128,6 +130,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/buttonCancellaDialog"
             android:layout_weight="0.5"
             android:layout_gravity="bottom"
             android:text="@string/Cancel"

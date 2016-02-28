@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -69,7 +70,9 @@ import java.util.jar.Attributes;
 
 public class ViaggioActivity extends AppCompatActivity {
 
+    private static final String ADDRESS = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryNomiUtenti.php";
     private static final String ADDRESS_PARTECIPANTS = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryPartecipantiViaggio.php";
+    private static final String TAG = "ViaggioActivity";
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
@@ -77,13 +80,13 @@ public class ViaggioActivity extends AppCompatActivity {
     private String email, codiceViaggio, nomeViaggio;
 
     private boolean proprioViaggio = false;
-    private List<Profilo> listPartecipants;
+    private List<Profilo> listPartecipants, profiles;
+    private List<String> names;
 
     private TextView viewTitoloViaggio;
     private LinearLayout layoutCopertinaViaggio;
     private LinearLayout layoutPartecipants;
 
-    private Profilo currentProfile;
 
 
     @Override
@@ -98,12 +101,15 @@ public class ViaggioActivity extends AppCompatActivity {
         }
 
         listPartecipants = new ArrayList<Profilo>();
+        names = new ArrayList<String>();
+        profiles = new ArrayList<Profilo>();
 
-        Log.i("TEST", "email utente: " + email + " codiceViaggio: " +codiceViaggio +" nomeVaggio: "+ nomeViaggio);
 
-        //TODO: fare la query per individuare i partecipanti al viaggio
+        Log.i("TEST", "email utente: " + email + " codiceViaggio: " + codiceViaggio + " nomeVaggio: " + nomeViaggio);
 
         new MyTask().execute();
+        new MyTaskPerUtenti().execute();
+
 
     }
 
@@ -118,11 +124,19 @@ public class ViaggioActivity extends AppCompatActivity {
 
 
     public void onClickImageTappa(View v){
+        ArrayList<CharSequence> emailPartecipants = new ArrayList<CharSequence>();
+        for(Profilo p: listPartecipants){
+            emailPartecipants.add(p.getEmail());
+        }
+
+        Log.i(TAG, "email partecipants: " + emailPartecipants);
 
         Intent intent = new Intent(ViaggioActivity.this, ListaTappeActivity.class);
         intent.putExtra("email", email);
         intent.putExtra("codiceViaggio", codiceViaggio);
         intent.putExtra("nomeViaggio", nomeViaggio);
+
+        intent.putExtra("partecipanti", emailPartecipants);
 
         startActivity(intent);
     }
@@ -140,7 +154,6 @@ public class ViaggioActivity extends AppCompatActivity {
                     switch (which) {
                         case 0: //view image profile
 
-
                             break;
                         case 1: //change image profile
                             Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -152,7 +165,6 @@ public class ViaggioActivity extends AppCompatActivity {
                     }
                 }
             });
-
 
             // Create the AlertDialog object and return it
             builder.create().show();
@@ -167,7 +179,6 @@ public class ViaggioActivity extends AppCompatActivity {
         for(Profilo p : listPartecipants){
             final ImageView image = new RoundedImageView(this, null);
             image.setContentDescription(p.getEmail());
-            currentProfile = p;
 
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -180,18 +191,34 @@ public class ViaggioActivity extends AppCompatActivity {
             layoutPartecipants.addView(image, 100, 100);
             layoutPartecipants.addView(new TextView(this), 20, 100);
 
+        }
+
+        if(proprioViaggio){
+
+            FloatingActionButton buttonAddPartecipant = new FloatingActionButton(this);
+
+            buttonAddPartecipant.setRippleColor(getResources().getColor(R.color.blue));
+
+            //TODO: aggiungere il piu al bottone
+            //buttonAddPartecipant.setImageDrawable();
+            buttonAddPartecipant.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickAddPartecipant(v);
+                }
+            });
+
+            layoutPartecipants.addView(buttonAddPartecipant, 100, 100);
 
         }
+
 
     }
 
     public void onClickImagePartecipant(final View v){
         try {
             final Dialog dialog = new Dialog(this, R.style.CustomDialog);
-            //final Dialog dialog = new Dialog(this);
             dialog.setContentView(R.layout.layout_dialog_profiles);
-
-
 
             TextView viewName = (TextView) dialog.findViewById(R.id.viewNameProfileDialog);
             for(Profilo p : listPartecipants){
@@ -237,7 +264,84 @@ public class ViaggioActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e(e.toString().toUpperCase(), e.getMessage());
         }
+    }
 
+
+    public void onClickAddPartecipant(View v){
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.activity_viaggio2);
+        dialog.setTitle("Add a Partecipant");
+
+        final AutoCompleteTextView text=(AutoCompleteTextView)dialog.findViewById(R.id.autoCompleteTextView1);
+        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,names);
+        text.setHint("Add partecipant");
+
+        text.setAdapter(adapter);
+        text.setThreshold(1);
+
+        TextView travel = (TextView) dialog.findViewById(R.id.titoloViaggio);
+        travel.setText(nomeViaggio);
+
+
+        EditText nameTravel = (EditText) dialog.findViewById(R.id.editTextNameTravel);
+        nameTravel.setText(nomeViaggio);
+        nameTravel.setEnabled(false);
+
+
+
+        Button buttonCreate = (Button) dialog.findViewById(R.id.buttonCreateTravel);
+        buttonCreate.setVisibility(View.INVISIBLE);
+
+        Button buttonCancella = (Button) dialog.findViewById(R.id.buttonCancellaDialog);
+        buttonCancella.setVisibility(View.INVISIBLE);
+
+        final FloatingActionButton buttonAdd = (FloatingActionButton) dialog.findViewById(R.id.floatingButtonAdd);
+
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!text.getText().toString().equals("")) {
+
+                    String newPartecipant = text.getText().toString();
+                    Log.i(TAG, "lista Partecipanti al viaggio: " + listPartecipants);
+                    Log.i(TAG, "nuovo Partecipante: " + newPartecipant);
+
+                    String name = newPartecipant.split(" ")[0];
+                    String surname = newPartecipant.split(" ")[1];
+                    for(Profilo p : profiles){
+                        if(p.getName().equals(name) && p.getSurname().equals(surname)){
+                            if(!listPartecipants.contains(p)) {
+                                listPartecipants.add(p);
+
+                                final ImageView image = new RoundedImageView(ViaggioActivity.this, null);
+                                image.setContentDescription(p.getEmail());
+
+                                image.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        onClickImagePartecipant(v);
+                                    }
+                                });
+
+                                layoutPartecipants.removeAllViews();
+                                PopolaPartecipanti();
+                            }
+                            break;
+                        }
+                    }
+
+                    Log.i(TAG, "lista Partecipanti al viaggio: " + listPartecipants);
+
+                    //TODO: inserire nel DB nuove tuple per ogni partecipante aggiunto e gestire l'andamento a capo
+
+                    dialog.dismiss();
+
+                }
+
+            }
+        });
+
+        dialog.show();
     }
 
 
@@ -331,8 +435,6 @@ public class ViaggioActivity extends AppCompatActivity {
                 e.printStackTrace();
                 Log.e(e.toString(),e.getMessage());
             }
-
-
             return null;
         }
 
@@ -375,4 +477,83 @@ public class ViaggioActivity extends AppCompatActivity {
         }
     }
 
+
+
+
+    private class MyTaskPerUtenti extends AsyncTask<Void, Void, Void> {
+
+        InputStream is = null;
+        String result, stringaFinale = "";
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                if (InternetConnection.haveInternetConnection(ViaggioActivity.this)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost(ADDRESS);
+                    HttpResponse response = httpclient.execute(httppost);
+
+                    HttpEntity entity = response.getEntity();
+
+                    is = entity.getContent();
+
+                    if (is != null) {
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+
+
+                            JSONArray jArray = new JSONArray(result);
+
+                            if(jArray != null && result != null){
+                                for(int i=0;i<jArray.length();i++){
+                                    JSONObject json_data = jArray.getJSONObject(i);
+                                    String nomeUtente = json_data.getString("nome").toString();
+                                    String cognomeUtente = json_data.getString("cognome").toString();
+                                    String emailUtente = json_data.getString("email").toString();
+
+                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null);
+                                    profiles.add(p);
+                                    stringaFinale = nomeUtente + " " + cognomeUtente;
+                                    names.add(stringaFinale);
+                                }
+                            }
+
+
+
+                        } catch (Exception e) {
+                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    }
+
+                }
+                else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(e.toString(),e.getMessage());
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+        }
+    }
 }

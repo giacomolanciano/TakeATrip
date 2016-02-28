@@ -3,6 +3,7 @@ package com.example.david.takeatrip.Activities;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +27,7 @@ import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.Tappa;
 import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.RoundedImageView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -51,20 +56,26 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class ListaTappeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryTappe.php";
+    private final String TAG = "ListaTappeActivity";
     private static final int GOOGLE_API_CLIENT_ID = 0;
 
     private GoogleMap googleMap;
     private GoogleApiClient mGoogleApiClient;
 
-    private ArrayList<Tappa> tappe;
-    private ArrayList<String> nomiTappe;
+    private Map<Profilo,List<Tappa>> profiloTappe;
+    private Map<Profilo, List<Place>> profiloNomiTappe;
+
+    private List<Profilo> partecipants;
 
 
     private String email, codiceViaggio, nomeViaggio;
@@ -72,6 +83,11 @@ public class ListaTappeActivity extends AppCompatActivity
     private NavigationView navigationView;
     private TextView ViewCaricamentoInCorso;
     private TextView ViewNomeViaggio;
+    private FloatingActionButton buttonAddStop;
+    private LinearLayout layoutProprietariItinerari;
+
+
+    private boolean proprioViaggio = false;
 
 
 
@@ -89,8 +105,13 @@ public class ListaTappeActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+
+
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        buttonAddStop = (FloatingActionButton) findViewById(R.id.buttonAddStop);
+        buttonAddStop.setVisibility(View.INVISIBLE);
+        layoutProprietariItinerari = (LinearLayout) findViewById(R.id.layoutProprietariItinerari);
 
         ViewCaricamentoInCorso = (TextView)findViewById(R.id.TextViewCaricamentoInCorso);
         ViewNomeViaggio = (TextView)findViewById(R.id.textViewNomeViaggio);
@@ -110,8 +131,13 @@ public class ListaTappeActivity extends AppCompatActivity
         mapFragment.getMapAsync(this);
 
 
-        tappe = new ArrayList<Tappa>();
-        nomiTappe = new ArrayList<String>();
+
+        List<Tappa> listaTappe = new ArrayList<Tappa>();
+        List<String> listaNomiTappe = new ArrayList<String>();
+        partecipants = new ArrayList<Profilo>();
+        profiloTappe = new HashMap<Profilo,List<Tappa>>();
+        profiloNomiTappe = new HashMap<Profilo,List<Place>>();
+
 
 
         Intent intent;
@@ -119,12 +145,29 @@ public class ListaTappeActivity extends AppCompatActivity
             email = intent.getStringExtra("email");
             codiceViaggio = intent.getStringExtra("codiceViaggio");
             nomeViaggio = intent.getStringExtra("nomeViaggio");
+            ArrayList<CharSequence> listPartecipants = intent.getCharSequenceArrayListExtra("partecipanti");
+
+            Log.i(TAG, "email profilo corrente: " + email+ " email partecipants: " + listPartecipants);
+
+            for(CharSequence cs : listPartecipants){
+                partecipants.add(new Profilo(cs.toString(), null,null,null));
+
+                if(email.equals(cs.toString())){
+                    proprioViaggio = true;
+                    buttonAddStop.setVisibility(View.VISIBLE);
+
+                    Log.i("TEST", "sei compreso nel viaggio");
+                }
+            }
+
+            Log.i(TAG, "email profilo corrente: " + email+ " profile partecipants: " + partecipants);
+
+
         }
 
         ViewNomeViaggio.setText(nomeViaggio);
 
     }
-
 
     @Override
     protected void onResume() {
@@ -134,7 +177,6 @@ public class ListaTappeActivity extends AppCompatActivity
         }
         MyTask mT = new MyTask();
         mT.execute();
-
     }
 
 
@@ -185,7 +227,6 @@ public class ListaTappeActivity extends AppCompatActivity
             return true;
         }
         */
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -195,9 +236,7 @@ public class ListaTappeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-
-
-        Toast.makeText(getBaseContext(), "tappa selezionata" + tappe.get(id).getPoi().getCodicePOI(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "tappa selezionata" + profiloTappe.get(0).get(id).getPoi().getCodicePOI(), Toast.LENGTH_LONG).show();
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -209,8 +248,47 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
+    private void PopolaPartecipanti(final Set<Profilo> partecipants){
 
-    private void CreaMenu(List<Tappa> tappe, List<String> nomiTappe){
+        layoutProprietariItinerari.addView(new TextView(this), 20, 80);
+
+
+        Log.i("TEST", "partecipants: " + partecipants);
+
+        for(Profilo p : partecipants){
+
+            ImageView image = new RoundedImageView(this, null);
+            image.setContentDescription(p.getEmail());
+            currentProfile = p;
+
+
+            image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for(Profilo p : partecipants){
+                        if(p.getEmail().equals(v.getContentDescription())){
+                            ClickImagePartecipant(p);
+                            break;
+                        }
+                    }
+                }
+            });
+
+            image.setImageResource(R.drawable.logodef);
+            layoutProprietariItinerari.addView(image, 80, 80);
+            layoutProprietariItinerari.addView(new TextView(this), 20, 80);
+
+        }
+
+    }
+
+    private void ClickImagePartecipant(Profilo p){
+        AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
+    }
+
+
+
+    private void CreaMenu(List<Tappa> tappe, List<String > nomiTappe){
         Menu menu = navigationView.getMenu();
         if(menu != null){
             int i=0;
@@ -234,16 +312,29 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-    private void AggiungiMarkedPointsOnMap(List<Tappa> tappe) {
+    Profilo currentProfile;
+    List<Place> nomiTappe = new ArrayList<Place>();
+    List<String> namesStops = new ArrayList<String>();
+
+    private void AggiungiMarkedPointsOnMap(Profilo p, List<Tappa> tappe) {
         mGoogleApiClient.connect();
+
+        nomiTappe.clear();
+        namesStops.clear();
         for(Tappa t : tappe){
-            findPlaceById(t);
+            findPlaceById(p, t);
         }
+
+        Log.i("TEST", "profiloNomiTappe: " + profiloNomiTappe);
+        Log.i("TEST", "ho aggiunto i markedPoints di " + p);
+
     }
 
 
 
-    private void findPlaceById( Tappa t) {
+
+
+    private void findPlaceById(Profilo p, Tappa t) {
         if( TextUtils.isEmpty(t.getPoi().getCodicePOI()) || mGoogleApiClient == null){
             Log.i("TEST", "codice tappa: " + t.getPoi().getCodicePOI());
             Log.i("TEST", "return");
@@ -255,6 +346,32 @@ public class ListaTappeActivity extends AppCompatActivity
             mGoogleApiClient.connect();
         }
 
+        currentProfile = p;
+
+
+
+        //Se sono presenti gia i nomi delle tappe non devo riprenderli
+        if(profiloNomiTappe.get(p) != null){
+
+            //TODO: aggiungere la classe Place che memorizza Nome e LatLong in modo da non richiamare sempre le API
+
+            /*
+            googleMap.clear();
+
+
+            for(Place place : profiloNomiTappe.get(p)){
+                googleMap.addMarker(new MarkerOptions()
+                        .title(place.getName().toString())
+                        .position(place.getLatLng()));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 5));
+            }
+
+*/
+
+            return;
+
+
+        }
         Places.GeoDataApi.getPlaceById( mGoogleApiClient, t.getPoi().getCodicePOI() )
                 .setResultCallback(new ResultCallback<PlaceBuffer>() {
 
@@ -268,8 +385,10 @@ public class ListaTappeActivity extends AppCompatActivity
                         if (places.getStatus().isSuccess()) {
                             Place place = places.get(0);
                             Log.i("TEST", "nome place: " + place.getName());
-                            nomiTappe.add(place.getName().toString());
-                            Log.i("TEST", "aggiunto ai nomi: " + nomiTappe);
+
+                            nomiTappe.add(place);
+                            namesStops.add(place.getName().toString());
+                            Log.i("TEST", "aggiunto ai places: " + nomiTappe);
 
 
                             googleMap.addMarker(new MarkerOptions()
@@ -278,13 +397,17 @@ public class ListaTappeActivity extends AppCompatActivity
                             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 5));
 
 
-                            if (nomiTappe.size() == tappe.size()) {
-                                Log.i("TEST", "nomi tappe: " + nomiTappe);
-                                CreaMenu(tappe, nomiTappe);
+                            if (nomiTappe.size() == profiloTappe.get(currentProfile).size() && namesStops.size() == nomiTappe.size()) {
+                                Log.i("TEST", "nomi places: " + namesStops);
+                                CreaMenu(profiloTappe.get(currentProfile), namesStops);
+
+                                profiloNomiTappe.put(currentProfile, nomiTappe);
+                                Log.i("TEST", "profiloNomiTappe: " + profiloNomiTappe);
+                                Log.i("TEST", "ho aggiunto i markedPoints di " + currentProfile);
+
                             }
 
                         }
-
                         //Release the PlaceBuffer to prevent a memory leak
                         places.release();
                     }
@@ -339,111 +462,108 @@ public class ListaTappeActivity extends AppCompatActivity
         protected Void doInBackground(Void... params) {
 
 
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("email", email));
-            dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
 
-            try {
+            for(Profilo p : partecipants){
 
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost(ADDRESS_PRELIEVO);
-                httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                HttpResponse response = httpclient.execute(httppost);
+                List<Tappa> tappe = new ArrayList<Tappa>();
 
-                HttpEntity entity = response.getEntity();
-                is = entity.getContent();
-
-                if (is != null) {
-                    //converto la risposta in stringa
-                    try {
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                        StringBuilder sb = new StringBuilder();
-                        String line = null;
-                        while ((line = reader.readLine()) != null) {
-                            sb.append(line + "\n");
-                        }
-                        is.close();
-
-                        String result = sb.toString();
-
-                        //Log.e("TEST", "json ricevuto:\n" + result);
-
-                        JSONArray jArray = new JSONArray(result);
-
-                        if(jArray != null && result != null){
-                            for(int i=0;i<jArray.length();i++){
-                                JSONObject json_data = jArray.getJSONObject(i);
+                ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+                dataToSend.add(new BasicNameValuePair("email", p.getEmail()));
+                dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
 
 
-                                String email = json_data.getString("emailProfilo");
+                try {
 
-                                //Log.e("TEST", "email:\n" + email);
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost(ADDRESS_PRELIEVO);
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                    HttpResponse response = httpclient.execute(httppost);
 
-                                String codiceViaggio = json_data.getString("codiceViaggio");
+                    HttpEntity entity = response.getEntity();
+                    is = entity.getContent();
 
-                                //Log.e("TEST", "codiceViaggio:\n" + codiceViaggio);
-
-                                Itinerario itinerario = new Itinerario(new Profilo(email), new Viaggio(codiceViaggio));
-
-                                int ordine = json_data.getInt("ordine");
-
-                                //Log.e("TEST", "ordine:\n" + ordine);
-
-                                stringaFinale = email + " " + codiceViaggio  +" "+ ordine;
-
-
-
-                                int ordineTappaPrecedente = json_data.optInt("ordineTappaPrecedente", DEFAULT_INT);
-
-                                //Log.e("TEST", "ordinePrec:\n" + ordineTappaPrecedente);
-
-                                Tappa tappaPrecedente = new Tappa(itinerario, (ordineTappaPrecedente));
-
-
-                                String paginaDiario = json_data.getString("paginaDiario");
-
-                                //Log.e("TEST", "pagina diario:\n" + paginaDiario);
-
-
-                                //String codicePOI = json_data.optString("codicePoi", DEFAULT_STRING);
-                                String codicePOI = json_data.getString("codicePOI");
-                                //Log.e("TEST", "codicePOI:\n" + codicePOI);
-
-                                //String fontePOI = json_data.optString("fontePOI", DEFAULT_STRING);
-                                String fontePOI = json_data.getString("fontePOI");
-                                //Log.e("TEST", "fontePOI:\n" + fontePOI);
-
-
-                                POI poi = new POI(codicePOI, fontePOI);
-
-
-                                String dataString = json_data.optString("data", DEFAULT_DATE);
-                                Date data = Date.valueOf(dataString);
-
-
-                                //TODO rispristinare
-                                //Date data = (Date) json_data.get("data");
-                                //Date data = null;
-
-                                //Log.e("TEST", "data:\n" + data);
-
-                                //stringaFinale = itinerario + " " + ordine +" "+ tappaPrecedente +" "+ data +" "+ paginaDiario+" " + poi;
-                                tappe.add(new Tappa(itinerario, ordine, tappaPrecedente, data, paginaDiario, poi));
+                    if (is != null) {
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
                             }
+                            is.close();
+
+                            String result = sb.toString();
+
+                            //Log.e("TEST", "json ricevuto:\n" + result);
+
+                            JSONArray jArray = new JSONArray(result);
+
+                            if(jArray != null && result != null){
+                                for(int i=0;i<jArray.length();i++){
+                                    JSONObject json_data = jArray.getJSONObject(i);
+
+                                    String email = json_data.getString("emailProfilo");
+                                    String codiceViaggio = json_data.getString("codiceViaggio");
+
+                                    //TODO
+                                    Itinerario itinerario = new Itinerario(new Profilo(email), new Viaggio(codiceViaggio));
+
+                                    int ordine = json_data.getInt("ordine");
+
+                                    stringaFinale = email + " " + codiceViaggio  +" "+ ordine;
+
+
+                                    int ordineTappaPrecedente = json_data.optInt("ordineTappaPrecedente", DEFAULT_INT);
+
+                                    //Log.e("TEST", "ordinePrec:\n" + ordineTappaPrecedente);
+
+                                    Tappa tappaPrecedente = new Tappa(itinerario, (ordineTappaPrecedente));
+
+
+                                    String paginaDiario = json_data.getString("paginaDiario");
+                                    String codicePOI = json_data.getString("codicePOI");
+                                    String fontePOI = json_data.getString("fontePOI");
+                                    POI poi = new POI(codicePOI, fontePOI);
+
+
+                                    String dataString = json_data.optString("data", DEFAULT_DATE);
+                                    Date data = Date.valueOf(dataString);
+
+
+                                    //TODO rispristinare
+                                    //Date data = (Date) json_data.get("data");
+                                    //Date data = null;
+
+                                    //Log.e("TEST", "data:\n" + data);
+
+                                    //stringaFinale = itinerario + " " + ordine +" "+ tappaPrecedente +" "+ data +" "+ paginaDiario+" " + poi;
+
+                                    tappe.add(new Tappa(itinerario, ordine, tappaPrecedente, data, paginaDiario, poi));
+
+                                    Log.i("TEST", "tappe: " + tappe);
+                                }
+                            }
+
+
+
+                        } catch (Exception e) {
+                            //Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
                         }
-
-
-                    } catch (Exception e) {
-                        //Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                    } else {
+                        //Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
                     }
-                } else {
-                    //Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Log.e("TEST", "Errore nella connessione http "+e.toString());
                 }
 
-            } catch (Exception e) {
-                //Toast.makeText(getBaseContext(), "Errore nella connessione http " + e.toString(), Toast.LENGTH_LONG).show();
-                //Log.e("TEST", "Errore nella connessione http "+e.toString());
+
+                profiloTappe.put(p, tappe);
+
             }
+
+
+
 
             return null;
         }
@@ -453,7 +573,38 @@ public class ListaTappeActivity extends AppCompatActivity
 
             ViewCaricamentoInCorso.setVisibility(View.INVISIBLE);
 
-            AggiungiMarkedPointsOnMap(tappe);
+
+            Log.i("TEST", "profiloTappe: " + profiloTappe);
+            Log.i("TEST", "numero profili: " + profiloTappe.size());
+            Log.i("TEST", "profili: " + profiloTappe.keySet());
+            Log.i("TEST", "tappe: " + profiloTappe.values());
+
+            PopolaPartecipanti(profiloTappe.keySet());
+
+
+            boolean aggiuntiMarkedPoints = false;
+
+            //aggiungo sulla mappa solamente le tappe del profilo corrente, se partecipante al viaggio,
+            //altrimenti aggiungo le tappe di un profilo casuale
+
+            for(Profilo p : profiloTappe.keySet()){
+                if(p.getEmail().equals(email)){
+                    AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
+                    aggiuntiMarkedPoints = true;
+                    Log.i("TEST", "aggiunte tappe di " + p);
+
+                    break;
+                }
+            }
+
+            if(!aggiuntiMarkedPoints){
+                for(Profilo p : profiloTappe.keySet()){
+                    AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
+                    Log.i("TEST", "aggiunte tappe di " + p);
+                    break;
+                }
+
+            }
 
             super.onPostExecute(aVoid);
 
