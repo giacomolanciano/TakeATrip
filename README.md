@@ -1,5 +1,5 @@
 # <img src="http://www.katadoryu.it/images/TakeATrip/Logo/LogoDef.png" width="100" height="100" />TakeATrip
-Don't miss anything you love in your journey!
+Don't miss anything you love in your journey... TakeATrip!
 
 TakeATrip is an application developed for Google Technologies for Cloud and Web Development (Rome 2015/2016 edition).  
 The simple idea is to collect what the Traveller retrieves and locates during his vacation, which becomes a small pouch of sensations. All the experiences, comments, notes, photos, videos will be always on your smartphone. With TakeATrip you can integrate them with the geographical positions of visited places, placing them on the map, and creating a virtual and interactive diary that will be with you in the adventure of life.  
