@@ -22,7 +22,7 @@ On the 19-th of February we presented our work to the staff.
 * [Presentation](https://docs.google.com/presentation/d/1QJUTDbCPyc6PR4Ms3TFggA5m_Axndc-uoDIx34e4W8Q/edit?usp=sharing)
 * [Pilot application apk file](https://drive.google.com/open?id=0B-jeZ3u4QMn1dlVic2xxV3g2aW8)
 
-We also made two surveys: one to [test our assumptions](https://docs.google.com/forms/d/1Zv56_v1ZuZZqiHn8yTgUw28Aner85m9wxontsFKDkhw/viewform), one to get some [feedback on the UI](https://docs.google.com/forms/d/1ofDH0Io4UXvVyn-AbiNeVzTNlRk-w-k3x8bMZiSMni4/viewform). Since the results may contain private informations about our users, we do not publish them here. If interested, [contact us](mailto:apptakeatrip@gmail.com).
+We also made two surveys: one to [test our assumptions](https://docs.google.com/forms/d/1Zv56_v1ZuZZqiHn8yTgUw28Aner85m9wxontsFKDkhw/viewform), one to get some [feedbacks on the UI](https://docs.google.com/forms/d/1ofDH0Io4UXvVyn-AbiNeVzTNlRk-w-k3x8bMZiSMni4/viewform). Since the results may contain private informations about our users, we do not publish them here. If interested, [contact us](mailto:apptakeatrip@gmail.com).
 
 # Milestone 3 - Final
 * Journey advice system based on a social network
