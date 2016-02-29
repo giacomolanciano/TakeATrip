@@ -25,6 +25,11 @@
         android:name="com.arshad.map.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -50,8 +55,7 @@
 
         <activity
             android:name="com.example.david.takeatrip.Activities.LoginActivity"
-            android:label="@string/app_name" >
-        </activity>
+            android:label="@string/app_name" />
         <activity
             android:name="com.example.david.takeatrip.Activities.RegistrazioneActivity"
             android:label="@string/title_activity_registrazione" />
@@ -88,36 +92,26 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.david.takeatrip.Activities.ProfiloActivity" />
         </activity>
-        <activity android:name="com.example.david.takeatrip.Activities.PossibleDestinationActivity" >
-        </activity>
-        <activity android:name="com.example.david.takeatrip.Activities.MetaActivity" >
-        </activity>
-        <activity android:name="com.example.david.takeatrip.Activities.MapsActivity" >
-        </activity>
-        <activity android:name="com.example.david.takeatrip.Activities.MainActivity" >
-        </activity>
-        <activity android:name="com.example.david.takeatrip.Activities.InfoActivity" >
-        </activity>
-        <activity android:name="com.example.david.takeatrip.Activities.StatsActivity" >
-        </activity>
+        <activity android:name="com.example.david.takeatrip.Activities.PossibleDestinationActivity" />
+        <activity android:name="com.example.david.takeatrip.Activities.MetaActivity" />
+        <activity android:name="com.example.david.takeatrip.Activities.MapsActivity" />
+        <activity android:name="com.example.david.takeatrip.Activities.MainActivity" />
+        <activity android:name="com.example.david.takeatrip.Activities.InfoActivity" />
+        <activity android:name="com.example.david.takeatrip.Activities.StatsActivity" />
         <activity
             android:name="com.example.david.takeatrip.Activities.ListaTappeActivity"
             android:label="@string/title_activity_lista_tappe2"
-            android:theme="@style/AppTheme" >
-        </activity>
-        <activity android:name="com.example.david.takeatrip.Activities.SearchActivity" >
-        </activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name="com.example.david.takeatrip.Activities.SearchActivity" />
         <activity
             android:name="com.example.david.takeatrip.Activities.SocialActivity"
-            android:theme="@style/Widget.AppCompat.ActionBar.Solid" >
-        </activity>
+            android:theme="@style/Widget.AppCompat.ActionBar.Solid" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name="com.example.david.takeatrip.Activities.NuovaTappaActivity" >
-        </activity>
+        <activity android:name="com.example.david.takeatrip.Activities.NuovaTappaActivity" />
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"

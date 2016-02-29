@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|top">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="New Text"
+            android:id="@+id/POIName"
+            android:layout_gravity="left|top" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="New Text"
+            android:id="@+id/POIAddress"
+            android:layout_gravity="left|center" />
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:id="@+id/buttonAddStop"
+        app:backgroundTint="@color/blue"
+        android:src="@android:drawable/ic_menu_add"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="32dp"
+        android:onClick="onClickAddStop"/>
+
+
+</FrameLayout>

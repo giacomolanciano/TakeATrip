@@ -1,18 +1,26 @@
 package com.example.david.takeatrip.Activities;
 
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.Manifest;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.example.david.takeatrip.R;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.PlaceBuffer;
-import com.google.android.gms.maps.*;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
@@ -25,6 +33,15 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
     private Button buttonSatellite, buttonHybrid, buttonTerrain;
 
+    private PlaceAutocompleteFragment autocompleteFragment;
+
+    private FrameLayout layoutInfoPoi;
+
+    private TextView nameText;
+    private TextView addressText;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,10 +51,58 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
         buttonTerrain = (Button) findViewById(R.id.buttonTerrain);
         buttonHybrid = (Button) findViewById(R.id.buttonHybrid);
 
+        layoutInfoPoi = (FrameLayout)findViewById(R.id.FrameInfoPoi);
+        nameText = (TextView) findViewById(R.id.POIName);
+        addressText = (TextView) findViewById(R.id.POIAddress);
+
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        autocompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
+
+        autocompleteFragment.setHint(""+R.string.search_poi);
+
+
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+
+                //prendere info poi
+                String placeName = ""+place.getName();
+                LatLng placeLatLng = place.getLatLng();
+                String placeAddress = ""+place.getAddress();
+                //...
+
+                Log.i("TEST", "name: " + placeName);
+                Log.i("TEST", "addr: " + placeAddress);
+
+                //posizionare marker su mappa
+                googleMap.addMarker(new MarkerOptions()
+                        .title(placeName)
+                        .position(placeLatLng));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 5));
+
+
+                //inserire in layout
+                nameText.setText(placeName);
+                addressText.setText(placeAddress);
+
+                layoutInfoPoi.setVisibility(View.VISIBLE);
+
+
+            }
+
+            @Override
+            public void onError(Status status) {
+                Log.i("TEST", "An error occurred: " + status);
+            }
+
+
+        });
     }
 
 
@@ -71,6 +136,7 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                 return;
             }
         }
+
         map.setMyLocationEnabled(true);
 
 
@@ -80,6 +146,10 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                 .position(sydney));*/
     }
 
+    public void onClickAddStop(View v){
+        //TODO far partire il task per l'inserimento della tappa + filtro nel db
+
+    }
 
 }
 

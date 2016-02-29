@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.david.takeatrip" >
+    package="com.example.david.takeatrip">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -19,11 +19,16 @@
         android:name="com.arshad.map.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logodef"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -36,8 +41,7 @@
 
         <activity
             android:name=".Activities.LoginActivity"
-            android:label="@string/app_name" >
-        </activity>
+            android:label="@string/app_name"></activity>
         <activity
             android:name=".Activities.RegistrazioneActivity"
             android:label="@string/title_activity_registrazione" />
@@ -58,7 +62,7 @@
         <activity android:name=".Activities.TappaActivity" />
         <activity
             android:name=".Activities.SplashActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -69,41 +73,31 @@
             android:name=".Activities.DestinationSelectionActivity"
             android:label="@string/title_activity_destination_selection"
             android:parentActivityName=".Activities.ProfiloActivity"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.david.takeatrip.Activities.ProfiloActivity" />
         </activity>
-        <activity android:name=".Activities.PossibleDestinationActivity" >
-        </activity>
-        <activity android:name=".Activities.MetaActivity" >
-        </activity>
-        <activity android:name=".Activities.MapsActivity" >
-        </activity>
-        <activity android:name=".Activities.MainActivity" >
-        </activity>
-        <activity android:name=".Activities.InfoActivity" >
-        </activity>
-        <activity android:name=".Activities.StatsActivity" >
-        </activity>
+        <activity android:name=".Activities.PossibleDestinationActivity"></activity>
+        <activity android:name=".Activities.MetaActivity"></activity>
+        <activity android:name=".Activities.MapsActivity"></activity>
+        <activity android:name=".Activities.MainActivity"></activity>
+        <activity android:name=".Activities.InfoActivity"></activity>
+        <activity android:name=".Activities.StatsActivity"></activity>
         <activity
             android:name=".Activities.ListaTappeActivity"
             android:label="@string/title_activity_lista_tappe2"
-            android:theme="@style/AppTheme" >
-        </activity>
-        <activity android:name=".Activities.SearchActivity" >
-        </activity>
+            android:theme="@style/AppTheme"></activity>
+        <activity android:name=".Activities.SearchActivity"></activity>
         <activity
             android:name=".Activities.SocialActivity"
-            android:theme="@style/Widget.AppCompat.ActionBar.Solid" >
-        </activity>
+            android:theme="@style/Widget.AppCompat.ActionBar.Solid"></activity>
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".Activities.NuovaTappaActivity" >
-        </activity>
+        <activity android:name=".Activities.NuovaTappaActivity"></activity>
     </application>
 
 </manifest>
