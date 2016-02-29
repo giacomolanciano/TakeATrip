@@ -25,9 +25,15 @@ On the 19-th of February we presented our work to the staff.
 We also made two surveys: one to [test our assumptions](https://docs.google.com/forms/d/1Zv56_v1ZuZZqiHn8yTgUw28Aner85m9wxontsFKDkhw/viewform), one to get some [feedbacks on the UI](https://docs.google.com/forms/d/1ofDH0Io4UXvVyn-AbiNeVzTNlRk-w-k3x8bMZiSMni4/viewform). Since the results may contain private informations about our users, we do not publish them here. If interested, [contact us](mailto:apptakeatrip@gmail.com).
 
 # Milestone 3 - Final
-* Journey advice system based on a social network
-* UI for experiences sharing
-* Facebook API integration
+* Complete tasks of Milestone II
+  * Add Stop
+  * Search 
+* Implement Path Drawing and POI suggestion
+* Implement Social integration
+  * Shared experiences board
+  * Facebook API integration
+* UI design improvement
+  * Better application of material design patterns
 
 # Possible extension after the semester
 * Crossing paths analysis
