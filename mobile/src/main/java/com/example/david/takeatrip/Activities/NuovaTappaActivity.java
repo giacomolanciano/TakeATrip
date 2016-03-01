@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.R;
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -35,8 +37,11 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -130,7 +135,6 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
             email = intent.getStringExtra("email");
             codiceViaggio = intent.getStringExtra("codiceViaggio");
             ordine = intent.getIntExtra("ordine", 0) + 1;
-            codAccount = intent.getIntExtra("codAccount", 0);
 
         }
     }
@@ -180,7 +184,7 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
         new MyTaskInserimentoTappa().execute();
 
-        //TODO creare file php
+        //TODO ripristinare
         //new MyTaskInserimentoFiltro().execute();
 
     }
@@ -194,22 +198,38 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
     private class MyTaskInserimentoTappa extends AsyncTask<Void, Void, Void> {
 
-        private final static int DEFAULT_INT = 0;
-        private static final String DEFAULT_STRING = "default";
-        private static final String DEFAULT_DATE = "2010-01-11";
         InputStream is = null;
-        String stringaFinale = "";
+        String result, stringaFinale = "";
 
 
         @Override
         protected Void doInBackground(Void... params) {
 
-
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("email", email));
+
+            dataToSend.add(new BasicNameValuePair("emailProfilo", email));
+            //dataToSend.add(new BasicNameValuePair("emailProfilo", "pippo@gmail.com"));
+
             dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
             dataToSend.add(new BasicNameValuePair("ordine", ""+ordine));
-            dataToSend.add(new BasicNameValuePair("codAccount", ""+codAccount));
+            dataToSend.add(new BasicNameValuePair("POI", "" + placeId));
+
+            Calendar calendar = Calendar.getInstance();
+            int cDay = calendar.get(Calendar.DAY_OF_MONTH);
+            int cMonth = calendar.get(Calendar.MONTH) + 1;
+            int cYear = calendar.get(Calendar.YEAR);
+            String data = cYear+"-"+cMonth+"-"+cDay;
+            dataToSend.add(new BasicNameValuePair("data", ""+data));
+
+            String paginaDiario = "";
+            dataToSend.add(new BasicNameValuePair("paginaDiario", paginaDiario));
+
+            Log.i("TEST", "email: " + email);
+            Log.i("TEST", "codiceViaggio: " + codiceViaggio);
+            Log.i("TEST", "ordine: " + ordine);
+            Log.i("TEST", "placeId: " + placeId);
+            Log.i("TEST", "date: " + data);
+            Log.i("TEST", "paginaDiario: " + paginaDiario);
 
 
             try {
@@ -222,6 +242,33 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
 
                     HttpResponse response = httpclient.execute(httppost);
+
+                    HttpEntity entity = response.getEntity();
+
+                    is = entity.getContent();
+
+                    if (is != null) {
+
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+                            Log.i("TEST", "result: " +result);
+
+                        } catch (Exception e) {
+                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    }
 
 
                 } else
@@ -237,7 +284,19 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
         @Override
         protected void onPostExecute(Void aVoid) {
 
+            if(!result.equals("OK")){
+                Log.e("TEST", "tappa non inserita");
 
+                //TODO definire comportamento errore
+                Toast.makeText(getBaseContext(), "tappa non inserita", Toast.LENGTH_LONG).show();
+
+            }
+            else{
+                Log.i("TEST", "tappa inserita correttamente");
+
+                Toast.makeText(getBaseContext(), "tappa inserita correttamente", Toast.LENGTH_LONG).show();
+
+            }
             super.onPostExecute(aVoid);
 
         }
@@ -246,11 +305,8 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
     private class MyTaskInserimentoFiltro extends AsyncTask<Void, Void, Void> {
 
-        private final static int DEFAULT_INT = 0;
-        private static final String DEFAULT_STRING = "default";
-        private static final String DEFAULT_DATE = "2010-01-11";
         InputStream is = null;
-        String stringaFinale = "";
+        String result, stringaFinale = "";
 
 
         @Override
@@ -258,7 +314,7 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
 
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("stringa", creaStringaFiltro()));
+            dataToSend.add(new BasicNameValuePair("filtro", creaStringaFiltro()));
             dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
 
             Log.i("TEST", "filtro: " + creaStringaFiltro());
@@ -274,6 +330,33 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
                     HttpResponse response = httpclient.execute(httppost);
 
+                    HttpEntity entity = response.getEntity();
+
+                    is = entity.getContent();
+
+                    if (is != null) {
+
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+                            Log.i("TEST", "result: " +result);
+
+                        } catch (Exception e) {
+                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    }
+
 
                 } else
                     Log.e("CONNESSIONE Internet", "Assente!");
@@ -288,9 +371,17 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
         @Override
         protected void onPostExecute(Void aVoid) {
 
+            if(result.contains("")){
+                Log.e("TEST", "tappa non inserita");
 
+                //TODO definire comportamento errore
+
+            }
+            else{
+                Log.i("TEST", "tappa inserita correttamente");
+
+            }
             super.onPostExecute(aVoid);
-
         }
     }
 

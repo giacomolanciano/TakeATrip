@@ -12,5 +12,6 @@ public class Constants {
 
     //php files
     public static final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/";
+    public static final String ERROR_TAPPA_NON_INSERITA = "";
 
 }

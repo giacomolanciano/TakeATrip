@@ -449,9 +449,6 @@ public class ListaTappeActivity extends AppCompatActivity
         //TODO ricavare numero tappe itinerario utente
         intent.putExtra("ordine", 0);
 
-        //TODO ricavare codAccount
-        intent.putExtra("codAccount", 0);
-
         startActivity(intent);
     }
 
