@@ -1,6 +1,6 @@
 package com.example.david.takeatrip.Classes;
 
-import java.sql.Date;
+import com.example.david.takeatrip.Utilities.Constants;
 
 /**
  * Created by lucagiacomelli on 08/01/16.
@@ -9,12 +9,22 @@ public class Profilo {
 
     private String email, name, surname;
     private String dataNascita;
+    private int codAccount;
 
     public Profilo(String email, String name, String surname, String dataNascita) {
         this.email = email;
         this.name = name;
         this.surname = surname;
         this.dataNascita = dataNascita;
+        this.codAccount = Constants.DEFAULT_COD_ACCOUNT;
+    }
+
+    public Profilo(String email, String name, String surname, String dataNascita, int codAccount) {
+        this.email = email;
+        this.name = name;
+        this.surname = surname;
+        this.dataNascita = dataNascita;
+        this.codAccount = codAccount;
     }
 
     public Profilo(String email) {
@@ -51,6 +61,14 @@ public class Profilo {
 
     public void setDataNascita(String dataNascita) {
         this.dataNascita = dataNascita;
+    }
+
+    public int getCodAccount() {
+        return codAccount;
+    }
+
+    public void setCodAccount(int codAccount) {
+        this.codAccount = codAccount;
     }
 
     public String toString() {

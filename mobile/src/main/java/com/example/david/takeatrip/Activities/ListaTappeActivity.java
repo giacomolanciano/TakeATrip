@@ -4,20 +4,19 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +26,7 @@ import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.Tappa;
 import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -65,7 +65,7 @@ public class ListaTappeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryTappe.php";
+    private final String ADDRESS_PRELIEVO = "QueryTappe.php";
     private final String TAG = "ListaTappeActivity";
     private static final int GOOGLE_API_CLIENT_ID = 0;
 
@@ -443,6 +443,15 @@ public class ListaTappeActivity extends AppCompatActivity
     public void onClickAddStop(View v){
         Intent intent = new Intent(ListaTappeActivity.this, NuovaTappaActivity.class);
 
+        intent.putExtra("email", email);
+        intent.putExtra("codiceViaggio", codiceViaggio);
+
+        //TODO ricavare numero tappe itinerario utente
+        intent.putExtra("ordine", 0);
+
+        //TODO ricavare codAccount
+        intent.putExtra("codAccount", 0);
+
         startActivity(intent);
     }
 
@@ -475,7 +484,7 @@ public class ListaTappeActivity extends AppCompatActivity
                 try {
 
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(ADDRESS_PRELIEVO);
+                    HttpPost httppost = new HttpPost(Constants.ADDRESS_PRELIEVO+ADDRESS_PRELIEVO);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
 

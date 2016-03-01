@@ -1,7 +1,9 @@
 package com.example.david.takeatrip.Activities;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +13,9 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.Constants;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -23,12 +27,23 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
-//TODO: ad ogni tappa aggiunta si aggiunge anche il filtro relativo al viaggio
-
+import java.io.InputStream;
+import java.util.ArrayList;
 
 
 public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    private final String ADDRESS_TAPPA = "InserimentoTappa.php";
+    private final String ADDRESS_FILTRO = "InserimentoFiltro.php";
+
     private GoogleMap googleMap;
 
     private Button buttonSatellite, buttonHybrid, buttonTerrain;
@@ -40,7 +55,11 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
     private TextView nameText;
     private TextView addressText;
 
+    private String email, codiceViaggio;
+    private int ordine, codAccount;
 
+    private String placeId, placeName, placeAddress;
+    LatLng placeLatLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +91,10 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
             public void onPlaceSelected(Place place) {
 
                 //prendere info poi
-                String placeName = ""+place.getName();
-                LatLng placeLatLng = place.getLatLng();
-                String placeAddress = ""+place.getAddress();
+                placeId = ""+place.getId();
+                placeName = ""+place.getName();
+                placeLatLng = place.getLatLng();
+                placeAddress = ""+place.getAddress();
                 //...
 
                 Log.i("TEST", "name: " + placeName);
@@ -103,6 +123,16 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
 
         });
+
+
+        Intent intent;
+        if((intent = getIntent()) != null){
+            email = intent.getStringExtra("email");
+            codiceViaggio = intent.getStringExtra("codiceViaggio");
+            ordine = intent.getIntExtra("ordine", 0) + 1;
+            codAccount = intent.getIntExtra("codAccount", 0);
+
+        }
     }
 
 
@@ -147,9 +177,124 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     public void onClickAddStop(View v){
-        //TODO far partire il task per l'inserimento della tappa + filtro nel db
+
+        new MyTaskInserimentoTappa().execute();
+
+        //TODO creare file php
+        //new MyTaskInserimentoFiltro().execute();
 
     }
 
+    private String creaStringaFiltro() {
+        return placeName.toLowerCase().replaceAll(" ", "_");
+    }
+
+
+
+
+    private class MyTaskInserimentoTappa extends AsyncTask<Void, Void, Void> {
+
+        private final static int DEFAULT_INT = 0;
+        private static final String DEFAULT_STRING = "default";
+        private static final String DEFAULT_DATE = "2010-01-11";
+        InputStream is = null;
+        String stringaFinale = "";
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("email", email));
+            dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
+            dataToSend.add(new BasicNameValuePair("ordine", ""+ordine));
+            dataToSend.add(new BasicNameValuePair("codAccount", ""+codAccount));
+
+
+            try {
+
+                if (InternetConnection.haveInternetConnection(NuovaTappaActivity.this)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost(Constants.ADDRESS_PRELIEVO + ADDRESS_TAPPA);
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+
+                    HttpResponse response = httpclient.execute(httppost);
+
+
+                } else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                Log.e("TEST", "Errore nella connessione http "+e.toString());
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+
+            super.onPostExecute(aVoid);
+
+        }
+    }
+
+
+    private class MyTaskInserimentoFiltro extends AsyncTask<Void, Void, Void> {
+
+        private final static int DEFAULT_INT = 0;
+        private static final String DEFAULT_STRING = "default";
+        private static final String DEFAULT_DATE = "2010-01-11";
+        InputStream is = null;
+        String stringaFinale = "";
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("stringa", creaStringaFiltro()));
+            dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
+
+            Log.i("TEST", "filtro: " + creaStringaFiltro());
+
+            try {
+
+                if (InternetConnection.haveInternetConnection(NuovaTappaActivity.this)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost(Constants.ADDRESS_PRELIEVO + ADDRESS_FILTRO);
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+
+                    HttpResponse response = httpclient.execute(httppost);
+
+
+                } else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                Log.e("TEST", "Errore nella connessione http "+e.toString());
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+
+            super.onPostExecute(aVoid);
+
+        }
+    }
+
 }
+
+
 
