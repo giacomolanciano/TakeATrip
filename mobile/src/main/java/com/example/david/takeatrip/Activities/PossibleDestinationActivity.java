@@ -12,9 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.Meta;
-import com.example.david.takeatrip.Classes.MetaAdapter;
-import com.example.david.takeatrip.Classes.ViaggioAdapter;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.MetaAdapter;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

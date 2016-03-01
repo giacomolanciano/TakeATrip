@@ -1,4 +1,4 @@
-package com.example.david.takeatrip.Classes;
+package com.example.david.takeatrip.Utilities;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.david.takeatrip.Classes.Tappa;
 import com.example.david.takeatrip.R;
 
 import java.util.List;

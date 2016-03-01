@@ -2,24 +2,21 @@ package com.example.david.takeatrip.Activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TabWidget;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.Viaggio;
-import com.example.david.takeatrip.Classes.ViaggioAdapter;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.ViaggioAdapter;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -40,11 +37,9 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -152,7 +147,15 @@ public class SearchActivity extends AppCompatActivity {
     private void PopolaLista(Map<Profilo, List<Viaggio>> p_v){
         List<Viaggio> result = new ArrayList<Viaggio>();
         for(Profilo p : p_v.keySet()){
-            result.addAll(p_v.get(p));
+            for(Viaggio v: p_v.get(p)){
+                if(result.contains(v)){
+                    continue;
+                }
+                else{
+                    result.addAll(p_v.get(p));
+
+                }
+            }
         }
 
         Log.i("TEST", "result:" + result);

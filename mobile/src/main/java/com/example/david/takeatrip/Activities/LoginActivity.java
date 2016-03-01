@@ -1,6 +1,5 @@
 package com.example.david.takeatrip.Activities;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
-import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.PasswordHashing;
 import com.facebook.AccessToken;
@@ -32,16 +30,10 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Scope;
-import com.google.android.gms.common.api.Status;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -92,13 +84,26 @@ public class LoginActivity extends AppCompatActivity implements
     private FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(LoginResult loginResult) {
-            accessToken = loginResult.getAccessToken();
-            if(accessToken != null){
-                Log.i("TEST", "accessToken:" +  "user id: " + accessToken.getUserId() + "  token: " + accessToken.getToken());
+
+            if(Profile.getCurrentProfile() == null) {
+                profileTracker = new ProfileTracker() {
+                    @Override
+                    protected void onCurrentProfileChanged(Profile oldProfile, Profile profile2) {
+                        // profile2 is the new profile
+                        profile = profile2;
+
+                        Log.v("TEST profileFB: ", profile.getFirstName());
+                        Log.v("TEST id profile: ", profile.getId());
+                        profileTracker.stopTracking();
+                    }
+                };
+                profileTracker.startTracking();
             }
-            profile = Profile.getCurrentProfile();
-            if(profile != null){
-                Toast.makeText(getBaseContext(), "profile" + profile.getId(), Toast.LENGTH_LONG);
+            else {
+                profile = Profile.getCurrentProfile();
+                Log.v("TEST profileFB: ", profile.getFirstName());
+                Log.v("TEST id profile: ", profile.getId());
+
             }
 
             Log.i("TEST", "onSuccess!");
@@ -124,8 +129,6 @@ public class LoginActivity extends AppCompatActivity implements
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
 
-
-
         setContentView(R.layout.activity_login);
 
         campoEmail = (EditText) findViewById(R.id.campoEmail);
@@ -149,8 +152,8 @@ public class LoginActivity extends AppCompatActivity implements
                 profile = newProfile;
                 Log.i("TEST", "Profile changed");
                 if(profile!=null){
-                    Toast.makeText(getBaseContext(), "profile" + profile.getId(), Toast.LENGTH_LONG);
-
+                    Log.v("facebook - profile", newProfile.getFirstName());
+                    profileTracker.stopTracking();
                 }
             }
         };
@@ -159,17 +162,31 @@ public class LoginActivity extends AppCompatActivity implements
         accessToken = AccessToken.getCurrentAccessToken();
         if(accessToken != null){
             Log.i("TEST", "accessToken:" +  "user id: " + accessToken.getUserId() +"  token: " + accessToken.getToken());
+
+            profile = Profile.getCurrentProfile();
+
+            if(Profile.getCurrentProfile() == null) {
+                profileTracker = new ProfileTracker() {
+                    @Override
+                    protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
+                        // profile2 is the new profile
+                        Log.v("facebook - profile", profile2.getFirstName());
+                        profileTracker.stopTracking();
+                    }
+                };
+                profileTracker.startTracking();
+            }
+            else {
+                Profile profile = Profile.getCurrentProfile();
+                Log.v("facebook - profile", profile.getFirstName());
+            }
+
             //Intent openAccedi = new Intent(LoginActivity.this, MainActivity.class);
             //startActivity(openAccedi);
         }
-        Log.i("TEST", "accessToken:" );
-
 
         tracker.startTracking();
         profileTracker.startTracking();
-
-
-
 
         /*
 

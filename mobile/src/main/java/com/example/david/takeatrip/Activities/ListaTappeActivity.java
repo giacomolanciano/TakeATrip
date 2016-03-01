@@ -167,6 +167,9 @@ public class ListaTappeActivity extends AppCompatActivity
 
         ViewNomeViaggio.setText(nomeViaggio);
 
+        MyTask mT = new MyTask();
+        mT.execute();
+
     }
 
     @Override
@@ -175,8 +178,7 @@ public class ListaTappeActivity extends AppCompatActivity
         if(!mGoogleApiClient.isConnected()) {
             mGoogleApiClient.connect();
         }
-        MyTask mT = new MyTask();
-        mT.execute();
+
     }
 
 
@@ -323,6 +325,11 @@ public class ListaTappeActivity extends AppCompatActivity
         namesStops.clear();
         for(Tappa t : tappe){
             findPlaceById(p, t);
+        }
+
+        if(tappe.size()==0){
+            nomiTappe.clear();
+            profiloNomiTappe.put(p,nomiTappe);
         }
 
         Log.i("TEST", "profiloNomiTappe: " + profiloNomiTappe);
@@ -546,8 +553,6 @@ public class ListaTappeActivity extends AppCompatActivity
                                     //stringaFinale = itinerario + " " + ordine +" "+ tappaPrecedente +" "+ data +" "+ paginaDiario+" " + poi;
 
                                     tappe.add(new Tappa(itinerario, ordine, tappaPrecedente, data, paginaDiario, poi));
-
-                                    Log.i("TEST", "tappe: " + tappe);
                                 }
                             }
 
