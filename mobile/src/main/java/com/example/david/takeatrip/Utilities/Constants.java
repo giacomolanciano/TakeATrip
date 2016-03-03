@@ -25,4 +25,10 @@ public class Constants {
     public static final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/";
     public static final String ERROR_TAPPA_NON_INSERITA = "";
 
+
+    public static final int REQUEST_IMAGE_CAPTURE = 1;
+    public static final int REQUEST_IMAGE_PICK = 2;
+    public static final int REQUEST_COVER_IMAGE_CAPTURE = 3;
+    public static final int REQUEST_COVER_IMAGE_PICK = 4;
+
 }

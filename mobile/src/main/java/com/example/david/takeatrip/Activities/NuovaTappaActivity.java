@@ -1,17 +1,26 @@
 package com.example.david.takeatrip.Activities;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -44,10 +53,14 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -87,9 +100,10 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
         buttonTerrain = (Button) findViewById(R.id.buttonTerrain);
         buttonHybrid = (Button) findViewById(R.id.buttonHybrid);
 
+
         layoutInfoPoi = (FrameLayout)findViewById(R.id.FrameInfoPoi);
-        nameText = (TextView) findViewById(R.id.POIName);
-        addressText = (TextView) findViewById(R.id.POIAddress);
+//        nameText = (TextView) findViewById(R.id.POIName);
+//        addressText = (TextView) findViewById(R.id.POIAddress);
 
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
@@ -104,11 +118,12 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
         strings = getResources().getStringArray(R.array.PrivacyLevel);
         subs = getResources().getStringArray(R.array.PrivacyLevelDescription);
-        arr_images = new int[]{R.drawable.ic_public_black_36dp, R.drawable.ic_people_black_36dp,
-                R.drawable.ic_person_pin_circle_black_36dp, R.drawable.ic_settings_black_36dp};
+//        arr_images = new int[]{R.drawable.ic_public_black_36dp, R.drawable.ic_people_black_36dp,
+//                R.drawable.ic_person_pin_circle_black_36dp, R.drawable.ic_settings_black_36dp};
+        arr_images = Constants.privacy_images;
 
-        Spinner mySpinner = (Spinner)findViewById(R.id.spinner);
-        mySpinner.setAdapter(new PrivacyLevelAdapter(NuovaTappaActivity.this, R.layout.entry_privacy_level, strings));
+//        Spinner mySpinner = (Spinner)findViewById(R.id.spinner);
+//        mySpinner.setAdapter(new PrivacyLevelAdapter(NuovaTappaActivity.this, R.layout.entry_privacy_level, strings));
 
 //        mySpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
@@ -140,11 +155,34 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
 
                 //inserire in layout
+//                nameText.setText(placeName);
+//                addressText.setText(placeAddress);
+//                layoutInfoPoi.setVisibility(View.VISIBLE);
+
+
+                final Dialog dialog = new Dialog(NuovaTappaActivity.this);
+                dialog.setContentView(R.layout.info_poi);
+                //dialog.setTitle(getResources().getString(R.string.insert_new_stop));
+
+                Spinner mySpinner = (Spinner)dialog.findViewById(R.id.spinner);
+                mySpinner.setAdapter(new PrivacyLevelAdapter(NuovaTappaActivity.this, R.layout.entry_privacy_level, strings));
+
+                //put dialog at bottom
+                Window window = dialog.getWindow();
+                WindowManager.LayoutParams wlp = window.getAttributes();
+                wlp.gravity = Gravity.BOTTOM;
+                //wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+                wlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                window.setAttributes(wlp);
+
+
+                nameText = (TextView) dialog.findViewById(R.id.POIName);
+                addressText = (TextView) dialog.findViewById(R.id.POIAddress);
                 nameText.setText(placeName);
                 addressText.setText(placeAddress);
 
+                dialog.show();
 
-                layoutInfoPoi.setVisibility(View.VISIBLE);
 
 
             }
@@ -217,10 +255,112 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
     }
 
+    public void onClickAddImage(View v) {
+
+        Log.i("TEST", "add image pressed");
+
+        try {
+            ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
+            LayoutInflater inflater = this.getLayoutInflater();
+            builder.setItems(R.array.CommandsImageProfile, new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case 0: //view image profile
+
+
+                            break;
+                        case 1: //change image profile
+                            Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(intentPick, Constants.REQUEST_IMAGE_PICK);
+                            break;
+
+                        case 2:  //take a photo
+                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            if (intent.resolveActivity(getPackageManager()) != null) {
+
+                                File photoFile = null;
+                                try {
+
+                                    photoFile = createImageFile();
+
+                                } catch (IOException ex) {
+                                    Log.e("TEST", "eccezione nella creazione di file immagine");
+                                }
+
+                                Log.i("TEST", "creato file immagine");
+
+                                // Continue only if the File was successfully created
+                                if (photoFile != null) {
+                                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                                    startActivityForResult(intent, Constants.REQUEST_IMAGE_CAPTURE);
+                                }
+                            }
+                            break;
+
+                        case 3: //exit
+                            break;
+                    }
+                }
+            });
+
+
+            // Create the AlertDialog object and return it
+            builder.create().show();
+
+        } catch (Exception e) {
+            Log.e(e.toString().toUpperCase(), e.getMessage());
+        }
+
+    }
+
+    public void onClickAddVideo(View v) {
+
+        Log.i("TEST", "add video pressed");
+
+
+    }
+
+    public void onClickAddRecord(View v) {
+
+        Log.i("TEST", "add record pressed");
+
+
+    }
+
+    public void onClickAddNote(View v) {
+
+        Log.i("TEST", "add note pressed");
+
+
+    }
+
+
+
+
+    String mCurrentPhotoPath;
+    String imageFileName;
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        imageFileName = timeStamp + ".jpg";
+
+        File image = new File(android.os.Environment.getExternalStorageDirectory(), imageFileName);
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = image.getAbsolutePath();
+
+        Log.i("TEST", "path file immagine: " + mCurrentPhotoPath);
+
+        return image;
+    }
+
     private String creaStringaFiltro() {
         return placeName.toLowerCase().replaceAll(" ", "_");
     }
-
 
 
 

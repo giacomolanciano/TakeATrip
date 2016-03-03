@@ -1,47 +1,31 @@
 package com.example.david.takeatrip.Activities;
 
 import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.app.TabActivity;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.SystemClock;
 import android.provider.MediaStore;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
-import android.widget.TabWidget;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
 
 import java.io.File;
@@ -52,17 +36,12 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static android.R.drawable.ic_dialog_info;
-
 
 @SuppressWarnings("deprecation")
 public class ProfiloActivity extends TabActivity {
 
 
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final int REQUEST_IMAGE_PICK = 2;
-    private static final int REQUEST_COVER_IMAGE_CAPTURE = 3;
-    private static final int REQUEST_COVER_IMAGE_PICK = 4;
+
 
 
     private TextView viewName;
@@ -187,11 +166,11 @@ public class ProfiloActivity extends TabActivity {
 
 
 
-
     String mCurrentPhotoPath;
     String imageFileName;
 
     private File createImageFile() throws IOException {
+
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         imageFileName = timeStamp + ".jpg";
@@ -205,6 +184,7 @@ public class ProfiloActivity extends TabActivity {
 
         return image;
     }
+
 
 
     public void ClickImageProfile(View v) {
@@ -223,7 +203,7 @@ public class ProfiloActivity extends TabActivity {
                             break;
                         case 1: //change image profile
                             Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(intentPick, REQUEST_IMAGE_PICK);
+                            startActivityForResult(intentPick, Constants.REQUEST_IMAGE_PICK);
                             break;
 
                         case 2:  //take a photo
@@ -244,7 +224,7 @@ public class ProfiloActivity extends TabActivity {
                                 // Continue only if the File was successfully created
                                 if (photoFile != null) {
                                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-                                    startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+                                    startActivityForResult(intent, Constants.REQUEST_IMAGE_CAPTURE);
                                 }
                             }
                             break;
@@ -282,7 +262,7 @@ public class ProfiloActivity extends TabActivity {
                             break;
                         case 1: //change cover image
                             Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(intentPick, REQUEST_COVER_IMAGE_PICK);
+                            startActivityForResult(intentPick, Constants.REQUEST_COVER_IMAGE_PICK);
                             break;
 
                         case 2:  //take a photo
@@ -303,7 +283,7 @@ public class ProfiloActivity extends TabActivity {
                                 // Continue only if the File was successfully created
                                 if (photoFile != null) {
                                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-                                    startActivityForResult(intent, REQUEST_COVER_IMAGE_CAPTURE);
+                                    startActivityForResult(intent, Constants.REQUEST_COVER_IMAGE_CAPTURE);
                                 }
                             }
                             break;
@@ -326,7 +306,7 @@ public class ProfiloActivity extends TabActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_IMAGE_CAPTURE) {
+            if (requestCode == Constants.REQUEST_IMAGE_CAPTURE) {
                 Log.i("TEST", "immagine fatta");
 
 
@@ -370,7 +350,7 @@ public class ProfiloActivity extends TabActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if (requestCode == REQUEST_IMAGE_PICK) {
+            } else if (requestCode == Constants.REQUEST_IMAGE_PICK) {
                 Uri selectedImage = data.getData();
                 String[] filePath = {MediaStore.Images.Media.DATA};
 
@@ -389,7 +369,7 @@ public class ProfiloActivity extends TabActivity {
                 imageProfile.setImageBitmap(thumbnail);
 
 
-            } else if (requestCode == REQUEST_COVER_IMAGE_CAPTURE) {
+            } else if (requestCode == Constants.REQUEST_COVER_IMAGE_CAPTURE) {
                 Log.i("TEST", "immagine copertina fatta");
 
 
@@ -434,7 +414,7 @@ public class ProfiloActivity extends TabActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if (requestCode == REQUEST_COVER_IMAGE_PICK) {
+            } else if (requestCode == Constants.REQUEST_COVER_IMAGE_PICK) {
                 Uri selectedImage = data.getData();
                 String[] filePath = {MediaStore.Images.Media.DATA};
 
