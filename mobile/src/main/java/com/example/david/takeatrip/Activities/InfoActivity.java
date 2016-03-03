@@ -110,7 +110,6 @@ public class InfoActivity extends AppCompatActivity {
 
 
 
-
         //TODO vedere se i nuovi valori possono essere ritornati tramite la chiamata startActivityForResult
         startActivity(intent);
 

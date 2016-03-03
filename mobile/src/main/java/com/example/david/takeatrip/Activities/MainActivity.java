@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private final int LIMIT_IMAGES_VIEWS = 6;
     private final String TAG = "MainActivity";
 
-    private String name, surname, email;
+    private String name, surname, email, nazionalità, sesso, username, lavoro, descrizione, tipo;
     private String date, password;
 
     private ImageView imageViewProfileRound;
@@ -96,6 +96,12 @@ public class MainActivity extends AppCompatActivity {
             email = intent.getStringExtra("email");
             date = intent.getStringExtra("dateOfBirth");
             password = intent.getStringExtra("pwd");
+            nazionalità = intent.getStringExtra("nazionalita");
+            sesso = intent.getStringExtra("sesso");
+            username = intent.getStringExtra("username");
+            lavoro = intent.getStringExtra("lavoro");
+            descrizione = intent.getStringExtra("descrizione");
+            tipo = intent.getStringExtra("tipo");
         }
         else{
             //Prendi i dati dal database perche è gia presente l'utente
@@ -143,6 +149,12 @@ public class MainActivity extends AppCompatActivity {
         openProfilo.putExtra("email", email);
         openProfilo.putExtra("dateOfBirth", date);
         openProfilo.putExtra("pwd", password);
+        openProfilo.putExtra("nazionalita", nazionalità);
+        openProfilo.putExtra("sesso", sesso);
+        openProfilo.putExtra("username", username);
+        openProfilo.putExtra("lavoro", lavoro);
+        openProfilo.putExtra("descrizione", descrizione);
+        openProfilo.putExtra("tipo", tipo);
 
         // passo all'attivazione dell'activity
         startActivity(openProfilo);
