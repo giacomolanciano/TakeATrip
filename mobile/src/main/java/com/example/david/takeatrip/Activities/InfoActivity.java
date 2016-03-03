@@ -82,7 +82,6 @@ public class InfoActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        viewEmail.setText(email);
         viewNazionalità.setText(nazionalità);
         viewEta.setText(etaFinale + "");
         viewSesso.setText(sesso);
