@@ -167,6 +167,15 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                 Spinner mySpinner = (Spinner)dialog.findViewById(R.id.spinner);
                 mySpinner.setAdapter(new PrivacyLevelAdapter(NuovaTappaActivity.this, R.layout.entry_privacy_level, strings));
 
+
+                ImageView addImage = (ImageView)dialog.findViewById(R.id.addImage);
+                addImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onClickAddImage(view);
+                    }
+                });
+
                 //put dialog at bottom
                 Window window = dialog.getWindow();
                 WindowManager.LayoutParams wlp = window.getAttributes();
@@ -255,7 +264,91 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
     }
 
-    public void onClickAddImage(View v) {
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == Constants.REQUEST_IMAGE_CAPTURE) {
+                Log.i("TEST", "REQUEST_IMAGE_CAPTURE");
+
+
+//                File f = new File(Environment.getExternalStorageDirectory().toString());
+//                for (File temp : f.listFiles()) {
+//                    if (temp.getName().equals(imageFileName)) {
+//                        f = temp;
+//                        break;
+//                    }
+//                }
+//                try {
+//                    Bitmap bitmap;
+//                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+//
+//                    bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
+//                            bitmapOptions);
+//
+//
+//                    //TODO: update the db with new profile image
+//
+//
+//                    //imageProfile.setImageBitmap(bitmap);
+//
+//                    String path = android.os.Environment.getExternalStorageDirectory().toString();
+//                    f.delete();
+//
+//                    OutputStream outFile = null;
+//                    File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
+//                    try {
+//                        outFile = new FileOutputStream(file);
+//                        bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
+//                        outFile.flush();
+//                        outFile.close();
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+
+
+            } else if (requestCode == Constants.REQUEST_IMAGE_PICK) {
+
+                Log.i("TEST", "REQUEST_IMAGE_PICK");
+
+//                Uri selectedImage = data.getData();
+//                String[] filePath = {MediaStore.Images.Media.DATA};
+//
+//                Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
+//                c.moveToFirst();
+//                int columnIndex = c.getColumnIndex(filePath[0]);
+//                String picturePath = c.getString(columnIndex);
+//                c.close();
+//                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+//                Log.i("image from gallery:", picturePath + "");
+//
+//
+//                //TODO: update the db with new profile image
+//
+//
+//                //imageProfile.setImageBitmap(thumbnail);
+
+
+            }
+        }
+    }
+
+
+
+
+
+    //metodi ausiliari
+
+    private void onClickAddImage(View v) {
 
         Log.i("TEST", "add image pressed");
 
@@ -273,8 +366,17 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
                             break;
                         case 1: //change image profile
-                            Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(intentPick, Constants.REQUEST_IMAGE_PICK);
+//                            Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                            startActivityForResult(intentPick, Constants.REQUEST_IMAGE_PICK);
+
+                            Intent intentPick = new Intent();
+                            intentPick.setType("image/*");
+                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                            intentPick.setAction(Intent.ACTION_GET_CONTENT);
+                            startActivityForResult(Intent.createChooser(intentPick,"Select Picture"), Constants.REQUEST_IMAGE_PICK);
+
+
+
                             break;
 
                         case 2:  //take a photo
@@ -337,13 +439,11 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
     }
 
-
-
-
-    String mCurrentPhotoPath;
-    String imageFileName;
-
     private File createImageFile() throws IOException {
+
+        String mCurrentPhotoPath;
+        String imageFileName;
+
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         imageFileName = timeStamp + ".jpg";

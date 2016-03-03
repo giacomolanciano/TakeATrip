@@ -77,7 +77,7 @@
             android:layout_gravity="center_vertical"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:onClick="onClickAddImage"
+            android:id="@+id/addImage"
             android:clickable="true" />
 
         <ImageView
@@ -87,7 +87,6 @@
             android:layout_gravity="center_vertical"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:onClick="onClickAddVideo"
             android:clickable="true" />
 
         <ImageView
@@ -97,7 +96,6 @@
             android:layout_gravity="center_vertical"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:onClick="onClickAddRecord"
             android:clickable="true" />
 
         <ImageView
@@ -107,7 +105,6 @@
             android:layout_gravity="center_vertical"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:onClick="onClickAddNote"
             android:clickable="true" />
 
 
