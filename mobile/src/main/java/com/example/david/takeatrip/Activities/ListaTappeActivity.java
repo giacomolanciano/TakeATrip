@@ -445,6 +445,13 @@ public class ListaTappeActivity extends AppCompatActivity
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
     }
 
+    public void ClickAddTappa(View view) {
+        Intent openAddTappa = new Intent(ListaTappeActivity.this, NuovaTappaActivity.class);
+
+        // passo all'attivazione dell'activity
+        startActivity(openAddTappa);
+    }
+
 
 
     public void onClickAddStop(View v){
@@ -620,5 +627,7 @@ public class ListaTappeActivity extends AppCompatActivity
             super.onPostExecute(aVoid);
 
         }
+
+
     }
 }

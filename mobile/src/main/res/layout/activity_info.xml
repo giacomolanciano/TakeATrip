@@ -15,23 +15,164 @@
         android:layout_height="fill_parent"
         android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/activity_vertical_margin"
             android:textSize="20dp"
-            android:text="Data di Nascita"
-            android:id="@+id/DataDiNascita" />
+            android:text="Username: "
+            android:id="@+id/Username1" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/activity_vertical_margin"
             android:textSize="20dp"
-            android:text="Email"
-            android:id="@+id/Email" />
+            android:text="Username"
+            android:id="@+id/Username" />
 
+
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:textSize="20dp"
+            android:text="Sesso: "
+            android:id="@+id/Sesso1" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:textSize="20dp"
+            android:text="Sesso"
+            android:id="@+id/Sesso" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:textSize="20dp"
+            android:text="Eta: "
+            android:id="@+id/Eta1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:textSize="20dp"
+            android:text="Eta"
+            android:id="@+id/Eta" />
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:textSize="20dp"
+            android:text="Nazionalità: "
+            android:id="@+id/Nazionalità1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:textSize="20dp"
+            android:text="Nazionalità"
+            android:id="@+id/Nazionalità" />
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:textSize="20dp"
+            android:text="Tipologia Utente: "
+            android:id="@+id/Tipo1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:textSize="20dp"
+            android:text="Tipo"
+            android:id="@+id/Tipo" />
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:textSize="20dp"
+            android:text="Lavoro: "
+            android:id="@+id/Lavoro1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:textSize="20dp"
+            android:text="Lavoro"
+            android:id="@+id/Lavoro" />
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:textSize="20dp"
+            android:text="Descrizione: "
+            android:id="@+id/Descrizione1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:textSize="20dp"
+            android:text="Descrizione"
+            android:id="@+id/Descrizione" />
+</LinearLayout>
 
 
 

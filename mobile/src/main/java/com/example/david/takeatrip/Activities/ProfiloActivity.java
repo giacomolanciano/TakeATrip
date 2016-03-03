@@ -51,7 +51,8 @@ public class ProfiloActivity extends TabActivity {
     private LinearLayout layoutCoverImage;
 
     private String name, surname, email;
-    private String date, password;
+    private String date, password, nazionalità, sesso, username, lavoro, descrizione, tipo;
+    private int codice;
 
 
     private TabHost TabHost;
@@ -87,6 +88,13 @@ public class ProfiloActivity extends TabActivity {
             email = intent.getStringExtra("email");
             date = intent.getStringExtra("dateOfBirth");
             password = intent.getStringExtra("pwd");
+            nazionalità = intent.getStringExtra("nazionalita");
+            sesso = intent.getStringExtra("sesso");
+            username = intent.getStringExtra("username");
+            lavoro = intent.getStringExtra("lavoro");
+            descrizione = intent.getStringExtra("descrizione");
+            tipo = intent.getStringExtra("tipo");
+
 
             if(password == null){
                 externalView = true;
@@ -116,6 +124,14 @@ public class ProfiloActivity extends TabActivity {
         intentInfo.putExtra("email", email);
         intentInfo.putExtra("dateOfBirth", date);
         intentInfo.putExtra("pwd", password);
+        intentInfo.putExtra("nazionalita", nazionalità);
+        intentInfo.putExtra("sesso", sesso);
+        intentInfo.putExtra("username", username);
+        intentInfo.putExtra("lavoro", lavoro);
+        intentInfo.putExtra("descrizione", descrizione);
+        intentInfo.putExtra("tipo", tipo);
+
+
 
         tab1.setContent(intentInfo);
         tab2.setContent(new Intent(this, StatsActivity.class));
@@ -162,6 +178,14 @@ public class ProfiloActivity extends TabActivity {
         intentInfo.putExtra("email", email);
         intentInfo.putExtra("dateOfBirth", date);
         intentInfo.putExtra("pwd", password);
+        intentInfo.putExtra("nazionalita", nazionalità);
+        intentInfo.putExtra("sesso", sesso);
+        intentInfo.putExtra("username", username);
+        intentInfo.putExtra("lavoro", lavoro);
+        intentInfo.putExtra("descrizione", descrizione);
+        intentInfo.putExtra("tipo", tipo);
+
+
     }
 
 
