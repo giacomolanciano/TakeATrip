@@ -1,6 +1,7 @@
 package com.example.david.takeatrip.Activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -8,9 +9,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,6 +72,12 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
     private String placeId, placeName, placeAddress;
     LatLng placeLatLng;
 
+    private String[] strings;
+    private String[] subs;
+    private int[] arr_images;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,8 +99,23 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
         autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
+        autocompleteFragment.setHint(getResources().getString(R.string.search_poi));
 
-        autocompleteFragment.setHint(""+R.string.search_poi);
+
+        strings = getResources().getStringArray(R.array.PrivacyLevel);
+        subs = getResources().getStringArray(R.array.PrivacyLevelDescription);
+        arr_images = new int[]{R.drawable.ic_public_black_36dp, R.drawable.ic_people_black_36dp,
+                R.drawable.ic_person_pin_circle_black_36dp, R.drawable.ic_settings_black_36dp};
+
+        Spinner mySpinner = (Spinner)findViewById(R.id.spinner);
+        mySpinner.setAdapter(new PrivacyLevelAdapter(NuovaTappaActivity.this, R.layout.entry_privacy_level, strings));
+
+//        mySpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                //TODO
+//            }
+//        });
 
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
@@ -115,6 +142,7 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                 //inserire in layout
                 nameText.setText(placeName);
                 addressText.setText(placeAddress);
+
 
                 layoutInfoPoi.setVisibility(View.VISIBLE);
 
@@ -382,6 +410,45 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
             }
             super.onPostExecute(aVoid);
+        }
+    }
+
+    private class PrivacyLevelAdapter extends ArrayAdapter<String> {
+
+
+        public PrivacyLevelAdapter(Context context, int textViewResourceId, String[] strings) {
+            super(context, textViewResourceId, strings);
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView, ViewGroup parent) {
+
+
+            LayoutInflater inflater=getLayoutInflater();
+            convertView=inflater.inflate(R.layout.entry_privacy_level, parent, false);
+            TextView label=(TextView)convertView.findViewById(R.id.privacyLevel);
+            label.setText(strings[position]);
+
+            TextView sub=(TextView)convertView.findViewById(R.id.description);
+            sub.setText(subs[position]);
+
+            ImageView icon=(ImageView)convertView.findViewById(R.id.image);
+            icon.setImageResource(arr_images[position]);
+
+            Log.i("TEST", "string: " + strings[position]);
+            Log.i("TEST", "sub: " + subs[position]);
+            Log.i("TEST", "img: " + arr_images[position]);
+
+            return convertView;
         }
     }
 

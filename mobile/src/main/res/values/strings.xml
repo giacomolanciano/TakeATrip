@@ -160,6 +160,20 @@
 
     <string name="search_poi">Search POI</string>
 
+    <string-array name="PrivacyLevel">
+        <item>Public</item>
+        <item>Travel</item>
+        <item>Stop</item>
+        <item>Custom</item>
+    </string-array>
+
+    <string-array name="PrivacyLevelDescription">
+        <item>Anyone can see these contents</item>
+        <item>Only your travel friends can see these contents</item>
+        <item>Only your travel friends can see these contents</item>
+        <item>Choose who can see these contents</item>
+    </string-array>
+
 
 
 </resources>

@@ -1,8 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
 
 
@@ -147,4 +145,4 @@
 
 
 </FrameLayout>
-<!-- From: file:/Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/res/layout/activity_viaggio.xml -->
+<!-- From: file:/C:/Users/Giacomo/AndroidStudioProjects/TakeATrip/mobile/src/main/res/layout/activity_viaggio.xml -->
