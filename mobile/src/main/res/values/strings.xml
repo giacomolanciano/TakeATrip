@@ -24,6 +24,8 @@
     <string name="Register">Register</string>
     <string name="LoginWithFb">Login with Facebook</string>
     <string name="LoginWithGoogle">Login with Google</string>
+    <string name="Logout">logout</string>
+
 
 
     <string name="Categoria">Categoria</string>
@@ -125,6 +127,10 @@
 
     <string-array name="CommandsViewProfile">
         <item>view profile</item>
+    </string-array>
+
+    <string-array name="CommandsSettingsMain">
+        <item>logout</item>
     </string-array>
 
 

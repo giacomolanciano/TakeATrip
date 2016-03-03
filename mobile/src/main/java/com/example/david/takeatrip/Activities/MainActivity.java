@@ -4,39 +4,32 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MultiAutoCompleteTextView;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
-import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.DatabaseHandler;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -50,8 +43,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -66,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
     private final String ADDRESS_INSERIMENTO_VIAGGIO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoViaggio.php";
     private final String ADDRESS_INSERIMENTO_ITINERARIO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoItinerario.php";
     private final String ADDRESS_INSERIMENTO_FILTRO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoFiltro.php";
+
+
+
+    private final int LIMIT_IMAGES_VIEWS = 6;
+    private final String TAG = "MainActivity";
 
     private String name, surname, email;
     private String date, password;
@@ -106,15 +102,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         imageViewProfileRound = (ImageView)findViewById(R.id.imageView_round);
-        layoutNewTravel = (FrameLayout)findViewById(R.id.FrameNewTravel);
+        //layoutNewTravel = (FrameLayout)findViewById(R.id.FrameNewTravel);
         //table_layout = (TableLayout) findViewById(R.id.tableLayout1);
-        layoutNewPartecipants = (LinearLayout)findViewById(R.id.layoutPartecipants);
-
-
-        text=(AutoCompleteTextView)findViewById(R.id.autoCompleteTextView1);
-        editTextNameTravel=(EditText)findViewById(R.id.editTextNameTravel);
-
-
 
 
 
@@ -146,42 +135,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void AddToLayout(String partecipant){
-        TextView tv = new TextView(this);
-        tv.setText(partecipant);
-
-
-        layoutNewPartecipants.addView(tv);
-    }
-
-    /*
-
-    private void BuildTable(int rows, int cols, String partecipant) {
-
-        // outer for loop
-        for (int i = 1; i <= rows; i++) {
-
-            TableRow row = new TableRow(this);
-            row.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
-
-            // inner for loop
-            for (int j = 1; j <= cols; j++) {
-
-                TextView tv = new TextView(this);
-                tv.setText("R " + i + ", C" + j);
-
-
-                row.addView(tv);
-
-            }
-
-            table_layout.addView(row);
-
-        }
-    }
-
-*/
 
     public void ClickImageProfile(View v){
         Intent openProfilo = new Intent(MainActivity.this, ProfiloActivity.class);
@@ -212,73 +165,199 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    LinearLayout rowHorizontal;
     public void ClickNewTravel(View v){
         nomeViaggio = "";
 
-        //final Dialog dialog = new Dialog(this);
-        //dialog.setContentView(R.layout.activity_viaggio2);
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.activity_viaggio2);
+        dialog.setTitle("Create new travel");
 
-        text=(AutoCompleteTextView)findViewById(R.id.autoCompleteTextView1);
-        layoutNewTravel.setVisibility(View.VISIBLE);
-
-    }
-
-    public void ClickNewPartecipant(View v){
-        if(!text.getText().toString().equals("")){
-            AddToLayout(text.getText().toString());
-
-            //BuildTable(3, 3);
-            namesPartecipants.add(text.getText().toString());
-
-            text.setText("");
-        }
-
-    }
-
-    public void onClickCancelButton(View v){
-        //TODO: eliminare layout esistente
-        layoutNewTravel.setVisibility(View.INVISIBLE);
-
-        namesPartecipants.clear();
-        partecipants.clear();
-        layoutNewPartecipants.removeAllViews();
-        editTextNameTravel.setText("");
-
-        Log.i("TEST", "lista nomi partecipanti:" + namesPartecipants);
-        Log.i("TEST", "lista partecipanti:" + partecipants);
-
-    }
+        final AutoCompleteTextView text=(AutoCompleteTextView)dialog.findViewById(R.id.autoCompleteTextView1);
+        ArrayAdapter adapter = new ArrayAdapter(MainActivity.this,android.R.layout.simple_list_item_1,names);
+        text.setHint("Add partecipant");
+        text.setAdapter(adapter);
+        text.setThreshold(1);
 
 
-    public void onClickCreateTravel(View v){
-        if(!partecipants.contains(myProfile)){
-            partecipants.add(myProfile);
-        }
+        //layoutNewPartecipants = (TableLayout)dialog.findViewById(R.id.layoutPartecipants);
+        layoutNewPartecipants = (LinearLayout)dialog.findViewById(R.id.layoutPartecipants);
+        rowHorizontal = (LinearLayout)dialog.findViewById(R.id.layout_horizontal);
 
-        nomeViaggio = editTextNameTravel.getText().toString();
 
-        for(String s : namesPartecipants){
-            String name = s.split(" ")[0];
-            String surname = s.split(" ")[1];
-            for(Profilo p : profiles){
-                if(p.getName().equals(name) && p.getSurname().equals(surname)){
-                    if(!partecipants.contains(p)){
-                        partecipants.add(p);
+
+        TextView travel = (TextView) dialog.findViewById(R.id.titoloViaggio);
+
+        editTextNameTravel = (EditText) dialog.findViewById(R.id.editTextNameTravel);
+
+
+        Button buttonCreate = (Button) dialog.findViewById(R.id.buttonCreateTravel);
+        buttonCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(editTextNameTravel.getText().toString().equals("")){
+                    Toast.makeText(getBaseContext(), "Name Travel omitted", Toast.LENGTH_LONG).show();
+                }
+                else {
+
+                    if(!partecipants.contains(myProfile)){
+                        partecipants.add(myProfile);
                     }
+
+                    nomeViaggio = editTextNameTravel.getText().toString();
+
+                    for(String s : namesPartecipants){
+                        String name = s.split(" ")[0];
+                        String surname = s.split(" ")[1];
+                        for(Profilo p : profiles){
+                            if(p.getName().equals(name) && p.getSurname().equals(surname)){
+                                if(!partecipants.contains(p)){
+                                    partecipants.add(p);
+                                }
+                            }
+                        }
+                    }
+                    Log.i("TEST", "lista partecipanti:" + partecipants);
+                    Log.i("TEST", "nome Viaggio:" + nomeViaggio);
+
+
+                    //new TaskForUUID().execute();
+
+                    namesPartecipants.clear();
+                    partecipants.clear();
+
+                    dialog.dismiss();
                 }
             }
-        }
-        Log.i("TEST", "lista partecipanti:" + partecipants);
-        new TaskForUUID().execute();
+        });
 
 
+        Button buttonCancella = (Button) dialog.findViewById(R.id.buttonCancellaDialog);
+        buttonCancella.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                namesPartecipants.clear();
+                partecipants.clear();
+                layoutNewPartecipants.removeAllViews();
+                editTextNameTravel.setText("");
+
+                Log.i("TEST", "lista nomi partecipanti:" + namesPartecipants);
+                Log.i("TEST", "lista partecipanti:" + partecipants);
+
+                dialog.dismiss();
+            }
+        });
+
+
+
+
+        final FloatingActionButton buttonAdd = (FloatingActionButton) dialog.findViewById(R.id.floatingButtonAdd);
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!text.getText().toString().equals("")) {
+                    TextView tv = new TextView(MainActivity.this);
+                    tv.setText(text.getText().toString());
+
+                    String s = text.getText().toString();
+                    String name = s.split(" ")[0];
+                    String surname = s.split(" ")[1];
+                    for(Profilo p : profiles){
+
+
+                        //TODO: se si mette l'username è univoca la ricerca per utente
+                        if(p.getName().equals(name) && p.getSurname().equals(surname)){
+                            if(!partecipants.contains(p)){
+
+                                if(partecipants.size()%LIMIT_IMAGES_VIEWS == 0){
+                                    rowHorizontal = new LinearLayout(MainActivity.this);
+                                    rowHorizontal.setOrientation(LinearLayout.HORIZONTAL);
+
+                                    //Log.i(TAG, "creato nuovo layout");
+                                    layoutNewPartecipants.addView(rowHorizontal);
+                                    layoutNewPartecipants.addView(new TextView(MainActivity.this), 20, 20);
+                                    //Log.i(TAG, "aggiunto row e view al layout verticale");
+                                }
+
+                                final ImageView image = new RoundedImageView(MainActivity.this, null);
+                                image.setContentDescription(p.getEmail());
+
+                                //TODO: mettere le immagini dei partecipanti
+                                image.setImageResource(R.drawable.logodef);
+                                rowHorizontal.addView(image, 40, 40);
+                                rowHorizontal.addView(new TextView(MainActivity.this), 20, 40);
+                                Log.i(TAG, "aggiungo la view nel layout orizzonale");
+
+                                partecipants.add(p);
+
+                            }
+                            else{
+                                Toast.makeText(getBaseContext(), "User already present in travel", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    text.setText("");
+
+                }
+
+            }
+        });
+
+
+        dialog.show();
     }
+
 
 
     public void onClickSocialButton(View v){
         Intent intent = new Intent(MainActivity.this, SocialActivity.class);
         startActivity(intent);
     }
+
+    public void onClickSettings(View v){
+
+        try{
+            ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
+            LayoutInflater inflater = this.getLayoutInflater();
+            builder.setItems(R.array.CommandsSettingsMain, new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case 0: //logout profile
+                            if(email.contains("@")){
+                                DatabaseHandler db = new DatabaseHandler(MainActivity.this);
+                                // Inserting Users
+                                Log.d("TEST", "Drop the user...");
+                                db.deleteContact(myProfile);
+                            }
+                            else{
+                                if(LoginManager.getInstance() != null){
+                                    Log.d("TEST", "Log out from facebook: ..");
+
+                                    LoginManager.getInstance().logOut();
+                                }
+                            }
+                            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                            finish();
+                            break;
+                    }
+                }
+            });
+
+            // Create the AlertDialog object and return it
+            builder.create().show();
+        } catch (Exception e) {
+            Log.e(e.toString().toUpperCase(), e.getMessage());
+        }
+    }
+
+
+
 
 
 
@@ -355,12 +434,13 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
+            /*
             ArrayAdapter adapter = new ArrayAdapter(MainActivity.this,android.R.layout.simple_list_item_1,names);
 
             text.setAdapter(adapter);
             text.setThreshold(1);
 
+*/
             super.onPostExecute(aVoid);
 
         }

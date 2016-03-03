@@ -1,9 +1,7 @@
 package com.example.david.takeatrip.Activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,25 +12,17 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,7 +30,6 @@ import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
-import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
 
@@ -54,19 +43,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.Attributes;
 
 public class ViaggioActivity extends AppCompatActivity {
 
@@ -77,6 +59,9 @@ public class ViaggioActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
 
+    private final int LIMIT_IMAGES_VIEWS = 4;
+
+
     private String email, codiceViaggio, nomeViaggio;
 
     private boolean proprioViaggio = false;
@@ -86,6 +71,7 @@ public class ViaggioActivity extends AppCompatActivity {
     private TextView viewTitoloViaggio;
     private LinearLayout layoutCopertinaViaggio;
     private LinearLayout layoutPartecipants;
+    private LinearLayout rowHorizontal;
 
 
 
@@ -176,7 +162,21 @@ public class ViaggioActivity extends AppCompatActivity {
 
 
     private void PopolaPartecipanti(){
+        int i=0;
         for(Profilo p : listPartecipants){
+
+            if(i%LIMIT_IMAGES_VIEWS == 0){
+                rowHorizontal = new LinearLayout(ViaggioActivity.this);
+                rowHorizontal.setOrientation(LinearLayout.HORIZONTAL);
+
+                //Log.i(TAG, "creato nuovo layout");
+                layoutPartecipants.addView(rowHorizontal);
+                layoutPartecipants.addView(new TextView(ViaggioActivity.this), 20, 20);
+                //Log.i(TAG, "aggiunto row e view al layout verticale");
+            }
+
+
+
             final ImageView image = new RoundedImageView(this, null);
             image.setContentDescription(p.getEmail());
 
@@ -188,8 +188,10 @@ public class ViaggioActivity extends AppCompatActivity {
             });
             //TODO: mettere le immagini dei partecipanti
             image.setImageResource(R.drawable.logodef);
-            layoutPartecipants.addView(image, 100, 100);
-            layoutPartecipants.addView(new TextView(this), 20, 100);
+            rowHorizontal.addView(image, 100, 100);
+            rowHorizontal.addView(new TextView(this), 20, 100);
+
+            i++;
 
         }
 
@@ -199,8 +201,7 @@ public class ViaggioActivity extends AppCompatActivity {
 
             buttonAddPartecipant.setRippleColor(getResources().getColor(R.color.blue));
 
-            //TODO: aggiungere il piu al bottone
-            //buttonAddPartecipant.setImageDrawable();
+            buttonAddPartecipant.setImageResource(R.drawable.ic_add_white_24dp);
             buttonAddPartecipant.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -208,7 +209,7 @@ public class ViaggioActivity extends AppCompatActivity {
                 }
             });
 
-            layoutPartecipants.addView(buttonAddPartecipant, 100, 100);
+            rowHorizontal.addView(buttonAddPartecipant, 100, 100);
 
         }
 
@@ -469,6 +470,7 @@ public class ViaggioActivity extends AppCompatActivity {
             viewTitoloViaggio.setText(nomeViaggio);
 
             layoutPartecipants = (LinearLayout)findViewById(R.id.Partecipants);
+            rowHorizontal = (LinearLayout) findViewById(R.id.layout_horizontal2);
 
             PopolaPartecipanti();
 

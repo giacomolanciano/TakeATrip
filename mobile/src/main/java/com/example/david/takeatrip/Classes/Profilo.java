@@ -7,9 +7,12 @@ import com.example.david.takeatrip.Utilities.Constants;
  */
 public class Profilo {
 
-    private String email, name, surname;
+    private String email, name, surname, password;
     private String dataNascita;
     private int codAccount;
+
+    public Profilo(){
+    }
 
     public Profilo(String email, String name, String surname, String dataNascita) {
         this.email = email;
@@ -19,13 +22,6 @@ public class Profilo {
         this.codAccount = Constants.DEFAULT_COD_ACCOUNT;
     }
 
-    public Profilo(String email, String name, String surname, String dataNascita, int codAccount) {
-        this.email = email;
-        this.name = name;
-        this.surname = surname;
-        this.dataNascita = dataNascita;
-        this.codAccount = codAccount;
-    }
 
     public Profilo(String email) {
         this.email = email;
@@ -54,6 +50,12 @@ public class Profilo {
     public void setSurname(String surname) {
         this.surname = surname;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword(){ if(password!= null)return this.password; else return null;}
 
     public String getDataNascita() {
         return dataNascita;

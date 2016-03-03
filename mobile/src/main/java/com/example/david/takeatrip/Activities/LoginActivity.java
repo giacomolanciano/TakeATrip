@@ -11,12 +11,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
+import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.DatabaseHandler;
 import com.example.david.takeatrip.Utilities.PasswordHashing;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -51,6 +52,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,6 +61,7 @@ public class LoginActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,View.OnClickListener {
 
     private final String ADDRESS_VERIFICA_LOGIN = "http://www.musichangman.com/TakeATrip/InserimentoDati/VerificaLogin.php";
+    private final String ADDRESS_INSERIMENTO_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoProfilo.php";
     private static final int RC_SIGN_IN = 9001;
     private static final String WEBAPP_ID   = "272164392045-84rf9p4med24s1i0u6shu13fiila6k1e.apps.googleusercontent.com";
 
@@ -68,7 +71,6 @@ public class LoginActivity extends AppCompatActivity implements
 
     private TextView btnRegistrati;
     private Button btnAccedi;
-    private ImageView miaImmagine;
 
     private EditText campoEmail, campoPassword;
     private String email, password, nome, cognome, data;
@@ -94,7 +96,16 @@ public class LoginActivity extends AppCompatActivity implements
 
                         Log.v("TEST profileFB: ", profile.getFirstName());
                         Log.v("TEST id profile: ", profile.getId());
+
+                        email = profile.getId();
+                        password = "pwdFb";
+                        nome = profile.getFirstName();
+                        cognome = profile.getLastName();
+                        data = "0000-00-00";
+
                         profileTracker.stopTracking();
+
+                        new MyTaskInsert().execute();
                     }
                 };
                 profileTracker.startTracking();
@@ -108,7 +119,6 @@ public class LoginActivity extends AppCompatActivity implements
 
             Log.i("TEST", "onSuccess!");
 
-            //DisplayMessage(profile);
         }
 
         @Override
@@ -135,86 +145,37 @@ public class LoginActivity extends AppCompatActivity implements
         campoPassword = (EditText) findViewById(R.id.campoPassword);
 
 
-        tracker = new AccessTokenTracker() {
-            @Override
-            protected void onCurrentAccessTokenChanged(AccessToken old, AccessToken newToken) {
-                Log.i("TEST", "onCurrentAccessTokenChanged");
-                accessToken = newToken;
-                if(accessToken != null){
-                    Log.i("TEST", "accessToken:" +  "user id: " + accessToken.getUserId() +"  token: " + accessToken.getToken());
-                }
-            }
-        };
-
-        profileTracker = new ProfileTracker() {
-            @Override
-            protected void onCurrentProfileChanged(Profile oldProfile, Profile newProfile) {
-                profile = newProfile;
-                Log.i("TEST", "Profile changed");
-                if(profile!=null){
-                    Log.v("facebook - profile", newProfile.getFirstName());
-                    profileTracker.stopTracking();
-                }
-            }
-        };
-
         // If the access token is available already assign it.
         accessToken = AccessToken.getCurrentAccessToken();
         if(accessToken != null){
-            Log.i("TEST", "accessToken:" +  "user id: " + accessToken.getUserId() +"  token: " + accessToken.getToken());
+            Log.i("TEST", "accessToken:" + "user id: " + accessToken.getUserId() + "  token: " + accessToken.getToken());
 
             profile = Profile.getCurrentProfile();
 
             if(Profile.getCurrentProfile() == null) {
                 profileTracker = new ProfileTracker() {
                     @Override
-                    protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
+                    protected void onCurrentProfileChanged(Profile oldProfile, Profile profile2) {
+                        profile = profile2;
                         // profile2 is the new profile
-                        Log.v("facebook - profile", profile2.getFirstName());
+                        Log.i("facebook - profile", profile.getName());
                         profileTracker.stopTracking();
                     }
                 };
                 profileTracker.startTracking();
             }
             else {
-                Profile profile = Profile.getCurrentProfile();
+                profile = Profile.getCurrentProfile();
                 Log.v("facebook - profile", profile.getFirstName());
+
+                email = profile.getId();
+                password = "pwdFb";
+                nome = profile.getFirstName();
+                cognome = profile.getLastName();
+                data = "0000-00-00";
+                openMainActivity(email, nome, cognome, data, password);
             }
-
-            //Intent openAccedi = new Intent(LoginActivity.this, MainActivity.class);
-            //startActivity(openAccedi);
         }
-
-        tracker.startTracking();
-        profileTracker.startTracking();
-
-        /*
-
-        //Sign-in with Google
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(WEBAPP_ID)
-                .requestEmail()
-                .build();
-
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
-
-
-        signInButton = (SignInButton) findViewById(R.id.sign_in_button);
-        signInButton.setScopes(gso.getScopeArray());
-        signInButton.setOnClickListener(this);
-
-
-
-        */
-
-
-
-
 
 
         btnRegistrati=(TextView)findViewById(R.id.Registrati);
@@ -245,11 +206,7 @@ public class LoginActivity extends AppCompatActivity implements
                     Toast.makeText(getBaseContext(), "Attenzione! \nLa password deve contenere almeno 5 caratteri!", Toast.LENGTH_LONG)
                             .show();
                 } else {
-
                     password = PasswordHashing.sha1Hash(campoPassword.getText().toString());
-
-                    Log.i("TEST", "hash password: " + password);
-
                     //verifica se l'utente ha inserito i dati correttamente (matching con il DB)
                     new MyTask().execute();
 
@@ -258,8 +215,56 @@ public class LoginActivity extends AppCompatActivity implements
 
 
         });
-    }
 
+
+
+        //If the user is already registered, then skip this activity (MySqLite)
+        DatabaseHandler db = new DatabaseHandler(LoginActivity.this);
+        try{
+            Log.d("Reading: ", "Reading all contacts..");
+            List<Profilo> contacts = db.getAllContacts();
+            if(contacts.size() != 0){
+                for (Profilo cn : contacts) {
+                    String log = "Email: "+cn.getEmail()+" ,Name: " + cn.getName() + " ,Surname: " + cn.getSurname() + " ,Date: "+ cn.getDataNascita()
+                            + " ,HashPassword: " + cn.getPassword();
+                    Log.i("LOG: ", log);
+
+                    openMainActivity(cn.getEmail(), cn.getName(),cn.getSurname(),cn.getDataNascita(),cn.getPassword());
+                }
+
+            }
+        }
+        catch (Exception e){
+            Log.d("table does not exitst: ", "Recreating the table..");
+            db.onCreate(db.getWritableDatabase());
+        }
+
+
+        /*
+
+        //Sign-in with Google
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(WEBAPP_ID)
+                .requestEmail()
+                .build();
+
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+
+
+        signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        signInButton.setScopes(gso.getScopeArray());
+        signInButton.setOnClickListener(this);
+
+
+
+        */
+
+    }
 
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -364,7 +369,6 @@ public class LoginActivity extends AppCompatActivity implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        tracker.stopTracking();
     }
 
     @Override
@@ -430,16 +434,11 @@ public class LoginActivity extends AppCompatActivity implements
         InputStream is = null;
         String result, stringaFinale = "";
 
-
-
         @Override
         protected Void doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("email", email));
             dataToSend.add(new BasicNameValuePair("password", password));
-
-
-
 
             try {
                 if (InternetConnection.haveInternetConnection(LoginActivity.this)) {
@@ -477,10 +476,7 @@ public class LoginActivity extends AppCompatActivity implements
                                 nome =  json_data.getString("nome").toString();
                                 cognome = json_data.getString("cognome").toString();
                                 data = json_data.getString("dataNascita").toString();
-
                             }
-
-
 
                         } catch (Exception e) {
                             Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
@@ -503,44 +499,96 @@ public class LoginActivity extends AppCompatActivity implements
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
-            //Toast.makeText(getBaseContext(), "Stringa finale: " + stringaFinale, Toast.LENGTH_LONG).show();
-            //Toast.makeText(getBaseContext(), "Stringa finale: " + stringaFinale, Toast.LENGTH_LONG).show();
-
-
             if(stringaFinale == ""){
                 Toast.makeText(getBaseContext(), getResources().getString(R.string.LoginError), Toast.LENGTH_LONG).show();
             }
             else{
+                DatabaseHandler db = new DatabaseHandler(LoginActivity.this);
+                //SQLiteDatabase newdb = db.getWritableDatabase();
+                //db.onUpgrade(newdb,2,1);
 
-                //Toast.makeText(getBaseContext(), data, Toast.LENGTH_LONG).show();
+                // Inserting Users
+                Log.d("Insert: ", "Inserting ..");
 
-                Intent openAccedi = new Intent(LoginActivity.this, MainActivity.class);
-                openAccedi.putExtra("email", email);
-                openAccedi.putExtra("name", nome);
-                openAccedi.putExtra("surname", cognome);
-                openAccedi.putExtra("dateOfBirth", data);
-                openAccedi.putExtra("pwd", password);
-
+                db.addUser(new Profilo(email, nome, cognome, data), password);
 
 
+                // Reading all contacts
+                Log.d("Reading: ", "Reading all contacts..");
+                List<Profilo> contacts = db.getAllContacts();
+
+                for (Profilo cn : contacts) {
+                    String log = "Email: "+cn.getEmail()+" ,Name: " + cn.getName() + " ,Surname: " + cn.getSurname() + " ,Date: "+ cn.getDataNascita()
+                            + " ,Password: " + cn.getPassword();
+                    // Writing Contacts to log
+                    Log.i("LOG: ", log);
+                }
 
 
-                // passo all'attivazione dell'activity
-                startActivity(openAccedi);
-
-
+                openMainActivity(email, nome,cognome,data,password);
             }
-
-            //Toast.makeText(getBaseContext(), "name facebook: " + profile.getName(), Toast.LENGTH_LONG).show();
-
-
-
-
-
             super.onPostExecute(aVoid);
 
         }
+    }
+
+
+
+    private class MyTaskInsert extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("nome", nome));
+            dataToSend.add(new BasicNameValuePair("cognome", cognome));
+            dataToSend.add(new BasicNameValuePair("dataNascita",data));
+            dataToSend.add(new BasicNameValuePair("email", email));
+            dataToSend.add(new BasicNameValuePair("password", password));
+
+
+            Log.i("TEST", "dati: " + nome + " " + cognome + " " + data + " " + email + " " + password);
+
+            try {
+                if (InternetConnection.haveInternetConnection(LoginActivity.this)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost;
+                    httppost = new HttpPost(ADDRESS_INSERIMENTO_UTENTE);
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+
+
+
+                    httpclient.execute(httppost);
+                }
+                else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(e.toString(),e.getMessage());
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            openMainActivity(email, nome,cognome,data,password);
+
+        }
+    }
+
+    private void openMainActivity(String e, String name, String surname, String date, String pwd){
+        Intent openAccedi = new Intent(LoginActivity.this, MainActivity.class);
+        openAccedi.putExtra("email", e);
+        openAccedi.putExtra("name", name);
+        openAccedi.putExtra("surname", surname);
+        openAccedi.putExtra("dateOfBirth", date);
+        openAccedi.putExtra("pwd", pwd);
+
+        startActivity(openAccedi);
+        finish();
     }
 
 

@@ -14,7 +14,9 @@ import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
+import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.DatabaseHandler;
 import com.example.david.takeatrip.Utilities.PasswordHashing;
 
 import org.apache.http.HttpEntity;
@@ -32,6 +34,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -126,9 +129,6 @@ public class  RegistrazioneActivity extends AppCompatActivity {
         campoPassword = (EditText) findViewById(R.id.Password);
         campoConfermaPassword = (EditText) findViewById(R.id.ConfermaPassword);
 
-
-
-
         pickerYear = (NumberPicker)findViewById(R.id.pickerYear);
         pickerYear.setMaxValue(YEAR_MAX_PICKER);
         pickerYear.setMinValue(YEAR_MIN_PICKER);
@@ -150,34 +150,15 @@ public class  RegistrazioneActivity extends AppCompatActivity {
         btnInvio=(Button)findViewById(R.id.Invio);
 
 
-
-        /*update = false;
-        Intent intent = getIntent();
-        if(intent != null){
-            nome = intent.getStringExtra("name");
-            cognome = intent.getStringExtra("surname");
-            email = intent.getStringExtra("email");
-            data = intent.getStringExtra("date");
-
-            if(nome != null || cognome != null || email != null || data != null){
-                update = true;
-
-                String[] splittedDate = data.split("-");
-                year = Integer.parseInt(splittedDate[0]);
-                month = Integer.parseInt(splittedDate[1]);
-                day = Integer.parseInt(splittedDate[2]);
-
-                previousEmail = email;
-            }
-
-
-        }*/
-
         if(update) {
             campoNome.setText(nome);
             campoCognome.setText(cognome);
             campoEmail.setText(email);
+
+            //TODO: creare stringa
+            campoEmail.setText("Non Modificabile");
             campoEmail.setEnabled(false);
+            campoEmail.setVisibility(View.INVISIBLE);
             pickerYear.setValue(year);
             pickerMonth.setValue(month);
             pickerDay.setValue(day);
@@ -212,16 +193,11 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                     confermaPassword = campoConfermaPassword.getText().toString();
                     Log.i("TEST", "dati modificati: " + nome +" " + cognome + " " + data +" "+  email + " "+ password+" "+ nuovaPassword);
 
-
-                    //Toast.makeText(getBaseContext(), data, Toast.LENGTH_LONG).show();
-
-
                     if(confermaCredenziali(password, confermaPassword)){
 
                         password = PasswordHashing.sha1Hash(campoPassword.getText().toString());
 
                         new MyTask().execute();
-
 
                         // definisco l'intenzione
                         Intent openProfilo = new Intent(RegistrazioneActivity.this, MainActivity.class);
@@ -234,7 +210,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                         // passo all'attivazione dell'activity
                         startActivity(openProfilo);
 
-                        //onDestroy();
+
                     }
                 } else {
 
@@ -410,13 +386,56 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            //Registro il profilo in locale per il futuro
 
-            //Toast.makeText(getBaseContext(), "ID facebook: " + profile.getId(), Toast.LENGTH_LONG).show();
-            //Toast.makeText(getBaseContext(), "name facebook: " + profile.getName(), Toast.LENGTH_LONG).show();
+            if(!update){
+                DatabaseHandler db = new DatabaseHandler(RegistrazioneActivity.this);
+                // Inserting Users
+                Log.d("Insert: ", "Inserting ..");
 
-            //Toast.makeText(getBaseContext(), "caricati i dati sul DB " + nome + " " + cognome + " " + data + " " + email + " " + password , Toast.LENGTH_SHORT).show();
+                db.addUser(new Profilo(email, nome, cognome, data), password);
 
 
+                // Reading all contacts
+                Log.d("Reading: ", "Reading all contacts..");
+                List<Profilo> contacts = db.getAllContacts();
+
+                for (Profilo cn : contacts) {
+                    String log = "Email: "+cn.getEmail()+" ,Name: " + cn.getName() + " ,Surname: " + cn.getSurname() + " ,Date: "+ cn.getDataNascita()
+                            + " ,HashPassword: " + cn.getPassword();
+                    // Writing Contacts to log
+                    Log.i("LOG: ", log);
+                }
+            }
+            else{
+
+
+                DatabaseHandler db = new DatabaseHandler(RegistrazioneActivity.this);
+                // Inserting Users
+                Log.d("Update: ", "Updating ..");
+
+                if(passwordModificata)
+                    db.updateContact(new Profilo(email, nome, cognome, data), nuovaPassword);
+                else
+                    db.updateContact(new Profilo(email, nome, cognome, data), password);
+
+
+
+                /*
+
+                // Reading all contacts
+                Log.d("Reading: ", "Reading all contacts..");
+                List<Profilo> contacts = db.getAllContacts();
+
+                for (Profilo cn : contacts) {
+                    String log = "Email: "+cn.getEmail()+" ,Name: " + cn.getName() + " ,Surname: " + cn.getSurname() + " ,Date: "+ cn.getDataNascita()
+                            + " ,HashPassword: " + cn.getPassword();
+                    // Writing Contacts to log
+                    Log.i("LOG: ", log);
+                }
+
+                */
+            }
 
 
             super.onPostExecute(aVoid);
@@ -500,28 +519,19 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
-            //Toast.makeText(getBaseContext(), "Stringa finale: " + stringaFinale, Toast.LENGTH_LONG).show();
-            //Toast.makeText(getBaseContext(), "Stringa finale: " + stringaFinale, Toast.LENGTH_LONG).show();
-
-
             if(stringaFinale == ""){
                 Toast.makeText(getBaseContext(), getResources().getString(R.string.LoginError), Toast.LENGTH_LONG).show();
             }
             else{
-
                 new MyTask().execute();
 
             }
-
-            //Toast.makeText(getBaseContext(), "name facebook: " + profile.getName(), Toast.LENGTH_LONG).show();
-
-
-
-
-
             super.onPostExecute(aVoid);
 
         }
     }
+
+
+
+
 }

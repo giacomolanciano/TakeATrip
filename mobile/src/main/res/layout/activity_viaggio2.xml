@@ -1,7 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="300dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -12,7 +11,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
 
         <FrameLayout
@@ -53,7 +52,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.15"
+                        android:layout_weight="0.20"
                         >
 
                         <AutoCompleteTextView
@@ -69,16 +68,16 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.85">
+                        android:layout_weight="0.80">
 
 
                         <android.support.design.widget.FloatingActionButton
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
                             android:id="@+id/floatingButtonAdd"
                             android:layout_gravity="center_vertical"
                             app:backgroundTint="@color/blue"
-                            android:src="@android:drawable/ic_menu_add"
+                            android:src="@drawable/ic_add_white_24dp"
                             android:onClick="ClickNewPartecipant"
                             >
                         </android.support.design.widget.FloatingActionButton>
@@ -86,22 +85,23 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <!--TableLayout
-                    android:id="@+id/tableLayout1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="10dp"
-                    android:shrinkColumns="*"
-                    android:stretchColumns="*" >
-                </TableLayout-->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:id="@+id/layoutPartecipants"
-                    ></LinearLayout>
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:id="@+id/layoutPartecipants">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/layout_horizontal">
 
+                    </LinearLayout>
+
+                </LinearLayout>
 
 
             </LinearLayout>
@@ -125,7 +125,7 @@
             android:id="@+id/buttonCreateTravel"
             android:layout_weight="0.5"
             android:text="@string/Create"
-            android:onClick="onClickCreateTravel"/>
+            android:onClick="onClickCreateTravel" />
 
         <Button
             android:layout_width="match_parent"
