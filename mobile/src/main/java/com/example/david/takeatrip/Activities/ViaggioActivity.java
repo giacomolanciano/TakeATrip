@@ -50,6 +50,21 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+/*
+import com.google.gcloud.storage.BlobId;
+import com.google.gcloud.storage.Storage;
+import com.google.gcloud.storage.StorageOptions;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import com.google.gcloud.storage.Blob;
+import com.google.gcloud.storage.Bucket;
+import com.google.gcloud.storage.BucketInfo;
+*/
+
+
+
+
 public class ViaggioActivity extends AppCompatActivity {
 
     private static final String ADDRESS = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryNomiUtenti.php";
@@ -102,6 +117,7 @@ public class ViaggioActivity extends AppCompatActivity {
 
 
     public void onClickSettingsIcon(View v){
+
 
     }
 

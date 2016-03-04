@@ -79,7 +79,6 @@
                 android:value="com.example.david.takeatrip.Activities.ProfiloActivity" />
         </activity>
         <activity android:name=".Activities.PossibleDestinationActivity"></activity>
-        <activity android:name=".Activities.MetaActivity"></activity>
         <activity android:name=".Activities.MapsActivity"></activity>
         <activity android:name=".Activities.MainActivity"></activity>
         <activity android:name=".Activities.InfoActivity"></activity>

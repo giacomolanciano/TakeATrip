@@ -26,12 +26,24 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Contacts table name
     private static final String TABLE_USERS = "Users";
 
+
+    //TODO: decommentare una volta aggiornata la classe di dominio Profilo
+    //openMainActivity(email, nome,cognome,data,password,nazionalità,sesso,username,lavoro,descrizione,tipo);
+
+
+
     // Contacts Table Columns names
     private static final String EMAIL = "id";
     private static final String USER_PWD = "pwd";
     private static final String NAME = "name";
     private static final String SURNAME = "surname";
     private static final String DATE = "date";
+    private static final String NATIONALITY = "nationality";
+    private static final String SESSO = "sex";
+    private static final String USERNAME = "username";
+    private static final String LAVORO = "job";
+    private static final String DESCRIZIONE = "descryption";
+    private static final String TIPO = "type";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -42,7 +54,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_USERS + "("
                 + EMAIL + " TEXT PRIMARY KEY," + USER_PWD + " TEXT,"
-                + NAME + " TEXT," + SURNAME + " TEXT,"+ DATE + " TEXT)";
+                + NAME + " TEXT," + SURNAME + " TEXT,"+ DATE + " TEXT,"+ NATIONALITY + " TEXT," + SESSO + " TEXT,"
+                + USERNAME + " TEXT," + LAVORO + " TEXT," + DESCRIZIONE + " TEXT," + TIPO + " TEXT)";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -65,6 +78,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(NAME, profilo.getName());
         values.put(SURNAME, profilo.getSurname());
         values.put(DATE, profilo.getDataNascita());
+        values.put(NATIONALITY, profilo.getDataNascita());
+
+        //TODO: aggiungere a values gli altri valori del profilo
+
+
 
         // Inserting Row
         db.insert(TABLE_USERS, null, values);
@@ -89,6 +107,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 profile.setSurname(cursor.getString(3));
                 profile.setDataNascita(cursor.getString(4));
 
+                //TODO: settare i valori a profile
+
+
                 // Adding contact to list
                 contactList.add(profile);
             } while (cursor.moveToNext());
@@ -108,6 +129,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(NAME, profilo.getName());
         values.put(SURNAME, profilo.getSurname());
         values.put(DATE, profilo.getDataNascita());
+
+
+        //TODO: completare l'update del profilo
+
+
 
         // updating row
         return db.update(TABLE_USERS, values, EMAIL + " = ?",

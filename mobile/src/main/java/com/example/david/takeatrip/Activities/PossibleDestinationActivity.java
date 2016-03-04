@@ -131,10 +131,10 @@ public class PossibleDestinationActivity extends AppCompatActivity {
                 //Toast.makeText(getBaseContext(), "hai cliccato il nome: " + meta.getNome(), Toast.LENGTH_SHORT).show();
 
 
-                Intent intent = new Intent(PossibleDestinationActivity.this, MetaActivity.class);
-                intent.putExtra("nomeMeta", meta.getNome());
+                //Intent intent = new Intent(PossibleDestinationActivity.this, MetaActivity.class);
+                //intent.putExtra("nomeMeta", meta.getNome());
 
-                startActivity(intent);
+                //startActivity(intent);
 
 
 
