@@ -150,7 +150,7 @@ public class ListaTappeActivity extends AppCompatActivity
             Log.i(TAG, "email profilo corrente: " + email+ " email partecipants: " + listPartecipants);
 
             for(CharSequence cs : listPartecipants){
-                partecipants.add(new Profilo(cs.toString(), null,null,null));
+                partecipants.add(new Profilo(cs.toString(), null,null,null, null, null, null, null, null, null));
 
                 if(email.equals(cs.toString())){
                     proprioViaggio = true;

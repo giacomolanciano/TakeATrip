@@ -393,7 +393,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                 // Inserting Users
                 Log.d("Insert: ", "Inserting ..");
 
-                db.addUser(new Profilo(email, nome, cognome, data), password);
+                db.addUser(new Profilo(email, nome, cognome, data, null, null, null, null, null, null ), password);
 
 
                 // Reading all contacts
@@ -415,9 +415,9 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                 Log.d("Update: ", "Updating ..");
 
                 if(passwordModificata)
-                    db.updateContact(new Profilo(email, nome, cognome, data), nuovaPassword);
+                    db.updateContact(new Profilo(email, nome, cognome, data, null, null, null, null, null, null), nuovaPassword);
                 else
-                    db.updateContact(new Profilo(email, nome, cognome, data), password);
+                    db.updateContact(new Profilo(email, nome, cognome, data, null, null, null, null, null, null), password);
 
 
 

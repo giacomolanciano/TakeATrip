@@ -7,19 +7,24 @@ import com.example.david.takeatrip.Utilities.Constants;
  */
 public class Profilo {
 
-    private String email, name, surname, password;
-    private String dataNascita;
+    private String email, name, surname, password, dataNascita, nazionalita, sesso, username, lavoro, descrizione, tipo;
     private int codAccount;
 
     public Profilo(){
     }
 
-    public Profilo(String email, String name, String surname, String dataNascita) {
+    public Profilo(String email, String name, String surname, String dataNascita, String nazionalita, String sesso, String username, String lavoro, String descrizione, String tipo) {
         this.email = email;
         this.name = name;
         this.surname = surname;
         this.dataNascita = dataNascita;
         this.codAccount = Constants.DEFAULT_COD_ACCOUNT;
+        this.nazionalita = nazionalita;
+        this.sesso = sesso;
+        this.username = username;
+        this.lavoro = lavoro;
+        this.descrizione = descrizione;
+        this.tipo = tipo;
     }
 
 
@@ -71,6 +76,51 @@ public class Profilo {
 
     public void setCodAccount(int codAccount) {
         this.codAccount = codAccount;
+    }
+
+
+    public String getNazionalita() { return nazionalita; }
+
+    public void setNazionalita(String nazionalita) {
+        this.nazionalita = nazionalita;
+    }
+
+    public String getSesso() { return sesso; }
+
+    public void setSesso(String sesso) {
+        this.sesso = sesso;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.dataNascita = username;
+    }
+
+    public String getLavoro() {
+        return lavoro;
+    }
+
+    public void setLavoro(String lavoro) {
+        this.lavoro = lavoro;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo =tipo;
     }
 
     public String toString() {

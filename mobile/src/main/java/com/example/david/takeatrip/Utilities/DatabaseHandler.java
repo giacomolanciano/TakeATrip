@@ -79,8 +79,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(SURNAME, profilo.getSurname());
         values.put(DATE, profilo.getDataNascita());
         values.put(NATIONALITY, profilo.getDataNascita());
-
-        //TODO: aggiungere a values gli altri valori del profilo
+        values.put(SESSO, profilo.getSesso());
+        values.put(USERNAME, profilo.getUsername());
+        values.put(LAVORO, profilo.getLavoro());
+        values.put(DESCRIZIONE, profilo.getDescrizione());
+        values.put(TIPO, profilo.getTipo());
 
 
 
@@ -106,6 +109,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 profile.setName(cursor.getString(2));
                 profile.setSurname(cursor.getString(3));
                 profile.setDataNascita(cursor.getString(4));
+                profile.setNazionalita(cursor.getString(5));
+                profile.setSesso(cursor.getString(6));
+                profile.setUsername(cursor.getString(7));
+                profile.setLavoro(cursor.getString(8));
+                profile.setDescrizione(cursor.getString(9));
+                profile.setTipo(cursor.getString(10));
+
 
                 //TODO: settare i valori a profile
 
@@ -129,6 +139,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(NAME, profilo.getName());
         values.put(SURNAME, profilo.getSurname());
         values.put(DATE, profilo.getDataNascita());
+        values.put(NATIONALITY, profilo.getNazionalita());
+        values.put(SESSO, profilo.getSesso());
+        values.put(USERNAME, profilo.getUsername());
+        values.put(LAVORO, profilo.getLavoro());
+        values.put(DESCRIZIONE, profilo.getDescrizione());
+        values.put(TIPO, profilo.getTipo());
 
 
         //TODO: completare l'update del profilo

@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         partecipants = new HashSet<Profilo>();
         profiles = new HashSet<Profilo>();
 
-        myProfile = new Profilo(email, name, surname,null);
+        myProfile = new Profilo(email, name, surname,date, password, nazionalità, sesso, username, lavoro, descrizione);
 
         new MyTask().execute();
 
@@ -415,7 +415,7 @@ public class MainActivity extends AppCompatActivity {
                                     String cognomeUtente = json_data.getString("cognome").toString();
                                     String emailUtente = json_data.getString("email").toString();
 
-                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null);
+                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, null, null, null, null, null);
                                     profiles.add(p);
                                     stringaFinale = nomeUtente + " " + cognomeUtente;
                                     names.add(stringaFinale);

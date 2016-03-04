@@ -794,7 +794,7 @@ public class LoginActivity extends AppCompatActivity implements
 
 
                 //TODO: modificare il metodo una volta modificate la classe di dominio Profilo
-                //openMainActivity(email, nome, cognome, data, password);
+                openMainActivity(email, nome, cognome, data, password, nazionalità, sesso, username, lavoro, descrizione, tipo);
             }
         }
 
@@ -847,11 +847,13 @@ public class LoginActivity extends AppCompatActivity implements
             if(contacts.size() != 0){
                 for (Profilo cn : contacts) {
                     String log = "Email: "+cn.getEmail()+" ,Name: " + cn.getName() + " ,Surname: " + cn.getSurname() + " ,Date: "+ cn.getDataNascita()
-                            + " ,HashPassword: " + cn.getPassword();
+                            + " ,HashPassword: " + cn.getPassword()+ " ,Username: " + cn.getUsername();
                     Log.i("LOG: ", log);
 
-                    //TODO: decommentare
-                    //openMainActivity(cn.getEmail(), cn.getName(),cn.getSurname(),cn.getDataNascita(),cn.getPassword());
+                    //5633
+                    //
+                    // TODO: decommentare
+                    openMainActivity(cn.getEmail(), cn.getName(),cn.getSurname(),cn.getDataNascita(),cn.getPassword(), cn.getNazionalita(), cn.getSesso(), cn.getUsername(), cn.getLavoro(), cn.getDescrizione(), cn.getTipo() );
                 }
 
             }
@@ -1132,7 +1134,8 @@ public class LoginActivity extends AppCompatActivity implements
                 // Inserting Users
                 Log.d("Insert: ", "Inserting ..");
 
-                db.addUser(new Profilo(email, nome, cognome, data), password);
+                //TODO dubbio su modifica
+                db.addUser(new Profilo(email, nome, cognome, data, nazionalità, sesso, username, lavoro, descrizione, tipo), password);
 
 
                 // Reading all contacts

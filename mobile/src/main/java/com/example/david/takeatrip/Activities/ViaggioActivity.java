@@ -433,7 +433,7 @@ public class ViaggioActivity extends AppCompatActivity {
                                     String nomePartecipante = json_data.getString("nome").toString();
                                     String cognomePartecipante = json_data.getString("cognome").toString();
                                     String data = json_data.getString("dataNascita").toString();
-                                    listPartecipants.add(new Profilo(emailProfilo, nomePartecipante,cognomePartecipante, data));
+                                    listPartecipants.add(new Profilo(emailProfilo, nomePartecipante,cognomePartecipante, data, null, null, null, null, null, null));
                                 }
                             }
 
@@ -539,7 +539,7 @@ public class ViaggioActivity extends AppCompatActivity {
                                     String cognomeUtente = json_data.getString("cognome").toString();
                                     String emailUtente = json_data.getString("email").toString();
 
-                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null);
+                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, null, null, null, null, null);
                                     profiles.add(p);
                                     stringaFinale = nomeUtente + " " + cognomeUtente;
                                     names.add(stringaFinale);
