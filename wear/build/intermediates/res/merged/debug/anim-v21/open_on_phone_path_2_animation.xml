@@ -40,4 +40,4 @@
             android:interpolator="@android:interpolator/linear_out_slow_in" />
     </set>
 </set>
-<!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/ub-wearable-common-duralumin/vendor/unbundled_google/libs/wearable/wearable-support/lib/src/main/res/anim-v21/open_on_phone_path_2_animation.xml --><!-- From: file:/C:/Users/Giacomo/AndroidStudioProjects/TakeATrip/wear/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/anim-v21/open_on_phone_path_2_animation.xml -->
+<!-- From: file:/usr/local/google/buildbot/repo_clients/https___googleplex-android.googlesource.com_a_platform_manifest.git/ub-wearable-common-duralumin/vendor/unbundled_google/libs/wearable/wearable-support/lib/src/main/res/anim-v21/open_on_phone_path_2_animation.xml --><!-- From: file:/C:/Users/david/AndroidStudioProjects/TakeATrip/wear/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/anim-v21/open_on_phone_path_2_animation.xml -->

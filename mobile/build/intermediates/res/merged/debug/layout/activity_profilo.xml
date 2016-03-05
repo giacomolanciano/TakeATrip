@@ -39,18 +39,19 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="@string/Name"
-                        android:textColor="@color/white"
+                        android:textColor="#000000"
 
                         android:id="@+id/Nome"
-                        />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Cognome"
-                        android:textColor="@color/white"
-                        android:id="@+id/Cognome" />
+                        android:textColor="#000000"
+                        android:id="@+id/Cognome"
+                        android:textStyle="bold" />
 
                     <RatingBar
                         android:layout_width="wrap_content"
@@ -166,4 +167,4 @@
     </LinearLayout>
 
 </FrameLayout>
-<!-- From: file:/C:/Users/Giacomo/AndroidStudioProjects/TakeATrip/mobile/src/main/res/layout/activity_profilo.xml -->
+<!-- From: file:/C:/Users/david/AndroidStudioProjects/TakeATrip/mobile/src/main/res/layout/activity_profilo.xml -->

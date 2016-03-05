@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.david.takeatrip.Classes.Profilo;
 
@@ -27,9 +28,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_USERS = "Users";
 
 
-    //TODO: decommentare una volta aggiornata la classe di dominio Profilo
-    //openMainActivity(email, nome,cognome,data,password,nazionalità,sesso,username,lavoro,descrizione,tipo);
-
 
 
     // Contacts Table Columns names
@@ -38,7 +36,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String NAME = "name";
     private static final String SURNAME = "surname";
     private static final String DATE = "date";
-    private static final String NATIONALITY = "nationality";
+    private static final String NATIONALITY = "n";
     private static final String SESSO = "sex";
     private static final String USERNAME = "username";
     private static final String LAVORO = "job";
@@ -78,7 +76,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(NAME, profilo.getName());
         values.put(SURNAME, profilo.getSurname());
         values.put(DATE, profilo.getDataNascita());
-        values.put(NATIONALITY, profilo.getDataNascita());
+        values.put(NATIONALITY, profilo.getNazionalita());
         values.put(SESSO, profilo.getSesso());
         values.put(USERNAME, profilo.getUsername());
         values.put(LAVORO, profilo.getLavoro());
@@ -86,9 +84,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(TIPO, profilo.getTipo());
 
 
+        Log.i("TEST", "contenuto db locale:" + db.toString());
 
         // Inserting Row
         db.insert(TABLE_USERS, null, values);
+
+        Log.i("TEST", "contenuto db locale:" + db.toString());
+
         db.close(); // Closing database connection
     }
 
@@ -100,18 +102,40 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
+        Log.i("TEST", "contenuto db locale:" + db.toString());
+
+
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
+                Log.i("TEST", "contenuto cursore 0:" + cursor.getColumnName(0));
+                Log.i("TEST", "contenuto cursore 1:" + cursor.getColumnName(1));
+                Log.i("TEST", "contenuto cursore 2:" + cursor.getColumnName(2));
+                Log.i("TEST", "contenuto cursore 3:" + cursor.getColumnName(3));
+                Log.i("TEST", "contenuto cursore 4:" + cursor.getColumnName(4));
+                Log.i("TEST", "contenuto cursore 5:" + cursor.getColumnName(5));
+                Log.i("TEST", "contenuto cursore 6:" + cursor.getColumnName(6));
+                Log.i("TEST", "contenuto cursore 7:" + cursor.getColumnName(7));
+                Log.i("TEST", "contenuto cursore 8:" + cursor.getColumnName(8));
+                Log.i("TEST", "contenuto cursore 9:" + cursor.getColumnName(9));
+                Log.i("TEST", "contenuto cursore 10:" + cursor.getColumnName(10));
+                Log.i("TEST", "count cursore :" + cursor.getCount());
+
+
+
+
+
                 Profilo profile = new Profilo();
                 profile.setEmail(cursor.getString(0));
                 profile.setPassword(cursor.getString(1));
                 profile.setName(cursor.getString(2));
                 profile.setSurname(cursor.getString(3));
-                profile.setDataNascita(cursor.getString(4));
+
+                profile.setUsername(cursor.getString(7));
                 profile.setNazionalita(cursor.getString(5));
                 profile.setSesso(cursor.getString(6));
-                profile.setUsername(cursor.getString(7));
+                profile.setDataNascita(cursor.getString(4));
+
                 profile.setLavoro(cursor.getString(8));
                 profile.setDescrizione(cursor.getString(9));
                 profile.setTipo(cursor.getString(10));

@@ -91,12 +91,10 @@ public class Profilo {
         this.sesso = sesso;
     }
 
-    public String getUsername() {
-        return username;
-    }
+    public String getUsername() {return username; }
 
     public void setUsername(String username) {
-        this.dataNascita = username;
+        this.username = username;
     }
 
     public String getLavoro() {

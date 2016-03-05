@@ -33,7 +33,7 @@ import java.util.Date;
                 minutes = (int) (millisDiff / 60000 % 60);
                 hours = (int) (millisDiff / 3600000 % 24);
                 days = (int) (millisDiff / 86400000);
-                years = days/360;
+                years = days/365;
                 Log.i("TEST", "anno: " + years);
 
             }   catch (Exception e) {

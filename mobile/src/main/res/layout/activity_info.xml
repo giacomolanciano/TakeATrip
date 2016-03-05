@@ -26,7 +26,9 @@
             android:paddingTop="@dimen/activity_vertical_margin"
             android:textSize="20dp"
             android:text="Username: "
-            android:id="@+id/Username1" />
+            android:id="@+id/Username1"
+            android:textColor="#000000"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,7 +36,8 @@
             android:paddingTop="@dimen/activity_vertical_margin"
             android:textSize="20dp"
             android:text="Username"
-            android:id="@+id/Username" />
+            android:id="@+id/Username"
+            android:textColor="#000000" />
 
 
         </LinearLayout>
@@ -51,7 +54,9 @@
             android:paddingTop="@dimen/activity_vertical_margin"
             android:textSize="20dp"
             android:text="Sesso: "
-            android:id="@+id/Sesso1" />
+            android:id="@+id/Sesso1"
+            android:textColor="#000000"
+            android:textStyle="bold" />
 
 
         <TextView
@@ -60,7 +65,8 @@
             android:paddingTop="@dimen/activity_vertical_margin"
             android:textSize="20dp"
             android:text="Sesso"
-            android:id="@+id/Sesso" />
+            android:id="@+id/Sesso"
+            android:textColor="#000000" />
 
     </LinearLayout>
 
@@ -75,7 +81,9 @@
             android:paddingTop="@dimen/activity_vertical_margin"
             android:textSize="20dp"
             android:text="Eta: "
-            android:id="@+id/Eta1" />
+            android:id="@+id/Eta1"
+            android:textColor="#000000"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -83,7 +91,8 @@
             android:paddingTop="@dimen/activity_vertical_margin"
             android:textSize="20dp"
             android:text="Eta"
-            android:id="@+id/Eta" />
+            android:id="@+id/Eta"
+            android:textColor="#000000" />
 </LinearLayout>
 
     <LinearLayout
@@ -97,7 +106,9 @@
             android:paddingTop="@dimen/activity_vertical_margin"
             android:textSize="20dp"
             android:text="Nazionalità: "
-            android:id="@+id/Nazionalità1" />
+            android:id="@+id/Nazionalità1"
+            android:textColor="#000000"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -105,7 +116,8 @@
             android:paddingTop="@dimen/activity_vertical_margin"
             android:textSize="20dp"
             android:text="Nazionalità"
-            android:id="@+id/Nazionalità" />
+            android:id="@+id/Nazionalità"
+            android:textColor="#000000" />
 </LinearLayout>
 
     <LinearLayout
@@ -119,7 +131,9 @@
             android:paddingTop="@dimen/activity_vertical_margin"
             android:textSize="20dp"
             android:text="Tipologia Utente: "
-            android:id="@+id/Tipo1" />
+            android:id="@+id/Tipo1"
+            android:textColor="#000000"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -127,7 +141,8 @@
             android:paddingTop="@dimen/activity_vertical_margin"
             android:textSize="20dp"
             android:text="Tipo"
-            android:id="@+id/Tipo" />
+            android:id="@+id/Tipo"
+            android:textColor="#000000" />
 </LinearLayout>
 
     <LinearLayout
@@ -141,7 +156,9 @@
             android:paddingTop="@dimen/activity_vertical_margin"
             android:textSize="20dp"
             android:text="Lavoro: "
-            android:id="@+id/Lavoro1" />
+            android:id="@+id/Lavoro1"
+            android:textColor="#000000"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -149,7 +166,8 @@
             android:paddingTop="@dimen/activity_vertical_margin"
             android:textSize="20dp"
             android:text="Lavoro"
-            android:id="@+id/Lavoro" />
+            android:id="@+id/Lavoro"
+            android:textColor="#000000" />
 </LinearLayout>
 
     <LinearLayout
@@ -163,7 +181,9 @@
             android:paddingTop="@dimen/activity_vertical_margin"
             android:textSize="20dp"
             android:text="Descrizione: "
-            android:id="@+id/Descrizione1" />
+            android:id="@+id/Descrizione1"
+            android:textColor="#000000"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -171,7 +191,8 @@
             android:paddingTop="@dimen/activity_vertical_margin"
             android:textSize="20dp"
             android:text="Descrizione"
-            android:id="@+id/Descrizione" />
+            android:id="@+id/Descrizione"
+            android:textColor="#000000" />
 </LinearLayout>
 
 

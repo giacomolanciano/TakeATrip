@@ -691,7 +691,7 @@ public class LoginActivity extends AppCompatActivity implements
     private Button btnAccedi;
 
     private EditText campoEmail, campoPassword;
-    private String email, password, nome, cognome, data, nazionalità, sesso, username, lavoro, descrizione, tipo;
+    private String email, password, nome, cognome, data, nazionalita, sesso, username, lavoro, descrizione, tipo;
 
     LoginButton blogin;
     AccessToken accessToken;
@@ -794,7 +794,7 @@ public class LoginActivity extends AppCompatActivity implements
 
 
                 //TODO: modificare il metodo una volta modificate la classe di dominio Profilo
-                openMainActivity(email, nome, cognome, data, password, nazionalità, sesso, username, lavoro, descrizione, tipo);
+                openMainActivity(email, nome, cognome, data, password, nazionalita, sesso, username, lavoro, descrizione, tipo);
             }
         }
 
@@ -847,8 +847,8 @@ public class LoginActivity extends AppCompatActivity implements
 
             if(contacts.size() != 0){
                 for (Profilo cn : contacts) {
-                    String log = "Email: "+cn.getEmail()+" ,Name: " + cn.getName() + " ,Surname: " + cn.getSurname() + " ,Date: "+ cn.getDataNascita()
-                            + " ,HashPassword: " + cn.getPassword()+ " ,Username: " + cn.getUsername();
+                    String log = "Email: "+cn.getEmail()+" ,Name: " + cn.getName() + " ,Surname: " + cn.getSurname() + " ,Date: "+ cn.getDataNascita()+ " ,Nazionalità: " + cn.getNazionalita()+ " ,Sesso: " + cn.getSesso() + " ,Username: " + cn.getUsername()+" ,Lavoro: " + cn.getLavoro() + " ,Descrizione: " + cn.getDescrizione() + " ,Tipo: " + cn.getTipo()
+                            + " ,HashPassword: " + cn.getPassword();
                     Log.i("LOG: ", log);
 
                     //5633
@@ -867,7 +867,7 @@ public class LoginActivity extends AppCompatActivity implements
             //commentarla e decommentare quella successiva
 
             db.onCreate(db.getWritableDatabase());
-            //db.onUpgrade(db.getWritableDatabase(), 0,1);
+     //       db.onUpgrade(db.getWritableDatabase(), 0,1);
 
         }
 
@@ -1094,7 +1094,7 @@ public class LoginActivity extends AppCompatActivity implements
                                     nome =  json_data.getString("nome").toString();
                                     cognome = json_data.getString("cognome").toString();
                                     data = json_data.getString("dataNascita").toString();
-                                    nazionalità = json_data.getString("nazionalita").toString();
+                                    nazionalita = json_data.getString("nazionalita").toString();
                                     sesso = json_data.getString("sesso").toString();
                                     username = json_data.getString("username").toString();
                                     lavoro = json_data.getString("lavoro").toString();
@@ -1143,7 +1143,7 @@ public class LoginActivity extends AppCompatActivity implements
                 Log.d("Insert: ", "Inserting ..");
 
                 //TODO dubbio su modifica
-                db.addUser(new Profilo(email, nome, cognome, data, nazionalità, sesso, username, lavoro, descrizione, tipo), password);
+                db.addUser(new Profilo(email, nome, cognome, data, nazionalita, sesso, username, lavoro, descrizione, tipo), password);
 
 
                 // Reading all contacts
@@ -1158,7 +1158,7 @@ public class LoginActivity extends AppCompatActivity implements
                 }
 
 
-                openMainActivity(email, nome,cognome,data,password,nazionalità,sesso,username,lavoro,descrizione,tipo);
+                openMainActivity(email, nome,cognome,data,password,nazionalita,sesso,username,lavoro,descrizione,tipo);
             }
             super.onPostExecute(aVoid);
 
@@ -1207,12 +1207,12 @@ public class LoginActivity extends AppCompatActivity implements
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            openMainActivity(email, nome,cognome,data,password,nazionalità,sesso,username,lavoro,descrizione,tipo);
+            openMainActivity(email, nome,cognome,data,password,nazionalita,sesso,username,lavoro,descrizione,tipo);
 
         }
     }
 
-    private void openMainActivity(String e, String name, String surname, String date, String pwd, String n, String sex, String userName,
+    private void openMainActivity(String e, String name, String surname, String date, String pwd, String n, String sex, String username,
                                   String job, String description, String type){
         Intent openAccedi = new Intent(LoginActivity.this, MainActivity.class);
         openAccedi.putExtra("email", e);
@@ -1222,7 +1222,7 @@ public class LoginActivity extends AppCompatActivity implements
         openAccedi.putExtra("pwd", pwd);
         openAccedi.putExtra("nazionalita", n);
         openAccedi.putExtra("sesso", sex);
-        openAccedi.putExtra("username", userName);
+        openAccedi.putExtra("username", username);
         openAccedi.putExtra("lavoro", job);
         openAccedi.putExtra("descrizione", description);
         openAccedi.putExtra("tipo", type);
