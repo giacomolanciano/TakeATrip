@@ -580,6 +580,9 @@ public class ListaTappeActivity extends AppCompatActivity
                                     String paginaDiario = json_data.getString("paginaDiario");
                                     String codicePOI = json_data.getString("codicePOI");
                                     String fontePOI = json_data.getString("fontePOI");
+
+
+
                                     POI poi = new POI(codicePOI, fontePOI);
 
 

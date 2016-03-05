@@ -135,7 +135,10 @@ public class ProfiloActivity extends TabActivity {
 
         tab1.setContent(intentInfo);
         tab2.setContent(new Intent(this, StatsActivity.class));
-        tab3.setContent(new Intent(this, MapsActivity.class));
+
+        Intent intentDest = new Intent(this, MapsActivity.class);
+        intentDest.putExtra("email", email);
+        tab3.setContent(intentDest);
 
 
         //TabHost.setup();
