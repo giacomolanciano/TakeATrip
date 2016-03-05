@@ -618,61 +618,61 @@ public class LoginActivity extends AppCompatActivity implements
 
 package com.example.david.takeatrip.Activities;
 
-        import android.app.ProgressDialog;
-        import android.content.Intent;
-        import android.os.AsyncTask;
-        import android.os.Bundle;
-        import android.support.v7.app.AppCompatActivity;
-        import android.util.Log;
-        import android.view.Menu;
-        import android.view.MenuItem;
-        import android.view.View;
-        import android.widget.Button;
-        import android.widget.EditText;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import com.example.david.takeatrip.Classes.InternetConnection;
-        import com.example.david.takeatrip.Classes.Profilo;
-        import com.example.david.takeatrip.R;
-        import com.example.david.takeatrip.Utilities.DatabaseHandler;
-        import com.example.david.takeatrip.Utilities.PasswordHashing;
-        import com.facebook.AccessToken;
-        import com.facebook.AccessTokenTracker;
-        import com.facebook.CallbackManager;
-        import com.facebook.FacebookCallback;
-        import com.facebook.FacebookException;
-        import com.facebook.FacebookSdk;
-        import com.facebook.Profile;
-        import com.facebook.ProfileTracker;
-        import com.facebook.login.LoginResult;
-        import com.facebook.login.widget.LoginButton;
-        import com.google.android.gms.auth.api.Auth;
-        import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-        import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-        import com.google.android.gms.common.ConnectionResult;
-        import com.google.android.gms.common.SignInButton;
-        import com.google.android.gms.common.api.GoogleApiClient;
+import com.example.david.takeatrip.Classes.InternetConnection;
+import com.example.david.takeatrip.Classes.Profilo;
+import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.DatabaseHandler;
+import com.example.david.takeatrip.Utilities.PasswordHashing;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 
-        import org.apache.http.HttpEntity;
-        import org.apache.http.HttpResponse;
-        import org.apache.http.NameValuePair;
-        import org.apache.http.client.HttpClient;
-        import org.apache.http.client.entity.UrlEncodedFormEntity;
-        import org.apache.http.client.methods.HttpPost;
-        import org.apache.http.impl.client.DefaultHttpClient;
-        import org.apache.http.message.BasicNameValuePair;
-        import org.json.JSONArray;
-        import org.json.JSONObject;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-        import java.io.BufferedReader;
-        import java.io.InputStream;
-        import java.io.InputStreamReader;
-        import java.util.ArrayList;
-        import java.util.Arrays;
-        import java.util.List;
-        import java.util.regex.Matcher;
-        import java.util.regex.Pattern;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class LoginActivity extends AppCompatActivity implements
@@ -844,6 +844,7 @@ public class LoginActivity extends AppCompatActivity implements
         try{
             Log.d("Reading: ", "Reading all contacts..");
             List<Profilo> contacts = db.getAllContacts();
+
             if(contacts.size() != 0){
                 for (Profilo cn : contacts) {
                     String log = "Email: "+cn.getEmail()+" ,Name: " + cn.getName() + " ,Surname: " + cn.getSurname() + " ,Date: "+ cn.getDataNascita()
@@ -860,7 +861,14 @@ public class LoginActivity extends AppCompatActivity implements
         }
         catch (Exception e){
             Log.d("table does not exitst: ", "Recreating the table..");
+
+            //TODO chiarire il motivo dell'errore
+            //nel caso in cui l'esecuzione dia problemi per via della riga sottostante,
+            //commentarla e decommentare quella successiva
+
             db.onCreate(db.getWritableDatabase());
+            //db.onUpgrade(db.getWritableDatabase(), 0,1);
+
         }
 
 

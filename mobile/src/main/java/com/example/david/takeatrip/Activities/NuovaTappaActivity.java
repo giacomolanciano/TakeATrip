@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -89,6 +90,8 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
     private String[] subs;
     private int[] arr_images;
 
+    private Dialog dialog;
+
 
 
     @Override
@@ -101,7 +104,8 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
         buttonHybrid = (Button) findViewById(R.id.buttonHybrid);
 
 
-        layoutInfoPoi = (FrameLayout)findViewById(R.id.FrameInfoPoi);
+        //in caso di utilizzo di frame anzichè di dialog
+        //layoutInfoPoi = (FrameLayout)findViewById(R.id.FrameInfoPoi);
 //        nameText = (TextView) findViewById(R.id.POIName);
 //        addressText = (TextView) findViewById(R.id.POIAddress);
 
@@ -118,19 +122,10 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
         strings = getResources().getStringArray(R.array.PrivacyLevel);
         subs = getResources().getStringArray(R.array.PrivacyLevelDescription);
-//        arr_images = new int[]{R.drawable.ic_public_black_36dp, R.drawable.ic_people_black_36dp,
-//                R.drawable.ic_person_pin_circle_black_36dp, R.drawable.ic_settings_black_36dp};
         arr_images = Constants.privacy_images;
 
-//        Spinner mySpinner = (Spinner)findViewById(R.id.spinner);
-//        mySpinner.setAdapter(new PrivacyLevelAdapter(NuovaTappaActivity.this, R.layout.entry_privacy_level, strings));
 
-//        mySpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                //TODO
-//            }
-//        });
+
 
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
@@ -142,7 +137,7 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                 placeName = ""+place.getName();
                 placeLatLng = place.getLatLng();
                 placeAddress = ""+place.getAddress();
-                //...
+                //TODO ...
 
                 Log.i("TEST", "name: " + placeName);
                 Log.i("TEST", "addr: " + placeAddress);
@@ -154,18 +149,76 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 5));
 
 
-                //inserire in layout
+                //in caso di utilizzo di frame anzichè di dialog
 //                nameText.setText(placeName);
 //                addressText.setText(placeAddress);
 //                layoutInfoPoi.setVisibility(View.VISIBLE);
 
 
-                final Dialog dialog = new Dialog(NuovaTappaActivity.this);
+
+                dialog = new Dialog(NuovaTappaActivity.this);
                 dialog.setContentView(R.layout.info_poi);
-                //dialog.setTitle(getResources().getString(R.string.insert_new_stop));
+                dialog.setTitle(getResources().getString(R.string.insert_new_stop));
 
                 Spinner mySpinner = (Spinner)dialog.findViewById(R.id.spinner);
                 mySpinner.setAdapter(new PrivacyLevelAdapter(NuovaTappaActivity.this, R.layout.entry_privacy_level, strings));
+
+
+                //TODO verificare motivo errore
+//                mySpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//
+//                        //TODO implementare setting privacy, modificare database
+//
+//                    }
+//                });
+
+
+
+
+                //put dialog at bottom
+                Window window = dialog.getWindow();
+                WindowManager.LayoutParams wlp = window.getAttributes();
+                wlp.gravity = Gravity.BOTTOM;
+                wlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+
+                //per non far diventare scuro lo sfondo
+                //wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+
+                window.setAttributes(wlp);
+
+
+
+                nameText = (TextView) dialog.findViewById(R.id.POIName);
+                addressText = (TextView) dialog.findViewById(R.id.POIAddress);
+                nameText.setText(placeName);
+                addressText.setText(placeAddress);
+
+                dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        googleMap.clear();
+                    }
+                });
+
+
+                //setting listener pulsanti dialog
+
+                FloatingActionButton addStop = (FloatingActionButton) dialog.findViewById(R.id.buttonAddStop);
+                addStop.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        //TODO andrebbero eseguiti come una transazione atomica
+
+                        new MyTaskInserimentoTappa().execute();
+
+                        new MyTaskInserimentoFiltro().execute();
+
+                        dialog.dismiss();
+                    }
+                });
 
 
                 ImageView addImage = (ImageView)dialog.findViewById(R.id.addImage);
@@ -176,23 +229,10 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                     }
                 });
 
-                //put dialog at bottom
-                Window window = dialog.getWindow();
-                WindowManager.LayoutParams wlp = window.getAttributes();
-                wlp.gravity = Gravity.BOTTOM;
-                //wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-                wlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-                window.setAttributes(wlp);
 
 
-                nameText = (TextView) dialog.findViewById(R.id.POIName);
-                addressText = (TextView) dialog.findViewById(R.id.POIAddress);
-                nameText.setText(placeName);
-                addressText.setText(placeAddress);
 
                 dialog.show();
-
-
 
             }
 
@@ -215,22 +255,23 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
     }
 
 
-    public void onSatelliteButtonClick(View view) {
-        googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-    }
-
-    public void onHybridButtonClick(View view) {
-        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-    }
-
-    public void onTerrainButtonClick(View view) {
-        googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-    }
+    //TODO valutare eliminazione pulsanti
+//    public void onSatelliteButtonClick(View view) {
+//        googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+//    }
+//
+//    public void onHybridButtonClick(View view) {
+//        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+//    }
+//
+//    public void onTerrainButtonClick(View view) {
+//        googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+//    }
 
 
     public void onMapReady(GoogleMap map) {
         googleMap = map;
-        googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -255,14 +296,7 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                 .position(sydney));*/
     }
 
-    public void onClickAddStop(View v){
 
-        new MyTaskInserimentoTappa().execute();
-
-        //TODO ripristinare
-        //new MyTaskInserimentoFiltro().execute();
-
-    }
 
 
 
@@ -553,10 +587,12 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
         protected void onPostExecute(Void aVoid) {
 
             if(!result.equals("OK")){
-                Log.e("TEST", "tappa non inserita");
+                //TODO il risultato restituito non è OK quando va a buon fine, capire perchè
+
+                //Log.e("TEST", "tappa non inserita");
 
                 //TODO definire comportamento errore
-                Toast.makeText(getBaseContext(), "tappa non inserita", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getBaseContext(), "tappa non inserita", Toast.LENGTH_LONG).show();
 
             }
             else{
@@ -640,13 +676,13 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
         protected void onPostExecute(Void aVoid) {
 
             if(result.contains("")){
-                Log.e("TEST", "tappa non inserita");
+                Log.e("TEST", "filtro non inserito");
 
                 //TODO definire comportamento errore
 
             }
             else{
-                Log.i("TEST", "tappa inserita correttamente");
+                Log.i("TEST", "filtro inserito correttamente");
 
             }
             super.onPostExecute(aVoid);

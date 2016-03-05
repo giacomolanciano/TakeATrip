@@ -179,6 +179,8 @@ public class ListaTappeActivity extends AppCompatActivity
             mGoogleApiClient.connect();
         }
 
+        //TODO aggiornare mappa
+        //new MyTask().execute();
     }
 
 
@@ -252,7 +254,8 @@ public class ListaTappeActivity extends AppCompatActivity
 
     private void PopolaPartecipanti(final Set<Profilo> partecipants){
 
-        layoutProprietariItinerari.addView(new TextView(this), 20, 80);
+        layoutProprietariItinerari.addView(new TextView(this), Constants.WIDTH_LAYOUT_PROPRIETARI_ITINERARI,
+                Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI);
 
 
         Log.i("TEST", "partecipants: " + partecipants);
@@ -373,7 +376,7 @@ public class ListaTappeActivity extends AppCompatActivity
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 5));
             }
 
-*/
+            */
 
             return;
 
@@ -445,12 +448,14 @@ public class ListaTappeActivity extends AppCompatActivity
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
     }
 
-    public void ClickAddTappa(View view) {
-        Intent openAddTappa = new Intent(ListaTappeActivity.this, NuovaTappaActivity.class);
 
-        // passo all'attivazione dell'activity
-        startActivity(openAddTappa);
-    }
+
+//    public void ClickAddTappa(View view) {
+//        Intent openAddTappa = new Intent(ListaTappeActivity.this, NuovaTappaActivity.class);
+//
+//        // passo all'attivazione dell'activity
+//        startActivity(openAddTappa);
+//    }
 
 
 
@@ -461,9 +466,32 @@ public class ListaTappeActivity extends AppCompatActivity
         intent.putExtra("codiceViaggio", codiceViaggio);
 
         //TODO ricavare numero tappe itinerario utente
-        intent.putExtra("ordine", 0);
+        intent.putExtra("ordine", calcolaNumUltimaTappaUtentePrincipale());
 
         startActivity(intent);
+
+        //finish();
+    }
+
+
+    private int calcolaNumUltimaTappaUtentePrincipale() {
+
+        //TODO errore nel calcolo del risutato, sistemare
+
+
+
+        Log.i("TEST", "lista tappe: "+profiloTappe.get(new Profilo(email)));
+
+        int result = 0;
+
+        ArrayList<Tappa> lstaTappe = (ArrayList<Tappa>) profiloTappe.get(new Profilo(email, null,null,null,null,null,null,null,null,null));
+
+        if(lstaTappe != null)
+            result = lstaTappe.size();
+
+        Log.i("TEST", "result ordine tappa: " + result);
+
+        return result;
     }
 
 

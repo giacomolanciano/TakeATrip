@@ -31,4 +31,9 @@ public class Constants {
     public static final int REQUEST_COVER_IMAGE_CAPTURE = 3;
     public static final int REQUEST_COVER_IMAGE_PICK = 4;
 
+
+    public static final int WIDTH_LAYOUT_PROPRIETARI_ITINERARI = 20;
+    public static final int HEIGH_LAYOUT_PROPRIETARI_ITINERARI = 80;
+
+
 }
