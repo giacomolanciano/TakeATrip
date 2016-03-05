@@ -1729,21 +1729,21 @@
         <item>view travel image</item>
         <item>change travel image</item>
         <item>exit</item>
-    </string-array><string name="dummy_button">Dummy Button</string><string name="Edit">Edit</string><string name="title_activity_main2">Main2Activity</string><string name="Name">Name</string><string-array name="CommandsCoverImage">
+    </string-array><string name="dummy_button">Dummy Button</string><string name="Edit">Edit</string><string name="InserisciNuovoSesso">Insert sex</string><string name="title_activity_main2">Main2Activity</string><string name="Name">Name</string><string-array name="CommandsCoverImage">
         <item>view cover image</item>
         <item>change cover image</item>
         <item>take a photo</item>
         <item>exit</item>
-    </string-array><string name="title_activity_main">MainActivity</string><string name="Cancel">Cancel</string><string name="title_activity_viaggio">ViaggioActivity</string><string name="Terrain">Terrain</string><string name="title_activity_categoria">CategoriaActivity</string><string name="action_sign_in_short">Sign in</string><string name="title_activity_lista_viaggi">ListTravels</string><string name="Email">Email</string><string name="navigation_drawer_close">Close navigation drawer</string><string name="Create">Create</string><string name="AvviaRicerca">Search</string><string name="permission_rationale">"Contacts permissions are needed for providing email
+    </string-array><string name="title_activity_main">MainActivity</string><string name="Cancel">Cancel</string><string name="title_activity_viaggio">ViaggioActivity</string><string name="Terrain">Terrain</string><string name="title_activity_categoria">CategoriaActivity</string><string name="action_sign_in_short">Sign in</string><string name="InserisciNuovoTipo">Insert type</string><string name="title_activity_lista_viaggi">ListTravels</string><string name="Email">Email</string><string name="InserisciNuovaDescrizione">Insert description</string><string name="navigation_drawer_close">Close navigation drawer</string><string name="Create">Create</string><string name="AvviaRicerca">Search</string><string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string><string name="dummy_content">DUMMY\nCONTENT</string><string-array name="CommandsSettingsMain">
         <item>logout</item>
-    </string-array><string name="title_activity_lista_tappe2">Lista Tappe</string><string-array name="PrivacyLevelDescription">
+    </string-array><string name="InserisciNuovaNazionalita">Insert nationality</string><string name="title_activity_lista_tappe2">Lista Tappe</string><string-array name="PrivacyLevelDescription">
         <item>Anyone can see these contents</item>
         <item>Only your travel friends can see these contents</item>
         <item>Only your travel friends can see these contents</item>
         <item>Choose who can see these contents</item>
-    </string-array><string name="InsertNameTravel">Name of Travel</string><string name="tempMax">Temperatura Massima</string><string name="facebook_app_id">1024572710947061</string><string name="DestinationSelection">Search destination</string><string name="VelocitaVento">Speed of Wind</string><string name="YourTravel">Your Travel</string><string-array name="CommandsImageProfile">
+    </string-array><string name="InsertNameTravel">Name of Travel</string><string name="tempMax">Temperatura Massima</string><string name="facebook_app_id">1024572710947061</string><string name="DestinationSelection">Search destination</string><string name="VelocitaVento">Speed of Wind</string><string name="YourTravel">Your Travel</string><string name="InserisciNuovoUsername">Insert username</string><string-array name="CommandsImageProfile">
         <item>view image profile</item>
         <item>change image profile</item>
         <item>take a photo</item>
@@ -1753,7 +1753,7 @@
         <item>Travel</item>
         <item>Stop</item>
         <item>Custom</item>
-    </string-array><string name="title_activity_lista_tappe">ListaTappeActivity</string><string name="Password">Password</string><string name="LoginError">Incorrect Data</string><string name="ConfermaPassword">Confirm password</string><string name="search_poi">Search POI</string><string-array name="livelliUmidita">
+    </string-array><string name="title_activity_lista_tappe">ListaTappeActivity</string><string name="Password">Password</string><string name="LoginError">Incorrect Data</string><string name="ConfermaPassword">Confirm password</string><string name="search_poi">Search POI</string><string name="InserisciNuovoLavoro">Insert job</string><string-array name="livelliUmidita">
         <item>low level</item>
         <item>medium level</item>
         <item>high level</item>

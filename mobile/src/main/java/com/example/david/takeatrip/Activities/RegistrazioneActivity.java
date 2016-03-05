@@ -75,10 +75,15 @@ public class  RegistrazioneActivity extends AppCompatActivity {
     private EditText campoNuovaPassword;
     private EditText campoConfermaNuovaPassword;
     private EditText campoNuovoUsername;
+    private EditText campoNuovoSesso;
+    private EditText campoNuovaNazionalita;
+    private EditText campoNuovoLavoro;
+    private EditText campoNuovaDescrizione;
+    private EditText campoNuovoTipo;
 
     private String data;
 
-    private String nome, cognome, email, password, confermaPassword, vecchiaPassword, nuovaPassword, confermaNuovaPassword, username, nuovoUsername;
+    private String nome, cognome, email, password, confermaPassword, vecchiaPassword, nuovaPassword, confermaNuovaPassword,  nazionalita, sesso, username, lavoro, descrizione, tipo;
     private String previousEmail;
 
     private NumberPicker pickerYear, pickerMonth, pickerDay;
@@ -98,9 +103,15 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             email = intent.getStringExtra("email");
             data = intent.getStringExtra("date");
             password = intent.getStringExtra("password");
+            nazionalita = intent.getStringExtra("nazionalita");
+            sesso = intent.getStringExtra("sesso");
+            username = intent.getStringExtra("username");
+            lavoro = intent.getStringExtra("lavoro");
+            descrizione = intent.getStringExtra("descrizione");
+            tipo = intent.getStringExtra("tipo");
 
             //se contiene i dati, allora puoi procedere con la modifica
-            if(nome != null || cognome != null || email != null || data != null || username != null){
+            if(email != null){
                 update = true;
 
                 setContentView(R.layout.edit_info);
@@ -109,6 +120,12 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                 campoNuovaPassword = (EditText) findViewById(R.id.NuovaPassword);
                 campoConfermaNuovaPassword = (EditText) findViewById(R.id.ConfermaNuovaPassword);
                 campoNuovoUsername = (EditText) findViewById(R.id.InserisciNuovoUsername);
+                campoNuovoSesso = (EditText) findViewById(R.id.InserisciNuovoSesso);
+                campoNuovaNazionalita = (EditText) findViewById(R.id.InserisciNuovaNazionalita);
+                campoNuovoLavoro = (EditText) findViewById(R.id.InserisciNuovoLavoro);
+                campoNuovaDescrizione = (EditText) findViewById(R.id.InserisciNuovaDescrizione);
+                campoNuovoTipo = (EditText) findViewById(R.id.InserisciNuovoTipo);
+
 
 
                 String[] splittedDate = data.split("-");
@@ -157,12 +174,14 @@ public class  RegistrazioneActivity extends AppCompatActivity {
         if(update) {
             campoNome.setText(nome);
             campoCognome.setText(cognome);
-            campoEmail.setText(email);
+            campoNuovoUsername.setText(username);
+            campoNuovoUsername.setEnabled(false);
+            campoNuovoSesso.setText(sesso);
+            campoNuovaNazionalita.setText(nazionalita);
+            campoNuovoLavoro.setText(lavoro);
+            campoNuovaDescrizione.setText(descrizione);
+            campoNuovoTipo.setText(tipo);
 
-            //TODO: creare stringa
-            campoEmail.setText("Non Modificabile");
-            campoEmail.setEnabled(false);
-            campoEmail.setVisibility(View.INVISIBLE);
             pickerYear.setValue(year);
             pickerMonth.setValue(month);
             pickerDay.setValue(day);
@@ -220,18 +239,22 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
                     nome = campoNome.getText().toString();
                     cognome = campoCognome.getText().toString();
-                    email = campoEmail.getText().toString();
                     vecchiaPassword = PasswordHashing.sha1Hash(campoVecchiaPassword.getText().toString());
                     nuovaPassword = campoNuovaPassword.getText().toString();
                     confermaNuovaPassword = campoConfermaNuovaPassword.getText().toString();
-                    nuovoUsername = campoNuovoUsername.getText().toString();
+                    username = campoNuovoUsername.getText().toString();
+                    sesso = campoNuovoSesso.getText().toString();
+                    nazionalita = campoNuovaNazionalita.getText().toString();
+                    lavoro = campoNuovoLavoro.getText().toString();
+                    descrizione = campoNuovaDescrizione.getText().toString();
+                    tipo = campoNuovoTipo.getText().toString();
 
-                    Log.i("TEST", "dati modificati: " + nome +" " + cognome + " " + data +" "+  email + "vpwd "+ password+" nuovapwd: "+ nuovaPassword+" nuovousername: "+ nuovoUsername);
+                    Log.i("TEST", "dati modificati: " + nome +" " + cognome + " " + data +" "+  email + "vpwd "+ password+" nuovapwd: "+ nuovaPassword+" nuovousername: "+ username);
 
                     if(nuovaPassword == null || nuovaPassword.equals("")){
                         passwordModificata = false;
 
-                        Log.i("TEST", "dati modificati: " + nome +" " + cognome + " " + data +" "+  email + "vpwd "+ password);
+                        Log.i("TEST", "dati modificati: " + nome + " " + cognome + " " + data + " " + email + "vpwd " + password);
 
 
                         new MyTask().execute();
@@ -242,6 +265,12 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                         openProfilo.putExtra("email", email);
                         openProfilo.putExtra("dateOfBirth", data);
                         openProfilo.putExtra("pwd", password);
+                        openProfilo.putExtra("nazionalita", nazionalita);
+                        openProfilo.putExtra("sesso", sesso);
+                        openProfilo.putExtra("username", username);
+                        openProfilo.putExtra("lavoro", lavoro);
+                        openProfilo.putExtra("descrizione", descrizione);
+                        openProfilo.putExtra("tipo", tipo);
 
                         startActivity(openProfilo);
 
@@ -262,6 +291,12 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                             openProfilo.putExtra("email", email);
                             openProfilo.putExtra("dateOfBirth", data);
                             openProfilo.putExtra("pwd", nuovaPassword);
+                            openProfilo.putExtra("nazionalita", nazionalita);
+                            openProfilo.putExtra("sesso", sesso);
+                            openProfilo.putExtra("username", username);
+                            openProfilo.putExtra("lavoro", lavoro);
+                            openProfilo.putExtra("descrizione", descrizione);
+                            openProfilo.putExtra("tipo", tipo);
 
                             // passo all'attivazione dell'activity
                             startActivity(openProfilo);
@@ -351,6 +386,16 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             dataToSend.add(new BasicNameValuePair("cognome", cognome));
             dataToSend.add(new BasicNameValuePair("dataNascita",data));
             dataToSend.add(new BasicNameValuePair("email", email));
+            dataToSend.add(new BasicNameValuePair("nazionalita", nazionalita));
+            dataToSend.add(new BasicNameValuePair("sesso", sesso));
+            dataToSend.add(new BasicNameValuePair("username", username));
+            dataToSend.add(new BasicNameValuePair("lavoro", lavoro));
+            dataToSend.add(new BasicNameValuePair("descrizione", descrizione));
+            dataToSend.add(new BasicNameValuePair("tipo", tipo));
+
+            Log.i("NUOVO", "NUOVO USERNAME " + username );
+
+
             if(update && passwordModificata)
                 dataToSend.add(new BasicNameValuePair("password", nuovaPassword));
             else
@@ -400,7 +445,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                 // Inserting Users
                 Log.d("Insert: ", "Inserting ..");
 
-                db.addUser(new Profilo(email, nome, cognome, data, null, null, null, null, null, null ), password);
+                db.addUser(new Profilo(email, nome, cognome, data, nazionalita, sesso, username, lavoro, descrizione, tipo ), password);
 
 
                 // Reading all contacts
@@ -422,9 +467,9 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                 Log.d("Update: ", "Updating ..");
 
                 if(passwordModificata)
-                    db.updateContact(new Profilo(email, nome, cognome, data, null, null, null, null, null, null), nuovaPassword);
+                    db.updateContact(new Profilo(email, nome, cognome, data, nazionalita, sesso, username, lavoro, descrizione, tipo), nuovaPassword);
                 else
-                    db.updateContact(new Profilo(email, nome, cognome, data, null, null, null, null, null, null), password);
+                    db.updateContact(new Profilo(email, nome, cognome, data, nazionalita, sesso, username, lavoro, descrizione, tipo), password);
 
 
 

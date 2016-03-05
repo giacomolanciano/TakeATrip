@@ -529,6 +529,12 @@
     <string name="Edit">Edit</string>
     <string name="Email">Email</string>
     <string name="Hybrid">Hybrid</string>
+    <string name="InserisciNuovaDescrizione">Insert description</string>
+    <string name="InserisciNuovaNazionalita">Insert nationality</string>
+    <string name="InserisciNuovoLavoro">Insert job</string>
+    <string name="InserisciNuovoSesso">Insert sex</string>
+    <string name="InserisciNuovoTipo">Insert type</string>
+    <string name="InserisciNuovoUsername">Insert username</string>
     <string name="InsertNameTravel">Name of Travel</string>
     <string name="Login">Login</string>
     <string name="LoginError">Incorrect Data</string>

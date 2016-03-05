@@ -19,9 +19,32 @@
             android:orientation="vertical"
             android:paddingTop="10dp"
             android:layout_marginRight="0dp"
-            android:layout_marginLeft="-2dp"
+            android:layout_marginLeft="0dp"
             android:id="@+id/linearLayout">
 
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Username: "
+                android:id="@+id/testoNuovoUsername"
+                android:textStyle="bold"
+                android:layout_below="@+id/Email"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:ems="10"
+                android:id="@+id/InserisciNuovoUsername"
+                android:layout_below="@+id/Username"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -34,17 +57,18 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignRight="@+id/Nome"
-                android:layout_alignEnd="@+id/Nome" />
+                android:layout_alignEnd="@+id/Nome"
+                android:textColor="#000000"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:ems="10"
                 android:id="@+id/Nome"
                 android:layout_below="@+id/testoNome"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -57,7 +81,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignRight="@+id/Nome"
-                android:layout_alignEnd="@+id/Nome" />
+                android:layout_alignEnd="@+id/Nome"
+                android:textColor="#000000"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -69,29 +94,10 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
 
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/Email"
-                android:id="@+id/testoEmail"
-                android:textStyle="bold"
-                android:layout_below="@+id/Cognome"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:ems="10"
-                android:id="@+id/Email"
-                android:layout_below="@+id/testoEmail"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -102,7 +108,8 @@
                 android:textStyle="bold"
                 android:layout_below="@+id/Email"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -112,7 +119,8 @@
                 android:id="@+id/VecchiaPassword"
                 android:layout_below="@+id/testoPassword"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -123,7 +131,8 @@
                 android:textStyle="bold"
                 android:layout_below="@+id/Email"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -133,7 +142,8 @@
                 android:id="@+id/NuovaPassword"
                 android:layout_below="@+id/testoPassword"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -144,7 +154,8 @@
                 android:textStyle="bold"
                 android:layout_below="@+id/Email"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -154,7 +165,8 @@
                 android:id="@+id/ConfermaNuovaPassword"
                 android:layout_below="@+id/testoPassword"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -165,7 +177,8 @@
                 android:textStyle="bold"
                 android:layout_below="@+id/Password"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
 
 
 
@@ -175,48 +188,150 @@
                 android:orientation="horizontal"
                 android:id="@+id/linearLayoutDatePickers"
                 android:layout_gravity="center_horizontal"
+
                 >
 
                 <NumberPicker
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/pickerYear"
+                    android:textColor="#000000"
                     />
 
                 <NumberPicker
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/pickerMonth"
+                    android:textColor="#000000"
                     />
 
                 <NumberPicker
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/pickerDay"
+                    android:textColor="#000000"
                     />
 
             </LinearLayout>
+
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/InserisciNuovoUsername"
-                android:id="@+id/testoNuovoUsername"
+                android:text="@string/InserisciNuovoSesso"
+                android:id="@+id/testoNuovoSesso"
                 android:textStyle="bold"
                 android:layout_below="@+id/Email"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:ems="10"
-                android:id="@+id/InserisciNuovoUsername"
+                android:id="@+id/InserisciNuovoSesso"
                 android:layout_below="@+id/Username"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/InserisciNuovaNazionalita"
+                android:id="@+id/testoNuovaNazionalita"
+                android:textStyle="bold"
+                android:layout_below="@+id/Email"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:ems="10"
+                android:id="@+id/InserisciNuovaNazionalita"
+                android:layout_below="@+id/Username"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/InserisciNuovoLavoro"
+                android:id="@+id/testoNuovoLavoro"
+                android:textStyle="bold"
+                android:layout_below="@+id/Email"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:ems="10"
+                android:id="@+id/InserisciNuovoLavoro"
+                android:layout_below="@+id/Username"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/InserisciNuovaDescrizione"
+                android:id="@+id/testoNuovaDescrizione"
+                android:textStyle="bold"
+                android:layout_below="@+id/Email"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:ems="10"
+                android:id="@+id/InserisciNuovaDescrizione"
+                android:layout_below="@+id/Username"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/InserisciNuovoTipo"
+                android:id="@+id/testoNuovoTipo"
+                android:textStyle="bold"
+                android:layout_below="@+id/Email"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:ems="10"
+                android:id="@+id/InserisciNuovoTipo"
+                android:layout_below="@+id/Username"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="#000000"/>
 
             <Button
                 android:layout_width="wrap_content"
@@ -225,7 +340,8 @@
                 android:id="@+id/Invio"
                 android:layout_gravity="center_horizontal"
                 android:layout_below="@+id/linearLayout"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:textColor="#000000"/>
 
         </LinearLayout>
     </ScrollView>

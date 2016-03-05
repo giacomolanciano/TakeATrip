@@ -36,7 +36,7 @@ public class InfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_info);
         viewEta = (TextView) findViewById(R.id.Eta);
         viewEmail = (TextView) findViewById(R.id.Email);
-        viewNazionalità = (TextView) findViewById(R.id.Nazionalità);
+        viewNazionalità = (TextView) findViewById(R.id.Nazionalita);
         viewSesso = (TextView) findViewById(R.id.Sesso);
         viewUsername = (TextView) findViewById(R.id.Username);
         viewLavoro = (TextView) findViewById(R.id.Lavoro);
