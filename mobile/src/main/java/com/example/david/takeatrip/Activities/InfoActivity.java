@@ -116,32 +116,6 @@ public class InfoActivity extends AppCompatActivity {
     }
 
 
-/*
-        String[] splittedDate = date.split("-");
-        year = Integer.parseInt(splittedDate[0]);
-        month = Integer.parseInt(splittedDate[1]);
-        day = Integer.parseInt(splittedDate[2]);
-
-
-        Calendar calendar = Calendar.getInstance();
-        dayToday =  calendar.get(Calendar.DAY_OF_MONTH);
-        monthToday = calendar.get(Calendar.MONTH) + 1;
-        yearToday = calendar.get(Calendar.YEAR);
-
-
-        int somma1 = month + day;
-        int somma2 = monthToday+dayToday;
-
-        if (somma2>somma1){
-            eta = yearToday - year;
-
-        }else{
-            eta = yearToday - year;
-            eta = eta - 1;
-        }
-*/
-
-
 
     }
 

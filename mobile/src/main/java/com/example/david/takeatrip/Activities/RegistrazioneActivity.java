@@ -220,6 +220,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                     vecchiaPassword = PasswordHashing.sha1Hash(campoVecchiaPassword.getText().toString());
                     nuovaPassword = campoNuovaPassword.getText().toString();
                     confermaNuovaPassword = campoConfermaNuovaPassword.getText().toString();
+
                     Log.i("TEST", "dati modificati: " + nome +" " + cognome + " " + data +" "+  email + "vpwd "+ password+" nuovapwd: "+ nuovaPassword);
 
                     if(nuovaPassword == null || nuovaPassword.equals("")){
@@ -241,6 +242,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
 
                     }
+
                     else{
                         passwordModificata = true;
                         if(confermaCredenziali(nuovaPassword, confermaNuovaPassword)) {

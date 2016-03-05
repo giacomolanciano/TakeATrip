@@ -259,6 +259,12 @@ public class ViaggioActivity extends AppCompatActivity {
                             openProfilo.putExtra("surname", p.getSurname());
                             openProfilo.putExtra("email", p.getEmail());
                             openProfilo.putExtra("dateOfBirth", p.getDataNascita());
+                            openProfilo.putExtra("nazionalita", p.getNazionalita());
+                            openProfilo.putExtra("sesso", p.getSesso());
+                            openProfilo.putExtra("username", p.getUsername());
+                            openProfilo.putExtra("lavoro", p.getLavoro());
+                            openProfilo.putExtra("descrizione", p.getDescrizione());
+                            openProfilo.putExtra("tipo", p.getTipo());
 
                             // passo all'attivazione dell'activity
                             startActivity(openProfilo);
@@ -433,7 +439,14 @@ public class ViaggioActivity extends AppCompatActivity {
                                     String nomePartecipante = json_data.getString("nome").toString();
                                     String cognomePartecipante = json_data.getString("cognome").toString();
                                     String data = json_data.getString("dataNascita").toString();
-                                    listPartecipants.add(new Profilo(emailProfilo, nomePartecipante,cognomePartecipante, data, null, null, null, null, null, null));
+                                    String nazionalita = json_data.getString("nazionalita").toString();
+                                    String sesso = json_data.getString("sesso").toString();
+                                    String username = json_data.getString("username").toString();
+                                    String lavoro = json_data.getString("lavoro").toString();
+                                    String descrizione = json_data.getString("descrizione").toString();
+                                    String tipo = json_data.getString("tipo").toString();
+
+                                    listPartecipants.add(new Profilo(emailProfilo, nomePartecipante,cognomePartecipante, data, nazionalita, sesso, username, lavoro, descrizione, tipo));
                                 }
                             }
 
