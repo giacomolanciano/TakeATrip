@@ -74,10 +74,11 @@ public class  RegistrazioneActivity extends AppCompatActivity {
     private EditText campoVecchiaPassword;
     private EditText campoNuovaPassword;
     private EditText campoConfermaNuovaPassword;
+    private EditText campoNuovoUsername;
 
     private String data;
 
-    private String nome, cognome, email, password, confermaPassword, vecchiaPassword, nuovaPassword, confermaNuovaPassword;
+    private String nome, cognome, email, password, confermaPassword, vecchiaPassword, nuovaPassword, confermaNuovaPassword, username, nuovoUsername;
     private String previousEmail;
 
     private NumberPicker pickerYear, pickerMonth, pickerDay;
@@ -98,7 +99,8 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             data = intent.getStringExtra("date");
             password = intent.getStringExtra("password");
 
-            if(nome != null || cognome != null || email != null || data != null){
+            //se contiene i dati, allora puoi procedere con la modifica
+            if(nome != null || cognome != null || email != null || data != null || username != null){
                 update = true;
 
                 setContentView(R.layout.edit_info);
@@ -106,6 +108,8 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                 campoVecchiaPassword = (EditText) findViewById(R.id.VecchiaPassword);
                 campoNuovaPassword = (EditText) findViewById(R.id.NuovaPassword);
                 campoConfermaNuovaPassword = (EditText) findViewById(R.id.ConfermaNuovaPassword);
+                campoNuovoUsername = (EditText) findViewById(R.id.InserisciNuovoUsername);
+
 
                 String[] splittedDate = data.split("-");
                 year = Integer.parseInt(splittedDate[0]);
@@ -220,8 +224,9 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                     vecchiaPassword = PasswordHashing.sha1Hash(campoVecchiaPassword.getText().toString());
                     nuovaPassword = campoNuovaPassword.getText().toString();
                     confermaNuovaPassword = campoConfermaNuovaPassword.getText().toString();
+                    nuovoUsername = campoNuovoUsername.getText().toString();
 
-                    Log.i("TEST", "dati modificati: " + nome +" " + cognome + " " + data +" "+  email + "vpwd "+ password+" nuovapwd: "+ nuovaPassword);
+                    Log.i("TEST", "dati modificati: " + nome +" " + cognome + " " + data +" "+  email + "vpwd "+ password+" nuovapwd: "+ nuovaPassword+" nuovousername: "+ nuovoUsername);
 
                     if(nuovaPassword == null || nuovaPassword.equals("")){
                         passwordModificata = false;
@@ -310,7 +315,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
         return isValid;
     }
 
-
+    //CONTROLLO SULLE CREDENZIALI INSERITE
     private boolean confermaCredenziali(String password, String confermaPassword) {
         boolean result = false;
 
