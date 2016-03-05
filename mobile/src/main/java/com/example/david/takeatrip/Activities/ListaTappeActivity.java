@@ -72,6 +72,7 @@ public class ListaTappeActivity extends AppCompatActivity
     private GoogleMap googleMap;
     private GoogleApiClient mGoogleApiClient;
 
+    private Profilo profiloUtenteLoggato;
     private Map<Profilo,List<Tappa>> profiloTappe;
     private Map<Profilo, List<Place>> profiloNomiTappe;
 
@@ -150,11 +151,16 @@ public class ListaTappeActivity extends AppCompatActivity
             Log.i(TAG, "email profilo corrente: " + email+ " email partecipants: " + listPartecipants);
 
             for(CharSequence cs : listPartecipants){
-                partecipants.add(new Profilo(cs.toString(), null,null,null, null, null, null, null, null, null));
+                Profilo aux = new Profilo(cs.toString(), null,null,null, null, null, null, null, null, null);
+                partecipants.add(aux);
 
                 if(email.equals(cs.toString())){
                     proprioViaggio = true;
                     buttonAddStop.setVisibility(View.VISIBLE);
+
+                    //questo campo deve puntare allo STESSO oggetto inserito nella lista partecipants
+                    //altrimenti c'è bisogno di ridefinire equals(), che sbrasa searchActivity
+                    profiloUtenteLoggato = aux;
 
                     Log.i("TEST", "sei compreso nel viaggio");
                 }
@@ -179,7 +185,7 @@ public class ListaTappeActivity extends AppCompatActivity
             mGoogleApiClient.connect();
         }
 
-        //TODO aggiornare mappa
+        //TODO gestire aggiornamento mappa, la chiamata all'asyntask provoca un inserimento errato dei partecipanti
         //new MyTask().execute();
     }
 
@@ -280,8 +286,10 @@ public class ListaTappeActivity extends AppCompatActivity
             });
 
             image.setImageResource(R.drawable.logodef);
-            layoutProprietariItinerari.addView(image, 80, 80);
-            layoutProprietariItinerari.addView(new TextView(this), 20, 80);
+            layoutProprietariItinerari.addView(image, Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI,
+                    Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI);
+            layoutProprietariItinerari.addView(new TextView(this), Constants.WIDTH_LAYOUT_PROPRIETARI_ITINERARI,
+                    Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI);
 
         }
 
@@ -466,7 +474,7 @@ public class ListaTappeActivity extends AppCompatActivity
         intent.putExtra("codiceViaggio", codiceViaggio);
 
         //TODO ricavare numero tappe itinerario utente
-        intent.putExtra("ordine", calcolaNumUltimaTappaUtentePrincipale());
+        intent.putExtra("ordine", calcolaNumUltimaTappaUtenteCorrente());
 
         startActivity(intent);
 
@@ -474,20 +482,20 @@ public class ListaTappeActivity extends AppCompatActivity
     }
 
 
-    private int calcolaNumUltimaTappaUtentePrincipale() {
-
-        //TODO errore nel calcolo del risutato, sistemare
-
-
-
-        Log.i("TEST", "lista tappe: "+profiloTappe.get(new Profilo(email)));
+    private int calcolaNumUltimaTappaUtenteCorrente() {
 
         int result = 0;
 
-        ArrayList<Tappa> lstaTappe = (ArrayList<Tappa>) profiloTappe.get(new Profilo(email, null,null,null,null,null,null,null,null,null));
+        Log.i("TEST", "profilo: "+profiloUtenteLoggato);
+        Log.i("TEST", "mappa profiloTappe: " + profiloTappe);
 
-        if(lstaTappe != null)
-            result = lstaTappe.size();
+
+        ArrayList<Tappa> listaTappe = (ArrayList<Tappa>) profiloTappe.get(profiloUtenteLoggato);
+
+        Log.i("TEST", "lista tappe di "+ profiloUtenteLoggato+ ": "+listaTappe);
+
+        if(listaTappe != null)
+            result = listaTappe.size();
 
         Log.i("TEST", "result ordine tappa: " + result);
 

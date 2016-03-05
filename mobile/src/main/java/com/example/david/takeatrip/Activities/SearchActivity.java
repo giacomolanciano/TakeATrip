@@ -320,7 +320,7 @@ public class SearchActivity extends AppCompatActivity {
                                     JSONObject json_data = jArray.getJSONObject(i);
                                     String codice = json_data.getString("codice").toString();
                                     String nomeViaggio = json_data.getString("nomeViaggio").toString();
-                                    Profilo p = new Profilo(nomeScelto, cognomeScelto,null,null, null, null, null, null, null, null);
+                                    Profilo p = new Profilo(null, nomeScelto, cognomeScelto,null, null, null, null, null, null, null);
 
                                     List<Viaggio> viaggi = new ArrayList<Viaggio>();
                                     viaggi.add(new Viaggio(codice, nomeViaggio));
@@ -414,7 +414,7 @@ public class SearchActivity extends AppCompatActivity {
                                     String nomeViaggio = json_data.getString("nomeViaggio").toString();
                                     String nomeUtente = json_data.getString("nome").toString();
                                     String cognomeUtente = json_data.getString("cognome").toString();
-                                    Profilo p = new Profilo(nomeUtente, cognomeUtente,null,null, null, null, null, null, null, null);
+                                    Profilo p = new Profilo(null, nomeUtente, cognomeUtente,null, null, null, null, null, null, null);
 
                                     List<Viaggio> viaggi = new ArrayList<Viaggio>();
                                     viaggi.add(new Viaggio(codice, nomeViaggio));
