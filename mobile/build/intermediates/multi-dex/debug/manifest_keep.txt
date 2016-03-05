@@ -1,0 +1,37 @@
+-keep class android.support.multidex.MultiDexApplication {
+    <init>();
+    void attachBaseContext(android.content.Context);
+}
+-keep class com.example.david.takeatrip.Activities.LoginActivity { <init>(); }
+-keep class com.example.david.takeatrip.Activities.RegistrazioneActivity { <init>(); }
+-keep class com.example.david.takeatrip.Activities.ProfiloActivity { <init>(); }
+-keep class com.example.david.takeatrip.Activities.ListaViaggiActivity { <init>(); }
+-keep class com.example.david.takeatrip.Activities.CategoriaActivity { <init>(); }
+-keep class com.example.david.takeatrip.Activities.ViaggioActivity { <init>(); }
+-keep class com.example.david.takeatrip.Activities.TappaActivity { <init>(); }
+-keep class com.example.david.takeatrip.Activities.SplashActivity { <init>(); }
+-keep class com.example.david.takeatrip.Activities.DestinationSelectionActivity { <init>(); }
+-keep class com.example.david.takeatrip.Activities.PossibleDestinationActivity { <init>(); }
+-keep class com.example.david.takeatrip.Activities.MapsActivity { <init>(); }
+-keep class com.example.david.takeatrip.Activities.MainActivity { <init>(); }
+-keep class com.example.david.takeatrip.Activities.InfoActivity { <init>(); }
+-keep class com.example.david.takeatrip.Activities.StatsActivity { <init>(); }
+-keep class com.example.david.takeatrip.Activities.ListaTappeActivity { <init>(); }
+-keep class com.example.david.takeatrip.Activities.SearchActivity { <init>(); }
+-keep class com.example.david.takeatrip.Activities.SocialActivity { <init>(); }
+-keep class com.facebook.FacebookActivity { <init>(); }
+-keep class com.example.david.takeatrip.Activities.NuovaTappaActivity { <init>(); }
+-keep class com.google.android.gms.ads.AdActivity { <init>(); }
+-keep class com.google.android.gms.ads.purchase.InAppPurchaseActivity { <init>(); }
+-keep class com.google.android.gms.appinvite.PreviewActivity { <init>(); }
+-keep class com.google.android.gms.auth.api.signin.internal.SignInHubActivity { <init>(); }
+-keep class com.google.android.gms.auth.api.signin.RevocationBoundService { <init>(); }
+-keep class com.google.android.gms.measurement.AppMeasurementContentProvider { <init>(); }
+-keep class com.google.android.gms.measurement.AppMeasurementReceiver { <init>(); }
+-keep class com.google.android.gms.measurement.AppMeasurementService { <init>(); }
+-keep public class * extends android.app.backup.BackupAgent {
+    <init>();
+}
+-keep public class * extends java.lang.annotation.Annotation {
+    *;
+}
