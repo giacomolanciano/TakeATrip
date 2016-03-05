@@ -420,13 +420,8 @@ public class SearchActivity extends AppCompatActivity {
                                     viaggi.add(new Viaggio(codice, nomeViaggio));
 
                                     mappaProvvisoria.put(p,viaggi);
-
-
                                 }
                             }
-
-
-
                         } catch (Exception e) {
                             Log.e("TEST", "Errore nel risultato o nel convertire il risultato");
                         }

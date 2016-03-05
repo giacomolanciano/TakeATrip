@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TakeATrip</string>
     <string name="facebook_app_id">1024572710947061</string>
-    <string name="google_app_id">854482298731</string>
+    <!--string name="google_app_id">854482298731</string-->
 
 
     <string name="action_settings">Settings</string>

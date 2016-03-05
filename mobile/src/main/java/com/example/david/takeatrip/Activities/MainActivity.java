@@ -2,8 +2,13 @@ package com.example.david.takeatrip.Activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -27,7 +32,13 @@ import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.DatabaseHandler;
+import com.example.david.takeatrip.Utilities.DownloadImageTask;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 
@@ -40,11 +51,14 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -81,13 +95,13 @@ public class MainActivity extends AppCompatActivity {
     EditText editTextNameTravel;
 
 
+    Profile profile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         if(getIntent() != null){
             Intent intent = getIntent();
@@ -102,12 +116,59 @@ public class MainActivity extends AppCompatActivity {
             lavoro = intent.getStringExtra("lavoro");
             descrizione = intent.getStringExtra("descrizione");
             tipo = intent.getStringExtra("tipo");
+            profile = intent.getParcelableExtra("profilo");
         }
         else{
             //Prendi i dati dal database perche è gia presente l'utente
         }
 
         imageViewProfileRound = (ImageView)findViewById(R.id.imageView_round);
+
+
+        if(profile != null){
+
+
+            Log.i("TEST", profile.getProfilePictureUri(150, 150).toString());
+            Uri image_uri = profile.getProfilePictureUri(150, 150);
+
+
+            AccessToken accessToken = AccessToken.getCurrentAccessToken();
+            GraphRequest request = GraphRequest.newMeRequest(
+                    accessToken,
+                    new GraphRequest.GraphJSONObjectCallback() {
+                        @Override
+                        public void onCompleted(
+                                JSONObject object,
+                                GraphResponse response) {
+                            try {
+
+                                Log.i("TEST",  response.toString());
+                                JSONObject picture =  object.getJSONObject("picture");
+                                JSONObject data =  picture.getJSONObject("data");
+                                String url_image = data.getString("url");
+
+                                Log.i("TEST", "url_image: " + url_image);
+
+                                //URL newurl = new URL(url_image);
+                                new DownloadImageTask(imageViewProfileRound).execute(url_image);
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+
+                        }
+                    });
+            Bundle parameters = new Bundle();
+            parameters.putString("fields", "id,name,link,picture");
+            request.setParameters(parameters);
+            request.executeAsync();
+
+            //imageViewProfileRound.setImageDrawable(drawable);
+
+
+        }
+
         //layoutNewTravel = (FrameLayout)findViewById(R.id.FrameNewTravel);
         //table_layout = (TableLayout) findViewById(R.id.tableLayout1);
 
@@ -155,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
         openProfilo.putExtra("lavoro", lavoro);
         openProfilo.putExtra("descrizione", descrizione);
         openProfilo.putExtra("tipo", tipo);
+        openProfilo.putExtra("profilo", profile);
 
         // passo all'attivazione dell'activity
         startActivity(openProfilo);
@@ -654,4 +716,11 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+
+
+
+
+
+
 }

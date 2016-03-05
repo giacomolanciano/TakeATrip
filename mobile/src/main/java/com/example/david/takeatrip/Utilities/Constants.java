@@ -26,6 +26,11 @@ public class Constants {
     public static final String ERROR_TAPPA_NON_INSERITA = "";
 
 
+
+    public static final String PREFIX_GOOGLE = "google";
+    public static final String PREFIX_FACEBOOK = "facebo";
+
+
     public static final int REQUEST_IMAGE_CAPTURE = 1;
     public static final int REQUEST_IMAGE_PICK = 2;
     public static final int REQUEST_COVER_IMAGE_CAPTURE = 3;
