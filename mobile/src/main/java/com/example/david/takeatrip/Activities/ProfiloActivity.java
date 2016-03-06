@@ -61,7 +61,7 @@ public class ProfiloActivity extends TabActivity {
     private ImageView coverImage;
     private LinearLayout layoutCoverImage;
 
-    private String name, surname, email;
+    private String name, surname, email, emailEsterno;
     private String date, password, nazionalita, sesso, username, lavoro, descrizione, tipo;
     private int codice;
 
@@ -102,6 +102,7 @@ public class ProfiloActivity extends TabActivity {
             name = intent.getStringExtra("name");
             surname = intent.getStringExtra("surname");
             email = intent.getStringExtra("email");
+            emailEsterno = intent.getStringExtra("emailEsterno");
             date = intent.getStringExtra("dateOfBirth");
             password = intent.getStringExtra("pwd");
             nazionalita = intent.getStringExtra("nazionalita");
@@ -111,6 +112,9 @@ public class ProfiloActivity extends TabActivity {
             descrizione = intent.getStringExtra("descrizione");
             tipo = intent.getStringExtra("tipo");
             profile = intent.getParcelableExtra("profile");
+
+            Log.i("TEST", "email: " + email);
+            Log.i("TEST", "email esterno: " + emailEsterno);
 
             if(profile!= null){
                 final Uri image_uri = profile.getProfilePictureUri(70, 70);
@@ -194,6 +198,7 @@ public class ProfiloActivity extends TabActivity {
         intentInfo.putExtra("name", name);
         intentInfo.putExtra("surname", surname);
         intentInfo.putExtra("email", email);
+        intentInfo.putExtra("emailEsterno", emailEsterno);
         intentInfo.putExtra("dateOfBirth", date);
         intentInfo.putExtra("pwd", password);
         intentInfo.putExtra("nazionalita", nazionalita);
@@ -211,6 +216,11 @@ public class ProfiloActivity extends TabActivity {
 
         Intent intentDest = new Intent(this, MapsActivity.class);
         intentDest.putExtra("email", email);
+        intentDest.putExtra("emailEsterno", emailEsterno);
+
+        Log.i("TEST", "email: " + email);
+        Log.i("TEST", "email esterno: " + emailEsterno);
+
         tab3.setContent(intentDest);
 
 

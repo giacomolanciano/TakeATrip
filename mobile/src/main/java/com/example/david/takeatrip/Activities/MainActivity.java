@@ -42,6 +42,7 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 
 import org.apache.http.HttpEntity;
@@ -64,11 +65,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     private final String ADDRESS = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryNomiUtenti.php";
@@ -83,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
 
     private String name, surname, email, nazionalità, sesso, username, lavoro, descrizione, tipo;
     private String date, password;
+
+    private String emailEsterno;
 
     private ImageView imageViewProfileRound;
     private FrameLayout layoutNewTravel;
@@ -234,6 +238,7 @@ public class MainActivity extends AppCompatActivity {
         openProfilo.putExtra("name", name);
         openProfilo.putExtra("surname", surname);
         openProfilo.putExtra("email", email);
+        openProfilo.putExtra("emailEsterno", emailEsterno);
         openProfilo.putExtra("dateOfBirth", date);
         openProfilo.putExtra("pwd", password);
         openProfilo.putExtra("nazionalita", nazionalità);
@@ -260,7 +265,6 @@ public class MainActivity extends AppCompatActivity {
     public void ClickTravels(View v){
         Intent openListaViaggi = new Intent(MainActivity.this, ListaViaggiActivity.class);
         openListaViaggi.putExtra("email", email);
-
         // passo all'attivazione dell'activity
         startActivity(openListaViaggi);
     }
@@ -456,10 +460,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onClick(View v) {
 
-
-
-
+    }
 
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
@@ -727,6 +731,41 @@ public class MainActivity extends AppCompatActivity {
             //TODO: stringa in inglese
             Toast.makeText(getBaseContext(), "Viaggio creato con successo", Toast.LENGTH_LONG).show();
 
+
+
+            /*
+
+
+            AccessToken accessToken = AccessToken.getCurrentAccessToken();
+            Set<String> permissions = accessToken.getPermissions();
+
+            LoginManager.getInstance();
+            Log.i("TEST", "permissions: " + permissions);
+
+            //Devi settare i permessi per creare l'album
+
+
+            Log.i("TEST", "permissions dopo: " + permissions);
+
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.peru);
+
+            Bundle params = new Bundle();
+            params.putString("name", "My Test Album Name Here");
+            params.putString("message", "My Test Album Description Here");
+            new GraphRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    "me/albums",
+                    params,
+                    HttpMethod.POST,
+                    new GraphRequest.Callback() {
+                        public void onCompleted(GraphResponse response) {
+                            Log.i("TEST", "album generato con id: " + response.toString());
+                        }
+                    }
+            ).executeAsync();
+
+
+*/
 
             /*
             //TODO: fa partire l'activity del Viaggio

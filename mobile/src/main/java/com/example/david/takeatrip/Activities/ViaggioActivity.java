@@ -176,22 +176,9 @@ public class ViaggioActivity extends AppCompatActivity {
                             //Upload della foto nel db di FB o nel drive di Google
 
 
-                            LoginManager lm = LoginManager.getInstance();
-                            Log.i("TEST", "loginManager: " +lm);
-                            Log.i("TEST", "loginBehavior: " +lm.getLoginBehavior().toString());
-
-                            //LoginManager.getInstance().logInWithPublishPermissions(ViaggioActivity.this, Arrays.asList("publish_actions"));
-                            //LoginManager.getInstance().logInWithReadPermissions(ViaggioActivity.this, Arrays.asList("user_photos"));
-
-                            AccessToken accessToken = AccessToken.getCurrentAccessToken();
-                            Set<String> permissions = accessToken.getPermissions();
 
 
-                            Log.i("TEST", "permissions: " +permissions);
-
-
-                            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.peru);
-
+                            /*
                             Bundle params = new Bundle();
                             params.putString("name", "My Test Album Name Here");
                             params.putString("message", "My Test Album Description Here");
@@ -206,6 +193,10 @@ public class ViaggioActivity extends AppCompatActivity {
                                         }
                                     }
                             ).executeAsync();
+
+
+                            */
+
 
 /*
                             Bundle params = new Bundle();
@@ -224,16 +215,6 @@ public class ViaggioActivity extends AppCompatActivity {
                             ).executeAsync();
                             */
 
-
-                            SharePhoto photo = new SharePhoto.Builder()
-                                    .setBitmap(bitmap)
-                                    .build();
-
-                            SharePhotoContent content = new SharePhotoContent.Builder()
-                                    .addPhoto(photo)
-                                    .build();
-
-                            Log.i("TEST", "sto per condividere la foto: " + bitmap);
 
                             break;
 
@@ -354,7 +335,8 @@ public class ViaggioActivity extends AppCompatActivity {
                             Intent openProfilo = new Intent(ViaggioActivity.this, ProfiloActivity.class);
                             openProfilo.putExtra("name", p.getName());
                             openProfilo.putExtra("surname", p.getSurname());
-                            openProfilo.putExtra("email", p.getEmail());
+                            openProfilo.putExtra("emailEsterno", p.getEmail());
+                            openProfilo.putExtra("email", email);
                             openProfilo.putExtra("dateOfBirth", p.getDataNascita());
                             openProfilo.putExtra("nazionalita", p.getNazionalita());
                             openProfilo.putExtra("sesso", p.getSesso());

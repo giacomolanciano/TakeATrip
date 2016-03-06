@@ -28,6 +28,8 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
+import com.facebook.internal.LoginAuthorizationType;
+import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -58,6 +60,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -296,18 +299,16 @@ public class LoginActivity extends AppCompatActivity implements
         super.onPostCreate(savedInstanceState);
 
         blogin = (LoginButton) findViewById(R.id.LoginButtonFb);
-        //blogin.setPublishPermissions("publish_actions");
-        //blogin.setPublishPermissions(Arrays.asList("user_photos"));
 
-        LoginManager.getInstance().logInWithPublishPermissions(this, Arrays.asList("publish_actions"));
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("user_photos"));
+        /*
+        blogin.setReadPermissions("user_friends");
+        blogin.setReadPermissions(Arrays.asList("user_status"));
+        blogin.setReadPermissions(Arrays.asList("user_photos"));
+*/
+        blogin.setPublishPermissions("publish_actions");
 
-
-
-        //blogin.setReadPermissions("user_friends");
-        //blogin.setReadPermissions(Arrays.asList("user_status"));
-        //blogin.setReadPermissions(Arrays.asList("user_photos"));
         blogin.registerCallback(callbackManager, callback);
+
     }
 
 

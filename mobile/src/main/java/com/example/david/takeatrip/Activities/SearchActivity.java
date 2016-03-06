@@ -48,7 +48,7 @@ public class SearchActivity extends AppCompatActivity {
     private final String ADDRESS_PER_VIAGGI_DA_DESTINAZIONE = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryViaggiDaDestinazione.php";
 
     private String nomeScelto, cognomeScelto, destination;
-    private String emailUtente;
+    private String emailUtente, emailEserno;
 
 
 
