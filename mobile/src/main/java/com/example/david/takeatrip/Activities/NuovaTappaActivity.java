@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -125,9 +126,6 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
         arr_images = Constants.privacy_images;
 
 
-
-
-
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
@@ -137,7 +135,7 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                 placeName = ""+place.getName();
                 placeLatLng = place.getLatLng();
                 placeAddress = ""+place.getAddress();
-                //TODO ...
+                //TODO prendere altre info utili
 
                 Log.i("TEST", "name: " + placeName);
                 Log.i("TEST", "addr: " + placeAddress);
@@ -146,7 +144,7 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                 googleMap.addMarker(new MarkerOptions()
                         .title(placeName)
                         .position(placeLatLng));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 5));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), Constants.DEFAULT_ZOOM_MAP));
 
 
                 //in caso di utilizzo di frame anzichè di dialog
@@ -275,7 +273,9 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
                 // TODO: Consider calling
                 //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
                 // here to request the missing permissions, and then overriding
@@ -290,10 +290,50 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
         map.setMyLocationEnabled(true);
 
 
-  /*     map.addMarker(new MarkerOptions()
-                .title("Sydney")
-                .snippet("The most populous city in Australia.")
-                .position(sydney));*/
+        //TODO to get last known location
+//        LocationManager locationManager = (LocationManager)
+//                getSystemService(Context.LOCATION_SERVICE);
+//        Criteria criteria = new Criteria();
+//
+//        Location location = locationManager.getLastKnownLocation(locationManager
+//                .getBestProvider(criteria, false));
+//
+//        Log.i("TEST", "location: "+location);
+//
+//
+//        if (location != null) {
+//            double latitude = location.getLatitude();
+//            double longitude = location.getLongitude();
+//            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), Constants.DEFAULT_ZOOM_MAP));
+//        }
+
+
+
+
+        map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+
+                //startAddingStop(place);
+
+                googleMap.clear();
+
+                googleMap.addMarker(new MarkerOptions()
+                        .position(latLng));
+
+                Vibrator v = (Vibrator) NuovaTappaActivity.this.getSystemService(Context.VIBRATOR_SERVICE);
+                v.vibrate(100);
+
+                //autocompleteFragment.setText(latLng.toString());
+
+
+
+            }
+        });
+
+
+
+
     }
 
 
@@ -381,6 +421,115 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
 
     //metodi ausiliari
+
+
+    private void startAddingStop(Place place) {
+
+        //prendere info poi
+        placeId = ""+place.getId();
+        placeName = ""+place.getName();
+        placeLatLng = place.getLatLng();
+        placeAddress = ""+place.getAddress();
+        //TODO prendere altre info utili
+
+        Log.i("TEST", "name: " + placeName);
+        Log.i("TEST", "addr: " + placeAddress);
+
+        //posizionare marker su mappa
+        googleMap.addMarker(new MarkerOptions()
+                .title(placeName)
+                .snippet(place.getAttributions().toString())
+                .position(placeLatLng));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), Constants.DEFAULT_ZOOM_MAP));
+
+
+        //in caso di utilizzo di frame anzichè di dialog
+//                nameText.setText(placeName);
+//                addressText.setText(placeAddress);
+//                layoutInfoPoi.setVisibility(View.VISIBLE);
+
+
+
+        dialog = new Dialog(NuovaTappaActivity.this);
+        dialog.setContentView(R.layout.info_poi);
+        dialog.setTitle(getResources().getString(R.string.insert_new_stop));
+
+        Spinner mySpinner = (Spinner)dialog.findViewById(R.id.spinner);
+        mySpinner.setAdapter(new PrivacyLevelAdapter(NuovaTappaActivity.this, R.layout.entry_privacy_level, strings));
+
+
+        //TODO verificare motivo errore
+//                mySpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//
+//                        //TODO implementare setting privacy, modificare database
+//
+//                    }
+//                });
+
+
+
+
+        //put dialog at bottom
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.BOTTOM;
+        wlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+
+        //per non far diventare scuro lo sfondo
+        //wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+
+        window.setAttributes(wlp);
+
+
+
+        nameText = (TextView) dialog.findViewById(R.id.POIName);
+        addressText = (TextView) dialog.findViewById(R.id.POIAddress);
+        nameText.setText(placeName);
+        addressText.setText(placeAddress);
+
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                googleMap.clear();
+            }
+        });
+
+
+        //setting listener pulsanti dialog
+
+        FloatingActionButton addStop = (FloatingActionButton) dialog.findViewById(R.id.buttonAddStop);
+        addStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //TODO andrebbero eseguiti come una transazione atomica
+
+                new MyTaskInserimentoTappa().execute();
+
+                new MyTaskInserimentoFiltro().execute();
+
+                dialog.dismiss();
+            }
+        });
+
+
+        ImageView addImage = (ImageView)dialog.findViewById(R.id.addImage);
+        addImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickAddImage(view);
+            }
+        });
+
+
+
+
+        dialog.show();
+
+    }
+
 
     private void onClickAddImage(View v) {
 
@@ -688,6 +837,7 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
             super.onPostExecute(aVoid);
         }
     }
+
 
     private class PrivacyLevelAdapter extends ArrayAdapter<String> {
 

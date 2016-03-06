@@ -40,5 +40,7 @@ public class Constants {
     public static final int WIDTH_LAYOUT_PROPRIETARI_ITINERARI = 20;
     public static final int HEIGH_LAYOUT_PROPRIETARI_ITINERARI = 80;
 
+    public static final int DEFAULT_ZOOM_MAP = 10;
+
 
 }

@@ -171,7 +171,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
         }
 
-        ViewNomeViaggio.setText(nomeViaggio);
+        //ViewNomeViaggio.setText(nomeViaggio);
 
         MyTask mT = new MyTask();
         mT.execute();
