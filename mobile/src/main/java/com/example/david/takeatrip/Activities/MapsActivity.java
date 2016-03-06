@@ -1,7 +1,6 @@
 package com.example.david.takeatrip.Activities;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -16,7 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Itinerario;
 import com.example.david.takeatrip.Classes.POI;
 import com.example.david.takeatrip.Classes.Profilo;
@@ -32,8 +30,6 @@ import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -47,25 +43,20 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
-public class MapsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MapsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnInfoWindowClickListener, OnMapReadyCallback,
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,GoogleMap.OnMarkerClickListener {
 
 
     private Button buttonSatellite, buttonHybrid, buttonTerrain;
-    private String email;
+    private String email, nomeViaggio;
     private final String ADDRESS_PRELIEVO = "QueryDest.php";
     private Profilo profiloUtenteLoggato;
 
@@ -73,9 +64,16 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
     private GoogleApiClient mGoogleApiClient;
 
     private Map<Profilo,List<Tappa>> profiloTappe;
-    private Map<Profilo, List<Place>> profiloNomiTappe;
+    private Map<Profilo, List<Tappa>> profiloNomiTappe;
+    private Map<List<Tappa>, List<Viaggio>> viaggioTappa;
+    private Map<String,String> combo;
+
 
     private List<Tappa> tappe;
+    private List<Tappa> nomeTappa;
+    private List<Viaggio> nome;
+
+
 
 
     @Override
@@ -100,11 +98,14 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         }
 
         tappe = new ArrayList<Tappa>();
+        nomeTappa = new ArrayList<Tappa>();
+        nome = new ArrayList<Viaggio>();
 
         List<Tappa> listaTappe = new ArrayList<Tappa>();
         List<String> listaNomiTappe = new ArrayList<String>();
         profiloTappe = new HashMap<Profilo,List<Tappa>>();
-        profiloNomiTappe = new HashMap<Profilo,List<Place>>();
+        profiloNomiTappe = new HashMap<>();
+        viaggioTappa = new HashMap<>();
 
         profiloUtenteLoggato = new Profilo(email, null,null,null, null, null, null, null, null, null);
 
@@ -154,30 +155,54 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         map.setMyLocationEnabled(true);
+        map.setOnInfoWindowClickListener(this);
+      //  map.setOnMarkerClickListener(this);
 
+                            }
+
+   public void onInfoWindowClick(Marker marker) {
+       Intent i = new Intent(this, ViaggioActivity.class);
+       i.putExtra("email", email);
+       //TODO passare codice e nome per ricreare viaggio
+      /* i.putExtra("codiceViaggio", );
+       i.putExtra("nomeViaggio", email);*/
+       startActivity(i);
+        /*Toast.makeText(this,"Hai selezionato un viaggio",
+                Toast.LENGTH_SHORT).show();*/
     }
 
+    public boolean onMarkerClick(Marker arg0) {
+      /*  Intent i = new Intent(this, ViaggioActivity.class);
+        i.putExtra("email", email);
+
+        startActivity(i);*/
+        return false;
+    }
 
 
     Profilo currentProfile;
     List<Place> nomiTappe = new ArrayList<Place>();
     List<String> namesStops = new ArrayList<String>();
 
-    private void AggiungiMarkedPointsOnMap(Profilo p, List<Tappa> tappe) {
+    private void AggiungiMarkedPointsOnMap(Profilo p, List<Tappa> tappe, List<Viaggio> viaggio) {
         mGoogleApiClient.connect();
 
-        nomiTappe.clear();
         namesStops.clear();
         for(Tappa t : tappe){
             findPlaceById(p, t);
         }
 
-        if(tappe.size()==0){
-            nomiTappe.clear();
-            profiloNomiTappe.put(p,nomiTappe);
-        }
+
+            profiloNomiTappe.put(p, tappe);
+            viaggioTappa.put(tappe, nome);
 
         Log.i("TEST", "profiloNomiTappe: " + profiloNomiTappe);
+        Log.i("TEST", "viaggioTappa: " + viaggioTappa);
+
+
+
+
+
         Log.i("TEST", "ho aggiunto i markedPoints di " + p);
 
     }
@@ -238,14 +263,18 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
                         if (places.getStatus().isSuccess()) {
                             Place place = places.get(0);
                             Log.i("TEST", "nome place: " + place.getName());
+                            Log.i("TEST", "idPlace " + place.getId());
+                            Log.i("TEST", "combo " + combo.get(place.getId()));
 
 
                             googleMap.addMarker(new MarkerOptions()
-                                    .title(place.getName().toString())
+                                    .title(combo.get(place.getId()))
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                                     .position(place.getLatLng()));
-                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 5));
+                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 4));
 
                         }
+
                         //Release the PlaceBuffer to prevent a memory leak
                         places.release();
                     }
@@ -283,6 +312,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         return false;
     }
+
 
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
@@ -332,28 +362,41 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
                             JSONArray jArray = new JSONArray(result);
 
                             if(jArray != null && result != null){
+                                combo = new HashMap<>();
                                 for(int i=0;i<jArray.length();i++){
                                     JSONObject json_data = jArray.getJSONObject(i);
+
+
                                     String codiceViaggio = json_data.getString("codiceViaggio");
+                                    nomeViaggio = json_data.getString("nomeViaggio");
+
+
 
                                     //TODO
                                     Itinerario itinerario = new Itinerario(new Profilo(email), new Viaggio(codiceViaggio));
 
                                     int ordine = json_data.getInt("ordine");
 
-                                    stringaFinale = email + " " + codiceViaggio  +" "+ ordine;
+                                    stringaFinale = email + " " + codiceViaggio  +" "+ nomeViaggio  +" "+ ordine;
+                                    Log.i("TEST", "result da queryDEST: " + stringaFinale);
+
 
                                     String paginaDiario = json_data.getString("paginaDiario");
                                     String codicePOI = json_data.getString("codicePOI");
                                     String fontePOI = json_data.getString("fontePOI");
 
+                                    combo.put(codicePOI, nomeViaggio);
+
                                     POI poi = new POI(codicePOI, fontePOI);
 
 
 
-
+                                    nome.add(new Viaggio(codiceViaggio, nomeViaggio));
                                     tappe.add(new Tappa(itinerario, ordine, null, null, paginaDiario, poi));
+                                    nomeTappa.add(new Tappa(null, ordine, null, null, codicePOI, null));
                                 }
+                                Log.i("TEST", " combo finale: " + combo);
+
                             }
 
                         }
@@ -376,7 +419,9 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected void onPostExecute(Void aVoid) {
             Log.i("TEST", "lista tappe: " + tappe);
-            AggiungiMarkedPointsOnMap(profiloUtenteLoggato,tappe);
+            Log.i("TEST", "lista viaggi: " + nome);
+
+            AggiungiMarkedPointsOnMap(profiloUtenteLoggato,tappe, nome);
 
             super.onPostExecute(aVoid);
 
