@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             lavoro = intent.getStringExtra("lavoro");
             descrizione = intent.getStringExtra("descrizione");
             tipo = intent.getStringExtra("tipo");
-            profile = intent.getParcelableExtra("profilo");
+            profile = intent.getParcelableExtra("profile");
         }
         else{
             //Prendi i dati dal database perche è gia presente l'utente
@@ -216,7 +216,8 @@ public class MainActivity extends AppCompatActivity {
         openProfilo.putExtra("lavoro", lavoro);
         openProfilo.putExtra("descrizione", descrizione);
         openProfilo.putExtra("tipo", tipo);
-        openProfilo.putExtra("profilo", profile);
+        openProfilo.putExtra("profile", profile);
+
 
         // passo all'attivazione dell'activity
         startActivity(openProfilo);

@@ -109,13 +109,17 @@ public class LoginActivity extends AppCompatActivity implements
 
                         profileTracker.stopTracking();
 
-                        new MyTaskInsert().execute();
+                        new MyTask().execute();
+
+                        //new MyTaskInsert().execute();
                     }
                 };
                 profileTracker.startTracking();
             }
             else {
                 profile = Profile.getCurrentProfile();
+                nome = profile.getFirstName();
+                cognome = profile.getLastName();
                 Log.v("TEST profileFB: ", profile.getFirstName());
                 Log.v("TEST id profile: ", profile.getId());
 
@@ -174,17 +178,22 @@ public class LoginActivity extends AppCompatActivity implements
 
                 email = Constants.PREFIX_FACEBOOK  +profile.getId();
                 password = "pwdFb";
+
                 nome = profile.getFirstName();
                 cognome = profile.getLastName();
                 data = "0000-00-00";
 
-
-                //TODO: modificare il metodo una volta modificate la classe di dominio Profilo
-                openMainActivity(email, nome, cognome, data, password, nazionalita, sesso, username, lavoro, descrizione, tipo);
+                new MyTask().execute();
+                //openMainActivity2(email, nome, cognome, data, password, nazionalita, sesso, username, lavoro, descrizione, tipo);
             }
         }
 
 
+
+
+
+        //Questi due bottoni servono solo nel caso di login indipendente
+        /*
         btnRegistrati=(TextView)findViewById(R.id.Registrati);
         btnRegistrati.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,6 +204,8 @@ public class LoginActivity extends AppCompatActivity implements
                 startActivity(openRegistrazione);
             }
         });
+
+
 
         btnAccedi=(Button)findViewById(R.id.Accedi);
         btnAccedi.setOnClickListener(new View.OnClickListener() {
@@ -223,7 +234,10 @@ public class LoginActivity extends AppCompatActivity implements
 
         });
 
+*/
 
+
+        /*
 
         //If the user is already registered, then skip this activity (MySqLite)
         DatabaseHandler db = new DatabaseHandler(LoginActivity.this);
@@ -256,6 +270,8 @@ public class LoginActivity extends AppCompatActivity implements
      //       db.onUpgrade(db.getWritableDatabase(), 0,1);
 
         }
+
+        */
 
         //TODO: cambiare in fase di release il WEBAPP_ID
         GoogleSignInOptions.Builder builder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN);
@@ -453,7 +469,8 @@ public class LoginActivity extends AppCompatActivity implements
     }
 
 
-    private class MyTask extends AsyncTask<Void, Void, Void> {
+
+   private class MyTask extends AsyncTask<Void, Void, Void> {
 
         InputStream is = null;
         String result, stringaFinale = "";
@@ -505,16 +522,15 @@ public class LoginActivity extends AppCompatActivity implements
                                     lavoro = json_data.getString("lavoro").toString();
                                     descrizione = json_data.getString("descrizione").toString();
                                     tipo = json_data.getString("tipo").toString();
-
                                 }
                             }
 
                         } catch (Exception e) {
-                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
                         }
                     }
                     else {
-                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                        Log.i("TEST", "Input Stream uguale a null");
                     }
                 }
                 else
@@ -531,14 +547,15 @@ public class LoginActivity extends AppCompatActivity implements
         @Override
         protected void onPostExecute(Void aVoid) {
             if(stringaFinale == ""){
-                Toast.makeText(getBaseContext(), getResources().getString(R.string.LoginError), Toast.LENGTH_LONG).show();
+
+                //Non presente ancora nel DB -> primo accesso a TakeATrip
+                openMainActivity(email, nome, cognome, data, password, nazionalita, sesso, username, lavoro, descrizione, tipo);
+                Log.i("TEST", "primo accesso a TakeATrip");
+                //Toast.makeText(getBaseContext(), getResources().getString(R.string.LoginError), Toast.LENGTH_LONG).show();
             }
             else{
-
-
-
-
-
+/*
+                //Questo serve solo nel caso di login indipendente
 
                 DatabaseHandler db = new DatabaseHandler(LoginActivity.this);
                 //SQLiteDatabase newdb = db.getWritableDatabase();
@@ -562,8 +579,10 @@ public class LoginActivity extends AppCompatActivity implements
                     Log.i("LOG: ", log);
                 }
 
+*/
 
-                openMainActivity(email, nome,cognome,data,password,nazionalita,sesso,username,lavoro,descrizione,tipo);
+
+                openMainActivity2(email, nome,cognome,data,password,nazionalita,sesso,username,lavoro,descrizione,tipo);
             }
             super.onPostExecute(aVoid);
 
@@ -571,6 +590,9 @@ public class LoginActivity extends AppCompatActivity implements
     }
 
 
+/*
+
+//serve solo quando si ha un login indipendente
 
     private class MyTaskInsert extends AsyncTask<Void, Void, Void> {
 
@@ -620,8 +642,36 @@ public class LoginActivity extends AppCompatActivity implements
         }
     }
 
+
+    */
+
+
+
     private void openMainActivity(String e, String name, String surname, String date, String pwd, String n, String sex, String username,
                                   String job, String description, String type){
+
+        Intent openAccedi = new Intent(LoginActivity.this, RegistrazioneActivity.class);
+        openAccedi.putExtra("email", e);
+        openAccedi.putExtra("name", name);
+        openAccedi.putExtra("surname", surname);
+        openAccedi.putExtra("dateOfBirth", date);
+        openAccedi.putExtra("password", pwd);
+        openAccedi.putExtra("nazionalita", n);
+        openAccedi.putExtra("sesso", sex);
+        openAccedi.putExtra("username", username);
+        openAccedi.putExtra("lavoro", job);
+        openAccedi.putExtra("descrizione", description);
+        openAccedi.putExtra("tipo", type);
+        openAccedi.putExtra("profile", profile);
+
+        startActivity(openAccedi);
+
+        finish();
+    }
+
+    private void openMainActivity2(String e, String name, String surname, String date, String pwd, String n, String sex, String username,
+                                  String job, String description, String type){
+
         Intent openAccedi = new Intent(LoginActivity.this, MainActivity.class);
         openAccedi.putExtra("email", e);
         openAccedi.putExtra("name", name);
@@ -634,14 +684,12 @@ public class LoginActivity extends AppCompatActivity implements
         openAccedi.putExtra("lavoro", job);
         openAccedi.putExtra("descrizione", description);
         openAccedi.putExtra("tipo", type);
-        openAccedi.putExtra("profilo", profile);
+        openAccedi.putExtra("profile", profile);
 
         startActivity(openAccedi);
 
         finish();
     }
-
-
 
 
     private void showProgressDialog() {

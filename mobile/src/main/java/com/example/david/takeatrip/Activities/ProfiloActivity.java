@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
+import com.facebook.Profile;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -53,6 +54,8 @@ public class ProfiloActivity extends TabActivity {
     private String name, surname, email;
     private String date, password, nazionalita, sesso, username, lavoro, descrizione, tipo;
     private int codice;
+
+    private Profile profile;
 
 
     private TabHost TabHost;
@@ -94,6 +97,7 @@ public class ProfiloActivity extends TabActivity {
             lavoro = intent.getStringExtra("lavoro");
             descrizione = intent.getStringExtra("descrizione");
             tipo = intent.getStringExtra("tipo");
+            profile = intent.getParcelableExtra("profile");
 
 
             if(password == null){
@@ -130,6 +134,7 @@ public class ProfiloActivity extends TabActivity {
         intentInfo.putExtra("lavoro", lavoro);
         intentInfo.putExtra("descrizione", descrizione);
         intentInfo.putExtra("tipo", tipo);
+        intentInfo.putExtra("profile", profile);
 
 
 

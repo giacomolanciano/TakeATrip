@@ -18,6 +18,7 @@ import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.DatabaseHandler;
 import com.example.david.takeatrip.Utilities.PasswordHashing;
+import com.facebook.Profile;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -47,11 +48,12 @@ public class  RegistrazioneActivity extends AppCompatActivity {
     private final String ADDRESS_VERIFICA_LOGIN = "http://www.musichangman.com/TakeATrip/InserimentoDati/VerificaLogin.php";
 
 
-    private boolean update, passwordModificata;
+    private boolean update, passwordModificata, loginFB, loginGoogle;
+    private boolean updateProfilo = false;
 
     private final int YEAR_MAX_PICKER = 2016;
     private final int YEAR_MIN_PICKER = 1900;
-    private final int YEAR_DEFAULT_PICKER = 2000;
+    private final int YEAR_DEFAULT_PICKER = 1900;
     private final int MONTH_MAX_PICKER = 12;
     private final int MONTH_MIN_PICKER = 1;
     private final int MONTH_DEFAULT_PICKER = 1;
@@ -84,7 +86,10 @@ public class  RegistrazioneActivity extends AppCompatActivity {
     private String data;
 
     private String nome, cognome, email, password, confermaPassword, vecchiaPassword, nuovaPassword, confermaNuovaPassword,  nazionalita, sesso, username, lavoro, descrizione, tipo;
-    private String previousEmail;
+    private String previousEmail, provieneDa;
+
+    private Profile profile;
+
 
     private NumberPicker pickerYear, pickerMonth, pickerDay;
 
@@ -109,16 +114,31 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             lavoro = intent.getStringExtra("lavoro");
             descrizione = intent.getStringExtra("descrizione");
             tipo = intent.getStringExtra("tipo");
+            profile = intent.getParcelableExtra("profile");
+
+            provieneDa = intent.getStringExtra("provieneDa");
+
+            if(provieneDa != null){
+                updateProfilo = true;
+            }
+
+            //variabile che discrimina il login
+            if(profile != null){
+                loginFB = true;
+            }
+            //TODO: discriminare il login con google
+
 
             //se contiene i dati, allora puoi procedere con la modifica
             if(email != null){
                 update = true;
 
-                setContentView(R.layout.edit_info);
+                setContentView(R.layout.edit_info_fb_google);
 
-                campoVecchiaPassword = (EditText) findViewById(R.id.VecchiaPassword);
-                campoNuovaPassword = (EditText) findViewById(R.id.NuovaPassword);
-                campoConfermaNuovaPassword = (EditText) findViewById(R.id.ConfermaNuovaPassword);
+
+                //campoVecchiaPassword = (EditText) findViewById(R.id.VecchiaPassword);
+                //campoNuovaPassword = (EditText) findViewById(R.id.NuovaPassword);
+                //campoConfermaNuovaPassword = (EditText) findViewById(R.id.ConfermaNuovaPassword);
                 campoNuovoUsername = (EditText) findViewById(R.id.InserisciNuovoUsername);
                 campoNuovoSesso = (EditText) findViewById(R.id.InserisciNuovoSesso);
                 campoNuovaNazionalita = (EditText) findViewById(R.id.InserisciNuovaNazionalita);
@@ -128,12 +148,34 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
 
 
-                String[] splittedDate = data.split("-");
-                year = Integer.parseInt(splittedDate[0]);
-                month = Integer.parseInt(splittedDate[1]);
-                day = Integer.parseInt(splittedDate[2]);
+                pickerYear = (NumberPicker)findViewById(R.id.pickerYear);
+                pickerYear.setMaxValue(YEAR_MAX_PICKER);
+                pickerYear.setMinValue(YEAR_MIN_PICKER);
+                pickerYear.setWrapSelectorWheel(false);
+                pickerYear.setValue(YEAR_DEFAULT_PICKER);
 
-                previousEmail = email;
+                pickerMonth = (NumberPicker)findViewById(R.id.pickerMonth);
+                pickerMonth.setMaxValue(MONTH_MAX_PICKER);
+                pickerMonth.setMinValue(MONTH_MIN_PICKER);
+                pickerMonth.setWrapSelectorWheel(false);
+                pickerMonth.setValue(MONTH_DEFAULT_PICKER);
+
+                pickerDay = (NumberPicker)findViewById(R.id.pickerDay);
+                pickerDay.setMaxValue(DAY_MAX_PICKER);
+                pickerDay.setMinValue(DAY_MIN_PICKER);
+                pickerDay.setWrapSelectorWheel(false);
+                pickerDay.setValue(DAY_DEFAULT_PICKER);
+                btnInvio=(Button)findViewById(R.id.Invio);
+
+
+
+                if(updateProfilo){
+                    btnInvio.setText("SAVE");
+                    previousEmail = email;
+
+                }
+
+
             } else {
                 setContentView(R.layout.activity_registrazione);
             }
@@ -147,9 +189,11 @@ public class  RegistrazioneActivity extends AppCompatActivity {
         campoNome = (EditText) findViewById(R.id.Nome);
         campoCognome = (EditText) findViewById(R.id.Cognome);
         campoEmail = (EditText) findViewById(R.id.Email);
-        campoPassword = (EditText) findViewById(R.id.Password);
-        campoConfermaPassword = (EditText) findViewById(R.id.ConfermaPassword);
 
+
+/*
+        //campoPassword = (EditText) findViewById(R.id.Password);
+        //campoConfermaPassword = (EditText) findViewById(R.id.ConfermaPassword);
         pickerYear = (NumberPicker)findViewById(R.id.pickerYear);
         pickerYear.setMaxValue(YEAR_MAX_PICKER);
         pickerYear.setMinValue(YEAR_MIN_PICKER);
@@ -167,25 +211,30 @@ public class  RegistrazioneActivity extends AppCompatActivity {
         pickerDay.setMinValue(DAY_MIN_PICKER);
         pickerDay.setWrapSelectorWheel(false);
         pickerDay.setValue(DAY_DEFAULT_PICKER);
-
         btnInvio=(Button)findViewById(R.id.Invio);
+        */
 
 
         if(update) {
             campoNome.setText(nome);
             campoCognome.setText(cognome);
-            campoNuovoUsername.setText(username);
-            campoNuovoUsername.setEnabled(false);
             campoNuovoSesso.setText(sesso);
             campoNuovaNazionalita.setText(nazionalita);
             campoNuovoLavoro.setText(lavoro);
             campoNuovaDescrizione.setText(descrizione);
             campoNuovoTipo.setText(tipo);
 
-            pickerYear.setValue(year);
-            pickerMonth.setValue(month);
-            pickerDay.setValue(day);
-            btnInvio.setText("SAVE");
+            if(username != null){
+                campoNuovoUsername.setText(username);
+                campoNuovoUsername.setEnabled(false);
+            }
+
+            if(updateProfilo){
+                btnInvio.setText("SAVE");
+                pickerYear.setValue(year);
+                pickerMonth.setValue(month);
+                pickerDay.setValue(day);
+            }
         }
 
 
@@ -193,21 +242,33 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
 
-                data = String.valueOf(pickerYear.getValue()) + "-";
-                if((month = pickerMonth.getValue()) < TEN) {
-                    data += "0" + month + "-";
+
+                Log.i("TEST", "picker year: " + pickerYear.getValue());
+
+                if(pickerYear.getValue() == YEAR_DEFAULT_PICKER){
+                    data = "";
                 }
-                else {
-                    data += month + "-";
-                }
-                if((day = pickerDay.getValue()) < TEN) {
-                    data += "0" + day;
-                }
-                else {
-                    data += day;
+                else{
+
+                    data = String.valueOf(pickerYear.getValue()) + "-";
+                    if((month = pickerMonth.getValue()) < TEN) {
+                        data += "0" + month + "-";
+                    }
+                    else {
+                        data += month + "-";
+                    }
+                    if((day = pickerDay.getValue()) < TEN) {
+                        data += "0" + day;
+                    }
+                    else {
+                        data += day;
+                    }
+
                 }
 
 
+
+                //si verifica solamente con login indipendente
                 if (!update) {
                     nome = campoNome.getText().toString();
                     cognome = campoCognome.getText().toString();
@@ -239,9 +300,6 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
                     nome = campoNome.getText().toString();
                     cognome = campoCognome.getText().toString();
-                    vecchiaPassword = PasswordHashing.sha1Hash(campoVecchiaPassword.getText().toString());
-                    nuovaPassword = campoNuovaPassword.getText().toString();
-                    confermaNuovaPassword = campoConfermaNuovaPassword.getText().toString();
                     username = campoNuovoUsername.getText().toString();
                     sesso = campoNuovoSesso.getText().toString();
                     nazionalita = campoNuovaNazionalita.getText().toString();
@@ -249,12 +307,21 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                     descrizione = campoNuovaDescrizione.getText().toString();
                     tipo = campoNuovoTipo.getText().toString();
 
+
+
+                    //caso di login indipendente
+                    /*
+                    vecchiaPassword = PasswordHashing.sha1Hash(campoVecchiaPassword.getText().toString());
+                    nuovaPassword = campoNuovaPassword.getText().toString();
+                    confermaNuovaPassword = campoConfermaNuovaPassword.getText().toString();
+                    */
+
                     Log.i("TEST", "dati modificati: " + nome +" " + cognome + " " + data +" "+  email + "vpwd "+ password+" nuovapwd: "+ nuovaPassword+" nuovousername: "+ username);
 
                     if(nuovaPassword == null || nuovaPassword.equals("")){
                         passwordModificata = false;
 
-                        Log.i("TEST", "dati modificati: " + nome + " " + cognome + " " + data + " " + email + "vpwd " + password);
+                        Log.i("TEST", "dati modificati: " + nome + " " + cognome + " " + username+" " + data + " " + email + "vpwd " + password);
 
 
                         new MyTask().execute();
@@ -271,12 +338,16 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                         openProfilo.putExtra("lavoro", lavoro);
                         openProfilo.putExtra("descrizione", descrizione);
                         openProfilo.putExtra("tipo", tipo);
+                        openProfilo.putExtra("profile", profile);
+
 
                         startActivity(openProfilo);
 
 
                     }
 
+/*
+                    //TODO: questo nel caso di login indipendente
                     else{
                         passwordModificata = true;
                         if(confermaCredenziali(nuovaPassword, confermaNuovaPassword)) {
@@ -302,6 +373,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                             startActivity(openProfilo);
                         }
                     }
+                    */
 
                 }
             }
@@ -384,7 +456,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("nome", nome));
             dataToSend.add(new BasicNameValuePair("cognome", cognome));
-            dataToSend.add(new BasicNameValuePair("dataNascita",data));
+            dataToSend.add(new BasicNameValuePair("dataNascita", data));
             dataToSend.add(new BasicNameValuePair("email", email));
             dataToSend.add(new BasicNameValuePair("nazionalita", nazionalita));
             dataToSend.add(new BasicNameValuePair("sesso", sesso));
@@ -393,16 +465,16 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             dataToSend.add(new BasicNameValuePair("descrizione", descrizione));
             dataToSend.add(new BasicNameValuePair("tipo", tipo));
 
-            Log.i("NUOVO", "NUOVO USERNAME " + username );
+            Log.i("NUOVO", "NUOVO USERNAME " + username);
 
 
-            if(update && passwordModificata)
+            if (update && passwordModificata)
                 dataToSend.add(new BasicNameValuePair("password", nuovaPassword));
             else
                 dataToSend.add(new BasicNameValuePair("password", password));
 
 
-            Log.i("TEST", "dati modificati: " + nome +" " + cognome + " " + data +" "+  email + " "+ password+" "+ nuovaPassword);
+            Log.i("TEST", "dati modificati: " + nome + " " + cognome + " " + data + " " + email + " " + password + " " + nuovaPassword);
 
             try {
                 if (InternetConnection.haveInternetConnection(RegistrazioneActivity.this)) {
@@ -410,26 +482,30 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                     HttpClient httpclient = new DefaultHttpClient();
                     HttpPost httppost;
 
+                    /*
                     if(update){
                         httppost = new HttpPost(ADDRESS_UPDATE_UTENTE);
                     }
                     else{
                         httppost = new HttpPost(ADDRESS_INSERIMENTO_UTENTE);
                     }
+                    */
 
+                    if(updateProfilo){
+                        httppost = new HttpPost(ADDRESS_UPDATE_UTENTE);
+                    }
+                    else {
+                        httppost = new HttpPost(ADDRESS_INSERIMENTO_UTENTE);
+                    }
 
 
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-
-
-
                     httpclient.execute(httppost);
-                }
-                else
+                } else
                     Log.e("CONNESSIONE Internet", "Assente!");
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
+                Log.e(e.toString(), e.getMessage());
             }
 
 
@@ -438,15 +514,15 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            //Registro il profilo in locale per il futuro
+            super.onPostExecute(aVoid);
 
+            //Registro il profilo in locale per il futuro
+            //solo nel caso di login indipendente
+            /*
             if(!update){
                 DatabaseHandler db = new DatabaseHandler(RegistrazioneActivity.this);
                 // Inserting Users
                 Log.d("Insert: ", "Inserting ..");
-
-                db.addUser(new Profilo(email, nome, cognome, data, nazionalita, sesso, username, lavoro, descrizione, tipo ), password);
-
 
                 // Reading all contacts
                 Log.d("Reading: ", "Reading all contacts..");
@@ -466,13 +542,16 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                 // Inserting Users
                 Log.d("Update: ", "Updating ..");
 
+
+                db.addUser(new Profilo(email, nome, cognome, data, nazionalita, sesso, username, lavoro, descrizione, tipo), password);
+
+
+                /*
                 if(passwordModificata)
                     db.updateContact(new Profilo(email, nome, cognome, data, nazionalita, sesso, username, lavoro, descrizione, tipo), nuovaPassword);
                 else
                     db.updateContact(new Profilo(email, nome, cognome, data, nazionalita, sesso, username, lavoro, descrizione, tipo), password);
-
-
-
+*/
                 /*
 
                 // Reading all contacts
@@ -485,18 +564,16 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                     // Writing Contacts to log
                     Log.i("LOG: ", log);
                 }
-
-                */
             }
 
-
-            super.onPostExecute(aVoid);
+           */
 
         }
     }
 
 
 
+    //eseguito solo nel caso di login indipendente
 
     private class MyTaskUpdate extends AsyncTask<Void, Void, Void> {
 
@@ -510,8 +587,6 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("email", email));
             dataToSend.add(new BasicNameValuePair("password", vecchiaPassword));
-
-
 
 
             try {
@@ -582,8 +657,6 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
         }
     }
-
-
 
 
 }

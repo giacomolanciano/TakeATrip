@@ -12,6 +12,7 @@ import java.util.Date;
 
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.DatesDiff;
+import com.facebook.Profile;
 
 
 public class InfoActivity extends AppCompatActivity {
@@ -23,7 +24,7 @@ public class InfoActivity extends AppCompatActivity {
     private int year, month, day, yearToday, monthToday, dayToday, eta, etaFinale;
     private TextView viewDate, viewEmail, viewNazionalità, viewEta, viewSesso, viewUsername, viewLavoro, viewDescrizione, viewTipo;
 
-
+    private Profile profile;
 
     private boolean visualizzazioneEsterna = false;
 
@@ -64,6 +65,9 @@ public class InfoActivity extends AppCompatActivity {
             lavoro = intent.getStringExtra("lavoro");
             descrizione = intent.getStringExtra("descrizione");
             tipo = intent.getStringExtra("tipo");
+            profile = intent.getParcelableExtra("profile");
+
+            Log.i("TEST", "profilo facebook: " + profile);
 
 
 
@@ -107,6 +111,9 @@ public class InfoActivity extends AppCompatActivity {
         intent.putExtra("lavoro", lavoro);
         intent.putExtra("descrizione", descrizione);
         intent.putExtra("tipo", tipo);
+        intent.putExtra("profile", profile);
+        intent.putExtra("provieneDa", "InfoActivity");
+
 
 
 
@@ -117,6 +124,6 @@ public class InfoActivity extends AppCompatActivity {
 
 
 
-    }
+}
 
 
