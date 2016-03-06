@@ -321,27 +321,20 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                     if(nuovaPassword == null || nuovaPassword.equals("")){
                         passwordModificata = false;
 
-                        Log.i("TEST", "dati modificati: " + nome + " " + cognome + " " + username+" " + data + " " + email + "vpwd " + password);
+                        Log.i("TEST", "dati modificati: " + nome + " " + cognome + " " + username + " " + data + " " + email + "vpwd " + password);
 
 
-                        new MyTask().execute();
+                        if(username == null || username.equals("")){
 
-                        Intent openProfilo = new Intent(RegistrazioneActivity.this, MainActivity.class);
-                        openProfilo.putExtra("name", nome);
-                        openProfilo.putExtra("surname", cognome);
-                        openProfilo.putExtra("email", email);
-                        openProfilo.putExtra("dateOfBirth", data);
-                        openProfilo.putExtra("pwd", password);
-                        openProfilo.putExtra("nazionalita", nazionalita);
-                        openProfilo.putExtra("sesso", sesso);
-                        openProfilo.putExtra("username", username);
-                        openProfilo.putExtra("lavoro", lavoro);
-                        openProfilo.putExtra("descrizione", descrizione);
-                        openProfilo.putExtra("tipo", tipo);
-                        openProfilo.putExtra("profile", profile);
+                            //TODO: tradurre in stringa
+                            Toast.makeText(getBaseContext(), "Attenzione! \nUsername non inserito!", Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            new MyTask().execute();
 
 
-                        startActivity(openProfilo);
+                        }
+
 
 
                     }
@@ -451,6 +444,10 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
 
+
+        InputStream is = null;
+        String result, stringaFinale = "";
+
         @Override
         protected Void doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
@@ -500,7 +497,36 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
 
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                    httpclient.execute(httppost);
+                    HttpResponse response = httpclient.execute(httppost);
+                    HttpEntity entity = response.getEntity();
+
+
+                    is = entity.getContent();
+
+                    if (is != null) {
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+
+                            Log.i("TEST", "result " +result);
+
+                        } catch (Exception e) {
+                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    }
+
+
                 } else
                     Log.e("CONNESSIONE Internet", "Assente!");
             } catch (Exception e) {
@@ -515,6 +541,33 @@ public class  RegistrazioneActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+
+            if(result.contains("Duplicate")){
+                Log.e("TEST", "duplicati nell'username");
+                Toast.makeText(getBaseContext(), "Username already used", Toast.LENGTH_LONG).show();
+            }
+            else{
+                Log.i("TEST", "username corretto, ora aggiungo gli itinerari");
+                Intent openProfilo = new Intent(RegistrazioneActivity.this, MainActivity.class);
+                openProfilo.putExtra("name", nome);
+                openProfilo.putExtra("surname", cognome);
+                openProfilo.putExtra("email", email);
+                openProfilo.putExtra("dateOfBirth", data);
+                openProfilo.putExtra("pwd", password);
+                openProfilo.putExtra("nazionalita", nazionalita);
+                openProfilo.putExtra("sesso", sesso);
+                openProfilo.putExtra("username", username);
+                openProfilo.putExtra("lavoro", lavoro);
+                openProfilo.putExtra("descrizione", descrizione);
+                openProfilo.putExtra("tipo", tipo);
+                openProfilo.putExtra("profile", profile);
+
+
+                startActivity(openProfilo);
+            }
+
+
+
 
             //Registro il profilo in locale per il futuro
             //solo nel caso di login indipendente

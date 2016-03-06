@@ -24,6 +24,11 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
+    <provider android:authorities="com.facebook.app.FacebookContentProvider1024572710947061"
+        android:name="com.facebook.FacebookContentProvider"
+        android:exported="true"/>
+
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logodef"

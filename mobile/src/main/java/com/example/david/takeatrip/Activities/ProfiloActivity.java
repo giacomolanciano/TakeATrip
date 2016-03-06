@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -20,20 +21,28 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
+import com.example.david.takeatrip.Utilities.DownloadImageTask;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.Profile;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -49,6 +58,7 @@ public class ProfiloActivity extends TabActivity {
     private TextView viewSurname, viewDate, viewEmail;
 
     private RoundedImageView imageProfile;
+    private ImageView coverImage;
     private LinearLayout layoutCoverImage;
 
     private String name, surname, email;
@@ -56,11 +66,13 @@ public class ProfiloActivity extends TabActivity {
     private int codice;
 
     private Profile profile;
-
+    private Bitmap immagineProfilo;
 
     private TabHost TabHost;
 
     private boolean externalView = false;
+
+    private Bitmap bitmap = null;
 
 
 
@@ -78,6 +90,7 @@ public class ProfiloActivity extends TabActivity {
         viewSurname = (TextView) findViewById(R.id.Cognome);
         imageProfile = (RoundedImageView) findViewById(R.id.imageView_round_Profile);
         layoutCoverImage = (LinearLayout) findViewById(R.id.layoutCoverImage);
+        coverImage = (ImageView) findViewById(R.id.cover_image);
 
 
 
@@ -99,6 +112,58 @@ public class ProfiloActivity extends TabActivity {
             tipo = intent.getStringExtra("tipo");
             profile = intent.getParcelableExtra("profile");
 
+            if(profile!= null){
+                final Uri image_uri = profile.getProfilePictureUri(70, 70);
+
+
+                try {
+                    final URI image_URI = new URI(image_uri.toString());
+                    DownloadImageTask task = new DownloadImageTask(imageProfile);
+                    task.execute(image_URI.toURL().toString());
+
+                    AccessToken accessToken = AccessToken.getCurrentAccessToken();
+                    GraphRequest request = GraphRequest.newMeRequest(
+                            accessToken,
+                            new GraphRequest.GraphJSONObjectCallback() {
+                                @Override
+                                public void onCompleted(
+                                        JSONObject object,
+                                        GraphResponse response) {
+                                    try {
+
+                                        Log.i("TEST",  response.toString());
+
+                                        JSONObject coverImageObject =  object.getJSONObject("cover");
+                                        String url_cover_image = coverImageObject.getString("source");
+
+                                        Log.i("TEST", "immagine copertina: " + url_cover_image);
+
+                                        //URL newurl = new URL(url_image);
+                                        DownloadImageTask task = new DownloadImageTask(coverImage, layoutCoverImage);
+                                        task.execute(url_cover_image);
+
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        Log.e("TEST", e.getMessage());
+                                    }
+
+
+                                }
+                            });
+                    Bundle parameters = new Bundle();
+                    parameters.putString("fields", "cover");
+                    request.setParameters(parameters);
+                    request.executeAsync();
+
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+
 
             if(password == null){
                 externalView = true;
@@ -108,6 +173,9 @@ public class ProfiloActivity extends TabActivity {
             viewName.setText(name);
             viewSurname.setText(surname);
         }
+
+
+
         TabHost = (TabHost) findViewById(android.R.id.tabhost);
 
         TabHost.TabSpec tab1 = TabHost.newTabSpec("INFO");
@@ -148,7 +216,7 @@ public class ProfiloActivity extends TabActivity {
 
         //TabHost.setup();
         TabHost.addTab(tab1);
-        TabHost.addTab(tab2);
+        //TabHost.addTab(tab2);
         TabHost.addTab(tab3);
 
     }

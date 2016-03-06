@@ -30,6 +30,11 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
+    <provider
+        android:name="com.facebook.FacebookContentProvider"
+        android:authorities="com.facebook.app.FacebookContentProvider1024572710947061"
+        android:exported="true" />
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />

@@ -7,10 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -58,6 +60,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -94,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
 
     EditText editTextNameTravel;
 
+    Bitmap imageProfile = null;
+
 
     Profile profile;
 
@@ -129,8 +135,26 @@ public class MainActivity extends AppCompatActivity {
 
 
             Log.i("TEST", profile.getProfilePictureUri(150, 150).toString());
-            Uri image_uri = profile.getProfilePictureUri(150, 150);
+            final Uri image_uri = profile.getProfilePictureUri(150, 150);
 
+            try {
+                final URI image_URI = new URI(image_uri.toString());
+
+                Log.i("TEST", "url_image: " + image_URI.toURL().toString());
+
+                DownloadImageTask task = new DownloadImageTask(imageViewProfileRound);
+                task.execute(image_URI.toURL().toString());
+
+                imageProfile = ((BitmapDrawable)imageViewProfileRound.getDrawable()).getBitmap();
+                Log.i("TEST", "bitmap image profile: " + imageProfile);
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+            /*
 
             AccessToken accessToken = AccessToken.getCurrentAccessToken();
             GraphRequest request = GraphRequest.newMeRequest(
@@ -142,15 +166,20 @@ public class MainActivity extends AppCompatActivity {
                                 GraphResponse response) {
                             try {
 
+
                                 Log.i("TEST",  response.toString());
                                 JSONObject picture =  object.getJSONObject("picture");
                                 JSONObject data =  picture.getJSONObject("data");
                                 String url_image = data.getString("url");
 
-                                Log.i("TEST", "url_image: " + url_image);
 
                                 //URL newurl = new URL(url_image);
-                                new DownloadImageTask(imageViewProfileRound).execute(url_image);
+                                DownloadImageTask task = new DownloadImageTask(imageViewProfileRound);
+                                task.execute(url_image);
+
+                                imageProfile = ((BitmapDrawable)imageViewProfileRound.getDrawable()).getBitmap();
+                                Log.i("TEST", "bitmap image profile: " + imageProfile);
+
 
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -166,13 +195,10 @@ public class MainActivity extends AppCompatActivity {
 
             //imageViewProfileRound.setImageDrawable(drawable);
 
+            */
+
 
         }
-
-        //layoutNewTravel = (FrameLayout)findViewById(R.id.FrameNewTravel);
-        //table_layout = (TableLayout) findViewById(R.id.tableLayout1);
-
-
 
         names = new ArrayList<String>();
         namesPartecipants = new ArrayList<String>();
@@ -243,6 +269,8 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout rowHorizontal;
     public void ClickNewTravel(View v){
         nomeViaggio = "";
+        namesPartecipants.clear();
+        partecipants.clear();
 
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.activity_viaggio2);
@@ -297,10 +325,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("TEST", "nome Viaggio:" + nomeViaggio);
 
 
-                    //new TaskForUUID().execute();
-
-                    namesPartecipants.clear();
-                    partecipants.clear();
+                    new TaskForUUID().execute();
 
                     dialog.dismiss();
                 }
@@ -692,7 +717,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            layoutNewTravel.setVisibility(View.INVISIBLE);
+            //  layoutNewTravel.setVisibility(View.INVISIBLE);
 
             try {
                 Thread.currentThread().sleep(1000);

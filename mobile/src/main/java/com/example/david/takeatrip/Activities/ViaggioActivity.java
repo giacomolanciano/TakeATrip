@@ -32,6 +32,14 @@ import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.login.LoginManager;
+import com.facebook.login.widget.LoginButton;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -47,8 +55,11 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.security.Permission;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 
 
@@ -158,8 +169,72 @@ public class ViaggioActivity extends AppCompatActivity {
 
                             break;
                         case 1: //change image profile
-                            Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(intentPick, REQUEST_IMAGE_PICK);
+                            //Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            //startActivityForResult(intentPick, REQUEST_IMAGE_PICK);
+
+
+                            //Upload della foto nel db di FB o nel drive di Google
+
+
+                            LoginManager lm = LoginManager.getInstance();
+                            Log.i("TEST", "loginManager: " +lm);
+                            Log.i("TEST", "loginBehavior: " +lm.getLoginBehavior().toString());
+
+                            //LoginManager.getInstance().logInWithPublishPermissions(ViaggioActivity.this, Arrays.asList("publish_actions"));
+                            //LoginManager.getInstance().logInWithReadPermissions(ViaggioActivity.this, Arrays.asList("user_photos"));
+
+                            AccessToken accessToken = AccessToken.getCurrentAccessToken();
+                            Set<String> permissions = accessToken.getPermissions();
+
+
+                            Log.i("TEST", "permissions: " +permissions);
+
+
+                            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.peru);
+
+                            Bundle params = new Bundle();
+                            params.putString("name", "My Test Album Name Here");
+                            params.putString("message", "My Test Album Description Here");
+                            new GraphRequest(
+                                    AccessToken.getCurrentAccessToken(),
+                                    "me/albums",
+                                    params,
+                                    HttpMethod.POST,
+                                    new GraphRequest.Callback() {
+                                        public void onCompleted(GraphResponse response) {
+                                            Log.i("TEST", "album generato con id: " + response.toString());
+                                        }
+                                    }
+                            ).executeAsync();
+
+/*
+                            Bundle params = new Bundle();
+                            params.putString("source", bitmap.toString());
+                            new GraphRequest(
+                                    AccessToken.getCurrentAccessToken(),
+                                    "/{album-id}/photos",
+                                    params,
+                                    HttpMethod.POST,
+                                    new GraphRequest.Callback() {
+                                        public void onCompleted(GraphResponse response) {
+
+
+                                        }
+                                    }
+                            ).executeAsync();
+                            */
+
+
+                            SharePhoto photo = new SharePhoto.Builder()
+                                    .setBitmap(bitmap)
+                                    .build();
+
+                            SharePhotoContent content = new SharePhotoContent.Builder()
+                                    .addPhoto(photo)
+                                    .build();
+
+                            Log.i("TEST", "sto per condividere la foto: " + bitmap);
+
                             break;
 
                         case 3: //exit
@@ -173,6 +248,28 @@ public class ViaggioActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             Log.e(e.toString().toUpperCase(), e.getMessage());
+        }
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_IMAGE_PICK) {
+                Uri selectedImage = data.getData();
+                String[] filePath = {MediaStore.Images.Media.DATA};
+
+                Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
+                c.moveToFirst();
+                int columnIndex = c.getColumnIndex(filePath[0]);
+                String picturePath = c.getString(columnIndex);
+                c.close();
+                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+                Log.i("image from gallery:", picturePath + "");
+
+
+                //TODO: update the db with new profile image
+                Drawable d = new BitmapDrawable(getResources(), thumbnail);
+                layoutCopertinaViaggio.setBackground(d);
+
+            }
         }
     }
 
@@ -368,28 +465,6 @@ public class ViaggioActivity extends AppCompatActivity {
     }
 
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_IMAGE_PICK) {
-                Uri selectedImage = data.getData();
-                String[] filePath = {MediaStore.Images.Media.DATA};
-
-                Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
-                c.moveToFirst();
-                int columnIndex = c.getColumnIndex(filePath[0]);
-                String picturePath = c.getString(columnIndex);
-                c.close();
-                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-                Log.i("image from gallery:", picturePath + "");
-
-
-                //TODO: update the db with new profile image
-                Drawable d = new BitmapDrawable(getResources(), thumbnail);
-                layoutCopertinaViaggio.setBackground(d);
-
-            }
-        }
-    }
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
 
