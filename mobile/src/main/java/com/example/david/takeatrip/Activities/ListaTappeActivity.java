@@ -1,8 +1,17 @@
 package com.example.david.takeatrip.Activities;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,14 +21,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Itinerario;
 import com.example.david.takeatrip.Classes.POI;
 import com.example.david.takeatrip.Classes.Profilo;
@@ -27,17 +45,23 @@ import com.example.david.takeatrip.Classes.Tappa;
 import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
+import com.example.david.takeatrip.Utilities.MultimedialFile;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.apache.http.HttpEntity;
@@ -52,10 +76,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +92,10 @@ public class ListaTappeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private final String ADDRESS_PRELIEVO = "QueryTappe.php";
+    private final String ADDRESS_PRELIEVO_TAPPE = "QueryTappe.php";
+    private final String ADDRESS_INSERIMENTO_TAPPA = "InserimentoTappa.php";
+    private final String ADDRESS_INSERIMENTO_FILTRO = "InserimentoFiltro.php";
+
     private final String TAG = "ListaTappeActivity";
     private static final int GOOGLE_API_CLIENT_ID = 0;
 
@@ -87,9 +117,20 @@ public class ListaTappeActivity extends AppCompatActivity
     private FloatingActionButton buttonAddStop;
     private LinearLayout layoutProprietariItinerari;
 
-
     private boolean proprioViaggio = false;
 
+    private int ordine, codAccount;
+
+    private String placeId, placeName, placeAddress, placeAttr;
+    LatLng placeLatLng;
+
+    private String[] strings;
+    private String[] subs;
+    private int[] arr_images;
+
+    private Dialog dialog;
+    private TextView nameText;
+    private TextView addressText;
 
 
 
@@ -148,6 +189,7 @@ public class ListaTappeActivity extends AppCompatActivity
             nomeViaggio = intent.getStringExtra("nomeViaggio");
             ArrayList<CharSequence> listPartecipants = intent.getCharSequenceArrayListExtra("partecipanti");
 
+
             Log.i(TAG, "email profilo corrente: " + email+ " email partecipants: " + listPartecipants);
 
             for(CharSequence cs : listPartecipants){
@@ -176,6 +218,13 @@ public class ListaTappeActivity extends AppCompatActivity
         MyTask mT = new MyTask();
         mT.execute();
 
+
+        //per dialog provacy level
+        strings = getResources().getStringArray(R.array.PrivacyLevel);
+        subs = getResources().getStringArray(R.array.PrivacyLevelDescription);
+        arr_images = Constants.privacy_images;
+
+
     }
 
     @Override
@@ -185,8 +234,6 @@ public class ListaTappeActivity extends AppCompatActivity
             mGoogleApiClient.connect();
         }
 
-        //TODO gestire aggiornamento mappa, la chiamata all'asyntask provoca un inserimento errato dei partecipanti
-        //new MyTask().execute();
     }
 
 
@@ -254,9 +301,110 @@ public class ListaTappeActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == Constants.REQUEST_IMAGE_CAPTURE) {
+                Log.i("TEST", "REQUEST_IMAGE_CAPTURE");
+
+
+//                File f = new File(Environment.getExternalStorageDirectory().toString());
+//                for (File temp : f.listFiles()) {
+//                    if (temp.getName().equals(imageFileName)) {
+//                        f = temp;
+//                        break;
+//                    }
+//                }
+//                try {
+//                    Bitmap bitmap;
+//                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+//
+//                    bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
+//                            bitmapOptions);
+//
+//
+//                    //TODO: update the db with new profile image
+//
+//
+//                    //imageProfile.setImageBitmap(bitmap);
+//
+//                    String path = android.os.Environment.getExternalStorageDirectory().toString();
+//                    f.delete();
+//
+//                    OutputStream outFile = null;
+//                    File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
+//                    try {
+//                        outFile = new FileOutputStream(file);
+//                        bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
+//                        outFile.flush();
+//                        outFile.close();
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+
+
+            } else if (requestCode == Constants.REQUEST_IMAGE_PICK) {
+
+                Log.i("TEST", "REQUEST_IMAGE_PICK");
+
+//                Uri selectedImage = data.getData();
+//                String[] filePath = {MediaStore.Images.Media.DATA};
+//
+//                Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
+//                c.moveToFirst();
+//                int columnIndex = c.getColumnIndex(filePath[0]);
+//                String picturePath = c.getString(columnIndex);
+//                c.close();
+//                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+//                Log.i("image from gallery:", picturePath + "");
+//
+//
+//                //TODO: update the db with new profile image
+//
+//
+//                //imageProfile.setImageBitmap(thumbnail);
+
+
+            } else if (requestCode == Constants.REQUEST_PLACE_PICKER) {
+
+                Log.i("TEST", "REQUEST_PLACE_PICKER");
+
+
+                Place place = PlacePicker.getPlace(data, this);
+                //String toastMsg = String.format("Place: %s", place.getName());
+                //Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+                Log.i("TEST", "Place: %s" + place.getName());
+
+                startAddingStop(place);
+
+            } else if (requestCode == Constants.REQUEST_VIDEO_CAPTURE) {
+                Log.i("TEST", "REQUEST_VIDEO_CAPTURE");
 
 
 
+
+            } else if (requestCode == Constants.REQUEST_VIDEO_PICK) {
+
+                Log.i("TEST", "REQUEST_IMAGE_PICK");
+
+
+
+            }
+        }
+    }
+
+
+
+
+
+    //metodi ausiliari
 
     private void PopolaPartecipanti(final Set<Profilo> partecipants){
 
@@ -349,9 +497,6 @@ public class ListaTappeActivity extends AppCompatActivity
     }
 
 
-
-
-
     private void findPlaceById(Profilo p, Tappa t) {
         if( TextUtils.isEmpty(t.getPoi().getCodicePOI()) || mGoogleApiClient == null){
             Log.i("TEST", "codice tappa: " + t.getPoi().getCodicePOI());
@@ -434,7 +579,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-
     @Override
     public void onConnected(Bundle bundle) {
 
@@ -454,31 +598,46 @@ public class ListaTappeActivity extends AppCompatActivity
     public void onMapReady(GoogleMap map) {
         googleMap = map;
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                // TODO: Consider calling
+                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for Activity#requestPermissions for more details.
+                return;
+            }
+        }
     }
 
 
-
-//    public void ClickAddTappa(View view) {
-//        Intent openAddTappa = new Intent(ListaTappeActivity.this, NuovaTappaActivity.class);
-//
-//        // passo all'attivazione dell'activity
-//        startActivity(openAddTappa);
-//    }
-
-
-
     public void onClickAddStop(View v){
-        Intent intent = new Intent(ListaTappeActivity.this, NuovaTappaActivity.class);
 
-        intent.putExtra("email", email);
-        intent.putExtra("codiceViaggio", codiceViaggio);
+        try {
+            PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
+            Intent intentPlacePicker = intentBuilder.build(ListaTappeActivity.this);
+            // Start the Intent by requesting a result, identified by a request code.
+            startActivityForResult(intentPlacePicker, Constants.REQUEST_PLACE_PICKER);
 
-        //TODO ricavare numero tappe itinerario utente
-        intent.putExtra("ordine", calcolaNumUltimaTappaUtenteCorrente());
 
-        startActivity(intent);
+        } catch (GooglePlayServicesRepairableException e) {
+            GooglePlayServicesUtil
+                    .getErrorDialog(e.getConnectionStatusCode(), ListaTappeActivity.this, 0);
 
-        //finish();
+            Log.e("TEST", e.toString());
+
+        } catch (GooglePlayServicesNotAvailableException e) {
+            Toast.makeText(ListaTappeActivity.this, "Google Play Services is not available.",
+                    Toast.LENGTH_LONG)
+                    .show();
+
+            Log.e("TEST", e.toString());
+        }
     }
 
 
@@ -486,13 +645,13 @@ public class ListaTappeActivity extends AppCompatActivity
 
         int result = 0;
 
-        Log.i("TEST", "profilo: "+profiloUtenteLoggato);
+        Log.i("TEST", "profilo: " + profiloUtenteLoggato);
         Log.i("TEST", "mappa profiloTappe: " + profiloTappe);
 
 
         ArrayList<Tappa> listaTappe = (ArrayList<Tappa>) profiloTappe.get(profiloUtenteLoggato);
 
-        Log.i("TEST", "lista tappe di "+ profiloUtenteLoggato+ ": "+listaTappe);
+        Log.i("TEST", "lista tappe di " + profiloUtenteLoggato + ": " + listaTappe);
 
         if(listaTappe != null)
             result = listaTappe.size();
@@ -503,8 +662,360 @@ public class ListaTappeActivity extends AppCompatActivity
     }
 
 
+    private void startAddingStop(Place place) {
+
+        //prendere info poi
+        placeId = ""+place.getId();
+        placeName = ""+place.getName();
+        placeLatLng = place.getLatLng();
+        placeAddress = ""+place.getAddress();
+        placeAttr = "";
+
+        //TODO chiarire se siamo obbligati da google a inserire attribution, vedi pagina PlacePicker
+        CharSequence aux = place.getAttributions();
+        if(aux != null)
+            placeAttr += aux;
 
 
+        Log.i("TEST", "name: " + placeName);
+        Log.i("TEST", "addr: " + placeAddress);
+
+        //posizionare marker su mappa
+        googleMap.addMarker(new MarkerOptions()
+                .title(placeName)
+                .position(placeLatLng));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), Constants.DEFAULT_ZOOM_MAP));
+
+
+        dialog = new Dialog(ListaTappeActivity.this);
+        dialog.setContentView(R.layout.info_poi);
+        dialog.setTitle(getResources().getString(R.string.insert_new_stop));
+
+        Spinner mySpinner = (Spinner)dialog.findViewById(R.id.spinner);
+        mySpinner.setAdapter(new PrivacyLevelAdapter(ListaTappeActivity.this, R.layout.entry_privacy_level, strings));
+
+
+        //TODO verificare motivo errore
+//                mySpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//
+//                        //TODO implementare setting privacy, modificare database
+//
+//                    }
+//                });
+
+
+
+        //put dialog at bottom
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.BOTTOM;
+        wlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+
+        //per non far diventare scuro lo sfondo
+        //wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+
+        window.setAttributes(wlp);
+
+
+
+        nameText = (TextView) dialog.findViewById(R.id.POIName);
+        addressText = (TextView) dialog.findViewById(R.id.POIAddress);
+        nameText.setText(placeName);
+        addressText.setText(placeAddress);
+
+
+        //TODO verificare utilità
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                //TODO eliminare solo picker appena inserito
+                //googleMap.clear();
+            }
+        });
+
+
+        //setting listener pulsanti dialog
+
+        FloatingActionButton addStop = (FloatingActionButton) dialog.findViewById(R.id.buttonAddStop);
+        addStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                new MyTaskInserimentoTappa().execute();
+
+
+                //TODO
+                // spostare in onPostExecute di MyTaskInserimentoTappa una volta gestita verifica condizione errore
+                // per evitare che il filtro venga inserito se la tappa non viene inserita
+                new MyTaskInserimentoFiltro().execute();
+
+                dialog.dismiss();
+            }
+        });
+
+
+        ImageView addImage = (ImageView)dialog.findViewById(R.id.addImage);
+        addImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickAddImage(view);
+            }
+        });
+
+        ImageView addVideo = (ImageView)dialog.findViewById(R.id.addVideo);
+        addVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickAddVideo(view);
+            }
+        });
+
+        ImageView addRecord = (ImageView)dialog.findViewById(R.id.addRecord);
+        addRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickAddRecord(view);
+            }
+        });
+
+        ImageView addNote = (ImageView)dialog.findViewById(R.id.addNote);
+        addNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickAddNote(view);
+            }
+        });
+
+        dialog.show();
+
+    }
+
+    private void onClickAddImage(View v) {
+
+        Log.i("TEST", "add image pressed");
+
+        try {
+            ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
+            LayoutInflater inflater = this.getLayoutInflater();
+            builder.setItems(R.array.CommandsAddPhotoToStop, new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+
+                        case 0: //pick images from gallery
+
+                            Intent intentPick = new Intent();
+                            intentPick.setType("image/*");
+                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                            intentPick.setAction(Intent.ACTION_GET_CONTENT);
+                            startActivityForResult(Intent.createChooser(intentPick,"Select Picture"), Constants.REQUEST_IMAGE_PICK);
+
+                            //TODO far diventare immagine blu
+
+                            break;
+
+                        case 1: //take a photo
+                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            if (intent.resolveActivity(getPackageManager()) != null) {
+
+                                File photoFile = null;
+                                try {
+
+                                    photoFile = MultimedialFile.createMediaFile(Constants.IMAGE_FILE);
+
+                                } catch (IOException ex) {
+                                    Log.e("TEST", "eccezione nella creazione di file immagine");
+                                }
+
+                                Log.i("TEST", "creato file immagine");
+
+                                // Continue only if the File was successfully created
+                                if (photoFile != null) {
+                                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                                    startActivityForResult(intent, Constants.REQUEST_IMAGE_CAPTURE);
+
+                                    //TODO far diventare immagine blu
+                                }
+                            }
+                            break;
+
+
+                        default:
+                            Log.e("TEST", "azione non riconosciuta");
+                            break;
+                    }
+                }
+            });
+
+
+            // Create the AlertDialog object and return it
+            builder.create().show();
+
+        } catch (Exception e) {
+            Log.e(e.toString().toUpperCase(), e.getMessage());
+        }
+
+        Log.i("TEST", "END add video");
+
+    }
+
+
+    private void onClickAddVideo(View v) {
+
+        Log.i("TEST", "add video pressed");
+
+        try {
+            ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
+            LayoutInflater inflater = this.getLayoutInflater();
+            builder.setItems(R.array.CommandsAddVideoToStop, new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+
+                        case 0: //pick videos from gallery
+
+                            Intent intentPick = new Intent();
+                            intentPick.setType("video/*");
+                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                            intentPick.setAction(Intent.ACTION_GET_CONTENT);
+                            startActivityForResult(Intent.createChooser(intentPick,"Select Video"), Constants.REQUEST_IMAGE_PICK);
+
+                            //TODO far diventare immagine blu
+
+                            break;
+
+                        case 1: //take a video
+                            Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                            if (intent.resolveActivity(getPackageManager()) != null) {
+
+                                File videoFile = null;
+                                try {
+
+                                    videoFile = MultimedialFile.createMediaFile(Constants.VIDEO_FILE);
+
+                                } catch (IOException ex) {
+                                    Log.e("TEST", "eccezione nella creazione di file video");
+                                }
+
+                                Log.i("TEST", "creato file video");
+
+                                // Continue only if the File was successfully created
+                                if (videoFile != null) {
+                                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile));
+                                    startActivityForResult(intent, Constants.REQUEST_VIDEO_CAPTURE);
+
+                                    //TODO far diventare immagine blu
+                                }
+                            }
+                            break;
+
+
+                        default:
+                            Log.e("TEST", "azione non riconosciuta");
+                            break;
+                    }
+                }
+            });
+
+
+            // Create the AlertDialog object and return it
+            builder.create().show();
+
+        } catch (Exception e) {
+            Log.e(e.toString().toUpperCase(), e.getMessage());
+        }
+
+        Log.i("TEST", "END add video");
+
+
+    }
+
+
+    private void onClickAddRecord(View v) {
+
+        Log.i("TEST", "add record pressed");
+
+        ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
+        LayoutInflater inflater = this.getLayoutInflater();
+        builder.setItems(R.array.CommandsAddVideoToStop, new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+
+                    case 0: //pick records
+
+                        Intent intentPick = new Intent();
+                        intentPick.setType("video/*");
+                        intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                        intentPick.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(intentPick, "Select Video"), Constants.REQUEST_IMAGE_PICK);
+
+                        //TODO far diventare immagine blu
+
+                        break;
+
+                    case 1: //take a video
+                        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+
+                            File videoFile = null;
+                            try {
+
+                                videoFile = MultimedialFile.createMediaFile(Constants.VIDEO_FILE);
+
+                            } catch (IOException ex) {
+                                Log.e("TEST", "eccezione nella creazione di file video");
+                            }
+
+                            Log.i("TEST", "creato file video");
+
+                            // Continue only if the File was successfully created
+                            if (videoFile != null) {
+                                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile));
+                                startActivityForResult(intent, Constants.REQUEST_VIDEO_CAPTURE);
+
+                                //TODO far diventare immagine blu
+                            }
+                        }
+                        break;
+
+
+                    default:
+                        Log.e("TEST", "azione non riconosciuta");
+                        break;
+                }
+            }
+        });
+
+
+        Log.i("TEST", "END add record");
+
+    }
+
+
+    private void onClickAddNote(View v) {
+
+        Log.i("TEST", "add note pressed");
+
+
+
+
+        Log.i("TEST", "END add note");
+
+    }
+
+
+    private String creaStringaFiltro() {
+        return placeName.toLowerCase().replaceAll(" ", "_");
+    }
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
         private final static int DEFAULT_INT = 0;
@@ -531,7 +1042,7 @@ public class ListaTappeActivity extends AppCompatActivity
                 try {
 
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.ADDRESS_PRELIEVO+ADDRESS_PRELIEVO);
+                    HttpPost httppost = new HttpPost(Constants.ADDRESS_PRELIEVO+ ADDRESS_PRELIEVO_TAPPE);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
 
@@ -628,6 +1139,8 @@ public class ListaTappeActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(Void aVoid) {
 
+            super.onPostExecute(aVoid);
+
             ViewCaricamentoInCorso.setVisibility(View.INVISIBLE);
 
 
@@ -663,10 +1176,252 @@ public class ListaTappeActivity extends AppCompatActivity
 
             }
 
-            super.onPostExecute(aVoid);
+            ordine = calcolaNumUltimaTappaUtenteCorrente();
+
+
 
         }
 
 
     }
+
+    private class MyTaskInserimentoTappa extends AsyncTask<Void, Void, Void> {
+
+        InputStream is = null;
+        String result, stringaFinale = "";
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+
+            dataToSend.add(new BasicNameValuePair("emailProfilo", email));
+            //dataToSend.add(new BasicNameValuePair("emailProfilo", "pippo@gmail.com"));
+
+            dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
+            dataToSend.add(new BasicNameValuePair("ordine", ""+ordine));
+            dataToSend.add(new BasicNameValuePair("POI", "" + placeId));
+
+            Calendar calendar = Calendar.getInstance();
+            int cDay = calendar.get(Calendar.DAY_OF_MONTH);
+            int cMonth = calendar.get(Calendar.MONTH) + 1;
+            int cYear = calendar.get(Calendar.YEAR);
+            String data = cYear+"-"+cMonth+"-"+cDay;
+            dataToSend.add(new BasicNameValuePair("data", ""+data));
+
+            String paginaDiario = "";
+            dataToSend.add(new BasicNameValuePair("paginaDiario", paginaDiario));
+
+            Log.i("TEST", "email: " + email);
+            Log.i("TEST", "codiceViaggio: " + codiceViaggio);
+            Log.i("TEST", "ordine: " + ordine);
+            Log.i("TEST", "placeId: " + placeId);
+            Log.i("TEST", "date: " + data);
+            Log.i("TEST", "paginaDiario: " + paginaDiario);
+
+
+            try {
+
+                if (InternetConnection.haveInternetConnection(ListaTappeActivity.this)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost(Constants.ADDRESS_PRELIEVO + ADDRESS_INSERIMENTO_TAPPA);
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+
+                    HttpResponse response = httpclient.execute(httppost);
+
+                    HttpEntity entity = response.getEntity();
+
+                    is = entity.getContent();
+
+                    if (is != null) {
+
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+                            Log.i("TEST", "result: " +result);
+
+                        } catch (Exception e) {
+                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    }
+
+
+                } else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                Log.e("TEST", "Errore nella connessione http "+e.toString());
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            ordine += 1;
+
+            if(!result.equals("OK")){
+                //TODO il risultato restituito non è OK quando va a buon fine, capire perchè
+
+                Log.e("TEST", "tappa non inserita");
+
+                //TODO definire comportamento errore
+                //Toast.makeText(getBaseContext(), "tappa non inserita", Toast.LENGTH_LONG).show();
+
+            }
+            else{
+                Log.i("TEST", "tappa inserita correttamente");
+
+                Toast.makeText(getBaseContext(), "tappa inserita correttamente", Toast.LENGTH_LONG).show();
+
+                //TODO far partire inserimento filtro, una volta chiarita condizione errore
+
+            }
+            super.onPostExecute(aVoid);
+
+        }
+    }
+
+
+    private class MyTaskInserimentoFiltro extends AsyncTask<Void, Void, Void> {
+
+        InputStream is = null;
+        String result, stringaFinale = "";
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("filtro", creaStringaFiltro()));
+            dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
+
+            Log.i("TEST", "filtro: " + creaStringaFiltro());
+
+            try {
+
+                if (InternetConnection.haveInternetConnection(ListaTappeActivity.this)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost(Constants.ADDRESS_PRELIEVO + ADDRESS_INSERIMENTO_FILTRO);
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+
+                    HttpResponse response = httpclient.execute(httppost);
+
+                    HttpEntity entity = response.getEntity();
+
+                    is = entity.getContent();
+
+                    if (is != null) {
+
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+                            Log.i("TEST", "result: " +result);
+
+                        } catch (Exception e) {
+                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    }
+
+
+                } else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                Log.e("TEST", "Errore nella connessione http "+e.toString());
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            if(!result.equals("OK")){
+
+                //TODO il risultato restituito non è OK quando va a buon fine, capire perchè
+
+                //Log.e("TEST", "filtro non inserito");
+
+                //TODO definire comportamento errore
+
+            }
+            else{
+                Log.i("TEST", "filtro inserito correttamente");
+
+            }
+            super.onPostExecute(aVoid);
+        }
+    }
+
+
+    private class PrivacyLevelAdapter extends ArrayAdapter<String> {
+
+
+        public PrivacyLevelAdapter(Context context, int textViewResourceId, String[] strings) {
+            super(context, textViewResourceId, strings);
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView, ViewGroup parent) {
+
+
+            LayoutInflater inflater=getLayoutInflater();
+            convertView=inflater.inflate(R.layout.entry_privacy_level, parent, false);
+            TextView label=(TextView)convertView.findViewById(R.id.privacyLevel);
+            label.setText(strings[position]);
+
+            TextView sub=(TextView)convertView.findViewById(R.id.description);
+            sub.setText(subs[position]);
+
+            ImageView icon=(ImageView)convertView.findViewById(R.id.image);
+            icon.setImageResource(arr_images[position]);
+
+            //Log.i("TEST", "string: " + strings[position]);
+            //Log.i("TEST", "sub: " + subs[position]);
+            //Log.i("TEST", "img: " + arr_images[position]);
+
+            return convertView;
+        }
+    }
+
+
 }
