@@ -182,5 +182,15 @@
 
     <string name="insert_new_stop">Insert a new stop</string>
 
+    <string-array name="CommandsAddPhotoToStop">
+        <item>Choose photos from gallery</item>
+        <item>Take a photo</item>
+    </string-array>
+
+    <string-array name="CommandsAddVideoToStop">
+        <item>Choose videos from gallery</item>
+        <item>Take a video</item>
+    </string-array>
+
 
 </resources>

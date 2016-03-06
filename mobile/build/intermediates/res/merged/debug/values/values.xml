@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string-array name="CommandsAddPhotoToStop">
+        <item>Choose photos from gallery</item>
+        <item>Take a photo</item>
+    </string-array>
+    <string-array name="CommandsAddVideoToStop">
+        <item>Choose videos from gallery</item>
+        <item>Take a video</item>
+    </string-array>
     <string-array name="CommandsCoverImage">
         <item>view cover image</item>
         <item>change cover image</item>

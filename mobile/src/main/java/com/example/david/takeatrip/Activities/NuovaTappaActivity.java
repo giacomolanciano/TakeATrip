@@ -25,7 +25,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -34,15 +33,20 @@ import android.widget.Toast;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.apache.http.HttpEntity;
@@ -76,7 +80,7 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
     private PlaceAutocompleteFragment autocompleteFragment;
 
-    private FrameLayout layoutInfoPoi;
+    //private FrameLayout layoutInfoPoi;
 
     private TextView nameText;
     private TextView addressText;
@@ -84,7 +88,7 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
     private String email, codiceViaggio;
     private int ordine, codAccount;
 
-    private String placeId, placeName, placeAddress;
+    private String placeId, placeName, placeAddress, placeAttr;
     LatLng placeLatLng;
 
     private String[] strings;
@@ -130,107 +134,7 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
             @Override
             public void onPlaceSelected(Place place) {
 
-                //prendere info poi
-                placeId = ""+place.getId();
-                placeName = ""+place.getName();
-                placeLatLng = place.getLatLng();
-                placeAddress = ""+place.getAddress();
-                //TODO prendere altre info utili
-
-                Log.i("TEST", "name: " + placeName);
-                Log.i("TEST", "addr: " + placeAddress);
-
-                //posizionare marker su mappa
-                googleMap.addMarker(new MarkerOptions()
-                        .title(placeName)
-                        .position(placeLatLng));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), Constants.DEFAULT_ZOOM_MAP));
-
-
-                //in caso di utilizzo di frame anzichè di dialog
-//                nameText.setText(placeName);
-//                addressText.setText(placeAddress);
-//                layoutInfoPoi.setVisibility(View.VISIBLE);
-
-
-
-                dialog = new Dialog(NuovaTappaActivity.this);
-                dialog.setContentView(R.layout.info_poi);
-                dialog.setTitle(getResources().getString(R.string.insert_new_stop));
-
-                Spinner mySpinner = (Spinner)dialog.findViewById(R.id.spinner);
-                mySpinner.setAdapter(new PrivacyLevelAdapter(NuovaTappaActivity.this, R.layout.entry_privacy_level, strings));
-
-
-                //TODO verificare motivo errore
-//                mySpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//                        //TODO implementare setting privacy, modificare database
-//
-//                    }
-//                });
-
-
-
-
-                //put dialog at bottom
-                Window window = dialog.getWindow();
-                WindowManager.LayoutParams wlp = window.getAttributes();
-                wlp.gravity = Gravity.BOTTOM;
-                wlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-
-                //per non far diventare scuro lo sfondo
-                //wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-
-                window.setAttributes(wlp);
-
-
-
-                nameText = (TextView) dialog.findViewById(R.id.POIName);
-                addressText = (TextView) dialog.findViewById(R.id.POIAddress);
-                nameText.setText(placeName);
-                addressText.setText(placeAddress);
-
-                dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialogInterface) {
-                        googleMap.clear();
-                    }
-                });
-
-
-                //setting listener pulsanti dialog
-
-                FloatingActionButton addStop = (FloatingActionButton) dialog.findViewById(R.id.buttonAddStop);
-                addStop.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        //TODO andrebbero eseguiti come una transazione atomica
-
-                        new MyTaskInserimentoTappa().execute();
-
-                        new MyTaskInserimentoFiltro().execute();
-
-                        dialog.dismiss();
-                    }
-                });
-
-
-                ImageView addImage = (ImageView)dialog.findViewById(R.id.addImage);
-                addImage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onClickAddImage(view);
-                    }
-                });
-
-
-
-
-                dialog.show();
+                startAddingStop(place);
 
             }
 
@@ -308,13 +212,9 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 //        }
 
 
-
-
         map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-
-                //startAddingStop(place);
 
                 googleMap.clear();
 
@@ -322,17 +222,42 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                         .position(latLng));
 
                 Vibrator v = (Vibrator) NuovaTappaActivity.this.getSystemService(Context.VIBRATOR_SERVICE);
-                v.vibrate(100);
+                v.vibrate(Constants.VIBRATION_MILLISEC);
 
-                //autocompleteFragment.setText(latLng.toString());
+                try {
+                    PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
 
+                    //TODO trovare il modo di diminuire lo zoom, guarda:
+                    // https://developers.google.com/android/reference/com/google/android/gms/maps/model/LatLngBounds#nested-class-summary
+
+                    LatLngBounds.Builder builder = LatLngBounds.builder()
+                            .include(latLng);
+                    intentBuilder.setLatLngBounds(builder.build());
+
+                    //intentBuilder.setLatLngBounds(new LatLngBounds(latLng, latLng));
+
+                    Intent intent = intentBuilder.build(NuovaTappaActivity.this);
+                    // Start the Intent by requesting a result, identified by a request code.
+                    startActivityForResult(intent, Constants.REQUEST_PLACE_PICKER);
+
+
+                } catch (GooglePlayServicesRepairableException e) {
+                    GooglePlayServicesUtil
+                            .getErrorDialog(e.getConnectionStatusCode(), NuovaTappaActivity.this, 0);
+
+                    Log.e("TEST", e.toString());
+
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    Toast.makeText(NuovaTappaActivity.this, "Google Play Services is not available.",
+                            Toast.LENGTH_LONG)
+                            .show();
+
+                    Log.e("TEST", e.toString());
+                }
 
 
             }
         });
-
-
-
 
     }
 
@@ -412,6 +337,31 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 //                //imageProfile.setImageBitmap(thumbnail);
 
 
+            } else if (requestCode == Constants.REQUEST_PLACE_PICKER) {
+
+                Log.i("TEST", "REQUEST_PLACE_PICKER");
+
+
+                Place place = PlacePicker.getPlace(data, this);
+                String toastMsg = String.format("Place: %s", place.getName());
+                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+
+                Log.i("TEST", "Place: %s" + place.getName());
+
+                startAddingStop(place);
+
+            } else if (requestCode == Constants.REQUEST_VIDEO_CAPTURE) {
+                Log.i("TEST", "REQUEST_VIDEO_CAPTURE");
+
+
+
+
+            } else if (requestCode == Constants.REQUEST_VIDEO_PICK) {
+
+                Log.i("TEST", "REQUEST_IMAGE_PICK");
+
+
+
             }
         }
     }
@@ -430,7 +380,13 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
         placeName = ""+place.getName();
         placeLatLng = place.getLatLng();
         placeAddress = ""+place.getAddress();
-        //TODO prendere altre info utili
+        placeAttr = "";
+
+        //TODO chiarire se siamo obbligati da google a inserire attribution, vedi pagina PlacePicker
+        CharSequence aux = place.getAttributions();
+        if(aux != null)
+            placeAttr += aux;
+
 
         Log.i("TEST", "name: " + placeName);
         Log.i("TEST", "addr: " + placeAddress);
@@ -438,7 +394,6 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
         //posizionare marker su mappa
         googleMap.addMarker(new MarkerOptions()
                 .title(placeName)
-                .snippet(place.getAttributions().toString())
                 .position(placeLatLng));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), Constants.DEFAULT_ZOOM_MAP));
 
@@ -447,7 +402,6 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 //                nameText.setText(placeName);
 //                addressText.setText(placeAddress);
 //                layoutInfoPoi.setVisibility(View.VISIBLE);
-
 
 
         dialog = new Dialog(NuovaTappaActivity.this);
@@ -467,7 +421,6 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 //
 //                    }
 //                });
-
 
 
 
@@ -504,10 +457,12 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
             @Override
             public void onClick(View view) {
 
-                //TODO andrebbero eseguiti come una transazione atomica
-
                 new MyTaskInserimentoTappa().execute();
 
+
+                //TODO
+                // spostare in onPostExecute di MyTaskInserimentoTappa una volta gestita verifica condizione errore
+                // per evitare che il filtro venga inserito se la tappa non viene inserita
                 new MyTaskInserimentoFiltro().execute();
 
                 dialog.dismiss();
@@ -523,8 +478,29 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
             }
         });
 
+        ImageView addVideo = (ImageView)dialog.findViewById(R.id.addVideo);
+        addVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickAddVideo(view);
+            }
+        });
 
+        ImageView addRecord = (ImageView)dialog.findViewById(R.id.addRecord);
+        addRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickAddRecord(view);
+            }
+        });
 
+        ImageView addNote = (ImageView)dialog.findViewById(R.id.addNote);
+        addNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickAddNote(view);
+            }
+        });
 
         dialog.show();
 
@@ -536,21 +512,16 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
         Log.i("TEST", "add image pressed");
 
         try {
-            ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog);
+            ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
             LayoutInflater inflater = this.getLayoutInflater();
-            builder.setItems(R.array.CommandsImageProfile, new DialogInterface.OnClickListener() {
+            builder.setItems(R.array.CommandsAddPhotoToStop, new DialogInterface.OnClickListener() {
 
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which) {
-                        case 0: //view image profile
 
-
-                            break;
-                        case 1: //change image profile
-//                            Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                            startActivityForResult(intentPick, Constants.REQUEST_IMAGE_PICK);
+                        case 0: //pick images from gallery
 
                             Intent intentPick = new Intent();
                             intentPick.setType("image/*");
@@ -558,18 +529,16 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                             intentPick.setAction(Intent.ACTION_GET_CONTENT);
                             startActivityForResult(Intent.createChooser(intentPick,"Select Picture"), Constants.REQUEST_IMAGE_PICK);
 
-
-
                             break;
 
-                        case 2:  //take a photo
+                        case 1: //take a photo
                             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             if (intent.resolveActivity(getPackageManager()) != null) {
 
                                 File photoFile = null;
                                 try {
 
-                                    photoFile = createImageFile();
+                                    photoFile = createMediaFile(Constants.IMAGE_FILE);
 
                                 } catch (IOException ex) {
                                     Log.e("TEST", "eccezione nella creazione di file immagine");
@@ -585,7 +554,9 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                             }
                             break;
 
-                        case 3: //exit
+
+                        default:
+                            Log.e("TEST", "azione non riconosciuta");
                             break;
                     }
                 }
@@ -599,52 +570,132 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
             Log.e(e.toString().toUpperCase(), e.getMessage());
         }
 
+        Log.i("TEST", "END add video");
+
     }
+
 
     public void onClickAddVideo(View v) {
 
         Log.i("TEST", "add video pressed");
 
+        try {
+            ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
+            LayoutInflater inflater = this.getLayoutInflater();
+            builder.setItems(R.array.CommandsAddVideoToStop, new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+
+                        case 0: //pick videos from gallery
+
+                            Intent intentPick = new Intent();
+                            intentPick.setType("image/*");
+                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                            intentPick.setAction(Intent.ACTION_GET_CONTENT);
+                            startActivityForResult(Intent.createChooser(intentPick,"Select Picture"), Constants.REQUEST_IMAGE_PICK);
+
+                            break;
+
+                        case 1: //take a video
+                            Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                            if (intent.resolveActivity(getPackageManager()) != null) {
+
+                                File videoFile = null;
+                                try {
+
+                                    videoFile = createMediaFile(Constants.VIDEO_FILE);
+
+                                } catch (IOException ex) {
+                                    Log.e("TEST", "eccezione nella creazione di file immagine");
+                                }
+
+                                Log.i("TEST", "creato file immagine");
+
+                                // Continue only if the File was successfully created
+                                if (videoFile != null) {
+                                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile));
+                                    startActivityForResult(intent, Constants.REQUEST_VIDEO_CAPTURE);
+                                }
+                            }
+                            break;
+
+
+                        default:
+                            Log.e("TEST", "azione non riconosciuta");
+                            break;
+                    }
+                }
+            });
+
+
+            // Create the AlertDialog object and return it
+            builder.create().show();
+
+        } catch (Exception e) {
+            Log.e(e.toString().toUpperCase(), e.getMessage());
+        }
+
+        Log.i("TEST", "END add video");
+
 
     }
+
 
     public void onClickAddRecord(View v) {
 
         Log.i("TEST", "add record pressed");
 
 
+
+        Log.i("TEST", "END add record");
+
     }
+
 
     public void onClickAddNote(View v) {
 
         Log.i("TEST", "add note pressed");
 
 
+
+
+        Log.i("TEST", "END add note");
+
     }
 
-    private File createImageFile() throws IOException {
+    private File createMediaFile(int tipoFile) throws IOException {
 
-        String mCurrentPhotoPath;
-        String imageFileName;
+        String mCurrentMediaPath;
+        String mediaFileName;
 
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        imageFileName = timeStamp + ".jpg";
 
-        File image = new File(android.os.Environment.getExternalStorageDirectory(), imageFileName);
+
+        if (tipoFile == Constants.IMAGE_FILE) {
+            mediaFileName = timeStamp + ".jpg";
+        } else {    //if (tipoFile == Constants.VIDEO_FILE) {
+            mediaFileName = timeStamp + ".mp4";
+        }
+
+        File media = new File(android.os.Environment.getExternalStorageDirectory(), mediaFileName);
 
         // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
+        mCurrentMediaPath = media.getAbsolutePath();
 
-        Log.i("TEST", "path file immagine: " + mCurrentPhotoPath);
+        Log.i("TEST", "path media file: " + mCurrentMediaPath);
 
-        return image;
+        return media;
+
     }
+
 
     private String creaStringaFiltro() {
         return placeName.toLowerCase().replaceAll(" ", "_");
     }
-
 
 
     private class MyTaskInserimentoTappa extends AsyncTask<Void, Void, Void> {
@@ -824,8 +875,11 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            if(result.contains("")){
-                Log.e("TEST", "filtro non inserito");
+            if(!result.equals("OK")){
+
+                //TODO il risultato restituito non è OK quando va a buon fine, capire perchè
+
+                //Log.e("TEST", "filtro non inserito");
 
                 //TODO definire comportamento errore
 

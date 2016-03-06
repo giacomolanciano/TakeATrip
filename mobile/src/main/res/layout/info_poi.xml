@@ -87,6 +87,7 @@
             android:layout_gravity="center_vertical"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            android:id="@+id/addVideo"
             android:clickable="true" />
 
         <ImageView
@@ -96,6 +97,7 @@
             android:layout_gravity="center_vertical"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            android:id="@+id/addRecord"
             android:clickable="true" />
 
         <ImageView
@@ -105,6 +107,7 @@
             android:layout_gravity="center_vertical"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            android:id="@+id/addNote"
             android:clickable="true" />
 
 
@@ -117,7 +120,6 @@
         android:id="@+id/buttonAddStop"
         app:backgroundTint="@color/blue"
         android:src="@drawable/ic_add_white_24dp"
-        android:onClick="onClickAddStop"
         android:layout_marginBottom="@dimen/abc_button_padding_vertical_material"
         android:layout_marginRight="@dimen/abc_button_padding_horizontal_material" />
 
