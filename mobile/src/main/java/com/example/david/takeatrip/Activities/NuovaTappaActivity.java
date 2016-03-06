@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
+import com.example.david.takeatrip.Utilities.MultimedialFile;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -63,10 +64,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 
 public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -528,6 +527,8 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                             intentPick.setAction(Intent.ACTION_GET_CONTENT);
                             startActivityForResult(Intent.createChooser(intentPick,"Select Picture"), Constants.REQUEST_IMAGE_PICK);
 
+                            //TODO far diventare immagine blu
+
                             break;
 
                         case 1: //take a photo
@@ -537,7 +538,7 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                                 File photoFile = null;
                                 try {
 
-                                    photoFile = createMediaFile(Constants.IMAGE_FILE);
+                                    photoFile = MultimedialFile.createMediaFile(Constants.IMAGE_FILE);
 
                                 } catch (IOException ex) {
                                     Log.e("TEST", "eccezione nella creazione di file immagine");
@@ -549,6 +550,8 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                                 if (photoFile != null) {
                                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
                                     startActivityForResult(intent, Constants.REQUEST_IMAGE_CAPTURE);
+
+                                    //TODO far diventare immagine blu
                                 }
                             }
                             break;
@@ -596,6 +599,8 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                             intentPick.setAction(Intent.ACTION_GET_CONTENT);
                             startActivityForResult(Intent.createChooser(intentPick,"Select Video"), Constants.REQUEST_IMAGE_PICK);
 
+                            //TODO far diventare immagine blu
+
                             break;
 
                         case 1: //take a video
@@ -605,18 +610,20 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                                 File videoFile = null;
                                 try {
 
-                                    videoFile = createMediaFile(Constants.VIDEO_FILE);
+                                    videoFile = MultimedialFile.createMediaFile(Constants.VIDEO_FILE);
 
                                 } catch (IOException ex) {
-                                    Log.e("TEST", "eccezione nella creazione di file immagine");
+                                    Log.e("TEST", "eccezione nella creazione di file video");
                                 }
 
-                                Log.i("TEST", "creato file immagine");
+                                Log.i("TEST", "creato file video");
 
                                 // Continue only if the File was successfully created
                                 if (videoFile != null) {
                                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile));
                                     startActivityForResult(intent, Constants.REQUEST_VIDEO_CAPTURE);
+
+                                    //TODO far diventare immagine blu
                                 }
                             }
                             break;
@@ -647,6 +654,59 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
         Log.i("TEST", "add record pressed");
 
+        ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
+        LayoutInflater inflater = this.getLayoutInflater();
+        builder.setItems(R.array.CommandsAddVideoToStop, new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+
+                    case 0: //pick records
+
+                        Intent intentPick = new Intent();
+                        intentPick.setType("video/*");
+                        intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                        intentPick.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(intentPick,"Select Video"), Constants.REQUEST_IMAGE_PICK);
+
+                        //TODO far diventare immagine blu
+
+                        break;
+
+                    case 1: //take a video
+                        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+
+                            File videoFile = null;
+                            try {
+
+                                videoFile = MultimedialFile.createMediaFile(Constants.VIDEO_FILE);
+
+                            } catch (IOException ex) {
+                                Log.e("TEST", "eccezione nella creazione di file video");
+                            }
+
+                            Log.i("TEST", "creato file video");
+
+                            // Continue only if the File was successfully created
+                            if (videoFile != null) {
+                                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile));
+                                startActivityForResult(intent, Constants.REQUEST_VIDEO_CAPTURE);
+
+                                //TODO far diventare immagine blu
+                            }
+                        }
+                        break;
+
+
+                    default:
+                        Log.e("TEST", "azione non riconosciuta");
+                        break;
+                }
+            }
+        });
 
 
         Log.i("TEST", "END add record");
@@ -662,32 +722,6 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
 
         Log.i("TEST", "END add note");
-
-    }
-
-    private File createMediaFile(int tipoFile) throws IOException {
-
-        String mCurrentMediaPath;
-        String mediaFileName;
-
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-
-
-        if (tipoFile == Constants.IMAGE_FILE) {
-            mediaFileName = timeStamp + ".jpg";
-        } else {    //if (tipoFile == Constants.VIDEO_FILE) {
-            mediaFileName = timeStamp + ".mp4";
-        }
-
-        File media = new File(android.os.Environment.getExternalStorageDirectory(), mediaFileName);
-
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentMediaPath = media.getAbsolutePath();
-
-        Log.i("TEST", "path media file: " + mCurrentMediaPath);
-
-        return media;
 
     }
 
@@ -798,6 +832,8 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                 Log.i("TEST", "tappa inserita correttamente");
 
                 Toast.makeText(getBaseContext(), "tappa inserita correttamente", Toast.LENGTH_LONG).show();
+
+                //TODO far partire inserimento filtro, una volta chiarita condizione errore
 
             }
             super.onPostExecute(aVoid);
