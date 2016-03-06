@@ -37,14 +37,11 @@ import com.example.david.takeatrip.Utilities.MultimedialFile;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -101,49 +98,49 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nuova_tappa);
-
-        buttonSatellite = (Button) findViewById(R.id.buttonSatellite);
-        buttonTerrain = (Button) findViewById(R.id.buttonTerrain);
-        buttonHybrid = (Button) findViewById(R.id.buttonHybrid);
-
-
-        //in caso di utilizzo di frame anzichè di dialog
-        //layoutInfoPoi = (FrameLayout)findViewById(R.id.FrameInfoPoi);
-//        nameText = (TextView) findViewById(R.id.POIName);
-//        addressText = (TextView) findViewById(R.id.POIAddress);
-
-
-        MapFragment mapFragment = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-        autocompleteFragment = (PlaceAutocompleteFragment)
-                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-
-        autocompleteFragment.setHint(getResources().getString(R.string.search_poi));
-
-
-        strings = getResources().getStringArray(R.array.PrivacyLevel);
-        subs = getResources().getStringArray(R.array.PrivacyLevelDescription);
-        arr_images = Constants.privacy_images;
-
-
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-
-                startAddingStop(place);
-
-            }
-
-            @Override
-            public void onError(Status status) {
-                Log.i("TEST", "An error occurred: " + status);
-            }
-
-
-        });
+//        setContentView(R.layout.activity_nuova_tappa);
+//
+////        buttonSatellite = (Button) findViewById(R.id.buttonSatellite);
+////        buttonTerrain = (Button) findViewById(R.id.buttonTerrain);
+////        buttonHybrid = (Button) findViewById(R.id.buttonHybrid);
+//
+//
+//        //in caso di utilizzo di frame anzichè di dialog
+//        //layoutInfoPoi = (FrameLayout)findViewById(R.id.FrameInfoPoi);
+////        nameText = (TextView) findViewById(R.id.POIName);
+////        addressText = (TextView) findViewById(R.id.POIAddress);
+//
+//
+//        MapFragment mapFragment = (MapFragment) getFragmentManager()
+//                .findFragmentById(R.id.map);
+//        mapFragment.getMapAsync(this);
+//
+//        autocompleteFragment = (PlaceAutocompleteFragment)
+//                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+//
+//        autocompleteFragment.setHint(getResources().getString(R.string.search_poi));
+//
+//
+//        strings = getResources().getStringArray(R.array.PrivacyLevel);
+//        subs = getResources().getStringArray(R.array.PrivacyLevelDescription);
+//        arr_images = Constants.privacy_images;
+//
+//
+//        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+//            @Override
+//            public void onPlaceSelected(Place place) {
+//
+//                startAddingStop(place);
+//
+//            }
+//
+//            @Override
+//            public void onError(Status status) {
+//                Log.i("TEST", "An error occurred: " + status);
+//            }
+//
+//
+//        });
 
 
         Intent intent;
@@ -153,6 +150,32 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
             ordine = intent.getIntExtra("ordine", 0) + 1;
 
         }
+
+
+        try {
+            PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
+            Intent intentPlacePicker = intentBuilder.build(NuovaTappaActivity.this);
+            // Start the Intent by requesting a result, identified by a request code.
+            startActivityForResult(intentPlacePicker, Constants.REQUEST_PLACE_PICKER);
+
+
+        } catch (GooglePlayServicesRepairableException e) {
+            GooglePlayServicesUtil
+                    .getErrorDialog(e.getConnectionStatusCode(), NuovaTappaActivity.this, 0);
+
+            Log.e("TEST", e.toString());
+
+        } catch (GooglePlayServicesNotAvailableException e) {
+            Toast.makeText(NuovaTappaActivity.this, "Google Play Services is not available.",
+                    Toast.LENGTH_LONG)
+                    .show();
+
+            Log.e("TEST", e.toString());
+        }
+
+
+
+
     }
 
 
