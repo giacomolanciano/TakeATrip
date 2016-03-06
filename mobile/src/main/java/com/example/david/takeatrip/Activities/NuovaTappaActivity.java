@@ -343,9 +343,8 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
 
 
                 Place place = PlacePicker.getPlace(data, this);
-                String toastMsg = String.format("Place: %s", place.getName());
-                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
-
+                //String toastMsg = String.format("Place: %s", place.getName());
+                //Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
                 Log.i("TEST", "Place: %s" + place.getName());
 
                 startAddingStop(place);
@@ -592,10 +591,10 @@ public class NuovaTappaActivity extends AppCompatActivity implements OnMapReadyC
                         case 0: //pick videos from gallery
 
                             Intent intentPick = new Intent();
-                            intentPick.setType("image/*");
+                            intentPick.setType("video/*");
                             intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                             intentPick.setAction(Intent.ACTION_GET_CONTENT);
-                            startActivityForResult(Intent.createChooser(intentPick,"Select Picture"), Constants.REQUEST_IMAGE_PICK);
+                            startActivityForResult(Intent.createChooser(intentPick,"Select Video"), Constants.REQUEST_IMAGE_PICK);
 
                             break;
 

@@ -176,7 +176,7 @@
     <string-array name="PrivacyLevelDescription">
         <item>Anyone can see these contents</item>
         <item>Only your travel friends can see these contents</item>
-        <item>Only your travel friends can see these contents</item>
+        <item>Only who was with you can see these contents</item>
         <item>Choose who can see these contents</item>
     </string-array>
 
