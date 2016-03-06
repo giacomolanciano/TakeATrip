@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:2:1-109:12
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:2:1-108:12
 	xmlns:android
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:2:11-69
 	package
@@ -99,7 +99,7 @@ ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\Andr
 	android:name
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:30:9-60
 application
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:34:5-107:19
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:34:5-106:19
 MERGED from [com.android.support:appcompat-v7:23.0.1] C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.0.1] C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services:8.4.0] C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.google.android.gms\play-services\8.4.0\AndroidManifest.xml:19:5-20
@@ -394,10 +394,6 @@ ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\Andr
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:105:13-72
 	android:name
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:102:13-57
-activity#com.example.david.takeatrip.Activities.NuovaTappaActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:106:9-76
-	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:106:19-64
 uses-sdk
 INJECTED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:23.0.1] C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\AndroidManifest.xml:20:5-43

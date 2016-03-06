@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -63,6 +64,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -107,6 +109,7 @@ public class ListaTappeActivity extends AppCompatActivity
     private Map<Profilo, List<Place>> profiloNomiTappe;
 
     private List<Profilo> partecipants;
+    private List<Tappa> stops;
 
 
     private String email, codiceViaggio, nomeViaggio;
@@ -476,6 +479,11 @@ public class ListaTappeActivity extends AppCompatActivity
     Profilo currentProfile;
     List<Place> nomiTappe = new ArrayList<Place>();
     List<String> namesStops = new ArrayList<String>();
+    PolylineOptions polyline = new PolylineOptions()
+            .visible(true)
+            .color(Color.parseColor(Constants.GOOGLE_MAPS_BLUE))
+            .width(12)
+            .geodesic(true);
 
     private void AggiungiMarkedPointsOnMap(Profilo p, List<Tappa> tappe) {
         mGoogleApiClient.connect();
@@ -490,6 +498,8 @@ public class ListaTappeActivity extends AppCompatActivity
             nomiTappe.clear();
             profiloNomiTappe.put(p,nomiTappe);
         }
+
+
 
         Log.i("TEST", "profiloNomiTappe: " + profiloNomiTappe);
         Log.i("TEST", "ho aggiunto i markedPoints di " + p);
@@ -559,14 +569,34 @@ public class ListaTappeActivity extends AppCompatActivity
                                     .position(place.getLatLng()));
                             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 5));
 
+                            //traccia linea
+                            polyline.add(place.getLatLng());
 
                             if (nomiTappe.size() == profiloTappe.get(currentProfile).size() && namesStops.size() == nomiTappe.size()) {
+
                                 Log.i("TEST", "nomi places: " + namesStops);
                                 CreaMenu(profiloTappe.get(currentProfile), namesStops);
 
                                 profiloNomiTappe.put(currentProfile, nomiTappe);
                                 Log.i("TEST", "profiloNomiTappe: " + profiloNomiTappe);
                                 Log.i("TEST", "ho aggiunto i markedPoints di " + currentProfile);
+
+//                                ArrayList<LatLng> auxStops = new ArrayList<LatLng>();
+//                                for(Place p: nomiTappe) {
+//                                    auxStops.add(p.getLatLng());
+//                                }
+//
+//                                Log.i("TEST", "stops: "+auxStops);
+//
+//                                googleMap.addPolyline(new PolylineOptions()
+//                                                .addAll(auxStops)
+//                                                .visible(true)
+//                                                .color(Color.parseColor(Constants.GOOGLE_MAPS_BLUE))
+//                                                .width(12)
+//                                                .geodesic(true)
+//                                );
+
+                                googleMap.addPolyline(polyline);
 
                             }
 
@@ -598,6 +628,7 @@ public class ListaTappeActivity extends AppCompatActivity
     public void onMapReady(GoogleMap map) {
         googleMap = map;
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -664,6 +695,8 @@ public class ListaTappeActivity extends AppCompatActivity
 
     private void startAddingStop(Place place) {
 
+        final Place addedPlace = place;
+
         //prendere info poi
         placeId = ""+place.getId();
         placeName = ""+place.getName();
@@ -681,10 +714,10 @@ public class ListaTappeActivity extends AppCompatActivity
         Log.i("TEST", "addr: " + placeAddress);
 
         //posizionare marker su mappa
-        googleMap.addMarker(new MarkerOptions()
-                .title(placeName)
-                .position(placeLatLng));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), Constants.DEFAULT_ZOOM_MAP));
+//        googleMap.addMarker(new MarkerOptions()
+//                .title(placeName)
+//                .position(placeLatLng));
+//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), Constants.DEFAULT_ZOOM_MAP));
 
 
         dialog = new Dialog(ListaTappeActivity.this);
@@ -750,6 +783,12 @@ public class ListaTappeActivity extends AppCompatActivity
                 // spostare in onPostExecute di MyTaskInserimentoTappa una volta gestita verifica condizione errore
                 // per evitare che il filtro venga inserito se la tappa non viene inserita
                 new MyTaskInserimentoFiltro().execute();
+
+                googleMap.addMarker(new MarkerOptions()
+                        .title(placeName)
+                        .position(placeLatLng));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(addedPlace.getLatLng(), Constants.DEFAULT_ZOOM_MAP));
+
 
                 dialog.dismiss();
             }
@@ -1159,6 +1198,9 @@ public class ListaTappeActivity extends AppCompatActivity
 
             for(Profilo p : profiloTappe.keySet()){
                 if(p.getEmail().equals(email)){
+
+                    List<Tappa> aux = profiloTappe.get(p);
+
                     AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
                     aggiuntiMarkedPoints = true;
                     Log.i("TEST", "aggiunte tappe di " + p);
