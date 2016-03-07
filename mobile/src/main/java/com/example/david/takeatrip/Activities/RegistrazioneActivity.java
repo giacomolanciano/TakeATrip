@@ -14,9 +14,7 @@ import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
-import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
-import com.example.david.takeatrip.Utilities.DatabaseHandler;
 import com.example.david.takeatrip.Utilities.PasswordHashing;
 import com.facebook.Profile;
 
@@ -35,7 +33,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,10 +49,15 @@ public class  RegistrazioneActivity extends AppCompatActivity {
     private boolean update, passwordModificata, loginFB, loginGoogle;
     private boolean updateProfilo = false;
 
-    private final int YEAR_MAX_PICKER = 2016;
+    private Calendar calendar = Calendar.getInstance();
+    private int cDay = calendar.get(Calendar.DAY_OF_MONTH);
+    private int cMonth = calendar.get(Calendar.MONTH) + 1;
+    private int cYear = calendar.get(Calendar.YEAR);
+
+    private final int YEAR_MAX_PICKER = cYear;
     private final int YEAR_MIN_PICKER = 1900;
     private final int YEAR_DEFAULT_PICKER = 1900;
-    private final int MONTH_MAX_PICKER = 12;
+    private final int MONTH_MAX_PICKER = cMonth;
     private final int MONTH_MIN_PICKER = 1;
     private final int MONTH_DEFAULT_PICKER = 1;
     private final int DAY_MAX_PICKER = 31;
@@ -249,6 +252,9 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                     data = "";
                 }
                 else{
+
+                    //TODO implementare controllo su validità data (servirebbe usare date picker)
+
 
                     data = String.valueOf(pickerYear.getValue()) + "-";
                     if((month = pickerMonth.getValue()) < TEN) {

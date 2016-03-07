@@ -58,4 +58,9 @@ public class Constants {
     public static final int VIBRATION_MILLISEC = 100;
 
 
+    public static final String GOOGLE_MAPS_BLUE = "#05b1fb";
+
+
+
+
 }

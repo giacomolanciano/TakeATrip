@@ -56,10 +56,10 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
 
     private Button buttonSatellite, buttonHybrid, buttonTerrain;
-    private String email, nomeViaggio, titoloViaggio, codiceViaggio;
-            ;
+    private String email, emailEsterno, nomeViaggio, titoloViaggio, codiceViaggio;
+    ;
     private final String ADDRESS_PRELIEVO = "QueryDest.php";
-    private Profilo profiloUtenteLoggato;
+    private Profilo profiloUtente;
 
     private GoogleMap googleMap;
     private GoogleApiClient mGoogleApiClient;
@@ -98,7 +98,10 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         if(getIntent() != null){
             Intent intent = getIntent();
             email = intent.getStringExtra("email");
+            emailEsterno = intent.getStringExtra("emailEsterno");
             Log.i("TEST", "email" + email);
+            Log.i("TEST", "email esterno: " + emailEsterno);
+
         }
 
         tappe = new ArrayList<Tappa>();
@@ -111,7 +114,14 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         profiloNomiTappe = new HashMap<>();
         viaggioTappa = new HashMap<>();
 
-        profiloUtenteLoggato = new Profilo(email, null,null,null, null, null, null, null, null, null);
+        if(email == null || (email != null && emailEsterno!= null)) {
+            profiloUtente = new Profilo(emailEsterno, null, null, null, null, null, null, null, null, null);
+        }
+        else{
+            profiloUtente = new Profilo(email, null, null, null, null, null, null, null, null, null);
+        }
+
+        Log.i("TEST", "Profilo utente corrente: " + profiloUtente);
 
 
         mGoogleApiClient = new GoogleApiClient
@@ -158,24 +168,33 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
                 return;
             }
         }
-       // map.setMyLocationEnabled(true);
+        // map.setMyLocationEnabled(true);
         map.setOnInfoWindowClickListener(this);
-      //  map.setOnMarkerClickListener(this);
+        //  map.setOnMarkerClickListener(this);
 
 
-                            }
+    }
 
-   public void onInfoWindowClick(Marker marker) {
-       Intent i = new Intent(this, ViaggioActivity.class);
-       i.putExtra("email", email);
-       //TODO passare codice e nome per ricreare viaggio
-       i.putExtra("codiceViaggio", comboCodice.get(marker.getTitle()));
-       i.putExtra("nomeViaggio", marker.getTitle());
-       Log.e("TEST", "#email  " + email);
-       Log.e("TEST", "#nomedelviaggio  " + marker.getTitle() );
-       Log.e("TEST", "#codicedelviaggio  " + comboCodice.get(marker.getTitle()));
+    public void onInfoWindowClick(Marker marker) {
+        Intent i = new Intent(this, ViaggioActivity.class);
 
-       startActivity(i);
+        if(email == null || (email != null && emailEsterno!= null)) {
+            i.putExtra("email", email);
+        }
+        else if(email != null && emailEsterno == null){
+            i.putExtra("email", email);
+        }
+        else{
+            i.putExtra("email", emailEsterno);
+        }
+        //TODO passare codice e nome per ricreare viaggio
+        i.putExtra("codiceViaggio", comboCodice.get(marker.getTitle()));
+        i.putExtra("nomeViaggio", marker.getTitle());
+        Log.e("TEST", "#email  " + profiloUtente.getEmail());
+        Log.e("TEST", "#nomedelviaggio  " + marker.getTitle() );
+        Log.e("TEST", "#codicedelviaggio  " + comboCodice.get(marker.getTitle()));
+
+        startActivity(i);
       /*  */ /*Toast.makeText(this,"Hai selezionato un viaggio",
                 Toast.LENGTH_SHORT).show();*/
     }
@@ -202,8 +221,8 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-            profiloNomiTappe.put(p, tappe);
-            viaggioTappa.put(tappe, nome);
+        profiloNomiTappe.put(p, tappe);
+        viaggioTappa.put(tappe, nome);
 
         Log.i("TEST", "profiloNomiTappe: " + profiloNomiTappe);
         Log.i("TEST", "viaggioTappa: " + viaggioTappa);
@@ -237,6 +256,10 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
 
 
+        Log.i("TEST", "Profilo utente corrente in findPlace: " + profiloUtente);
+
+
+
         //Se sono presenti gia i nomi delle tappe non devo riprenderli
         if(profiloNomiTappe.get(p) != null){
 
@@ -259,6 +282,8 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
 
         }
+
+
         Places.GeoDataApi.getPlaceById( mGoogleApiClient, t.getPoi().getCodicePOI() )
                 .setResultCallback(new ResultCallback<PlaceBuffer>() {
 
@@ -336,7 +361,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
 
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("email", email));
+            dataToSend.add(new BasicNameValuePair("email", profiloUtente.getEmail()));
             try {
 
                 HttpClient httpclient = new DefaultHttpClient();
@@ -436,7 +461,10 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
             Log.i("TEST", "lista tappe: " + tappe);
             Log.i("TEST", "lista viaggi: " + nome);
 
-            AggiungiMarkedPointsOnMap(profiloUtenteLoggato,tappe, nome);
+
+            Log.i("TEST", "Profilo utente corrente: " + profiloUtente);
+
+            AggiungiMarkedPointsOnMap(profiloUtente,tappe, nome);
 
             super.onPostExecute(aVoid);
 

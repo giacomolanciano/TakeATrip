@@ -20,7 +20,7 @@ public class InfoActivity extends AppCompatActivity {
     private static final String TAG = "InfoActivity";
 
 
-    private String name, surname, email, date, password, nazionalità, dataToday, sesso, username, lavoro, descrizione, tipo;
+    private String name, surname, email, date, password, nazionalità, dataToday, sesso, username, lavoro, descrizione, tipo,emailEsterno;
     private int year, month, day, yearToday, monthToday, dayToday, eta, etaFinale;
     private TextView viewDate, viewEmail, viewNazionalità, viewEta, viewSesso, viewUsername, viewLavoro, viewDescrizione, viewTipo;
 
@@ -56,6 +56,7 @@ public class InfoActivity extends AppCompatActivity {
             name = intent.getStringExtra("name");
             surname = intent.getStringExtra("surname");
             email = intent.getStringExtra("email");
+            emailEsterno = intent.getStringExtra("emailEsterno");
             date = intent.getStringExtra("dateOfBirth");
             etaFinale = DatesDiff.eta(date, dataToday);
             password = intent.getStringExtra("pwd");
@@ -72,7 +73,7 @@ public class InfoActivity extends AppCompatActivity {
 
 
 
-            if(password == null){
+            if(email == null || (email != null && emailEsterno!= null)){
                 visualizzazioneEsterna = true;
                 buttonEdit.setVisibility(View.INVISIBLE);
 
