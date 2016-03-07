@@ -721,12 +721,6 @@ public class ListaTappeActivity extends AppCompatActivity
         Log.i("TEST", "name: " + placeName);
         Log.i("TEST", "addr: " + placeAddress);
 
-        //posizionare marker su mappa
-//        googleMap.addMarker(new MarkerOptions()
-//                .title(placeName)
-//                .position(placeLatLng));
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), Constants.DEFAULT_ZOOM_MAP));
-
 
         dialog = new Dialog(ListaTappeActivity.this);
         dialog.setContentView(R.layout.info_poi);
@@ -760,22 +754,10 @@ public class ListaTappeActivity extends AppCompatActivity
         window.setAttributes(wlp);
 
 
-
         nameText = (TextView) dialog.findViewById(R.id.POIName);
         addressText = (TextView) dialog.findViewById(R.id.POIAddress);
         nameText.setText(placeName);
         addressText.setText(placeAddress);
-
-
-        //TODO verificare utilità
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialogInterface) {
-                //TODO eliminare solo picker appena inserito
-                //googleMap.clear();
-            }
-        });
-
 
         //setting listener pulsanti dialog
 
@@ -861,7 +843,6 @@ public class ListaTappeActivity extends AppCompatActivity
             ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
-            LayoutInflater inflater = this.getLayoutInflater();
             builder.setItems(R.array.CommandsAddPhotoToStop, new DialogInterface.OnClickListener() {
 
                 public void onClick(DialogInterface dialog, int which) {
@@ -933,7 +914,6 @@ public class ListaTappeActivity extends AppCompatActivity
             ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
-            LayoutInflater inflater = this.getLayoutInflater();
             builder.setItems(R.array.CommandsAddVideoToStop, new DialogInterface.OnClickListener() {
 
                 public void onClick(DialogInterface dialog, int which) {
@@ -1002,59 +982,75 @@ public class ListaTappeActivity extends AppCompatActivity
 
         Log.i("TEST", "add record pressed");
 
-        ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
+        try {
+            final ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
-        LayoutInflater inflater = this.getLayoutInflater();
-        builder.setItems(R.array.CommandsAddVideoToStop, new DialogInterface.OnClickListener() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
+            builder.setItems(R.array.CommandsAddRecordToStop, new DialogInterface.OnClickListener() {
 
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
 
-                    case 0: //pick records
+                        case 0: //pick audio from gallery
 
-                        Intent intentPick = new Intent();
-                        intentPick.setType("record/*");
-                        intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                        intentPick.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intentPick, "Select Record"), Constants.REQUEST_RECORD_PICK);
+                            Intent intentPick = new Intent();
+                            intentPick.setType("audio/*");
+                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                            intentPick.setAction(Intent.ACTION_GET_CONTENT);
+                            startActivityForResult(Intent.createChooser(intentPick,"Select Record"), Constants.REQUEST_IMAGE_PICK);
 
-                        //TODO far diventare immagine blu
+                            //TODO far diventare immagine blu
 
-                        break;
+                            break;
 
-                    case 1: //take a record
-                        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                        if (intent.resolveActivity(getPackageManager()) != null) {
+                        case 1: //take a record
 
-                            File videoFile = null;
-                            try {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
 
-                                videoFile = MultimedialFile.createMediaFile(Constants.VIDEO_FILE);
-
-                            } catch (IOException ex) {
-                                Log.e("TEST", "eccezione nella creazione di file video");
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                builder.setView(R.layout.capture_audio_record);
+                            } else {
+                                //TODO gestire compatibilita con versioni precedenti ad API 21
                             }
 
-                            Log.i("TEST", "creato file video");
+                            AlertDialog dialogRec = builder.create();
 
-                            // Continue only if the File was successfully created
-                            if (videoFile != null) {
-                                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile));
-                                startActivityForResult(intent, Constants.REQUEST_VIDEO_CAPTURE);
+                            final int status = Constants.DEFAULT_STATUS;
+                            FloatingActionButton button = (FloatingActionButton) dialogRec.findViewById(R.id.buttonStartRec);
+                            button.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
 
-                                //TODO far diventare immagine blu
-                            }
-                        }
-                        break;
+                                    FloatingActionButton btn = (FloatingActionButton) view;
 
 
-                    default:
-                        Log.e("TEST", "azione non riconosciuta");
-                        break;
+
+
+                                }
+                            });
+
+
+
+                            dialogRec.show();
+
+                            break;
+
+
+                        default:
+                            Log.e("TEST", "azione non riconosciuta");
+                            break;
+                    }
                 }
-            }
-        });
+            });
+
+
+            // Create the AlertDialog object and return it
+            builder.create().show();
+
+        } catch (Exception e) {
+            Log.e(e.toString().toUpperCase(), e.getMessage());
+        }
+
 
 
         Log.i("TEST", "END add record");

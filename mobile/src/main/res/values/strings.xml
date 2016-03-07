@@ -27,7 +27,6 @@
     <string name="Logout">logout</string>
 
 
-
     <string name="Categoria">Categoria</string>
 
 
@@ -196,6 +195,7 @@
         <item>Choose existing records</item>
         <item>Take a record</item>
     </string-array>
+    <string name="title_activity_audio_record_test">AudioRecordTest</string>
 
 
 </resources>
