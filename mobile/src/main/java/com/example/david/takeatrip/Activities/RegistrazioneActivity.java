@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
@@ -85,6 +86,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
     private EditText campoNuovoLavoro;
     private EditText campoNuovaDescrizione;
     private EditText campoNuovoTipo;
+    private TextView completeProfile;
 
     private String data;
 
@@ -103,7 +105,11 @@ public class  RegistrazioneActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         update = false;
+
+
+
         Intent intent = getIntent();
         if(intent != null){
             nome = intent.getStringExtra("name");
@@ -132,7 +138,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             //TODO: discriminare il login con google
 
 
-            //se contiene i dati, allora puoi procedere con la modifica
+            //sempre soddisfatta la condiziones
             if(email != null){
                 update = true;
 
@@ -149,6 +155,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                 campoNuovaDescrizione = (EditText) findViewById(R.id.InserisciNuovaDescrizione);
                 campoNuovoTipo = (EditText) findViewById(R.id.InserisciNuovoTipo);
 
+                completeProfile = (TextView)findViewById(R.id.completeProfile);
 
 
                 pickerYear = (NumberPicker)findViewById(R.id.pickerYear);
@@ -173,7 +180,8 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
 
                 if(updateProfilo){
-                    btnInvio.setText("SAVE");
+                    completeProfile.setText(R.string.edit_profile);
+                    btnInvio.setText(R.string.SAVE);
                     previousEmail = email;
 
                 }

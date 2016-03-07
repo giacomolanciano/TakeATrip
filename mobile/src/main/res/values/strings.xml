@@ -72,7 +72,7 @@
     <string name="Edit">Edit</string>
 
     <string name="YourTravel">Your Travel</string>
-    <string name="InsertNameTravel">Name of Travel</string>
+    <string name="InsertNameTravel">Travel name</string>
     <string name="Partecipants">Partecipants</string>
     <string name="Stops">Stops</string>
     <string name="Settings">Settings</string>
@@ -141,12 +141,12 @@
     <string name="NuovaPassword">Insert new password</string>
     <string name="ConfermaNuovaPassword">Confirm new password</string>
     <string name="ConfermaPassword">Confirm password</string>
-    <string name="InserisciNuovoUsername">Insert username</string>
-    <string name="InserisciNuovoSesso">Insert sex</string>
-    <string name="InserisciNuovaNazionalita">Insert nationality</string>
-    <string name="InserisciNuovoLavoro">Insert job</string>
-    <string name="InserisciNuovaDescrizione">Insert description</string>
-    <string name="InserisciNuovoTipo">Insert type</string>
+    <string name="InserisciNuovoUsername">Username</string>
+    <string name="InserisciNuovoSesso"> Sex</string>
+    <string name="InserisciNuovaNazionalita">Nationality</string>
+    <string name="InserisciNuovoLavoro">Job</string>
+    <string name="InserisciNuovaDescrizione">Description</string>
+    <string name="InserisciNuovoTipo">Type of traveller</string>
     <string name="title_activity_login2">Sign in</string>
 
     <!-- Strings related to login -->
@@ -196,6 +196,13 @@
         <item>Take a record</item>
     </string-array>
     <string name="title_activity_audio_record_test">AudioRecordTest</string>
+
+
+
+    <string name="complete_profile">Complete your profile</string>
+    <string name="SAVE">SAVE</string>
+    <string name="edit_profile">Edit your profile</string>
+    <string name="Eta">Age</string>
 
 
 </resources>

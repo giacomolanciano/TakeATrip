@@ -16,6 +16,7 @@ import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.GoogleTranslate;
 import com.example.david.takeatrip.Utilities.ViaggioAdapter;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -39,6 +40,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class SearchActivity extends AppCompatActivity {
@@ -46,6 +48,8 @@ public class SearchActivity extends AppCompatActivity {
     private final String ADDRESS = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryNomiUtenti.php";
     private final String ADDRESS_PER_VIAGGI_DA_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryViaggiDiUtente.php";
     private final String ADDRESS_PER_VIAGGI_DA_DESTINAZIONE = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryViaggiDaDestinazione.php";
+
+    private final String API_KEY = "AIzaSyAj4Z5rzBBBXq7jUxUYuXI5pQ6_RR1OUkQ";
 
     private String nomeScelto, cognomeScelto, destination;
     private String emailUtente, emailEserno;
@@ -100,15 +104,9 @@ public class SearchActivity extends AppCompatActivity {
                 }
 
                 String s = place.getName().toString();
-                s = s.toLowerCase();
-                String placeNuovo = s.replace(" ", "_");
 
+                new MyTaskTranslate(s).execute();
 
-                Log.i("TEST", "placeNuovo: " + placeNuovo);
-
-                destination = placeNuovo;
-
-                new myTaskSearchByDestination().execute();
             }
 
             @Override
@@ -120,11 +118,10 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         new MyTask().execute();
-
-
     }
 
 
+    //TODO: search by uername
     public void onClickSearchUser(View v) {
         if(viaggi_profilo.size() != 0 && editTextUser.getText().toString().equals("")){
             viaggi_profilo.clear();
@@ -134,9 +131,6 @@ public class SearchActivity extends AppCompatActivity {
             nomeScelto = nomeSplittato[0];
             cognomeScelto = nomeSplittato[1];
         }
-
-        //Toast.makeText(getBaseContext(), "nome:" + nomeScelto, Toast.LENGTH_LONG).show();
-        //Toast.makeText(getBaseContext(), "cognome:" + cognomeScelto, Toast.LENGTH_LONG).show();
 
         new myTaskSearchByUser().execute();
 
@@ -168,8 +162,6 @@ public class SearchActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adattatore, final View componente, int pos, long id) {
 
                 final Viaggio viaggio = (Viaggio) adattatore.getItemAtPosition(pos);
-                // Toast.makeText(getBaseContext(), "hai cliccato il viaggio: " + viaggio.getNome(), Toast.LENGTH_SHORT).show();
-
 
                 Intent intent = new Intent(SearchActivity.this, ViaggioActivity.class);
                 intent.putExtra("email", emailUtente);
@@ -182,6 +174,58 @@ public class SearchActivity extends AppCompatActivity {
         });
 
     }
+
+
+
+    private class MyTaskTranslate extends AsyncTask<Void, Void, Void> {
+
+        InputStream is = null;
+        String toTranslate;
+        String translated;
+
+        public MyTaskTranslate(String word){
+            toTranslate = word;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                if (InternetConnection.haveInternetConnection(SearchActivity.this)) {
+
+                    Log.i("TEST", "placeNuovo: " + toTranslate);
+
+                    String languageDevice = Locale.getDefault().getLanguage();
+                    GoogleTranslate translate = new GoogleTranslate(API_KEY);
+                    translated = translate.translate(toTranslate, languageDevice, "it");
+
+                    String finalTranslated = translated.toLowerCase();
+                    translated = finalTranslated.replace(" ", "_");
+
+                    Log.i("TEST", "placeNuovo tradotto: " + translated);
+
+                    destination = translated;
+
+
+                } else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(e.toString(), e.getMessage());
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            new myTaskSearchByDestination().execute();
+
+        }
+    }
+
 
 
 
@@ -283,6 +327,9 @@ public class SearchActivity extends AppCompatActivity {
 
 
 
+            //TODO: cercare per username invece che per nome e cognome
+
+
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("nome", nomeScelto));
             dataToSend.add(new BasicNameValuePair("cognome", cognomeScelto));
@@ -371,13 +418,13 @@ public class SearchActivity extends AppCompatActivity {
         Map<Profilo, List<Viaggio>> mappaProvvisoria = new HashMap<Profilo, List<Viaggio>>();
 
 
-
-
         @Override
         protected Void doInBackground(Void... params) {
 
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("destinazione", destination));
+
+            Log.i("TEST", "destinazione: " + destination);
 
             try {
                 if (InternetConnection.haveInternetConnection(SearchActivity.this)) {
@@ -444,8 +491,6 @@ public class SearchActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
-
             Log.i("TEST", "Mappa mappaProvvisoria:" +mappaProvvisoria);
 
             PopolaLista(mappaProvvisoria);
