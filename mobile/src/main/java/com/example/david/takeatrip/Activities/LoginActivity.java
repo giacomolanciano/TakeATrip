@@ -300,13 +300,14 @@ public class LoginActivity extends AppCompatActivity implements
 
         blogin = (LoginButton) findViewById(R.id.LoginButtonFb);
 
+
         /*
         blogin.setReadPermissions("user_friends");
         blogin.setReadPermissions(Arrays.asList("user_status"));
         blogin.setReadPermissions(Arrays.asList("user_photos"));
 */
-        blogin.setPublishPermissions("publish_actions");
 
+        blogin.setPublishPermissions(Arrays.asList("publish_actions"));
         blogin.registerCallback(callbackManager, callback);
 
     }

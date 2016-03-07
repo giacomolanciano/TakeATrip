@@ -176,28 +176,27 @@ public class ViaggioActivity extends AppCompatActivity {
                             //Upload della foto nel db di FB o nel drive di Google
 
 
-
+                            AccessToken accessToken = AccessToken.getCurrentAccessToken();
+                            Log.i("TEST", "permissions: "+ accessToken.getPermissions());
 
                             /*
+
                             Bundle params = new Bundle();
-                            params.putString("name", "My Test Album Name Here");
-                            params.putString("message", "My Test Album Description Here");
+                            params.putString("name","Album di prova");
+                            params.putString("message","messaggio di prova");
                             new GraphRequest(
                                     AccessToken.getCurrentAccessToken(),
-                                    "me/albums",
+                                    "/me/albums",
                                     params,
                                     HttpMethod.POST,
                                     new GraphRequest.Callback() {
                                         public void onCompleted(GraphResponse response) {
-                                            Log.i("TEST", "album generato con id: " + response.toString());
+
+
                                         }
                                     }
                             ).executeAsync();
-
-
                             */
-
-
 /*
                             Bundle params = new Bundle();
                             params.putString("source", bitmap.toString());

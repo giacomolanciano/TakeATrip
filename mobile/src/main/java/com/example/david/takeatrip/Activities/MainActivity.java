@@ -731,42 +731,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //TODO: stringa in inglese
             Toast.makeText(getBaseContext(), "Viaggio creato con successo", Toast.LENGTH_LONG).show();
 
-
-
-            /*
-
-
-            AccessToken accessToken = AccessToken.getCurrentAccessToken();
-            Set<String> permissions = accessToken.getPermissions();
-
-            LoginManager.getInstance();
-            Log.i("TEST", "permissions: " + permissions);
-
-            //Devi settare i permessi per creare l'album
-
-
-            Log.i("TEST", "permissions dopo: " + permissions);
-
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.peru);
-
-            Bundle params = new Bundle();
-            params.putString("name", "My Test Album Name Here");
-            params.putString("message", "My Test Album Description Here");
-            new GraphRequest(
-                    AccessToken.getCurrentAccessToken(),
-                    "me/albums",
-                    params,
-                    HttpMethod.POST,
-                    new GraphRequest.Callback() {
-                        public void onCompleted(GraphResponse response) {
-                            Log.i("TEST", "album generato con id: " + response.toString());
-                        }
-                    }
-            ).executeAsync();
-
-
-*/
-
             /*
             //TODO: fa partire l'activity del Viaggio
             Intent intent = new Intent(MainActivity.this, ViaggioActivity.class);
