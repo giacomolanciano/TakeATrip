@@ -456,7 +456,7 @@
     <string name="LoginError">Incorrect Data</string>
     <string name="LoginWithFb">Login with Facebook</string>
     <string name="LoginWithGoogle">Login with Google</string>
-    <string name="Logout">logout</string>
+    <string name="Logout">Logout</string>
     <string name="Name">Name</string>
     <string name="NuovaPassword">Insert new password</string>
     <string name="Partecipants">Partecipants</string>
@@ -504,6 +504,7 @@
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="auth_google_play_services_client_facebook_display_name">Facebook</string>
     <string name="auth_google_play_services_client_google_display_name">Google</string>
+    <string name="cancel">Cancel</string>
     <string name="cast_notification_connected_message">Connected to <ns1:g id="name">%1$s</ns1:g></string>
     <string name="cast_notification_connecting_message">Connecting to <ns1:g id="name">%1$s</ns1:g></string>
     <string name="cast_notification_disconnect">Disconnect</string>
@@ -568,6 +569,7 @@
     <string name="gcm_defaultSenderId" translatable="false">854482298731</string>
     <string name="google_app_id" translatable="false">1:854482298731:android:36c7cba02e592ed8</string>
     <string name="insert_new_stop">Insert a new stop</string>
+    <string name="labelBeforeCaptureAudio">Register</string>
     <string name="messenger_send_button_text">Send</string>
     <string name="mr_media_route_button_content_description">Cast</string>
     <string name="mr_media_route_chooser_searching">Searching for devices\u2026</string>
@@ -590,7 +592,9 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="search_poi">Search POI</string>
+    <string name="start">Start</string>
     <string name="status_bar_notification_info_overflow">999+</string>
+    <string name="stop">Stop</string>
     <string name="store_picture_message">"Allow Ad to store image in Picture gallery?"</string>
     <string name="store_picture_title">Save image</string>
     <string name="tempMax">Temperatura Massima</string>

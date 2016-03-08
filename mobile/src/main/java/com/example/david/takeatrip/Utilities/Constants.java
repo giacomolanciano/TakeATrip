@@ -63,9 +63,10 @@ public class Constants {
     public static final int LATLNG_BOUNDS_PADDING = 100;
 
 
-    public static final int DEFAULT_STATUS = 1;
-    public static final int AUDIO_RECORDING_STATUS = 2;
-    public static final int DONE_STATUS = 3;
+    public static final int MAX_RECORDING_TIME_IN_MILLISEC = 120000;    //2 MINUTES
+    public static final int ONE_SEC_IN_MILLISEC = 1000;
+
+    public static final String PATH_AUDIO_FILES = "/TakeATrip/audio";
 
 
 

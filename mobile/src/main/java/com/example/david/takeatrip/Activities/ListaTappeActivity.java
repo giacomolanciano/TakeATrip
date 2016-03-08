@@ -3,6 +3,7 @@ package com.example.david.takeatrip.Activities;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
@@ -33,6 +35,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -46,9 +49,11 @@ import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.Tappa;
 import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.AudioRecord;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.MultimedialFile;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
+import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -86,6 +91,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Date;
+import java.text.CollationElementIterator;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -139,17 +145,18 @@ public class ListaTappeActivity extends AppCompatActivity
     private TextView addressText;
 
     private Profilo currentProfile;
-    private List<Place> nomiTappe = new ArrayList<Place>();
-    private List<String> namesStops = new ArrayList<String>();
-    private PolylineOptions polyline = new PolylineOptions()
-            .visible(true)
-            .color(Color.parseColor(Constants.GOOGLE_MAPS_BLUE))
-            .width(Constants.MAP_POLYLINE_THICKNESS)
-            .geodesic(true);
+    private List<Place> nomiTappe;
+    private List<String> namesStops;
+    private PolylineOptions polyline;
 
     private LatLngBounds.Builder mapBoundsBuilder;
     private LatLngBounds mapBounds;
 
+    private boolean isCanceled, isRecordFileCreated;
+    private int progressStatus;
+    private Handler handler;
+    private CollationElementIterator tv;
+    private AudioRecord record;
 
 
 
@@ -167,25 +174,26 @@ public class ListaTappeActivity extends AppCompatActivity
         toggle.syncState();
 
 
-
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         buttonAddStop = (FloatingActionButton) findViewById(R.id.buttonAddStop);
         buttonAddStop.setVisibility(View.INVISIBLE);
         layoutProprietariItinerari = (LinearLayout) findViewById(R.id.layoutProprietariItinerari);
 
-        ViewCaricamentoInCorso = (TextView)findViewById(R.id.TextViewCaricamentoInCorso);
-        ViewNomeViaggio = (TextView)findViewById(R.id.textViewNomeViaggio);
+        ViewCaricamentoInCorso = (TextView) findViewById(R.id.TextViewCaricamentoInCorso);
+        ViewNomeViaggio = (TextView) findViewById(R.id.textViewNomeViaggio);
 
 
+        // ATTENTION: This "addApi(AppIndex.API)"was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
         mGoogleApiClient = new GoogleApiClient
-                .Builder( this )
+                .Builder(this)
                 .addApi(Places.GEO_DATA_API)
                 .addApi(Places.PLACE_DETECTION_API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .enableAutoManage(this, this)
-                .build();
+                .addApi(AppIndex.API).build();
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -198,26 +206,25 @@ public class ListaTappeActivity extends AppCompatActivity
         List<Tappa> listaTappe = new ArrayList<Tappa>();
         List<String> listaNomiTappe = new ArrayList<String>();
         partecipants = new ArrayList<Profilo>();
-        profiloTappe = new HashMap<Profilo,List<Tappa>>();
-        profiloNomiTappe = new HashMap<Profilo,List<Place>>();
-
+        profiloTappe = new HashMap<Profilo, List<Tappa>>();
+        profiloNomiTappe = new HashMap<Profilo, List<Place>>();
 
 
         Intent intent;
-        if((intent = getIntent()) != null){
+        if ((intent = getIntent()) != null) {
             email = intent.getStringExtra("email");
             codiceViaggio = intent.getStringExtra("codiceViaggio");
             nomeViaggio = intent.getStringExtra("nomeViaggio");
             ArrayList<CharSequence> listPartecipants = intent.getCharSequenceArrayListExtra("partecipanti");
 
 
-            Log.i(TAG, "email profilo corrente: " + email+ " email partecipants: " + listPartecipants);
+            Log.i(TAG, "email profilo corrente: " + email + " email partecipants: " + listPartecipants);
 
-            for(CharSequence cs : listPartecipants){
-                Profilo aux = new Profilo(cs.toString(), null,null,null, null, null, null, null, null, null);
+            for (CharSequence cs : listPartecipants) {
+                Profilo aux = new Profilo(cs.toString(), null, null, null, null, null, null, null, null, null);
                 partecipants.add(aux);
 
-                if(email.equals(cs.toString())){
+                if (email.equals(cs.toString())) {
                     proprioViaggio = true;
                     buttonAddStop.setVisibility(View.VISIBLE);
 
@@ -229,7 +236,7 @@ public class ListaTappeActivity extends AppCompatActivity
                 }
             }
 
-            Log.i(TAG, "email profilo corrente: " + email+ " profile partecipants: " + partecipants);
+            Log.i(TAG, "email profilo corrente: " + email + " profile partecipants: " + partecipants);
 
 
         }
@@ -246,6 +253,19 @@ public class ListaTappeActivity extends AppCompatActivity
         arr_images = Constants.privacy_images;
 
 
+        nomiTappe = new ArrayList<Place>();;
+        namesStops = new ArrayList<String>();
+        polyline = new PolylineOptions()
+                .visible(true)
+                .color(Color.parseColor(Constants.GOOGLE_MAPS_BLUE))
+                .width(Constants.MAP_POLYLINE_THICKNESS)
+                .geodesic(true);
+
+
+        isCanceled = false;
+        isRecordFileCreated = false;
+        progressStatus = 0;
+        handler = new Handler();
     }
 
     @Override
@@ -255,16 +275,6 @@ public class ListaTappeActivity extends AppCompatActivity
             mGoogleApiClient.connect();
         }
 
-    }
-
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if(mGoogleApiClient.isConnected()){
-            mGoogleApiClient.disconnect();
-
-        }
     }
 
     @Override
@@ -949,7 +959,8 @@ public class ListaTappeActivity extends AppCompatActivity
         Log.i("TEST", "add video pressed");
 
         try {
-            ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
+            ContextThemeWrapper wrapper = new ContextThemeWrapper(this,
+                    android.R.style.Theme_Material_Light_Dialog);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
             builder.setItems(R.array.CommandsAddVideoToStop, new DialogInterface.OnClickListener() {
@@ -963,7 +974,8 @@ public class ListaTappeActivity extends AppCompatActivity
                             intentPick.setType("video/*");
                             intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                             intentPick.setAction(Intent.ACTION_GET_CONTENT);
-                            startActivityForResult(Intent.createChooser(intentPick,"Select Video"), Constants.REQUEST_IMAGE_PICK);
+                            startActivityForResult(Intent.createChooser(intentPick,"Select Video"),
+                                    Constants.REQUEST_VIDEO_PICK);
 
                             //TODO far diventare immagine blu
 
@@ -1021,7 +1033,8 @@ public class ListaTappeActivity extends AppCompatActivity
         Log.i("TEST", "add record pressed");
 
         try {
-            final ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
+            final ContextThemeWrapper wrapper = new ContextThemeWrapper(this,
+                    android.R.style.Theme_Material_Light_Dialog);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
             builder.setItems(R.array.CommandsAddRecordToStop, new DialogInterface.OnClickListener() {
@@ -1029,13 +1042,14 @@ public class ListaTappeActivity extends AppCompatActivity
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which) {
 
-                        case 0: //pick audio from gallery
+                        case 0: //pick audio from storage
 
                             Intent intentPick = new Intent();
                             intentPick.setType("audio/*");
                             intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                             intentPick.setAction(Intent.ACTION_GET_CONTENT);
-                            startActivityForResult(Intent.createChooser(intentPick,"Select Record"), Constants.REQUEST_IMAGE_PICK);
+                            startActivityForResult(Intent.createChooser(intentPick, "Select Record"),
+                                    Constants.REQUEST_IMAGE_PICK);
 
                             //TODO far diventare immagine blu
 
@@ -1043,33 +1057,149 @@ public class ListaTappeActivity extends AppCompatActivity
 
                         case 1: //take a record
 
-                            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
+                            isCanceled = false;
+                            isRecordFileCreated = false;
+                            progressStatus = 0;
 
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                builder.setView(R.layout.capture_audio_record);
-                            } else {
-                                //TODO gestire compatibilita con versioni precedenti ad API 21
-                            }
 
-                            AlertDialog dialogRec = builder.create();
+                            final ProgressDialog progressDialog = new ProgressDialog(ListaTappeActivity.this);
+                            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                            progressDialog.setMax(Constants.MAX_RECORDING_TIME_IN_MILLISEC);
+                            progressDialog.setTitle(getString(R.string.labelBeforeCaptureAudio));
+                            //progressDialog.setMessage(getString(R.string.labelBeforeCaptureAudio));
+                            progressDialog.setIndeterminate(false);
+                            progressDialog.setCancelable(false);
 
-                            final int status = Constants.DEFAULT_STATUS;
-                            FloatingActionButton button = (FloatingActionButton) dialogRec.findViewById(R.id.buttonStartRec);
-                            button.setOnClickListener(new View.OnClickListener() {
+                            //TODO formattare valore millisecondi per mostrare minuti
+                            //progressDialog.setProgressNumberFormat("%1tL/%2tL");
+                            progressDialog.setProgressNumberFormat(null);
+
+
+                            progressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel),
+                                    new DialogInterface.OnClickListener() {
+                                // Set a click listener for progress dialog cancel button
                                 @Override
-                                public void onClick(View view) {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // dismiss the progress dialog
+                                    progressDialog.dismiss();
+                                    // Tell the system about cancellation
+                                    isCanceled = true;
 
-                                    FloatingActionButton btn = (FloatingActionButton) view;
+                                    if(isRecordFileCreated) {
+
+                                        //TODO cancellare file
+
+                                    }
+
+                                    Log.i("TEST", "progress dialog canceled");
+                                }
+                            });
+
+
+                            DialogInterface.OnClickListener listener = null;
+                            progressDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.start), listener);
+
+
+                            progressDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+                                @Override
+                                public void onShow(DialogInterface dialog) {
+
+                                    final Button b = progressDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                                    b.setOnClickListener(new View.OnClickListener() {
+
+                                        @Override
+                                        public void onClick(View view) {
+
+                                            //TODO viene creato un file in locale, verificare se è utile manterlo
+                                            isRecordFileCreated = true;
+                                            record = new AudioRecord();
+                                            record.startRecording();
+
+                                            b.setText(getString(R.string.stop));
+                                            b.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+
+                                                    isCanceled = true;
+
+                                                    record.stopRecording();
+
+                                                    progressDialog.dismiss();
+
+                                                    //TODO implementare caricamento su db
+
+                                                }
+                                            });
 
 
 
+                                            // Start the lengthy operation in a background thread
+                                            new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    while (progressStatus < progressDialog.getMax()) {
+                                                        // If user's click the cancel button from progress dialog
+                                                        if (isCanceled) {
+                                                            // Stop the operation/loop
 
+                                                            Log.i("TEST", "thread stopped");
+
+                                                            break;
+                                                        }
+                                                        // Update the progress status
+                                                        progressStatus += Constants.ONE_SEC_IN_MILLISEC;
+
+                                                        try {
+                                                            Thread.sleep(Constants.ONE_SEC_IN_MILLISEC);
+                                                        } catch (InterruptedException e) {
+                                                            e.printStackTrace();
+                                                        }
+
+
+                                                        handler.post(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                progressDialog.setProgress(progressStatus);
+
+                                                                if (progressStatus == progressDialog.getMax()) {
+
+                                                                    Log.i("TEST", "thread stopped");
+
+                                                                    record.stopRecording();
+
+                                                                    progressDialog.dismiss();
+
+                                                                    //TODO implementare caricamento su db
+
+                                                                }
+                                                            }
+                                                        });
+
+
+//                                                        progressDialog.setProgress(progressStatus);
+//                                                        //tv.setText(progressStatus + "");
+//                                                        // If task execution completed
+//                                                        if (progressStatus == progressDialog.getMax()) {
+//                                                            // Dismiss/hide the progress dialog
+//                                                            progressDialog.dismiss();
+//                                                            //tv.setText("Operation completed.");
+//                                                        }
+
+
+                                                    }
+                                                }
+                                            }).start();
+
+                                        }
+                                    });
                                 }
                             });
 
 
 
-                            dialogRec.show();
+                            progressDialog.show();
+
 
                             break;
 
@@ -1082,8 +1212,8 @@ public class ListaTappeActivity extends AppCompatActivity
             });
 
 
-            // Create the AlertDialog object and return it
             builder.create().show();
+
 
         } catch (Exception e) {
             Log.e(e.toString().toUpperCase(), e.getMessage());
@@ -1108,9 +1238,12 @@ public class ListaTappeActivity extends AppCompatActivity
     }
 
 
+
+
     private String creaStringaFiltro() {
         return placeName.toLowerCase().replaceAll(" ", "_");
     }
+
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
         private final static int DEFAULT_INT = 0;
