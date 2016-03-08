@@ -120,6 +120,10 @@
             android:name="com.example.david.takeatrip.Activities.AudioRecordTest"
             android:label="@string/title_activity_audio_record_test"
             android:theme="@style/AppTheme" />
+        <activity android:name="com.example.david.takeatrip.Activities.DriveActivity" >
+        </activity>
+        <activity android:name="com.example.david.takeatrip.Activities.CreateFolderActivity" >
+        </activity>
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"

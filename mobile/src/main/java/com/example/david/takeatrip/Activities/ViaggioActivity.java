@@ -173,13 +173,24 @@ public class ViaggioActivity extends AppCompatActivity {
                             //startActivityForResult(intentPick, REQUEST_IMAGE_PICK);
 
 
-                            //Upload della foto nel db di FB o nel drive di Google
+
+                            //Upload della foto nel drive di Google
 
 
+
+
+
+
+
+
+
+
+
+                           /* //Upload della foto nel db di FB
                             AccessToken accessToken = AccessToken.getCurrentAccessToken();
                             Log.i("TEST", "permissions: "+ accessToken.getPermissions());
 
-                            /*
+                            *//*
 
                             Bundle params = new Bundle();
                             params.putString("name","Album di prova");
@@ -196,8 +207,9 @@ public class ViaggioActivity extends AppCompatActivity {
                                         }
                                     }
                             ).executeAsync();
-                            */
-/*
+                            *//*
+
+                            *//*
                             Bundle params = new Bundle();
                             params.putString("source", bitmap.toString());
                             new GraphRequest(

@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -33,6 +34,7 @@ import android.widget.Toast;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatabaseHandler;
 import com.example.david.takeatrip.Utilities.DownloadImageTask;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
@@ -44,6 +46,16 @@ import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.drive.Drive;
+import com.google.android.gms.drive.DriveFolder;
+import com.google.android.gms.drive.MetadataChangeSet;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -70,13 +82,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
 
     private final String ADDRESS = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryNomiUtenti.php";
     private final String ADDRESS_INSERIMENTO_VIAGGIO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoViaggio.php";
     private final String ADDRESS_INSERIMENTO_ITINERARIO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoItinerario.php";
     private final String ADDRESS_INSERIMENTO_FILTRO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoFiltro.php";
+    protected static final int REQUEST_CODE_RESOLUTION = 1;
 
 
 
@@ -92,6 +105,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FrameLayout layoutNewTravel;
     TableLayout table_layout;
     private LinearLayout layoutNewPartecipants;
+
+
+
+    private GoogleApiClient mGoogleApiClient;
+
 
 
     String nomeViaggio, UUIDViaggio, filtro;
@@ -215,17 +233,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
-
 
         AppEventsLogger.activateApp(this);
     }
 
     protected void onPause() {
         super.onPause();
-
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.disconnect();
+        }
         // Logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(this);
     }
@@ -464,6 +484,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
 
     }
+
 
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
@@ -728,27 +749,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            //TODO: stringa in inglese
-            Toast.makeText(getBaseContext(), "Viaggio creato con successo", Toast.LENGTH_LONG).show();
 
-            /*
-            //TODO: fa partire l'activity del Viaggio
-            Intent intent = new Intent(MainActivity.this, ViaggioActivity.class);
-            intent.putExtra("email", email);
-            intent.putExtra("codiceViaggio", UUIDViaggio);
-            intent.putExtra("nomeViaggio", nomeViaggio);
 
+
+            //TODO: creare la folder nel drive per ospitare i contenuti del viaggio
+            Intent intent = new Intent(getBaseContext(), CreateFolderActivity.class);
+            intent.putExtra("nameFolder", nomeViaggio);
+
+            //TODO: far in modo che l'activity non si veda
             startActivity(intent);
 
-            */
+
+            Toast.makeText(getBaseContext(), R.string.created_travel, Toast.LENGTH_LONG).show();
+
             super.onPostExecute(aVoid);
 
         }
     }
-
-
-
-
 
 
 

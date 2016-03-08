@@ -71,7 +71,6 @@ public class LoginActivity extends AppCompatActivity implements
     private final String ADDRESS_VERIFICA_LOGIN = "http://www.musichangman.com/TakeATrip/InserimentoDati/VerificaLogin.php";
     private final String ADDRESS_INSERIMENTO_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoProfilo.php";
     private static final int RC_SIGN_IN = 9001;
-    private static final String WEBAPP_ID   = "854482298731-9maeevj20buep03pjefnvvdq4ch0q19j.apps.googleusercontent.com";
 
     private GoogleApiClient mGoogleApiClient;
     private ProgressDialog mProgressDialog;
@@ -193,9 +192,6 @@ public class LoginActivity extends AppCompatActivity implements
         }
 
 
-
-
-
         //Questi due bottoni servono solo nel caso di login indipendente
         /*
         btnRegistrati=(TextView)findViewById(R.id.Registrati);
@@ -238,11 +234,6 @@ public class LoginActivity extends AppCompatActivity implements
 
         });
 
-*/
-
-
-        /*
-
         //If the user is already registered, then skip this activity (MySqLite)
         DatabaseHandler db = new DatabaseHandler(LoginActivity.this);
         try{
@@ -279,7 +270,7 @@ public class LoginActivity extends AppCompatActivity implements
 
         //TODO: cambiare in fase di release il WEBAPP_ID
         GoogleSignInOptions.Builder builder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN);
-        builder.requestIdToken(WEBAPP_ID);
+        builder.requestIdToken(Constants.WEBAPP_ID);
 
         GoogleSignInOptions gso = builder.build();
 
@@ -359,9 +350,21 @@ public class LoginActivity extends AppCompatActivity implements
 
             Log.i("TEST", "email: " + email + " describeContents: " + describeContents + " dispplayName: " + displayName
                     + " idUser: " + idUser + " tokenId: " + tokenId);
+            password = "pwdGoogle";
 
-            //openMainActivity(email, null,null,null,null,null,null,displayName,null,null,null);
+            if(displayName != null){
+                String [] nameSplitted = displayName.split(" ");
+                if(nameSplitted.length==2){
+                    nome = nameSplitted[0];
+                    cognome = nameSplitted[1];
+                }
+                else{
+                    nome = displayName;
+                }
+            }
 
+
+            new MyTask().execute();
 
         } else {
             // Signed out, show unauthenticated UI.
@@ -592,6 +595,7 @@ public class LoginActivity extends AppCompatActivity implements
 
 */
 
+                Log.i("TEST", "non primo accesso a TakeATrip");
 
                 openMainActivity2(email, nome,cognome,data,password,nazionalita,sesso,username,lavoro,descrizione,tipo);
             }
@@ -696,6 +700,7 @@ public class LoginActivity extends AppCompatActivity implements
         openAccedi.putExtra("descrizione", description);
         openAccedi.putExtra("tipo", type);
         openAccedi.putExtra("profile", profile);
+
 
         startActivity(openAccedi);
 

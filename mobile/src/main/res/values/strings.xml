@@ -203,6 +203,7 @@
     <string name="SAVE">SAVE</string>
     <string name="edit_profile">Edit your profile</string>
     <string name="Eta">Age</string>
+    <string name="created_travel">Trip created successfully</string>
 
 
 </resources>

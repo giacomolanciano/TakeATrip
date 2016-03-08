@@ -52,6 +52,7 @@ public class Constants {
     public static final int HEIGH_LAYOUT_PROPRIETARI_ITINERARI = 80;
     public static final int DEFAULT_ZOOM_MAP = 10;
 
+    public static final String WEBAPP_ID   = "854482298731-9maeevj20buep03pjefnvvdq4ch0q19j.apps.googleusercontent.com";
 
     public static final int VIBRATION_MILLISEC = 100;
 
