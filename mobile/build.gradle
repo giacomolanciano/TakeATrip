@@ -49,6 +49,10 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.0.+'
 
 
+    //per il google translate
+    compile 'com.google.code.gson:gson:2.3'
+
+
 }
 
 apply plugin: 'com.google.gms.google-services'
