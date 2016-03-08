@@ -1177,16 +1177,6 @@ public class ListaTappeActivity extends AppCompatActivity
                                                         });
 
 
-//                                                        progressDialog.setProgress(progressStatus);
-//                                                        //tv.setText(progressStatus + "");
-//                                                        // If task execution completed
-//                                                        if (progressStatus == progressDialog.getMax()) {
-//                                                            // Dismiss/hide the progress dialog
-//                                                            progressDialog.dismiss();
-//                                                            //tv.setText("Operation completed.");
-//                                                        }
-
-
                                                     }
                                                 }
                                             }).start();

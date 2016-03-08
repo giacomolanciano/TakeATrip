@@ -33,7 +33,7 @@ public class AudioRecord  {
         String data = String.format("%d%02d%02d",cYear,cMonth,cDay)
                 + "-" +  String.format("%02d-%02d-%02d", cHour, cMin, cSec);
 
-        mFileName += "/" + data +".mp3";
+        mFileName += "/" + data +".3gp";
     }
 
     public void startPlaying() {
@@ -71,6 +71,7 @@ public class AudioRecord  {
 
     public void stopRecording() {
         mRecorder.stop();
+        mRecorder.reset();    // set state to idle
         mRecorder.release();
         mRecorder = null;
     }
