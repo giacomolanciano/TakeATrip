@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -651,6 +652,43 @@ public class ListaTappeActivity extends AppCompatActivity
                 return;
             }
         }
+
+        googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+
+                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                v.vibrate(Constants.VIBRATION_MILLISEC);
+
+                try {
+                    PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
+
+                    //TODO gestire zoom con LatLngBounds
+                    LatLngBounds bounds = new LatLngBounds(latLng, latLng);
+
+
+                    intentBuilder.setLatLngBounds(bounds);
+                    Intent intentPlacePicker = intentBuilder.build(ListaTappeActivity.this);
+                    // Start the Intent by requesting a result, identified by a request code.
+                    startActivityForResult(intentPlacePicker, Constants.REQUEST_PLACE_PICKER);
+
+
+                } catch (GooglePlayServicesRepairableException e) {
+                    GooglePlayServicesUtil
+                            .getErrorDialog(e.getConnectionStatusCode(), ListaTappeActivity.this, 0);
+
+                    Log.e("TEST", e.toString());
+
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    Toast.makeText(ListaTappeActivity.this, "Google Play Services is not available.",
+                            Toast.LENGTH_LONG)
+                            .show();
+
+                    Log.e("TEST", e.toString());
+                }
+
+            }
+        });
     }
 
 
