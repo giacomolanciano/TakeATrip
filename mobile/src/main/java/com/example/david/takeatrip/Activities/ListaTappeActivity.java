@@ -58,11 +58,13 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -135,6 +137,19 @@ public class ListaTappeActivity extends AppCompatActivity
     private TextView nameText;
     private TextView addressText;
 
+    private Profilo currentProfile;
+    private List<Place> nomiTappe = new ArrayList<Place>();
+    private List<String> namesStops = new ArrayList<String>();
+    private PolylineOptions polyline = new PolylineOptions()
+            .visible(true)
+            .color(Color.parseColor(Constants.GOOGLE_MAPS_BLUE))
+            .width(Constants.MAP_POLYLINE_THICKNESS)
+            .geodesic(true);
+
+    private LatLngBounds.Builder mapBoundsBuilder;
+    private LatLngBounds mapBounds;
+
+
 
 
     @Override
@@ -175,6 +190,8 @@ public class ListaTappeActivity extends AppCompatActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+
+        mapBoundsBuilder = new LatLngBounds.Builder();
 
 
         List<Tappa> listaTappe = new ArrayList<Tappa>();
@@ -476,14 +493,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-    Profilo currentProfile;
-    List<Place> nomiTappe = new ArrayList<Place>();
-    List<String> namesStops = new ArrayList<String>();
-    PolylineOptions polyline = new PolylineOptions()
-            .visible(true)
-            .color(Color.parseColor(Constants.GOOGLE_MAPS_BLUE))
-            .width(12)
-            .geodesic(true);
+
 
     private void AggiungiMarkedPointsOnMap(Profilo p, List<Tappa> tappe) {
         mGoogleApiClient.connect();
@@ -557,6 +567,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
                         if (places.getStatus().isSuccess()) {
                             Place place = places.get(0);
+                            LatLng currentLatLng = place.getLatLng();
                             Log.i("TEST", "nome place: " + place.getName());
 
                             nomiTappe.add(place);
@@ -564,13 +575,16 @@ public class ListaTappeActivity extends AppCompatActivity
                             Log.i("TEST", "aggiunto ai places: " + nomiTappe);
 
 
+                            //add Marker
                             googleMap.addMarker(new MarkerOptions()
                                     .title(place.getName().toString())
-                                    .position(place.getLatLng()));
+                                    .position(currentLatLng));
                             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 5));
 
-                            //traccia linea
-                            polyline.add(place.getLatLng());
+                            polyline.add(currentLatLng);
+
+                            mapBoundsBuilder.include(currentLatLng);
+
 
                             if (nomiTappe.size() == profiloTappe.get(currentProfile).size() && namesStops.size() == nomiTappe.size()) {
 
@@ -581,22 +595,15 @@ public class ListaTappeActivity extends AppCompatActivity
                                 Log.i("TEST", "profiloNomiTappe: " + profiloNomiTappe);
                                 Log.i("TEST", "ho aggiunto i markedPoints di " + currentProfile);
 
-//                                ArrayList<LatLng> auxStops = new ArrayList<LatLng>();
-//                                for(Place p: nomiTappe) {
-//                                    auxStops.add(p.getLatLng());
-//                                }
-//
-//                                Log.i("TEST", "stops: "+auxStops);
-//
-//                                googleMap.addPolyline(new PolylineOptions()
-//                                                .addAll(auxStops)
-//                                                .visible(true)
-//                                                .color(Color.parseColor(Constants.GOOGLE_MAPS_BLUE))
-//                                                .width(12)
-//                                                .geodesic(true)
-//                                );
 
+                                //traccia linea
                                 googleMap.addPolyline(polyline);
+
+                                //update zoom
+                                mapBounds = mapBoundsBuilder.build();
+                                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(mapBounds, Constants.LATLNG_BOUNDS_PADDING);
+                                googleMap.moveCamera(cu);
+
 
                             }
 
@@ -690,6 +697,7 @@ public class ListaTappeActivity extends AppCompatActivity
         Log.i("TEST", "result ordine tappa: " + result);
 
         return result;
+
     }
 
 
@@ -712,12 +720,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
         Log.i("TEST", "name: " + placeName);
         Log.i("TEST", "addr: " + placeAddress);
-
-        //posizionare marker su mappa
-//        googleMap.addMarker(new MarkerOptions()
-//                .title(placeName)
-//                .position(placeLatLng));
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), Constants.DEFAULT_ZOOM_MAP));
 
 
         dialog = new Dialog(ListaTappeActivity.this);
@@ -752,22 +754,10 @@ public class ListaTappeActivity extends AppCompatActivity
         window.setAttributes(wlp);
 
 
-
         nameText = (TextView) dialog.findViewById(R.id.POIName);
         addressText = (TextView) dialog.findViewById(R.id.POIAddress);
         nameText.setText(placeName);
         addressText.setText(placeAddress);
-
-
-        //TODO verificare utilità
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialogInterface) {
-                //TODO eliminare solo picker appena inserito
-                //googleMap.clear();
-            }
-        });
-
 
         //setting listener pulsanti dialog
 
@@ -784,10 +774,23 @@ public class ListaTappeActivity extends AppCompatActivity
                 // per evitare che il filtro venga inserito se la tappa non viene inserita
                 new MyTaskInserimentoFiltro().execute();
 
+
+                //add marker
                 googleMap.addMarker(new MarkerOptions()
                         .title(placeName)
                         .position(placeLatLng));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(addedPlace.getLatLng(), Constants.DEFAULT_ZOOM_MAP));
+
+
+                //update polyline
+                polyline.add(addedPlace.getLatLng());
+                googleMap.addPolyline(polyline);
+
+                //update zoom
+                mapBoundsBuilder.include(addedPlace.getLatLng());
+                mapBounds = mapBoundsBuilder.build();
+                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(mapBounds, Constants.LATLNG_BOUNDS_PADDING);
+                googleMap.moveCamera(cu);
 
 
                 dialog.dismiss();
@@ -831,6 +834,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
     }
 
+
     private void onClickAddImage(View v) {
 
         Log.i("TEST", "add image pressed");
@@ -839,7 +843,6 @@ public class ListaTappeActivity extends AppCompatActivity
             ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
-            LayoutInflater inflater = this.getLayoutInflater();
             builder.setItems(R.array.CommandsAddPhotoToStop, new DialogInterface.OnClickListener() {
 
                 public void onClick(DialogInterface dialog, int which) {
@@ -911,7 +914,6 @@ public class ListaTappeActivity extends AppCompatActivity
             ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
-            LayoutInflater inflater = this.getLayoutInflater();
             builder.setItems(R.array.CommandsAddVideoToStop, new DialogInterface.OnClickListener() {
 
                 public void onClick(DialogInterface dialog, int which) {
@@ -980,59 +982,75 @@ public class ListaTappeActivity extends AppCompatActivity
 
         Log.i("TEST", "add record pressed");
 
-        ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
+        try {
+            final ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
-        LayoutInflater inflater = this.getLayoutInflater();
-        builder.setItems(R.array.CommandsAddVideoToStop, new DialogInterface.OnClickListener() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
+            builder.setItems(R.array.CommandsAddRecordToStop, new DialogInterface.OnClickListener() {
 
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
 
-                    case 0: //pick records
+                        case 0: //pick audio from gallery
 
-                        Intent intentPick = new Intent();
-                        intentPick.setType("video/*");
-                        intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                        intentPick.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intentPick, "Select Video"), Constants.REQUEST_IMAGE_PICK);
+                            Intent intentPick = new Intent();
+                            intentPick.setType("audio/*");
+                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                            intentPick.setAction(Intent.ACTION_GET_CONTENT);
+                            startActivityForResult(Intent.createChooser(intentPick,"Select Record"), Constants.REQUEST_IMAGE_PICK);
 
-                        //TODO far diventare immagine blu
+                            //TODO far diventare immagine blu
 
-                        break;
+                            break;
 
-                    case 1: //take a video
-                        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                        if (intent.resolveActivity(getPackageManager()) != null) {
+                        case 1: //take a record
 
-                            File videoFile = null;
-                            try {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
 
-                                videoFile = MultimedialFile.createMediaFile(Constants.VIDEO_FILE);
-
-                            } catch (IOException ex) {
-                                Log.e("TEST", "eccezione nella creazione di file video");
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                builder.setView(R.layout.capture_audio_record);
+                            } else {
+                                //TODO gestire compatibilita con versioni precedenti ad API 21
                             }
 
-                            Log.i("TEST", "creato file video");
+                            AlertDialog dialogRec = builder.create();
 
-                            // Continue only if the File was successfully created
-                            if (videoFile != null) {
-                                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile));
-                                startActivityForResult(intent, Constants.REQUEST_VIDEO_CAPTURE);
+                            final int status = Constants.DEFAULT_STATUS;
+                            FloatingActionButton button = (FloatingActionButton) dialogRec.findViewById(R.id.buttonStartRec);
+                            button.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
 
-                                //TODO far diventare immagine blu
-                            }
-                        }
-                        break;
+                                    FloatingActionButton btn = (FloatingActionButton) view;
 
 
-                    default:
-                        Log.e("TEST", "azione non riconosciuta");
-                        break;
+
+
+                                }
+                            });
+
+
+
+                            dialogRec.show();
+
+                            break;
+
+
+                        default:
+                            Log.e("TEST", "azione non riconosciuta");
+                            break;
+                    }
                 }
-            }
-        });
+            });
+
+
+            // Create the AlertDialog object and return it
+            builder.create().show();
+
+        } catch (Exception e) {
+            Log.e(e.toString().toUpperCase(), e.getMessage());
+        }
+
 
 
         Log.i("TEST", "END add record");
@@ -1081,7 +1099,7 @@ public class ListaTappeActivity extends AppCompatActivity
                 try {
 
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.ADDRESS_PRELIEVO+ ADDRESS_PRELIEVO_TAPPE);
+                    HttpPost httppost = new HttpPost(Constants.ADDRESS_PRELIEVO + ADDRESS_PRELIEVO_TAPPE);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
 
@@ -1218,7 +1236,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
             }
 
-            ordine = calcolaNumUltimaTappaUtenteCorrente();
+            ordine = calcolaNumUltimaTappaUtenteCorrente()+1;
 
 
 

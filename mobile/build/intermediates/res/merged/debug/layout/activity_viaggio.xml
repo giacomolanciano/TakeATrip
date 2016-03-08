@@ -115,7 +115,7 @@
                             android:layout_height="wrap_content"
                             android:paddingTop="@dimen/activity_vertical_margin"
                             android:textSize="24dp"
-                            android:text="@string/Photos"
+                            android:text="Photos and Videos"
                             android:layout_gravity="left"/>
 
 

@@ -589,6 +589,7 @@
     <string name="store_picture_title">Save image</string>
     <string name="tempMax">Temperatura Massima</string>
     <string name="tempMin">Temperatura Minima</string>
+    <string name="title_activity_audio_record_test">AudioRecordTest</string>
     <string name="title_activity_categoria">CategoriaActivity</string>
     <string name="title_activity_destination_selection">DestinationSelectionActivity</string>
     <string name="title_activity_lista_tappe">ListaTappeActivity</string>

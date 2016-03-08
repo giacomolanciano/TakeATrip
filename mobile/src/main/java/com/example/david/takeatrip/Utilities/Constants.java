@@ -22,7 +22,6 @@ public class Constants {
     public static final int TRAVEL_PRIVACY = 1;
     public static final int STOP_PRIVACY = 2;
     public static final int CUSTOM_PRIVACY = 3;
-
     public static int[] privacy_images = {R.drawable.ic_public_black_36dp, R.drawable.ic_people_black_36dp,
             R.drawable.ic_person_pin_circle_black_36dp, R.drawable.ic_settings_black_36dp};
 
@@ -40,7 +39,8 @@ public class Constants {
     public static final int REQUEST_PLACE_PICKER = 5;
     public static final int REQUEST_VIDEO_CAPTURE = 6;
     public static final int REQUEST_VIDEO_PICK = 7;
-
+    public static final int REQUEST_RECORD_CAPTURE = 8;
+    public static final int REQUEST_RECORD_PICK = 9;
 
 
     //TODO assicurarsi che tutti i codici tipoFile siano univoci
@@ -48,17 +48,23 @@ public class Constants {
     public static final int VIDEO_FILE = 2;
 
 
-
     public static final int WIDTH_LAYOUT_PROPRIETARI_ITINERARI = 20;
     public static final int HEIGH_LAYOUT_PROPRIETARI_ITINERARI = 80;
-
     public static final int DEFAULT_ZOOM_MAP = 10;
 
 
     public static final int VIBRATION_MILLISEC = 100;
 
 
+    //MAPS
+    public static final int MAP_POLYLINE_THICKNESS = 12;
     public static final String GOOGLE_MAPS_BLUE = "#05b1fb";
+    public static final int LATLNG_BOUNDS_PADDING = 100;
+
+
+    public static final int DEFAULT_STATUS = 1;
+    public static final int AUDIO_RECORDING_STATUS = 2;
+    public static final int DONE_STATUS = 3;
 
 
 
