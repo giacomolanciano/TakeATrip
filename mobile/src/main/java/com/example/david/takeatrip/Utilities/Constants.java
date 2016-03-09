@@ -66,6 +66,9 @@ public class Constants {
     public static final int MAX_RECORDING_TIME_IN_MILLISEC = 120000;    //2 MINUTES
     public static final int ONE_SEC_IN_MILLISEC = 1000;
 
+    //TODO verificare il valore corretto
+    public static final int NOTE_MAX_LENGTH = 1000;
+
     public static final String PATH_AUDIO_FILES = "/TakeATrip/audio";
 
 

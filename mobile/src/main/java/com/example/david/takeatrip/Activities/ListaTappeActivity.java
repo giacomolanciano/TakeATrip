@@ -23,7 +23,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
@@ -36,6 +38,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -1221,6 +1224,68 @@ public class ListaTappeActivity extends AppCompatActivity
         Log.i("TEST", "add note pressed");
 
 
+        try {
+            ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder.setView(R.layout.material_edit_text);
+            } else {
+                //TODO gestire compatiilità con versioni precedenti
+
+                Log.i("TEST", "versione SDK < 21");
+            }
+
+            AlertDialog dialog = builder.create();
+
+//            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel),
+//                    new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//
+//                            Log.i("TEST", "edit text dialog canceled");
+//                        }
+//                    });
+
+            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.ok),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            //TODO caricare dati su db
+
+                            Log.i("TEST", "edit text confirmed");
+                        }
+                    });
+
+
+            EditText et = (EditText) dialog.findViewById(R.id.editText);
+            final TextView counter = (TextView) dialog.findViewById(R.id.counter);
+
+            et.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int aft) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    // this will show characters remaining
+                    counter.setText(Constants.NOTE_MAX_LENGTH - s.toString().length()
+                            + "/"+ Constants.NOTE_MAX_LENGTH);
+                }
+            });
+
+
+            dialog.show();
+
+        } catch (Exception e) {
+            Log.e(e.toString().toUpperCase(), e.getMessage());
+        }
 
 
         Log.i("TEST", "END add note");
