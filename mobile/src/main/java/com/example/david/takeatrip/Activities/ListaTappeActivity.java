@@ -24,6 +24,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -1237,21 +1238,19 @@ public class ListaTappeActivity extends AppCompatActivity
                 Log.i("TEST", "versione SDK < 21");
             }
 
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            builder.setTitle(getString(R.string.labelNote));
 
+            builder.setNegativeButton(getString(R.string.cancel),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
 
-//            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel),
-//                    new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-//
-//                            Log.i("TEST", "edit text dialog canceled");
-//                        }
-//                    });
+                            Log.i("TEST", "edit text dialog canceled");
+                        }
+                    });
 
-            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.ok),
+            builder.setPositiveButton(getString(R.string.ok),
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -1263,8 +1262,20 @@ public class ListaTappeActivity extends AppCompatActivity
                     });
 
 
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+
             EditText et = (EditText) dialog.findViewById(R.id.editText);
+            et.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Constants.NOTE_MAX_LENGTH)});
+
+            //TODO impostare scrollview dialog in maniera che il counter non venga nascosto
+
+            //TextView label = (TextView) dialog.findViewById(R.id.label);
+            //label.setText(getString(R.string.labelNote));
+
             final TextView counter = (TextView) dialog.findViewById(R.id.counter);
+            counter.setText(Constants.NOTE_MAX_LENGTH + "/" + Constants.NOTE_MAX_LENGTH);
 
             et.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -1278,8 +1289,15 @@ public class ListaTappeActivity extends AppCompatActivity
                 @Override
                 public void afterTextChanged(Editable s) {
                     // this will show characters remaining
-                    counter.setText(Constants.NOTE_MAX_LENGTH - s.toString().length()
-                            + "/" + Constants.NOTE_MAX_LENGTH);
+                    int remainingChar = Constants.NOTE_MAX_LENGTH - s.toString().length();
+
+                    counter.setText(remainingChar + "/" + Constants.NOTE_MAX_LENGTH);
+
+                    if (remainingChar == 0) {
+                        counter.setTextColor(Color.RED);
+                    } else {
+                        counter.setTextColor(Color.GRAY);
+                    }
                 }
             });
 

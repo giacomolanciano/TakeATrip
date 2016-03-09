@@ -7,18 +7,18 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     >
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="label"
-        android:id="@+id/label"
-        />
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="label"-->
+        <!--android:id="@+id/label"-->
+        <!--/>-->
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editText"
-        />
+        android:nestedScrollingEnabled="true" />
 
     <TextView
         android:layout_width="match_parent"

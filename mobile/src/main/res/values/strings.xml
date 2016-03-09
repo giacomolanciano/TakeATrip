@@ -212,5 +212,7 @@
     <string name="cancel">Cancel</string>
     <string name="ok">Ok</string>
 
+    <string name="labelNote">Insert note</string>
+
 
 </resources>

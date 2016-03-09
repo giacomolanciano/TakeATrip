@@ -117,9 +117,6 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        
-        <activity android:name="com.example.david.takeatrip.Activities.DriveActivity" >
-        </activity>
         <activity android:name="com.example.david.takeatrip.Activities.CreateFolderActivity" >
         </activity>
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->

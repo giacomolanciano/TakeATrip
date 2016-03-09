@@ -570,6 +570,7 @@
     <string name="google_app_id" translatable="false">1:854482298731:android:36c7cba02e592ed8</string>
     <string name="insert_new_stop">Insert a new stop</string>
     <string name="labelBeforeCaptureAudio">Register</string>
+    <string name="labelNote">Insert note</string>
     <string name="messenger_send_button_text">Send</string>
     <string name="mr_media_route_button_content_description">Cast</string>
     <string name="mr_media_route_chooser_searching">Searching for devices\u2026</string>
