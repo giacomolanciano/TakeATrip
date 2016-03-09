@@ -1228,6 +1228,7 @@ public class ListaTappeActivity extends AppCompatActivity
             ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 builder.setView(R.layout.material_edit_text);
             } else {
@@ -1237,6 +1238,8 @@ public class ListaTappeActivity extends AppCompatActivity
             }
 
             AlertDialog dialog = builder.create();
+            dialog.show();
+
 
 //            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel),
 //                    new DialogInterface.OnClickListener() {
@@ -1276,12 +1279,11 @@ public class ListaTappeActivity extends AppCompatActivity
                 public void afterTextChanged(Editable s) {
                     // this will show characters remaining
                     counter.setText(Constants.NOTE_MAX_LENGTH - s.toString().length()
-                            + "/"+ Constants.NOTE_MAX_LENGTH);
+                            + "/" + Constants.NOTE_MAX_LENGTH);
                 }
             });
 
 
-            dialog.show();
 
         } catch (Exception e) {
             Log.e(e.toString().toUpperCase(), e.getMessage());
