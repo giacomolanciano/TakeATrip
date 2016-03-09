@@ -27,7 +27,7 @@ public class Constants {
 
 
     //php files
-    public static final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/";
+    public static final String PREFIX_ADDRESS = "http://www.musichangman.com/TakeATrip/InserimentoDati/";
     public static final String ERROR_TAPPA_NON_INSERITA = "";
 
 
@@ -70,6 +70,9 @@ public class Constants {
     public static final int NOTE_MAX_LENGTH = 1000;
 
     public static final String PATH_AUDIO_FILES = "/TakeATrip/audio";
+
+    public static final int QUALITY_PHOTO = 30;
+
 
 
 

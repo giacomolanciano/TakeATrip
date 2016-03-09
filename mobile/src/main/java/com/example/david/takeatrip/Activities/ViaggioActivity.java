@@ -40,6 +40,7 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
+import com.google.android.gms.drive.DriveId;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -99,6 +100,8 @@ public class ViaggioActivity extends AppCompatActivity {
     private LinearLayout layoutPartecipants;
     private LinearLayout rowHorizontal;
 
+    private DriveId idFolder;
+
 
 
     @Override
@@ -110,6 +113,10 @@ public class ViaggioActivity extends AppCompatActivity {
             email = intent.getStringExtra("email");
             codiceViaggio = intent.getStringExtra("codiceViaggio");
             nomeViaggio = intent.getStringExtra("nomeViaggio");
+            idFolder = intent.getParcelableExtra("idFolder");
+
+            Log.i("TEST"+ TAG+": ", "email: " +email +"codiceViaggio: "+ codiceViaggio + "nomeViaggio: " + nomeViaggio +"id Cartella Viaggio: " + idFolder);
+
         }
 
         listPartecipants = new ArrayList<Profilo>();

@@ -1345,7 +1345,7 @@ public class ListaTappeActivity extends AppCompatActivity
                 try {
 
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.ADDRESS_PRELIEVO + ADDRESS_PRELIEVO_TAPPE);
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_PRELIEVO_TAPPE);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
 
@@ -1533,7 +1533,7 @@ public class ListaTappeActivity extends AppCompatActivity
                     Log.i("CONNESSIONE Internet", "Presente!");
 
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.ADDRESS_PRELIEVO + ADDRESS_INSERIMENTO_TAPPA);
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_TAPPA);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
 
                     HttpResponse response = httpclient.execute(httppost);
@@ -1626,7 +1626,7 @@ public class ListaTappeActivity extends AppCompatActivity
                     Log.i("CONNESSIONE Internet", "Presente!");
 
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.ADDRESS_PRELIEVO + ADDRESS_INSERIMENTO_FILTRO);
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_FILTRO);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
 
                     HttpResponse response = httpclient.execute(httppost);

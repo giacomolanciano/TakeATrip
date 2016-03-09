@@ -2,18 +2,16 @@ package com.example.david.takeatrip.Activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ContentResolver;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -24,38 +22,27 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
+import com.example.david.takeatrip.Utilities.RetrieveImage;
+import com.example.david.takeatrip.Classes.TakeATrip;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatabaseHandler;
 import com.example.david.takeatrip.Utilities.DownloadImageTask;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
-import com.facebook.login.LoginBehavior;
-import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.drive.Drive;
-import com.google.android.gms.drive.DriveFolder;
-import com.google.android.gms.drive.MetadataChangeSet;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.drive.DriveId;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -66,21 +53,18 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -89,8 +73,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final String ADDRESS_INSERIMENTO_VIAGGIO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoViaggio.php";
     private final String ADDRESS_INSERIMENTO_ITINERARIO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoItinerario.php";
     private final String ADDRESS_INSERIMENTO_FILTRO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoFiltro.php";
-    protected static final int REQUEST_CODE_RESOLUTION = 1;
 
+    private static final int REQUEST_FOLDER = 123;
+    private static final int REQUEST_IMAGE_PROFILE = 124;
+    private static final int REQUEST_COVER_IMAGE = 125;
 
 
     private final int LIMIT_IMAGES_VIEWS = 6;
@@ -98,19 +84,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private String name, surname, email, nazionalità, sesso, username, lavoro, descrizione, tipo;
     private String date, password;
-
     private String emailEsterno;
 
     private ImageView imageViewProfileRound;
-    private FrameLayout layoutNewTravel;
-    TableLayout table_layout;
+
     private LinearLayout layoutNewPartecipants;
-
-
-
-    private GoogleApiClient mGoogleApiClient;
-
-
 
     String nomeViaggio, UUIDViaggio, filtro;
     AutoCompleteTextView text;
@@ -119,11 +97,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Profilo myProfile;
 
     EditText editTextNameTravel;
-
     Bitmap imageProfile = null;
-
-
+    Bitmap coverImage = null;
     Profile profile;
+    private DriveId idFolderTAT, idImmagineCopertina, idImageProfile;
+
+
+    private ProgressDialog mProgressDialog;
+
+
+    private GoogleApiClient googleApiClient;
 
 
     @Override
@@ -131,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(getIntent() != null){
+        if(getIntent() != null) {
             Intent intent = getIntent();
             name = intent.getStringExtra("name");
             surname = intent.getStringExtra("surname");
@@ -153,9 +136,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageViewProfileRound = (ImageView)findViewById(R.id.imageView_round);
 
 
+        new MyTask().execute();
+        new MyTaskIDFolder(this,email).execute();
+        new MyTaskIDProfileImage(this,email).execute();
+        new MyTaskIDCoverImage(this,email).execute();
+
+
+
         if(profile != null){
-
-
             Log.i("TEST", profile.getProfilePictureUri(150, 150).toString());
             final Uri image_uri = profile.getProfilePictureUri(150, 150);
 
@@ -174,52 +162,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
-            /*
-
-            AccessToken accessToken = AccessToken.getCurrentAccessToken();
-            GraphRequest request = GraphRequest.newMeRequest(
-                    accessToken,
-                    new GraphRequest.GraphJSONObjectCallback() {
-                        @Override
-                        public void onCompleted(
-                                JSONObject object,
-                                GraphResponse response) {
-                            try {
-
-
-                                Log.i("TEST",  response.toString());
-                                JSONObject picture =  object.getJSONObject("picture");
-                                JSONObject data =  picture.getJSONObject("data");
-                                String url_image = data.getString("url");
-
-
-                                //URL newurl = new URL(url_image);
-                                DownloadImageTask task = new DownloadImageTask(imageViewProfileRound);
-                                task.execute(url_image);
-
-                                imageProfile = ((BitmapDrawable)imageViewProfileRound.getDrawable()).getBitmap();
-                                Log.i("TEST", "bitmap image profile: " + imageProfile);
-
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-
-                        }
-                    });
-            Bundle parameters = new Bundle();
-            parameters.putString("fields", "id,name,link,picture");
-            request.setParameters(parameters);
-            request.executeAsync();
-
-            //imageViewProfileRound.setImageDrawable(drawable);
-
-            */
-
-
+        }
+        else{
+            if(sesso != null && sesso.equals("M")){
+                imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_male));
+            }
+            else if (sesso != null && sesso.equals("F")){
+                imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_female));
+            }
         }
 
         names = new ArrayList<String>();
@@ -229,8 +179,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         myProfile = new Profilo(email, name, surname,date, password, nazionalità, sesso, username, lavoro, descrizione);
 
-        new MyTask().execute();
-
     }
 
 
@@ -238,18 +186,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
 
+        TakeATrip TAT = ((TakeATrip) getApplicationContext());
+        googleApiClient = TAT.getGoogleApiClient();
+        googleApiClient.connect();
         AppEventsLogger.activateApp(this);
     }
 
     protected void onPause() {
         super.onPause();
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.disconnect();
-        }
         // Logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(this);
     }
-
 
 
 
@@ -268,7 +215,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         openProfilo.putExtra("descrizione", descrizione);
         openProfilo.putExtra("tipo", tipo);
         openProfilo.putExtra("profile", profile);
-
+        openProfilo.putExtra("idFolder", idFolderTAT);
+        openProfilo.putExtra("idImageProfile",idImageProfile);
+        openProfilo.putExtra("coverImage",idImmagineCopertina);
 
         // passo all'attivazione dell'activity
         startActivity(openProfilo);
@@ -386,13 +335,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     tv.setText(text.getText().toString());
 
                     String s = text.getText().toString();
-                    String name = s.split(" ")[0];
-                    String surname = s.split(" ")[1];
+                    Log.i("TEST", "partecipante selezionato: " + s);
+
+
+                    String usernameUtenteSelezionato = s.substring(s.indexOf('(')+1, s.indexOf(')'));
+                    Log.i("TEST", "username selezionato: " + usernameUtenteSelezionato);
+
+
                     for(Profilo p : profiles){
 
-
-                        //TODO: se si mette l'username è univoca la ricerca per utente
-                        if(p.getName().equals(name) && p.getSurname().equals(surname)){
+                        if(p.getUsername().equals(usernameUtenteSelezionato)){
                             if(!partecipants.contains(p)){
 
                                 if(partecipants.size()%LIMIT_IMAGES_VIEWS == 0){
@@ -407,6 +359,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 final ImageView image = new RoundedImageView(MainActivity.this, null);
                                 image.setContentDescription(p.getEmail());
+
+
+
 
                                 //TODO: mettere le immagini dei partecipanti
                                 image.setImageResource(R.drawable.logodef);
@@ -460,14 +415,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 db.deleteContact(myProfile);
                             }
                             else{
+
+                                /*
                                 if(LoginManager.getInstance() != null){
                                     Log.d("TEST", "Log out from facebook: ..");
 
                                     LoginManager.getInstance().logOut();
+                                    startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                                    finish();
+                                }else{
+                                    LoginActivity loginActivity = new LoginActivity();
+                                    loginActivity.GoogleLogOut(MainActivity.this);
+                                }*/
+
+
+                                Log.d("TEST", "Log out from google con apiClient: " + googleApiClient);
+
+                                if(!googleApiClient.isConnected()) {
+                                    googleApiClient.connect();
+                                }
+                                else{
+                                    Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
+                                            new ResultCallback<Status>() {
+                                                @Override
+                                                public void onResult(Status status) {
+                                                    Log.d("TEST", "Status: " + status);
+                                                    if(status.isSuccess()){
+                                                        startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                                                    }
+
+                                                }
+                                            });
                                 }
                             }
-                            startActivity(new Intent(MainActivity.this,LoginActivity.class));
-                            finish();
+
                             break;
                     }
                 }
@@ -524,13 +505,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if(jArray != null && result != null){
                                 for(int i=0;i<jArray.length();i++){
                                     JSONObject json_data = jArray.getJSONObject(i);
-                                    String nomeUtente = json_data.getString("nome").toString();
-                                    String cognomeUtente = json_data.getString("cognome").toString();
-                                    String emailUtente = json_data.getString("email").toString();
+                                    String nomeUtente = json_data.getString("nome");
+                                    String cognomeUtente = json_data.getString("cognome");
+                                    String emailUtente = json_data.getString("email");
+                                    String username = json_data.getString("username");
 
-                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, null, null, null, null, null);
+
+                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, null, username, null, null, null);
                                     profiles.add(p);
-                                    stringaFinale = nomeUtente + " " + cognomeUtente;
+                                    stringaFinale = nomeUtente + " " + cognomeUtente + "\n" + "("+username+")";
                                     names.add(stringaFinale);
                                 }
                             }
@@ -751,13 +734,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
 
-
+            //é stato creato tutto il viaggio, ora associo al viaggio la cartella sul drive
             //TODO: creare la folder nel drive per ospitare i contenuti del viaggio
             Intent intent = new Intent(getBaseContext(), CreateFolderActivity.class);
             intent.putExtra("nameFolder", nomeViaggio);
 
+
+            //TODO: deve essere modificata con gli id delle cartelle di tutti i partecipanti al viaggio
+            intent.putExtra("idFolder", idFolderTAT);
+
             //TODO: far in modo che l'activity non si veda
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_FOLDER);
+
 
 
             Toast.makeText(getBaseContext(), R.string.created_travel, Toast.LENGTH_LONG).show();
@@ -767,6 +755,383 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+
+
+
+
+    private class MyTaskFolder extends AsyncTask<Void, Void, Void> {
+
+        private final String ADDRESS_INSERT_FOLDER = "InserimentoCartella.php";
+
+        InputStream is = null;
+        String emailUser, idTravel,result;
+        String nomeCartella;
+        DriveId idFolder;
+        Context context;
+
+        public MyTaskFolder(Context c, String emailUtente, String idT, DriveId id, String n){
+            context  = c;
+            emailUser = emailUtente;
+            idTravel = idT;
+            idFolder = id;
+            nomeCartella = n;
+        }
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("emailUtente", emailUser));
+            dataToSend.add(new BasicNameValuePair("codiceViaggio", idTravel));
+            dataToSend.add(new BasicNameValuePair("codiceCartella", idFolder+""));
+            dataToSend.add(new BasicNameValuePair("nomeCartella", nomeCartella));
+
+            try {
+                if (InternetConnection.haveInternetConnection(context)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERT_FOLDER);
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                    HttpResponse response = httpclient.execute(httppost);
+
+                    HttpEntity entity = response.getEntity();
+
+                    is = entity.getContent();
+
+                    if (is != null) {
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+
+
+                        } catch (Exception e) {
+                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
+                        }
+                    }
+                    else {
+                        Log.i("TEST", "Input Stream uguale a null");
+                    }
+                }
+                else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(e.toString(),e.getMessage());
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Log.i("TEST", "risultato operazione di inserimento cartella nel DB:" + result);
+            if(!result.equals("OK")){
+                //Non è stata creata una cartella per ospitare il viaggio
+                //new MyTaskFolder().execute();
+            }
+
+            Intent intent = new Intent(MainActivity.this, ViaggioActivity.class);
+            intent.putExtra("email",emailUser);
+            intent.putExtra("codiceViaggio", idTravel);
+            intent.putExtra("nomeViaggio", nomeViaggio);
+            intent.putExtra("idFolder", idFolder);
+
+
+
+            startActivity(intent);
+            finish();
+
+            super.onPostExecute(aVoid);
+
+        }
+    }
+
+
+    private class MyTaskIDFolder extends AsyncTask<Void, Void, Void> {
+
+        private final String ADDRESS_QUERY_FOLDER = "QueryDriveIDCartella.php";
+
+        InputStream is = null;
+        String emailUser, idTravel,result;
+        String nomeCartella;
+        DriveId idFolder;
+        Context context;
+
+        public MyTaskIDFolder(Context c, String emailUtente){
+            context  = c;
+            emailUser = emailUtente;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("email", emailUser));
+
+            try {
+                if (InternetConnection.haveInternetConnection(context)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+                    HttpClient httpclient = new DefaultHttpClient();
+
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_QUERY_FOLDER);
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                    HttpResponse response = httpclient.execute(httppost);
+                    HttpEntity entity = response.getEntity();
+                    is = entity.getContent();
+
+                    if (is != null) {
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+
+                            JSONArray jArray = new JSONArray(result);
+
+                            if(jArray != null && result != null){
+                                for(int i=0;i<jArray.length();i++){
+                                    JSONObject json_data = jArray.getJSONObject(i);
+                                    idFolderTAT = DriveId.decodeFromString(json_data.getString("codiceCartella"));
+                                }
+                            }
+                        } catch (Exception e) {
+                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
+                        }
+                    }
+                    else {
+                        Log.i("TEST", "Input Stream uguale a null");
+                    }
+                }
+                else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(e.toString(),e.getMessage());
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            Log.i("TEST", "Prelevato id cartella di default: " +idFolderTAT);
+
+            super.onPostExecute(aVoid);
+
+        }
+    }
+
+
+
+    private class MyTaskIDProfileImage extends AsyncTask<Void, Void, Void> {
+
+        private final String ADDRESS_QUERY_PROFILE_IMAGE = "QueryDriveIDImmagineProfilo.php";
+
+        InputStream is = null;
+        String emailUser, idTravel,result;
+        String nomeCartella;
+        DriveId idFolder;
+        Context context;
+
+        public MyTaskIDProfileImage(Context c, String emailUtente){
+            context  = c;
+            emailUser = emailUtente;
+        }
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("email", emailUser));
+
+            try {
+                if (InternetConnection.haveInternetConnection(context)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+                    HttpClient httpclient = new DefaultHttpClient();
+
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_QUERY_PROFILE_IMAGE);
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                    HttpResponse response = httpclient.execute(httppost);
+                    HttpEntity entity = response.getEntity();
+                    is = entity.getContent();
+
+                    if (is != null) {
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+
+                            JSONArray jArray = new JSONArray(result);
+
+                            if(jArray != null && result != null){
+                                for(int i=0;i<jArray.length();i++){
+                                    JSONObject json_data = jArray.getJSONObject(i);
+                                    idImageProfile = DriveId.decodeFromString(json_data.getString("idImmagineProfilo"));
+                                }
+                            }
+                        } catch (Exception e) {
+                            result = "ERRORE";
+                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
+                        }
+                    }
+                    else {
+                        Log.i("TEST", "Input Stream uguale a null");
+                    }
+                }
+                else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(e.toString(),e.getMessage());
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Log.i("TEST", "risultato dal prelievo dell'id imm profilo: " + result);
+            if(!result.equals("ERRORE")){
+                new RetrieveImage(MainActivity.this,imageViewProfileRound,idImageProfile).execute();
+            }
+        }
+    }
+
+
+    private class MyTaskIDCoverImage extends AsyncTask<Void, Void, Void> {
+
+        private final String ADDRESS_QUERY_COVER_IMAGE = "QueryDriveIDImmagineCopertina.php";
+
+        InputStream is = null;
+        String emailUser, idTravel,result;
+        String nomeCartella;
+        DriveId idFolder;
+        Context context;
+
+        public MyTaskIDCoverImage(Context c, String emailUtente){
+            context  = c;
+            emailUser = emailUtente;
+        }
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("email", emailUser));
+            try {
+                if (InternetConnection.haveInternetConnection(context)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+                    HttpClient httpclient = new DefaultHttpClient();
+
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_QUERY_COVER_IMAGE);
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                    HttpResponse response = httpclient.execute(httppost);
+                    HttpEntity entity = response.getEntity();
+                    is = entity.getContent();
+
+                    if (is != null) {
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+
+                            JSONArray jArray = new JSONArray(result);
+
+                            if(jArray != null && result != null){
+                                for(int i=0;i<jArray.length();i++){
+                                    JSONObject json_data = jArray.getJSONObject(i);
+                                    idImmagineCopertina = DriveId.decodeFromString(json_data.getString("idImmagine"));
+                                }
+                            }
+                        } catch (Exception e) {
+                            result = "ERRORE";
+                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
+                        }
+                    }
+                    else {
+                        Log.i("TEST", "Input Stream uguale a null");
+                    }
+                }
+                else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(e.toString(),e.getMessage());
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Log.i("TEST", "risultato dal prelievo dell'id imm copertina: " + idImmagineCopertina);
+            super.onPostExecute(aVoid);
+        }
+    }
+
+
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_FOLDER){
+            if(resultCode == RESULT_OK) {
+                String idTravel = UUIDViaggio;
+                DriveId idFolder = data.getParcelableExtra("idFolder");
+                String nameFolder = data.getStringExtra("nameFolder");
+
+                Log.i("TEST", "Ricevuto l'id della cartella: " + idFolder);
+                Log.i("TEST", "Ricevuto il nome della cartella: " + nameFolder);
+
+
+                MyTaskFolder myTaskFolder = new MyTaskFolder(this, email, idTravel, idFolder, nameFolder);
+                myTaskFolder.execute();
+            }
+
+        }
+        else if (requestCode == REQUEST_IMAGE_PROFILE){
+            Bitmap image = null;
+            byte[] bytes = data.getByteArrayExtra("bitmapImage");
+            if(bytes != null){
+                image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            }
+
+            imageProfile = image;
+            imageViewProfileRound.setImageBitmap(image);
+
+        }
+        else if (requestCode == REQUEST_COVER_IMAGE){
+            Bitmap image = null;
+            byte[] bytes = data.getByteArrayExtra("bitmapImage");
+            if(bytes != null){
+                image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            }
+            coverImage = image;
+        }
+    }
 
 
 }

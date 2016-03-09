@@ -93,7 +93,7 @@
                             android:layout_width="70dp"
                             android:layout_height="70dp"
                             android:layout_gravity="right"
-                            android:src="@drawable/logodef"
+                            android:src="@drawable/default_male"
                             android:onClick="ClickImageProfile"/>
 
                     </LinearLayout>

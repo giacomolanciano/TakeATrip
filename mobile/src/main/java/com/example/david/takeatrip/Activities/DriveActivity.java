@@ -1,5 +1,8 @@
 package com.example.david.takeatrip.Activities;
 
+import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -10,10 +13,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.david.takeatrip.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.drive.Drive;
+import com.google.android.gms.drive.DriveId;
+import com.google.android.gms.drive.MetadataChangeSet;
 
 /**
  * An abstract activity that handles authorization and connection to the Drive
@@ -62,23 +68,88 @@ public abstract class DriveActivity extends Activity implements
     private GoogleApiClient mGoogleApiClient;
 
     private String nameFolder;
+    private String urlFolder;
+    private String primaCartella;
+    private String nomeFile;
+    private String mimeType;
 
+    private DriveId idFolder;
+    private MetadataChangeSet metadataChangeSet;
+    private Bitmap image;
+
+    private ProgressDialog mProgressDialog;
 
     public String getNameFolder(){
         return nameFolder;
+    }
+
+    public DriveId getIdFolder() {
+        return idFolder;
+    }
+
+    public String getUrlFolder() {
+        return urlFolder;
+    }
+
+    public String getPrimaCartella() {
+        return primaCartella;
+    }
+
+    public String getNomeFile() {
+        return nomeFile;
+    }
+
+    public String getMimeType() {
+        return mimeType;
+    }
+
+
+    public MetadataChangeSet getMetadataChangeSet() {
+        return metadataChangeSet;
+    }
+
+    public Bitmap getImage() {
+        return image;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        this.setTheme(R.style.CustomDialog);
+
+
         Intent intent = getIntent();
         if(intent != null){
             nameFolder = intent.getStringExtra("nameFolder");
+            idFolder = intent.getParcelableExtra("idFolder");
+            urlFolder = intent.getStringExtra("urlFolder");
+            primaCartella = intent.getStringExtra("firstFolder");
+            nomeFile = intent.getStringExtra("nameFile");
+            mimeType = intent.getStringExtra("mimeType");
+            metadataChangeSet = intent.getParcelableExtra("metadata");
+            byte[] bytes = intent.getByteArrayExtra("image");
+            if(bytes != null){
+                image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            }
+
 
             Log.i(TAG,"nome cartella viaggio: " + nameFolder);
+            Log.i(TAG,"id cartella viaggio: " + idFolder);
+            Log.i(TAG,"url cartella viaggio: " + urlFolder);
+            Log.i(TAG,"è prima cartella viaggio: " + primaCartella);
+            Log.i(TAG,"nome file: " + nomeFile);
+            Log.i(TAG,"mymeType file: " + mimeType);
+            Log.i(TAG,"metadata file: " + metadataChangeSet);
+            Log.i(TAG,"image file: " + image);
+
+
+
 
         }
+
+        showProgressDialog();
     }
 
     /**
@@ -178,5 +249,24 @@ public abstract class DriveActivity extends Activity implements
      */
     public GoogleApiClient getGoogleApiClient() {
         return mGoogleApiClient;
+    }
+
+
+
+
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
     }
 }

@@ -12,14 +12,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
-import com.example.david.takeatrip.Classes.Profilo;
+import com.example.david.takeatrip.Classes.TakeATrip;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
-import com.example.david.takeatrip.Utilities.DatabaseHandler;
-import com.example.david.takeatrip.Utilities.PasswordHashing;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -28,9 +25,6 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
-import com.facebook.internal.LoginAuthorizationType;
-import com.facebook.login.LoginBehavior;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -59,8 +53,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -82,11 +74,13 @@ public class LoginActivity extends AppCompatActivity implements
     private EditText campoEmail, campoPassword;
     private String email, password, nome, cognome, data, nazionalita, sesso, username, lavoro, descrizione, tipo;
 
+
     LoginButton blogin;
     AccessToken accessToken;
     AccessTokenTracker tracker;
     ProfileTracker profileTracker;
     Profile profile;
+
 
     private CallbackManager callbackManager;
 
@@ -141,6 +135,9 @@ public class LoginActivity extends AppCompatActivity implements
             Log.e(e.toString().toUpperCase(), e.getMessage());
         }
     };
+
+
+
 
 
 
@@ -279,6 +276,12 @@ public class LoginActivity extends AppCompatActivity implements
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+
+
+
+
+
+
         signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setScopes(gso.getScopeArray());
         signInButton.setOnClickListener(this);
@@ -317,13 +320,12 @@ public class LoginActivity extends AppCompatActivity implements
                 mGoogleApiClient.connect();
             }
 
-
-
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             Log.i("TEST", "result: " + result.toString());
             handleSignInResult(result);
         }
-        else{
+        else {
+
         }
 
     }
@@ -337,6 +339,8 @@ public class LoginActivity extends AppCompatActivity implements
             // Signed in successfully, show authenticated UI.
             Log.i("TEST", "result success!!!");
 
+            TakeATrip TAT = ((TakeATrip) getApplicationContext());
+            TAT.setmGoogleApiClient(mGoogleApiClient);
 
             GoogleSignInAccount acct = result.getSignInAccount();
 
@@ -565,7 +569,6 @@ public class LoginActivity extends AppCompatActivity implements
                 //Non presente ancora nel DB -> primo accesso a TakeATrip
                 openMainActivity(email, nome, cognome, data, password, nazionalita, sesso, username, lavoro, descrizione, tipo);
                 Log.i("TEST", "primo accesso a TakeATrip");
-                //Toast.makeText(getBaseContext(), getResources().getString(R.string.LoginError), Toast.LENGTH_LONG).show();
             }
             else{
 /*
@@ -596,13 +599,30 @@ public class LoginActivity extends AppCompatActivity implements
 */
 
                 Log.i("TEST", "non primo accesso a TakeATrip");
-
-                openMainActivity2(email, nome,cognome,data,password,nazionalita,sesso,username,lavoro,descrizione,tipo);
+                openMainActivity2(email, nome, cognome, data, password, nazionalita, sesso, username, lavoro, descrizione, tipo);
             }
             super.onPostExecute(aVoid);
 
         }
+
+
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*
@@ -659,6 +679,8 @@ public class LoginActivity extends AppCompatActivity implements
 
 
     */
+
+
 
 
 
