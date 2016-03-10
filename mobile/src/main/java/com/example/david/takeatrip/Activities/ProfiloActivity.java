@@ -413,10 +413,9 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                             //TODO
 
                             break;
-                        case 1: //change cover image
+                        case 1:
                             Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                             startActivityForResult(intentPick, Constants.REQUEST_COVER_IMAGE_PICK);
-
                             break;
 
                         case 2:  //take a photo
@@ -425,9 +424,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                                 File photoFile = null;
                                 try {
-
                                     photoFile = createImageFile();
-
                                 } catch (IOException ex) {
                                     Log.e("TEST", "eccezione nella creazione di file immagine");
                                 }
@@ -448,8 +445,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 }
             });
 
-
-            // Create the AlertDialog object and return it
             builder.create().show();
 
         } catch (Exception e) {
@@ -476,39 +471,13 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 try {
                     Bitmap bitmap;
                     BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-
-
-
                     bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
                             bitmapOptions);
                     Log.i("TEST", "path file immagine: " + f.getAbsolutePath());
 
-
-
-
                     UploadImageTask task = new UploadImageTask(this, bitmap, Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
                     task.delegate = this;
                     task.execute();
-
-                    imageProfile.setImageBitmap(bitmap);
-
-
-                    /*
-                    Intent intent1 = new Intent(ProfiloActivity.this, UploadFileDrive.class);
-
-                    //DriveId folderID = DriveId.decodeFromString("DriveId:CAESABjuPSDm-rDq-lMoAQ==");
-                    intent1.putExtra("idFolder", idFolder);
-                    intent1.putExtra("nameFile", imageFileName);
-
-
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, QUALITY_OF_IMAGE, stream);
-                    byte[] bytes = stream.toByteArray();
-                    intent1.putExtra("image",bytes);
-
-                    startActivityForResult(intent1, REQUEST_UPLOAD_PROFILE_IMAGE);
-                    */
-
 
                     imageProfile.setImageBitmap(bitmap);
 
@@ -580,23 +549,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     Drawable d = new BitmapDrawable(getResources(), bitmap);
                     layoutCoverImage.setBackground(d);
 
-
-/*
-                    Intent intent1 = new Intent(ProfiloActivity.this, UploadFileDrive.class);
-                    intent1.putExtra("idFolder", idFolder);
-                    intent1.putExtra("nameFile", imageFileName);
-
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, QUALITY_OF_IMAGE, stream);
-                    byte[] bytes = stream.toByteArray();
-                    intent1.putExtra("image",bytes);
-
-                    startActivityForResult(intent1, REQUEST_UPLOAD_COVER_IMAGE);
-
-                    Drawable d = new BitmapDrawable(getResources(), bitmap);
-                    layoutCoverImage.setBackground(d);
-                    */
-
                     String path = android.os.Environment.getExternalStorageDirectory().toString();
                     f.delete();
 
@@ -637,47 +589,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                 Drawable d = new BitmapDrawable(getResources(), thumbnail);
                 layoutCoverImage.setBackground(d);
-
-
-
-                /*
-
-                Intent intent1 = new Intent(ProfiloActivity.this, UploadFileDrive.class);
-
-                //DriveId folderID = DriveId.decodeFromString("DriveId:CAESABjuPSDm-rDq-lMoAQ==");
-                intent1.putExtra("idFolder", idFolder);
-                intent1.putExtra("nameFile", imageFileName);
-
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                thumbnail.compress(Bitmap.CompressFormat.PNG, QUALITY_OF_IMAGE, stream);
-                byte[] bytes = stream.toByteArray();
-                intent1.putExtra("image",bytes);
-
-                startActivityForResult(intent1, REQUEST_UPLOAD_COVER_IMAGE);
-
-                Drawable d = new BitmapDrawable(getResources(), thumbnail);
-                layoutCoverImage.setBackground(d);
-
-                */
-
-            }
-
-
-            else if(requestCode == REQUEST_UPLOAD_PROFILE_IMAGE){
-                if(resultCode == RESULT_OK){
-                    DriveId idFile = (DriveId)data.getParcelableExtra("idFile");
-                    new MyTaskInsertImageProfile(this,email,idFile).execute();
-                }
-
-            }
-
-            else if(requestCode == REQUEST_UPLOAD_COVER_IMAGE){
-                if(resultCode == RESULT_OK){
-                    DriveId idFile = (DriveId)data.getParcelableExtra("idFile");
-                    new MyTaskInsertCoverimage(this,email,idFile).execute();
-
-                }
-
             }
         }
     }
