@@ -201,7 +201,6 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
     public boolean onMarkerClick(Marker arg0) {
       /*  Intent i = new Intent(this, ViaggioActivity.class);
         i.putExtra("email", email);
-
         startActivity(i);*/
         return false;
     }
@@ -266,15 +265,12 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
             /*
             googleMap.clear();
-
-
             for(Place place : profiloNomiTappe.get(p)){
                 googleMap.addMarker(new MarkerOptions()
                         .title(place.getName().toString())
                         .position(place.getLatLng()));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 5));
             }
-
             */
 
             return;
@@ -471,4 +467,3 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
     }
 
 }
-

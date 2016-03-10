@@ -139,22 +139,21 @@ public class SearchActivity extends AppCompatActivity {
 
 
     private void PopolaLista(Map<Profilo, List<Viaggio>> p_v){
-        List<Viaggio> result = new ArrayList<Viaggio>();
+        ArrayList<Viaggio> result = new ArrayList<Viaggio>();
         for(Profilo p : p_v.keySet()){
             for(Viaggio v: p_v.get(p)){
                 if(result.contains(v)){
                     continue;
                 }
                 else{
-                    result.addAll(p_v.get(p));
+                    result.addAll(p_v.get(p));}
 
-                }
             }
         }
 
         Log.i("TEST", "result:" + result);
 
-        final ViaggioAdapter adapter = new ViaggioAdapter(this,R.layout.entry_travels_listview, result);
+        final ViaggioAdapter adapter = new ViaggioAdapter(this, R.layout.entry_travels_listview, result);
         lista.setAdapter(adapter);
 
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {

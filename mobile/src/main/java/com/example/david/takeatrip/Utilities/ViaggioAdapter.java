@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,10 +21,10 @@ import java.util.List;
  */
 public class ViaggioAdapter extends ArrayAdapter<Viaggio> {
     private ListView listView;
-    private List<Viaggio> travelsList;
+    private ArrayList<Viaggio>travelsList;
     private Context context;
 
-    public ViaggioAdapter(Context context, int resource, List<Viaggio> objects) {
+    public ViaggioAdapter(Context context, int resource, ArrayList<Viaggio> objects) {
         super(context, resource, objects);
         travelsList = objects;
         this.context = context;
