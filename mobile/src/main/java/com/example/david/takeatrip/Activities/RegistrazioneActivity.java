@@ -57,14 +57,14 @@ public class  RegistrazioneActivity extends AppCompatActivity {
     private boolean updateProfilo = false;
 
     private Calendar calendar = Calendar.getInstance();
-    private int cDay = calendar.get(Calendar.DAY_OF_MONTH);
-    private int cMonth = calendar.get(Calendar.MONTH) + 1;
+    //private int cDay = calendar.get(Calendar.DAY_OF_MONTH);
+    //private int cMonth = calendar.get(Calendar.MONTH) + 1;
     private int cYear = calendar.get(Calendar.YEAR);
 
     private final int YEAR_MAX_PICKER = cYear;
     private final int YEAR_MIN_PICKER = 1900;
     private final int YEAR_DEFAULT_PICKER = 1900;
-    private final int MONTH_MAX_PICKER = cMonth;
+    private final int MONTH_MAX_PICKER = 12;
     private final int MONTH_MIN_PICKER = 1;
     private final int MONTH_DEFAULT_PICKER = 1;
     private final int DAY_MAX_PICKER = 31;

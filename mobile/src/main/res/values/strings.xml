@@ -218,5 +218,9 @@
 
     <string name="labelNote">Insert note</string>
 
+    <string name="PhotosAndVideos">Photos and Videos</string>
+    <string name="Records">Records</string>
+    <string name="Notes">Notes</string>
+
 
 </resources>
