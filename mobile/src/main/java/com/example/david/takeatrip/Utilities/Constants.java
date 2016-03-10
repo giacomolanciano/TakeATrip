@@ -27,7 +27,7 @@ public class Constants {
 
 
     //php files
-    public static final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/";
+    public static final String PREFIX_ADDRESS = "http://www.musichangman.com/TakeATrip/InserimentoDati/";
     public static final String ERROR_TAPPA_NON_INSERITA = "";
 
 
@@ -63,9 +63,20 @@ public class Constants {
     public static final int LATLNG_BOUNDS_PADDING = 100;
 
 
-    public static final int DEFAULT_STATUS = 1;
-    public static final int AUDIO_RECORDING_STATUS = 2;
-    public static final int DONE_STATUS = 3;
+    public static final int MAX_RECORDING_TIME_IN_MILLISEC = 120000;    //2 MINUTES
+    public static final int ONE_SEC_IN_MILLISEC = 1000;
+
+    //TODO verificare il valore corretto
+    public static final int NOTE_MAX_LENGTH = 1000;
+
+    public static final String PATH_AUDIO_FILES = "/TakeATrip/audio";
+
+    public static final int QUALITY_PHOTO = 30;
+
+
+    public  static final String NAME_IMAGES_PROFILE_DEFAULT = "Image_ProfileTAT";
+    public  static final String NAME_IMAGES_COVER_DEFAULT = "Cover_ImageTAT";
+
 
 
 

@@ -24,7 +24,7 @@
     <string name="Register">Register</string>
     <string name="LoginWithFb">Login with Facebook</string>
     <string name="LoginWithGoogle">Login with Google</string>
-    <string name="Logout">logout</string>
+    <string name="Logout">Logout</string>
 
 
     <string name="Categoria">Categoria</string>
@@ -198,12 +198,25 @@
     <string name="title_activity_audio_record_test">AudioRecordTest</string>
 
 
-
-    <string name="complete_profile">Complete your profile</string>
+    <string name="completeProfile">Complete your profile</string>
     <string name="SAVE">SAVE</string>
     <string name="edit_profile">Edit your profile</string>
     <string name="Eta">Age</string>
     <string name="created_travel">Trip created successfully</string>
+
+
+    <string name="labelBeforeCaptureAudio">Register</string>
+
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
+    <string name="Male">M</string>
+    <string name="Female">F</string>
+    <string name="sexIncorrect">Attention! \n Incorrect sex</string>
+    <string name="incorrectUsername">Attention! \nIncorrect username!</string>
+
+    <string name="labelNote">Insert note</string>
 
 
 </resources>

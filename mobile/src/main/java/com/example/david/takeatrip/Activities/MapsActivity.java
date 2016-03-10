@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.Itinerario;
 import com.example.david.takeatrip.Classes.POI;
@@ -365,7 +364,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
             try {
 
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost(Constants.ADDRESS_PRELIEVO + ADDRESS_PRELIEVO);
+                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_PRELIEVO);
                 httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                 HttpResponse response = httpclient.execute(httppost);
 

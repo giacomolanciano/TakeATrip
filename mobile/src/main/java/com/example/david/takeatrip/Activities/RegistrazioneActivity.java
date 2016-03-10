@@ -1,5 +1,7 @@
 package com.example.david.takeatrip.Activities;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -16,8 +19,10 @@ import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.PasswordHashing;
 import com.facebook.Profile;
+import com.google.android.gms.drive.DriveId;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -46,6 +51,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
     private final String ADDRESS_UPDATE_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/UpdateProfilo.php";
     private final String ADDRESS_VERIFICA_LOGIN = "http://www.musichangman.com/TakeATrip/InserimentoDati/VerificaLogin.php";
 
+    private static final int REQUEST_FOLDER = 123;
 
     private boolean update, passwordModificata, loginFB, loginGoogle;
     private boolean updateProfilo = false;
@@ -87,11 +93,17 @@ public class  RegistrazioneActivity extends AppCompatActivity {
     private EditText campoNuovaDescrizione;
     private EditText campoNuovoTipo;
     private TextView completeProfile;
+    private ProgressDialog mProgressDialog;
+
+    private CheckBox campoMale;
+    private CheckBox campoFemale;
+
 
     private String data;
 
     private String nome, cognome, email, password, confermaPassword, vecchiaPassword, nuovaPassword, confermaNuovaPassword,  nazionalita, sesso, username, lavoro, descrizione, tipo;
     private String previousEmail, provieneDa;
+    private boolean cartellaCreata = false;
 
     private Profile profile;
 
@@ -149,7 +161,8 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                 //campoNuovaPassword = (EditText) findViewById(R.id.NuovaPassword);
                 //campoConfermaNuovaPassword = (EditText) findViewById(R.id.ConfermaNuovaPassword);
                 campoNuovoUsername = (EditText) findViewById(R.id.InserisciNuovoUsername);
-                campoNuovoSesso = (EditText) findViewById(R.id.InserisciNuovoSesso);
+                campoMale = (CheckBox) findViewById(R.id.checkBoxMale);
+                campoFemale = (CheckBox) findViewById(R.id.checkBoxFemale);
                 campoNuovaNazionalita = (EditText) findViewById(R.id.InserisciNuovaNazionalita);
                 campoNuovoLavoro = (EditText) findViewById(R.id.InserisciNuovoLavoro);
                 campoNuovaDescrizione = (EditText) findViewById(R.id.InserisciNuovaDescrizione);
@@ -229,7 +242,12 @@ public class  RegistrazioneActivity extends AppCompatActivity {
         if(update) {
             campoNome.setText(nome);
             campoCognome.setText(cognome);
-            campoNuovoSesso.setText(sesso);
+            if(sesso != null && sesso.equals("M")){
+                campoMale.setChecked(true);
+            }
+            else if (sesso != null && sesso.equals("F")){
+                campoFemale.setChecked(true);
+            }
             campoNuovaNazionalita.setText(nazionalita);
             campoNuovoLavoro.setText(lavoro);
             campoNuovaDescrizione.setText(descrizione);
@@ -315,7 +333,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                     nome = campoNome.getText().toString();
                     cognome = campoCognome.getText().toString();
                     username = campoNuovoUsername.getText().toString();
-                    sesso = campoNuovoSesso.getText().toString();
+                    //sesso = campoNuovoSesso.getText().toString();
                     nazionalita = campoNuovaNazionalita.getText().toString();
                     lavoro = campoNuovoLavoro.getText().toString();
                     descrizione = campoNuovaDescrizione.getText().toString();
@@ -339,11 +357,20 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
 
                         if(username == null || username.equals("")){
-
-                            //TODO: tradurre in stringa
-                            Toast.makeText(getBaseContext(), "Attenzione! \nUsername non inserito!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(), R.string.incorrectUsername, Toast.LENGTH_LONG).show();
+                        }
+                        else if(campoMale.isChecked() && campoFemale.isChecked() ||
+                                (!campoMale.isChecked() && !campoFemale.isChecked())){
+                            Toast.makeText(getBaseContext(), R.string.sexIncorrect, Toast.LENGTH_LONG).show();
                         }
                         else{
+                            if(campoMale.isChecked()){
+                                sesso = campoMale.getText().toString();
+                            }
+                            else{
+                                sesso = campoFemale.getText().toString();
+                            }
+
                             new MyTask().execute();
 
 
@@ -453,8 +480,27 @@ public class  RegistrazioneActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if(requestCode == REQUEST_FOLDER){
+            if(resultCode == RESULT_OK) {
+                String idTravel = "folderTakeATrip";
+                DriveId idFolder = data.getParcelableExtra("idFolder");
+                String nameFolder = data.getStringExtra("nameFolder");
 
+                Log.i("TEST", "Ricevuto l'id della cartella: " + idFolder);
+                Log.i("TEST", "Ricevuto il nome della cartella: " + nameFolder);
+
+                cartellaCreata = true;
+
+                MyTaskFolder myTaskFolder = new MyTaskFolder(this, email, idTravel, idFolder, nameFolder);
+                myTaskFolder.execute();
+            }
+
+        }
+    }
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
 
@@ -561,23 +607,17 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), "Username already used", Toast.LENGTH_LONG).show();
             }
             else{
-                Log.i("TEST", "username corretto, ora aggiungo gli itinerari");
-                Intent openProfilo = new Intent(RegistrazioneActivity.this, MainActivity.class);
-                openProfilo.putExtra("name", nome);
-                openProfilo.putExtra("surname", cognome);
-                openProfilo.putExtra("email", email);
-                openProfilo.putExtra("dateOfBirth", data);
-                openProfilo.putExtra("pwd", password);
-                openProfilo.putExtra("nazionalita", nazionalita);
-                openProfilo.putExtra("sesso", sesso);
-                openProfilo.putExtra("username", username);
-                openProfilo.putExtra("lavoro", lavoro);
-                openProfilo.putExtra("descrizione", descrizione);
-                openProfilo.putExtra("tipo", tipo);
-                openProfilo.putExtra("profile", profile);
 
 
-                startActivity(openProfilo);
+                //Creo cartella nel drive per ospitare i viaggi dell'utente
+                if(!cartellaCreata){
+                    Intent intent = new Intent(getBaseContext(), CreateFolderActivity.class);
+                    intent.putExtra("nameFolder", "TakeATrip");
+                    intent.putExtra("firstFolder", "YES");
+
+                    startActivityForResult(intent, REQUEST_FOLDER);
+                }
+
             }
 
 
@@ -603,16 +643,10 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                 }
             }
             else{
-
-
                 DatabaseHandler db = new DatabaseHandler(RegistrazioneActivity.this);
                 // Inserting Users
                 Log.d("Update: ", "Updating ..");
-
-
                 db.addUser(new Profilo(email, nome, cognome, data, nazionalita, sesso, username, lavoro, descrizione, tipo), password);
-
-
                 /*
                 if(passwordModificata)
                     db.updateContact(new Profilo(email, nome, cognome, data, nazionalita, sesso, username, lavoro, descrizione, tipo), nuovaPassword);
@@ -620,7 +654,6 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                     db.updateContact(new Profilo(email, nome, cognome, data, nazionalita, sesso, username, lavoro, descrizione, tipo), password);
 */
                 /*
-
                 // Reading all contacts
                 Log.d("Reading: ", "Reading all contacts..");
                 List<Profilo> contacts = db.getAllContacts();
@@ -637,6 +670,121 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
         }
     }
+
+
+    private class MyTaskFolder extends AsyncTask<Void, Void, Void> {
+
+        private final String ADDRESS_INSERT_FOLDER = "InserimentoCartella.php";
+
+
+
+        InputStream is = null;
+        String emailUser, idTravel,result;
+        String nomeCartella;
+        DriveId idFolder;
+        Context context;
+
+        public MyTaskFolder(Context c, String emailUtente, String idT, DriveId id, String n){
+            context  = c;
+            emailUser = emailUtente;
+            idTravel = idT;
+            idFolder = id;
+            nomeCartella = n;
+        }
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("emailUtente", emailUser));
+            dataToSend.add(new BasicNameValuePair("codiceViaggio", idTravel));
+            dataToSend.add(new BasicNameValuePair("codiceCartella", idFolder+""));
+            dataToSend.add(new BasicNameValuePair("nomeCartella", nomeCartella));
+
+            try {
+                if (InternetConnection.haveInternetConnection(context)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERT_FOLDER);
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                    HttpResponse response = httpclient.execute(httppost);
+
+                    HttpEntity entity = response.getEntity();
+
+                    is = entity.getContent();
+
+                    if (is != null) {
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+
+
+                        } catch (Exception e) {
+                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
+                        }
+                    }
+                    else {
+                        Log.i("TEST", "Input Stream uguale a null");
+                    }
+                }
+                else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(e.toString(),e.getMessage());
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+
+            Log.i("TEST", "risultato operazione di inserimento cartella nel DB:" + result);
+            if(!result.equals("OK")){
+                //Non è stata creata una cartella per ospitare il viaggio
+                //new MyTaskFolder().execute();
+            }
+
+            Intent openProfilo = new Intent(RegistrazioneActivity.this, MainActivity.class);
+            openProfilo.putExtra("name", nome);
+            openProfilo.putExtra("surname", cognome);
+            openProfilo.putExtra("email", email);
+            openProfilo.putExtra("dateOfBirth", data);
+            openProfilo.putExtra("pwd", password);
+            openProfilo.putExtra("nazionalita", nazionalita);
+            openProfilo.putExtra("sesso", sesso);
+            openProfilo.putExtra("username", username);
+            openProfilo.putExtra("lavoro", lavoro);
+            openProfilo.putExtra("descrizione", descrizione);
+            openProfilo.putExtra("tipo", tipo);
+            openProfilo.putExtra("profile", profile);
+
+            startActivity(openProfilo);
+            finish();
+
+            super.onPostExecute(aVoid);
+
+        }
+    }
+
+
+
+
+
+
+
+
 
 
 

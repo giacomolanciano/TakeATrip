@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:2:1-117:12
+ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:2:1-115:12
 	package
 		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:3:5-42
 		INJECTED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml
@@ -67,43 +67,43 @@ ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManife
 	android:name
 		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:12:22-63
 uses-permission#android.permission.RECORD_AUDIO
-ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:14:5-71
+ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:13:5-71
 	android:name
-		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:14:22-68
+		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:13:22-68
 uses-feature#android.hardware.camera
-ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:16:5-18:36
+ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:15:5-17:36
 	android:required
-		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:18:9-33
+		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:17:9-33
 	android:name
-		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:17:9-47
+		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:16:9-47
 permission#com.arshad.map.permission.MAPS_RECEIVE
-ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:21:5-23:47
+ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:20:5-22:47
 	android:protectionLevel
-		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:23:9-44
+		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:22:9-44
 	android:name
-		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:22:9-62
+		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:21:9-62
 uses-permission#android.permission.GET_ACCOUNTS
+ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:25:5-71
+	android:name
+		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:25:22-68
+uses-permission#android.permission.READ_PROFILE
 ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:26:5-71
 	android:name
 		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:26:22-68
-uses-permission#android.permission.READ_PROFILE
-ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:27:5-71
-	android:name
-		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:27:22-68
 uses-permission#android.permission.READ_CONTACTS
-ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:28:5-72
+ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:27:5-72
 	android:name
-		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:28:22-69
+		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:27:22-69
 provider#com.facebook.FacebookContentProvider
-ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:30:5-33:35
+ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:29:5-32:35
 	android:authorities
-		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:32:9-87
+		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:31:9-87
 	android:exported
-		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:33:9-32
+		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:32:9-32
 	android:name
-		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:31:9-60
+		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:30:9-60
 application
-ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:35:5-115:19
+ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:34:5-113:19
 MERGED from [com.android.support:appcompat-v7:23.0.1] /Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.0.1] /Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services:8.4.0] /Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services/8.4.0/AndroidManifest.xml:19:5-20
@@ -223,6 +223,8 @@ MERGED from [com.android.support:support-v4:23.0.1] /Users/lucagiacomelli/Deskto
 		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:37:9-41
 	android:theme
 		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:39:9-40
+	android:name
+		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:35:9-42
 meta-data#com.google.android.gms.version
 ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:40:9-42:69
 MERGED from [com.google.android.gms:play-services-basement:8.4.0] /Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/AndroidManifest.xml:21:9-23:69
@@ -398,22 +400,18 @@ ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManife
 		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:106:13-72
 	android:name
 		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:103:13-57
-activity#com.example.david.takeatrip.Activities.AudioRecordTest
-ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:107:9-110:47
-	android:label
-		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:109:13-69
-	android:theme
-		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:110:13-44
+activity#com.example.david.takeatrip.Activities.CreateFolderActivity
+ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:107:9-108:20
 	android:name
-		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:108:13-55
-activity#com.example.david.takeatrip.Activities.DriveActivity
+		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:107:19-66
+activity#com.example.david.takeatrip.Activities.UploadFileDrive
+ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:109:9-110:20
+	android:name
+		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:109:19-61
+activity#com.example.david.takeatrip.Utilities.RetrieveImageTask
 ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:111:9-112:20
 	android:name
-		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:111:19-59
-activity#com.example.david.takeatrip.Activities.CreateFolderActivity
-ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:113:9-114:20
-	android:name
-		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:113:19-66
+		ADDED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml:111:19-62
 uses-sdk
 INJECTED from /Users/lucagiacomelli/Desktop/TakeATrip/mobile/src/main/AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:23.0.1] /Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/AndroidManifest.xml:20:5-43

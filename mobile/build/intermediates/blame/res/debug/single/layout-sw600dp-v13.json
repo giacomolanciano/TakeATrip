@@ -1,5 +1,17 @@
 [
     {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout-sw600dp-v13\\design_layout_snackbar.xml",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.0.1\\res\\layout-sw600dp\\design_layout_snackbar.xml"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout-sw600dp-v13\\design_layout_snackbar.xml",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.0.1\\res\\layout-sw600dp\\design_layout_snackbar.xml"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout-sw600dp-v13\\design_layout_snackbar.xml",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.0.1\\res\\layout-sw600dp\\design_layout_snackbar.xml"
+    },
+    {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/res/merged/debug/layout-sw600dp-v13/design_layout_snackbar.xml",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.android.support/design/23.0.1/res/layout-sw600dp/design_layout_snackbar.xml"
     },
@@ -10,9 +22,5 @@
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout-sw600dp-v13\\design_layout_snackbar.xml",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.0.1\\res\\layout-sw600dp\\design_layout_snackbar.xml"
-    },
-    {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout-sw600dp-v13\\design_layout_snackbar.xml",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.0.1\\res\\layout-sw600dp\\design_layout_snackbar.xml"
     }
 ]

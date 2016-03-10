@@ -41,7 +41,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
                         android:id="@+id/campoEmail"
-                        android:hint="@string/Email" />
+                        android:hint="@string/Email"
+                        android:visibility="invisible"/>
 
                     <EditText
                         android:layout_width="wrap_content"
@@ -52,6 +53,7 @@
                         android:hint="@string/Password"
                         android:layout_centerVertical="true"
                         android:password="true"
+                        android:visibility="invisible"
                         />
 
 
@@ -77,7 +79,8 @@
                             android:layout_height="match_parent"
                             android:text="@string/Login"
                             android:id="@+id/Accedi"
-                            android:layout_weight="0.5"/>
+                            android:layout_weight="0.5"
+                            android:visibility="invisible"/>
 
 
                         <TextView
@@ -88,6 +91,7 @@
                             android:text="@string/Register"
                             android:id="@+id/Registrati"
                             android:layout_weight="0.5"
+                            android:visibility="invisible"
                             />
 
 
@@ -100,6 +104,7 @@
                             android:layout_marginTop="10dp"
                             android:text="@string/LoginWithFb"
                             android:id="@+id/LoginButtonFb"
+                            android:visibility="invisible"
                             />
 
                     <com.google.android.gms.common.SignInButton

@@ -1,7 +1,27 @@
 [
     {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_focus_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_focus_light.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\card_frame.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\card_frame.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_dark.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_normal_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_normal_dark.9.png"
+    },
+    {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/res/merged/debug/drawable-xhdpi-v4/common_signin_btn_text_pressed_light.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.1.0/res/drawable-xhdpi/common_signin_btn_text_pressed_light.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_pressed_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_pressed_light.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_dark.9.png",
@@ -16,8 +36,16 @@
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_pressed_light.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_light.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_disabled_light.9.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_normal_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_normal_light.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_focus_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_focus_dark.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_pressed_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_pressed_light.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/res/merged/debug/drawable-xhdpi-v4/common_signin_btn_icon_disabled_focus_dark.9.png",
@@ -32,8 +60,16 @@
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_dark.9.png"
     },
     {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_disabled_dark.9.png"
+    },
+    {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/res/merged/debug/drawable-xhdpi-v4/common_signin_btn_icon_pressed_light.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.1.0/res/drawable-xhdpi/common_signin_btn_icon_pressed_light.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_focus_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_focus_dark.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_normal_dark.9.png",
@@ -44,24 +80,32 @@
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_focus_dark.9.png"
     },
     {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_focus_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_focus_light.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_disabled_light.9.png"
+    },
+    {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\ic_full_sad.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\ic_full_sad.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_focus_light.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_focus_light.9.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\ic_full_cancel.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\ic_full_cancel.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_focus_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_focus_dark.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\card_frame_pressed.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\card_frame_pressed.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_normal_dark.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_normal_dark.9.png"
-    },
-    {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_dark.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_disabled_dark.9.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_pressed_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_pressed_dark.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/res/merged/debug/drawable-xhdpi-v4/ic_full_sad.png",
@@ -72,8 +116,16 @@
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_normal_dark.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\ic_full_sad.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\ic_full_sad.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_focus_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_focus_dark.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_focus_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_disabled_focus_dark.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_pressed_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_pressed_dark.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_focus_light.9.png",
@@ -96,8 +148,8 @@
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.1.0/res/drawable-xhdpi/common_signin_btn_text_normal_light.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_pressed_light.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_pressed_light.9.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_pressed_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_pressed_light.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_pressed_dark.9.png",
@@ -108,44 +160,64 @@
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\drawable-xhdpi\\common_full_open_on_phone.png"
     },
     {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_pressed_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_pressed_light.9.png"
+    },
+    {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/res/merged/debug/drawable-xhdpi-v4/common_signin_btn_icon_focus_dark.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.1.0/res/drawable-xhdpi/common_signin_btn_icon_focus_dark.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_focus_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_focus_dark.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_focus_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_focus_light.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_disabled_light.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_dark.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_disabled_dark.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_full_open_on_phone.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\drawable-xhdpi\\common_full_open_on_phone.png"
-    },
-    {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/res/merged/debug/drawable-xhdpi-v4/common_signin_btn_text_normal_dark.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.1.0/res/drawable-xhdpi/common_signin_btn_text_normal_dark.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_normal_dark.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_normal_dark.9.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\card_frame_pressed.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\card_frame_pressed.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\card_frame_pressed.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\card_frame_pressed.9.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_normal_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_normal_dark.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_normal_light.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_normal_light.9.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_light.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\ic_full_sad.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\ic_full_sad.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_focus_light.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_focus_light.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_pressed_dark.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_pressed_dark.9.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_normal_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_normal_light.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_focus_dark.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_focus_dark.9.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\ic_full_cancel.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\ic_full_cancel.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_normal_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_normal_light.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_focus_dark.9.png",
@@ -154,6 +226,22 @@
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/res/merged/debug/drawable-xhdpi-v4/common_signin_btn_text_focus_light.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.1.0/res/drawable-xhdpi/common_signin_btn_text_focus_light.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_full_open_on_phone.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\drawable-xhdpi\\common_full_open_on_phone.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_full_open_on_phone.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\drawable-xhdpi\\common_full_open_on_phone.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_light.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_normal_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_normal_dark.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_focus_light.9.png",
@@ -180,16 +268,20 @@
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/drawable-xhdpi-v4/card_frame_pressed.9.png"
     },
     {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_pressed_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_pressed_dark.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_focus_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_disabled_focus_dark.9.png"
+    },
+    {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/res/merged/debug/drawable-xhdpi-v4/ic_full_cancel.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/drawable-xhdpi-v4/ic_full_cancel.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_focus_light.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_focus_light.9.png"
-    },
-    {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\card_frame.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\card_frame.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/res/merged/debug/drawable-xhdpi-v4/common_full_open_on_phone.png",
@@ -204,16 +296,32 @@
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_normal_dark.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_focus_light.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_disabled_focus_light.9.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_disabled_dark.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/res/merged/debug/drawable-xhdpi-v4/card_frame.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/exploded-aar/com.google.android.support/wearable/1.3.0/res/drawable-xhdpi-v4/card_frame.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_light.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_light.9.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_normal_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_normal_dark.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\card_frame.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\card_frame.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_focus_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_focus_dark.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\ic_full_sad.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\ic_full_sad.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\card_frame.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\card_frame.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_focus_light.9.png",
@@ -228,28 +336,56 @@
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_pressed_light.9.png"
     },
     {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_normal_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_normal_dark.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\card_frame_pressed.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\card_frame_pressed.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_pressed_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_pressed_dark.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_dark.9.png"
+    },
+    {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_normal_light.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_normal_light.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_focus_light.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_focus_light.9.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_normal_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_normal_light.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_focus_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_focus_light.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_focus_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_disabled_focus_light.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_focus_light.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_focus_light.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_pressed_light.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_pressed_light.9.png"
-    },
-    {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/res/merged/debug/drawable-xhdpi-v4/common_signin_btn_icon_focus_light.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.1.0/res/drawable-xhdpi/common_signin_btn_icon_focus_light.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_focus_dark.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_focus_dark.9.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_pressed_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_pressed_dark.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_normal_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_normal_dark.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_focus_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_focus_light.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/res/merged/debug/drawable-xhdpi-v4/common_signin_btn_text_pressed_dark.9.png",
@@ -260,16 +396,12 @@
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.1.0/res/drawable-xhdpi/common_signin_btn_text_disabled_focus_light.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_focus_dark.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_disabled_focus_dark.9.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_focus_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_disabled_focus_light.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\card_frame_pressed.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\card_frame_pressed.9.png"
-    },
-    {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_pressed_dark.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_pressed_dark.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/res/merged/debug/drawable-xhdpi-v4/common_signin_btn_text_disabled_focus_dark.9.png",
@@ -278,6 +410,10 @@
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_pressed_light.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_pressed_light.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_dark.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_focus_light.9.png",
@@ -292,12 +428,28 @@
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.1.0/res/drawable-xhdpi/common_signin_btn_text_disabled_light.9.png"
     },
     {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_light.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_focus_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_focus_light.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_normal_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_normal_light.9.png"
+    },
+    {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_focus_dark.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_focus_dark.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_dark.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_dark.9.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_focus_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_focus_light.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_focus_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_disabled_focus_dark.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/res/merged/debug/drawable-xhdpi-v4/common_signin_btn_icon_disabled_focus_light.9.png",
@@ -308,8 +460,20 @@
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\card_frame.9.png"
     },
     {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\card_frame_pressed.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\card_frame_pressed.9.png"
+    },
+    {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\card_frame.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\card_frame.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_focus_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_disabled_focus_light.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_focus_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_focus_light.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_pressed_dark.9.png",
@@ -320,12 +484,20 @@
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.1.0/res/drawable-xhdpi/common_signin_btn_icon_normal_light.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_normal_light.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_normal_light.9.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_focus_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_focus_dark.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_pressed_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_pressed_light.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/res/merged/debug/drawable-xhdpi-v4/common_signin_btn_icon_disabled_light.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.1.0/res/drawable-xhdpi/common_signin_btn_icon_disabled_light.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_disabled_light.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_normal_dark.9.png",
@@ -340,16 +512,28 @@
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_normal_light.9.png"
     },
     {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\ic_full_cancel.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\ic_full_cancel.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_full_open_on_phone.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\drawable-xhdpi\\common_full_open_on_phone.png"
+    },
+    {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_light.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_disabled_light.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_dark.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_dark.9.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_focus_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_focus_light.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_pressed_light.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_pressed_light.9.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_focus_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_focus_dark.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_dark.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_focus_dark.9.png",
@@ -360,24 +544,36 @@
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.1.0/res/drawable-xhdpi/common_signin_btn_text_focus_dark.9.png"
     },
     {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_pressed_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_pressed_light.9.png"
+    },
+    {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/res/merged/debug/drawable-xhdpi-v4/common_signin_btn_icon_pressed_dark.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/wear/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.1.0/res/drawable-xhdpi/common_signin_btn_icon_pressed_dark.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_pressed_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_pressed_light.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_focus_dark.9.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_focus_dark.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_icon_disabled_focus_light.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_icon_disabled_focus_light.9.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_focus_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_focus_dark.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\ic_full_cancel.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\ic_full_cancel.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_disabled_dark.9.png"
     },
     {
-        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_focus_dark.9.png",
-        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_focus_dark.9.png"
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_normal_light.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_normal_light.9.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\ic_full_sad.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\ic_full_sad.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_disabled_focus_dark.9.png",
@@ -394,6 +590,10 @@
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\ic_full_cancel.png",
         "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.support\\wearable\\1.3.0\\res\\drawable-xhdpi-v4\\ic_full_cancel.png"
+    },
+    {
+        "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_pressed_dark.9.png",
+        "source": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xhdpi\\common_signin_btn_text_pressed_dark.9.png"
     },
     {
         "merged": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\common_signin_btn_text_focus_dark.9.png",
