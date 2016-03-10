@@ -106,8 +106,6 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".Activities.CreateFolderActivity" >
         </activity>
-        <activity android:name=".Activities.UploadFileDrive" >
-        </activity>
         <activity android:name=".Utilities.RetrieveImageTask" >
         </activity>
     </application>
