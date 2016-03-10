@@ -488,7 +488,7 @@ public class LoginActivity extends AppCompatActivity implements
 
 
 
-   private class MyTask extends AsyncTask<Void, Void, Void> {
+    private class MyTask extends AsyncTask<Void, Void, Void> {
 
         InputStream is = null;
         String result, stringaFinale = "";
@@ -707,7 +707,7 @@ public class LoginActivity extends AppCompatActivity implements
     }
 
     private void openMainActivity2(String e, String name, String surname, String date, String pwd, String n, String sex, String username,
-                                  String job, String description, String type){
+                                   String job, String description, String type){
 
         Intent openAccedi = new Intent(LoginActivity.this, MainActivity.class);
         openAccedi.putExtra("email", e);

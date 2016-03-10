@@ -15,9 +15,6 @@ import com.google.android.gms.drive.MetadataChangeSet;
 import java.net.URL;
 
 public class CreateFolderActivity extends DriveActivity {
-
-
-
     @Override
     public void onConnected(Bundle connectionHint) {
         super.onConnected(connectionHint);
@@ -32,8 +29,6 @@ public class CreateFolderActivity extends DriveActivity {
             Drive.DriveApi.getFolder(getGoogleApiClient(), getIdFolder()).createFolder(
                     getGoogleApiClient(), changeSet).setResultCallback(callback);
         }
-
-
 
     }
 

@@ -108,7 +108,7 @@
         </activity>
         <activity android:name=".Activities.UploadFileDrive" >
         </activity>
-        <activity android:name=".Utilities.RetrieveImage" >
+        <activity android:name=".Utilities.RetrieveImageTask" >
         </activity>
     </application>
 

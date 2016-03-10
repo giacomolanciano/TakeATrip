@@ -29,9 +29,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class RetrieveImage extends ApiClientAsyncTask<DriveId, Void, Bitmap>{
+public class RetrieveImageTask extends ApiClientAsyncTask<DriveId, Void, Bitmap>{
 
-    private static final String TAG = "RetrieveImage";
+    private static final String TAG = "RetrieveImageTask";
     private String idContent, typeContent;
     private DriveId contenuto;
     private Bitmap bitmap;
@@ -40,13 +40,13 @@ public class RetrieveImage extends ApiClientAsyncTask<DriveId, Void, Bitmap>{
 
 
 
-    public RetrieveImage(Context context, ImageView view, DriveId idImage){
+    public RetrieveImageTask(Context context, ImageView view, DriveId idImage){
         super(context);
         viewImage = view;
         contenuto = idImage;
     }
 
-    public RetrieveImage(Context context, ImageView view, DriveId idImage, LinearLayout layout){
+    public RetrieveImageTask(Context context, ImageView view, DriveId idImage, LinearLayout layout){
         super(context);
         viewImage = view;
         contenuto = idImage;

@@ -161,10 +161,6 @@ public abstract class DriveActivity extends Activity implements
     @Override
     protected void onResume() {
         super.onResume();
-
-
-
-
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addApi(Drive.API)

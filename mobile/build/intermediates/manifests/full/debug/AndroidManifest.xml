@@ -120,7 +120,7 @@
         </activity>
         <activity android:name="com.example.david.takeatrip.Activities.UploadFileDrive" >
         </activity>
-        <activity android:name="com.example.david.takeatrip.Utilities.RetrieveImage" >
+        <activity android:name="com.example.david.takeatrip.Utilities.RetrieveImageTask" >
         </activity>
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity

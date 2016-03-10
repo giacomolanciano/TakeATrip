@@ -15,7 +15,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -29,17 +28,18 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
-import com.example.david.takeatrip.Classes.Profilo;
+import com.example.david.takeatrip.Interfaces.AsyncResponseDriveId;
+import com.example.david.takeatrip.Interfaces.AsyncResponseDriveIdCover;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DownloadImageTask;
-import com.example.david.takeatrip.Utilities.RetrieveImage;
+import com.example.david.takeatrip.Utilities.RetrieveImageTask;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
+import com.example.david.takeatrip.Utilities.UploadImageTask;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
-import com.google.android.gms.drive.DriveFolder;
 import com.google.android.gms.drive.DriveId;
 
 import org.apache.http.HttpEntity;
@@ -62,14 +62,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URI;
-import java.sql.DriverManager;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 
 @SuppressWarnings("deprecation")
-public class ProfiloActivity extends TabActivity {
+public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId, AsyncResponseDriveIdCover{
 
     private final int REQUEST_UPLOAD_PROFILE_IMAGE = 123;
     private final int REQUEST_UPLOAD_COVER_IMAGE = 124;
@@ -194,7 +193,7 @@ public class ProfiloActivity extends TabActivity {
 
             else{
                 if(idImageProfile != null){
-                    new RetrieveImage(this, imageProfile,idImageProfile).execute();
+                    new RetrieveImageTask(this, imageProfile,idImageProfile).execute();
                 }
                 else{
                     if(sesso != null && sesso.equals("M")){
@@ -206,7 +205,7 @@ public class ProfiloActivity extends TabActivity {
                 }
 
                 if(idCoverImage != null){
-                    new RetrieveImage(this, coverImage, idCoverImage,layoutCoverImage).execute();
+                    new RetrieveImageTask(this, coverImage, idCoverImage,layoutCoverImage).execute();
                 }
             }
 
@@ -485,6 +484,16 @@ public class ProfiloActivity extends TabActivity {
                     Log.i("TEST", "path file immagine: " + f.getAbsolutePath());
 
 
+
+
+                    UploadImageTask task = new UploadImageTask(this, bitmap, Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
+                    task.delegate = this;
+                    task.execute();
+
+                    imageProfile.setImageBitmap(bitmap);
+
+
+                    /*
                     Intent intent1 = new Intent(ProfiloActivity.this, UploadFileDrive.class);
 
                     //DriveId folderID = DriveId.decodeFromString("DriveId:CAESABjuPSDm-rDq-lMoAQ==");
@@ -498,6 +507,7 @@ public class ProfiloActivity extends TabActivity {
                     intent1.putExtra("image",bytes);
 
                     startActivityForResult(intent1, REQUEST_UPLOAD_PROFILE_IMAGE);
+                    */
 
 
                     imageProfile.setImageBitmap(bitmap);
@@ -534,21 +544,12 @@ public class ProfiloActivity extends TabActivity {
                 String picturePath = c.getString(columnIndex);
                 c.close();
                 Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-                Log.i("image from gallery:", picturePath + "");
+                Log.i("TEST", "image from gallery:" + picturePath + "");
 
 
-                Intent intent1 = new Intent(ProfiloActivity.this, UploadFileDrive.class);
-
-                //DriveId folderID = DriveId.decodeFromString("DriveId:CAESABjuPSDm-rDq-lMoAQ==");
-                intent1.putExtra("idFolder", idFolder);
-                intent1.putExtra("nameFile", imageFileName);
-
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                thumbnail.compress(Bitmap.CompressFormat.JPEG, QUALITY_OF_IMAGE, stream);
-                byte[] bytes = stream.toByteArray();
-                intent1.putExtra("image",bytes);
-
-                startActivityForResult(intent1, REQUEST_UPLOAD_PROFILE_IMAGE);
+                UploadImageTask task = new UploadImageTask(this, thumbnail, Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
+                task.delegate = this;
+                task.execute();
 
                 imageProfile.setImageBitmap(thumbnail);
 
@@ -571,6 +572,16 @@ public class ProfiloActivity extends TabActivity {
                     bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
                             bitmapOptions);
 
+
+                    UploadImageTask task = new UploadImageTask(this, bitmap, Constants.NAME_IMAGES_COVER_DEFAULT, idFolder, "cover");
+                    task.delegate2 = this;
+                    task.execute();
+
+                    Drawable d = new BitmapDrawable(getResources(), bitmap);
+                    layoutCoverImage.setBackground(d);
+
+
+/*
                     Intent intent1 = new Intent(ProfiloActivity.this, UploadFileDrive.class);
                     intent1.putExtra("idFolder", idFolder);
                     intent1.putExtra("nameFile", imageFileName);
@@ -584,6 +595,7 @@ public class ProfiloActivity extends TabActivity {
 
                     Drawable d = new BitmapDrawable(getResources(), bitmap);
                     layoutCoverImage.setBackground(d);
+                    */
 
                     String path = android.os.Environment.getExternalStorageDirectory().toString();
                     f.delete();
@@ -619,6 +631,17 @@ public class ProfiloActivity extends TabActivity {
                 Log.i("image from gallery:", picturePath + "");
 
 
+                UploadImageTask task = new UploadImageTask(this, thumbnail, Constants.NAME_IMAGES_COVER_DEFAULT, idFolder, "cover");
+                task.delegate2 = this;
+                task.execute();
+
+                Drawable d = new BitmapDrawable(getResources(), thumbnail);
+                layoutCoverImage.setBackground(d);
+
+
+
+                /*
+
                 Intent intent1 = new Intent(ProfiloActivity.this, UploadFileDrive.class);
 
                 //DriveId folderID = DriveId.decodeFromString("DriveId:CAESABjuPSDm-rDq-lMoAQ==");
@@ -634,6 +657,8 @@ public class ProfiloActivity extends TabActivity {
 
                 Drawable d = new BitmapDrawable(getResources(), thumbnail);
                 layoutCoverImage.setBackground(d);
+
+                */
 
             }
 
@@ -657,6 +682,23 @@ public class ProfiloActivity extends TabActivity {
         }
     }
 
+
+    //Return the id of the uploaded profile image
+    @Override
+    public void processFinish(DriveId output) {
+        Log.i("TEST", "uploaded profile image with id: " + output);
+
+        new MyTaskInsertImageProfile(this,email,output).execute();
+
+    }
+
+
+    //Return the id of the uploaded cover image
+    @Override
+    public void processFinish2(DriveId output) {
+        Log.i("TEST", "uploaded cover image with id: " + output);
+        new MyTaskInsertCoverimage(this,email,output).execute();
+    }
 
 
     private class MyTaskInsertImageProfile extends AsyncTask<Void, Void, Void> {

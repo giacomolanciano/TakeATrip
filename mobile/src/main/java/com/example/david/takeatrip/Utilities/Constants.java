@@ -74,6 +74,10 @@ public class Constants {
     public static final int QUALITY_PHOTO = 30;
 
 
+    public  static final String NAME_IMAGES_PROFILE_DEFAULT = "Image_ProfileTAT";
+    public  static final String NAME_IMAGES_COVER_DEFAULT = "Cover_ImageTAT";
+
+
 
 
 

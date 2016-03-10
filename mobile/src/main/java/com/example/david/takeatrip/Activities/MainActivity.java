@@ -29,12 +29,13 @@ import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
-import com.example.david.takeatrip.Utilities.RetrieveImage;
+import com.example.david.takeatrip.Utilities.RetrieveImageTask;
 import com.example.david.takeatrip.Classes.TakeATrip;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatabaseHandler;
 import com.example.david.takeatrip.Utilities.DownloadImageTask;
+import com.example.david.takeatrip.Utilities.RetrieveImageTask;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
@@ -569,51 +570,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             Log.i("TEST", "nomeViaggio: " + nomeViaggio);
 
-                try {
-                    if (InternetConnection.haveInternetConnection(MainActivity.this)) {
-                        Log.i("CONNESSIONE Internet", "Presente!");
-                        HttpClient httpclient = new DefaultHttpClient();
-                        HttpPost httppost = new HttpPost(ADDRESS_INSERIMENTO_VIAGGIO);
-                        httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                        HttpResponse response = httpclient.execute(httppost);
+            try {
+                if (InternetConnection.haveInternetConnection(MainActivity.this)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost(ADDRESS_INSERIMENTO_VIAGGIO);
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                    HttpResponse response = httpclient.execute(httppost);
 
-                        HttpEntity entity = response.getEntity();
+                    HttpEntity entity = response.getEntity();
 
-                        is = entity.getContent();
+                    is = entity.getContent();
 
-                        if (is != null) {
-                            //converto la risposta in stringa
-                            try {
-                                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                                StringBuilder sb = new StringBuilder();
-                                String line = null;
-                                while ((line = reader.readLine()) != null) {
-                                    sb.append(line + "\n");
-                                }
-                                is.close();
-
-                                result = sb.toString();
-                                //Log.i("TEST", "result" +result);
-
-                                UUIDViaggio = result;
-
-                                Log.i("TEST", "UUID viaggio " +UUIDViaggio);
-
-                            } catch (Exception e) {
-                                Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                    if (is != null) {
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
                             }
-                        }
-                        else {
-                            Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
-                        }
+                            is.close();
 
+                            result = sb.toString();
+                            //Log.i("TEST", "result" +result);
+
+                            UUIDViaggio = result;
+
+                            Log.i("TEST", "UUID viaggio " +UUIDViaggio);
+
+                        } catch (Exception e) {
+                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        }
                     }
-                    else
-                        Log.e("CONNESSIONE Internet", "Assente!");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.e(e.toString(),e.getMessage());
+                    else {
+                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    }
+
                 }
+                else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(e.toString(),e.getMessage());
+            }
             return null;
         }
 
@@ -1011,7 +1012,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         protected void onPostExecute(Void aVoid) {
             Log.i("TEST", "risultato dal prelievo dell'id imm profilo: " + result);
             if(!result.equals("ERRORE")){
-                new RetrieveImage(MainActivity.this,imageViewProfileRound,idImageProfile).execute();
+                new RetrieveImageTask(MainActivity.this,imageViewProfileRound,idImageProfile).execute();
             }
         }
     }

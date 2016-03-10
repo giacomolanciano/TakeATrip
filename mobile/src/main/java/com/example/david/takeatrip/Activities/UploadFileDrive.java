@@ -40,7 +40,6 @@ public class UploadFileDrive  extends DriveActivity{
         // Start by creating a new contents, and setting a callback.
         Log.i(TAG, "Creating new contents.");
 
-
         final Bitmap image = getImage();
 
         Drive.DriveApi.newDriveContents(getGoogleApiClient())
@@ -55,6 +54,7 @@ public class UploadFileDrive  extends DriveActivity{
                             Log.i(TAG, "Failed to create new contents.");
                             return;
                         }
+
 
                         OutputStream outputStream = result.getDriveContents().getOutputStream();
 
