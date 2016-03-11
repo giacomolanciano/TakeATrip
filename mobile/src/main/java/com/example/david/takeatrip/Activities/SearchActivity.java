@@ -246,16 +246,26 @@ public class SearchActivity extends AppCompatActivity {
                     Log.i("TEST", "placeNuovo: " + toTranslate);
 
                     String languageDevice = Locale.getDefault().getLanguage();
-                    GoogleTranslate translate = new GoogleTranslate(API_KEY);
-                    translated = translate.translate(toTranslate, languageDevice, "it");
+                    if(!languageDevice.equals("it")){
+                        GoogleTranslate translate = new GoogleTranslate(API_KEY);
+                        translated = translate.translate(toTranslate, languageDevice, "it");
 
-                    String finalTranslated = translated.toLowerCase();
-                    translated = finalTranslated.replace(" ", "_");
+                        String finalTranslated = translated.toLowerCase();
+                        translated = finalTranslated.replace(" ", "_");
 
-                    Log.i("TEST", "placeNuovo tradotto: " + translated);
+                        Log.i("TEST", "placeNuovo tradotto: " + translated);
 
-                    destination = translated;
+                        destination = translated;
 
+
+
+                    } else {
+                        String finalTranslated = toTranslate.toLowerCase();
+                        toTranslate = finalTranslated.replace(" ", "_");
+                        destination = toTranslate;
+
+
+                    }
 
                 } else
                     Log.e("CONNESSIONE Internet", "Assente!");

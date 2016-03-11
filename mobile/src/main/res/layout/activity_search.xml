@@ -14,9 +14,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:gravity="bottom">
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,9 +28,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:layout_weight="0.68"
             android:orientation="vertical">
 
 
@@ -77,22 +77,20 @@
             </LinearLayout>
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="0.32">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/listTravelsBySearch"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="vertical"/>
-
-
-        </LinearLayout>
-
     </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/listTravelsBySearch"
+            android:layout_width="wrap_content"
+            android:layout_height="383dp"
+            android:scrollbars="vertical"
+            android:layout_gravity="center_horizontal|top" />
+    </FrameLayout>
 
 </FrameLayout>
