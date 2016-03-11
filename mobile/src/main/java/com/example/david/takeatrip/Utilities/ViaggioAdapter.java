@@ -38,7 +38,8 @@ public class ViaggioAdapter extends ArrayAdapter<Viaggio> {
         Viaggio viaggio = getItem(position);
         TextView viewNome = (TextView)convertView.findViewById(R.id.NameTravel);
 
-        viewNome.setText((viaggio.getNome()));
+        //TODO verificare perchè lancia eccezione
+        //viewNome.setText((viaggio.getNome()));
         viewNome.setTextSize(18);
 
 

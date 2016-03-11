@@ -460,11 +460,14 @@
     <string name="Logout">Logout</string>
     <string name="Male">M</string>
     <string name="Name">Name</string>
+    <string name="Notes">Notes</string>
     <string name="NuovaPassword">Insert new password</string>
     <string name="Partecipants">Partecipants</string>
     <string name="Password">Password</string>
     <string name="Photos">Photos</string>
+    <string name="PhotosAndVideos">Photos and Videos</string>
     <string name="Pressione">Pressure</string>
+    <string name="Records">Records</string>
     <string name="Register">Register</string>
     <string name="Registration">Registration</string>
     <string name="SAVE">SAVE</string>

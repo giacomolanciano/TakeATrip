@@ -12,10 +12,9 @@ import java.util.Date;
  */
 public class MultimedialFile {
 
-    public static File createMediaFile(int tipoFile) throws IOException {
+    public static File createMediaFile(int tipoFile, String mCurrentMediaPath,
+                                       String mediaFileName) throws IOException {
 
-        String mCurrentMediaPath;
-        String mediaFileName;
 
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -24,7 +23,7 @@ public class MultimedialFile {
         if (tipoFile == Constants.IMAGE_FILE) {
             mediaFileName = timeStamp + ".jpg";
         } else {    //if (tipoFile == Constants.VIDEO_FILE) {
-            mediaFileName = timeStamp + ".mp4";
+            mediaFileName = timeStamp + ".3gp";
         }
 
         File mediaFile = new File(android.os.Environment.getExternalStorageDirectory(), mediaFileName);

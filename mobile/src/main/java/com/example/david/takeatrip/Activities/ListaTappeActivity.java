@@ -8,11 +8,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.MediaStore;
@@ -52,11 +56,14 @@ import com.example.david.takeatrip.Classes.POI;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.Tappa;
 import com.example.david.takeatrip.Classes.Viaggio;
+import com.example.david.takeatrip.Interfaces.AsyncResponseDriveId;
+import com.example.david.takeatrip.Interfaces.AsyncResponseDriveIdCover;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.AudioRecord;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.MultimedialFile;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
+import com.example.david.takeatrip.Utilities.UploadImageTask;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -64,6 +71,7 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
@@ -91,9 +99,12 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.sql.Date;
 import java.text.CollationElementIterator;
 import java.util.ArrayList;
@@ -105,11 +116,14 @@ import java.util.Set;
 
 public class ListaTappeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+        AsyncResponseDriveId, AsyncResponseDriveIdCover {
 
     private final String ADDRESS_PRELIEVO_TAPPE = "QueryTappe.php";
     private final String ADDRESS_INSERIMENTO_TAPPA = "InserimentoTappa.php";
     private final String ADDRESS_INSERIMENTO_FILTRO = "InserimentoFiltro.php";
+    private final int QUALITY_OF_IMAGE = Constants.QUALITY_PHOTO;
+
 
     private final String TAG = "ListaTappeActivity";
     private static final int GOOGLE_API_CLIENT_ID = 0;
@@ -161,6 +175,12 @@ public class ListaTappeActivity extends AppCompatActivity
     private Handler handler;
     private CollationElementIterator tv;
     private AudioRecord record;
+
+    private DriveId idFolder;
+    private String imageFileName, mCurrentPhotoPath;
+    private String videoFileName, mCurrentVideoPath;
+
+
 
 
 
@@ -339,103 +359,132 @@ public class ListaTappeActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            if (requestCode == Constants.REQUEST_IMAGE_CAPTURE) {
-                Log.i("TEST", "REQUEST_IMAGE_CAPTURE");
+
+            switch (requestCode) {
+
+                case Constants.REQUEST_IMAGE_CAPTURE:
+
+                    Log.i("TEST", "REQUEST_IMAGE_CAPTURE");
 
 
-//                File f = new File(Environment.getExternalStorageDirectory().toString());
-//                for (File temp : f.listFiles()) {
-//                    if (temp.getName().equals(imageFileName)) {
-//                        f = temp;
-//                        break;
-//                    }
-//                }
-//                try {
-//                    Bitmap bitmap;
-//                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                    File f = new File(Environment.getExternalStorageDirectory().toString());
+                    for (File temp : f.listFiles()) {
+                        if (temp.getName().equals(imageFileName)) {
+                            f = temp;
+                            break;
+                        }
+                    }
+                    try {
+                        Bitmap bitmap;
+                        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                        bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
+                                bitmapOptions);
+                        Log.i("TEST", "path file immagine: " + f.getAbsolutePath());
+
+                        UploadImageTask task = new UploadImageTask(this, bitmap, Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
+                        task.delegate = this;
+                        task.execute();
+
+
+                        //TODO verifica caricamento su drive
+
+                        String path = Environment.getExternalStorageDirectory().toString();
+                        f.delete();
+
+                        OutputStream outFile = null;
+                        File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
+                        try {
+                            outFile = new FileOutputStream(file);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, QUALITY_OF_IMAGE, outFile);
+                            outFile.flush();
+                            outFile.close();
+
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    break;
+
+                case Constants.REQUEST_IMAGE_PICK:
+
+                    Uri selectedImage = data.getData();
+
+                    Log.i("TEST", "uri: "+ selectedImage);
+
+                    ArrayList<String> imageUrls = new ArrayList<String>();
+
+                    String[] filePath = {MediaStore.Images.Media.DATA};
+
+//                    Cursor c = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+//                            , filePath, null, null, null);
+
+                    Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
+
+                    for (int i = 0; i < c.getCount(); i++) {
+                        c.moveToPosition(i);
+                        int dataColumnIndex = c.getColumnIndex(MediaStore.Images.Media.DATA);
+                        imageUrls.add(c.getString(dataColumnIndex));
+
+                        Log.i("TEST", "array path: "+imageUrls.get(i));
+                    }
+
+
+//                    int columnIndex = c.getColumnIndex(filePath[0]);
+//                    String picturePath = c.getString(columnIndex);
+//                    c.close();
+//                    Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+//                    Log.i("TEST", "image from gallery:" + picturePath + "");
 //
-//                    bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
-//                            bitmapOptions);
 //
-//
-//                    //TODO: update the db with new profile image
-//
-//
-//                    //imageProfile.setImageBitmap(bitmap);
-//
-//                    String path = android.os.Environment.getExternalStorageDirectory().toString();
-//                    f.delete();
-//
-//                    OutputStream outFile = null;
-//                    File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
-//                    try {
-//                        outFile = new FileOutputStream(file);
-//                        bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
-//                        outFile.flush();
-//                        outFile.close();
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
+//                    UploadImageTask task = new UploadImageTask(this, thumbnail, Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
+//                    task.delegate = this;
+//                    task.execute();
+
+                    //TODO verifica caricamento su drive
+
+                    break;
+
+                case Constants.REQUEST_PLACE_PICKER:
+
+                    Log.i("TEST", "REQUEST_PLACE_PICKER");
+
+                    //Place place = PlacePicker.getPlace(data, this);   //deprecated
+                    Place place = PlacePicker.getPlace(this, data);
+                    Log.i("TEST", "Place: %s" + place.getName());
+
+                    startAddingStop(place);
+
+                    break;
+
+                case Constants.REQUEST_VIDEO_CAPTURE:
+                    Log.i("TEST", "REQUEST_VIDEO_CAPTURE");
+
+                    break;
+
+                case Constants.REQUEST_VIDEO_PICK:
+                    Log.i("TEST", "REQUEST_IMAGE_PICK");
+
+                    break;
 
 
-            } else if (requestCode == Constants.REQUEST_IMAGE_PICK) {
-
-                Log.i("TEST", "REQUEST_IMAGE_PICK");
-
-//                Uri selectedImage = data.getData();
-//                String[] filePath = {MediaStore.Images.Media.DATA};
-//
-//                Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
-//                c.moveToFirst();
-//                int columnIndex = c.getColumnIndex(filePath[0]);
-//                String picturePath = c.getString(columnIndex);
-//                c.close();
-//                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-//                Log.i("image from gallery:", picturePath + "");
-//
-//
-//                //TODO: update the db with new profile image
-//
-//
-//                //imageProfile.setImageBitmap(thumbnail);
-
-
-            } else if (requestCode == Constants.REQUEST_PLACE_PICKER) {
-
-                Log.i("TEST", "REQUEST_PLACE_PICKER");
-
-
-                Place place = PlacePicker.getPlace(data, this);
-                //String toastMsg = String.format("Place: %s", place.getName());
-                //Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
-                Log.i("TEST", "Place: %s" + place.getName());
-
-                startAddingStop(place);
-
-            } else if (requestCode == Constants.REQUEST_VIDEO_CAPTURE) {
-                Log.i("TEST", "REQUEST_VIDEO_CAPTURE");
-
-
-
-
-            } else if (requestCode == Constants.REQUEST_VIDEO_PICK) {
-
-                Log.i("TEST", "REQUEST_IMAGE_PICK");
-
-
-
+                default:
+                    Log.e("TEST", "requestCode non riconosciuto");
+                    break;
             }
+
+        } else {
+
+            Log.e("TEST", "result: " + resultCode);
         }
     }
-
-
 
 
 
@@ -478,10 +527,10 @@ public class ListaTappeActivity extends AppCompatActivity
 
     }
 
+
     private void ClickImagePartecipant(Profilo p){
         AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
     }
-
 
 
     private void CreaMenu(List<Tappa> tappe, List<String > nomiTappe){
@@ -505,9 +554,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
         }
     }
-
-
-
 
 
     private void AggiungiMarkedPointsOnMap(Profilo p, List<Tappa> tappe) {
@@ -731,6 +777,17 @@ public class ListaTappeActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void processFinish(DriveId output) {
+        //TODO
+    }
+
+    @Override
+    public void processFinish2(DriveId output) {
+        //TODO
+    }
+
+
     private int calcolaNumUltimaTappaUtenteCorrente() {
 
         int result = 0;
@@ -919,7 +976,7 @@ public class ListaTappeActivity extends AppCompatActivity
                                 File photoFile = null;
                                 try {
 
-                                    photoFile = MultimedialFile.createMediaFile(Constants.IMAGE_FILE);
+                                    photoFile = MultimedialFile.createMediaFile(Constants.IMAGE_FILE, mCurrentPhotoPath, imageFileName);
 
                                 } catch (IOException ex) {
                                     Log.e("TEST", "eccezione nella creazione di file immagine");
@@ -992,7 +1049,8 @@ public class ListaTappeActivity extends AppCompatActivity
                                 File videoFile = null;
                                 try {
 
-                                    videoFile = MultimedialFile.createMediaFile(Constants.VIDEO_FILE);
+                                    videoFile = MultimedialFile.createMediaFile(Constants.VIDEO_FILE,
+                                            mCurrentVideoPath, videoFileName);
 
                                 } catch (IOException ex) {
                                     Log.e("TEST", "eccezione nella creazione di file video");
@@ -1318,6 +1376,7 @@ public class ListaTappeActivity extends AppCompatActivity
     private String creaStringaFiltro() {
         return placeName.toLowerCase().replaceAll(" ", "_");
     }
+
 
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
