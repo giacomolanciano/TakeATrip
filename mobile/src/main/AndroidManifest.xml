@@ -67,7 +67,6 @@
             android:name=".Activities.ViaggioActivity"
             android:label="@string/title_activity_viaggio"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.TappaActivity" />
         <activity
             android:name=".Activities.SplashActivity"
             android:label="@string/app_name">
@@ -104,11 +103,15 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".Activities.CreateFolderActivity"></activity>
-        <activity android:name=".Utilities.RetrieveImageTask"></activity>
+        <activity android:name=".Activities.CreateFolderActivity" />
+        <activity android:name=".Utilities.RetrieveImageTask" />
         <activity
             android:name=".Activities.MultiImageChooserActivity"
             android:label="@string/title_activity_multi_image_chooser"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activities.TappaActivity"
+            android:label="@string/title_activity_tappa"
             android:theme="@style/AppTheme"></activity>
     </application>
 

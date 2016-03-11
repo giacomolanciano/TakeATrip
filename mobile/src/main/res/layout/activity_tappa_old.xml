@@ -1,0 +1,200 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/layoutCoverImageTravel"
+            android:layout_weight="0.7"
+            android:weightSum="1"
+            android:background="@drawable/empty_image"
+            >
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/nomeTappa"
+                android:text="Nome Tappa"
+                android:textColor="@color/white"
+                android:textSize="38sp"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:layout_gravity="bottom"/>
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:orientation="vertical"
+            android:layout_weight="0.3">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:textSize="24dp"
+                android:text="@string/Partecipants"
+                android:layout_gravity="left"/>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/Partecipants"
+                android:paddingTop="@dimen/activity_vertical_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layout_horizontal2"
+                    android:orientation="horizontal"
+                    >
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="@dimen/activity_vertical_margin"
+                            android:textSize="24dp"
+                            android:text="@string/PhotosAndVideos"
+                            android:layout_gravity="left" />
+
+
+                        <TableLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/layoutForPhotos">
+
+
+                        </TableLayout>
+
+                        <LinearLayout
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="@dimen/activity_vertical_margin"
+                                android:textSize="24dp"
+                                android:text="@string/Records"
+                                android:layout_gravity="left" />
+
+
+                            <TableLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/layoutRecords">
+
+
+                            </TableLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="@dimen/activity_vertical_margin"
+                                android:textSize="24dp"
+                                android:text="@string/Notes"
+                                android:layout_gravity="left" />
+
+
+                            <TableLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/layoutNotes">
+
+
+                            </TableLayout>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+    <!--<ImageView-->
+        <!--android:layout_width="30dp"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:layout_gravity="right|top"-->
+        <!--android:layout_marginRight="@dimen/activity_horizontal_margin"-->
+        <!--android:layout_marginTop="@dimen/activity_vertical_margin"-->
+        <!--android:background="@drawable/ic_settings_black_24dp"-->
+        <!--android:onClick="onClickSettingsIcon"/>-->
+
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:drawSelectorOnTop="true"
+        android:layout_gravity="right|top"
+        android:spinnerMode="dropdown"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        />
+
+
+
+</FrameLayout>
+
