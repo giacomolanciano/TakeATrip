@@ -30,7 +30,7 @@ public class MyRecyclerViewAdapter extends RecyclerView
             .OnClickListener {
         TextView nomeViaggio;
         TextView codiceViaggio;
-        String nome;
+        TextView emailUser;
         TextView dateTime;
 
         public DataObjectHolder(View itemView) {
@@ -38,6 +38,7 @@ public class MyRecyclerViewAdapter extends RecyclerView
 
             nomeViaggio = (TextView) itemView.findViewById(R.id.NameTravel);
             codiceViaggio = (TextView) itemView.findViewById(R.id.CodeTravel);
+            emailUser = (TextView) itemView.findViewById(R.id.EmailUser);
             //nomeViaggio.setText(());
             //   dateTime = (TextView) itemView.findViewById(R.id.textView2);
             Log.i(LOG_TAG, "Adding Listener");
@@ -51,7 +52,8 @@ public class MyRecyclerViewAdapter extends RecyclerView
           //  Toast.makeText(v.getContext(), "PROVA", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(v.getContext(), ViaggioActivity.class);
             //TODO creare il passaggio dell'email (Profile da DataObject ecc.)
-            intent.putExtra("email","");
+            intent.putExtra("email",emailUser.getText().toString());
+           // Log.e("TEST", "email card viaggi: "+ emailUser.getText().toString());
             intent.putExtra("nomeViaggio", nomeViaggio.getText().toString());
             intent.putExtra("codiceViaggio", codiceViaggio.getText().toString());
 
@@ -89,7 +91,10 @@ public class MyRecyclerViewAdapter extends RecyclerView
     public void onBindViewHolder(DataObjectHolder holder, int position) {
        holder.nomeViaggio.setText(mDataset.get(position).getNomeViaggio());
        holder.codiceViaggio.setText(mDataset.get(position).getCodiceViaggio());
-       //holder.nome.equals(mDataset.get(position).getNomeViaggio());
+       holder.emailUser.setText(mDataset.get(position).getEmail());
+        Log.e("TEST", "email: " + mDataset.get(position).getEmail());
+
+        //holder.nome.equals(mDataset.get(position).getNomeViaggio());
         //      holder.dateTime.setText(mDataset.get(position).getmText2());
     }
 

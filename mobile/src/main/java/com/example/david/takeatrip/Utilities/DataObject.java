@@ -3,14 +3,20 @@ package com.example.david.takeatrip.Utilities;
 import android.media.Image;
 import android.widget.ImageView;
 
+import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.Viaggio;
 
 public class DataObject {
     private Viaggio viaggio;
+    private Profilo profilo;
     private ImageView immagineViaggio;
 
-    public DataObject(Viaggio v){
+
+
+    public DataObject(Viaggio v, Profilo p){
         viaggio = v;
+        profilo = p;
+
         //immagineViaggio = immagine;
     }
 
@@ -39,4 +45,18 @@ public class DataObject {
     public ImageView getImmagineViaggio() {
         return immagineViaggio;
     }
+
+
+    public Profilo getProfilo() {
+        return profilo;
+    }
+
+    public String getEmail() {
+        return profilo.getEmail();
+    }
+
+    public void setProfilo(Profilo profilo) {
+        this.profilo = profilo;
+    }
+
 }

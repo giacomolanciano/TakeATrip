@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.DataObject;
@@ -52,6 +53,7 @@ public class ListaViaggiActivity extends ActionBarActivity {
 
 
     private ArrayList<Viaggio> viaggi;
+    private ArrayList<Profilo> profili;
     private ArrayList<DataObject> dataTravels;
     private String email;
 
@@ -105,6 +107,7 @@ public class ListaViaggiActivity extends ActionBarActivity {
 
 
         viaggi = new ArrayList<Viaggio>();
+        profili = new ArrayList<Profilo>();
         dataTravels = new ArrayList<DataObject>();
 
 
@@ -137,7 +140,7 @@ public class ListaViaggiActivity extends ActionBarActivity {
     private void PopolaLista() {
 
         MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(dataTravels);
-        adapter.onCreateViewHolder(group,0);
+        adapter.onCreateViewHolder(group, 0);
         mRecyclerView.setAdapter(adapter);
 
         /*
@@ -241,6 +244,7 @@ public class ListaViaggiActivity extends ActionBarActivity {
                                     String codiceViaggio = json_data.getString("codiceViaggio").toString();
                                     String nomeViaggio = json_data.getString("nomeViaggio").toString();
                                     viaggi.add(new Viaggio(codiceViaggio, nomeViaggio));
+                                    profili.add(new Profilo(email));
                                 }
                             }
 
@@ -268,9 +272,10 @@ public class ListaViaggiActivity extends ActionBarActivity {
 
 
             if (stringaFinale.equals("")) {
+                Profilo p = new Profilo(email);
+                for(Viaggio v : viaggi) {
+                        dataTravels.add(new DataObject(v, p));
 
-                for(Viaggio v : viaggi){
-                    dataTravels.add(new DataObject(v));
                 }
 
 
