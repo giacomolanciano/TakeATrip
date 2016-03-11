@@ -82,6 +82,10 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
     private View mCustomMarkerView;
     private ImageView mMarkerImageView;
 
+    private LatLngBounds.Builder mapBoundsBuilder;
+    private LatLngBounds mapBounds;
+
+
 
 
     private List<Tappa> tappe;
@@ -119,6 +123,8 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         tappe = new ArrayList<Tappa>();
         nomeTappa = new ArrayList<Tappa>();
         nome = new ArrayList<Viaggio>();
+
+        mapBoundsBuilder = new LatLngBounds.Builder();
 
         List<Tappa> listaTappe = new ArrayList<Tappa>();
         List<String> listaNomiTappe = new ArrayList<String>();
@@ -347,12 +353,18 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
                             googleMap.addMarker(new MarkerOptions()
                                             .title(combo.get(place.getId()))
                                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                                          //  .icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(mCustomMarkerView, R.drawable.default_male)))
+                                                    //  .icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(mCustomMarkerView, R.drawable.default_male)))
                                             .position(place.getLatLng())
 
 
                             );
-                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 4));
+
+                            mapBoundsBuilder.include(place.getLatLng());
+                            mapBounds = mapBoundsBuilder.build();
+                            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(mapBounds, Constants.LATLNG_BOUNDS_PADDING);
+                            googleMap.moveCamera(cu);
+
+                            // googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 4));
 
                         }
 
