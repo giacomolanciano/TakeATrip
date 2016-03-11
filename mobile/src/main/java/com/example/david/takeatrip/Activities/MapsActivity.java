@@ -1,18 +1,28 @@
 package com.example.david.takeatrip.Activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.support.annotation.DrawableRes;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.david.takeatrip.Classes.Itinerario;
 import com.example.david.takeatrip.Classes.POI;
@@ -69,6 +79,8 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
     private Map<String,String> combo;
     private Map<String,String> comboCodice;
 
+    private View mCustomMarkerView;
+    private ImageView mMarkerImageView;
 
 
 
@@ -83,15 +95,16 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        initViews();
 
         buttonSatellite = (Button) findViewById(R.id.buttonSatellite);
         buttonTerrain = (Button) findViewById(R.id.buttonTerrain);
         buttonHybrid = (Button) findViewById(R.id.buttonHybrid);
 
-
+/*
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(this); */
 
 
         if(getIntent() != null){
@@ -148,6 +161,16 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
     }
 
+    private void initViews() {
+
+        mCustomMarkerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.view_custom_marker, null);
+        mMarkerImageView = (ImageView) mCustomMarkerView.findViewById(R.id.profile_image);
+
+      SupportMapFragment mapFragment =
+                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
+
 
     @Override
     public void onMapReady(GoogleMap map) {
@@ -170,9 +193,35 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         // map.setMyLocationEnabled(true);
         map.setOnInfoWindowClickListener(this);
         //  map.setOnMarkerClickListener(this);
+        map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
+            // Use default InfoWindow frame
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
 
+            // Defines the contents of the InfoWindow
+            @Override
+            public View getInfoContents(Marker marker) {
+
+                // Getting view from the layout file info_window_layout
+                View v = getLayoutInflater().inflate(R.layout.view_custom_marker, null);
+
+                // Getting reference to the TextView to set title
+                TextView note = (TextView) v.findViewById(R.id.note);
+
+                note.setText(marker.getTitle() );
+
+                // Returning the view containing InfoWindow contents
+                return v;
+
+            }
+
+        });
     }
+
+
 
     public void onInfoWindowClick(Marker marker) {
         Intent i = new Intent(this, ViaggioActivity.class);
@@ -214,7 +263,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         mGoogleApiClient.connect();
 
         namesStops.clear();
-        for(Tappa t : tappe){
+        for (Tappa t : tappe){
             findPlaceById(p, t);
         }
 
@@ -257,9 +306,8 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         Log.i("TEST", "Profilo utente corrente in findPlace: " + profiloUtente);
 
 
-
         //Se sono presenti gia i nomi delle tappe non devo riprenderli
-        if(profiloNomiTappe.get(p) != null){
+        if (profiloNomiTappe.get(p) != null) {
 
             //TODO: aggiungere la classe Place che memorizza Nome e LatLong in modo da non richiamare sempre le API
 
@@ -279,7 +327,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-        Places.GeoDataApi.getPlaceById( mGoogleApiClient, t.getPoi().getCodicePOI() )
+        Places.GeoDataApi.getPlaceById(mGoogleApiClient, t.getPoi().getCodicePOI())
                 .setResultCallback(new ResultCallback<PlaceBuffer>() {
 
                     @Override
@@ -296,11 +344,13 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
                             Log.i("TEST", "titolo Viaggio " + combo.get(place.getId()));
 
 
-
                             googleMap.addMarker(new MarkerOptions()
                                             .title(combo.get(place.getId()))
                                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                          //  .icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(mCustomMarkerView, R.drawable.default_male)))
                                             .position(place.getLatLng())
+
+
                             );
                             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 4));
 
@@ -312,14 +362,23 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
                 });
     }
 
-
-
-
-
-
-
-
-
+    private Bitmap getMarkerBitmapFromView(View view, @DrawableRes int resId) {
+        View customMarkerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.view_custom_marker, null);
+        ImageView markerImageView = (ImageView) customMarkerView.findViewById(R.id.profile_image);
+        markerImageView.setImageResource(resId);
+        view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        view.buildDrawingCache();
+        Bitmap returnedBitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(returnedBitmap);
+        canvas.drawColor(Color.WHITE, PorterDuff.Mode.SRC_IN);
+        Drawable drawable = view.getBackground();
+        if (drawable != null)
+            drawable.draw(canvas);
+        view.draw(canvas);
+        return returnedBitmap;
+    }
 
 
 
@@ -343,6 +402,8 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         return false;
     }
+
+
 
 
 
