@@ -878,7 +878,7 @@ int id Accedi 0x7f0e00be
 int id AvviaRicercaDestinazione 0x7f0e00a1
 int id Category 0x7f0e0117
 int id CodeTravel 0x7f0e00b9
-int id Cognome 0x7f0e00cd
+int id Cognome 0x7f0e00ce
 int id ConfermaNuovaPassword 0x7f0e0109
 int id ConfermaPassword 0x7f0e00d9
 int id DateTappa 0x7f0e011e
@@ -903,7 +903,7 @@ int id Lavoro1 0x7f0e00ad
 int id LoginButtonFb 0x7f0e00c0
 int id NameMeta 0x7f0e011a
 int id NameTappa 0x7f0e011f
-int id NameTravel 0x7f0e00b8
+int id NameTravel 0x7f0e00b6
 int id Nazionalita 0x7f0e00aa
 int id Nazionalita1 0x7f0e00a9
 int id Nome 0x7f0e00a3
@@ -954,7 +954,7 @@ int id android_pay 0x7f0e005f
 int id android_pay_dark 0x7f0e0056
 int id android_pay_light 0x7f0e0057
 int id android_pay_light_with_border 0x7f0e0058
-int id arrow 0x7f0e00b7
+int id arrow 0x7f0e00b8
 int id art 0x7f0e0132
 int id auto 0x7f0e0040
 int id autoCompleteTextView1 0x7f0e00ef
@@ -1052,7 +1052,7 @@ int id icon_only 0x7f0e003d
 int id ifRoom 0x7f0e003a
 int id image 0x7f0e0070
 int id imageView 0x7f0e0118
-int id imageView_round 0x7f0e00b6
+int id imageView_round 0x7f0e00b7
 int id imageView_round_Dialog 0x7f0e0128
 int id imageView_round_Profile 0x7f0e00d0
 int id info 0x7f0e0146
@@ -1133,7 +1133,7 @@ int id profile_image 0x7f0e0152
 int id progress_circular 0x7f0e0007
 int id progress_horizontal 0x7f0e0008
 int id radio 0x7f0e0082
-int id ratingBar 0x7f0e00ce
+int id ratingBar 0x7f0e00cd
 int id right 0x7f0e0023
 int id route_name 0x7f0e012e
 int id sandbox 0x7f0e0049

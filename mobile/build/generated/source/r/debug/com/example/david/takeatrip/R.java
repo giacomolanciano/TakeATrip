@@ -3075,7 +3075,7 @@ containing a value of this type.
         public static final int AvviaRicercaDestinazione=0x7f0e00a1;
         public static final int Category=0x7f0e0117;
         public static final int CodeTravel=0x7f0e00b9;
-        public static final int Cognome=0x7f0e00cd;
+        public static final int Cognome=0x7f0e00ce;
         public static final int ConfermaNuovaPassword=0x7f0e0109;
         public static final int ConfermaPassword=0x7f0e00d9;
         public static final int DateTappa=0x7f0e011e;
@@ -3100,7 +3100,7 @@ containing a value of this type.
         public static final int LoginButtonFb=0x7f0e00c0;
         public static final int NameMeta=0x7f0e011a;
         public static final int NameTappa=0x7f0e011f;
-        public static final int NameTravel=0x7f0e00b8;
+        public static final int NameTravel=0x7f0e00b6;
         public static final int Nazionalita=0x7f0e00aa;
         public static final int Nazionalita1=0x7f0e00a9;
         public static final int Nome=0x7f0e00a3;
@@ -3151,7 +3151,7 @@ containing a value of this type.
         public static final int android_pay_dark=0x7f0e0056;
         public static final int android_pay_light=0x7f0e0057;
         public static final int android_pay_light_with_border=0x7f0e0058;
-        public static final int arrow=0x7f0e00b7;
+        public static final int arrow=0x7f0e00b8;
         public static final int art=0x7f0e0132;
         public static final int auto=0x7f0e0040;
         public static final int autoCompleteTextView1=0x7f0e00ef;
@@ -3249,7 +3249,7 @@ containing a value of this type.
         public static final int ifRoom=0x7f0e003a;
         public static final int image=0x7f0e0070;
         public static final int imageView=0x7f0e0118;
-        public static final int imageView_round=0x7f0e00b6;
+        public static final int imageView_round=0x7f0e00b7;
         public static final int imageView_round_Dialog=0x7f0e0128;
         public static final int imageView_round_Profile=0x7f0e00d0;
         public static final int info=0x7f0e0146;
@@ -3330,7 +3330,7 @@ containing a value of this type.
         public static final int progress_circular=0x7f0e0007;
         public static final int progress_horizontal=0x7f0e0008;
         public static final int radio=0x7f0e0082;
-        public static final int ratingBar=0x7f0e00ce;
+        public static final int ratingBar=0x7f0e00cd;
         public static final int right=0x7f0e0023;
         public static final int route_name=0x7f0e012e;
         public static final int sandbox=0x7f0e0049;

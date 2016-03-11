@@ -35,23 +35,29 @@
                         android:id="@+id/cover_image"
                         />
 
+                    <RatingBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        android:id="@+id/ratingBar" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:paddingLeft="@dimen/activity_horizontal_margin"
-                        android:paddingRight="@dimen/activity_horizontal_margin"
-                        android:paddingTop="@dimen/activity_vertical_margin"
-                        android:paddingBottom="@dimen/activity_vertical_margin"
+                        android:paddingBottom="3dp"
                         android:layout_weight="0.3"
-                        android:onClick="ClickOnCoverImage">
+                        android:onClick="ClickOnCoverImage"
+                        android:background="#af3d3d3d"
+                        android:layout_gravity="bottom">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:text="@string/Name"
-                            android:textColor="#000000"
+                            android:textColor="#ffffff"
 
                             android:id="@+id/Nome"
                             android:textStyle="bold" />
@@ -61,15 +67,9 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:text="Cognome"
-                            android:textColor="#000000"
+                            android:textColor="#ffffff"
                             android:id="@+id/Cognome"
                             android:textStyle="bold" />
-
-                        <RatingBar
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:visibility="invisible"
-                            android:id="@+id/ratingBar" />
 
                     </LinearLayout>
 
