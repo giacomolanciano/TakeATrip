@@ -387,10 +387,10 @@ public class ListaTappeActivity extends AppCompatActivity
                                 bitmapOptions);
                         Log.i("TEST", "path file immagine: " + f.getAbsolutePath());
 
-                        UploadImageTask task = new UploadImageTask(this, bitmap,
-                                Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
-                        task.delegate = this;
-                        task.execute();
+//                        UploadImageTask task = new UploadImageTask(this, bitmap,
+//                                Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
+//                        task.delegate = this;
+//                        task.execute();
 
 
                         //TODO verifica caricamento su drive
@@ -398,21 +398,21 @@ public class ListaTappeActivity extends AppCompatActivity
                         String path = Environment.getExternalStorageDirectory().toString();
                         f.delete();
 
-                        OutputStream outFile = null;
-                        File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
-                        try {
-                            outFile = new FileOutputStream(file);
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, QUALITY_OF_IMAGE, outFile);
-                            outFile.flush();
-                            outFile.close();
-
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+//                        OutputStream outFile = null;
+//                        File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
+//                        try {
+//                            outFile = new FileOutputStream(file);
+//                            bitmap.compress(Bitmap.CompressFormat.JPEG, QUALITY_OF_IMAGE, outFile);
+//                            outFile.flush();
+//                            outFile.close();
+//
+//                        } catch (FileNotFoundException e) {
+//                            e.printStackTrace();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -513,32 +513,32 @@ public class ListaTappeActivity extends AppCompatActivity
                                 MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
                         Log.i("TEST", "path file video: " + fileVideo.getAbsolutePath());
 
-                        UploadImageTask task = new UploadImageTask(this, bitmap,
-                                Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
-                        task.delegate = this;
-                        task.execute();
+//                        UploadImageTask task = new UploadImageTask(this, bitmap,
+//                                Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
+//                        task.delegate = this;
+//                        task.execute();
 
 
                         //TODO verifica caricamento su drive
 
-                        String path = Environment.getExternalStorageDirectory().toString();
-                        fileVideo.delete();
-
-                        OutputStream outFile = null;
-                        File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".3gp");
-                        try {
-                            outFile = new FileOutputStream(file);
-                            //bitmap.compress(Bitmap.CompressFormat.JPEG, QUALITY_OF_IMAGE, outFile);
-                            outFile.flush();
-                            outFile.close();
-
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+//                        String path = Environment.getExternalStorageDirectory().toString();
+//                        fileVideo.delete();
+//
+//                        OutputStream outFile = null;
+//                        File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".3gp");
+//                        try {
+//                            outFile = new FileOutputStream(file);
+//                            //bitmap.compress(Bitmap.CompressFormat.JPEG, QUALITY_OF_IMAGE, outFile);
+//                            outFile.flush();
+//                            outFile.close();
+//
+//                        } catch (FileNotFoundException e) {
+//                            e.printStackTrace();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -568,6 +568,18 @@ public class ListaTappeActivity extends AppCompatActivity
 
                 case Constants.REQUEST_RECORD_PICK:
                     Log.i("TEST", "REQUEST_RECORD_PICK");
+
+                    Uri selectedAudio = data.getData();
+
+                    String[] audioPath = {MediaStore.Audio.Media.DATA};
+                    Cursor cursor = getContentResolver().query(selectedAudio, audioPath, null, null, null);
+                    cursor.moveToFirst();
+                    int columnIndexAudio = cursor.getColumnIndex(audioPath[0]);
+                    String audioFilePath = cursor.getString(columnIndexAudio);
+                    cursor.close();
+
+//                    Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(audioFilePath,
+//                            MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
 
                     break;
 
