@@ -221,6 +221,7 @@
     <string name="PhotosAndVideos">Photos and Videos</string>
     <string name="Records">Records</string>
     <string name="Notes">Notes</string>
+    <string name="title_activity_multi_image_chooser">MultiImageChooserActivity</string>
 
 
 </resources>

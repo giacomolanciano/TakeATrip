@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -98,6 +100,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -112,6 +115,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 public class ListaTappeActivity extends AppCompatActivity
@@ -358,6 +362,8 @@ public class ListaTappeActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == RESULT_OK) {
 
             switch (requestCode) {
@@ -381,7 +387,8 @@ public class ListaTappeActivity extends AppCompatActivity
                                 bitmapOptions);
                         Log.i("TEST", "path file immagine: " + f.getAbsolutePath());
 
-                        UploadImageTask task = new UploadImageTask(this, bitmap, Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
+                        UploadImageTask task = new UploadImageTask(this, bitmap,
+                                Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
                         task.delegate = this;
                         task.execute();
 
@@ -415,40 +422,62 @@ public class ListaTappeActivity extends AppCompatActivity
 
                 case Constants.REQUEST_IMAGE_PICK:
 
-                    Uri selectedImage = data.getData();
 
-                    Log.i("TEST", "uri: "+ selectedImage);
+                    //############## ALTERNATIVA ##############
 
-                    ArrayList<String> imageUrls = new ArrayList<String>();
+                    if (data != null) {
+                        ClipData clipData = data.getClipData();
+                        if (clipData != null) {
 
-                    String[] filePath = {MediaStore.Images.Media.DATA};
+                            //TODO per selezione multipla, ancora non funzionante
 
-//                    Cursor c = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-//                            , filePath, null, null, null);
+                            for (int i = 0; i < clipData.getItemCount(); i++) {
+                                ClipData.Item item = clipData.getItemAt(i);
+                                Uri uri = item.getUri();
 
-                    Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
+                                //In case you need image's absolute path
+                                //String path= MultimedialFile.getRealPathFromURI(ListaTappeActivity.this, uri);
+                                String path= getRealPathFromURI(ListaTappeActivity.this, uri);
 
-                    for (int i = 0; i < c.getCount(); i++) {
-                        c.moveToPosition(i);
-                        int dataColumnIndex = c.getColumnIndex(MediaStore.Images.Media.DATA);
-                        imageUrls.add(c.getString(dataColumnIndex));
 
-                        Log.i("TEST", "array path: "+imageUrls.get(i));
+                                Log.i("TEST", "image path: " + path);
+                            }
+
+
+                        } else {
+                            Log.e("TEST", "clipdata is null");
+
+                            Uri selectedImage = data.getData();
+
+                            String[] filePath = {MediaStore.Images.Media.DATA};
+                            Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
+                            c.moveToFirst();
+                            int columnIndex = c.getColumnIndex(filePath[0]);
+                            String picturePath = c.getString(columnIndex);
+                            c.close();
+                            Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+
+
+                            //String picturePath = getRealPathFromURI(ListaTappeActivity.this, selectedImage);
+
+                            Log.i("TEST", "image from gallery: " + picturePath + "");
+
+
+//                            UploadImageTask task = new UploadImageTask(this, thumbnail, Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
+//                            task.delegate = this;
+//                            task.execute();
+
+                        }
+
+                    } else {
+                        Log.e("TEST", "data is null");
+
                     }
 
 
-//                    int columnIndex = c.getColumnIndex(filePath[0]);
-//                    String picturePath = c.getString(columnIndex);
-//                    c.close();
-//                    Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-//                    Log.i("TEST", "image from gallery:" + picturePath + "");
-//
-//
-//                    UploadImageTask task = new UploadImageTask(this, thumbnail, Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
-//                    task.delegate = this;
-//                    task.execute();
 
                     //TODO verifica caricamento su drive
+
 
                     break;
 
@@ -467,10 +496,78 @@ public class ListaTappeActivity extends AppCompatActivity
                 case Constants.REQUEST_VIDEO_CAPTURE:
                     Log.i("TEST", "REQUEST_VIDEO_CAPTURE");
 
+                    File fileVideo = new File(Environment.getExternalStorageDirectory().toString());
+                    for (File temp : fileVideo.listFiles()) {
+                        if (temp.getName().equals(videoFileName)) {
+                            fileVideo = temp;
+                            break;
+                        }
+                    }
+                    try {
+                        Bitmap bitmap;
+//                        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+//                        bitmap = BitmapFactory.decodeFile(fileVideo.getAbsolutePath(),
+//                                bitmapOptions);
+
+                        bitmap = ThumbnailUtils.createVideoThumbnail(fileVideo.getAbsolutePath(),
+                                MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+                        Log.i("TEST", "path file video: " + fileVideo.getAbsolutePath());
+
+                        UploadImageTask task = new UploadImageTask(this, bitmap,
+                                Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
+                        task.delegate = this;
+                        task.execute();
+
+
+                        //TODO verifica caricamento su drive
+
+                        String path = Environment.getExternalStorageDirectory().toString();
+                        fileVideo.delete();
+
+                        OutputStream outFile = null;
+                        File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".3gp");
+                        try {
+                            outFile = new FileOutputStream(file);
+                            //bitmap.compress(Bitmap.CompressFormat.JPEG, QUALITY_OF_IMAGE, outFile);
+                            outFile.flush();
+                            outFile.close();
+
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+
                     break;
 
                 case Constants.REQUEST_VIDEO_PICK:
-                    Log.i("TEST", "REQUEST_IMAGE_PICK");
+                    Log.i("TEST", "REQUEST_VIDEO_PICK");
+
+                    Uri selectedVideo = data.getData();
+
+                    String[] filePath = {MediaStore.Video.Media.DATA};
+                    Cursor c = getContentResolver().query(selectedVideo, filePath, null, null, null);
+                    c.moveToFirst();
+                    int columnIndex = c.getColumnIndex(filePath[0]);
+                    String videoPath = c.getString(columnIndex);
+                    c.close();
+
+                    Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(videoPath,
+                            MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+
+
+                    break;
+
+                case Constants.REQUEST_RECORD_PICK:
+                    Log.i("TEST", "REQUEST_RECORD_PICK");
 
                     break;
 
@@ -486,9 +583,155 @@ public class ListaTappeActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public void onConnected(Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        googleMap = map;
+        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                // TODO: Consider calling
+                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for Activity#requestPermissions for more details.
+                return;
+            }
+        }
+
+        googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+
+                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                v.vibrate(Constants.VIBRATION_MILLISEC);
+
+                try {
+                    PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
+
+                    //TODO gestire zoom con LatLngBounds
+                    LatLngBounds bounds = new LatLngBounds(latLng, latLng);
+
+
+                    intentBuilder.setLatLngBounds(bounds);
+                    Intent intentPlacePicker = intentBuilder.build(ListaTappeActivity.this);
+                    // Start the Intent by requesting a result, identified by a request code.
+                    startActivityForResult(intentPlacePicker, Constants.REQUEST_PLACE_PICKER);
+
+
+                } catch (GooglePlayServicesRepairableException e) {
+                    GooglePlayServicesUtil
+                            .getErrorDialog(e.getConnectionStatusCode(), ListaTappeActivity.this, 0);
+
+                    Log.e("TEST", e.toString());
+
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    Toast.makeText(ListaTappeActivity.this, "Google Play Services is not available.",
+                            Toast.LENGTH_LONG)
+                            .show();
+
+                    Log.e("TEST", e.toString());
+                }
+
+            }
+        });
+    }
+
+
+    public void onClickAddStop(View v){
+
+        try {
+            PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
+            Intent intentPlacePicker = intentBuilder.build(ListaTappeActivity.this);
+            // Start the Intent by requesting a result, identified by a request code.
+            startActivityForResult(intentPlacePicker, Constants.REQUEST_PLACE_PICKER);
+
+
+        } catch (GooglePlayServicesRepairableException e) {
+            GooglePlayServicesUtil
+                    .getErrorDialog(e.getConnectionStatusCode(), ListaTappeActivity.this, 0);
+
+            Log.e("TEST", e.toString());
+
+        } catch (GooglePlayServicesNotAvailableException e) {
+            Toast.makeText(ListaTappeActivity.this, "Google Play Services is not available.",
+                    Toast.LENGTH_LONG)
+                    .show();
+
+            Log.e("TEST", e.toString());
+        }
+    }
+
+
+    @Override
+    public void processFinish(DriveId output) {
+        //TODO
+    }
+
+    @Override
+    public void processFinish2(DriveId output) {
+        //TODO
+    }
+
 
 
     //metodi ausiliari
+
+    private static String getRealPathFromURI(Context context, Uri contentUri) {
+
+        Log.i("TEST", "entro in getRealPathFromURI(...)");
+
+        Cursor cursor = null;
+        String result = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri, proj, null,
+                    null, null);
+
+            if (cursor != null) {
+                cursor.moveToFirst();
+
+                int columnIndex = cursor
+                        //.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                        .getColumnIndex(proj[0]);
+
+                result = cursor.getString(columnIndex);
+                Log.i("TEST", "result: "+result);
+            }
+
+            return result;
+
+        } catch (Exception e) {
+            Log.e("TEST", "eccezione nel restituire il path: "+e.toString());
+            return null;
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
 
     private void PopolaPartecipanti(final Set<Profilo> partecipants){
 
@@ -677,117 +920,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-    @Override
-    public void onConnected(Bundle bundle) {
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
-    }
-
-    @Override
-    public void onMapReady(GoogleMap map) {
-        googleMap = map;
-        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                // TODO: Consider calling
-                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for Activity#requestPermissions for more details.
-                return;
-            }
-        }
-
-        googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-            @Override
-            public void onMapLongClick(LatLng latLng) {
-
-                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                v.vibrate(Constants.VIBRATION_MILLISEC);
-
-                try {
-                    PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
-
-                    //TODO gestire zoom con LatLngBounds
-                    LatLngBounds bounds = new LatLngBounds(latLng, latLng);
-
-
-                    intentBuilder.setLatLngBounds(bounds);
-                    Intent intentPlacePicker = intentBuilder.build(ListaTappeActivity.this);
-                    // Start the Intent by requesting a result, identified by a request code.
-                    startActivityForResult(intentPlacePicker, Constants.REQUEST_PLACE_PICKER);
-
-
-                } catch (GooglePlayServicesRepairableException e) {
-                    GooglePlayServicesUtil
-                            .getErrorDialog(e.getConnectionStatusCode(), ListaTappeActivity.this, 0);
-
-                    Log.e("TEST", e.toString());
-
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    Toast.makeText(ListaTappeActivity.this, "Google Play Services is not available.",
-                            Toast.LENGTH_LONG)
-                            .show();
-
-                    Log.e("TEST", e.toString());
-                }
-
-            }
-        });
-    }
-
-
-    public void onClickAddStop(View v){
-
-        try {
-            PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
-            Intent intentPlacePicker = intentBuilder.build(ListaTappeActivity.this);
-            // Start the Intent by requesting a result, identified by a request code.
-            startActivityForResult(intentPlacePicker, Constants.REQUEST_PLACE_PICKER);
-
-
-        } catch (GooglePlayServicesRepairableException e) {
-            GooglePlayServicesUtil
-                    .getErrorDialog(e.getConnectionStatusCode(), ListaTappeActivity.this, 0);
-
-            Log.e("TEST", e.toString());
-
-        } catch (GooglePlayServicesNotAvailableException e) {
-            Toast.makeText(ListaTappeActivity.this, "Google Play Services is not available.",
-                    Toast.LENGTH_LONG)
-                    .show();
-
-            Log.e("TEST", e.toString());
-        }
-    }
-
-
-    @Override
-    public void processFinish(DriveId output) {
-        //TODO
-    }
-
-    @Override
-    public void processFinish2(DriveId output) {
-        //TODO
-    }
-
-
     private int calcolaNumUltimaTappaUtenteCorrente() {
 
         int result = 0;
@@ -959,11 +1091,25 @@ public class ListaTappeActivity extends AppCompatActivity
 
                         case 0: //pick images from gallery
 
-                            Intent intentPick = new Intent();
-                            intentPick.setType("image/*");
-                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                            intentPick.setAction(Intent.ACTION_GET_CONTENT);
-                            startActivityForResult(Intent.createChooser(intentPick,"Select Picture"), Constants.REQUEST_IMAGE_PICK);
+                            Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(intentPick, Constants.REQUEST_IMAGE_PICK);
+
+
+                            //TODO per selezione multipla, non funzionante con galleria, si con google photo
+//                            Intent intentPick = new Intent();
+//                            intentPick.setType("image/*");
+//                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+//                            intentPick.setAction(Intent.ACTION_GET_CONTENT);
+//                            startActivityForResult(Intent.createChooser(intentPick, "Select Picture"), Constants.REQUEST_IMAGE_PICK);
+
+
+//                            ######### ALTERNATIVA #########
+//                            Intent intentPick = new Intent(Intent.ACTION_PICK);
+//                            intentPick.setType("image/*");
+//                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+//                            startActivityForResult(intentPick, Constants.REQUEST_IMAGE_PICK);
+
+
 
                             //TODO far diventare immagine blu
 
@@ -1010,7 +1156,7 @@ public class ListaTappeActivity extends AppCompatActivity
             Log.e(e.toString().toUpperCase(), e.getMessage());
         }
 
-        Log.i("TEST", "END add video");
+        Log.i("TEST", "END add image");
 
     }
 
@@ -1031,12 +1177,16 @@ public class ListaTappeActivity extends AppCompatActivity
 
                         case 0: //pick videos from gallery
 
-                            Intent intentPick = new Intent();
-                            intentPick.setType("video/*");
-                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                            intentPick.setAction(Intent.ACTION_GET_CONTENT);
-                            startActivityForResult(Intent.createChooser(intentPick,"Select Video"),
-                                    Constants.REQUEST_VIDEO_PICK);
+                            Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(intentPick, Constants.REQUEST_VIDEO_PICK);
+
+                            //TODO per selezione multipla, non funzionante
+//                            Intent intentPick = new Intent();
+//                            intentPick.setType("video/*");
+//                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+//                            intentPick.setAction(Intent.ACTION_GET_CONTENT);
+//                            startActivityForResult(Intent.createChooser(intentPick,"Select Video"),
+//                                    Constants.REQUEST_VIDEO_PICK);
 
                             //TODO far diventare immagine blu
 
@@ -1106,12 +1256,16 @@ public class ListaTappeActivity extends AppCompatActivity
 
                         case 0: //pick audio from storage
 
-                            Intent intentPick = new Intent();
-                            intentPick.setType("audio/*");
-                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                            intentPick.setAction(Intent.ACTION_GET_CONTENT);
-                            startActivityForResult(Intent.createChooser(intentPick, "Select Record"),
-                                    Constants.REQUEST_IMAGE_PICK);
+                            Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(intentPick, Constants.REQUEST_RECORD_PICK);
+
+                            //TODO per selezione multipla, non funzionante
+//                            Intent intentPick = new Intent();
+//                            intentPick.setType("audio/*");
+//                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+//                            intentPick.setAction(Intent.ACTION_GET_CONTENT);
+//                            startActivityForResult(Intent.createChooser(intentPick, "Select Record"),
+//                                    Constants.REQUEST_IMAGE_PICK);
 
                             //TODO far diventare immagine blu
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.david.takeatrip" >
+    package="com.example.david.takeatrip">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -36,7 +36,7 @@
         android:allowBackup="true"
         android:icon="@drawable/logodef"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -70,7 +70,7 @@
         <activity android:name=".Activities.TappaActivity" />
         <activity
             android:name=".Activities.SplashActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -81,7 +81,7 @@
             android:name=".Activities.DestinationSelectionActivity"
             android:label="@string/title_activity_destination_selection"
             android:parentActivityName=".Activities.ProfiloActivity"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.david.takeatrip.Activities.ProfiloActivity" />
@@ -104,10 +104,12 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".Activities.CreateFolderActivity" >
-        </activity>
-        <activity android:name=".Utilities.RetrieveImageTask" >
-        </activity>
+        <activity android:name=".Activities.CreateFolderActivity"></activity>
+        <activity android:name=".Utilities.RetrieveImageTask"></activity>
+        <activity
+            android:name=".Activities.MultiImageChooserActivity"
+            android:label="@string/title_activity_multi_image_chooser"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
