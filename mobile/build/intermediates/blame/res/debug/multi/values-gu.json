@@ -1,29 +1,5 @@
 [
     {
-        "outputFile": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\values-gu\\values-gu.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 60,
-                    "endOffset": 111
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.1.0\\res\\values-gu\\values.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 4,
-                        "startOffset": 181,
-                        "endColumn": 60,
-                        "endOffset": 237
-                    }
-                }
-            }
-        ]
-    },
-    {
         "outputFile": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\values-gu\\values-gu.xml",
         "map": [
             {
@@ -48,7 +24,7 @@
         ]
     },
     {
-        "outputFile": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\values-gu\\values-gu.xml",
+        "outputFile": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\values-gu\\values-gu.xml",
         "map": [
             {
                 "to": {
@@ -59,7 +35,7 @@
                     "endOffset": 111
                 },
                 "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.1.0\\res\\values-gu\\values.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.1.0\\res\\values-gu\\values.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -72,7 +48,7 @@
         ]
     },
     {
-        "outputFile": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\values-gu\\values-gu.xml",
+        "outputFile": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\values-gu\\values-gu.xml",
         "map": [
             {
                 "to": {
@@ -83,7 +59,7 @@
                     "endOffset": 111
                 },
                 "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.1.0\\res\\values-gu\\values.xml",
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.1.0\\res\\values-gu\\values.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -156,6 +132,54 @@
                 },
                 "from": {
                     "file": "C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.1.0\\res\\values-gu\\values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 181,
+                        "endColumn": 60,
+                        "endOffset": 237
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\values-gu\\values-gu.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 60,
+                    "endOffset": 111
+                },
+                "from": {
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.1.0\\res\\values-gu\\values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 181,
+                        "endColumn": 60,
+                        "endOffset": 237
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\values-gu\\values-gu.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 60,
+                    "endOffset": 111
+                },
+                "from": {
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.1.0\\res\\values-gu\\values.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,

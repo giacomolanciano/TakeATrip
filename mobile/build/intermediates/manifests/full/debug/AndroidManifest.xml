@@ -81,7 +81,6 @@
             android:name="com.example.david.takeatrip.Activities.ViaggioActivity"
             android:label="@string/title_activity_viaggio"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="com.example.david.takeatrip.Activities.TappaActivity" />
         <activity
             android:name="com.example.david.takeatrip.Activities.SplashActivity"
             android:label="@string/app_name" >
@@ -123,6 +122,10 @@
         <activity
             android:name="com.example.david.takeatrip.Activities.MultiImageChooserActivity"
             android:label="@string/title_activity_multi_image_chooser"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.example.david.takeatrip.Activities.TappaActivity"
+            android:label="@string/title_activity_tappa"
             android:theme="@style/AppTheme" />
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity

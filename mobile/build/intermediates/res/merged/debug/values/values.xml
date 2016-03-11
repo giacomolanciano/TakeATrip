@@ -620,6 +620,7 @@
     <string name="title_activity_multi_image_chooser">MultiImageChooserActivity</string>
     <string name="title_activity_profilo">Profile</string>
     <string name="title_activity_registrazione">Registration</string>
+    <string name="title_activity_tappa">TappaActivity</string>
     <string name="title_activity_viaggio">ViaggioActivity</string>
     <string name="wallet_buy_button_place_holder">Buy with Google</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
