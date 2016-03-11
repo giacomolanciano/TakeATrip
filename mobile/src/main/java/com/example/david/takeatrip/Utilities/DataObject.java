@@ -27,6 +27,15 @@ public class DataObject {
         return viaggio;
     }
 
+    public String getNomeViaggio() {
+
+        return viaggio.getNome();
+
+    }  public String getCodiceViaggio() {
+
+        return viaggio.getCodice();
+    }
+
     public ImageView getImmagineViaggio() {
         return immagineViaggio;
     }

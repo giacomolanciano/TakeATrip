@@ -1,5 +1,6 @@
 package com.example.david.takeatrip.Utilities;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 
 /**
@@ -10,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.david.takeatrip.Activities.ViaggioActivity;
 import com.example.david.takeatrip.R;
 
 import java.util.ArrayList;
@@ -22,15 +25,20 @@ public class MyRecyclerViewAdapter extends RecyclerView
     private ArrayList<DataObject> mDataset;
     private static MyClickListener myClickListener;
 
-    public static class DataObjectHolder extends RecyclerView.ViewHolder
+    public class DataObjectHolder extends RecyclerView.ViewHolder
             implements View
             .OnClickListener {
-        TextView label;
+        TextView nomeViaggio;
+        TextView codiceViaggio;
+        String nome;
         TextView dateTime;
 
         public DataObjectHolder(View itemView) {
             super(itemView);
-            //    label = (TextView) itemView.findViewById(R.id.textView);
+
+            nomeViaggio = (TextView) itemView.findViewById(R.id.NameTravel);
+            codiceViaggio = (TextView) itemView.findViewById(R.id.CodeTravel);
+            //nomeViaggio.setText(());
             //   dateTime = (TextView) itemView.findViewById(R.id.textView2);
             Log.i(LOG_TAG, "Adding Listener");
             itemView.setOnClickListener(this);
@@ -38,12 +46,27 @@ public class MyRecyclerViewAdapter extends RecyclerView
 
         @Override
         public void onClick(View v) {
-            myClickListener.onItemClick(getAdapterPosition(), v);
+
+           // myClickListener.onItemClick(getAdapterPosition(), v);
+          //  Toast.makeText(v.getContext(), "PROVA", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(v.getContext(), ViaggioActivity.class);
+            //TODO creare il passaggio dell'email (Profile da DataObject ecc.)
+            intent.putExtra("email","");
+            intent.putExtra("nomeViaggio", nomeViaggio.getText().toString());
+            intent.putExtra("codiceViaggio", codiceViaggio.getText().toString());
+
+            v.getContext().startActivity(intent);
+
+
+
+
         }
     }
 
     public void setOnItemClickListener(MyClickListener myClickListener) {
         this.myClickListener = myClickListener;
+
+
     }
 
     public MyRecyclerViewAdapter(ArrayList<DataObject> myDataset) {
@@ -64,7 +87,9 @@ public class MyRecyclerViewAdapter extends RecyclerView
 
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
-//        holder.label.setText(mDataset.get(position).getmText1());
+       holder.nomeViaggio.setText(mDataset.get(position).getNomeViaggio());
+       holder.codiceViaggio.setText(mDataset.get(position).getCodiceViaggio());
+       //holder.nome.equals(mDataset.get(position).getNomeViaggio());
         //      holder.dateTime.setText(mDataset.get(position).getmText2());
     }
 

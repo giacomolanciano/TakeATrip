@@ -1,7 +1,9 @@
 package com.example.david.takeatrip.Activities;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.support.v7.app.ActionBarActivity;
@@ -67,6 +69,7 @@ public class ListaViaggiActivity extends ActionBarActivity {
     private TextView ViewCaricamentoInCorso;
 
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +102,7 @@ public class ListaViaggiActivity extends ActionBarActivity {
         };
 
         group.addView(image_default);
+
 
         viaggi = new ArrayList<Viaggio>();
         dataTravels = new ArrayList<DataObject>();
@@ -261,7 +265,6 @@ public class ListaViaggiActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
 
-//            ViewCaricamentoInCorso.setVisibility(View.INVISIBLE);
 
 
             if (stringaFinale.equals("")) {
