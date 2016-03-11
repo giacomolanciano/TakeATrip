@@ -91,7 +91,6 @@ public class ListaViaggiActivity extends ActionBarActivity {
 
 
 */
-        ViewCaricamentoInCorso = (TextView) findViewById(R.id.TextViewCaricamentoInCorso);
 
         image_default = new ImageView(this);
         image_default.setImageDrawable(getDrawable(R.drawable.default_male));

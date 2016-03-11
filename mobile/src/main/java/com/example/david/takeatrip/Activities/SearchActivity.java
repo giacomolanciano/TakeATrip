@@ -1,14 +1,21 @@
 package com.example.david.takeatrip.Activities;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -16,7 +23,9 @@ import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.DataObject;
 import com.example.david.takeatrip.Utilities.GoogleTranslate;
+import com.example.david.takeatrip.Utilities.MyRecyclerViewAdapter;
 import com.example.david.takeatrip.Utilities.ViaggioAdapter;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -54,19 +63,30 @@ public class SearchActivity extends AppCompatActivity {
     private String nomeScelto, cognomeScelto, destination;
     private String emailUtente, emailEserno;
 
-
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private static String LOG_TAG = "CardViewActivity";
 
     private AutoCompleteTextView editTextUser;
     List<String> users, destinations;
     Map<Profilo, List<Viaggio>> viaggi_profilo;
     private ListView lista;
+    private ArrayList<DataObject> dataTravels;
+    private ArrayList<Viaggio> viaggi;
+
+    private ViewGroup group;
+    private ImageView image_default;
 
 
     private PlaceAutocompleteFragment autocompleteFragment;
 
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_search);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
@@ -78,12 +98,31 @@ public class SearchActivity extends AppCompatActivity {
         editTextUser = (AutoCompleteTextView) findViewById(R.id.editTextUser);
 
 
-        lista = (ListView)findViewById(R.id.listTravelsBySearch);
+       // lista = (ListView)findViewById(R.id.listTravelsBySearch);
+        mRecyclerView = (RecyclerView) findViewById(R.id.listTravelsBySearch);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new MyRecyclerViewAdapter(getDataSet());
+        mRecyclerView.setAdapter(mAdapter);
+        image_default = new ImageView(this);
+        image_default.setImageDrawable(getDrawable(R.drawable.default_male));
 
+        group = new ViewGroup(this) {
+            @Override
+            protected void onLayout(boolean changed, int l, int t, int r, int b) {
+
+            }
+        };
+
+        group.addView(image_default);
 
         users = new ArrayList<String>();
         destinations = new ArrayList<String>();
         viaggi_profilo = new HashMap<Profilo,List<Viaggio>>();
+        dataTravels = new ArrayList<DataObject>();
+        viaggi = new ArrayList<Viaggio>();
+
 
 
         autocompleteFragment = (PlaceAutocompleteFragment)
@@ -139,24 +178,28 @@ public class SearchActivity extends AppCompatActivity {
 
 
     private void PopolaLista(Map<Profilo, List<Viaggio>> p_v){
-        ArrayList<Viaggio> result = new ArrayList<Viaggio>();
+        ArrayList<DataObject> result = new ArrayList<DataObject>();
         for(Profilo p : p_v.keySet()){
             for(Viaggio v: p_v.get(p)){
                 if(result.contains(v)){
                     continue;
                 }
                 else{
-                    result.addAll(p_v.get(p));}
+                    result.add(new DataObject(v, p));
+                }
 
             }
         }
 
         Log.i("TEST", "result:" + result);
+        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(result);
+        adapter.onCreateViewHolder(group, 0);
+        mRecyclerView.setAdapter(adapter);
 
-        final ViaggioAdapter adapter = new ViaggioAdapter(this, R.layout.entry_travels_listview, result);
-        lista.setAdapter(adapter);
+      //  final ViaggioAdapter adapter = new ViaggioAdapter(this, R.layout.entry_travels_listview, result);
+       // lista.setAdapter(adapter);
 
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       /* lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adattatore, final View componente, int pos, long id) {
 
@@ -170,10 +213,19 @@ public class SearchActivity extends AppCompatActivity {
                 startActivity(intent);
 
             }
-        });
+        });*/
 
     }
 
+    public ArrayList<DataObject> getDataSet() {
+        ArrayList results = new ArrayList<DataObject>();
+        //for (int index = 0; index < 20; index++) {
+            //DataObject obj = new DataObject("Some Primary Text " + index,
+            //        "Secondary " + index);
+            //results.add(index, obj);
+       // }
+        return results;
+    }
 
 
     private class MyTaskTranslate extends AsyncTask<Void, Void, Void> {
