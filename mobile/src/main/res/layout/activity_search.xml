@@ -12,12 +12,28 @@
     android:background="@color/screen_background_holo_light"
     >
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/listTravelsBySearch"
+            android:layout_width="wrap_content"
+            android:layout_height="383dp"
+            android:scrollbars="vertical"
+            android:layout_gravity="center_horizontal|top" />
+    </FrameLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:weightSum="1"
-        android:gravity="bottom">
+        android:gravity="bottom"
+        android:background="@color/sfondoBase"
+        android:paddingBottom="15dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -71,26 +87,12 @@
                     android:textColorHint="@color/color_hint"
                     android:textSize="20sp"
                     android:layout_weight="0.9"
-                    android:background="@color/screen_background_holo_light"
+                    android:background="@color/sfondoBase"
                     />
 
             </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="bottom">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/listTravelsBySearch"
-            android:layout_width="wrap_content"
-            android:layout_height="383dp"
-            android:scrollbars="vertical"
-            android:layout_gravity="center_horizontal|top" />
-    </FrameLayout>
 
 </FrameLayout>
