@@ -65,7 +65,6 @@ import com.example.david.takeatrip.Utilities.AudioRecord;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.MultimedialFile;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
-import com.example.david.takeatrip.Utilities.UploadImageTask;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -101,14 +100,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.sql.Date;
 import java.text.CollationElementIterator;
 import java.util.ArrayList;
@@ -116,7 +111,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
 public class ListaTappeActivity extends AppCompatActivity
@@ -205,7 +199,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        buttonAddStop = (FloatingActionButton) findViewById(R.id.buttonAddStop);
+        buttonAddStop = (FloatingActionButton) findViewById(R.id.fabAddStop);
         buttonAddStop.setVisibility(View.INVISIBLE);
         layoutProprietariItinerari = (LinearLayout) findViewById(R.id.layoutProprietariItinerari);
 
@@ -1045,7 +1039,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
         //setting listener pulsanti dialog
 
-        FloatingActionButton addStop = (FloatingActionButton) dialog.findViewById(R.id.buttonAddStop);
+        FloatingActionButton addStop = (FloatingActionButton) dialog.findViewById(R.id.fabAddStop);
         addStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

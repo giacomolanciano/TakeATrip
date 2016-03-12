@@ -1,5 +1,29 @@
 [
     {
+        "outputFile": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\values-w360dp-v13\\values-w360dp-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 54,
+                    "endOffset": 105
+                },
+                "from": {
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.0.1\\res\\values-w360dp\\values-w360dp.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 283,
+                        "endColumn": 54,
+                        "endOffset": 333
+                    }
+                }
+            }
+        ]
+    },
+    {
         "outputFile": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\values-w360dp-v13\\values-w360dp-v13.xml",
         "map": [
             {
@@ -24,30 +48,6 @@
         ]
     },
     {
-        "outputFile": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\values-w360dp-v13\\values-w360dp-v13.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 54,
-                    "endOffset": 105
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.0.1\\res\\values-w360dp\\values-w360dp.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 4,
-                        "startOffset": 283,
-                        "endColumn": 54,
-                        "endOffset": 333
-                    }
-                }
-            }
-        ]
-    },
-    {
         "outputFile": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\values-w360dp-v13\\values-w360dp-v13.xml",
         "map": [
             {
@@ -59,37 +59,13 @@
                     "endOffset": 105
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.0.1\\res\\values-w360dp\\values-w360dp.xml",
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\values-w360dp-v13\\values-w360dp-v13.xml",
                     "position": {
-                        "startLine": 4,
+                        "startLine": 2,
                         "startColumn": 4,
-                        "startOffset": 283,
+                        "startOffset": 55,
                         "endColumn": 54,
-                        "endOffset": 333
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\values-w360dp-v13\\values-w360dp-v13.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 54,
-                    "endOffset": 105
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.0.1\\res\\values-w360dp\\values-w360dp.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 4,
-                        "startOffset": 283,
-                        "endColumn": 54,
-                        "endOffset": 333
+                        "endOffset": 105
                     }
                 }
             }
@@ -132,6 +108,30 @@
                 },
                 "from": {
                     "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.0.1\\res\\values-w360dp\\values-w360dp.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 283,
+                        "endColumn": 54,
+                        "endOffset": 333
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\values-w360dp-v13\\values-w360dp-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 54,
+                    "endOffset": 105
+                },
+                "from": {
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.0.1\\res\\values-w360dp\\values-w360dp.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,

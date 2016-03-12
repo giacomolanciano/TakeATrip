@@ -46,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:id="@+id/buttonAddStop"
+        android:id="@+id/fabAddStop"
         app:backgroundTint="@color/blue"
         android:src="@drawable/ic_add_white_24dp"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
