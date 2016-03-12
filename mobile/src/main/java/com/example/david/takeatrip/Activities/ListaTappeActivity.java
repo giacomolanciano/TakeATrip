@@ -674,18 +674,13 @@ public class ListaTappeActivity extends AppCompatActivity
 
         Intent i = new Intent(this, TappaActivity.class);
 
-//        if(email == null || (email != null && emailEsterno!= null)) {
-//            i.putExtra("email", email);
-//        }
-//        else if(email != null && emailEsterno == null){
-//            i.putExtra("email", email);
-//        }
-//        else{
-//            i.putExtra("email", emailEsterno);
-//        }
-//        //TODO passare codice e nome per ricreare viaggio
-//        i.putExtra("codiceViaggio", comboCodice.get(marker.getTitle()));
-//        i.putExtra("nomeViaggio", marker.getTitle());
+        i.putExtra("email", email);
+
+
+        //TODO passare codice e nome per ricreare viaggio
+        i.putExtra("codiceViaggio", codiceViaggio);
+        i.putExtra("nomeViaggio", marker.getTitle());
+
 //        Log.e("TEST", "#email  " + profiloUtente.getEmail());
 //        Log.e("TEST", "#nomedelviaggio  " + marker.getTitle() );
 //        Log.e("TEST", "#codicedelviaggio  " + comboCodice.get(marker.getTitle()));
