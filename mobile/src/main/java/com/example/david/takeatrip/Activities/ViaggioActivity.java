@@ -468,6 +468,8 @@ public class ViaggioActivity extends AppCompatActivity {
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
 
+        //query partecipanti viaggio
+
         InputStream is = null;
         String result, stringaFinale = "";
 

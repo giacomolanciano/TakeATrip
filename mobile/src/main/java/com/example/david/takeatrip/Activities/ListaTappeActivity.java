@@ -131,7 +131,13 @@ public class ListaTappeActivity extends AppCompatActivity
     private GoogleApiClient mGoogleApiClient;
 
     private Profilo profiloUtenteLoggato;
+
+    //il profilo dell'utilizzatore è sempre il primo
     private Map<Profilo,List<Tappa>> profiloTappe;
+    private int itinerarioVisualizzato;
+    private Profilo profiloVisualizzazioneCorrente;
+
+
     private Map<Profilo, List<Place>> profiloNomiTappe;
 
     private List<Profilo> partecipants;
@@ -178,9 +184,6 @@ public class ListaTappeActivity extends AppCompatActivity
     private DriveId idFolder;
     private String imageFileName, mCurrentPhotoPath;
     private String videoFileName, mCurrentVideoPath;
-
-
-
 
 
     @Override
@@ -249,6 +252,8 @@ public class ListaTappeActivity extends AppCompatActivity
 
                 if (email.equals(cs.toString())) {
                     proprioViaggio = true;
+                    //itinerarioVisualizzato = 0;
+                    profiloVisualizzazioneCorrente = aux;
                     buttonAddStop.setVisibility(View.VISIBLE);
 
                     //questo campo deve puntare allo STESSO oggetto inserito nella lista partecipants
@@ -630,34 +635,39 @@ public class ListaTappeActivity extends AppCompatActivity
             @Override
             public void onMapLongClick(LatLng latLng) {
 
-                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                v.vibrate(Constants.VIBRATION_MILLISEC);
+                if (profiloVisualizzazioneCorrente.equals(profiloUtenteLoggato)) {
 
-                try {
-                    PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
+                    //permette inserimento tappa solo per l'itinerario dell'utilizzatore
 
-                    //TODO gestire zoom con LatLngBounds
-                    LatLngBounds bounds = new LatLngBounds(latLng, latLng);
+                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    v.vibrate(Constants.VIBRATION_MILLISEC);
 
+                    try {
+                        PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
 
-                    intentBuilder.setLatLngBounds(bounds);
-                    Intent intentPlacePicker = intentBuilder.build(ListaTappeActivity.this);
-                    // Start the Intent by requesting a result, identified by a request code.
-                    startActivityForResult(intentPlacePicker, Constants.REQUEST_PLACE_PICKER);
+                        //TODO gestire zoom con LatLngBounds
+                        LatLngBounds bounds = new LatLngBounds(latLng, latLng);
 
 
-                } catch (GooglePlayServicesRepairableException e) {
-                    GooglePlayServicesUtil
-                            .getErrorDialog(e.getConnectionStatusCode(), ListaTappeActivity.this, 0);
+                        intentBuilder.setLatLngBounds(bounds);
+                        Intent intentPlacePicker = intentBuilder.build(ListaTappeActivity.this);
+                        // Start the Intent by requesting a result, identified by a request code.
+                        startActivityForResult(intentPlacePicker, Constants.REQUEST_PLACE_PICKER);
 
-                    Log.e("TEST", e.toString());
 
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    Toast.makeText(ListaTappeActivity.this, "Google Play Services is not available.",
-                            Toast.LENGTH_LONG)
-                            .show();
+                    } catch (GooglePlayServicesRepairableException e) {
+                        GooglePlayServicesUtil
+                                .getErrorDialog(e.getConnectionStatusCode(), ListaTappeActivity.this, 0);
 
-                    Log.e("TEST", e.toString());
+                        Log.e("TEST", e.toString());
+
+                    } catch (GooglePlayServicesNotAvailableException e) {
+                        Toast.makeText(ListaTappeActivity.this, "Google Play Services is not available.",
+                                Toast.LENGTH_LONG)
+                                .show();
+
+                        Log.e("TEST", e.toString());
+                    }
                 }
 
             }
@@ -672,18 +682,30 @@ public class ListaTappeActivity extends AppCompatActivity
 
         Log.i("TEST", "click info");
 
+        String nomeTappa = marker.getTitle();
+        String labelTappa = nomeTappa.split("\\.")[0];
+        int numeroTappa = Integer.parseInt(labelTappa)-1;
+
+        Log.i("TEST", "tappa numero " + numeroTappa);
+
+        Tappa tappaSelezionata = profiloTappe.get(profiloVisualizzazioneCorrente).get(numeroTappa);
+        int ordineTappa = tappaSelezionata.getOrdine();
+
+
         Intent i = new Intent(this, TappaActivity.class);
 
         i.putExtra("email", email);
-
-
-        //TODO passare codice e nome per ricreare viaggio
         i.putExtra("codiceViaggio", codiceViaggio);
-        i.putExtra("nomeViaggio", marker.getTitle());
+        i.putExtra("ordine", ordineTappa);
+        i.putExtra("nome", nomeTappa);
+        i.putExtra("data", tappaSelezionata.getData());
+
+        //TODO sarà inutile una volta modificato il database
+        i.putExtra("codAccount", 0);
 
 //        Log.e("TEST", "#email  " + profiloUtente.getEmail());
 //        Log.e("TEST", "#nomedelviaggio  " + marker.getTitle() );
-//        Log.e("TEST", "#codicedelviaggio  " + comboCodice.get(marker.getTitle()));
+        Log.e("TEST", "ordine tappa: " + ordineTappa);
 
         startActivity(i);
 
@@ -836,8 +858,10 @@ public class ListaTappeActivity extends AppCompatActivity
 
         nomiTappe.clear();
         namesStops.clear();
+        int i = 1;
         for(Tappa t : tappe){
-            findPlaceById(p, t);
+            findPlaceById(p, t, i);
+            i++;
         }
 
         if(tappe.size()==0){
@@ -853,7 +877,9 @@ public class ListaTappeActivity extends AppCompatActivity
     }
 
 
-    private void findPlaceById(Profilo p, Tappa t) {
+    private void findPlaceById(Profilo p, Tappa t, int i) {
+        final int index = i;
+
         if( TextUtils.isEmpty(t.getPoi().getCodicePOI()) || mGoogleApiClient == null){
             Log.i("TEST", "codice tappa: " + t.getPoi().getCodicePOI());
             Log.i("TEST", "return");
@@ -913,8 +939,9 @@ public class ListaTappeActivity extends AppCompatActivity
 
                             //add Marker
                             googleMap.addMarker(new MarkerOptions()
-                                    .title(place.getName().toString())
-                                    .position(currentLatLng));
+                                    .title(index + ". " + place.getName().toString())
+                                    .position(currentLatLng)
+                            );
                             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 5));
 
                             polyline.add(currentLatLng);
@@ -922,7 +949,8 @@ public class ListaTappeActivity extends AppCompatActivity
                             mapBoundsBuilder.include(currentLatLng);
 
 
-                            if (nomiTappe.size() == profiloTappe.get(currentProfile).size() && namesStops.size() == nomiTappe.size()) {
+                            if (nomiTappe.size() == profiloTappe.get(currentProfile).size()
+                                    && namesStops.size() == nomiTappe.size()) {
 
                                 Log.i("TEST", "nomi places: " + namesStops);
                                 CreaMenu(profiloTappe.get(currentProfile), namesStops);
@@ -937,7 +965,9 @@ public class ListaTappeActivity extends AppCompatActivity
 
                                 //update zoom
                                 mapBounds = mapBoundsBuilder.build();
-                                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(mapBounds, Constants.LATLNG_BOUNDS_PADDING);
+                                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(mapBounds,
+
+                                        Constants.LATLNG_BOUNDS_PADDING);
                                 googleMap.moveCamera(cu);
 
 
@@ -1566,6 +1596,11 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
+
+        //TODO implementare meccanismo di selezione del profilo di cui prelevare tappe
+        //TODO aggiornare variabile profiloVisCorr con il numero dell'ordine
+
+
         private final static int DEFAULT_INT = 0;
         private static final String DEFAULT_STRING = "default";
         private static final String DEFAULT_DATE = "2010-01-11";
