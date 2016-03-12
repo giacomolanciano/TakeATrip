@@ -85,6 +85,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -121,7 +122,7 @@ import java.util.Set;
 public class ListaTappeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        AsyncResponseDriveId, AsyncResponseDriveIdCover {
+        AsyncResponseDriveId, AsyncResponseDriveIdCover, GoogleMap.OnInfoWindowClickListener {
 
     private final String ADDRESS_PRELIEVO_TAPPE = "QueryTappe.php";
     private final String ADDRESS_INSERIMENTO_TAPPA = "InserimentoTappa.php";
@@ -667,6 +668,36 @@ public class ListaTappeActivity extends AppCompatActivity
 
             }
         });
+
+
+        googleMap.setOnInfoWindowClickListener(this);
+    }
+
+
+    public void onInfoWindowClick(Marker marker) {
+
+        Log.i("TEST", "click info");
+
+        Intent i = new Intent(this, TappaActivity.class);
+
+//        if(email == null || (email != null && emailEsterno!= null)) {
+//            i.putExtra("email", email);
+//        }
+//        else if(email != null && emailEsterno == null){
+//            i.putExtra("email", email);
+//        }
+//        else{
+//            i.putExtra("email", emailEsterno);
+//        }
+//        //TODO passare codice e nome per ricreare viaggio
+//        i.putExtra("codiceViaggio", comboCodice.get(marker.getTitle()));
+//        i.putExtra("nomeViaggio", marker.getTitle());
+//        Log.e("TEST", "#email  " + profiloUtente.getEmail());
+//        Log.e("TEST", "#nomedelviaggio  " + marker.getTitle() );
+//        Log.e("TEST", "#codicedelviaggio  " + comboCodice.get(marker.getTitle()));
+
+        startActivity(i);
+
     }
 
 
