@@ -68,7 +68,6 @@ public class ListaViaggiActivity extends ActionBarActivity {
 
 
 
-    private TextView ViewCaricamentoInCorso;
 
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

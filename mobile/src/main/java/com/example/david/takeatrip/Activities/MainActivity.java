@@ -393,8 +393,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public void onClickSocialButton(View v){
-        Intent intent = new Intent(MainActivity.this, SocialActivity.class);
-        startActivity(intent);
+        Intent openSocial = new Intent(MainActivity.this, SocialActivity.class);
+        openSocial.putExtra("email", email);
+        startActivity(openSocial);
     }
 
     public void onClickSettings(View v){

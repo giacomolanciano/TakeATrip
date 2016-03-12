@@ -9,7 +9,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.david.takeatrip.Fragments.HomeFragment;
 import com.example.david.takeatrip.Fragments.TopRatedFragment;
-import com.example.david.takeatrip.Fragments.TopVisitedFragment;
+import com.example.david.takeatrip.Fragments.SearchUsersFragment;
+import com.example.david.takeatrip.Fragments.FollowersFragment;
+import com.example.david.takeatrip.Fragments.FollowingFragment;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
 
@@ -25,11 +27,18 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
                 // Top Rated fragment activity
                 return new HomeFragment();
             case 1:
-                // Games fragment activity
-                return new TopRatedFragment();
+                // Movies fragment activity
+                return new FollowingFragment();
             case 2:
                 // Movies fragment activity
-                return new TopVisitedFragment();
+                return new FollowersFragment();
+            case 3:
+                // Games fragment activity
+                return new TopRatedFragment();
+            case 4:
+                // Movies fragment activity
+                return new SearchUsersFragment();
+
         }
 
         return null;
@@ -38,7 +47,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         // get item count - equal to number of tabs
-        return 3;
+        return 5;
     }
 
 }

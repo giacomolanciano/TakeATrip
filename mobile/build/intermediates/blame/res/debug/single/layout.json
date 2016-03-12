@@ -608,12 +608,20 @@
         "source": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.0.1\\res\\layout\\abc_action_menu_item_layout.xml"
     },
     {
+        "merged": "C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_followers.xml",
+        "source": "C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\src\\main\\res\\layout\\fragment_followers.xml"
+    },
+    {
         "merged": "C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout\\activity_registrazione.xml",
         "source": "C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\src\\main\\res\\layout\\activity_registrazione.xml"
     },
     {
         "merged": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout\\notification_media_action.xml",
         "source": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.0.1\\res\\layout\\notification_media_action.xml"
+    },
+    {
+        "merged": "C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_search.xml",
+        "source": "C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\src\\main\\res\\layout\\fragment_search.xml"
     },
     {
         "merged": "C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout\\abc_list_menu_item_checkbox.xml",
@@ -2814,6 +2822,10 @@
     {
         "merged": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout\\messenger_button_send_blue_round.xml",
         "source": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.1.0\\res\\layout\\messenger_button_send_blue_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_following.xml",
+        "source": "C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\mobile\\src\\main\\res\\layout\\fragment_following.xml"
     },
     {
         "merged": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout\\abc_search_dropdown_item_icons_2line.xml",

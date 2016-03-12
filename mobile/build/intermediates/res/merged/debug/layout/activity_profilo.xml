@@ -36,11 +36,12 @@
                         />
 
                     <RatingBar
-                        android:layout_width="wrap_content"
+                        android:layout_width="105dp"
                         android:layout_height="wrap_content"
-                        android:visibility="visible"
+                        android:visibility="invisible"
                         android:id="@+id/ratingBar"
-                        android:layout_gravity="bottom|right" />
+                        android:layout_gravity="bottom|right"
+                        android:scrollIndicators="right" />
 
                     <LinearLayout
                         android:layout_width="match_parent"

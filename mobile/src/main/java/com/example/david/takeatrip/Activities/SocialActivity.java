@@ -3,12 +3,21 @@ package com.example.david.takeatrip.Activities;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.DataObject;
 import com.example.david.takeatrip.Utilities.TabsPagerAdapter;
+
+import java.util.ArrayList;
 
 public class SocialActivity extends FragmentActivity implements ActionBar.TabListener {
 
@@ -16,9 +25,19 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
 
+    private final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/Follower.php";
+
+
+    private ArrayList<Profilo> profili;
+    private ArrayList<DataObject> dataTravels;
+    private String email;
+
+    private ViewGroup group;
+    private ImageView image_default;
+
 
     // TODO: Tab titles in other languages
-    private String[] tabs = {"Home", "Top Rated", "TopVisited"};
+    private String[] tabs = {"Home","Following","Followers", "Top Rated", "Search"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +77,21 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
             public void onPageScrollStateChanged(int arg0) {
             }
         });
+
+
+        /*Email Utente*/
+
+
+        Intent intent;
+        if ((intent = getIntent()) != null) {
+            email = intent.getStringExtra("email");
+            Log.i("TEST", "email utente in Social: " + email);
+
+        }
+
+
+
+
 
     }
 
