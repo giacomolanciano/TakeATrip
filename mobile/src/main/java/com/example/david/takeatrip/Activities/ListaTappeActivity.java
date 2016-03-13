@@ -352,7 +352,8 @@ public class ListaTappeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        Toast.makeText(getBaseContext(), "tappa selezionata" + profiloTappe.get(0).get(id).getPoi().getCodicePOI(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "tappa selezionata" + profiloTappe.get(profiloVisualizzazioneCorrente)
+                .get(id).getPoi().getCodicePOI(), Toast.LENGTH_LONG).show();
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -766,7 +767,6 @@ public class ListaTappeActivity extends AppCompatActivity
                 cursor.moveToFirst();
 
                 int columnIndex = cursor
-                        //.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                         .getColumnIndex(proj[0]);
 
                 result = cursor.getString(columnIndex);
