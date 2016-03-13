@@ -14,6 +14,8 @@ import com.google.android.gms.drive.DriveApi;
 import com.google.android.gms.drive.DriveFolder;
 import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.drive.MetadataChangeSet;
+//import com.google.api.services.drive.model.Permission;
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -29,6 +31,7 @@ public class UploadImageTask extends ApiClientAsyncTask<DriveId, Void, DriveId> 
     private DriveId driveIdImage, driveIdFolder;
     private Bitmap bitmap;
     LinearLayout layoutCopertina;
+
 
 
 
@@ -77,7 +80,7 @@ public class UploadImageTask extends ApiClientAsyncTask<DriveId, Void, DriveId> 
         OutputStream outputStream = result.getDriveContents().getOutputStream();
 
         ByteArrayOutputStream bitmapStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bitmapStream);
+        bitmap.compress(Bitmap.CompressFormat.PNG, Constants.QUALITY_PHOTO, bitmapStream);
         try {
             outputStream.write(bitmapStream.toByteArray());
         } catch (IOException e1) {
@@ -85,7 +88,10 @@ public class UploadImageTask extends ApiClientAsyncTask<DriveId, Void, DriveId> 
         }
 
         MetadataChangeSet metadataChangeSet = new MetadataChangeSet.Builder()
-                .setMimeType("image/jpeg").setTitle(nameImage).build();
+                .setMimeType("image/jpeg")
+                .setPinned(true)
+                .setViewed(true)
+                .setTitle(nameImage).build();
 
         Log.i("TEST", "I'm creating the file into Drive...");
 
@@ -110,5 +116,8 @@ public class UploadImageTask extends ApiClientAsyncTask<DriveId, Void, DriveId> 
             delegate2.processFinish2(idImage);
         }
     }
+
+    //Permission permission = new Permission();
+
 
 }

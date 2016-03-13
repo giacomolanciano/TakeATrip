@@ -28,6 +28,7 @@ public class Constants {
 
     //php files
     public static final String PREFIX_ADDRESS = "http://www.musichangman.com/TakeATrip/InserimentoDati/";
+    public static final String ADDRESS_TAT = "http://www.musichangman.com/TakeATrip/";
     public static final String ERROR_TAPPA_NON_INSERITA = "";
 
 
@@ -71,11 +72,12 @@ public class Constants {
 
     public static final String PATH_AUDIO_FILES = "/TakeATrip/audio";
 
-    public static final int QUALITY_PHOTO = 30;
+    public static final int QUALITY_PHOTO = 60;
 
 
-    public  static final String NAME_IMAGES_PROFILE_DEFAULT = "Image_ProfileTAT";
-    public  static final String NAME_IMAGES_COVER_DEFAULT = "Cover_ImageTAT";
+    public  static final String NAME_IMAGES_PROFILE_DEFAULT = "profileTAT.jpg";
+    public  static final String NAME_IMAGES_COVER_DEFAULT = "coverTAT.jpg";
+
 
 
 

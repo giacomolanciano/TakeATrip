@@ -184,9 +184,34 @@ public class LoginActivity extends AppCompatActivity implements
                 data = "0000-00-00";
 
                 new MyTask().execute();
+
+
+                return;
                 //openMainActivity2(email, nome, cognome, data, password, nazionalita, sesso, username, lavoro, descrizione, tipo);
             }
         }
+
+        //TODO: cambiare in fase di release il WEBAPP_ID
+        GoogleSignInOptions.Builder builder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN);
+        builder.requestIdToken(Constants.WEBAPP_ID);
+
+        GoogleSignInOptions gso = builder.build();
+
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        signInButton.setScopes(gso.getScopeArray());
+        signInButton.setOnClickListener(this);
+
+
+
+
+
+
 
 
         //Questi due bottoni servono solo nel caso di login indipendente
@@ -265,28 +290,6 @@ public class LoginActivity extends AppCompatActivity implements
 
         */
 
-        //TODO: cambiare in fase di release il WEBAPP_ID
-        GoogleSignInOptions.Builder builder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN);
-        builder.requestIdToken(Constants.WEBAPP_ID);
-
-        GoogleSignInOptions gso = builder.build();
-
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
-
-
-
-
-
-        signInButton = (SignInButton) findViewById(R.id.sign_in_button);
-        signInButton.setScopes(gso.getScopeArray());
-        signInButton.setOnClickListener(this);
-
-
     }
 
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -299,9 +302,12 @@ public class LoginActivity extends AppCompatActivity implements
         blogin.setReadPermissions("user_friends");
         blogin.setReadPermissions(Arrays.asList("user_status"));
         blogin.setReadPermissions(Arrays.asList("user_photos"));
-*/
 
+        //TODO:decommentare quando diamo la possitibilità all'utente di immagazzinare i contenuti du fb
         blogin.setPublishPermissions(Arrays.asList("publish_actions"));
+
+        */
+
         blogin.registerCallback(callbackManager, callback);
 
     }
@@ -310,10 +316,7 @@ public class LoginActivity extends AppCompatActivity implements
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         callbackManager.onActivityResult(requestCode, resultCode, data);
-
-
         if (requestCode == RC_SIGN_IN) {
             if (!mGoogleApiClient.isConnecting() &&
                     !mGoogleApiClient.isConnected()) {
@@ -390,27 +393,30 @@ public class LoginActivity extends AppCompatActivity implements
 
     public void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-        if (opr.isDone()) {
-            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-            // and the GoogleSignInResult will be available instantly.
-            Log.d("TEST", "Got cached sign-in");
-            GoogleSignInResult result = opr.get();
-            handleSignInResult(result);
-        } else {
-            // If the user has not previously signed in on this device or the sign-in has expired,
-            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-            // single sign-on will occur in this branch.
-            showProgressDialog();
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(GoogleSignInResult googleSignInResult) {
-                    hideProgressDialog();
-                    handleSignInResult(googleSignInResult);
-                }
-            });
+        if(mGoogleApiClient != null){
+            mGoogleApiClient.connect();
+            OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+            if (opr.isDone()) {
+                // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+                // and the GoogleSignInResult will be available instantly.
+                Log.d("TEST", "Got cached sign-in");
+                GoogleSignInResult result = opr.get();
+                handleSignInResult(result);
+            } else {
+                // If the user has not previously signed in on this device or the sign-in has expired,
+                // this asynchronous branch will attempt to sign in the user silently.  Cross-device
+                // single sign-on will occur in this branch.
+                showProgressDialog();
+                opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                    @Override
+                    public void onResult(GoogleSignInResult googleSignInResult) {
+                        hideProgressDialog();
+                        handleSignInResult(googleSignInResult);
+                    }
+                });
+            }
         }
+
     }
 
 
@@ -523,8 +529,6 @@ public class LoginActivity extends AppCompatActivity implements
                             is.close();
 
                             result = sb.toString();
-
-
                             JSONArray jArray = new JSONArray(result);
                             for(int i=0;i<jArray.length();i++) {
                                 JSONObject json_data = jArray.getJSONObject(i);
@@ -565,7 +569,6 @@ public class LoginActivity extends AppCompatActivity implements
         @Override
         protected void onPostExecute(Void aVoid) {
             if(stringaFinale == ""){
-
                 //Non presente ancora nel DB -> primo accesso a TakeATrip
                 openMainActivity(email, nome, cognome, data, password, nazionalita, sesso, username, lavoro, descrizione, tipo);
                 Log.i("TEST", "primo accesso a TakeATrip");
@@ -597,7 +600,6 @@ public class LoginActivity extends AppCompatActivity implements
                 }
 
 */
-
                 Log.i("TEST", "non primo accesso a TakeATrip");
                 openMainActivity2(email, nome, cognome, data, password, nazionalita, sesso, username, lavoro, descrizione, tipo);
             }
@@ -607,18 +609,6 @@ public class LoginActivity extends AppCompatActivity implements
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

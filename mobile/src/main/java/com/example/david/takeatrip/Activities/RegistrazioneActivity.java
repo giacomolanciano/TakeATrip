@@ -53,7 +53,8 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
     private static final int REQUEST_FOLDER = 123;
 
-    private boolean update, passwordModificata, loginFB, loginGoogle;
+    private boolean update, passwordModificata;
+    private boolean loginFB = false, loginGoogle = false;
     private boolean updateProfilo = false;
 
     private Calendar calendar = Calendar.getInstance();
@@ -117,10 +118,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         update = false;
-
-
 
         Intent intent = getIntent();
         if(intent != null){
@@ -136,23 +134,24 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             descrizione = intent.getStringExtra("descrizione");
             tipo = intent.getStringExtra("tipo");
             profile = intent.getParcelableExtra("profile");
-
             provieneDa = intent.getStringExtra("provieneDa");
 
             if(provieneDa != null){
                 updateProfilo = true;
             }
 
-            //variabile che discrimina il login
-            if(profile != null){
-                loginFB = true;
-            }
-            //TODO: discriminare il login con google
-
-
-            //sempre soddisfatta la condiziones
+            //sempre soddisfatta la condizione senza nostro login
             if(email != null){
                 update = true;
+
+                //variabile che discrimina il login
+                if(profile != null){
+                    loginFB = true;
+                }
+                else{
+                    loginGoogle = true;
+                }
+
 
                 setContentView(R.layout.edit_info_fb_google);
 
@@ -209,35 +208,9 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             setContentView(R.layout.activity_registrazione);
         }
 
-
         campoNome = (EditText) findViewById(R.id.Nome);
         campoCognome = (EditText) findViewById(R.id.Cognome);
         campoEmail = (EditText) findViewById(R.id.Email);
-
-
-/*
-        //campoPassword = (EditText) findViewById(R.id.Password);
-        //campoConfermaPassword = (EditText) findViewById(R.id.ConfermaPassword);
-        pickerYear = (NumberPicker)findViewById(R.id.pickerYear);
-        pickerYear.setMaxValue(YEAR_MAX_PICKER);
-        pickerYear.setMinValue(YEAR_MIN_PICKER);
-        pickerYear.setWrapSelectorWheel(false);
-        pickerYear.setValue(YEAR_DEFAULT_PICKER);
-
-        pickerMonth = (NumberPicker)findViewById(R.id.pickerMonth);
-        pickerMonth.setMaxValue(MONTH_MAX_PICKER);
-        pickerMonth.setMinValue(MONTH_MIN_PICKER);
-        pickerMonth.setWrapSelectorWheel(false);
-        pickerMonth.setValue(MONTH_DEFAULT_PICKER);
-
-        pickerDay = (NumberPicker)findViewById(R.id.pickerDay);
-        pickerDay.setMaxValue(DAY_MAX_PICKER);
-        pickerDay.setMinValue(DAY_MIN_PICKER);
-        pickerDay.setWrapSelectorWheel(false);
-        pickerDay.setValue(DAY_DEFAULT_PICKER);
-        btnInvio=(Button)findViewById(R.id.Invio);
-        */
-
 
         if(update) {
             campoNome.setText(nome);
@@ -270,18 +243,12 @@ public class  RegistrazioneActivity extends AppCompatActivity {
         btnInvio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-
-
                 Log.i("TEST", "picker year: " + pickerYear.getValue());
 
                 if(pickerYear.getValue() == YEAR_DEFAULT_PICKER){
                     data = "";
                 }
                 else{
-
-                    //TODO implementare controllo su validità data (servirebbe usare date picker)
-
-
                     data = String.valueOf(pickerYear.getValue()) + "-";
                     if((month = pickerMonth.getValue()) < TEN) {
                         data += "0" + month + "-";
@@ -307,7 +274,6 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                     email = campoEmail.getText().toString();
                     password = campoPassword.getText().toString();
                     confermaPassword = campoConfermaPassword.getText().toString();
-                    Log.i("TEST", "dati modificati: " + nome +" " + cognome + " " + data +" "+  email + " "+ password+" "+ nuovaPassword);
 
                     if(confermaCredenziali(password, confermaPassword)){
 
@@ -333,7 +299,6 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                     nome = campoNome.getText().toString();
                     cognome = campoCognome.getText().toString();
                     username = campoNuovoUsername.getText().toString();
-                    //sesso = campoNuovoSesso.getText().toString();
                     nazionalita = campoNuovaNazionalita.getText().toString();
                     lavoro = campoNuovoLavoro.getText().toString();
                     descrizione = campoNuovaDescrizione.getText().toString();
@@ -348,7 +313,6 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                     confermaNuovaPassword = campoConfermaNuovaPassword.getText().toString();
                     */
 
-                    Log.i("TEST", "dati modificati: " + nome +" " + cognome + " " + data +" "+  email + "vpwd "+ password+" nuovapwd: "+ nuovaPassword+" nuovousername: "+ username);
 
                     if(nuovaPassword == null || nuovaPassword.equals("")){
                         passwordModificata = false;
@@ -373,11 +337,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
                             new MyTask().execute();
 
-
                         }
-
-
-
                     }
 
 /*
@@ -413,11 +373,6 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
-
-
 
 
     @Override
@@ -494,7 +449,6 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                 Log.i("TEST", "Ricevuto il nome della cartella: " + nameFolder);
 
                 cartellaCreata = true;
-
                 MyTaskFolder myTaskFolder = new MyTaskFolder(this, email, idTravel, idFolder, nameFolder);
                 myTaskFolder.execute();
             }
@@ -522,7 +476,6 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             dataToSend.add(new BasicNameValuePair("descrizione", descrizione));
             dataToSend.add(new BasicNameValuePair("tipo", tipo));
 
-            Log.i("NUOVO", "NUOVO USERNAME " + username);
 
 
             if (update && passwordModificata)
@@ -538,15 +491,6 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                     Log.i("CONNESSIONE Internet", "Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
                     HttpPost httppost;
-
-                    /*
-                    if(update){
-                        httppost = new HttpPost(ADDRESS_UPDATE_UTENTE);
-                    }
-                    else{
-                        httppost = new HttpPost(ADDRESS_INSERIMENTO_UTENTE);
-                    }
-                    */
 
                     if(updateProfilo){
                         httppost = new HttpPost(ADDRESS_UPDATE_UTENTE);
@@ -607,17 +551,20 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), "Username already used", Toast.LENGTH_LONG).show();
             }
             else{
+                if(!updateProfilo){
+                    //Creo cartella nel drive per ospitare i viaggi dell'utente
+                    if(loginGoogle && !cartellaCreata){
+                        Intent intent = new Intent(getBaseContext(), CreateDriveFolderActivity.class);
+                        intent.putExtra("nameFolder", "TakeATrip");
+                        intent.putExtra("firstFolder", "YES");
 
-
-                //Creo cartella nel drive per ospitare i viaggi dell'utente
-                if(!cartellaCreata){
-                    Intent intent = new Intent(getBaseContext(), CreateFolderActivity.class);
-                    intent.putExtra("nameFolder", "TakeATrip");
-                    intent.putExtra("firstFolder", "YES");
-
-                    startActivityForResult(intent, REQUEST_FOLDER);
+                        startActivityForResult(intent, REQUEST_FOLDER);
+                    }
+                    else if(loginFB){
+                        MyTaskFolder myTaskFolder = new MyTaskFolder(RegistrazioneActivity.this, email, "folderTakeATrip", null, "TakeATrip");
+                        myTaskFolder.execute();
+                    }
                 }
-
             }
 
 
@@ -674,10 +621,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
     private class MyTaskFolder extends AsyncTask<Void, Void, Void> {
 
-        private final String ADDRESS_INSERT_FOLDER = "InserimentoCartella.php";
-
-
-
+        private final String ADDRESS_INSERT_FOLDER = "http://www.musichangman.com/TakeATrip/CreazioneCartellaViaggio.php";
         InputStream is = null;
         String emailUser, idTravel,result;
         String nomeCartella;
@@ -700,12 +644,14 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             dataToSend.add(new BasicNameValuePair("codiceViaggio", idTravel));
             dataToSend.add(new BasicNameValuePair("codiceCartella", idFolder+""));
             dataToSend.add(new BasicNameValuePair("nomeCartella", nomeCartella));
+            dataToSend.add(new BasicNameValuePair("urlCartella", emailUser));
+
 
             try {
                 if (InternetConnection.haveInternetConnection(context)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERT_FOLDER);
+                    HttpPost httppost = new HttpPost(ADDRESS_INSERT_FOLDER);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
 

@@ -35,10 +35,11 @@ import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatabaseHandler;
 import com.example.david.takeatrip.Utilities.DownloadImageTask;
-import com.example.david.takeatrip.Utilities.RetrieveImageTask;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
+import com.example.david.takeatrip.Utilities.UploadFilePHP;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -57,7 +58,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
@@ -65,7 +65,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -74,17 +73,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final String ADDRESS_INSERIMENTO_VIAGGIO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoViaggio.php";
     private final String ADDRESS_INSERIMENTO_ITINERARIO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoItinerario.php";
     private final String ADDRESS_INSERIMENTO_FILTRO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoFiltro.php";
+    private final String ADDRESS_INSERT_FOLDER = "http://www.musichangman.com/TakeATrip/InserimentoCartella.php";
+
 
     private static final int REQUEST_FOLDER = 123;
     private static final int REQUEST_IMAGE_PROFILE = 124;
     private static final int REQUEST_COVER_IMAGE = 125;
 
 
-    private final int LIMIT_IMAGES_VIEWS = 6;
+    private final int LIMIT_IMAGES_VIEWS = 5;
     private final String TAG = "MainActivity";
 
     private String name, surname, email, nazionalità, sesso, username, lavoro, descrizione, tipo;
-    private String date, password;
+    private String date, password, urlImmagineProfilo, urlImmagineCopertina;
     private String emailEsterno;
 
     private ImageView imageViewProfileRound;
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Bitmap coverImage = null;
     Profile profile;
     private DriveId idFolderTAT, idImmagineCopertina, idImageProfile;
+    private String urlFolderTAT;
 
 
     private ProgressDialog mProgressDialog;
@@ -138,48 +140,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         new MyTask().execute();
-        new MyTaskIDFolder(this,email).execute();
+        //new MyTaskIDFolder(this,email).execute();
         new MyTaskIDProfileImage(this,email).execute();
         new MyTaskIDCoverImage(this,email).execute();
 
 
-
-        if(profile != null){
-            Log.i("TEST", profile.getProfilePictureUri(150, 150).toString());
-            final Uri image_uri = profile.getProfilePictureUri(150, 150);
-
-            try {
-                final URI image_URI = new URI(image_uri.toString());
-
-                Log.i("TEST", "url_image: " + image_URI.toURL().toString());
-
-                DownloadImageTask task = new DownloadImageTask(imageViewProfileRound);
-                task.execute(image_URI.toURL().toString());
-
-                imageProfile = ((BitmapDrawable)imageViewProfileRound.getDrawable()).getBitmap();
-                Log.i("TEST", "bitmap image profile: " + imageProfile);
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        if(sesso != null && sesso.equals("M")){
+            imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_male));
         }
-        else{
-            if(sesso != null && sesso.equals("M")){
-                imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_male));
-            }
-            else if (sesso != null && sesso.equals("F")){
-                imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_female));
-            }
+        else if (sesso != null && sesso.equals("F")){
+            imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_female));
         }
 
         names = new ArrayList<String>();
         namesPartecipants = new ArrayList<String>();
         partecipants = new HashSet<Profilo>();
         profiles = new HashSet<Profilo>();
-
         myProfile = new Profilo(email, name, surname,date, password, nazionalità, sesso, username, lavoro, descrizione);
-
     }
 
 
@@ -189,7 +166,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TakeATrip TAT = ((TakeATrip) getApplicationContext());
         googleApiClient = TAT.getGoogleApiClient();
-        googleApiClient.connect();
+        if(googleApiClient != null){
+            googleApiClient.connect();
+        }
         AppEventsLogger.activateApp(this);
     }
 
@@ -198,8 +177,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(this);
     }
-
-
 
     public void ClickImageProfile(View v){
         Intent openProfilo = new Intent(MainActivity.this, ProfiloActivity.class);
@@ -216,9 +193,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         openProfilo.putExtra("descrizione", descrizione);
         openProfilo.putExtra("tipo", tipo);
         openProfilo.putExtra("profile", profile);
-        openProfilo.putExtra("idFolder", idFolderTAT);
-        openProfilo.putExtra("idImageProfile",idImageProfile);
-        openProfilo.putExtra("coverImage",idImmagineCopertina);
+        openProfilo.putExtra("urlImmagineProfilo",urlImmagineProfilo);
+        openProfilo.putExtra("urlImmagineCopertina",urlImmagineCopertina);
 
         // passo all'attivazione dell'activity
         startActivity(openProfilo);
@@ -361,15 +337,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 final ImageView image = new RoundedImageView(MainActivity.this, null);
                                 image.setContentDescription(p.getEmail());
 
-
-
-
-                                //TODO: mettere le immagini dei partecipanti
-                                image.setImageResource(R.drawable.logodef);
-                                rowHorizontal.addView(image, 40, 40);
-                                rowHorizontal.addView(new TextView(MainActivity.this), 20, 40);
-                                Log.i(TAG, "aggiungo la view nel layout orizzonale");
-
+                                if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
+                                    new DownloadImageTask(image,rowHorizontal).execute(Constants.ADDRESS_TAT + p.getIdImageProfile());
+                                    //new RetrieveImageTask(MainActivity.this,image, p.getIdImageProfile(), rowHorizontal, "little_image").execute();
+                                }else {
+                                    if(p.getSesso().equals("M")){
+                                        image.setImageResource(R.drawable.default_male);
+                                    }
+                                    else{
+                                        image.setImageResource(R.drawable.default_female);
+                                    }
+                                    rowHorizontal.addView(image, 60, 60);
+                                    rowHorizontal.addView(new TextView(MainActivity.this), 20, 60);
+                                    Log.i(TAG, "aggiungo la view nel layout orizzonale");
+                                }
                                 partecipants.add(p);
 
                             }
@@ -418,37 +399,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                             else{
 
-                                /*
-                                if(LoginManager.getInstance() != null){
+                                if(profile!= null && LoginManager.getInstance() != null){
                                     Log.d("TEST", "Log out from facebook: ..");
 
                                     LoginManager.getInstance().logOut();
                                     startActivity(new Intent(MainActivity.this,LoginActivity.class));
                                     finish();
                                 }else{
-                                    LoginActivity loginActivity = new LoginActivity();
-                                    loginActivity.GoogleLogOut(MainActivity.this);
-                                }*/
+                                    Log.d("TEST", "Log out from google con apiClient: " + googleApiClient);
 
-
-                                Log.d("TEST", "Log out from google con apiClient: " + googleApiClient);
-
-                                if(!googleApiClient.isConnected()) {
-                                    googleApiClient.connect();
-                                }
-                                else{
+                                    if(!googleApiClient.isConnected()) {
+                                        googleApiClient.connect();
+                                    }
                                     Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
-                                            new ResultCallback<Status>() {
-                                                @Override
-                                                public void onResult(Status status) {
-                                                    Log.d("TEST", "Status: " + status);
-                                                    if(status.isSuccess()){
-                                                        startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                                                new ResultCallback<Status>() {
+                                                    @Override
+                                                    public void onResult(Status status) {
+                                                        Log.d("TEST", "Status: " + status);
+                                                        if(status.isSuccess()){
+                                                            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                                                        }
                                                     }
+                                                });
 
-                                                }
-                                            });
                                 }
+
                             }
 
                             break;
@@ -474,6 +449,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         InputStream is = null;
         String result, stringaFinale = "";
+        String idProfiles, idCovers;
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -511,9 +487,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     String cognomeUtente = json_data.getString("cognome");
                                     String emailUtente = json_data.getString("email");
                                     String username = json_data.getString("username");
+                                    String sesso = json_data.getString("sesso");
+                                    String urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
+                                    String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
 
+                                    if(urlImmagineProfilo.equals("null")){
+                                        idProfiles = null;
+                                    }
+                                    else {
+                                        idProfiles = urlImmagineProfilo;
+                                    }
 
-                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, null, username, null, null, null);
+                                    if (urlImmagineCopertina.equals("null")){
+                                        idCovers = null;
+                                    }
+                                    else{
+                                        idCovers = urlImmagineCopertina;
+                                    }
+
+                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, sesso, username, null, null, null,idProfiles,idCovers);
                                     profiles.add(p);
                                     stringaFinale = nomeUtente + " " + cognomeUtente + "\n" + "("+username+")";
                                     names.add(stringaFinale);
@@ -523,7 +515,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                         } catch (Exception e) {
-                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
                         }
                     }
                     else {
@@ -544,13 +536,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            /*
-            ArrayAdapter adapter = new ArrayAdapter(MainActivity.this,android.R.layout.simple_list_item_1,names);
 
-            text.setAdapter(adapter);
-            text.setThreshold(1);
-
-*/
             super.onPostExecute(aVoid);
 
         }
@@ -648,6 +634,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             for(Profilo p : partecipants){
+
+
                 ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
                 dataToSend.add(new BasicNameValuePair("codice", UUIDViaggio));
                 dataToSend.add(new BasicNameValuePair("email", p.getEmail()));
@@ -726,9 +714,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
-            //  layoutNewTravel.setVisibility(View.INVISIBLE);
-
             try {
                 Thread.currentThread().sleep(1000);
             } catch (InterruptedException e) {
@@ -736,13 +721,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
 
-            //é stato creato tutto il viaggio, ora associo al viaggio la cartella sul drive
-            //TODO: creare la folder nel drive per ospitare i contenuti del viaggio
-            Intent intent = new Intent(getBaseContext(), CreateFolderActivity.class);
+            Intent intent = new Intent(getBaseContext(), CreateDriveFolderActivity.class);
             intent.putExtra("nameFolder", nomeViaggio);
-
-
-            //TODO: deve essere modificata con gli id delle cartelle di tutti i partecipanti al viaggio
             intent.putExtra("idFolder", idFolderTAT);
 
             //TODO: far in modo che l'activity non si veda
@@ -764,7 +744,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private class MyTaskFolder extends AsyncTask<Void, Void, Void> {
 
-        private final String ADDRESS_INSERT_FOLDER = "InserimentoCartella.php";
 
         InputStream is = null;
         String emailUser, idTravel,result;
@@ -793,7 +772,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (InternetConnection.haveInternetConnection(context)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERT_FOLDER);
+                    HttpPost httppost = new HttpPost(ADDRESS_INSERT_FOLDER);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
 
@@ -861,7 +840,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private class MyTaskIDFolder extends AsyncTask<Void, Void, Void> {
 
-        private final String ADDRESS_QUERY_FOLDER = "QueryDriveIDCartella.php";
+        private final String ADDRESS_QUERY_FOLDER = "QueryProfiloCartella.php";
 
         InputStream is = null;
         String emailUser, idTravel,result;
@@ -909,6 +888,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 for(int i=0;i<jArray.length();i++){
                                     JSONObject json_data = jArray.getJSONObject(i);
                                     idFolderTAT = DriveId.decodeFromString(json_data.getString("codiceCartella"));
+                                    urlFolderTAT = json_data.getString("urlCartella");
                                 }
                             }
                         } catch (Exception e) {
@@ -932,7 +912,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         protected void onPostExecute(Void aVoid) {
 
             Log.i("TEST", "Prelevato id cartella di default: " +idFolderTAT);
-
+            Log.i("TEST", "Prelevato url cartella di default: " +urlFolderTAT);
             super.onPostExecute(aVoid);
 
         }
@@ -942,7 +922,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private class MyTaskIDProfileImage extends AsyncTask<Void, Void, Void> {
 
-        private final String ADDRESS_QUERY_PROFILE_IMAGE = "QueryDriveIDImmagineProfilo.php";
+        private final String ADDRESS_QUERY_PROFILE_IMAGE = "QueryImmagineProfilo.php";
 
         InputStream is = null;
         String emailUser, idTravel,result;
@@ -988,12 +968,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if(jArray != null && result != null){
                                 for(int i=0;i<jArray.length();i++){
                                     JSONObject json_data = jArray.getJSONObject(i);
-                                    idImageProfile = DriveId.decodeFromString(json_data.getString("idImmagineProfilo"));
+
+                                    //idImageProfile = DriveId.decodeFromString(json_data.getString("idImmagineProfilo"));
+                                    urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
+
                                 }
                             }
                         } catch (Exception e) {
-                            result = "ERRORE";
-                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
+                            result = "NULL";
+                            //Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
                         }
                     }
                     else {
@@ -1012,8 +995,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(Void aVoid) {
             Log.i("TEST", "risultato dal prelievo dell'id imm profilo: " + result);
-            if(!result.equals("ERRORE")){
-                new RetrieveImageTask(MainActivity.this,imageViewProfileRound,idImageProfile).execute();
+            if(!result.equals("NULL") && !urlImmagineProfilo.equals("null")){
+                new DownloadImageTask(imageViewProfileRound).execute(Constants.ADDRESS_TAT + urlImmagineProfilo);
+            }
+            else{
+                //L'utente è loggato con facebook
+                if(profile != null){
+                    Log.i("TEST", profile.getProfilePictureUri(150, 150).toString());
+                    final Uri image_uri = profile.getProfilePictureUri(150, 150);
+
+                    try {
+                        final URI image_URI = new URI(image_uri.toString());
+
+                        Log.i("TEST", "url_image: " + image_URI.toURL().toString());
+
+                        DownloadImageTask task = new DownloadImageTask(imageViewProfileRound);
+                        task.execute(image_URI.toURL().toString());
+
+                        imageProfile = ((BitmapDrawable)imageViewProfileRound.getDrawable()).getBitmap();
+                        Log.i("TEST", "bitmap image profile: " + imageProfile);
+
+                        //new UploadFilePHP(this,imageProfile,email).execute();
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
@@ -1021,7 +1029,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private class MyTaskIDCoverImage extends AsyncTask<Void, Void, Void> {
 
-        private final String ADDRESS_QUERY_COVER_IMAGE = "QueryDriveIDImmagineCopertina.php";
+        private final String ADDRESS_QUERY_COVER_IMAGE = "QueryImmagineCopertina.php";
 
         InputStream is = null;
         String emailUser, idTravel,result;
@@ -1066,7 +1074,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if(jArray != null && result != null){
                                 for(int i=0;i<jArray.length();i++){
                                     JSONObject json_data = jArray.getJSONObject(i);
-                                    idImmagineCopertina = DriveId.decodeFromString(json_data.getString("idImmagine"));
+                                    //idImmagineCopertina = DriveId.decodeFromString(json_data.getString("idImmagine"));
+                                    urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
                                 }
                             }
                         } catch (Exception e) {
@@ -1113,25 +1122,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 myTaskFolder.execute();
             }
 
-        }
-        else if (requestCode == REQUEST_IMAGE_PROFILE){
-            Bitmap image = null;
-            byte[] bytes = data.getByteArrayExtra("bitmapImage");
-            if(bytes != null){
-                image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-            }
-
-            imageProfile = image;
-            imageViewProfileRound.setImageBitmap(image);
-
-        }
-        else if (requestCode == REQUEST_COVER_IMAGE){
-            Bitmap image = null;
-            byte[] bytes = data.getByteArrayExtra("bitmapImage");
-            if(bytes != null){
-                image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-            }
-            coverImage = image;
         }
     }
 

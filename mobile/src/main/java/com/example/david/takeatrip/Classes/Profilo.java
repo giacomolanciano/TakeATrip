@@ -1,6 +1,7 @@
 package com.example.david.takeatrip.Classes;
 
 import com.example.david.takeatrip.Utilities.Constants;
+import com.google.android.gms.drive.DriveId;
 
 /**
  * Created by lucagiacomelli on 08/01/16.
@@ -8,6 +9,7 @@ import com.example.david.takeatrip.Utilities.Constants;
 public class Profilo {
 
     private String email, name, surname, password, dataNascita, nazionalita, sesso, username, lavoro, descrizione, tipo;
+    private String idImageProfile, getIdImageCover;
     private int codAccount;
 
     public Profilo(){
@@ -25,6 +27,24 @@ public class Profilo {
         this.lavoro = lavoro;
         this.descrizione = descrizione;
         this.tipo = tipo;
+    }
+
+    public Profilo(String email, String name, String surname, String dataNascita,
+                   String nazionalita, String sesso, String username, String lavoro,
+                   String descrizione, String tipo,String idImageProfile, String idImageCover) {
+        this.email = email;
+        this.name = name;
+        this.surname = surname;
+        this.dataNascita = dataNascita;
+        this.codAccount = Constants.DEFAULT_COD_ACCOUNT;
+        this.nazionalita = nazionalita;
+        this.sesso = sesso;
+        this.username = username;
+        this.lavoro = lavoro;
+        this.descrizione = descrizione;
+        this.tipo = tipo;
+        this.idImageProfile = idImageProfile;
+        this.getIdImageCover = idImageCover;
     }
 
 
@@ -119,6 +139,14 @@ public class Profilo {
 
     public void setTipo(String tipo) {
         this.tipo =tipo;
+    }
+
+    public String getIdImageProfile() {
+        return idImageProfile;
+    }
+
+    public String getGetIdImageCover() {
+        return getIdImageCover;
     }
 
     public String toString() {

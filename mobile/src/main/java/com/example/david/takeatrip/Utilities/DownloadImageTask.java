@@ -46,9 +46,7 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
 
         if(layout != null){
 
-            Log.i("TEST", "bitmap image profile: " + result);
             Drawable dr = new BitmapDrawable(result);
-            Log.i("TEST", "drawable immagine copertina: " +  dr);
 
             layout.setBackground(dr);
             bmImage.setVisibility(View.INVISIBLE);

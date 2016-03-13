@@ -14,8 +14,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/wallet_dim_foreground_inverse_holo_dark">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"

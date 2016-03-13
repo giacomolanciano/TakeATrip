@@ -35,6 +35,7 @@ import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DownloadImageTask;
 import com.example.david.takeatrip.Utilities.RetrieveImageTask;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
+import com.example.david.takeatrip.Utilities.UploadFilePHP;
 import com.example.david.takeatrip.Utilities.UploadImageTask;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -62,6 +63,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -94,7 +96,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     private boolean externalView = false;
 
     private Bitmap bitmap = null;
-    private DriveId idFolder, idImageProfile, idCoverImage;
+    private String idFolder, idImageProfile, idCoverImage;
 
 
 
@@ -134,9 +136,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             descrizione = intent.getStringExtra("descrizione");
             tipo = intent.getStringExtra("tipo");
             profile = intent.getParcelableExtra("profile");
-            idFolder = (DriveId)intent.getParcelableExtra("idFolder");
-            idImageProfile = (DriveId)intent.getParcelableExtra("idImageProfile");
-            idCoverImage = (DriveId)intent.getParcelableExtra("coverImage");
+            idImageProfile = intent.getStringExtra("urlImmagineProfilo");
+            idCoverImage = intent.getStringExtra("urlImmagineCopertina");
 
             Log.i("TEST", "email: " + email);
             Log.i("TEST", "email esterno: " + emailEsterno);
@@ -144,56 +145,18 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             Log.i("TEST", "id image profile: " + idImageProfile);
             Log.i("TEST", "id cover image: " + idCoverImage);
 
-            if(profile!= null){
-                final Uri image_uri = profile.getProfilePictureUri(70, 70);
+            if(idImageProfile.equals("null")){
+                if(profile!= null){
+                    final Uri image_uri = profile.getProfilePictureUri(70, 70);
+                    final URI image_URI;
 
-
-                try {
-                    final URI image_URI = new URI(image_uri.toString());
-                    DownloadImageTask task = new DownloadImageTask(imageProfile);
-                    task.execute(image_URI.toURL().toString());
-
-                    AccessToken accessToken = AccessToken.getCurrentAccessToken();
-                    GraphRequest request = GraphRequest.newMeRequest(
-                            accessToken,
-                            new GraphRequest.GraphJSONObjectCallback() {
-                                @Override
-                                public void onCompleted(
-                                        JSONObject object,
-                                        GraphResponse response) {
-                                    try {
-
-                                        Log.i("TEST",  response.toString());
-
-                                        JSONObject coverImageObject =  object.getJSONObject("cover");
-                                        String url_cover_image = coverImageObject.getString("source");
-
-                                        Log.i("TEST", "immagine copertina: " + url_cover_image);
-
-                                        //URL newurl = new URL(url_image);
-                                        DownloadImageTask task = new DownloadImageTask(coverImage, layoutCoverImage);
-                                        task.execute(url_cover_image);
-
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                        Log.e("TEST", e.getMessage());
-                                    }
-                                }
-                            });
-                    Bundle parameters = new Bundle();
-                    parameters.putString("fields", "cover");
-                    request.setParameters(parameters);
-                    request.executeAsync();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            else{
-                if(idImageProfile != null){
-                    new RetrieveImageTask(this, imageProfile,idImageProfile).execute();
+                    try {
+                        image_URI = new URI(image_uri.toString());
+                        DownloadImageTask task = new DownloadImageTask(imageProfile);
+                        task.execute(image_URI.toURL().toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 else{
                     if(sesso != null && sesso.equals("M")){
@@ -203,11 +166,57 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                         imageProfile.setImageDrawable(getResources().getDrawable(R.drawable.default_female));
                     }
                 }
+            }
+            else{
+                DownloadImageTask task = new DownloadImageTask(imageProfile);
+                task.execute(Constants.ADDRESS_TAT + idImageProfile);
+            }
 
-                if(idCoverImage != null){
-                    new RetrieveImageTask(this, coverImage, idCoverImage,layoutCoverImage).execute();
+            if(idCoverImage.equals("null")){
+                if(profile!= null){
+                    try {
+                        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+                        GraphRequest request = GraphRequest.newMeRequest(
+                                accessToken,
+                                new GraphRequest.GraphJSONObjectCallback() {
+                                    @Override
+                                    public void onCompleted(
+                                            JSONObject object,
+                                            GraphResponse response) {
+                                        try {
+
+                                            Log.i("TEST",  response.toString());
+
+                                            JSONObject coverImageObject =  object.getJSONObject("cover");
+                                            String url_cover_image = coverImageObject.getString("source");
+
+                                            Log.i("TEST", "immagine copertina: " + url_cover_image);
+
+                                            //URL newurl = new URL(url_image);
+                                            DownloadImageTask task = new DownloadImageTask(coverImage, layoutCoverImage);
+                                            task.execute(url_cover_image);
+
+
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            Log.e("TEST", e.getMessage());
+                                        }
+                                    }
+                                });
+                        Bundle parameters = new Bundle();
+                        parameters.putString("fields", "cover");
+                        request.setParameters(parameters);
+                        request.executeAsync();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
+            else{
+                new DownloadImageTask(coverImage).execute(Constants.ADDRESS_TAT + idCoverImage);
+            }
+
 
             if(password == null){
                 externalView = true;
@@ -454,6 +463,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        File file = null;
         if (resultCode == RESULT_OK) {
 
             //return from take a photo
@@ -475,9 +486,30 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                             bitmapOptions);
                     Log.i("TEST", "path file immagine: " + f.getAbsolutePath());
 
+
+
+
+                    try {
+
+
+                        if(false){
+
+                            /*//TODO: fornire anche il caricamento sul drive
                     UploadImageTask task = new UploadImageTask(this, bitmap, Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
                     task.delegate = this;
                     task.execute();
+                    */
+                        }
+                        else{
+                            String pathImage = email+"/";
+
+                            new UploadFilePHP(this,bitmap,pathImage,Constants.NAME_IMAGES_PROFILE_DEFAULT).execute();
+                            new MyTaskInsertImageProfile(this,email,null,pathImage + Constants.NAME_IMAGES_PROFILE_DEFAULT).execute();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
 
                     imageProfile.setImageBitmap(bitmap);
 
@@ -485,7 +517,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     f.delete();
 
                     OutputStream outFile = null;
-                    File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
+                    file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
                     try {
                         outFile = new FileOutputStream(file);
                         bitmap.compress(Bitmap.CompressFormat.JPEG, QUALITY_OF_IMAGE, outFile);
@@ -501,31 +533,49 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if (requestCode == Constants.REQUEST_IMAGE_PICK) {
+            }
 
-
+            else if (requestCode == Constants.REQUEST_IMAGE_PICK) {
                 Uri selectedImage = data.getData();
+
                 String[] filePath = {MediaStore.Images.Media.DATA};
 
                 Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
                 c.moveToFirst();
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
+
                 c.close();
                 Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
                 Log.i("TEST", "image from gallery:" + picturePath + "");
+                Log.i("TEST", "bitmap:" + thumbnail + "");
+
+                String pathImage = email+"/";
+
+                try {
+
+                    //TODO: loggato con google
+                    if(false){
+
+                    }
+                    else{
+                        new UploadFilePHP(this,thumbnail,pathImage,Constants.NAME_IMAGES_PROFILE_DEFAULT).execute();
+                        new MyTaskInsertImageProfile(this,email,null,pathImage + Constants.NAME_IMAGES_PROFILE_DEFAULT).execute();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
 
-                UploadImageTask task = new UploadImageTask(this, thumbnail, Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
-                task.delegate = this;
-                task.execute();
+                //UploadImageTask task = new UploadImageTask(this, thumbnail, Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
+                //task.delegate = this;
+                //task.execute();
 
                 imageProfile.setImageBitmap(thumbnail);
 
 
             } else if (requestCode == Constants.REQUEST_COVER_IMAGE_CAPTURE) {
                 Log.i("TEST", "immagine copertina fatta");
-
 
                 File f = new File(Environment.getExternalStorageDirectory().toString());
                 for (File temp : f.listFiles()) {
@@ -541,10 +591,28 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
                             bitmapOptions);
 
+                    try {
 
-                    UploadImageTask task = new UploadImageTask(this, bitmap, Constants.NAME_IMAGES_COVER_DEFAULT, idFolder, "cover");
-                    task.delegate2 = this;
-                    task.execute();
+
+                        //TODO: fornire anche il caricamento sul drive
+                        if(false){
+                            /*
+                            UploadImageTask task = new UploadImageTask(this, bitmap, Constants.NAME_IMAGES_COVER_DEFAULT, idFolder, "cover");
+                            task.delegate2 = this;
+                            task.execute();
+                            */
+                        }
+                        else{
+                            String pathImage = email+"/";
+
+                            new UploadFilePHP(this,bitmap,pathImage,Constants.NAME_IMAGES_COVER_DEFAULT).execute();
+                            new MyTaskInsertCoverimage(this,email,null,pathImage + Constants.NAME_IMAGES_COVER_DEFAULT).execute();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
 
                     Drawable d = new BitmapDrawable(getResources(), bitmap);
                     layoutCoverImage.setBackground(d);
@@ -553,7 +621,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     f.delete();
 
                     OutputStream outFile = null;
-                    File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
+                    file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
                     try {
                         outFile = new FileOutputStream(file);
                         bitmap.compress(Bitmap.CompressFormat.JPEG, QUALITY_OF_IMAGE, outFile);
@@ -583,9 +651,21 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 Log.i("image from gallery:", picturePath + "");
 
 
-                UploadImageTask task = new UploadImageTask(this, thumbnail, Constants.NAME_IMAGES_COVER_DEFAULT, idFolder, "cover");
-                task.delegate2 = this;
-                task.execute();
+
+                //TODO: fornire anche il caricamento sul drive
+                if(false){
+                    /*
+                    UploadImageTask task = new UploadImageTask(this, thumbnail, Constants.NAME_IMAGES_COVER_DEFAULT, idFolder, "cover");
+                    task.delegate2 = this;
+                    task.execute();
+                    */
+                }
+                else{
+                    String pathImage = email+"/";
+
+                    new UploadFilePHP(this,thumbnail,pathImage,Constants.NAME_IMAGES_COVER_DEFAULT).execute();
+                    new MyTaskInsertCoverimage(this,email,null,pathImage + Constants.NAME_IMAGES_COVER_DEFAULT).execute();
+                }
 
                 Drawable d = new BitmapDrawable(getResources(), thumbnail);
                 layoutCoverImage.setBackground(d);
@@ -599,6 +679,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     public void processFinish(DriveId output) {
         Log.i("TEST", "uploaded profile image with id: " + output);
 
+
+        //TODO: aggiungere url al DB
         new MyTaskInsertImageProfile(this,email,output).execute();
 
     }
@@ -608,6 +690,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     @Override
     public void processFinish2(DriveId output) {
         Log.i("TEST", "uploaded cover image with id: " + output);
+
+        //TODO: aggiungere url al DB
         new MyTaskInsertCoverimage(this,email,output).execute();
     }
 
@@ -616,14 +700,22 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
         private final String ADDRESS_INSERT_IMAGE_PROFILE = "InserimentoImmagineProfilo.php";
         InputStream is = null;
-        String emailUser, result;
+        String emailUser, result, urlImmagine;
         DriveId idFile;
         Context context;
+
 
         public MyTaskInsertImageProfile(Context c, String emailUtente, DriveId id){
             context  = c;
             emailUser = emailUtente;
             idFile = id;
+        }
+
+        public MyTaskInsertImageProfile(Context c, String emailUtente, DriveId id, String url){
+            context  = c;
+            emailUser = emailUtente;
+            idFile = id;
+            urlImmagine = url;
         }
 
 
@@ -632,6 +724,9 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("email", emailUser));
             dataToSend.add(new BasicNameValuePair("id", idFile+""));
+            dataToSend.add(new BasicNameValuePair("url", urlImmagine));
+
+
 
             try {
                 if (InternetConnection.haveInternetConnection(context)) {
@@ -696,7 +791,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
         private final String ADDRESS_INSERT_COVER_PROFILE = "InserimentoImmagineCopertina.php";
         InputStream is = null;
-        String emailUser, result;
+        String emailUser, result, urlImmagine;
         DriveId idFile;
         Context context;
 
@@ -706,12 +801,21 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             idFile = id;
         }
 
+        public MyTaskInsertCoverimage(Context c, String emailUtente, DriveId id, String url){
+            context  = c;
+            emailUser = emailUtente;
+            idFile = id;
+            urlImmagine = url;
+        }
+
 
         @Override
         protected Void doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("email", emailUser));
             dataToSend.add(new BasicNameValuePair("id", idFile+""));
+            dataToSend.add(new BasicNameValuePair("url", urlImmagine));
+
 
             try {
                 if (InternetConnection.haveInternetConnection(context)) {
