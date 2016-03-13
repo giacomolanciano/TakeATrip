@@ -53,6 +53,11 @@ public class DataObject {
         return follow.getSegue();
     }
 
+    public String getSeguito() {
+
+        return follow.getSeguito();
+    }
+
     public ImageView getImmagineViaggio() {
         return immagineViaggio;
     }

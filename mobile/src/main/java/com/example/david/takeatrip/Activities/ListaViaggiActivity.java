@@ -273,6 +273,8 @@ public class ListaViaggiActivity extends ActionBarActivity {
                 Profilo p = new Profilo(email);
                 for(Viaggio v : viaggi) {
                         dataTravels.add(new DataObject(v, p));
+                    Log.i("TEST: ", "PROFILO: " + p.getName() + " " + p.getSurname());
+
 
                 }
 

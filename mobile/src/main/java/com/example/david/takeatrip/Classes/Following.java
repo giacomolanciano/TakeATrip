@@ -25,7 +25,7 @@ public class Following {
         this.seguito = seguito;
     }
 
-    public Following(String segue, String seguito) {
+    public Following(String segue) {
 
         this.segue = segue;
         this.seguito = seguito;

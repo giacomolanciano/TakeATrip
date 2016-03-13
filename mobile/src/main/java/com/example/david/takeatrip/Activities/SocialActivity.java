@@ -2,31 +2,24 @@ package com.example.david.takeatrip.Activities;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
-import android.app.ActionBar.Tab;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.Following;
-import com.example.david.takeatrip.Classes.Profilo;
-import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.Fragments.FollowersFragment;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.DataObject;
-import com.example.david.takeatrip.Utilities.MyRecyclerViewAdapter;
 import com.example.david.takeatrip.Utilities.TabsPagerAdapter;
 
 import org.apache.http.HttpEntity;
@@ -119,6 +112,20 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         });
 
         follow = new ArrayList<Following>();
+        dataFollowers = new ArrayList<DataObject>();
+
+        image_default = new ImageView(this);
+        image_default.setImageDrawable(getDrawable(R.drawable.default_male));
+
+
+        group = new ViewGroup(this) {
+            @Override
+            protected void onLayout(boolean changed, int l, int t, int r, int b) {
+
+            }
+        };
+
+        group.addView(image_default);
 
 
         /*Email Utente*/
@@ -131,7 +138,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
         }
 
-        MyTaskFollowers mT = new MyTaskFollowers();
+       MyTaskFollowers mT = new MyTaskFollowers();
         mT.execute();
 
 
@@ -146,7 +153,6 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
         if(tab.getPosition()==2){
             Log.e("TEST", "TAB SELEZIONATO NUMERO 2 ");
-
 
 
         }
@@ -217,12 +223,17 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
                                 for (int i = 0; i < jArray.length(); i++) {
                                     JSONObject json_data = jArray.getJSONObject(i);
                                     String segue = json_data.getString("segue").toString();
-                                    String seguito = json_data.getString("seguito").toString();
-                                    follow.add(new Following(segue, seguito));
+                                    //String seguito = json_data.getString("seguito").toString();
+                                    follow.add(new Following(segue));
                                 }
                             }
 
                             Log.i("TEST", "lista followers di " + email + ": " + follow);
+                            for (int i = 0; i < follow.size(); i++) {
+                                Log.i("TEST", "followers : " + follow.get(i).toString());
+
+
+                            }
                         }
 
 
@@ -246,8 +257,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
 
             if (stringaFinale.equals("")) {
-
-                // PopolaListaFollowers();
+                PopolaListaFollowers(follow);
             } else {
                 //TODO: creare un dialog più carino, con la possibiltà di aggiungere da qui un nuovo viaggio
                 Toast.makeText(getBaseContext(), stringaFinale, Toast.LENGTH_LONG).show();
@@ -260,8 +270,9 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
     }
 
-    private void PopolaListaFollowers() {
-
+    private void PopolaListaFollowers( ArrayList<Following> follow) {
+        for (Following f : follow) {
+            Log.i("TEST", "EMAIL SEGUE: " + f.getSegue());
+            }
     }
-
 }

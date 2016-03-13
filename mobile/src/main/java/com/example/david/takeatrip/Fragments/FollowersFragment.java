@@ -38,9 +38,9 @@ public class FollowersFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_followers, container, false);
-        nome= (TextView)v.findViewById(R.id.Nome);
+        nome= (TextView)v.findViewById(R.id.NomeUtenteFollowers);
         nome.setText(nomeUtente);
-        cognome= (TextView)v.findViewById(R.id.Cognome);
+        cognome= (TextView)v.findViewById(R.id.CognomeUtenteFollowers);
         cognome.setText(cognomeUtente);
         return v;
     }
