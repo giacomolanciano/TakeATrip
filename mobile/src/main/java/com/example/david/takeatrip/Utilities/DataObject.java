@@ -3,12 +3,14 @@ package com.example.david.takeatrip.Utilities;
 import android.media.Image;
 import android.widget.ImageView;
 
+import com.example.david.takeatrip.Classes.Following;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.Viaggio;
 
 public class DataObject {
     private Viaggio viaggio;
     private Profilo profilo;
+    private Following follow;
     private ImageView immagineViaggio;
 
 
@@ -18,6 +20,11 @@ public class DataObject {
         profilo = p;
 
         //immagineViaggio = immagine;
+    }
+
+    public DataObject(Following f){
+        follow = f;
+
     }
 
     public void setViaggio(Viaggio viaggio) {
@@ -40,6 +47,10 @@ public class DataObject {
     }  public String getCodiceViaggio() {
 
         return viaggio.getCodice();
+    }
+    public String getSegue() {
+
+        return follow.getSegue();
     }
 
     public ImageView getImmagineViaggio() {

@@ -3,9 +3,11 @@ package com.example.david.takeatrip.Activities;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -16,13 +18,31 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.example.david.takeatrip.Classes.Following;
 import com.example.david.takeatrip.Classes.Profilo;
+import com.example.david.takeatrip.Classes.Viaggio;
+import com.example.david.takeatrip.Fragments.FollowersFragment;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.DataObject;
 import com.example.david.takeatrip.Utilities.MyRecyclerViewAdapter;
 import com.example.david.takeatrip.Utilities.TabsPagerAdapter;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -35,8 +55,8 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
     private final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/Follower.php";
 
 
-    private ArrayList<Profilo> profili;
-    private ArrayList<DataObject> dataTravels;
+    private ArrayList<Following> follow;
+    private ArrayList<DataObject> dataFollowers;
     private String email;
 
     private RecyclerView mRecyclerView;
@@ -46,12 +66,16 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
     private ViewGroup group;
     private ImageView image_default;
 
+    private Fragment fragment;
+
+
 
     // TODO: Tab titles in other languages
     private String[] tabs = {"Home","Following","Followers", "Top Rated", "Search"};
 
     private int[] icons = {R.drawable.ic_people_black_36dp,
-           R.drawable.ic_add_a_photo_black_36dp,R.drawable.ic_add_black_24dp,
+           R.drawable.ic_add_a_photo_black_36dp,
+            R.drawable.ic_add_black_24dp,
             R.drawable.ic_add_white_24dp,
             R.drawable.ic_cast_light};
 
@@ -94,6 +118,8 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
             }
         });
 
+        follow = new ArrayList<Following>();
+
 
         /*Email Utente*/
 
@@ -104,6 +130,9 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
             Log.i("TEST", "email utente in Social: " + email);
 
         }
+
+        MyTaskFollowers mT = new MyTaskFollowers();
+        mT.execute();
 
 
     }
@@ -117,6 +146,8 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
         if(tab.getPosition()==2){
             Log.e("TEST", "TAB SELEZIONATO NUMERO 2 ");
+
+
 
         }
 
@@ -133,4 +164,104 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
 
     }
+
+    private class MyTaskFollowers extends AsyncTask<Void, Void, Void> {
+        InputStream is = null;
+        String stringaFinale = "";
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("email", email));
+
+
+            try {
+
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost(ADDRESS_PRELIEVO);
+                httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                HttpResponse response = httpclient.execute(httppost);
+
+                HttpEntity entity = response.getEntity();
+                is = entity.getContent();
+
+                if (is != null) {
+                    //converto la risposta in stringa
+                    try {
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                        StringBuilder sb = new StringBuilder();
+                        String line = null;
+                        while ((line = reader.readLine()) != null) {
+                            sb.append(line + "\n");
+                        }
+                        is.close();
+
+                        String result = sb.toString();
+
+                        Log.i("TEST", "result da FOLLOWERS: " + result);
+
+
+                        if (result.equals("null\n")) {
+                            //TODO: convertire in values
+                            stringaFinale = "Non sono presenti followers";
+                            Log.i("TEST", "result da Followers: " + stringaFinale);
+
+                        } else {
+                            JSONArray jArray = new JSONArray(result);
+                            Log.i("TEST", "jArray" + jArray.toString());
+
+                            if (jArray != null && result != null) {
+                                for (int i = 0; i < jArray.length(); i++) {
+                                    JSONObject json_data = jArray.getJSONObject(i);
+                                    String segue = json_data.getString("segue").toString();
+                                    String seguito = json_data.getString("seguito").toString();
+                                    follow.add(new Following(segue, seguito));
+                                }
+                            }
+
+                            Log.i("TEST", "lista followers di " + email + ": " + follow);
+                        }
+
+
+                    } catch (Exception e) {
+                        Log.e("TEST", "Errore nel risultato o nel convertire il risultato");
+                    }
+                } else {
+                    Log.e("TEST", "Input Stream uguale a null");
+                }
+
+            } catch (Exception e) {
+                Log.e("TEST", "Errore nella connessione http " + e.toString());
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+
+
+            if (stringaFinale.equals("")) {
+
+                // PopolaListaFollowers();
+            } else {
+                //TODO: creare un dialog più carino, con la possibiltà di aggiungere da qui un nuovo viaggio
+                Toast.makeText(getBaseContext(), stringaFinale, Toast.LENGTH_LONG).show();
+            }
+
+
+            super.onPostExecute(aVoid);
+
+        }
+
+    }
+
+    private void PopolaListaFollowers() {
+
+    }
+
 }

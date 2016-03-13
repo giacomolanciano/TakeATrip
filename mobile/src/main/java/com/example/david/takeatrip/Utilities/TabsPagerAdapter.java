@@ -31,7 +31,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
                 return new FollowingFragment();
             case 2:
                 // Movies fragment activity
-                return new FollowersFragment();
+                return new FollowersFragment("PIPPO", "PLUTO");
             case 3:
                 // Games fragment activity
                 return new TopRatedFragment();
