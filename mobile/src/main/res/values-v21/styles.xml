@@ -6,4 +6,28 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+
+    <!--<style name="AppTheme" parent="Base.AppTheme">-->
+        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+    <!--</style>-->
+
+
+    <!--<style name="Theme.DesignDemo" parent="Theme.AppCompat">-->
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+    <!--</style>-->
+
+
+    <!--<style name="Base.AppTheme"></style>-->
+
+    <!--<style name="Base"></style>-->
+
+    <!--<style name="Base.Theme"></style>-->
+
+    <!--<style name="Base.Theme.DesignDemo"></style>-->
+
+
 </resources>

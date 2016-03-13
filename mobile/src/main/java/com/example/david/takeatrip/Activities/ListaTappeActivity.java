@@ -699,7 +699,7 @@ public class ListaTappeActivity extends AppCompatActivity
         i.putExtra("codiceViaggio", codiceViaggio);
         i.putExtra("ordine", ordineTappa);
         i.putExtra("nome", nomeTappa);
-        i.putExtra("data", tappaSelezionata.getData());
+        i.putExtra("data", tappaSelezionata.getData().toString());
 
         //TODO sarà inutile una volta modificato il database
         i.putExtra("codAccount", 0);
@@ -707,6 +707,7 @@ public class ListaTappeActivity extends AppCompatActivity
 //        Log.e("TEST", "#email  " + profiloUtente.getEmail());
 //        Log.e("TEST", "#nomedelviaggio  " + marker.getTitle() );
         Log.e("TEST", "ordine tappa: " + ordineTappa);
+        Log.e("TEST", "data tappa: " + tappaSelezionata.getData().toString());
 
         startActivity(i);
 

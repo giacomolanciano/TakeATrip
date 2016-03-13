@@ -105,14 +105,13 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".Activities.CreateDriveFolderActivity" />
         <activity android:name=".Utilities.RetrieveImageTask" />
-        <activity
-            android:name=".Activities.MultiImageChooserActivity"
-            android:label="@string/title_activity_multi_image_chooser"
-            android:theme="@style/AppTheme" />
+
         <activity
             android:name=".Activities.TappaActivity"
             android:label="@string/title_activity_tappa"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme">
+
+        </activity>
     </application>
 
 </manifest>
