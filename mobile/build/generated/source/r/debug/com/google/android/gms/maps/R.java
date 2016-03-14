@@ -229,12 +229,12 @@ public final class R {
 		public static final int gtm_analytics = 0x7f060000;
 	}
 	public static final class string {
-		public static final int accept = 0x7f07007f;
-		public static final int auth_google_play_services_client_facebook_display_name = 0x7f070085;
-		public static final int auth_google_play_services_client_google_display_name = 0x7f070086;
-		public static final int cast_notification_connected_message = 0x7f070089;
-		public static final int cast_notification_connecting_message = 0x7f07008a;
-		public static final int cast_notification_disconnect = 0x7f07008b;
+		public static final int accept = 0x7f070080;
+		public static final int auth_google_play_services_client_facebook_display_name = 0x7f070086;
+		public static final int auth_google_play_services_client_google_display_name = 0x7f070087;
+		public static final int cast_notification_connected_message = 0x7f07008a;
+		public static final int cast_notification_connecting_message = 0x7f07008b;
+		public static final int cast_notification_disconnect = 0x7f07008c;
 		public static final int common_google_play_services_api_unavailable_text = 0x7f070013;
 		public static final int common_google_play_services_enable_button = 0x7f070014;
 		public static final int common_google_play_services_enable_text = 0x7f070015;
@@ -264,13 +264,13 @@ public final class R {
 		public static final int common_open_on_phone = 0x7f07002d;
 		public static final int common_signin_button_text = 0x7f07002e;
 		public static final int common_signin_button_text_long = 0x7f07002f;
-		public static final int create_calendar_message = 0x7f070094;
-		public static final int create_calendar_title = 0x7f070095;
-		public static final int decline = 0x7f070097;
+		public static final int create_calendar_message = 0x7f070095;
+		public static final int create_calendar_title = 0x7f070096;
+		public static final int decline = 0x7f070098;
 		public static final int place_autocomplete_clear_button = 0x7f07003c;
 		public static final int place_autocomplete_search_hint = 0x7f07003d;
-		public static final int store_picture_message = 0x7f0700b1;
-		public static final int store_picture_title = 0x7f0700b2;
+		public static final int store_picture_message = 0x7f0700b2;
+		public static final int store_picture_title = 0x7f0700b3;
 		public static final int wallet_buy_button_place_holder = 0x7f07003f;
 	}
 	public static final class style {

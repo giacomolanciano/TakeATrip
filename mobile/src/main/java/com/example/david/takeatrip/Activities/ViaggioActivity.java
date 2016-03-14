@@ -107,9 +107,9 @@ public class ViaggioActivity extends AppCompatActivity {
 
     private DriveId idFolder;
     private Bitmap bitmapImageTravel;
-    private String nameImageTravel;
+    private String nameImageTravel, urlImageTravel;
 
-
+    private String NameForUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +121,7 @@ public class ViaggioActivity extends AppCompatActivity {
             codiceViaggio = intent.getStringExtra("codiceViaggio");
             nomeViaggio = intent.getStringExtra("nomeViaggio");
             idFolder = intent.getParcelableExtra("idFolder");
+            urlImageTravel = intent.getStringExtra("urlImmagineViaggio");
 
             Log.i("TEST"+ TAG+": ", "email: " +email +"codiceViaggio: "+ codiceViaggio + "nomeViaggio: " + nomeViaggio +"id Cartella Viaggio: " + idFolder);
 
@@ -131,15 +132,17 @@ public class ViaggioActivity extends AppCompatActivity {
         profiles = new ArrayList<Profilo>();
 
 
-        String NameForUrl = codiceViaggio.trim().replace(" ", "");
+        NameForUrl = codiceViaggio.trim().replace(" ", "");
         String url = email+"/"+NameForUrl;
-
 
         Log.i("TEST", "email utente: " + email + " codiceViaggio: " + codiceViaggio + " nomeVaggio: " + nomeViaggio);
 
+
         new MyTask().execute();
         new MyTaskPerUtenti().execute();
-        new MyTaskIDFolder(this,email,url,NameForUrl).execute();
+
+
+        //new MyTaskIDFolder(this,email,url,NameForUrl).execute();
 
     }
 
@@ -565,6 +568,11 @@ public class ViaggioActivity extends AppCompatActivity {
             viewTitoloViaggio = (TextView)findViewById(R.id.titoloViaggio);
             layoutCopertinaViaggio = (LinearLayout)findViewById(R.id.layoutCoverImageTravel);
 
+            if(urlImageTravel != null && !urlImageTravel.equals("null")){
+                new DownloadImageTask(null,layoutCopertinaViaggio).execute(Constants.ADDRESS_TAT + urlImageTravel);
+            }
+
+
             viewTitoloViaggio.setText(nomeViaggio);
 
             layoutPartecipants = (LinearLayout)findViewById(R.id.Partecipants);
@@ -709,20 +717,6 @@ public class ViaggioActivity extends AppCompatActivity {
                             is.close();
 
                             result = sb.toString();
-                            if(result != null && !result.equals("null\n")){
-
-                                JSONArray jArray = new JSONArray(result);
-
-                                if(jArray != null && result != null){
-                                    for(int i=0;i<jArray.length();i++){
-                                        JSONObject json_data = jArray.getJSONObject(i);
-                                        nameImageTravel = json_data.getString("urlImmagineViaggio").toString();
-                                    }
-                                }
-                            }
-
-
-
                         } catch (Exception e) {
                             Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
                         }
@@ -745,6 +739,7 @@ public class ViaggioActivity extends AppCompatActivity {
             Log.i("TEST", "risultato della query: " + result);
             if(result != null && !result.equals("null\n")){
                 Log.i("TEST", "Presente cartella di viaggio");
+
                 if(bitmapImageTravel != null){
                     Log.i("TEST", "upload dell'immagine del viaggio");
 
@@ -976,6 +971,12 @@ public class ViaggioActivity extends AppCompatActivity {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
             dataToSend.add(new BasicNameValuePair("email", profilo.getEmail()));
+
+            String url = profilo.getEmail()+"/"+NameForUrl;
+
+            Log.i("TEST", "url della cartella del nuovo partecipante: " + url);
+            dataToSend.add(new BasicNameValuePair("urlCartella",url));
+            dataToSend.add(new BasicNameValuePair("nomeCartella",NameForUrl));
 
             try {
                 if (InternetConnection.haveInternetConnection(ViaggioActivity.this)) {

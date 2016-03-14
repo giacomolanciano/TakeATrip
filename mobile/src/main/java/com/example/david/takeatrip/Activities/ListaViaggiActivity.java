@@ -226,9 +226,7 @@ public class ListaViaggiActivity extends ActionBarActivity {
 
 
                         if (result.equals("null\n")) {
-                            //TODO: convertire in values
-                            stringaFinale = "Non sono presenti viaggi";
-                            Log.i("TEST", "result da queryViaggi: " + stringaFinale);
+                            stringaFinale = getString(R.string.NoTravels);
 
                         } else {
                             JSONArray jArray = new JSONArray(result);
@@ -238,8 +236,9 @@ public class ListaViaggiActivity extends ActionBarActivity {
                                     JSONObject json_data = jArray.getJSONObject(i);
                                     String codiceViaggio = json_data.getString("codiceViaggio").toString();
                                     String nomeViaggio = json_data.getString("nomeViaggio").toString();
+                                    String urlImmagineViaggio = json_data.getString("urlImmagineViaggio").toString();
 
-                                    viaggi.add(new Viaggio(codiceViaggio, nomeViaggio));
+                                    viaggi.add(new Viaggio(codiceViaggio, nomeViaggio, urlImmagineViaggio));
                                     profili.add(new Profilo(email));
                                 }
                             }
@@ -264,19 +263,12 @@ public class ListaViaggiActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
-
-
             if (stringaFinale.equals("")) {
                 Profilo p = new Profilo(email);
                 for(Viaggio v : viaggi) {
-                        dataTravels.add(new DataObject(v, p));
-                    Log.i("TEST: ", "PROFILO: " + p.getName() + " " + p.getSurname());
-
-
+                    dataTravels.add(new DataObject(v, p));
+                    Log.i("TEST: ", "PROFILO: " + p);
                 }
-
-
                 PopolaLista();
             } else {
                 //TODO: creare un dialog più carino, con la possibiltà di aggiungere da qui un nuovo viaggio

@@ -52,6 +52,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static android.widget.AdapterView.*;
+
 public class SearchActivity extends AppCompatActivity {
 
     private final String ADDRESS = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryNomiUtenti.php";
@@ -160,38 +162,28 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
-    //TODO: search by uername
-    public void onClickSearchUser(View v) {
-        if(viaggi_profilo.size() != 0 && editTextUser.getText().toString().equals("")){
-            viaggi_profilo.clear();
-        }
-        String[] nomeSplittato = editTextUser.getText().toString().split(" ");
-        if(nomeSplittato.length == 2){
-            nomeScelto = nomeSplittato[0];
-            cognomeScelto = nomeSplittato[1];
-        }
 
-        new myTaskSearchByUser().execute();
-
-    }
 
 
 
     private void PopolaLista(Map<Profilo, List<Viaggio>> p_v){
         ArrayList<DataObject> result = new ArrayList<DataObject>();
+
+        List<String> codiciViaggi= new ArrayList<String>();
         for(Profilo p : p_v.keySet()){
             for(Viaggio v: p_v.get(p)){
-                if(result.contains(v)){
-                    continue;
-                }
-                else{
+                if(!codiciViaggi.contains(v.getCodice())){
                     result.add(new DataObject(v, p));
+                    codiciViaggi.add(v.getCodice());
                 }
-
             }
         }
 
+
         Log.i("TEST", "result:" + result);
+
+
+
         MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(result);
         adapter.onCreateViewHolder(group, 0);
         mRecyclerView.setAdapter(adapter);
@@ -332,7 +324,9 @@ public class SearchActivity extends AppCompatActivity {
                                     String nomeUtente = json_data.getString("nome").toString();
                                     String cognomeUtente = json_data.getString("cognome").toString();
                                     String emailUtente = json_data.getString("email").toString();
-                                    stringaFinale = nomeUtente + " " + cognomeUtente;
+                                    String usernameUtente = json_data.getString("username").toString();
+
+                                    stringaFinale = nomeUtente + " " + cognomeUtente + "\n" + "("+usernameUtente+")";
                                     users.add(stringaFinale);
                                 }
                             }
@@ -361,17 +355,49 @@ public class SearchActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
 
-            ArrayAdapter adapter = new ArrayAdapter(SearchActivity.this,android.R.layout.simple_list_item_1,users);
+            final ArrayAdapter adapter = new ArrayAdapter(SearchActivity.this,android.R.layout.simple_list_item_1,users);
 
             editTextUser.setAdapter(adapter);
             editTextUser.setThreshold(1);
+            editTextUser.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            super.onPostExecute(aVoid);
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+                    onClickSearchUser(view, adapter.getItem(position).toString());
+                }
+            });
+
+
 
         }
     }
 
+    public void onClickSearchUser(View v, String utenteSelezionato) {
+        if(viaggi_profilo.size() != 0 && editTextUser.getText().toString().equals("")){
+            viaggi_profilo.clear();
+        }
+        String usernameUtenteSelezionato = utenteSelezionato.substring(utenteSelezionato.indexOf('(') + 1, utenteSelezionato.indexOf(')'));
+        new myTaskSearchByUser(usernameUtenteSelezionato).execute();
+    }
+
+
+    public void onClickSearchUser(View v) {
+
+        /*
+        if(viaggi_profilo.size() != 0 && editTextUser.getText().toString().equals("")){
+            viaggi_profilo.clear();
+        }
+        String utenteSelezionato = editTextUser.getText().toString();
+        String usernameUtenteSelezionato = utenteSelezionato.substring(utenteSelezionato.indexOf('(') + 1, utenteSelezionato.indexOf(')'));
+
+        new myTaskSearchByUser(usernameUtenteSelezionato).execute();
+
+        */
+
+    }
 
 
 
@@ -381,19 +407,16 @@ public class SearchActivity extends AppCompatActivity {
         InputStream is = null;
         String result, stringaFinale = "";
         Map<Profilo, List<Viaggio>> mappaProvvisoria = new HashMap<Profilo, List<Viaggio>>();
+        String username;
 
+        public myTaskSearchByUser(String username){
+            this.username = username;
+        }
 
         @Override
         protected Void doInBackground(Void... params) {
-
-
-
-            //TODO: cercare per username invece che per nome e cognome
-
-
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("nome", nomeScelto));
-            dataToSend.add(new BasicNameValuePair("cognome", cognomeScelto));
+            dataToSend.add(new BasicNameValuePair("username", username));
 
             try {
                 if (InternetConnection.haveInternetConnection(SearchActivity.this)) {
@@ -428,10 +451,14 @@ public class SearchActivity extends AppCompatActivity {
                                     JSONObject json_data = jArray.getJSONObject(i);
                                     String codice = json_data.getString("codice").toString();
                                     String nomeViaggio = json_data.getString("nomeViaggio").toString();
-                                    Profilo p = new Profilo(null, nomeScelto, cognomeScelto,null, null, null, null, null, null, null);
+                                    String emailUtente = json_data.getString("email").toString();
+                                    String nomeUtente = json_data.getString("nome").toString();
+                                    String cognomeUtente = json_data.getString("cognome").toString();
+                                    String urlImmagineViaggio = json_data.getString("urlImmagineViaggio").toString();
+                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente,null, null, null, null, null, null, null);
 
                                     List<Viaggio> viaggi = new ArrayList<Viaggio>();
-                                    viaggi.add(new Viaggio(codice, nomeViaggio));
+                                    viaggi.add(new Viaggio(codice, nomeViaggio, urlImmagineViaggio));
 
                                     Log.i("TEST", "viaggi: " + viaggi);
                                     mappaProvvisoria.put(p,viaggi);
@@ -520,12 +547,15 @@ public class SearchActivity extends AppCompatActivity {
                                     JSONObject json_data = jArray.getJSONObject(i);
                                     String codice = json_data.getString("codice").toString();
                                     String nomeViaggio = json_data.getString("nomeViaggio").toString();
+                                    String emailUtente = json_data.getString("email").toString();
                                     String nomeUtente = json_data.getString("nome").toString();
                                     String cognomeUtente = json_data.getString("cognome").toString();
-                                    Profilo p = new Profilo(null, nomeUtente, cognomeUtente,null, null, null, null, null, null, null);
+                                    String urlImmagineViaggio = json_data.getString("urlImmagineViaggio").toString();
+
+                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente,null, null, null, null, null, null, null);
 
                                     List<Viaggio> viaggi = new ArrayList<Viaggio>();
-                                    viaggi.add(new Viaggio(codice, nomeViaggio));
+                                    viaggi.add(new Viaggio(codice, nomeViaggio,urlImmagineViaggio));
 
                                     mappaProvvisoria.put(p,viaggi);
                                 }

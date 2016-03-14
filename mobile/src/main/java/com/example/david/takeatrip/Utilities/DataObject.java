@@ -18,7 +18,6 @@ public class DataObject {
     public DataObject(Viaggio v, Profilo p){
         viaggio = v;
         profilo = p;
-
         //immagineViaggio = immagine;
     }
 
@@ -43,9 +42,15 @@ public class DataObject {
 
         return viaggio.getNome();
 
-    }  public String getCodiceViaggio() {
+    }
+    public String getCodiceViaggio() {
 
         return viaggio.getCodice();
+    }
+
+    public String getUrlImageTravel() {
+
+        return viaggio.getUrlImmagine();
     }
 
 
