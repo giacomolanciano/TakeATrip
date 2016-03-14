@@ -23,6 +23,8 @@ import com.example.david.takeatrip.Fragments.DatePickerFragment;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatesUtils;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -37,6 +39,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     TextView textDataTappa;
     private String[] strings, subs;
     private int[] arr_images;
+
+    private FloatingActionsMenu fabMenu;
+    private FloatingActionButton buttonAddNote, buttonAddRecord, buttonAddVideo, buttonAddPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,21 +107,93 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        if (fab != null) {
-//            fab.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//
-//
-////                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-////                            .setAction("Action", null).show();
-//
-//                    //TODO inserire logica per inserimento nuovo contenuto nella tappa
-//
-//                }
-//            });
-//        }
+
+        fabMenu = (FloatingActionsMenu) findViewById(R.id.menuInserimentoContenuti);
+        if (fabMenu != null) {
+
+        }
+
+
+        buttonAddNote = (FloatingActionButton) findViewById(R.id.buttonAddNote);
+        if (buttonAddNote != null) {
+            buttonAddNote.setIcon(R.drawable.ic_edit_black_36dp);
+
+            buttonAddNote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Log.i("TEST", "add note pressed");
+
+
+//                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                            .setAction("Action", null).show();
+
+                    //TODO inserire logica per inserimento nuovo contenuto nella tappa
+
+                }
+            });
+        }
+
+        buttonAddRecord = (FloatingActionButton) findViewById(R.id.buttonAddRecord);
+        if (buttonAddRecord != null) {
+            buttonAddRecord.setIcon(R.drawable.ic_mic_black_36dp);
+
+            buttonAddRecord.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Log.i("TEST", "add record pressed");
+
+
+//                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                            .setAction("Action", null).show();
+
+                    //TODO inserire logica per inserimento nuovo contenuto nella tappa
+
+                }
+            });
+        }
+
+        buttonAddVideo = (FloatingActionButton) findViewById(R.id.buttonAddVideo);
+        if (buttonAddVideo != null) {
+            buttonAddVideo.setIcon(R.drawable.ic_videocam_black_36dp);
+
+            buttonAddVideo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Log.i("TEST", "add video pressed");
+
+
+//                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                            .setAction("Action", null).show();
+
+                    //TODO inserire logica per inserimento nuovo contenuto nella tappa
+
+                }
+            });
+        }
+
+        buttonAddPhoto = (FloatingActionButton) findViewById(R.id.buttonAddPhoto);
+        if (buttonAddPhoto != null) {
+            buttonAddPhoto.setIcon(R.drawable.ic_photo_camera_black_36dp);
+
+            buttonAddPhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Log.i("TEST", "add photo pressed");
+
+
+//                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                            .setAction("Action", null).show();
+
+                    //TODO inserire logica per inserimento nuovo contenuto nella tappa
+
+                }
+            });
+        }
+
 
     }
 
@@ -172,6 +249,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
     private class PrivacyLevelAdapter extends ArrayAdapter<String> {
+
+        //TODO inner class da rimuovere una volta sistemato l'adapter esterno
 
 
         public PrivacyLevelAdapter(Context context, int textViewResourceId, String[] strings) {

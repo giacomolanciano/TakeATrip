@@ -4,8 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:fab="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <!--android:fitsSystemWindows="true"-->
     <!--xmlns:tools="http://schemas.android.com/tools"-->
@@ -29,6 +28,7 @@
 
             <ImageView
                 android:src="@drawable/empty_image"
+                android:id="@+id/coverImageTappa"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -60,17 +60,17 @@
 
             </android.support.v7.widget.Toolbar>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/sheet_text_scrim_height_top"
-                android:background="@drawable/scrim_top"
-                app:layout_collapseMode="pin"/>
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/sheet_text_scrim_height_top"-->
+                <!--android:background="@drawable/scrim_top"-->
+                <!--app:layout_collapseMode="pin"/>-->
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sheet_text_scrim_height_bottom"
                 android:layout_gravity="bottom"
-                android:layout_alignBottom="@+id/image"
+                android:layout_alignBottom="@+id/coverImageTappa"
                 android:background="@drawable/scrim_bottom"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -337,55 +337,59 @@
 
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/right_labels"
+        android:id="@+id/menuInserimentoContenuti"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginRight="@dimen/floating_action_menu_margin_right"
         android:layout_marginBottom="@dimen/floating_action_menu_margin_bottom"
-        fab:fab_addButtonColorNormal="@color/white"
-        fab:fab_addButtonColorPressed="@color/white_pressed"
-        fab:fab_addButtonPlusIconColor="@color/half_black"
-        fab:fab_labelStyle="@style/menu_labels_style"
-        fab:fab_labelsPosition="left"
+        app:fab_addButtonColorNormal="@color/blue"
+        app:fab_addButtonColorPressed="@color/blue_semi_transparent_pressed"
+        app:fab_addButtonPlusIconColor="@color/biancoPallido"
+        app:fab_labelsPosition="left"
+        app:fab_labelStyle="@style/menu_labels_style"
         >
 
 
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/buttonAddNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/white"
-            fab:fab_title="Label on the right"
-            fab:fab_colorPressed="@color/white_pressed"
-            fab:fab_size="mini"
+            app:fab_colorNormal="@color/biancoPallido"
+            app:fab_title="@string/addNote"
+            app:fab_colorPressed="@color/white_pressed"
+            app:fab_size="mini"
             />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/buttonAddRecord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/white"
-            fab:fab_size="mini"
-            fab:fab_title="Another one on the right"
-            fab:fab_colorPressed="@color/white_pressed"
+            app:fab_colorNormal="@color/biancoPallido"
+            app:fab_size="mini"
+            app:fab_title="@string/addRecord"
+            app:fab_colorPressed="@color/white_pressed"
             />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/buttonAddVideo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/white"
-            fab:fab_size="mini"
-            fab:fab_title="Another one on the right"
-            fab:fab_colorPressed="@color/white_pressed"
+            app:fab_colorNormal="@color/biancoPallido"
+            app:fab_size="mini"
+            app:fab_title="@string/addVideo"
+            app:fab_colorPressed="@color/white_pressed"
             />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/buttonAddPhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/white"
-            fab:fab_size="mini"
-            fab:fab_title="Another one on the right"
-            fab:fab_colorPressed="@color/white_pressed"
+            app:fab_colorNormal="@color/biancoPallido"
+            app:fab_size="mini"
+            app:fab_title="@string/addPhoto"
+            app:fab_colorPressed="@color/white_pressed"
             />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>

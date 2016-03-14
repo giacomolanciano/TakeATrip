@@ -81,6 +81,7 @@
     <string name="Cancel">Cancel</string>
 
 
+
     <string-array name="livelliUmidita">
         <item>low level</item>
         <item>medium level</item>
@@ -227,6 +228,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="NoTravels">No travels found</string>
+
+    <string name="addNote">Add new note</string>
+    <string name="addRecord">Add new record</string>
+    <string name="addVideo">Add new video</string>
+    <string name="addPhoto">Add new photo</string>
 
 
 </resources>
