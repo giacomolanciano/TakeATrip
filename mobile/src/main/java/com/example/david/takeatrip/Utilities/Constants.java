@@ -77,6 +77,7 @@ public class Constants {
 
     public  static final String NAME_IMAGES_PROFILE_DEFAULT = "profileTAT.jpg";
     public  static final String NAME_IMAGES_COVER_DEFAULT = "coverTAT.jpg";
+    public  static final String NAME_IMAGES_TRAVEL_DEFAULT = "imageTravel.jpg";
 
 
     public  static final String CURRENT_DATE_ID = "currentDate";

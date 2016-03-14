@@ -6,11 +6,17 @@ package com.example.david.takeatrip.Classes;
 public class Viaggio {
 
 
-    private String codice, nome;
+    private String codice, nome, urlImmagine;
 
     public Viaggio(String codice, String nome) {
         this.codice = codice;
         this.nome = nome;
+    }
+
+    public Viaggio(String codice, String nome, String urlImmagine) {
+        this.codice = codice;
+        this.nome = nome;
+        this.urlImmagine = urlImmagine;
     }
 
     public Viaggio(String codice) {
@@ -31,5 +37,9 @@ public class Viaggio {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getUrlImmagine(){
+        return urlImmagine;
     }
 }

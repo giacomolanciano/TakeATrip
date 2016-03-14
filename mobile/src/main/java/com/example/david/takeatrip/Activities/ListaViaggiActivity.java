@@ -67,9 +67,6 @@ public class ListaViaggiActivity extends ActionBarActivity {
     private ImageView image_default;
 
 
-
-
-
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -241,6 +238,7 @@ public class ListaViaggiActivity extends ActionBarActivity {
                                     JSONObject json_data = jArray.getJSONObject(i);
                                     String codiceViaggio = json_data.getString("codiceViaggio").toString();
                                     String nomeViaggio = json_data.getString("nomeViaggio").toString();
+
                                     viaggi.add(new Viaggio(codiceViaggio, nomeViaggio));
                                     profili.add(new Profilo(email));
                                 }

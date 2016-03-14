@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
@@ -31,6 +33,7 @@ import com.example.david.takeatrip.Classes.Tappa;
 import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
+import com.example.david.takeatrip.Utilities.DownloadImageTask;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -38,6 +41,7 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.model.*;
 
 import org.apache.http.HttpEntity;
@@ -65,7 +69,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
 
     private Button buttonSatellite, buttonHybrid, buttonTerrain;
-    private String email, emailEsterno, nomeViaggio, titoloViaggio, codiceViaggio;
+    private String email, emailEsterno, nomeViaggio, urlImmagineViaggio, codiceViaggio;
     ;
     private final String ADDRESS_PRELIEVO = "QueryDest.php";
     private Profilo profiloUtente;
@@ -76,7 +80,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
     private Map<Profilo,List<Tappa>> profiloTappe;
     private Map<Profilo, List<Tappa>> profiloNomiTappe;
     private Map<List<Tappa>, List<Viaggio>> viaggioTappa;
-    private Map<String,String> combo;
+    private Map<String,Viaggio> combo;
     private Map<String,String> comboCodice;
 
     private View mCustomMarkerView;
@@ -110,7 +114,6 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this); */
 
-
         if(getIntent() != null){
             Intent intent = getIntent();
             email = intent.getStringExtra("email");
@@ -133,7 +136,12 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         viaggioTappa = new HashMap<>();
 
         if(email == null || (email != null && emailEsterno!= null)) {
-            profiloUtente = new Profilo(emailEsterno, null, null, null, null, null, null, null, null, null);
+            if(email.equals(emailEsterno)){
+                profiloUtente = new Profilo(email, null, null, null, null, null, null, null, null, null);
+            }
+            else {
+                profiloUtente = new Profilo(emailEsterno, null, null, null, null, null, null, null, null, null);
+            }
         }
         else{
             profiloUtente = new Profilo(email, null, null, null, null, null, null, null, null, null);
@@ -170,7 +178,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
     private void initViews() {
 
         mCustomMarkerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.view_custom_marker, null);
-        mMarkerImageView = (ImageView) mCustomMarkerView.findViewById(R.id.profile_image);
+        mMarkerImageView = (ImageView) mCustomMarkerView.findViewById(R.id.imageTravelOnMap);
 
       SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -199,7 +207,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         // map.setMyLocationEnabled(true);
         map.setOnInfoWindowClickListener(this);
         //  map.setOnMarkerClickListener(this);
-        map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+        map.setInfoWindowAdapter(new InfoWindowAdapter() {
 
             // Use default InfoWindow frame
             @Override
@@ -210,14 +218,31 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
             // Defines the contents of the InfoWindow
             @Override
             public View getInfoContents(Marker marker) {
-
                 // Getting view from the layout file info_window_layout
                 View v = getLayoutInflater().inflate(R.layout.view_custom_marker, null);
 
+                ImageView imageTravel = (ImageView) v.findViewById(R.id.imageTravelOnMap);
+
+                String urlImmagineViaggio = null;
+                for(Viaggio viaggio: combo.values()){
+                    if(viaggio.getCodice().equals(comboCodice.get(marker.getTitle()))){
+                        urlImmagineViaggio = viaggio.getUrlImmagine();
+                        break;
+                    }
+                }
+
+                Log.i("TEST", "urlImmagine del viaggio " + marker.getTitle() + ": " + urlImmagineViaggio );
+                if(urlImmagineViaggio!= null && !urlImmagineViaggio.equals("null")){
+                    Log.i("TEST", "esecuzione download immagine viaggio... ");
+
+                    //TODO: con il thread non si visualizza questo bitmap
+                    // l'allocazione di memoria per visualizzare questo bitmap
+                    new DownloadImageTask(imageTravel).execute(Constants.ADDRESS_TAT + urlImmagineViaggio);
+                }
+
                 // Getting reference to the TextView to set title
                 TextView note = (TextView) v.findViewById(R.id.note);
-
-                note.setText(marker.getTitle() );
+                note.setText(marker.getTitle());
 
                 // Returning the view containing InfoWindow contents
                 return v;
@@ -244,9 +269,9 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         //TODO passare codice e nome per ricreare viaggio
         i.putExtra("codiceViaggio", comboCodice.get(marker.getTitle()));
         i.putExtra("nomeViaggio", marker.getTitle());
-        Log.e("TEST", "#email  " + profiloUtente.getEmail());
-        Log.e("TEST", "#nomedelviaggio  " + marker.getTitle() );
-        Log.e("TEST", "#codicedelviaggio  " + comboCodice.get(marker.getTitle()));
+        Log.i("TEST", "#email  " + profiloUtente.getEmail());
+        Log.i("TEST", "#nomedelviaggio  " + marker.getTitle() );
+        Log.i("TEST", "#codicedelviaggio  " + comboCodice.get(marker.getTitle()));
 
         startActivity(i);
       /*  */ /*Toast.makeText(this,"Hai selezionato un viaggio",
@@ -273,19 +298,11 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
             findPlaceById(p, t);
         }
 
-
         profiloNomiTappe.put(p, tappe);
         viaggioTappa.put(tappe, nome);
-
         Log.i("TEST", "profiloNomiTappe: " + profiloNomiTappe);
         Log.i("TEST", "viaggioTappa: " + viaggioTappa);
-
-
-
-
-
         Log.i("TEST", "ho aggiunto i markedPoints di " + p);
-
     }
 
 
@@ -351,12 +368,10 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
 
                             googleMap.addMarker(new MarkerOptions()
-                                            .title(combo.get(place.getId()))
+                                            .title(combo.get(place.getId()).getNome())
                                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                                                     //  .icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(mCustomMarkerView, R.drawable.default_male)))
                                             .position(place.getLatLng())
-
-
                             );
 
                             mapBoundsBuilder.include(place.getLatLng());
@@ -376,15 +391,17 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
     private Bitmap getMarkerBitmapFromView(View view, @DrawableRes int resId) {
         View customMarkerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.view_custom_marker, null);
-        ImageView markerImageView = (ImageView) customMarkerView.findViewById(R.id.profile_image);
+        ImageView markerImageView = (ImageView) customMarkerView.findViewById(R.id.imageTravelOnMap);
         markerImageView.setImageResource(resId);
         view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
         view.buildDrawingCache();
+
         Bitmap returnedBitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(),
                 Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(returnedBitmap);
         canvas.drawColor(Color.WHITE, PorterDuff.Mode.SRC_IN);
+
         Drawable drawable = view.getBackground();
         if (drawable != null)
             drawable.draw(canvas);
@@ -474,15 +491,15 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
                                     String codiceViaggio = json_data.getString("codiceViaggio");
                                     nomeViaggio = json_data.getString("nomeViaggio");
+                                    urlImmagineViaggio = json_data.getString("urlImmagineViaggio");
 
+                                    Viaggio viaggio = new Viaggio(codiceViaggio, nomeViaggio,urlImmagineViaggio);
 
-
-                                    //TODO
-                                    Itinerario itinerario = new Itinerario(new Profilo(email), new Viaggio(codiceViaggio));
+                                    Itinerario itinerario = new Itinerario(new Profilo(email),viaggio);
 
                                     int ordine = json_data.getInt("ordine");
 
-                                    stringaFinale = email + " " + codiceViaggio  +" "+ nomeViaggio  +" "+ ordine;
+                                    stringaFinale = email + " " + codiceViaggio  +" "+ nomeViaggio  +" "+ ordine + " "+ urlImmagineViaggio;
                                     Log.i("TEST", "result da queryDEST: " + stringaFinale);
 
 
@@ -490,13 +507,10 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
                                     String codicePOI = json_data.getString("codicePOI");
                                     String fontePOI = json_data.getString("fontePOI");
 
-                                    combo.put(codicePOI, nomeViaggio);
+                                    combo.put(codicePOI, viaggio);
                                     comboCodice.put(nomeViaggio, codiceViaggio);
 
-
                                     POI poi = new POI(codicePOI, fontePOI);
-
-
 
                                     nome.add(new Viaggio(codiceViaggio, nomeViaggio));
                                     tappe.add(new Tappa(itinerario, ordine, null, null, paginaDiario, poi));

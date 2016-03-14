@@ -11,11 +11,12 @@
             android:weightSum="2">
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:background="@color/com_facebook_blue">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/layoutCopertinaNelDialog"
+            android:layout_weight="1"
+            android:background="@color/com_facebook_blue">
 
             </LinearLayout>
 

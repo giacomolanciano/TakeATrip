@@ -669,10 +669,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                                 sb.append(line + "\n");
                             }
                             is.close();
-
                             result = sb.toString();
-
-
                         } catch (Exception e) {
                             Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
                         }

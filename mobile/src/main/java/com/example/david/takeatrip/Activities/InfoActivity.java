@@ -70,15 +70,15 @@ public class InfoActivity extends AppCompatActivity {
 
             Log.i("TEST", "profilo facebook: " + profile);
 
-
-
-
             if(email == null || (email != null && emailEsterno!= null)){
                 visualizzazioneEsterna = true;
+                if(email.equals(emailEsterno)){
+                    visualizzazioneEsterna = false;
+                }
+            }
+            if(visualizzazioneEsterna){
                 buttonEdit.setVisibility(View.INVISIBLE);
-
                 Log.i(TAG, "visualizzazione esterna del profilo");
-
             }
 
         }

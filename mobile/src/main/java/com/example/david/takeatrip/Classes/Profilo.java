@@ -3,6 +3,8 @@ package com.example.david.takeatrip.Classes;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.google.android.gms.drive.DriveId;
 
+import java.util.Objects;
+
 /**
  * Created by lucagiacomelli on 08/01/16.
  */
@@ -152,5 +154,7 @@ public class Profilo {
     public String toString() {
         return getName() + " " + getSurname() + " " + getEmail();
     }
+
+
 
 }

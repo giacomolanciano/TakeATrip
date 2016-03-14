@@ -116,8 +116,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         layoutCoverImage = (LinearLayout) findViewById(R.id.layoutCoverImage);
         coverImage = (ImageView) findViewById(R.id.cover_image);
 
-
-
         thumb1View = findViewById(R.id.imageView_round_Profile);
 
 
@@ -139,13 +137,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             idImageProfile = intent.getStringExtra("urlImmagineProfilo");
             idCoverImage = intent.getStringExtra("urlImmagineCopertina");
 
-            Log.i("TEST", "email: " + email);
-            Log.i("TEST", "email esterno: " + emailEsterno);
-            Log.i("TEST", "default folder: " + idFolder);
-            Log.i("TEST", "id image profile: " + idImageProfile);
-            Log.i("TEST", "id cover image: " + idCoverImage);
 
-            if(idImageProfile.equals("null")){
+            if(idImageProfile == null || idImageProfile.equals("null")){
                 if(profile!= null){
                     final Uri image_uri = profile.getProfilePictureUri(70, 70);
                     final URI image_URI;
@@ -168,11 +161,12 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 }
             }
             else{
+
                 DownloadImageTask task = new DownloadImageTask(imageProfile);
                 task.execute(Constants.ADDRESS_TAT + idImageProfile);
             }
 
-            if(idCoverImage.equals("null")){
+            if(idCoverImage == null || idCoverImage.equals("null")){
                 if(profile!= null){
                     try {
                         AccessToken accessToken = AccessToken.getCurrentAccessToken();
@@ -214,13 +208,17 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 }
             }
             else{
-                new DownloadImageTask(coverImage).execute(Constants.ADDRESS_TAT + idCoverImage);
+                new DownloadImageTask(coverImage,layoutCoverImage).execute(Constants.ADDRESS_TAT + idCoverImage);
             }
 
 
-            if(password == null){
+            if(password == null) {
                 externalView = true;
-
+                if (email.equals(emailEsterno)) {
+                    externalView = false;
+                }
+            }
+            if(externalView){
                 Log.i("TEST", "visualizzazione esterna del profilo");
             }
             viewName.setText(name);
@@ -302,7 +300,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
 
 
-
+/*
 
     public void onClickInfoTab(View v) {
         Intent intentInfo = new Intent(this, InfoActivity.class);
@@ -318,10 +316,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         intentInfo.putExtra("descrizione", descrizione);
         intentInfo.putExtra("tipo", tipo);
 
-
-
-
     }
+    */
 
 
 
@@ -348,58 +344,67 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
     public void ClickImageProfile(View v) {
         try {
-            ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog);
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
-            LayoutInflater inflater = this.getLayoutInflater();
-            builder.setItems(R.array.CommandsImageProfile, new DialogInterface.OnClickListener() {
-
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-                        case 0: //view image profile
 
 
-                            break;
-                        case 1: //change image profile
-                            Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(intentPick, Constants.REQUEST_IMAGE_PICK);
+            if(!externalView){
+                ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog);
+                AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
+                LayoutInflater inflater = this.getLayoutInflater();
+                builder.setItems(R.array.CommandsImageProfile, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0: //view image profile
+
+
+                                break;
+                            case 1: //change image profile
+                                Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                startActivityForResult(intentPick, Constants.REQUEST_IMAGE_PICK);
 
 
 
-                            break;
+                                break;
 
-                        case 2:  //take a photo
-                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            if (intent.resolveActivity(getPackageManager()) != null) {
+                            case 2:  //take a photo
+                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                if (intent.resolveActivity(getPackageManager()) != null) {
 
-                                File photoFile = null;
-                                try {
+                                    File photoFile = null;
+                                    try {
 
-                                    photoFile = createImageFile();
+                                        photoFile = createImageFile();
 
-                                } catch (IOException ex) {
-                                    Log.e("TEST", "eccezione nella creazione di file immagine");
+                                    } catch (IOException ex) {
+                                        Log.e("TEST", "eccezione nella creazione di file immagine");
+                                    }
+
+                                    Log.i("TEST", "creato file immagine");
+
+                                    // Continue only if the File was successfully created
+                                    if (photoFile != null) {
+                                        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                                        startActivityForResult(intent, Constants.REQUEST_IMAGE_CAPTURE);
+                                    }
                                 }
+                                break;
 
-                                Log.i("TEST", "creato file immagine");
-
-                                // Continue only if the File was successfully created
-                                if (photoFile != null) {
-                                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-                                    startActivityForResult(intent, Constants.REQUEST_IMAGE_CAPTURE);
-                                }
-                            }
-                            break;
-
-                        case 3: //exit
-                            break;
+                            case 3: //exit
+                                break;
+                        }
                     }
-                }
-            });
+                });
 
 
-            // Create the AlertDialog object and return it
-            builder.create().show();
+                // Create the AlertDialog object and return it
+                builder.create().show();
+            }
+            else{
+
+
+                //TODO: far visualizzare solo la foto profilo
+            }
+
 
         } catch (Exception e) {
             Log.e(e.toString().toUpperCase(), e.getMessage());
@@ -408,57 +413,66 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
 
     public void ClickOnCoverImage(View v) {
-        try {
-            ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog);
+        if(!externalView){
+            try {
+                ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
-            LayoutInflater inflater = this.getLayoutInflater();
-            builder.setItems(R.array.CommandsCoverImage, new DialogInterface.OnClickListener() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
+                LayoutInflater inflater = this.getLayoutInflater();
+                builder.setItems(R.array.CommandsCoverImage, new DialogInterface.OnClickListener() {
 
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-                        case 0: //view cover image
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0: //view cover image
 
-                            //TODO
+                                //TODO
 
-                            break;
-                        case 1:
-                            Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(intentPick, Constants.REQUEST_COVER_IMAGE_PICK);
-                            break;
+                                break;
+                            case 1:
+                                Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                startActivityForResult(intentPick, Constants.REQUEST_COVER_IMAGE_PICK);
+                                break;
 
-                        case 2:  //take a photo
-                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            if (intent.resolveActivity(getPackageManager()) != null) {
+                            case 2:  //take a photo
+                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                if (intent.resolveActivity(getPackageManager()) != null) {
 
-                                File photoFile = null;
-                                try {
-                                    photoFile = createImageFile();
-                                } catch (IOException ex) {
-                                    Log.e("TEST", "eccezione nella creazione di file immagine");
+                                    File photoFile = null;
+                                    try {
+                                        photoFile = createImageFile();
+                                    } catch (IOException ex) {
+                                        Log.e("TEST", "eccezione nella creazione di file immagine");
+                                    }
+
+                                    Log.i("TEST", "creato file immagine");
+
+                                    // Continue only if the File was successfully created
+                                    if (photoFile != null) {
+                                        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                                        startActivityForResult(intent, Constants.REQUEST_COVER_IMAGE_CAPTURE);
+                                    }
                                 }
+                                break;
 
-                                Log.i("TEST", "creato file immagine");
-
-                                // Continue only if the File was successfully created
-                                if (photoFile != null) {
-                                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-                                    startActivityForResult(intent, Constants.REQUEST_COVER_IMAGE_CAPTURE);
-                                }
-                            }
-                            break;
-
-                        case 3: //exit
-                            break;
+                            case 3: //exit
+                                break;
+                        }
                     }
-                }
-            });
+                });
 
-            builder.create().show();
+                builder.create().show();
 
-        } catch (Exception e) {
-            Log.e(e.toString().toUpperCase(), e.getMessage());
+            } catch (Exception e) {
+                Log.e(e.toString().toUpperCase(), e.getMessage());
+            }
         }
+        else{
+            //TODO: far visualizzare solo l'immagine copertina
+        }
+
+
+
+
     }
 
     @Override
@@ -662,7 +676,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 }
                 else{
                     String pathImage = email+"/";
-
                     new UploadFilePHP(this,thumbnail,pathImage,Constants.NAME_IMAGES_COVER_DEFAULT).execute();
                     new MyTaskInsertCoverimage(this,email,null,pathImage + Constants.NAME_IMAGES_COVER_DEFAULT).execute();
                 }
@@ -704,7 +717,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         DriveId idFile;
         Context context;
 
-
         public MyTaskInsertImageProfile(Context c, String emailUtente, DriveId id){
             context  = c;
             emailUser = emailUtente;
@@ -718,16 +730,12 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             urlImmagine = url;
         }
 
-
         @Override
         protected Void doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("email", emailUser));
             dataToSend.add(new BasicNameValuePair("id", idFile+""));
             dataToSend.add(new BasicNameValuePair("url", urlImmagine));
-
-
-
             try {
                 if (InternetConnection.haveInternetConnection(context)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
@@ -775,11 +783,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Log.i("TEST", "risultato operazione di inserimento cartella nel DB:" + result);
-            if(!result.equals("OK")){
-                //Non è stata creata una cartella per ospitare il viaggio
-                //new MyTaskFolder().execute();
-            }
+            Log.i("TEST", "risultato operazione di inserimento immagine profilo nel DB:" + result);
 
             super.onPostExecute(aVoid);
 
@@ -788,7 +792,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     }
 
     private class MyTaskInsertCoverimage extends AsyncTask<Void, Void, Void> {
-
         private final String ADDRESS_INSERT_COVER_PROFILE = "InserimentoImmagineCopertina.php";
         InputStream is = null;
         String emailUser, result, urlImmagine;
@@ -864,12 +867,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Log.i("TEST", "risultato operazione di inserimento cartella nel DB:" + result);
-            if(!result.equals("OK")){
-                //Non è stata creata una cartella per ospitare il viaggio
-                //new MyTaskFolder().execute();
-            }
-
+            Log.i("TEST", "risultato operazione di inserimento immagine copertina nel DB:" + result);
             super.onPostExecute(aVoid);
 
         }

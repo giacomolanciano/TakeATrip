@@ -73,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final String ADDRESS_INSERIMENTO_VIAGGIO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoViaggio.php";
     private final String ADDRESS_INSERIMENTO_ITINERARIO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoItinerario.php";
     private final String ADDRESS_INSERIMENTO_FILTRO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoFiltro.php";
+
+
+
     private final String ADDRESS_INSERT_FOLDER = "http://www.musichangman.com/TakeATrip/InserimentoCartella.php";
 
 
@@ -257,14 +260,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if(!partecipants.contains(myProfile)){
                         partecipants.add(myProfile);
                     }
-
                     nomeViaggio = editTextNameTravel.getText().toString();
-
                     for(String s : namesPartecipants){
-                        String name = s.split(" ")[0];
-                        String surname = s.split(" ")[1];
                         for(Profilo p : profiles){
-                            if(p.getName().equals(name) && p.getSurname().equals(surname)){
+                            if(p.getUsername().equals(s)){
                                 if(!partecipants.contains(p)){
                                     partecipants.add(p);
                                 }
@@ -273,7 +272,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     Log.i("TEST", "lista partecipanti:" + partecipants);
                     Log.i("TEST", "nome Viaggio:" + nomeViaggio);
-
 
                     new TaskForUUID().execute();
 
@@ -317,8 +315,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     String usernameUtenteSelezionato = s.substring(s.indexOf('(')+1, s.indexOf(')'));
                     Log.i("TEST", "username selezionato: " + usernameUtenteSelezionato);
-
-
                     for(Profilo p : profiles){
 
                         if(p.getUsername().equals(usernameUtenteSelezionato)){
@@ -328,18 +324,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     rowHorizontal = new LinearLayout(MainActivity.this);
                                     rowHorizontal.setOrientation(LinearLayout.HORIZONTAL);
 
-                                    //Log.i(TAG, "creato nuovo layout");
                                     layoutNewPartecipants.addView(rowHorizontal);
                                     layoutNewPartecipants.addView(new TextView(MainActivity.this), 20, 20);
-                                    //Log.i(TAG, "aggiunto row e view al layout verticale");
                                 }
 
                                 final ImageView image = new RoundedImageView(MainActivity.this, null);
                                 image.setContentDescription(p.getEmail());
 
                                 if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
-                                    new DownloadImageTask(image,rowHorizontal).execute(Constants.ADDRESS_TAT + p.getIdImageProfile());
-                                    //new RetrieveImageTask(MainActivity.this,image, p.getIdImageProfile(), rowHorizontal, "little_image").execute();
+                                    new DownloadImageTask(image).execute(Constants.ADDRESS_TAT + p.getIdImageProfile());
                                 }else {
                                     if(p.getSesso().equals("M")){
                                         image.setImageResource(R.drawable.default_male);
@@ -347,11 +340,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     else{
                                         image.setImageResource(R.drawable.default_female);
                                     }
-                                    rowHorizontal.addView(image, 60, 60);
-                                    rowHorizontal.addView(new TextView(MainActivity.this), 20, 60);
-                                    Log.i(TAG, "aggiungo la view nel layout orizzonale");
                                 }
+
+                                rowHorizontal.addView(image, 60, 60);
+                                rowHorizontal.addView(new TextView(MainActivity.this), 20, 60);
+                                Log.i(TAG, "aggiungo la view nel layout orizzonale");
                                 partecipants.add(p);
+                                namesPartecipants.add(p.getUsername());
 
                             }
                             else{
@@ -666,7 +661,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            String stringaFiltro = nomeViaggio.split(" ")[0];
+            String stringaFiltro = nomeViaggio.replace(" ","_");
             filtro = stringaFiltro.toLowerCase();
 
             Log.i("TEST", "filtro: " + filtro);
@@ -721,6 +716,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
 
+            /*
+
             Intent intent = new Intent(getBaseContext(), CreateDriveFolderActivity.class);
             intent.putExtra("nameFolder", nomeViaggio);
             intent.putExtra("idFolder", idFolderTAT);
@@ -728,8 +725,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //TODO: far in modo che l'activity non si veda
             startActivityForResult(intent, REQUEST_FOLDER);
 
-
-
+            */
             Toast.makeText(getBaseContext(), R.string.created_travel, Toast.LENGTH_LONG).show();
 
             super.onPostExecute(aVoid);
@@ -737,186 +733,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
-
-
-
-
-    private class MyTaskFolder extends AsyncTask<Void, Void, Void> {
-
-
-        InputStream is = null;
-        String emailUser, idTravel,result;
-        String nomeCartella;
-        DriveId idFolder;
-        Context context;
-
-        public MyTaskFolder(Context c, String emailUtente, String idT, DriveId id, String n){
-            context  = c;
-            emailUser = emailUtente;
-            idTravel = idT;
-            idFolder = id;
-            nomeCartella = n;
-        }
-
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("emailUtente", emailUser));
-            dataToSend.add(new BasicNameValuePair("codiceViaggio", idTravel));
-            dataToSend.add(new BasicNameValuePair("codiceCartella", idFolder+""));
-            dataToSend.add(new BasicNameValuePair("nomeCartella", nomeCartella));
-
-            try {
-                if (InternetConnection.haveInternetConnection(context)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(ADDRESS_INSERT_FOLDER);
-                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                    HttpResponse response = httpclient.execute(httppost);
-
-                    HttpEntity entity = response.getEntity();
-
-                    is = entity.getContent();
-
-                    if (is != null) {
-                        //converto la risposta in stringa
-                        try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                            StringBuilder sb = new StringBuilder();
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line + "\n");
-                            }
-                            is.close();
-
-                            result = sb.toString();
-
-
-                        } catch (Exception e) {
-                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
-                        }
-                    }
-                    else {
-                        Log.i("TEST", "Input Stream uguale a null");
-                    }
-                }
-                else
-                    Log.e("CONNESSIONE Internet", "Assente!");
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            Log.i("TEST", "risultato operazione di inserimento cartella nel DB:" + result);
-            if(!result.equals("OK")){
-                //Non è stata creata una cartella per ospitare il viaggio
-                //new MyTaskFolder().execute();
-            }
-
-            Intent intent = new Intent(MainActivity.this, ViaggioActivity.class);
-            intent.putExtra("email",emailUser);
-            intent.putExtra("codiceViaggio", idTravel);
-            intent.putExtra("nomeViaggio", nomeViaggio);
-            intent.putExtra("idFolder", idFolder);
-
-
-
-            startActivity(intent);
-            finish();
-
-            super.onPostExecute(aVoid);
-
-        }
-    }
-
-
-    private class MyTaskIDFolder extends AsyncTask<Void, Void, Void> {
-
-        private final String ADDRESS_QUERY_FOLDER = "QueryProfiloCartella.php";
-
-        InputStream is = null;
-        String emailUser, idTravel,result;
-        String nomeCartella;
-        DriveId idFolder;
-        Context context;
-
-        public MyTaskIDFolder(Context c, String emailUtente){
-            context  = c;
-            emailUser = emailUtente;
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("email", emailUser));
-
-            try {
-                if (InternetConnection.haveInternetConnection(context)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
-                    HttpClient httpclient = new DefaultHttpClient();
-
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_QUERY_FOLDER);
-                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                    HttpResponse response = httpclient.execute(httppost);
-                    HttpEntity entity = response.getEntity();
-                    is = entity.getContent();
-
-                    if (is != null) {
-                        //converto la risposta in stringa
-                        try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                            StringBuilder sb = new StringBuilder();
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line + "\n");
-                            }
-                            is.close();
-
-                            result = sb.toString();
-
-                            JSONArray jArray = new JSONArray(result);
-
-                            if(jArray != null && result != null){
-                                for(int i=0;i<jArray.length();i++){
-                                    JSONObject json_data = jArray.getJSONObject(i);
-                                    idFolderTAT = DriveId.decodeFromString(json_data.getString("codiceCartella"));
-                                    urlFolderTAT = json_data.getString("urlCartella");
-                                }
-                            }
-                        } catch (Exception e) {
-                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
-                        }
-                    }
-                    else {
-                        Log.i("TEST", "Input Stream uguale a null");
-                    }
-                }
-                else
-                    Log.e("CONNESSIONE Internet", "Assente!");
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-
-            Log.i("TEST", "Prelevato id cartella di default: " +idFolderTAT);
-            Log.i("TEST", "Prelevato url cartella di default: " +urlFolderTAT);
-            super.onPostExecute(aVoid);
-
-        }
-    }
 
 
 
@@ -1105,6 +921,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
+    /*
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -1124,6 +941,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
     }
+    */
 
 
 }
