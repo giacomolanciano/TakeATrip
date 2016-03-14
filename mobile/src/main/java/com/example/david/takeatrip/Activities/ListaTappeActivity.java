@@ -1082,8 +1082,9 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
                 //add marker
+                int stopOrder = calcolaNumUltimaTappaUtenteCorrente()+1;
                 googleMap.addMarker(new MarkerOptions()
-                        .title(placeName)
+                        .title(stopOrder+". "+placeName)
                         .position(placeLatLng));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(addedPlace.getLatLng(), Constants.DEFAULT_ZOOM_MAP));
 

@@ -48,13 +48,14 @@
                 >
 
                 <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:drawSelectorOnTop="true"
-                android:layout_gravity="right|top"
-                android:spinnerMode="dropdown"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:id="@+id/spinnerPrivacyLevel"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:drawSelectorOnTop="true"
+                    android:layout_gravity="right|top"
+                    android:spinnerMode="dropdown"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:theme="@style/Theme.Design.Light"
                 />
 
             </android.support.v7.widget.Toolbar>
@@ -207,7 +208,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="24dp"
-                    android:text="@string/PhotosAndVideos"
+                    android:text="@string/Photos"
                     android:layout_gravity="left" />
 
 
@@ -219,11 +220,38 @@
 
                 </TableLayout>
 
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24dp"
+                    android:text="@string/Videos"
+                    android:layout_gravity="left" />
+
+
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layoutForVideos">
+
+
+                </TableLayout>
+
 
 
 
 
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_height="wrap_content"
@@ -302,7 +330,7 @@
     <!--android:layout_marginTop="@dimen/activity_vertical_margin"-->
     <!--android:background="@drawable/ic_settings_black_24dp"-->
     <!--android:onClick="onClickSettingsIcon"/>-->
-    
+
 
 
 

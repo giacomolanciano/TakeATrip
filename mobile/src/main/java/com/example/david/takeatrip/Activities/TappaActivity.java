@@ -2,6 +2,7 @@ package com.example.david.takeatrip.Activities;
 
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,9 +10,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.david.takeatrip.Fragments.DatePickerFragment;
@@ -46,25 +52,22 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         textDataTappa = (TextView) findViewById(R.id.textDataTappa);
 
 
+        strings = getResources().getStringArray(R.array.PrivacyLevel);
+        subs = getResources().getStringArray(R.array.PrivacyLevelDescription);
+        arr_images = Constants.privacy_images;
+
+
+        Spinner privacySpinner = (Spinner) findViewById(R.id.spinnerPrivacyLevel);
+        if (privacySpinner != null) {
+            privacySpinner.setAdapter(new PrivacyLevelAdapter(TappaActivity.this, R.layout.entry_privacy_level, strings));
+        }
+
+
 //        final ActionBar ab = getSupportActionBar();
 //        ab.setHomeAsUpIndicator(R.drawable.ic_settings_black_36dp);
 //        ab.setDisplayHomeAsUpEnabled(true);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        if (fab != null) {
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
-
-//                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                            .setAction("Action", null).show();
-
-                    //TODO inserire logica per inserimento nuovo contenuto nella tappa
-
-                }
-            });
-        }
 
 
         Intent i = getIntent();
@@ -87,28 +90,34 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
 
+
         if (collapsingToolbar != null) {
             collapsingToolbar.setTitle(nomeTappa);
         }
         if (textDataTappa != null) {
-//            SimpleDateFormat startFormat = new SimpleDateFormat("yyyy-MM-dd");
-//            SimpleDateFormat endFormat = new SimpleDateFormat("dd/MM/yyyy");
-//            Date formattedDate;
-//
-//            formattedDate = startFormat.parse(data, new ParsePosition(0));
-
             String date;
-            //date = endFormat.format(formattedDate);
             date = DatesUtils.convertFormatStringDate(data, "yyyy-MM-dd", DISPLAYED_DATE_FORMAT);
 
             textDataTappa.setText(date);
         }
 
 
-        strings = getResources().getStringArray(R.array.PrivacyLevel);
-        subs = getResources().getStringArray(R.array.PrivacyLevelDescription);
-        arr_images = Constants.privacy_images;
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        if (fab != null) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+//                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                            .setAction("Action", null).show();
+
+                    //TODO inserire logica per inserimento nuovo contenuto nella tappa
+
+                }
+            });
+        }
 
     }
 
@@ -157,5 +166,50 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
     }
 
+
+
+
+
+
+
+    private class PrivacyLevelAdapter extends ArrayAdapter<String> {
+
+
+        public PrivacyLevelAdapter(Context context, int textViewResourceId, String[] strings) {
+            super(context, textViewResourceId, strings);
+
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView, ViewGroup parent) {
+
+
+            LayoutInflater inflater=getLayoutInflater();
+            convertView=inflater.inflate(R.layout.entry_privacy_level, parent, false);
+            TextView label=(TextView)convertView.findViewById(R.id.privacyLevel);
+            label.setText(strings[position]);
+
+            TextView sub=(TextView)convertView.findViewById(R.id.description);
+            sub.setText(subs[position]);
+
+            ImageView icon=(ImageView)convertView.findViewById(R.id.image);
+            icon.setImageResource(arr_images[position]);
+
+            //Log.i("TEST", "string: " + strings[position]);
+            //Log.i("TEST", "sub: " + subs[position]);
+            //Log.i("TEST", "img: " + arr_images[position]);
+
+            return convertView;
+        }
+    }
 
 }

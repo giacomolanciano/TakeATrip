@@ -218,7 +218,7 @@
 
     <string name="labelNote">Insert note</string>
 
-    <string name="PhotosAndVideos">Photos and Videos</string>
+    <string name="Videos">Videos</string>
     <string name="Records">Records</string>
     <string name="Notes">Notes</string>
     <string name="title_activity_multi_image_chooser">MultiImageChooserActivity</string>
