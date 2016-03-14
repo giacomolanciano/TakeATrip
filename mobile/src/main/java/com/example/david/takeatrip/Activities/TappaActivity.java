@@ -30,6 +30,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     private int ordineTappa;
 
     TextView textDataTappa;
+    private String[] strings, subs;
+    private int[] arr_images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +103,11 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
             textDataTappa.setText(date);
         }
+
+
+        strings = getResources().getStringArray(R.array.PrivacyLevel);
+        subs = getResources().getStringArray(R.array.PrivacyLevelDescription);
+        arr_images = Constants.privacy_images;
 
 
     }

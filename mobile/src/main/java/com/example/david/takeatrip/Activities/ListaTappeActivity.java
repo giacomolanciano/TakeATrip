@@ -275,7 +275,7 @@ public class ListaTappeActivity extends AppCompatActivity
         mT.execute();
 
 
-        //per dialog provacy level
+        //per dialog privacy level
         strings = getResources().getStringArray(R.array.PrivacyLevel);
         subs = getResources().getStringArray(R.array.PrivacyLevelDescription);
         arr_images = Constants.privacy_images;
@@ -1025,13 +1025,15 @@ public class ListaTappeActivity extends AppCompatActivity
         Log.i("TEST", "name: " + placeName);
         Log.i("TEST", "addr: " + placeAddress);
 
-
         dialog = new Dialog(ListaTappeActivity.this);
         dialog.setContentView(R.layout.info_poi);
         dialog.setTitle(getResources().getString(R.string.insert_new_stop));
 
         Spinner mySpinner = (Spinner)dialog.findViewById(R.id.spinner);
         mySpinner.setAdapter(new PrivacyLevelAdapter(ListaTappeActivity.this, R.layout.entry_privacy_level, strings));
+
+        //TODO per utlizzare adapter in classe esterna, non funziona per via del dialog
+        //mySpinner.setAdapter(new PrivacyLevelAdapter(ListaTappeActivity.this, R.layout.entry_privacy_level, strings, subs, arr_images));
 
 
         //TODO verificare motivo errore
@@ -1976,6 +1978,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
         public PrivacyLevelAdapter(Context context, int textViewResourceId, String[] strings) {
             super(context, textViewResourceId, strings);
+
         }
 
         @Override
