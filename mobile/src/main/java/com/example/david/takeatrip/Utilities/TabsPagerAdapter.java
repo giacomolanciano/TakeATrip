@@ -15,6 +15,8 @@ import com.example.david.takeatrip.Fragments.FollowingFragment;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
 
+
+
     public TabsPagerAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -31,7 +33,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
                 return new FollowingFragment();
             case 2:
                 // Movies fragment activity
-                return new FollowersFragment("PIPPO", "PLUTO");
+                    return new FollowersFragment("PIPPO", "PLUTO");
             case 3:
                 // Games fragment activity
                 return new TopRatedFragment();

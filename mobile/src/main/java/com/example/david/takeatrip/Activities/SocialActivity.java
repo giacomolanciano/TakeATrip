@@ -8,12 +8,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.Following;
@@ -58,6 +60,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
     private ViewGroup group;
     private ImageView image_default;
+    private TextView nome;
 
     private Fragment fragment;
 
@@ -115,6 +118,8 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         dataFollowers = new ArrayList<DataObject>();
 
         image_default = new ImageView(this);
+        nome = new TextView(this);
+        nome.setText("CIAO");
         image_default.setImageDrawable(getDrawable(R.drawable.default_male));
 
 
@@ -125,7 +130,8 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
             }
         };
 
-        group.addView(image_default);
+       // group.addView(image_default);
+        group.addView(nome);
 
 
         /*Email Utente*/
@@ -142,6 +148,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         mT.execute();
 
 
+
     }
 
 
@@ -151,8 +158,9 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         viewPager.setCurrentItem(tab.getPosition());
 
 
-        if(tab.getPosition()==2){
+        if(tab.getPosition()==2) {
             Log.e("TEST", "TAB SELEZIONATO NUMERO 2 ");
+            viewPager.addView(group, 2, R.layout.fragment_followers);
 
 
         }
@@ -259,7 +267,6 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
             if (stringaFinale.equals("")) {
                 PopolaListaFollowers(follow);
             } else {
-                //TODO: creare un dialog più carino, con la possibiltà di aggiungere da qui un nuovo viaggio
                 Toast.makeText(getBaseContext(), stringaFinale, Toast.LENGTH_LONG).show();
             }
 
@@ -270,9 +277,11 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
     }
 
+    //era un popolalista
     private void PopolaListaFollowers( ArrayList<Following> follow) {
         for (Following f : follow) {
             Log.i("TEST", "EMAIL SEGUE: " + f.getSegue());
             }
+
     }
 }
