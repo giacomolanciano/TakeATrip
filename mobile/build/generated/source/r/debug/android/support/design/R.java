@@ -500,15 +500,15 @@ public final class R {
 		public static final int design_tab_text_size_2line = 0x7f090078;
 		public static final int disabled_alpha_material_dark = 0x7f090079;
 		public static final int disabled_alpha_material_light = 0x7f09007a;
-		public static final int highlight_alpha_material_colored = 0x7f090086;
-		public static final int highlight_alpha_material_dark = 0x7f090087;
-		public static final int highlight_alpha_material_light = 0x7f090088;
-		public static final int item_touch_helper_max_drag_scroll_per_frame = 0x7f090089;
-		public static final int item_touch_helper_swipe_escape_max_velocity = 0x7f09008a;
-		public static final int item_touch_helper_swipe_escape_velocity = 0x7f09008b;
-		public static final int notification_large_icon_height = 0x7f09008e;
-		public static final int notification_large_icon_width = 0x7f09008f;
-		public static final int notification_subtext_size = 0x7f090090;
+		public static final int highlight_alpha_material_colored = 0x7f090088;
+		public static final int highlight_alpha_material_dark = 0x7f090089;
+		public static final int highlight_alpha_material_light = 0x7f09008a;
+		public static final int item_touch_helper_max_drag_scroll_per_frame = 0x7f09008b;
+		public static final int item_touch_helper_swipe_escape_max_velocity = 0x7f09008c;
+		public static final int item_touch_helper_swipe_escape_velocity = 0x7f09008d;
+		public static final int notification_large_icon_height = 0x7f090090;
+		public static final int notification_large_icon_width = 0x7f090091;
+		public static final int notification_subtext_size = 0x7f090092;
 	}
 	public static final class drawable {
 		public static final int abc_ab_share_pack_mtrl_alpha = 0x7f020000;

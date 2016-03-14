@@ -203,10 +203,17 @@ public class ListaTappeActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(this);
+        } else {
+            //TODO capire perchè da eccezione sporadicamente
+            Log.e("TEST", "navigationView is null");
         }
-        buttonAddStop = (FloatingActionButton) findViewById(R.id.fabAddStop);
+
+        buttonAddStop = (FloatingActionButton) findViewById(R.id.fabAddStopInfoPoi);
         if (buttonAddStop != null) {
             buttonAddStop.setVisibility(View.INVISIBLE);
+        } else {
+            //TODO capire perchè da eccezione sporadicamente
+            Log.e("TEST", "buttonAddStop is null");
         }
 
         layoutProprietariItinerari = (LinearLayout) findViewById(R.id.layoutProprietariItinerari);
@@ -274,7 +281,12 @@ public class ListaTappeActivity extends AppCompatActivity
 
         }
 
-        //ViewNomeViaggio.setText(nomeViaggio);
+        if (ViewNomeViaggio != null) {
+            ViewNomeViaggio.setText(nomeViaggio);
+        } else {
+            //TODO capire perchè da eccezione sporadicamente
+            Log.e("TEST", "viewNomeViaggio is null");
+        }
 
         MyTask mT = new MyTask();
         mT.execute();
@@ -286,7 +298,7 @@ public class ListaTappeActivity extends AppCompatActivity
         arr_images = Constants.privacy_images;
 
 
-        nomiTappe = new ArrayList<Place>();;
+        nomiTappe = new ArrayList<Place>();
         namesStops = new ArrayList<String>();
         polyline = new PolylineOptions()
                 .visible(true)
@@ -1072,7 +1084,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
         //setting listener pulsanti dialog
 
-        FloatingActionButton addStop = (FloatingActionButton) dialog.findViewById(R.id.fabAddStop);
+        FloatingActionButton addStop = (FloatingActionButton) dialog.findViewById(R.id.fabAddStopInfoPoi);
         addStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

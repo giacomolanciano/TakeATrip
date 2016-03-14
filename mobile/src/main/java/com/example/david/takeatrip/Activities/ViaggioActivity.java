@@ -575,6 +575,9 @@ public class ViaggioActivity extends AppCompatActivity {
 
             if (viewTitoloViaggio != null) {
                 viewTitoloViaggio.setText(nomeViaggio);
+            } else {
+                //TODO capire perchè da eccezione sporadicamente
+                Log.e("TEST", "viewTitoloViaggio is null");
             }
 
             layoutPartecipants = (LinearLayout)findViewById(R.id.Partecipants);
