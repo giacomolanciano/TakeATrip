@@ -7,26 +7,25 @@ import com.example.david.takeatrip.Utilities.Constants;
  */
 public class Following {
 
-    private String segue, seguito;
+    private Profilo segue, seguito;
 
-    public String getSegue() {
+    public Profilo getSegue() {
         return segue;
     }
 
-    public void setSegue(String segue) {
+    public void setSegue(Profilo segue) {
         this.segue = segue;
     }
 
-    public String getSeguito() {
+    public Profilo getSeguito() {
         return seguito;
     }
 
-    public void setSeguito(String seguito) {
+    public void setSeguito(Profilo seguito) {
         this.seguito = seguito;
     }
 
-    public Following(String segue) {
-
+    public Following(Profilo segue, Profilo seguito) {
         this.segue = segue;
         this.seguito = seguito;
     }

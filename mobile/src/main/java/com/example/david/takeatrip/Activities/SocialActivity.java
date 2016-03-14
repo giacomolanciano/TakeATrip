@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.Following;
+import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Fragments.FollowersFragment;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.DataObject;
@@ -39,6 +40,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class SocialActivity extends FragmentActivity implements ActionBar.TabListener {
@@ -64,7 +66,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
     private Fragment fragment;
 
-
+    private Profilo seguito;
 
     // TODO: Tab titles in other languages
     private String[] tabs = {"Home","Following","Followers", "Top Rated", "Search"};
@@ -80,12 +82,16 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_social);
 
-        // Initilization
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        actionBar = getActionBar();
-        mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
 
-        viewPager.setAdapter(mAdapter);
+        Intent intent;
+        if ((intent = getIntent()) != null) {
+            email = intent.getStringExtra("email");
+            Log.i("TEST", "email utente in Social: " + email);
+
+        }
+        viewPager = (ViewPager) findViewById(R.id.pager);
+
+        actionBar = getActionBar();
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -94,6 +100,11 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
             actionBar.addTab(actionBar.newTab().setIcon(tab_name)
                     .setTabListener(this));
         }
+
+
+        //TODO: cambiare in caso di visualizzazione esterna
+
+        seguito = new Profilo(email);
 
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -137,12 +148,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         /*Email Utente*/
 
 
-        Intent intent;
-        if ((intent = getIntent()) != null) {
-            email = intent.getStringExtra("email");
-            Log.i("TEST", "email utente in Social: " + email);
 
-        }
 
        MyTaskFollowers mT = new MyTaskFollowers();
         mT.execute();
@@ -158,14 +164,25 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         viewPager.setCurrentItem(tab.getPosition());
 
 
+        //TODO una volta impostate le icone giuste queste scritte vanno levate
+        if(tab.getPosition()==0) {
+            tab.setText("HOME");
+        }
+        if(tab.getPosition()==1) {
+            tab.setText("FOLLOWING");
+        }
         if(tab.getPosition()==2) {
-            Log.e("TEST", "TAB SELEZIONATO NUMERO 2 ");
-            viewPager.addView(group, 2, R.layout.fragment_followers);
-
-
+            tab.setText("FOLLOWERS");
+        }
+        if(tab.getPosition()==3) {
+            tab.setText("SEARCH");
+        }
+        if(tab.getPosition()==4) {
+            tab.setText("TOP RATED");
         }
 
-        Log.e("TEST", "TAB SELEZIONATO: "+ tab.getPosition() );
+        Log.i("TEST", "TAB SELEZIONATO: "+ tab.getPosition() );
+
 
     }
 
@@ -183,17 +200,11 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         InputStream is = null;
         String stringaFinale = "";
 
-
         @Override
         protected Void doInBackground(Void... params) {
-
-
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("email", email));
-
-
             try {
-
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost httppost = new HttpPost(ADDRESS_PRELIEVO);
                 httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
@@ -215,11 +226,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
                         String result = sb.toString();
 
-                        Log.i("TEST", "result da FOLLOWERS: " + result);
-
-
                         if (result.equals("null\n")) {
-                            //TODO: convertire in values
                             stringaFinale = "Non sono presenti followers";
                             Log.i("TEST", "result da Followers: " + stringaFinale);
 
@@ -230,9 +237,16 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
                             if (jArray != null && result != null) {
                                 for (int i = 0; i < jArray.length(); i++) {
                                     JSONObject json_data = jArray.getJSONObject(i);
-                                    String segue = json_data.getString("segue").toString();
-                                    //String seguito = json_data.getString("seguito").toString();
-                                    follow.add(new Following(segue));
+                                    String emailSeguace = json_data.getString("email").toString();
+                                    String nomeUtente = json_data.getString("nome");
+                                    String cognomeUtente = json_data.getString("cognome");
+                                    String username = json_data.getString("username");
+                                    String sesso = json_data.getString("sesso");
+                                    String urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
+                                    String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
+
+                                    Profilo seguace = new Profilo(emailSeguace, nomeUtente,cognomeUtente, null, null,sesso,username,null,null,null,urlImmagineProfilo,urlImmagineCopertina);
+                                    follow.add(new Following(seguace, seguito));
                                 }
                             }
 
@@ -261,27 +275,34 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
-
-
             if (stringaFinale.equals("")) {
                 PopolaListaFollowers(follow);
             } else {
                 Toast.makeText(getBaseContext(), stringaFinale, Toast.LENGTH_LONG).show();
             }
-
-
             super.onPostExecute(aVoid);
-
         }
-
     }
 
     //era un popolalista
     private void PopolaListaFollowers( ArrayList<Following> follow) {
+        ArrayList<Profilo> seguaci = new ArrayList<Profilo>();
+
         for (Following f : follow) {
-            Log.i("TEST", "EMAIL SEGUE: " + f.getSegue());
-            }
+            Log.i("TEST", "seguaci: " + f.getSegue());
+            seguaci.add(f.getSegue());
+
+        }
+
+        // Initilization
+        Log.i("TEST", "contesto SocialActivity: " + getBaseContext());
+
+        mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(),seguaci);
+        viewPager.setAdapter(mAdapter);
+
+
+
+        Log.i("TEST", "seguaci di: "+ seguito + ": " + seguaci);
 
     }
 }

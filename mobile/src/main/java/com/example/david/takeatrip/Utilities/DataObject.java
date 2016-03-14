@@ -9,7 +9,7 @@ import com.example.david.takeatrip.Classes.Viaggio;
 
 public class DataObject {
     private Viaggio viaggio;
-    private Profilo profilo;
+    private Profilo profilo, follower, following;
     private Following follow;
     private ImageView immagineViaggio;
 
@@ -22,9 +22,8 @@ public class DataObject {
         //immagineViaggio = immagine;
     }
 
-    public DataObject(Following f){
-        follow = f;
-
+    public DataObject(Profilo p){
+        follower = p;
     }
 
     public void setViaggio(Viaggio viaggio) {
@@ -48,12 +47,30 @@ public class DataObject {
 
         return viaggio.getCodice();
     }
-    public String getSegue() {
+
+
+
+
+
+    public String getNomeFollower() {
+
+        return follower.getName();
+    }
+    public String getCognomeFollower() {
+
+        return follower.getSurname();
+    }
+
+
+
+
+
+    public Profilo getSegue() {
 
         return follow.getSegue();
     }
 
-    public String getSeguito() {
+    public Profilo getSeguito() {
 
         return follow.getSeguito();
     }

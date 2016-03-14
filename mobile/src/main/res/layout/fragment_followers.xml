@@ -3,7 +3,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:weightSum="1">
 
     <android.support.v7.widget.CardView
@@ -23,7 +23,11 @@
             android:layout_height="85dp"
             android:id="@+id/ImageProfile"
             android:src="@drawable/empty_image"
-            android:layout_gravity="left|bottom|center" />
+            android:layout_gravity="left|bottom|center"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp" />
 
 
         <LinearLayout

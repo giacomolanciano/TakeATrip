@@ -663,10 +663,6 @@ public class ViaggioActivity extends AppCompatActivity {
 
 
 
-
-
-
-
     private class MyTaskIDFolder extends AsyncTask<Void, Void, Void> {
 
         private final String ADDRESS_QUERY_FOLDER = "QueryCartellaGenerica.php";
