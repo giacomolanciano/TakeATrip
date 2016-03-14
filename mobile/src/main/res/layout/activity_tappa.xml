@@ -104,7 +104,8 @@
                     android:textSize="24sp"
                     android:text="data"
                     android:layout_gravity="left"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:onClick="onClickChangeDate"/>
 
 
 

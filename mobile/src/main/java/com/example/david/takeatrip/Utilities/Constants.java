@@ -79,6 +79,9 @@ public class Constants {
     public  static final String NAME_IMAGES_COVER_DEFAULT = "coverTAT.jpg";
 
 
+    public  static final String CURRENT_DATE_ID = "currentDate";
+
+
 
 
 

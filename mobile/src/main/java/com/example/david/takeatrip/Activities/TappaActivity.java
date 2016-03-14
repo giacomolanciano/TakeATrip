@@ -1,5 +1,7 @@
 package com.example.david.takeatrip.Activities;
 
+import android.app.DatePickerDialog;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,19 +11,23 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.example.david.takeatrip.Fragments.DatePickerFragment;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.Constants;
+import com.example.david.takeatrip.Utilities.DatesUtils;
 
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
-public class TappaActivity extends AppCompatActivity {
-
+public class TappaActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private String email, codiceViaggio, nomeTappa, data;
     private int ordineTappa;
+
+    TextView textDataTappa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +39,7 @@ public class TappaActivity extends AppCompatActivity {
 
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
-        TextView textDataTappa = (TextView) findViewById(R.id.textDataTappa);
-
+        textDataTappa = (TextView) findViewById(R.id.textDataTappa);
 
 
 //        final ActionBar ab = getSupportActionBar();
@@ -82,18 +87,19 @@ public class TappaActivity extends AppCompatActivity {
             collapsingToolbar.setTitle(nomeTappa);
         }
         if (textDataTappa != null) {
-            SimpleDateFormat startFormat = new SimpleDateFormat("yyyy-MM-dd");
-            SimpleDateFormat endFormat = new SimpleDateFormat("dd/MM/yyyy");
-            Date formattedDate;
-            String date;
+//            SimpleDateFormat startFormat = new SimpleDateFormat("yyyy-MM-dd");
+//            SimpleDateFormat endFormat = new SimpleDateFormat("dd/MM/yyyy");
+//            Date formattedDate;
+//
+//            formattedDate = startFormat.parse(data, new ParsePosition(0));
 
-            formattedDate = startFormat.parse(data, new ParsePosition(0));
-            date = endFormat.format(formattedDate);
+            String date;
+            //date = endFormat.format(formattedDate);
+            date = DatesUtils.convertFormatStringDate(data, "yyyy-MM-dd", "dd/MM/yyyy");
 
             textDataTappa.setText(date);
         }
 
-        //TODO asynctask e fragment per cambio data
 
     }
 
@@ -106,8 +112,41 @@ public class TappaActivity extends AppCompatActivity {
     }
 
 
+    public void onClickChangeDate(View v) {
+
+        Log.i("TEST", "changing date");
+
+        DialogFragment newFragment = new DatePickerFragment();
+
+        Bundle args = new Bundle();
+        args.putString(Constants.CURRENT_DATE_ID, textDataTappa.getText().toString());
+        newFragment.setArguments(args);
+
+        //newFragment.show(getSupportFragmentManager(), "datePicker");
+        newFragment.show(getFragmentManager(), "datePicker");
+
+    }
 
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+        final Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, monthOfYear);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+        Date newDate = c.getTime();
+
+        textDataTappa.setText(DatesUtils.getStringFromDate(newDate, "dd/MM/yyyy"));
+
+
+        //TODO asynctask per aggiornamento data su db
+
+
+        Log.i("TEST", "date changed");
+
+    }
 
 
 }

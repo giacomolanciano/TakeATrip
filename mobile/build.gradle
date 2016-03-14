@@ -32,7 +32,6 @@ dependencies {
     wearApp project(':wear')
 
     //per il google translate
-    
 
 
     compile 'com.android.support:appcompat-v7:23.2.1'
@@ -47,6 +46,7 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+
 
 
 

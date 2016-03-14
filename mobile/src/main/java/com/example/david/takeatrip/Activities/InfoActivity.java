@@ -1,18 +1,18 @@
 package com.example.david.takeatrip.Activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import java.util.Calendar;
-import java.util.Date;
 
 import com.example.david.takeatrip.R;
-import com.example.david.takeatrip.Utilities.DatesDiff;
+import com.example.david.takeatrip.Utilities.DatesUtils;
 import com.facebook.Profile;
+
+import java.util.Calendar;
 
 
 public class InfoActivity extends AppCompatActivity {
@@ -58,7 +58,7 @@ public class InfoActivity extends AppCompatActivity {
             email = intent.getStringExtra("email");
             emailEsterno = intent.getStringExtra("emailEsterno");
             date = intent.getStringExtra("dateOfBirth");
-            etaFinale = DatesDiff.eta(date, dataToday);
+            etaFinale = DatesUtils.eta(date, dataToday);
             password = intent.getStringExtra("pwd");
             nazionalità = intent.getStringExtra("nazionalita");
             sesso = intent.getStringExtra("sesso");
