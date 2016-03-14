@@ -24,6 +24,8 @@ import java.util.Date;
 
 public class TappaActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
+    private static final String DISPLAYED_DATE_FORMAT = "dd/MM/yyyy";
+
     private String email, codiceViaggio, nomeTappa, data;
     private int ordineTappa;
 
@@ -95,7 +97,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
             String date;
             //date = endFormat.format(formattedDate);
-            date = DatesUtils.convertFormatStringDate(data, "yyyy-MM-dd", "dd/MM/yyyy");
+            date = DatesUtils.convertFormatStringDate(data, "yyyy-MM-dd", DISPLAYED_DATE_FORMAT);
 
             textDataTappa.setText(date);
         }
@@ -120,9 +122,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
         Bundle args = new Bundle();
         args.putString(Constants.CURRENT_DATE_ID, textDataTappa.getText().toString());
+        args.putString(Constants.DATE_FORMAT_ID, DISPLAYED_DATE_FORMAT);
         newFragment.setArguments(args);
 
-        //newFragment.show(getSupportFragmentManager(), "datePicker");
         newFragment.show(getFragmentManager(), "datePicker");
 
     }
@@ -138,7 +140,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
         Date newDate = c.getTime();
 
-        textDataTappa.setText(DatesUtils.getStringFromDate(newDate, "dd/MM/yyyy"));
+        textDataTappa.setText(DatesUtils.getStringFromDate(newDate, DISPLAYED_DATE_FORMAT));
 
 
         //TODO asynctask per aggiornamento data su db

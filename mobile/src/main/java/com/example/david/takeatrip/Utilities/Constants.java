@@ -80,6 +80,7 @@ public class Constants {
 
 
     public  static final String CURRENT_DATE_ID = "currentDate";
+    public  static final String DATE_FORMAT_ID = "dateFormat";
 
 
 
