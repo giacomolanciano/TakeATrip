@@ -203,6 +203,10 @@
     <color name="switch_thumb_disabled_material_light">#ffbdbdbd</color>
     <color name="switch_thumb_normal_material_dark">#ffbdbdbd</color>
     <color name="switch_thumb_normal_material_light">#fff1f1f1</color>
+    <color name="translucent_scrim_bottom">#2A000000</color>
+    <color name="translucent_scrim_bottom_center">#0D000000</color>
+    <color name="translucent_scrim_top">#26000000</color>
+    <color name="translucent_scrim_top_center">#0C000000</color>
     <color name="wallet_bright_foreground_disabled_holo_light">#ffb2b2b2</color>
     <color name="wallet_bright_foreground_holo_dark">#fff3f3f3</color>
     <color name="wallet_bright_foreground_holo_light">#ff000000</color>
@@ -422,6 +426,8 @@
     <dimen name="place_autocomplete_progress_horizontal_margin">16dp</dimen>
     <dimen name="place_autocomplete_progress_size">24dp</dimen>
     <dimen name="place_autocomplete_separator_start">72dp</dimen>
+    <dimen name="sheet_text_scrim_height_bottom">88dp</dimen>
+    <dimen name="sheet_text_scrim_height_top">88dp</dimen>
     <item name="ic_menu_camera" type="drawable">@android:drawable/ic_menu_camera</item>
     <item name="ic_menu_gallery" type="drawable">@android:drawable/ic_menu_gallery</item>
     <item name="ic_menu_manage" type="drawable">@android:drawable/ic_menu_manage</item>
@@ -484,7 +490,6 @@
     <string name="Partecipants">Partecipants</string>
     <string name="Password">Password</string>
     <string name="Photos">Photos</string>
-    <string name="PhotosAndVideos">Photos and Videos</string>
     <string name="Pressione">Pressure</string>
     <string name="Records">Records</string>
     <string name="Register">Register</string>
@@ -502,6 +507,7 @@
     <string name="VecchiaPassword">Insert old password</string>
     <string name="VelocitaVento">Speed of Wind</string>
     <string name="Viaggi">Travels</string>
+    <string name="Videos">Videos</string>
     <string name="YourTravel">Your Travel</string>
     <string name="abc_action_bar_home_description">Navigate home</string>
     <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>

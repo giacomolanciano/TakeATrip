@@ -573,7 +573,9 @@ public class ViaggioActivity extends AppCompatActivity {
             }
 
 
-            viewTitoloViaggio.setText(nomeViaggio);
+            if (viewTitoloViaggio != null) {
+                viewTitoloViaggio.setText(nomeViaggio);
+            }
 
             layoutPartecipants = (LinearLayout)findViewById(R.id.Partecipants);
             rowHorizontal = (LinearLayout) findViewById(R.id.layout_horizontal2);

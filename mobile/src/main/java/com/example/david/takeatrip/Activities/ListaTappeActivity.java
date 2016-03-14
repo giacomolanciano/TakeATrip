@@ -201,9 +201,14 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        if (navigationView != null) {
+            navigationView.setNavigationItemSelectedListener(this);
+        }
         buttonAddStop = (FloatingActionButton) findViewById(R.id.fabAddStop);
-        buttonAddStop.setVisibility(View.INVISIBLE);
+        if (buttonAddStop != null) {
+            buttonAddStop.setVisibility(View.INVISIBLE);
+        }
+
         layoutProprietariItinerari = (LinearLayout) findViewById(R.id.layoutProprietariItinerari);
 
         ViewCaricamentoInCorso = (TextView) findViewById(R.id.TextViewCaricamentoInCorso);
