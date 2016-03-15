@@ -1,29 +1,5 @@
 [
     {
-        "outputFile": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\values-ml\\values-ml.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 64,
-                    "endOffset": 115
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.1.0\\res\\values-ml\\values.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 4,
-                        "startOffset": 181,
-                        "endColumn": 64,
-                        "endOffset": 241
-                    }
-                }
-            }
-        ]
-    },
-    {
         "outputFile": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\values-ml\\values-ml.xml",
         "map": [
             {
@@ -36,6 +12,54 @@
                 },
                 "from": {
                     "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.1.0\\res\\values-ml\\values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 181,
+                        "endColumn": 64,
+                        "endOffset": 241
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\values-ml\\values-ml.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 64,
+                    "endOffset": 115
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.1.0\\res\\values-ml\\values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 181,
+                        "endColumn": 64,
+                        "endOffset": 241
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\values-ml\\values-ml.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 64,
+                    "endOffset": 115
+                },
+                "from": {
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.1.0\\res\\values-ml\\values.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
