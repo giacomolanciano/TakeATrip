@@ -72,7 +72,7 @@ public class InfoActivity extends AppCompatActivity {
 
             if(email == null || (email != null && emailEsterno!= null)){
                 visualizzazioneEsterna = true;
-                if(email.equals(emailEsterno)){
+                if(email != null && email.equals(emailEsterno)){
                     visualizzazioneEsterna = false;
                 }
             }

@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -29,14 +28,12 @@ import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
-import com.example.david.takeatrip.Utilities.RetrieveImageTask;
 import com.example.david.takeatrip.Classes.TakeATrip;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatabaseHandler;
 import com.example.david.takeatrip.Utilities.DownloadImageTask;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
-import com.example.david.takeatrip.Utilities.UploadFilePHP;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
@@ -160,6 +157,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         partecipants = new HashSet<Profilo>();
         profiles = new HashSet<Profilo>();
         myProfile = new Profilo(email, name, surname,date, password, nazionalità, sesso, username, lavoro, descrizione);
+        TakeATrip TAT = (TakeATrip)getApplicationContext();
+        TAT.setProfiloCorrente(myProfile);
     }
 
 

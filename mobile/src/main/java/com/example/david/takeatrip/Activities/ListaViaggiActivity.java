@@ -5,20 +5,15 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.Profilo;
@@ -26,7 +21,6 @@ import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.DataObject;
 import com.example.david.takeatrip.Utilities.MyRecyclerViewAdapter;
-import com.example.david.takeatrip.Utilities.ViaggioAdapter;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -266,7 +260,8 @@ public class ListaViaggiActivity extends ActionBarActivity {
             if (stringaFinale.equals("")) {
                 Profilo p = new Profilo(email);
                 for(Viaggio v : viaggi) {
-                    dataTravels.add(new DataObject(v, p));
+                    ImageView image = new ImageView(ListaViaggiActivity.this);
+                    dataTravels.add(new DataObject(v, p, image));
                     Log.i("TEST: ", "PROFILO: " + p);
                 }
                 PopolaLista();

@@ -31,20 +31,11 @@ import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
-import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DownloadImageTask;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
 import com.example.david.takeatrip.Utilities.UploadFilePHP;
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
-import com.facebook.login.LoginManager;
-import com.facebook.login.widget.LoginButton;
-import com.facebook.share.model.SharePhoto;
-import com.facebook.share.model.SharePhotoContent;
 import com.google.android.gms.drive.DriveId;
 
 import org.apache.http.HttpEntity;
@@ -61,11 +52,8 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.security.Permission;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 
 
@@ -94,7 +82,7 @@ public class ViaggioActivity extends AppCompatActivity {
     private final int LIMIT_IMAGES_VIEWS = 4;
 
 
-    private String email, codiceViaggio, nomeViaggio;
+    private String email, emailEsterno, codiceViaggio, nomeViaggio;
 
     private boolean proprioViaggio = false;
     private List<Profilo> listPartecipants, profiles;
@@ -118,6 +106,7 @@ public class ViaggioActivity extends AppCompatActivity {
         Intent intent;
         if((intent = getIntent()) != null){
             email = intent.getStringExtra("email");
+            emailEsterno = intent.getStringExtra("emailEsterno");
             codiceViaggio = intent.getStringExtra("codiceViaggio");
             nomeViaggio = intent.getStringExtra("nomeViaggio");
             idFolder = intent.getParcelableExtra("idFolder");
@@ -133,7 +122,11 @@ public class ViaggioActivity extends AppCompatActivity {
 
 
         NameForUrl = codiceViaggio.trim().replace(" ", "");
-        String url = email+"/"+NameForUrl;
+
+
+        if(email != null){
+            String url = email+"/"+NameForUrl;
+        }
 
         Log.i("TEST", "email utente: " + email + " codiceViaggio: " + codiceViaggio + " nomeVaggio: " + nomeViaggio);
 
@@ -160,7 +153,9 @@ public class ViaggioActivity extends AppCompatActivity {
         Log.i(TAG, "email partecipants: " + emailPartecipants);
 
         Intent intent = new Intent(ViaggioActivity.this, ListaTappeActivity.class);
-        intent.putExtra("email", email);
+        if(email != null){
+            intent.putExtra("email", email);
+        }
         intent.putExtra("codiceViaggio", codiceViaggio);
         intent.putExtra("nomeViaggio", nomeViaggio);
 
@@ -221,9 +216,10 @@ public class ViaggioActivity extends AppCompatActivity {
                 Log.i("image from gallery:", picturePath + "");
 
                 String NameForUrl = codiceViaggio.trim().replace(" ", "");
-                String url = email+"/"+NameForUrl;
-                new MyTaskIDFolder(this,email,url,NameForUrl).execute();
-
+                if(email!= null){
+                    String url = email+"/"+NameForUrl;
+                    new MyTaskIDFolder(this,email,url,NameForUrl).execute();
+                }
             }
         }
     }
@@ -340,8 +336,12 @@ public class ViaggioActivity extends AppCompatActivity {
                             Intent openProfilo = new Intent(ViaggioActivity.this, ProfiloActivity.class);
                             openProfilo.putExtra("name", p.getName());
                             openProfilo.putExtra("surname", p.getSurname());
-                            openProfilo.putExtra("emailEsterno", p.getEmail());
-                            openProfilo.putExtra("email", email);
+                            if(email!= null){
+                                openProfilo.putExtra("email", email);
+                            }
+                            else{
+                                openProfilo.putExtra("emailEsterno", p.getEmail());
+                            }
                             openProfilo.putExtra("dateOfBirth", p.getDataNascita());
                             openProfilo.putExtra("nazionalita", p.getNazionalita());
                             openProfilo.putExtra("sesso", p.getSesso());
@@ -552,7 +552,7 @@ public class ViaggioActivity extends AppCompatActivity {
             Log.i("TEST", "lista partecipanti al viaggio " + nomeViaggio + ": " + listPartecipants.toString());
             //controllo se l'email dell'utente è tra quelle dei partecipanti al viaggio
             for(Profilo p : listPartecipants){
-                if(email.equals(p.getEmail())){
+                if(email != null && email.equals(p.getEmail())){
                     proprioViaggio = true;
                     Log.i("TEST", "sei compreso nel viaggio");
                 }

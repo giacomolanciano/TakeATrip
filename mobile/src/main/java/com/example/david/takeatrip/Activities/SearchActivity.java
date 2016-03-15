@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +25,6 @@ import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.DataObject;
 import com.example.david.takeatrip.Utilities.GoogleTranslate;
 import com.example.david.takeatrip.Utilities.MyRecyclerViewAdapter;
-import com.example.david.takeatrip.Utilities.ViaggioAdapter;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -51,8 +49,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import static android.widget.AdapterView.*;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -173,14 +169,18 @@ public class SearchActivity extends AppCompatActivity {
         for(Profilo p : p_v.keySet()){
             for(Viaggio v: p_v.get(p)){
                 if(!codiciViaggi.contains(v.getCodice())){
-                    result.add(new DataObject(v, p));
+                    ImageView image = new ImageView(SearchActivity.this);
+                    result.add(new DataObject(v, p, image));
                     codiciViaggi.add(v.getCodice());
                 }
             }
         }
 
+        for(int i=0; i<result.size(); i++){
 
-        Log.i("TEST", "result:" + result);
+            Log.i("TEST", "result:" + result.get(i).getCodiceViaggio() + " " + result.get(i).getUrlImageTravel());
+
+        }
 
 
 
@@ -443,6 +443,8 @@ public class SearchActivity extends AppCompatActivity {
 
                             result = sb.toString();
 
+
+                            Log.i("TEST","risultato dalla search: " + result);
 
                             JSONArray jArray = new JSONArray(result);
 

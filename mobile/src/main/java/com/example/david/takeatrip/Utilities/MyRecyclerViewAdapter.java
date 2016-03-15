@@ -2,30 +2,28 @@ package com.example.david.takeatrip.Utilities;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-
-/**
- * Created by david on 08/03/2016.
- */
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.david.takeatrip.Activities.ViaggioActivity;
 import com.example.david.takeatrip.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+
+/**
+ * Created by david on 08/03/2016.
+ */
 
 public class MyRecyclerViewAdapter extends RecyclerView
         .Adapter<MyRecyclerViewAdapter
         .DataObjectHolder> {
     private static String LOG_TAG = "MyRecyclerViewAdapter";
     private ArrayList<DataObject> mDataset;
+    private boolean[] giaInserita;
     private static MyClickListener myClickListener;
     private String urlImmagineViaggio;
     //private Map<String,String> codice_urlImmagineViaggio;
@@ -47,9 +45,7 @@ public class MyRecyclerViewAdapter extends RecyclerView
             codiceViaggio = (TextView) itemView.findViewById(R.id.CodeTravel);
             emailUser = (TextView) itemView.findViewById(R.id.EmailUser);
             imageTravel = (ImageView) itemView.findViewById(R.id.ImageTravel);
-
             //codice_urlImmagineViaggio = new HashMap<String,String >();
-
 
             //nomeViaggio.setText(());
             //   dateTime = (TextView) itemView.findViewById(R.id.textView2);
@@ -64,29 +60,22 @@ public class MyRecyclerViewAdapter extends RecyclerView
           //  Toast.makeText(v.getContext(), "PROVA", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(v.getContext(), ViaggioActivity.class);
 
-            intent.putExtra("email",emailUser.getText().toString());
+            intent.putExtra("emailEsterno",emailUser.getText().toString());
            // Log.e("TEST", "email card viaggi: "+ emailUser.getText().toString());
             intent.putExtra("nomeViaggio", nomeViaggio.getText().toString());
             intent.putExtra("codiceViaggio", codiceViaggio.getText().toString());
             intent.putExtra("urlImmagineViaggio", imageTravel.getContentDescription());
-
             v.getContext().startActivity(intent);
-
-
-
-
-
         }
     }
 
     public void setOnItemClickListener(MyClickListener myClickListener) {
         this.myClickListener = myClickListener;
-
-
     }
 
     public MyRecyclerViewAdapter(ArrayList<DataObject> myDataset) {
         mDataset = myDataset;
+        giaInserita = new boolean[mDataset.size()];
     }
 
     @Override
@@ -108,14 +97,18 @@ public class MyRecyclerViewAdapter extends RecyclerView
         //holder.imageTravel.
 
         String urlImmagine = mDataset.get(position).getUrlImageTravel();
+        ImageView immagineViaggio = mDataset.get(position).getImmagineViaggio();
 
         urlImmagineViaggio = urlImmagine;
-        holder.imageTravel.setContentDescription(urlImmagineViaggio);
+        holder.imageTravel.setContentDescription(urlImmagine);
 
-        new DownloadImageTask(holder.imageTravel).execute(Constants.ADDRESS_TAT +urlImmagine);
+        //if(!giaInserita[position]){
+            new DownloadImageTask(immagineViaggio).execute(Constants.ADDRESS_TAT +urlImmagine);
+            //giaInserita[position] = true;
+        //}
 
         Log.i("TEST", "email: " + mDataset.get(position).getEmail());
-        Log.i("TEST", "url immagine: " + mDataset.get(position).getUrlImageTravel());
+        Log.i("TEST", "url immagine del viaggio" + mDataset.get(position).getNomeViaggio()+": " + mDataset.get(position).getUrlImageTravel());
 
         //holder.nome.equals(mDataset.get(position).getNomeViaggio());
         //      holder.dateTime.setText(mDataset.get(position).getmText2());

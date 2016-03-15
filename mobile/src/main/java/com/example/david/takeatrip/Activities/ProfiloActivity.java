@@ -26,17 +26,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
+import com.example.david.takeatrip.Classes.TakeATrip;
 import com.example.david.takeatrip.Interfaces.AsyncResponseDriveId;
 import com.example.david.takeatrip.Interfaces.AsyncResponseDriveIdCover;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DownloadImageTask;
-import com.example.david.takeatrip.Utilities.RetrieveImageTask;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
 import com.example.david.takeatrip.Utilities.UploadFilePHP;
-import com.example.david.takeatrip.Utilities.UploadImageTask;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -54,7 +54,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -63,7 +62,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,6 +74,9 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     private final int REQUEST_UPLOAD_COVER_IMAGE = 124;
     private final int QUALITY_OF_IMAGE = Constants.QUALITY_PHOTO;
 
+    private final String ADDRESS_INSERIMENTO = "http://www.musichangman.com/TakeATrip/InserimentoDati/Segue.php";
+
+
 
     private TextView viewName;
     private TextView viewSurname, viewDate, viewEmail;
@@ -84,7 +85,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     private ImageView coverImage;
     private LinearLayout layoutCoverImage;
 
-    private String name, surname, email, emailEsterno;
+    private String name, surname, email, emailEsterno, emailProfiloVisitato;
     private String date, password, nazionalita, sesso, username, lavoro, descrizione, tipo;
     private int codice;
 
@@ -214,7 +215,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
             if(password == null) {
                 externalView = true;
-                if (email.equals(emailEsterno)) {
+                if (email != null && email.equals(emailEsterno)) {
                     externalView = false;
                 }
             }
@@ -242,7 +243,13 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         Intent intentInfo = new Intent(this, InfoActivity.class);
         intentInfo.putExtra("name", name);
         intentInfo.putExtra("surname", surname);
-        intentInfo.putExtra("email", email);
+        if(email != null){
+            intentInfo.putExtra("email", email);
+        }
+        else{
+            TakeATrip TAT = (TakeATrip)getApplicationContext();
+            email = TAT.getProfiloCorrente().getEmail();
+        }
         intentInfo.putExtra("emailEsterno", emailEsterno);
         intentInfo.putExtra("dateOfBirth", date);
         intentInfo.putExtra("pwd", password);
@@ -260,7 +267,9 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         tab2.setContent(new Intent(this, StatsActivity.class));
 
         Intent intentDest = new Intent(this, MapsActivity.class);
-        intentDest.putExtra("email", email);
+        if(email != null){
+            intentDest.putExtra("email", email);
+        }
         intentDest.putExtra("emailEsterno", emailEsterno);
 
         Log.i("TEST", "email: " + email);
@@ -341,6 +350,76 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     }
 
 
+    public void ClickOnFollow(View v){
+        MyTaskFollow mTF = new MyTaskFollow();
+        mTF.execute();
+
+    }
+
+    private class MyTaskFollow extends AsyncTask<Void, Void, Void> {
+
+
+        InputStream is = null;
+        String result, stringaFinale = "";
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("email", email));
+            dataToSend.add(new BasicNameValuePair("emailEsterno", emailEsterno));
+
+
+            Log.i("TEST", "dati follow: " + email + " " + emailEsterno);
+            try {
+                if (InternetConnection.haveInternetConnection(ProfiloActivity.this)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost;
+
+
+                    httppost = new HttpPost(ADDRESS_INSERIMENTO);
+
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                    HttpResponse response = httpclient.execute(httppost);
+                    HttpEntity entity = response.getEntity();
+
+
+                    is = entity.getContent();
+
+                    if (is != null) {
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+
+                            Log.i("TEST", "result " + result);
+
+                        } catch (Exception e) {
+                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    }
+
+
+                } else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(e.toString(), e.getMessage());
+            }
+
+
+            return null;
+        }
+    }
 
     public void ClickImageProfile(View v) {
         try {

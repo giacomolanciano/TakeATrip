@@ -12,10 +12,10 @@ public class DataObject {
 
 
 
-    public DataObject(Viaggio v, Profilo p){
+    public DataObject(Viaggio v, Profilo p, ImageView immagine){
         viaggio = v;
         profilo = p;
-        //immagineViaggio = immagine;
+        immagineViaggio = immagine;
     }
 
     public DataObject(Profilo p){
@@ -49,8 +49,6 @@ public class DataObject {
 
         return viaggio.getUrlImmagine();
     }
-
-
 
 
 
