@@ -11,7 +11,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:weightSum="1">
+            android:weightSum="1"
+            android:background="@color/blue">
 
 
 
@@ -23,7 +24,7 @@
                 android:weightSum="1"
                 android:background="@drawable/empty_image"
                 android:id="@+id/layoutCoverImage"
-                android:layout_weight="0.7">
+                android:layout_weight="0.65">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -102,23 +103,133 @@
 
                             <com.example.david.takeatrip.Utilities.RoundedImageView
                                 android:id="@+id/imageView_round_Profile"
-                                android:layout_width="70dp"
-                                android:layout_height="70dp"
+                                android:layout_width="75dp"
+                                android:layout_height="75dp"
                                 android:src="@drawable/default_male"
-                                android:onClick="ClickImageProfile"/>
+                                android:onClick="ClickImageProfile"
+                                android:foregroundGravity="right" />
 
-                            <Button
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/segui"
-                                android:text="FOLLOW"
-                                android:onClick="ClickOnFollow" />
 
                         </LinearLayout>
 
                     </FrameLayout>
 
                 </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingBottom="3dp"
+                    android:layout_weight="0.33"
+                    android:layout_gravity="bottom"
+                    android:background="@color/blue"
+                    android:onClick="ClickFollowers">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="@string/numberFollowers"
+                        android:textColor="#000000"
+                        android:id="@+id/numberFollowers"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_vertical"
+                        android:paddingRight="5dp"
+                        android:textSize="18dp"
+                        android:onClick="ClickFollowers" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="@string/Followers"
+                        android:id="@+id/Followers"
+                        android:textColor="#000000"
+                        android:layout_gravity="center_vertical"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:onClick="ClickFollowers" />
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingBottom="3dp"
+                    android:layout_weight="0.33"
+                    android:background="@color/blue"
+                    >
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="@string/numberFollowing"
+                        android:textColor="#000000"
+                        android:id="@+id/numberFollowing"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_vertical"
+                        android:paddingRight="5dp"
+                        android:textSize="18dp"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="@string/Following"
+                        android:id="@+id/Following"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="18dp"/>
+
+
+                </LinearLayout>
+
+                 <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingBottom="3dp"
+                     android:background="@color/blue"
+                     android:weightSum="1"
+                     android:foregroundGravity="right">
+
+                     <Button
+                         android:layout_width="wrap_content"
+                         android:layout_height="32dp"
+                         android:textSize="11dp"
+                         android:id="@+id/segui"
+                         android:text="FOLLOW"
+                         android:onClick="ClickOnFollow"
+                         android:foregroundGravity="center_horizontal"
+                         android:layout_marginTop="2dp"
+                         android:layout_gravity="center"
+                         android:layout_weight="3.81" />
+
+
+
+                 </LinearLayout>
+
+
+
+
             </LinearLayout>
 
             <LinearLayout
@@ -154,7 +265,7 @@
                                 android:id="@android:id/tabcontent"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                >
+                                android:background="#ffffff">
 
                                 <!--LinearLayout
                                     android:id="@+id/linearLayout2"

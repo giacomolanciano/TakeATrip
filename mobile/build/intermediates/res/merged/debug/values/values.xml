@@ -165,6 +165,7 @@
     <color name="foreground_material_dark">@android:color/white</color>
     <color name="foreground_material_light">@android:color/black</color>
     <color name="green">#00FF00</color>
+    <color name="greenScuro">#4CAF50</color>
     <color name="half_black">#808080</color>
     <color name="highlighted_text_material_dark">#6680cbc4</color>
     <color name="highlighted_text_material_light">#66009688</color>
@@ -500,6 +501,8 @@
     <string name="Email">Email</string>
     <string name="Eta">Age</string>
     <string name="Female">F</string>
+    <string name="Followers"> Followers</string>
+    <string name="Following"> Following</string>
     <string name="Hybrid">Hybrid</string>
     <string name="InserisciNuovaDescrizione">Description</string>
     <string name="InserisciNuovaNazionalita">Nationality</string>
@@ -657,6 +660,8 @@
     <string name="mr_user_route_category_name">Devices</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="numberFollowers"># </string>
+    <string name="numberFollowing"># </string>
     <string name="ok">Ok</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."

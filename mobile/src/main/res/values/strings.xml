@@ -19,6 +19,10 @@
     <string name="Email">Email</string>
     <string name="Password">Password</string>
     <string name="DateOfBirth">Date of birth</string>
+    <string name="numberFollowers"># </string>
+    <string name="Followers"> Followers</string>
+    <string name="numberFollowing"># </string>
+    <string name="Following"> Following</string>
 
 
     <string name="Register">Register</string>

@@ -230,7 +230,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
                         String result = sb.toString();
 
                         if (result.equals("null\n")) {
-                            stringaFinale = "Non sono presenti followers";
+                            stringaFinale = "Non sono presenti following";
                             Log.i("TEST", "result da Followers: " + stringaFinale);
 
                         } else {
@@ -292,16 +292,22 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
     //era un popolalista
     private void PopolaListaFollowers( ArrayList<Following> follow) {
         ArrayList<Profilo> seguaci = new ArrayList<Profilo>();
+        ArrayList<Profilo> vuoto = new ArrayList<Profilo>();
+        Log.i("TEST", "LISTA SEGUACI VUOTA " );
+        Log.i("TEST", "INVIO VUOTO" );
+
+        mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(), vuoto);
+        viewPager.setAdapter(mAdapter);
 
         for (Following f : follow) {
             Log.i("TEST", "seguaci: " + f.getSegue());
             seguaci.add(f.getSegue());
-
         }
 
         // Initilization
         Log.i("TEST", "contesto SocialActivity: " + getBaseContext());
 
+        Log.i("TEST", "INVIO SEGUACI" );
         mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(),seguaci);
         viewPager.setAdapter(mAdapter);
 
@@ -402,6 +408,12 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
     private void PopolaListaFollowing( ArrayList<Following> following) {
         ArrayList<Profilo> seguiti = new ArrayList<Profilo>();
+        ArrayList<Profilo> vuoto = new ArrayList<Profilo>();
+
+        mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(), vuoto);
+        viewPager.setAdapter(mAdapter);
+        Log.i("TEST", "LISTA SEGUITI VUOTA " );
+        Log.i("TEST", "INVIO VUOTO");
 
         for (Following f : following) {
             Log.i("TEST", "seguiti: " + f.getSeguito());
@@ -412,7 +424,9 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         // Initilization
         Log.i("TEST", "contesto SocialActivity: " + getBaseContext());
 
-        mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(),seguiti);
+        Log.i("TEST", "INVIO SEGUITI" );
+
+        mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(), seguiti);
         viewPager.setAdapter(mAdapter);
 
 

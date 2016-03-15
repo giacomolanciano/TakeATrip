@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
@@ -78,8 +79,10 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
 
 
+
     private TextView viewName;
     private TextView viewSurname, viewDate, viewEmail;
+    private Button follow;
 
     private RoundedImageView imageProfile;
     private ImageView coverImage;
@@ -116,6 +119,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         imageProfile = (RoundedImageView) findViewById(R.id.imageView_round_Profile);
         layoutCoverImage = (LinearLayout) findViewById(R.id.layoutCoverImage);
         coverImage = (ImageView) findViewById(R.id.cover_image);
+        follow= (Button) findViewById(R.id.segui);
 
         thumb1View = findViewById(R.id.imageView_round_Profile);
 
@@ -212,7 +216,9 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 new DownloadImageTask(coverImage,layoutCoverImage).execute(Constants.ADDRESS_TAT + idCoverImage);
             }
 
-
+            if(password != null) {
+                    follow.setVisibility(View.INVISIBLE);
+                }
             if(password == null) {
                 externalView = true;
                 if (email != null && email.equals(emailEsterno)) {
@@ -243,7 +249,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         Intent intentInfo = new Intent(this, InfoActivity.class);
         intentInfo.putExtra("name", name);
         intentInfo.putExtra("surname", surname);
-        if(email != null){
+        if(password != null){
             intentInfo.putExtra("email", email);
         }
         else{
@@ -353,6 +359,9 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     public void ClickOnFollow(View v){
         MyTaskFollow mTF = new MyTaskFollow();
         mTF.execute();
+        follow.setText("FOLLOWING");
+        //follow.setBackgroundColor(getResources().getColor(R.color.green));
+        follow.setTextColor(getResources().getColor(R.color.greenScuro));
 
     }
 
@@ -420,6 +429,25 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             return null;
         }
     }
+    public void ClickFollowers(View v) {
+        Intent intentFollowers = new Intent(this, SocialActivity.class);
+        intentFollowers.putExtra("name", name);
+        intentFollowers.putExtra("surname", surname);
+        if(emailEsterno != null ){
+            intentFollowers.putExtra("email", emailEsterno);
+            Log.i("TEST", "Email di chi voglio vedere i followers (Esterno) " + emailEsterno);
+        }
+        else{
+            TakeATrip TAT = (TakeATrip)getApplicationContext();
+            email = TAT.getProfiloCorrente().getEmail();
+            intentFollowers.putExtra("email", email);
+            Log.i("TEST", "Email di chi voglio vedere i followers " + email);
+        }
+    startActivity(intentFollowers);
+
+    }
+
+    public void ClickFollowing(View v) {}
 
     public void ClickImageProfile(View v) {
         try {
