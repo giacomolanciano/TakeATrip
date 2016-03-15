@@ -5,6 +5,7 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
@@ -19,8 +20,11 @@ public class AudioRecord  {
     private MediaPlayer mPlayer = null;
     private static String mFileName = null;
 
+    private static File fileAudio;
+
     public AudioRecord() {
         mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+        fileAudio = new File(mFileName);
         //mFileName += Constants.PATH_AUDIO_FILES;
 
         Calendar calendar = Calendar.getInstance();
@@ -78,5 +82,9 @@ public class AudioRecord  {
 
     public static String getFileName() {
         return mFileName;
+    }
+
+    public static File getFileAudio(){
+        return fileAudio;
     }
 }
