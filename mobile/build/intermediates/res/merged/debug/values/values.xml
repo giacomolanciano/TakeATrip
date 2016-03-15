@@ -95,7 +95,7 @@
     <color name="background">#e5e5e5</color>
     <color name="background_floating_material_dark">@color/material_grey_800</color>
     <color name="background_floating_material_light">@android:color/white</color>
-    <color name="background_material_dark">@color/material_grey_850</color>
+    <color name="background_material_dark">#ffffff</color>
     <color name="background_material_light">@color/material_grey_50</color>
     <color name="biancoPallido">#FAFAFA</color>
     <color name="black">#000000</color>
@@ -116,6 +116,7 @@
     <color name="cardview_light_background">#FFFFFFFF</color>
     <color name="cardview_shadow_end_color">#03000000</color>
     <color name="cardview_shadow_start_color">#37000000</color>
+    <color name="colorPrimaryDark">#90caf9</color>
     <color name="color_hint">#BDBDBD</color>
     <color name="com_facebook_blue">#3B5998</color>
     <color name="com_facebook_button_background_color">#415dae</color>
@@ -169,6 +170,7 @@
     <color name="highlighted_text_material_light">#66009688</color>
     <color name="hint_foreground_material_dark">@color/bright_foreground_disabled_material_dark</color>
     <color name="hint_foreground_material_light">@color/bright_foreground_disabled_material_light</color>
+    <color name="legacy_primary">#90caf9</color>
     <color name="material_blue_grey_800">#ff37474f</color>
     <color name="material_blue_grey_900">#ff263238</color>
     <color name="material_blue_grey_950">#ff21272b</color>
@@ -189,14 +191,18 @@
     <color name="place_autocomplete_search_hint">#42000000</color>
     <color name="place_autocomplete_search_text">#DE000000</color>
     <color name="place_autocomplete_separator">#1F000000</color>
-    <color name="primary_dark_material_dark">@android:color/black</color>
+    <color name="primary_dark_material_dark">#90caf9</color>
     <color name="primary_dark_material_light">@color/material_grey_600</color>
     <color name="primary_material_dark">@color/material_grey_900</color>
-    <color name="primary_material_light">@color/material_grey_100</color>
+    <color name="primary_material_dark_1">#03a9f4</color>
+    <color name="primary_material_dark_2">#90caf9</color>
+    <color name="primary_material_dark_3">#90caf9</color>
+    <color name="primary_material_light">#90caf9</color>
     <color name="primary_text_default_material_dark">#ffffffff</color>
     <color name="primary_text_default_material_light">#de000000</color>
     <color name="primary_text_disabled_material_dark">#4Dffffff</color>
     <color name="primary_text_disabled_material_light">#39000000</color>
+    <color name="primary_text_material_light">#ffffff</color>
     <color name="red">#FF0000 </color>
     <color name="ripple_material_dark">#33ffffff</color>
     <color name="ripple_material_light">#1f000000</color>
@@ -206,6 +212,7 @@
     <color name="secondary_text_disabled_material_dark">#36ffffff</color>
     <color name="secondary_text_disabled_material_light">#24000000</color>
     <color name="sfondoBase">#FFF3F3F5</color>
+    <color name="sfondoBianco">#FFFFFF</color>
     <color name="switch_thumb_disabled_material_dark">#ff616161</color>
     <color name="switch_thumb_disabled_material_light">#ffbdbdbd</color>
     <color name="switch_thumb_normal_material_dark">#ffbdbdbd</color>
@@ -693,6 +700,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:panelColorBackground">@color/blue</item>
         <item name="android:colorPrimaryDark">@color/blue</item>
+        <item name="colorPrimary">@color/blue</item>
         <!--  <item name="android:windowBackground">@color/blue</item> -->
 
 
@@ -702,6 +710,8 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:colorPrimaryDark">@color/blue</item>
+
     </style>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
     <style name="Base.AlertDialog.AppCompat" parent="android:Widget">
@@ -1900,6 +1910,14 @@
         <item name="android:paddingLeft">@dimen/abc_action_bar_overflow_padding_start_material</item>
         <item name="android:paddingRight">@dimen/abc_action_bar_overflow_padding_end_material</item>
     </style>
+    <style name="Social" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="android:colorBackground">@color/sfondoBianco</item>
+        <item name="android:textColorPrimaryInverse">@color/primary_text_material_light</item>
+    </style>
+    <style name="SocialDef" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/primary_material_dark_3</item>
+    </style>
     <style name="TextAppearance.AppCompat" parent="Base.TextAppearance.AppCompat"/>
     <style name="TextAppearance.AppCompat.Body1" parent="Base.TextAppearance.AppCompat.Body1"/>
     <style name="TextAppearance.AppCompat.Body2" parent="Base.TextAppearance.AppCompat.Body2"/>
@@ -2078,6 +2096,9 @@
         <item name="mediaRoutePauseDrawable">@drawable/mr_ic_pause_light</item>
         <item name="mediaRouteCastDrawable">@drawable/mr_ic_cast_light</item>
     </style>
+    <style name="Theme.WithActionBar.Social" parent="android:Theme.WithActionBar">
+        <item name="android:colorBackground">#ffffff</item>
+    </style>
     <style name="ThemeOverlay.AppCompat" parent="Base.ThemeOverlay.AppCompat"/>
     <style name="ThemeOverlay.AppCompat.ActionBar" parent="Base.ThemeOverlay.AppCompat.ActionBar"/>
     <style name="ThemeOverlay.AppCompat.Dark" parent="Base.ThemeOverlay.AppCompat.Dark"/>
@@ -2210,6 +2231,17 @@
     <style name="Widget.AppCompat.TextView.SpinnerItem" parent="Base.Widget.AppCompat.TextView.SpinnerItem"/>
     <style name="Widget.AppCompat.Toolbar" parent="Base.Widget.AppCompat.Toolbar"/>
     <style name="Widget.AppCompat.Toolbar.Button.Navigation" parent="Base.Widget.AppCompat.Toolbar.Button.Navigation"/>
+    <style name="Widget.AppTheme.ActionBar.Social" parent="Widget.AppCompat.ActionBar.Solid"/>
+    <style name="Widget.AppTheme.ActionBar.Solid" parent="Widget.AppCompat.ActionBar.Solid">
+    <item name="colorPrimary">@color/blue</item>
+    <item name="android:colorBackground">@color/sfondoBianco</item>
+    <item name="android:textColorPrimaryInverse">@color/blue</item>
+        <item name="android:colorPrimaryDark">@color/blue</item>
+        <item name="android:actionBarItemBackground">@color/blue</item>
+
+
+
+    </style>
     <style name="Widget.Design.AppBarLayout" parent="android:Widget">
         <item name="elevation">@dimen/design_appbar_elevation</item>
         <item name="android:background">?attr/colorPrimary</item>

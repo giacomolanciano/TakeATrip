@@ -12,5 +12,14 @@
     <color name="pink_pressed">#ec407a</color>
     <color name="blue_semi_transparent">#805677fc</color>
     <color name="blue_semi_transparent_pressed">#80738ffe</color>
+    <color name="primary_material_dark_1">#03a9f4</color>
+    <color name="legacy_primary">#90caf9</color>
+    <color name="primary_material_dark_2">#90caf9</color>
+    <color name="background_material_dark">#ffffff</color>
+    <color name="colorPrimaryDark">#90caf9</color>
+    <color name="primary_dark_material_dark">#90caf9</color>
+    <color name="primary_text_material_light">#ffffff</color>
+    <color name="primary_material_light">#90caf9</color>
+    <color name="primary_material_dark_3">#90caf9</color>
 
 </resources>

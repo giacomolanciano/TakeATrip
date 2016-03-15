@@ -5,6 +5,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:panelColorBackground">@color/blue</item>
         <item name="android:colorPrimaryDark">@color/blue</item>
+        <item name="colorPrimary">@color/blue</item>
         <!--  <item name="android:windowBackground">@color/blue</item> -->
 
 
@@ -14,6 +15,8 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:colorPrimaryDark">@color/blue</item>
+
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -35,6 +38,33 @@
     <style name="menu_labels_style">
         <item name="android:background">@drawable/fab_label_background</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Theme.WithActionBar.Social" parent="android:Theme.WithActionBar" >
+        <item name="android:colorBackground">#ffffff</item>
+    </style>
+
+    <style name="Social" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="colorPrimary">@color/blue</item>
+        <item name="android:colorBackground">@color/sfondoBianco</item>
+        <item name="android:textColorPrimaryInverse">@color/primary_text_material_light</item>
+    </style>
+
+    <style name="Widget.AppTheme.ActionBar.Solid" parent="Widget.AppCompat.ActionBar.Solid">
+    <item name="colorPrimary">@color/blue</item>
+    <item name="android:colorBackground">@color/sfondoBianco</item>
+    <item name="android:textColorPrimaryInverse">@color/blue</item>
+        <item name="android:colorPrimaryDark">@color/blue</item>
+        <!--METTERE QUI COLORE BLUE DELLA BARRA SOPRA -->
+
+
+
+    </style>
+
+    <style name="Widget.AppTheme.ActionBar.Social" parent="Widget.AppCompat.ActionBar.Solid" />
+
+    <style name="SocialDef" parent="Theme.AppCompat.NoActionBar" >
+        <item name="colorPrimary">@color/primary_material_dark_3</item>
     </style>
 
 
