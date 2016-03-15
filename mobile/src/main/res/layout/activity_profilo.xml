@@ -36,7 +36,7 @@
                         />
 
                     <RatingBar
-                        android:layout_width="105dp"
+                        android:layout_width="77dp"
                         android:layout_height="wrap_content"
                         android:visibility="invisible"
                         android:id="@+id/ratingBar"
@@ -76,30 +76,46 @@
 
 
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"
-                        android:paddingRight="@dimen/activity_horizontal_margin"
-                        android:paddingTop="@dimen/activity_vertical_margin"
-                        android:paddingBottom="@dimen/activity_vertical_margin"
-                        android:layout_weight="0.7"
-                        android:id="@+id/layoutImage"
-                        android:onClick="ClickOnCoverImage"
 
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
                         >
 
 
-                        <com.example.david.takeatrip.Utilities.RoundedImageView
-                            android:id="@+id/imageView_round_Profile"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:layout_gravity="right"
-                            android:src="@drawable/default_male"
-                            android:onClick="ClickImageProfile"/>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingLeft="@dimen/activity_horizontal_margin"
+                            android:paddingRight="@dimen/activity_horizontal_margin"
+                            android:paddingTop="@dimen/activity_vertical_margin"
+                            android:paddingBottom="@dimen/activity_vertical_margin"
+                            android:layout_weight="0.7"
+                            android:id="@+id/layoutImage"
+                            android:onClick="ClickOnCoverImage"
 
-                    </LinearLayout>
+                            >
+
+
+                            <com.example.david.takeatrip.Utilities.RoundedImageView
+                                android:id="@+id/imageView_round_Profile"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:src="@drawable/default_male"
+                                android:onClick="ClickImageProfile"/>
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/segui"
+                                android:text="Segui"
+                                android:layout_gravity="center_horizontal|bottom"/>
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
                 </FrameLayout>
             </LinearLayout>
 
