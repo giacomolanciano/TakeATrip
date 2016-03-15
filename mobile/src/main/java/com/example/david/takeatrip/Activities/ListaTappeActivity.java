@@ -64,10 +64,9 @@ import com.example.david.takeatrip.Interfaces.AsyncResponseDriveIdCover;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.AudioRecord;
 import com.example.david.takeatrip.Utilities.Constants;
-import com.example.david.takeatrip.Utilities.DownloadImageTask;
+import com.example.david.takeatrip.Utilities.DatesUtils;
 import com.example.david.takeatrip.Utilities.MultimedialFile;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
-import com.example.david.takeatrip.Utilities.UploadFilePHP;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -99,7 +98,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.LangUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -108,10 +106,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.sql.Date;
 import java.text.CollationElementIterator;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -752,7 +750,11 @@ public class ListaTappeActivity extends AppCompatActivity
         i.putExtra("codiceViaggio", codiceViaggio);
         i.putExtra("ordine", ordineTappa);
         i.putExtra("nome", nomeTappa);
-        i.putExtra("data", tappaSelezionata.getData().toString());
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(tappaSelezionata.getData());
+        String data = cal.get(Calendar.YEAR) +"-"+(cal.get(Calendar.MONTH)+1)+"-"+cal.get(Calendar.DAY_OF_MONTH);
+        i.putExtra("data", data);
 
         //TODO sarà inutile una volta modificato il database
         i.putExtra("codAccount", 0);
@@ -1136,14 +1138,25 @@ public class ListaTappeActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
+                int stopOrder = calcolaNumUltimaTappaUtenteCorrente()+1;
+
                 new MyTaskInserimentoTappa().execute();
+
+                //per prevenire crash se si clicca sul marker appena aggiunto
+                Itinerario itAux = new Itinerario(profiloUtenteLoggato, new Viaggio(codiceViaggio));
+
+                Calendar cal = DatesUtils.getDateFromString(getCurrentDateString(), Constants.DATABASE_DATE_FORMAT);
+
+                Log.i("TEST", "cal.getTime: "+cal.getTime());
+
+                profiloTappe.get(profiloVisualizzazioneCorrente).add(new Tappa(itAux, stopOrder, cal.getTime()));
+
                 new MyTaskInserimentoFiltro().execute();
 
 
                 //add marker
-                int stopOrder = calcolaNumUltimaTappaUtenteCorrente()+1;
                 googleMap.addMarker(new MarkerOptions()
-                        .title(stopOrder+". "+placeName)
+                        .title(stopOrder + ". " + placeName)
                         .position(placeLatLng));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(addedPlace.getLatLng(), Constants.DEFAULT_ZOOM_MAP));
 
@@ -1668,6 +1681,16 @@ public class ListaTappeActivity extends AppCompatActivity
         return placeName.toLowerCase().replaceAll(" ", "_");
     }
 
+    private String getCurrentDateString() {
+        Calendar calendar = Calendar.getInstance();
+        int cDay = calendar.get(Calendar.DAY_OF_MONTH);
+        int cMonth = calendar.get(Calendar.MONTH) + 1;
+        int cYear = calendar.get(Calendar.YEAR);
+        String data = cYear+"-"+cMonth+"-"+cDay;
+
+        return data;
+    }
+
 
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
@@ -1743,7 +1766,8 @@ public class ListaTappeActivity extends AppCompatActivity
                                     POI poi = new POI(codicePOI, fontePOI);
 
                                     String dataString = json_data.optString("data", DEFAULT_DATE);
-                                    Date data = Date.valueOf(dataString);
+                                    Calendar cal = DatesUtils.getDateFromString(dataString, Constants.DATABASE_DATE_FORMAT);
+                                    Date data = cal.getTime();
 
                                     tappe.add(new Tappa(itinerario, ordine, tappaPrecedente, data, paginaDiario, poi));
                                 }
@@ -1842,11 +1866,7 @@ public class ListaTappeActivity extends AppCompatActivity
             dataToSend.add(new BasicNameValuePair("ordine", ""+ordine));
             dataToSend.add(new BasicNameValuePair("POI", "" + placeId));
 
-            Calendar calendar = Calendar.getInstance();
-            int cDay = calendar.get(Calendar.DAY_OF_MONTH);
-            int cMonth = calendar.get(Calendar.MONTH) + 1;
-            int cYear = calendar.get(Calendar.YEAR);
-            String data = cYear+"-"+cMonth+"-"+cDay;
+            String data = getCurrentDateString();
             dataToSend.add(new BasicNameValuePair("data", ""+data));
 
             String paginaDiario = "";

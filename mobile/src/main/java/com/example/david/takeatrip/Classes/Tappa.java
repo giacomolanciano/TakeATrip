@@ -1,6 +1,6 @@
 package com.example.david.takeatrip.Classes;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by Giacomo on 15/01/2016.
@@ -26,6 +26,12 @@ public class Tappa {
         this.data = data;
         this.paginaDiario = paginaDiario;
         this.poi = poi;
+    }
+
+    public Tappa(Itinerario itinerario, int ordine, Date data) {
+        this.itinerario = itinerario;
+        this.ordine = ordine;
+        this.data = data;
     }
 
     public Itinerario getItinerario() {
