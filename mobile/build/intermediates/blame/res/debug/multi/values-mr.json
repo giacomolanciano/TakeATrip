@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\values-mr\\values-mr.xml",
+        "outputFile": "/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/res/merged/debug/values-mr/values-mr.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,31 @@
                     "endOffset": 111
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.1.0\\res\\values-mr\\values.xml",
+                    "file": "/Users/lucagiacomelli/Desktop/TakeATrip/mobile/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.1.0/res/values-mr/values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 181,
+                        "endColumn": 60,
+                        "endOffset": 237
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\values-mr\\values-mr.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 60,
+                    "endOffset": 111
+                },
+                "from": {
+                    "file": "/Users/lucagiacomelli/Desktop/TakeATrip/C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.1.0\\res\\values-mr\\values.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,

@@ -501,6 +501,7 @@
     <string name="InserisciNuovoTipo">Type of traveller</string>
     <string name="InserisciNuovoUsername">Username</string>
     <string name="InsertNameTravel">Travel name</string>
+    <string name="LogOutFailed">Logout failed, try again</string>
     <string name="Login">Login</string>
     <string name="LoginError">Incorrect Data</string>
     <string name="LoginWithFb">Login with Facebook</string>

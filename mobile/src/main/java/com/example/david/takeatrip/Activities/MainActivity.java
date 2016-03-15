@@ -405,8 +405,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                     if(!googleApiClient.isConnected()) {
                                         googleApiClient.connect();
+                                        Toast.makeText(getBaseContext(), getString(R.string.LogOutFailed), Toast.LENGTH_LONG).show();
+
                                     }
-                                    Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
+                                    else {
+                                        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
                                                 new ResultCallback<Status>() {
                                                     @Override
                                                     public void onResult(Status status) {
@@ -416,6 +419,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                         }
                                                     }
                                                 });
+                                    }
+
 
                                 }
 
