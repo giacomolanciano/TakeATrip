@@ -1,16 +1,13 @@
 package com.example.david.takeatrip.Utilities;
 
-import android.media.Image;
 import android.widget.ImageView;
 
-import com.example.david.takeatrip.Classes.Following;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.Viaggio;
 
 public class DataObject {
     private Viaggio viaggio;
-    private Profilo profilo, follower, following;
-    private Following follow;
+    private Profilo profilo, follow;
     private ImageView immagineViaggio;
 
 
@@ -22,7 +19,7 @@ public class DataObject {
     }
 
     public DataObject(Profilo p){
-        follower = p;
+        follow = p;
     }
 
     public void setViaggio(Viaggio viaggio) {
@@ -57,28 +54,18 @@ public class DataObject {
 
 
 
-    public String getNomeFollower() {
+    public String getNomeFollow() {
 
-        return follower.getName();
+        return follow.getName();
     }
-    public String getCognomeFollower() {
+    public String getCognomeFollow() {
 
-        return follower.getSurname();
-    }
-
-
-
-
-
-    public Profilo getSegue() {
-
-        return follow.getSegue();
+        return follow.getSurname();
     }
 
-    public Profilo getSeguito() {
 
-        return follow.getSeguito();
-    }
+
+
 
     public ImageView getImmagineViaggio() {
         return immagineViaggio;

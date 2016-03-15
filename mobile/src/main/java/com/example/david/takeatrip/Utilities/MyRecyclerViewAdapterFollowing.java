@@ -14,10 +14,10 @@ import java.util.ArrayList;
  * Created by david on 08/03/2016.
  */
 
-public class MyRecyclerViewAdapterFollowers extends RecyclerView
-        .Adapter<MyRecyclerViewAdapterFollowers
+public class MyRecyclerViewAdapterFollowing extends RecyclerView
+        .Adapter<MyRecyclerViewAdapterFollowing
         .DataObjectHolder> {
-    private static String LOG_TAG = "MyRecyclerViewAdapterFollowers";
+    private static String LOG_TAG = "MyRecyclerViewAdapterFollowing";
     private ArrayList<DataObject> mDataset;
     private static MyClickListener myClickListener;
 
@@ -30,8 +30,8 @@ public class MyRecyclerViewAdapterFollowers extends RecyclerView
         public DataObjectHolder(View itemView) {
             super(itemView);
 
-            nomeUtente = (TextView) itemView.findViewById(R.id.NomeUtenteFollowers);
-            cognomeUtente = (TextView) itemView.findViewById(R.id.CognomeUtenteFollowers);
+            nomeUtente = (TextView) itemView.findViewById(R.id.NomeUtenteFollowing);
+            cognomeUtente = (TextView) itemView.findViewById(R.id.CognomeUtenteFollowing);
             //emailUser = (TextView) itemView.findViewById(R.id.EmailUser);
 
             itemView.setOnClickListener(this);
@@ -49,7 +49,7 @@ public class MyRecyclerViewAdapterFollowers extends RecyclerView
 
     }
 
-    public MyRecyclerViewAdapterFollowers(ArrayList<DataObject> myDataset) {
+    public MyRecyclerViewAdapterFollowing(ArrayList<DataObject> myDataset) {
         mDataset = myDataset;
     }
 
@@ -57,7 +57,7 @@ public class MyRecyclerViewAdapterFollowers extends RecyclerView
     public DataObjectHolder onCreateViewHolder(ViewGroup parent,
                                                int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_followers, parent, false);
+                .inflate(R.layout.fragment_following, parent, false);
 
 
 

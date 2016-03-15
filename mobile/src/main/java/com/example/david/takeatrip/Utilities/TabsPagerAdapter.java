@@ -3,6 +3,7 @@ package com.example.david.takeatrip.Utilities;
 /**
  * Created by lucagiacomelli on 21/02/16.
  */
+
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,23 +11,25 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
 import com.example.david.takeatrip.Classes.Profilo;
-import com.example.david.takeatrip.Fragments.HomeFragment;
-import com.example.david.takeatrip.Fragments.TopRatedFragment;
-import com.example.david.takeatrip.Fragments.SearchUsersFragment;
 import com.example.david.takeatrip.Fragments.FollowersFragment;
 import com.example.david.takeatrip.Fragments.FollowingFragment;
+import com.example.david.takeatrip.Fragments.HomeFragment;
+import com.example.david.takeatrip.Fragments.SearchUsersFragment;
+import com.example.david.takeatrip.Fragments.TopRatedFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
 
-    private ArrayList<Profilo> seguaci;
+    private ArrayList<Profilo> followers;
+    private ArrayList<Profilo> follow;
     private Context context;
 
     public TabsPagerAdapter(FragmentManager fm, Context context, ArrayList<Profilo> followers) {
         super(fm);
-        seguaci = followers;
+        this.followers = followers;
+        this.follow = followers;
+
         this.context = context;
     }
 
@@ -39,13 +42,17 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
                 return new HomeFragment();
             case 1:
                 // Movies fragment activity
-                return new FollowingFragment();
-            case 2:
-                // Movies fragment activity
-                Log.i("TEST", "seguaci in Adapter: " + seguaci);
+                Log.i("TEST", "seguiti in Adapter: " + follow);
                 Log.i("TEST", "context in Adapter: " + context);
 
-                    return new FollowersFragment(context, seguaci);
+                // return new FollowingFragment(context, follow);
+                return new FollowingFragment(context, follow);
+            case 2:
+                // Movies fragment activity
+                Log.i("TEST", "seguaci in Adapter: " + followers);
+                Log.i("TEST", "context in Adapter: " + context);
+
+                    return new FollowersFragment(context, followers);
             case 3:
                 // Games fragment activity
                 return new TopRatedFragment();

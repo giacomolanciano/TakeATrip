@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +19,6 @@ import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.Following;
 import com.example.david.takeatrip.Classes.Profilo;
-import com.example.david.takeatrip.Fragments.FollowersFragment;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.DataObject;
 import com.example.david.takeatrip.Utilities.TabsPagerAdapter;
@@ -40,7 +38,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class SocialActivity extends FragmentActivity implements ActionBar.TabListener {
@@ -50,9 +47,11 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
     private ActionBar actionBar;
 
     private final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/Follower.php";
+    private final String ADDRESS_PRELIEVO_FOLLOWING = "http://www.musichangman.com/TakeATrip/InserimentoDati/Following.php";
 
 
     private ArrayList<Following> follow;
+    private ArrayList<Following> following;
     private ArrayList<DataObject> dataFollowers;
     private String email;
 
@@ -66,7 +65,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
     private Fragment fragment;
 
-    private Profilo seguito;
+    private Profilo corrente;
 
     // TODO: Tab titles in other languages
     private String[] tabs = {"Home","Following","Followers", "Top Rated", "Search"};
@@ -104,7 +103,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
         //TODO: cambiare in caso di visualizzazione esterna
 
-        seguito = new Profilo(email);
+        corrente = new Profilo(email);
 
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -126,6 +125,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         });
 
         follow = new ArrayList<Following>();
+        following = new ArrayList<Following>();
         dataFollowers = new ArrayList<DataObject>();
 
         image_default = new ImageView(this);
@@ -152,6 +152,9 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
        MyTaskFollowers mT = new MyTaskFollowers();
         mT.execute();
+
+        MyTaskFollowing mTF = new MyTaskFollowing();
+        mTF.execute();
 
 
 
@@ -246,7 +249,9 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
                                     String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
 
                                     Profilo seguace = new Profilo(emailSeguace, nomeUtente,cognomeUtente, null, null,sesso,username,null,null,null,urlImmagineProfilo,urlImmagineCopertina);
-                                    follow.add(new Following(seguace, seguito));
+                                    Log.i("TEST", "seguace : " + seguace.getEmail());
+                                    follow.add(new Following(seguace, corrente));
+                                    //Corrente è il seguito
                                 }
                             }
 
@@ -302,7 +307,117 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
 
 
-        Log.i("TEST", "seguaci di: "+ seguito + ": " + seguaci);
+        Log.i("TEST", "seguaci di: "+ corrente + ": " + seguaci);
+
+    }
+    private class MyTaskFollowing extends AsyncTask<Void, Void, Void> {
+        InputStream is = null;
+        String stringaFinale = "";
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("email", email));
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost(ADDRESS_PRELIEVO_FOLLOWING);
+                httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                HttpResponse response = httpclient.execute(httppost);
+
+                HttpEntity entity = response.getEntity();
+                is = entity.getContent();
+
+                if (is != null) {
+                    //converto la risposta in stringa
+                    try {
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                        StringBuilder sb = new StringBuilder();
+                        String line = null;
+                        while ((line = reader.readLine()) != null) {
+                            sb.append(line + "\n");
+                        }
+                        is.close();
+
+                        String result = sb.toString();
+
+                        if (result.equals("null\n")) {
+                            stringaFinale = "Non sono presenti followers";
+                            Log.i("TEST", "result da Following: " + stringaFinale);
+
+                        } else {
+                            JSONArray jArray = new JSONArray(result);
+                            Log.i("TEST", "jArray" + jArray.toString());
+
+                            if (jArray != null && result != null) {
+                                for (int i = 0; i < jArray.length(); i++) {
+                                    JSONObject json_data = jArray.getJSONObject(i);
+                                    String emailSeguito = json_data.getString("email").toString();
+                                    String nomeUtente = json_data.getString("nome");
+                                    String cognomeUtente = json_data.getString("cognome");
+                                    String username = json_data.getString("username");
+                                    String sesso = json_data.getString("sesso");
+                                    String urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
+                                    String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
+
+                                    Profilo seguito = new Profilo(emailSeguito, nomeUtente,cognomeUtente, null, null,sesso,username,null,null,null,urlImmagineProfilo,urlImmagineCopertina);
+                                    Log.i("TEST", "seguito : " + seguito.getEmail());
+                                    following.add(new Following(corrente,seguito));
+                                    //Corrente è il seguace
+                                }
+                            }
+
+                            Log.i("TEST", "lista following di " + email + ": " + following);
+                            for (int i = 0; i < following.size(); i++) {
+                                Log.i("TEST", "following : " + following.get(i).toString());
+
+
+                            }
+                        }
+
+
+                    } catch (Exception e) {
+                        Log.e("TEST", "Errore nel risultato o nel convertire il risultato");
+                    }
+                } else {
+                    Log.e("TEST", "Input Stream uguale a null");
+                }
+
+            } catch (Exception e) {
+                Log.e("TEST", "Errore nella connessione http " + e.toString());
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (stringaFinale.equals("")) {
+                PopolaListaFollowing(following);
+            } else {
+                Toast.makeText(getBaseContext(), stringaFinale, Toast.LENGTH_LONG).show();
+            }
+            super.onPostExecute(aVoid);
+        }
+    }
+
+    private void PopolaListaFollowing( ArrayList<Following> following) {
+        ArrayList<Profilo> seguiti = new ArrayList<Profilo>();
+
+        for (Following f : following) {
+            Log.i("TEST", "seguiti: " + f.getSeguito());
+            seguiti.add(f.getSeguito());
+
+        }
+
+        // Initilization
+        Log.i("TEST", "contesto SocialActivity: " + getBaseContext());
+
+        mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(),seguiti);
+        viewPager.setAdapter(mAdapter);
+
+
+
+        Log.i("TEST", "seguiti di: "+ corrente + ": " + seguiti);
 
     }
 }

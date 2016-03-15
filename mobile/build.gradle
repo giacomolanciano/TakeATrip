@@ -28,12 +28,9 @@ android {
 
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     wearApp project(':wear')
-
     //per il google translate
-
-
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.google.android.gms:play-services:8.4.0'
     compile 'com.google.android.gms:play-services-auth:8.4.0'
@@ -47,6 +44,9 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+
+
+
 
 
 
