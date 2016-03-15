@@ -1,5 +1,7 @@
 package com.example.david.takeatrip.Activities;
 
+import android.app.DatePickerDialog;
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -12,14 +14,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
+import com.example.david.takeatrip.Fragments.DatePickerFragment;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
+import com.example.david.takeatrip.Utilities.DatesUtils;
 import com.example.david.takeatrip.Utilities.PasswordHashing;
 import com.facebook.Profile;
 import com.google.android.gms.drive.DriveId;
@@ -40,12 +44,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
 
-public class  RegistrazioneActivity extends AppCompatActivity {
+public class  RegistrazioneActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private final String ADDRESS_INSERIMENTO_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoProfilo.php";
     private final String ADDRESS_UPDATE_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/UpdateProfilo.php";
@@ -83,7 +88,6 @@ public class  RegistrazioneActivity extends AppCompatActivity {
     private EditText campoEmail;
     private EditText campoPassword;
     private EditText campoConfermaPassword;
-    private EditText campoData;
     private EditText campoVecchiaPassword;
     private EditText campoNuovaPassword;
     private EditText campoConfermaNuovaPassword;
@@ -93,6 +97,7 @@ public class  RegistrazioneActivity extends AppCompatActivity {
     private EditText campoNuovoLavoro;
     private EditText campoNuovaDescrizione;
     private EditText campoNuovoTipo;
+    private EditText campoDataNascita;
     private TextView completeProfile;
     private ProgressDialog mProgressDialog;
 
@@ -102,16 +107,13 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
     private String data;
 
-    private String nome, cognome, email, password, confermaPassword, vecchiaPassword, nuovaPassword, confermaNuovaPassword,  nazionalita, sesso, username, lavoro, descrizione, tipo;
+    private String nome, cognome, email, password, confermaPassword, vecchiaPassword, nuovaPassword,
+            confermaNuovaPassword,  nazionalita, sesso, username, lavoro, descrizione, tipo;
     private String previousEmail, provieneDa;
     private boolean cartellaCreata = false;
 
     private Profile profile;
 
-
-    private NumberPicker pickerYear, pickerMonth, pickerDay;
-
-    private int year, month, day;
 
 
     @Override
@@ -167,26 +169,20 @@ public class  RegistrazioneActivity extends AppCompatActivity {
                 campoNuovaDescrizione = (EditText) findViewById(R.id.InserisciNuovaDescrizione);
                 campoNuovoTipo = (EditText) findViewById(R.id.InserisciNuovoTipo);
 
+                campoDataNascita = (EditText) findViewById(R.id.campoDataNascita);
+                if (campoDataNascita != null) {
+
+                    campoDataNascita.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                        @Override
+                        public void onFocusChange(View v, boolean hasFocus) {
+                            if(hasFocus)
+                                onClickChangeDate(v);
+                        }
+                    });
+                }
+
                 completeProfile = (TextView)findViewById(R.id.completeProfile);
 
-
-                pickerYear = (NumberPicker)findViewById(R.id.pickerYear);
-                pickerYear.setMaxValue(YEAR_MAX_PICKER);
-                pickerYear.setMinValue(YEAR_MIN_PICKER);
-                pickerYear.setWrapSelectorWheel(false);
-                pickerYear.setValue(YEAR_DEFAULT_PICKER);
-
-                pickerMonth = (NumberPicker)findViewById(R.id.pickerMonth);
-                pickerMonth.setMaxValue(MONTH_MAX_PICKER);
-                pickerMonth.setMinValue(MONTH_MIN_PICKER);
-                pickerMonth.setWrapSelectorWheel(false);
-                pickerMonth.setValue(MONTH_DEFAULT_PICKER);
-
-                pickerDay = (NumberPicker)findViewById(R.id.pickerDay);
-                pickerDay.setMaxValue(DAY_MAX_PICKER);
-                pickerDay.setMinValue(DAY_MIN_PICKER);
-                pickerDay.setWrapSelectorWheel(false);
-                pickerDay.setValue(DAY_DEFAULT_PICKER);
                 btnInvio=(Button)findViewById(R.id.Invio);
 
 
@@ -233,9 +229,9 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
             if(updateProfilo){
                 btnInvio.setText("SAVE");
-                pickerYear.setValue(year);
-                pickerMonth.setValue(month);
-                pickerDay.setValue(day);
+
+                campoDataNascita.setText(DatesUtils.convertFormatStringDate(data,
+                        Constants.DATABASE_DATE_FORMAT, Constants.DISPLAYED_DATE_FORMAT));
             }
         }
 
@@ -243,27 +239,9 @@ public class  RegistrazioneActivity extends AppCompatActivity {
         btnInvio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Log.i("TEST", "picker year: " + pickerYear.getValue());
 
-                if(pickerYear.getValue() == YEAR_DEFAULT_PICKER){
-                    data = "";
-                }
-                else{
-                    data = String.valueOf(pickerYear.getValue()) + "-";
-                    if((month = pickerMonth.getValue()) < TEN) {
-                        data += "0" + month + "-";
-                    }
-                    else {
-                        data += month + "-";
-                    }
-                    if((day = pickerDay.getValue()) < TEN) {
-                        data += "0" + day;
-                    }
-                    else {
-                        data += day;
-                    }
-
-                }
+                data = DatesUtils.convertFormatStringDate(campoDataNascita.getText().toString(),
+                        Constants.DISPLAYED_DATE_FORMAT, Constants.DATABASE_DATE_FORMAT);
 
 
 
@@ -339,6 +317,8 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
                         }
                     }
+
+                    finish();
 
 /*
                     //TODO: questo nel caso di login indipendente
@@ -454,6 +434,43 @@ public class  RegistrazioneActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+
+    public void onClickChangeDate(View v) {
+
+        Log.i("TEST", "changing date");
+
+        DialogFragment newFragment = new DatePickerFragment();
+
+        EditText e = (EditText) v;
+        String text = e.getText().toString();
+
+        Log.i("TEST", "text: " + text);
+
+        if(!text.equals("")) {
+            Bundle args = new Bundle();
+            args.putString(Constants.CURRENT_DATE_ID, text);
+            args.putString(Constants.DATE_FORMAT_ID, Constants.DISPLAYED_DATE_FORMAT);
+            newFragment.setArguments(args);
+        }
+        newFragment.show(getFragmentManager(), "datePicker");
+
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        final Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, monthOfYear);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+        Date newDate = c.getTime();
+
+        campoDataNascita.setText(DatesUtils.getStringFromDate(newDate, Constants.DISPLAYED_DATE_FORMAT));
+
+
+        Log.i("TEST", "date changed");
     }
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
@@ -720,14 +737,6 @@ public class  RegistrazioneActivity extends AppCompatActivity {
 
         }
     }
-
-
-
-
-
-
-
-
 
 
 

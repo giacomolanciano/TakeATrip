@@ -123,39 +123,47 @@
                 android:layout_alignParentStart="true"
                 android:textColor="#000000"/>
 
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <EditText
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/linearLayoutDatePickers"
-                android:layout_gravity="center_horizontal"
+                android:inputType="date"
+                android:ems="10"
+                android:id="@+id/campoDataNascita"
+                android:onClick="onClickChangeDate"
+                />
 
-                >
 
-                <NumberPicker
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/pickerYear"
-                    android:textColor="#000000"
-                    />
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:id="@+id/linearLayoutDatePickers"-->
+                <!--android:layout_gravity="center_horizontal"-->
 
-                <NumberPicker
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/pickerMonth"
-                    android:textColor="#000000"
-                    />
+                <!-->-->
 
-                <NumberPicker
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/pickerDay"
-                    android:textColor="#000000"
-                    />
+                <!--<NumberPicker-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/pickerYear"-->
+                    <!--android:textColor="#000000"-->
+                    <!--/>-->
 
-            </LinearLayout>
+                <!--<NumberPicker-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/pickerMonth"-->
+                    <!--android:textColor="#000000"-->
+                    <!--/>-->
+
+                <!--<NumberPicker-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/pickerDay"-->
+                    <!--android:textColor="#000000"-->
+                    <!--/>-->
+
+            <!--</LinearLayout>-->
 
 
             <TextView

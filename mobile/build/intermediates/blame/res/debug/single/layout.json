@@ -16,16 +16,16 @@
         "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\src\\main\\res\\layout\\fragment_followers.xml"
     },
     {
+        "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_big_media_narrow.xml",
+        "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\layout\\notification_template_big_media_narrow.xml"
+    },
+    {
         "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout\\design_layout_snackbar_include.xml",
         "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.1\\res\\layout\\design_layout_snackbar_include.xml"
     },
     {
         "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout\\design_navigation_item.xml",
         "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.1\\res\\layout\\design_navigation_item.xml"
-    },
-    {
-        "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_big_media_narrow.xml",
-        "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\layout\\notification_template_big_media_narrow.xml"
     },
     {
         "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout\\activity_recyclerview_lista_viaggi.xml",
@@ -144,16 +144,16 @@
         "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\src\\main\\res\\layout\\info_poi.xml"
     },
     {
+        "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout\\design_layout_tab_icon.xml",
+        "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.1\\res\\layout\\design_layout_tab_icon.xml"
+    },
+    {
         "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout\\place_autocomplete_fragment.xml",
         "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-location\\8.4.0\\res\\layout\\place_autocomplete_fragment.xml"
     },
     {
         "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout\\messenger_button_send_white_round.xml",
         "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.1.0\\res\\layout\\messenger_button_send_white_round.xml"
-    },
-    {
-        "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout\\design_layout_tab_icon.xml",
-        "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.1\\res\\layout\\design_layout_tab_icon.xml"
     },
     {
         "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\mobile\\build\\intermediates\\res\\merged\\debug\\layout\\abc_popup_menu_item_layout.xml",

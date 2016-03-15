@@ -31,12 +31,11 @@ import java.util.Date;
 
 public class TappaActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    private static final String DISPLAYED_DATE_FORMAT = "dd/MM/yyyy";
 
     private String email, codiceViaggio, nomeTappa, data;
     private int ordineTappa;
 
-    TextView textDataTappa;
+    private TextView textDataTappa;
     private String[] strings, subs;
     private int[] arr_images;
 
@@ -100,7 +99,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         }
         if (textDataTappa != null) {
             String date;
-            date = DatesUtils.convertFormatStringDate(data, "yyyy-MM-dd", DISPLAYED_DATE_FORMAT);
+            date = DatesUtils.convertFormatStringDate(data, Constants.DATABASE_DATE_FORMAT, Constants.DISPLAYED_DATE_FORMAT);
 
             textDataTappa.setText(date);
         }
@@ -214,7 +213,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
         Bundle args = new Bundle();
         args.putString(Constants.CURRENT_DATE_ID, textDataTappa.getText().toString());
-        args.putString(Constants.DATE_FORMAT_ID, DISPLAYED_DATE_FORMAT);
+        args.putString(Constants.DATE_FORMAT_ID, Constants.DISPLAYED_DATE_FORMAT);
         newFragment.setArguments(args);
 
         newFragment.show(getFragmentManager(), "datePicker");
@@ -232,7 +231,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
         Date newDate = c.getTime();
 
-        textDataTappa.setText(DatesUtils.getStringFromDate(newDate, DISPLAYED_DATE_FORMAT));
+        textDataTappa.setText(DatesUtils.getStringFromDate(newDate, Constants.DISPLAYED_DATE_FORMAT));
 
 
         //TODO asynctask per aggiornamento data su db

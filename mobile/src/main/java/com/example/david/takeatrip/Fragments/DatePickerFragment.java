@@ -25,11 +25,18 @@ public class DatePickerFragment extends DialogFragment {
         Calendar cal;
 
         Bundle args = getArguments();
-        String currentDate = args.getString(Constants.CURRENT_DATE_ID);
-        String dateFormat = args.getString(Constants.DATE_FORMAT_ID);
 
-        if (currentDate != null && dateFormat != null) {
-            cal = DatesUtils.getDateFromString(currentDate, dateFormat);
+        if(args != null){
+            String currentDate = args.getString(Constants.CURRENT_DATE_ID);
+            String dateFormat = args.getString(Constants.DATE_FORMAT_ID);
+
+            if (currentDate != null && dateFormat != null) {
+                cal = DatesUtils.getDateFromString(currentDate, dateFormat);
+            } else {
+                Log.i("TEST", "null bundle, setting default date to current");
+                cal = Calendar.getInstance();
+            }
+
         } else {
             Log.i("TEST", "null bundle, setting default date to current");
             cal = Calendar.getInstance();
