@@ -24,15 +24,14 @@ import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
@@ -46,7 +45,6 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -192,6 +190,9 @@ public class ListaTappeActivity extends AppCompatActivity
     private String videoFileName, mCurrentVideoPath;
     private List<Bitmap> immaginiSelezionate;
     private LinearLayout layoutContents,rowHorizontal;
+
+    private TextInputLayout textInputLayout;
+    private TextInputEditText textInputEditText;
 
 
     @Override
@@ -1581,26 +1582,16 @@ public class ListaTappeActivity extends AppCompatActivity
 
     private void onClickAddNote(View v) {
 
+
+
         Log.i("TEST", "add note pressed");
 
 
         try {
+
             ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
-
-
-            //TODO: utilizzare dialog google
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                builder.setView(R.layout.material_edit_text);
-            } else {
-                //TODO gestire compatiilità con versioni precedenti
-
-                Log.i("TEST", "versione SDK < 21");
-            }
-
-            builder.setTitle(getString(R.string.labelNote));
 
             builder.setNegativeButton(getString(R.string.cancel),
                     new DialogInterface.OnClickListener() {
@@ -1624,45 +1615,29 @@ public class ListaTappeActivity extends AppCompatActivity
                     });
 
 
+            //TODO: gestire compatibilità
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder.setView(R.layout.material_edit_text);
+            } else {
+                Log.e("TEST", "versione android < 21");
+            }
+            builder.setTitle(getString(R.string.labelNote));
+
+
+            //Dialog dialog = builder.create();
             AlertDialog dialog = builder.create();
             dialog.show();
 
 
-            EditText et = (EditText) dialog.findViewById(R.id.editText);
-            et.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Constants.NOTE_MAX_LENGTH)});
 
-            //TODO impostare scrollview dialog in maniera che il counter non venga nascosto
 
-            //TextView label = (TextView) dialog.findViewById(R.id.label);
-            //label.setText(getString(R.string.labelNote));
 
-            final TextView counter = (TextView) dialog.findViewById(R.id.counter);
-            counter.setText(Constants.NOTE_MAX_LENGTH + "/" + Constants.NOTE_MAX_LENGTH);
-
-            et.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                }
-
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int aft) {
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    // this will show characters remaining
-                    int remainingChar = Constants.NOTE_MAX_LENGTH - s.toString().length();
-
-                    counter.setText(remainingChar + "/" + Constants.NOTE_MAX_LENGTH);
-
-                    if (remainingChar == 0) {
-                        counter.setTextColor(Color.RED);
-                    } else {
-                        counter.setTextColor(Color.GRAY);
-                    }
-                }
-            });
-
+            textInputLayout = (TextInputLayout) dialog.findViewById(R.id.textInputLayout);
+            if (textInputLayout != null) {
+                textInputLayout.setCounterEnabled(true);
+                textInputLayout.setCounterMaxLength(Constants.NOTE_MAX_LENGTH);
+            }
+            textInputEditText = (TextInputEditText) dialog.findViewById(R.id.editText);
 
 
         } catch (Exception e) {

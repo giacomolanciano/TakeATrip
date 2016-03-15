@@ -3531,7 +3531,6 @@ containing a value of this type.
         public static final int completeProfile=0x7f0e0130;
         public static final int container=0x7f0e00d1;
         public static final int contentPanel=0x7f0e007f;
-        public static final int counter=0x7f0e014f;
         public static final int coverImageTappa=0x7f0e00ee;
         public static final int cover_image=0x7f0e00d3;
         public static final int custom=0x7f0e0085;
@@ -3554,7 +3553,7 @@ containing a value of this type.
         public static final int donate_with_google=0x7f0e0058;
         public static final int down=0x7f0e0035;
         public static final int drawer_layout=0x7f0e00b9;
-        public static final int editText=0x7f0e014e;
+        public static final int editText=0x7f0e014f;
         public static final int editTextNameTravel=0x7f0e0102;
         public static final int editTextUser=0x7f0e00e9;
         public static final int edit_query=0x7f0e0091;
@@ -3754,6 +3753,7 @@ containing a value of this type.
         public static final int text=0x7f0e016b;
         public static final int text2=0x7f0e0169;
         public static final int textDataTappa=0x7f0e00f2;
+        public static final int textInputLayout=0x7f0e014e;
         public static final int textSpacerNoButtons=0x7f0e0082;
         public static final int textViewNameTravel=0x7f0e0160;
         public static final int time=0x7f0e0167;

@@ -1115,7 +1115,6 @@ int id com_facebook_tooltip_bubble_view_top_pointer 0x7f0e010f
 int id completeProfile 0x7f0e0130
 int id container 0x7f0e00d1
 int id contentPanel 0x7f0e007f
-int id counter 0x7f0e014f
 int id coverImageTappa 0x7f0e00ee
 int id cover_image 0x7f0e00d3
 int id custom 0x7f0e0085
@@ -1138,7 +1137,7 @@ int id donate_with 0x7f0e0057
 int id donate_with_google 0x7f0e0058
 int id down 0x7f0e0035
 int id drawer_layout 0x7f0e00b9
-int id editText 0x7f0e014e
+int id editText 0x7f0e014f
 int id editTextNameTravel 0x7f0e0102
 int id editTextUser 0x7f0e00e9
 int id edit_query 0x7f0e0091
@@ -1338,6 +1337,7 @@ int id testoVecchiaPassword 0x7f0e0120
 int id text 0x7f0e016b
 int id text2 0x7f0e0169
 int id textDataTappa 0x7f0e00f2
+int id textInputLayout 0x7f0e014e
 int id textSpacerNoButtons 0x7f0e0082
 int id textViewNameTravel 0x7f0e0160
 int id time 0x7f0e0167
