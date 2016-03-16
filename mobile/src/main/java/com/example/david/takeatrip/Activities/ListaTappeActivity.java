@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -102,14 +101,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.text.CollationElementIterator;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -146,6 +141,7 @@ public class ListaTappeActivity extends AppCompatActivity
     private Map<Profilo,List<Tappa>> profiloTappe;
     private int itinerarioVisualizzato;
     private Profilo profiloVisualizzazioneCorrente;
+    private boolean visualizzazioneEsterna = false;
 
 
     private Map<Profilo, List<Place>> profiloNomiTappe;
@@ -204,7 +200,6 @@ public class ListaTappeActivity extends AppCompatActivity
     private TextInputLayout textInputLayout;
     private TextInputEditText textInputEditText;
     private RoundedImageView ViewImmagineViaggio;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -312,6 +307,12 @@ public class ListaTappeActivity extends AppCompatActivity
                 }
 
                 i++;
+            }
+
+            if(profiloVisualizzazioneCorrente == null){
+                visualizzazioneEsterna = true;
+                buttonAddStop.setVisibility(View.INVISIBLE);
+                profiloVisualizzazioneCorrente = partecipants.get(0);
             }
 
         }
@@ -786,6 +787,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
         Log.i("TEST", "tappa numero " + numeroTappa);
 
+
         Tappa tappaSelezionata = profiloTappe.get(profiloVisualizzazioneCorrente).get(numeroTappa);
         int ordineTappa = tappaSelezionata.getOrdine();
 
@@ -945,6 +947,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
     private void ClickImagePartecipant(Profilo p){
+        profiloVisualizzazioneCorrente = p;
         AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
     }
 
@@ -1086,7 +1089,6 @@ public class ListaTappeActivity extends AppCompatActivity
                                 //update zoom
                                 mapBounds = mapBoundsBuilder.build();
                                 CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(mapBounds,
-
                                         Constants.LATLNG_BOUNDS_PADDING);
                                 googleMap.moveCamera(cu);
 
@@ -1861,6 +1863,8 @@ public class ListaTappeActivity extends AppCompatActivity
                     aggiuntiMarkedPoints = true;
                     Log.i("TEST", "aggiunte tappe di " + p);
 
+
+                    profiloVisualizzazioneCorrente = p;
                     break;
                 }
             }
@@ -1869,6 +1873,8 @@ public class ListaTappeActivity extends AppCompatActivity
                 for(Profilo p : profiloTappe.keySet()){
                     AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
                     Log.i("TEST", "aggiunte tappe di " + p);
+
+                    profiloVisualizzazioneCorrente =p;
                     break;
                 }
 

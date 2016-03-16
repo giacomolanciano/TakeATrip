@@ -2,9 +2,6 @@ package com.example.david.takeatrip.Activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.Fragment;
-import android.app.FragmentController;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,7 +17,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -109,6 +105,9 @@ public class ViaggioActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_viaggio);
+
+
 
         Intent intent;
         if((intent = getIntent()) != null){
@@ -594,6 +593,8 @@ public class ViaggioActivity extends FragmentActivity {
                     Log.i("TEST", "sei compreso nel viaggio");
                 }
             }
+
+            /*
             if(proprioViaggio){
                 setContentView(R.layout.activity_viaggio);
                 //TODO: scaricare tutti gli url delle immagini e visualizzarli nel fragment
@@ -606,6 +607,7 @@ public class ViaggioActivity extends FragmentActivity {
                 setContentView(R.layout.activity_viaggio3);
             }
 
+*/
 
             new TaskForUrlsImages(codiceViaggio).execute();
 

@@ -293,9 +293,12 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
     Profilo currentProfile;
     List<Place> nomiTappe = new ArrayList<Place>();
     List<String> namesStops = new ArrayList<String>();
+    int count =0;
 
     private void AggiungiMarkedPointsOnMap(Profilo p, List<Tappa> tappe, List<Viaggio> viaggio) {
         mGoogleApiClient.connect();
+
+        count = 0;
 
         namesStops.clear();
         for (Tappa t : tappe){
@@ -378,10 +381,24 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
                                             .position(place.getLatLng())
                             );
 
+
                             mapBoundsBuilder.include(place.getLatLng());
                             mapBounds = mapBoundsBuilder.build();
-                            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(mapBounds, Constants.LATLNG_BOUNDS_PADDING);
-                            googleMap.moveCamera(cu);
+
+                            count++;
+
+                            Log.i("TEST", "count: " + count);
+
+
+                            if (count == 1) {
+                                CameraUpdate cu = CameraUpdateFactory.newLatLng(place.getLatLng());
+                                googleMap.moveCamera(cu);
+                            } else {
+                                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(mapBounds, Constants.LATLNG_BOUNDS_PADDING);
+                                googleMap.moveCamera(cu);
+                            }
+
+
 
                             // googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 4));
 

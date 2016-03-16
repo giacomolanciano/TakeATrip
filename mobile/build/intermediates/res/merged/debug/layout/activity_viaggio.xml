@@ -28,7 +28,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/titoloViaggio"
-                android:text="@string/YourTravel"
                 android:textColor="@color/white"
                 android:textSize="38sp"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
