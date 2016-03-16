@@ -2,13 +2,6 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.getbase\floatingactionbutton\1.10.1\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="f40cf334cdc8b098b74312e21c7741c6eefbeb0e">
-        <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.getbase-floatingactionbutton-1.10.1_8e3d78be95ac599336b1d8158205eb9df208b7a1.jar" />
-    </item>
-    <item
         jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.1"
@@ -30,32 +23,11 @@
         <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.android.support-mediarouter-v7-23.0.0_b134a1820bf0a217c5b5cd91b5cf6ca30ffb2d1e.jar" />
     </item>
     <item
-        jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.2.1\jars\classes.jar"
+        jar="C:\AndroidSDK\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="cb86970df0f0f25f766d320b279c7858c1ca0003">
-        <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.android.support-cardview-v7-23.2.1_b742e30eba14a8f4f075d5c8301620d23e5468b8.jar" />
-    </item>
-    <item
-        jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\design\23.2.1\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="72961d8b453b46e277702f18de9d210bc019e36e">
-        <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.android.support-design-23.2.1_4b5fdc9cb741ef215ef1483ba580ca41b43cf124.jar" />
-    </item>
-    <item
-        jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="3be474b1b21b31cf2fa93fe6bd641ae108d96452">
-        <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.2.1_04469472ec974cdeabbe74e411ac2b2f5a4d036c.jar" />
-    </item>
-    <item
-        jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.2.1\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="e3885783ff8926ed9e2fdcd16816c2e1e73e7aee">
-        <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.2.1_1656e3e2eef08b73b1ba5a1491db26c85b652b60.jar" />
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\support-annotations-23.0.1_c47bdf2bd4f8832e7b197e5b8b47ad773872bd6f.jar" />
     </item>
     <item
         jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.google.android.gms\play-services-appinvite\8.4.0\jars\classes.jar"
@@ -65,11 +37,18 @@
         <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-appinvite-8.4.0_c1e0121db812bdaff16e95ed85cd58b9d879f6b2.jar" />
     </item>
     <item
-        jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\jars\classes.jar"
+        jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\design\23.0.1\jars\classes.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="e4d0cbb0b999604b349062f0214a0a228a7fd151">
-        <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.2.1_421c1040232ae77419f1f076da02f7828abb2581.jar" />
+        sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
+        <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.android.support-design-23.0.1_4883b547ef30ec1d95ee725298e6c90d552a06a3.jar" />
+    </item>
+    <item
+        jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.0.1_a1a7db66346c0c798ac8df2678cad45c1e945ee3.jar" />
     </item>
     <item
         jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\8.4.0\jars\classes.jar"
@@ -79,11 +58,11 @@
         <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-ads-8.4.0_03abc0d496114b127fb85ce24d7a6d4bb09fc549.jar" />
     </item>
     <item
-        jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.4.0\jars\classes.jar"
+        jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
-        <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-base-8.4.0_e8123117d199621d71509689b927f13071c7dae2.jar" />
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\internal_impl-23.0.1_3ef1a9316bf8db2185698e86433268c705fa685c.jar" />
     </item>
     <item
         jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\8.4.0\jars\classes.jar"
@@ -93,11 +72,18 @@
         <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-identity-8.4.0_4b1ae5caaf3ddb5a2f3be6a8971b2bbae24ce5dc.jar" />
     </item>
     <item
-        jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\jars\libs\internal_impl-23.2.1.jar"
+        jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.4.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="607a3d0b8013b4ccbfeb0b7cb293351994e021fb">
-        <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\internal_impl-23.2.1_ada5a3f99ed63ca58bc40d2043a468cb393a1dff.jar" />
+        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
+        <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-base-8.4.0_e8123117d199621d71509689b927f13071c7dae2.jar" />
+    </item>
+    <item
+        jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="4356e230a981d1bbf047d848b91bc0d9b7c5bacc">
+        <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.0.1_d976867935002ef324677bd93940a549726b7f88.jar" />
     </item>
     <item
         jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\23.0.0\jars\libs\internal_impl-23.0.0.jar"
@@ -149,13 +135,6 @@
         <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.facebook.android-facebook-android-sdk-4.1.0_291bbf491a9295ba3d602da43efb3708742b2fcd.jar" />
     </item>
     <item
-        jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.2.1\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="3469cb457f10f74c28cbc05f069b6c894f6cbdd0">
-        <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.android.support-animated-vector-drawable-23.2.1_10457f3aec32f00e8b03c99daeed129abd8331ea.jar" />
-    </item>
-    <item
         jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\8.4.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.1"
@@ -177,11 +156,11 @@
         <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-fitness-8.4.0_2b2feae00700eb1e37386f24c90d5b0fdac87fdb.jar" />
     </item>
     <item
-        jar="C:\AndroidSDK\sdk\extras\android\m2repository\com\android\support\support-annotations\23.2.1\support-annotations-23.2.1.jar"
+        jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
         jumboMode="false"
         revision="23.0.1"
-        sha1="ccb693bc0774fcb637246f7360de25b4af7df318">
-        <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\support-annotations-23.2.1_bd8b75804cc3a046c23ba6a6a850942f941da69d.jar" />
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.0.1_027cc8e15e97878251479dd606cc8ba733ef66af.jar" />
     </item>
     <item
         jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\8.4.0\jars\classes.jar"
@@ -219,6 +198,13 @@
         <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-wallet-8.4.0_4fccd953b747ef6efbfc86e263783c32bfeef244.jar" />
     </item>
     <item
+        jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="39ae02ce40c3ac828abbf780ce0ff5d7a28b7d6a">
+        <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.android.support-cardview-v7-23.0.1_637715b68cbab9090cb5379f8685b191158480e3.jar" />
+    </item>
+    <item
         jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\8.4.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.1"
@@ -252,13 +238,6 @@
         revision="23.0.1"
         sha1="9cad249cf62751a323d9af568caf12284b7d6062">
         <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-nearby-8.4.0_70ab254c279f61a64a79850a1c766bcaa30556e7.jar" />
-    </item>
-    <item
-        jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.2.1\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="673d77a5bbddd766037f088e775df525c46407f0">
-        <dex dex="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\pre-dexed\debug\com.android.support-support-vector-drawable-23.2.1_eaa615239fdb8af82057131da4a2c7cfc1497993.jar" />
     </item>
     <item
         jar="C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\8.4.0\jars\classes.jar"
