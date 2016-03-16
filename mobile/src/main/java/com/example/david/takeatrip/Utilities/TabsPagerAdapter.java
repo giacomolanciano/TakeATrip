@@ -23,12 +23,16 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 
     private ArrayList<Profilo> follower;
     private ArrayList<Profilo> follow;
+    private ArrayList<Profilo> homePage;
     private Context context;
 
     public TabsPagerAdapter(FragmentManager fm, Context context, ArrayList<Profilo> followers) {
         super(fm);
         this.follower = followers;
+
+        //TODO modificare
         this.follow = followers;
+        this.homePage = followers;
 
         this.context = context;
     }
@@ -39,7 +43,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
         switch (index) {
             case 0:
                 // Top Rated fragment activity
-                return new HomeFragment();
+                return new HomeFragment(context, homePage);
             case 1:
                 // Movies fragment activity
                 Log.i("TEST", "seguaci in Adapter: " + follower);
