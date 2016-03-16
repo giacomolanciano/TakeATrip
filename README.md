@@ -35,6 +35,13 @@ We also made two surveys: one to [test our assumptions](https://docs.google.com/
 * UI design improvement
   * Better application of material design patterns
 
+[//]: # (On the 18-th of March we presented our work to the staff.)
+[//]: # (* [Presentation]())
+[//]: # (* [Installation Guide](https://docs.google.com/document/d/1rpsw019e0uM3I5sh10lFPqupNvlqYNzZBaLNTT-Vbkg/edit?usp=sharing))
+[//]: # (* [Usage Guide (video)]())
+[//]: # (* [Beta apk file]())
+
+
 # Possible extension after the semester
 * Crossing paths analysis
 * POI insertion
