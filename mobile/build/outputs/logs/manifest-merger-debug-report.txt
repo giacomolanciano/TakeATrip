@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:2:1-117:12
+ADDED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:2:1-116:12
 	package
 		ADDED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:3:5-42
 		INJECTED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml
@@ -103,7 +103,7 @@ ADDED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\Androi
 	android:name
 		ADDED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:30:9-60
 application
-ADDED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:34:5-115:19
+ADDED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:34:5-114:19
 MERGED from [com.android.support:appcompat-v7:23.2.1] C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-v4:23.2.1] C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:animated-vector-drawable:23.2.1] C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.2.1\AndroidManifest.xml:7:5-20
@@ -422,13 +422,19 @@ ADDED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\Androi
 	android:name
 		ADDED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:107:19-62
 activity#com.example.david.takeatrip.Activities.TappaActivity
-ADDED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:109:9-114:20
+ADDED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:108:9-111:56
 	android:label
-		ADDED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:111:13-57
+		ADDED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:110:13-57
 	android:theme
-		ADDED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:112:13-44
+		ADDED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:111:13-44
 	android:name
-		ADDED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:110:13-53
+		ADDED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:109:13-53
+activity#com.example.david.takeatrip.Activities.VisualizzazioneFollowActivity
+ADDED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:112:9-113:80
+	android:theme
+		ADDED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:113:13-67
+	android:name
+		ADDED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:112:19-75
 uses-sdk
 INJECTED from C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:23.2.1] C:\Users\david\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\AndroidManifest.xml:21:5-23:78

@@ -18,16 +18,23 @@
         <!--card_view:cardBackgroundColor="@color/blue"-->
 
 
-        <ImageView
-            android:layout_width="121dp"
-            android:layout_height="85dp"
-            android:id="@+id/ImageProfile"
-            android:src="@drawable/empty_image"
-            android:layout_gravity="left|bottom|center"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="121dp"
+                android:layout_height="85dp"
+                android:id="@+id/ImageProfile"
+                android:src="@drawable/empty_image"
+                android:layout_gravity="left|bottom|center"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"

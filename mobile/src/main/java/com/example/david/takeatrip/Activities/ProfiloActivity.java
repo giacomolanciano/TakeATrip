@@ -566,7 +566,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         }
     }
     public void ClickFollowers(View v) {
-        Intent intentFollowers = new Intent(this, SocialActivity.class);
+        Intent intentFollowers = new Intent(this, VisualizzazioneFollowActivity.class);
         intentFollowers.putExtra("name", name);
         intentFollowers.putExtra("surname", surname);
         if(emailEsterno != null ){
@@ -583,7 +583,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
     }
 
-    public void ClickFollowing(View v) { Intent intentFollowers = new Intent(this, VisualizzazioneFollowActivity.class);
+    public void ClickFollowing(View v) {
+        Intent intentFollowers = new Intent(this, VisualizzazioneFollowActivity.class);
         intentFollowers.putExtra("name", name);
         intentFollowers.putExtra("surname", surname);
         if(emailEsterno != null ){

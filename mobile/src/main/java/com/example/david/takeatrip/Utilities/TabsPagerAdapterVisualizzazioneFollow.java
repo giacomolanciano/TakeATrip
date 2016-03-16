@@ -35,7 +35,6 @@ public class TabsPagerAdapterVisualizzazioneFollow extends FragmentPagerAdapter 
 
         switch (index) {
             case 0:
-                // Movies fragment activity
                 Log.i("TEST", "seguaci in Adapter: " + follower);
                 Log.i("TEST", "context in Adapter: " + context);
 
@@ -46,7 +45,7 @@ public class TabsPagerAdapterVisualizzazioneFollow extends FragmentPagerAdapter 
                 Log.i("TEST", "seguiti in Adapter: " + follow);
                 Log.i("TEST", "context in Adapter: " + context);
 
-                    return new FollowersFragment(context, follow);
+                return new FollowersFragment(context, follow);
 
         }
 

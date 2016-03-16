@@ -73,16 +73,15 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
     private Profilo corrente;
 
     // TODO: Tab titles in other languages
-    private String[] tabs = {"Home","Following","Followers", "Top Rated", "Search"};
+    private String[] tabs = {"FOLLOWING","FOLLOWERS"};
 
     private int[] icons = {R.drawable.ic_people_black_36dp,
-            R.drawable.ic_add_a_photo_black_36dp,
-           };
+            R.drawable.ic_add_a_photo_black_36dp};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_social);
+        setContentView(R.layout.activity_visualizzazione_follow);
 
 
         Intent intent;
@@ -91,8 +90,7 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
             Log.i("TEST", "email utente in Social: " + email);
 
         }
-        viewPager = (ViewPager) findViewById(R.id.pager);
-
+        viewPager = (ViewPager) findViewById(R.id.pagerVisualizzazione);
         actionBar = getActionBar();
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -172,11 +170,12 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
 
         //TODO una volta impostate le icone giuste queste scritte vanno levate
         if(tab.getPosition()==0) {
-            tab.setText("FOLLOWERS");
-        }
-        if(tab.getPosition()==1) {
             tab.setText("FOLLOWING");
         }
+        if(tab.getPosition()==1) {
+            tab.setText("FOLLOWERS");
+        }
+
 
         Log.i("TEST", "TAB SELEZIONATO: "+ tab.getPosition() );
 
@@ -201,6 +200,7 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
         protected Void doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("email", email));
+            Log.i("TEST: ", "MIA MAIL FOLLOWING: " + email);
             try {
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost httppost = new HttpPost(ADDRESS_PRELIEVO);
@@ -247,6 +247,7 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
 
                                     Profilo seguace = new Profilo(emailSeguace, nomeUtente,cognomeUtente, null, null,sesso,username,null,null,null,urlImmagineProfilo,urlImmagineCopertina);
                                     Log.i("TEST", "seguace : " + seguace.getEmail());
+                                    Log.i("TEST", "corrente : " + corrente.getEmail());
                                     follow.add(new Following(seguace, corrente));
                                     //Corrente è il seguito
                                 }
@@ -364,6 +365,7 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
 
                                     Profilo seguito = new Profilo(emailSeguito, nomeUtente,cognomeUtente, null, null,sesso,username,null,null,null,urlImmagineProfilo,urlImmagineCopertina);
                                     Log.i("TEST", "seguito : " + seguito.getEmail());
+                                    Log.i("TEST", "corrente : " + corrente.getEmail());
                                     following.add(new Following(corrente,seguito));
                                     //Corrente è il seguace
                                 }
@@ -412,6 +414,8 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
         for (Following f : following) {
             Log.i("TEST", "seguiti: " + f.getSeguito());
             seguiti.add(f.getSeguito());
+            Log.i("TEST", "email seguiti: " + f.getSeguito().getEmail());
+
 
         }
 

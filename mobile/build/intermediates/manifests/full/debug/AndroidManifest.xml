@@ -122,8 +122,10 @@
         <activity
             android:name="com.example.david.takeatrip.Activities.TappaActivity"
             android:label="@string/title_activity_tappa"
-            android:theme="@style/AppTheme" >
-        </activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.example.david.takeatrip.Activities.VisualizzazioneFollowActivity"
+            android:theme="@style/Widget.AppTheme.ActionBar.Solid" />
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
