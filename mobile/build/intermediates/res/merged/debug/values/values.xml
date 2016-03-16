@@ -532,6 +532,7 @@
     <string name="SAVE">SAVE</string>
     <string name="Satellite">Satellite</string>
     <string name="SceltaMeta">Choose your parameters</string>
+    <string name="SearchByDestination">Search by destination</string>
     <string name="Settings">Settings</string>
     <string name="Splash">Take a Trip</string>
     <string name="Stops">Stops</string>

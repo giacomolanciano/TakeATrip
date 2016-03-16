@@ -237,6 +237,7 @@
     <string name="addVideo">Add new video</string>
     <string name="addPhoto">Add new photo</string>
     <string name="LogOutFailed">Logout failed, try again</string>
+    <string name="SearchByDestination">Search by destination</string>
 
 
 </resources>

@@ -45,10 +45,14 @@ public class MyRecyclerViewAdapter extends RecyclerView
             codiceViaggio = (TextView) itemView.findViewById(R.id.CodeTravel);
             emailUser = (TextView) itemView.findViewById(R.id.EmailUser);
             imageTravel = (ImageView) itemView.findViewById(R.id.ImageTravel);
+
+
             //codice_urlImmagineViaggio = new HashMap<String,String >();
 
             //nomeViaggio.setText(());
             //   dateTime = (TextView) itemView.findViewById(R.id.textView2);
+
+
             Log.i(LOG_TAG, "Adding Listener");
             itemView.setOnClickListener(this);
         }
@@ -75,7 +79,7 @@ public class MyRecyclerViewAdapter extends RecyclerView
 
     public MyRecyclerViewAdapter(ArrayList<DataObject> myDataset) {
         mDataset = myDataset;
-        giaInserita = new boolean[mDataset.size()];
+
     }
 
     @Override
@@ -94,21 +98,26 @@ public class MyRecyclerViewAdapter extends RecyclerView
         holder.codiceViaggio.setText(mDataset.get(position).getCodiceViaggio());
         holder.emailUser.setText(mDataset.get(position).getEmail());
 
-        //holder.imageTravel.
 
         String urlImmagine = mDataset.get(position).getUrlImageTravel();
-        ImageView immagineViaggio = mDataset.get(position).getImmagineViaggio();
+        //ImageView immagineViaggio = mDataset.get(position).getImmagineViaggio();
 
-        urlImmagineViaggio = urlImmagine;
-        holder.imageTravel.setContentDescription(urlImmagine);
 
-        //if(!giaInserita[position]){
+
+        ImageView immagineViaggio = holder.imageTravel;
+        immagineViaggio.setContentDescription(urlImmagine);
+
+        if(urlImmagine != null && !urlImmagine.equals("null")){
             new DownloadImageTask(immagineViaggio).execute(Constants.ADDRESS_TAT +urlImmagine);
-            //giaInserita[position] = true;
-        //}
+        }
+        else{
+            immagineViaggio.setImageResource(R.drawable.empty_image);
+        }
 
         Log.i("TEST", "email: " + mDataset.get(position).getEmail());
-        Log.i("TEST", "url immagine del viaggio" + mDataset.get(position).getNomeViaggio()+": " + mDataset.get(position).getUrlImageTravel());
+        Log.i("TEST", "immagine del viaggio" + mDataset.get(position).getNomeViaggio()+": " +
+                holder.imageTravel.getContentDescription() + " "+
+                mDataset.get(position).getUrlImageTravel());
 
         //holder.nome.equals(mDataset.get(position).getNomeViaggio());
         //      holder.dateTime.setText(mDataset.get(position).getmText2());

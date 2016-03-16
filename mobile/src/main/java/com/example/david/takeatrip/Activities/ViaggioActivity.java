@@ -2,6 +2,10 @@ package com.example.david.takeatrip.Activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.Fragment;
+import android.app.FragmentController;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +19,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -31,6 +36,8 @@ import android.widget.Toast;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
+import com.example.david.takeatrip.Classes.TakeATrip;
+import com.example.david.takeatrip.Fragments.ImageGridFragment;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DownloadImageTask;
@@ -68,7 +75,7 @@ import com.google.gcloud.storage.BucketInfo;
 */
 
 
-public class ViaggioActivity extends AppCompatActivity {
+public class ViaggioActivity extends FragmentActivity {
 
     private static final String ADDRESS = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryNomiUtenti.php";
     private static final String ADDRESS_PARTECIPANTS = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryPartecipantiViaggio.php";
@@ -124,6 +131,10 @@ public class ViaggioActivity extends AppCompatActivity {
         NameForUrl = codiceViaggio.trim().replace(" ", "");
 
 
+        if(email == null){
+            TakeATrip TAT = (TakeATrip)getApplicationContext();
+            email = TAT.getProfiloCorrente().getEmail();
+        }
         if(email != null){
             String url = email+"/"+NameForUrl;
         }
@@ -133,6 +144,7 @@ public class ViaggioActivity extends AppCompatActivity {
 
         new MyTask().execute();
         new MyTaskPerUtenti().execute();
+
 
 
         //new MyTaskIDFolder(this,email,url,NameForUrl).execute();
@@ -145,9 +157,16 @@ public class ViaggioActivity extends AppCompatActivity {
 
 
     public void onClickImageTappa(View v){
-        ArrayList<CharSequence> emailPartecipants = new ArrayList<CharSequence>();
+        CharSequence[] emailPartecipants = new CharSequence[listPartecipants.size()];
+        CharSequence[] urlImagePartecipants = new CharSequence[listPartecipants.size()];
+        CharSequence[] sessoPartecipants = new CharSequence[listPartecipants.size()];
+
+        int i= 0;
         for(Profilo p: listPartecipants){
-            emailPartecipants.add(p.getEmail());
+            emailPartecipants[i] = p.getEmail();
+            urlImagePartecipants[i] = p.getIdImageProfile();
+            sessoPartecipants[i] = p.getSesso();
+            i++;
         }
 
         Log.i(TAG, "email partecipants: " + emailPartecipants);
@@ -156,10 +175,18 @@ public class ViaggioActivity extends AppCompatActivity {
         if(email != null){
             intent.putExtra("email", email);
         }
+        else{
+            TakeATrip TAT = (TakeATrip)getApplicationContext();
+            email = TAT.getProfiloCorrente().getEmail();
+            intent.putExtra("email", email);
+        }
+
         intent.putExtra("codiceViaggio", codiceViaggio);
         intent.putExtra("nomeViaggio", nomeViaggio);
-
+        intent.putExtra("urlImmagineViaggio", urlImageTravel);
         intent.putExtra("partecipanti", emailPartecipants);
+        intent.putExtra("urlImagePartecipants", urlImagePartecipants);
+        intent.putExtra("sessoPartecipants", sessoPartecipants);
 
         startActivity(intent);
     }
@@ -313,6 +340,15 @@ public class ViaggioActivity extends AppCompatActivity {
                         new DownloadImageTask(imageProfile).execute(urlProfilePartecipant);
 
                     }
+                    else{
+                        if(p.getSesso().equals("M")){
+                            imageProfile.setImageResource(R.drawable.default_male);
+                        }
+                        else{
+                            imageProfile.setImageResource(R.drawable.default_female);
+                        }
+                    }
+
                     if(p.getGetIdImageCover() != null && !p.getGetIdImageCover().equals("null")){
                         String urlCoverPartecipant =  Constants.ADDRESS_TAT+ p.getGetIdImageCover();
                         new DownloadImageTask(null, layoutCopertina).execute(urlCoverPartecipant);
@@ -336,11 +372,11 @@ public class ViaggioActivity extends AppCompatActivity {
                             Intent openProfilo = new Intent(ViaggioActivity.this, ProfiloActivity.class);
                             openProfilo.putExtra("name", p.getName());
                             openProfilo.putExtra("surname", p.getSurname());
-                            if(email!= null){
-                                openProfilo.putExtra("email", email);
+                            if(emailEsterno != null){
+                                openProfilo.putExtra("emailEsterno", p.getEmail());
                             }
                             else{
-                                openProfilo.putExtra("emailEsterno", p.getEmail());
+                                openProfilo.putExtra("email", email);
                             }
                             openProfilo.putExtra("dateOfBirth", p.getDataNascita());
                             openProfilo.putExtra("nazionalita", p.getNazionalita());
@@ -552,6 +588,7 @@ public class ViaggioActivity extends AppCompatActivity {
             Log.i("TEST", "lista partecipanti al viaggio " + nomeViaggio + ": " + listPartecipants.toString());
             //controllo se l'email dell'utente è tra quelle dei partecipanti al viaggio
             for(Profilo p : listPartecipants){
+
                 if(email != null && email.equals(p.getEmail())){
                     proprioViaggio = true;
                     Log.i("TEST", "sei compreso nel viaggio");
@@ -559,11 +596,19 @@ public class ViaggioActivity extends AppCompatActivity {
             }
             if(proprioViaggio){
                 setContentView(R.layout.activity_viaggio);
+                //TODO: scaricare tutti gli url delle immagini e visualizzarli nel fragment
+                //TODO: anche per il layout di visualizzazione esterna
+                //tenere conto dei livelli di condivisione: in questa fase Public, Travel
+
             }
             else{
                 Log.i("TEST", "non sei compreso nel viaggio");
                 setContentView(R.layout.activity_viaggio3);
             }
+
+
+            new TaskForUrlsImages(codiceViaggio).execute();
+
 
             viewTitoloViaggio = (TextView)findViewById(R.id.titoloViaggio);
             layoutCopertinaViaggio = (LinearLayout)findViewById(R.id.layoutCoverImageTravel);
@@ -1009,6 +1054,126 @@ public class ViaggioActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+        }
+    }
+
+
+
+
+    private class TaskForUrlsImages extends AsyncTask<Void, Void, Void> {
+
+        private final static  String ADDRESS_QUERY_URLS= "http://www.musichangman.com//TakeATrip/InserimentoDati/QueryImagesOfTravel.php";
+
+        private String codiceViaggio;
+        InputStream is = null;
+        String result, stringaFinale = "";
+        private List<String> listUrls;
+        private String [] URLs;
+
+
+        public TaskForUrlsImages(String codiceViaggio){
+            this.codiceViaggio = codiceViaggio;
+            listUrls = new ArrayList<String>();
+        }
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
+
+
+            try {
+                if (InternetConnection.haveInternetConnection(ViaggioActivity.this)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost(ADDRESS_QUERY_URLS);
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                    HttpResponse response = httpclient.execute(httppost);
+                    HttpEntity entity = response.getEntity();
+
+                    is = entity.getContent();
+
+                    if (is != null) {
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+                        } catch (Exception e) {
+                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
+                        }
+                    }
+                    else {
+                        Log.i("TEST", "Input Stream uguale a null");
+                    }
+
+                    JSONArray jArray = new JSONArray(result);
+
+                    if(jArray != null && result != null){
+                        for(int i=0;i<jArray.length();i++){
+                            JSONObject json_data = jArray.getJSONObject(i);
+                            String urlImmagine = json_data.getString("urlImmagineViaggio").toString();
+                            int orineTappa  = json_data.getInt("ordineTappa");
+                            listUrls.add(urlImmagine);
+
+                        }
+                    }
+                }
+                else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(e.toString(),e.getMessage());
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            Log.i("TEST", "array di url: ");
+
+
+            //TODO: controllare i livelli di condivisione e mettere nell'array solo quelle giuste
+            if(listUrls.size()>0){
+                URLs = new String[listUrls.size()];
+                int i=0;
+                for(String url : listUrls){
+                    URLs[i] = url;
+                    Log.i("TEST", "url ["+i+"]: "+ URLs[i]);
+
+                    i++;
+                }
+            }
+
+            ImageGridFragment fragment = (ImageGridFragment)getFragmentManager().findFragmentById(R.id.fragment_images);
+
+
+
+            ImageGridFragment fragment1 = fragment.newInstance(URLs);
+
+            //fragment.setArguments(fragment1.getArguments());
+
+
+            Log.i("TEST", "creato un nuovo fragment with bundle: " + fragment1.getArguments());
+
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+            transaction.replace(R.id.fragment_images, fragment1);
+            //transaction.addToBackStack(null);
+
+
+            transaction.commit();
+
         }
     }
 

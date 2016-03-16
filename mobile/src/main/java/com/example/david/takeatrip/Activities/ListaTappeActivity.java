@@ -63,8 +63,10 @@ import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.AudioRecord;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatesUtils;
+import com.example.david.takeatrip.Utilities.DownloadImageTask;
 import com.example.david.takeatrip.Utilities.MultimedialFile;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
+import com.example.david.takeatrip.Utilities.UploadFilePHP;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -100,11 +102,16 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.text.CollationElementIterator;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -147,7 +154,7 @@ public class ListaTappeActivity extends AppCompatActivity
     private List<Tappa> stops;
 
 
-    private String email, codiceViaggio, nomeViaggio;
+    private String email, codiceViaggio, nomeViaggio, urlImmagineViaggio;
 
     private NavigationView navigationView;
     private TextView ViewCaricamentoInCorso;
@@ -188,11 +195,15 @@ public class ListaTappeActivity extends AppCompatActivity
     private DriveId idFolder;
     private String imageFileName, mCurrentPhotoPath;
     private String videoFileName, mCurrentVideoPath;
-    private List<Bitmap> immaginiSelezionate;
+    private List<Bitmap> immaginiSelezionate, immaginiUpload;
+    private Map<Bitmap,String> bitmap_nomeFile;
+    private String livelloCondivisioneTappa;
+
     private LinearLayout layoutContents,rowHorizontal;
 
     private TextInputLayout textInputLayout;
     private TextInputEditText textInputEditText;
+    private RoundedImageView ViewImmagineViaggio;
 
 
     @Override
@@ -218,8 +229,13 @@ public class ListaTappeActivity extends AppCompatActivity
         }
 
         View layoutHeader = navigationView.getHeaderView(0);
+        
         ViewNomeViaggio = (TextView) layoutHeader.findViewById(R.id.textViewNameTravel);
+        ViewImmagineViaggio = (RoundedImageView) layoutHeader.findViewById(R.id.imageView_round);
 
+
+
+        
 
         buttonAddStop = (FloatingActionButton) findViewById(R.id.fabAddStopInfoPoi);
         if (buttonAddStop != null) {
@@ -230,9 +246,7 @@ public class ListaTappeActivity extends AppCompatActivity
         }
 
         layoutProprietariItinerari = (LinearLayout) findViewById(R.id.layoutProprietariItinerari);
-
         ViewCaricamentoInCorso = (TextView) findViewById(R.id.TextViewCaricamentoInCorso);
-
 
 
         // ATTENTION: This "addApi(AppIndex.API)"was auto-generated to implement the App Indexing API.
@@ -260,19 +274,28 @@ public class ListaTappeActivity extends AppCompatActivity
         profiloTappe = new HashMap<Profilo, List<Tappa>>();
         profiloNomiTappe = new HashMap<Profilo, List<Place>>();
         immaginiSelezionate = new ArrayList<Bitmap>();
+        immaginiUpload = new ArrayList<Bitmap>();
+        bitmap_nomeFile = new HashMap<Bitmap,String>();
+
+
 
         Intent intent;
         if ((intent = getIntent()) != null) {
             email = intent.getStringExtra("email");
             codiceViaggio = intent.getStringExtra("codiceViaggio");
             nomeViaggio = intent.getStringExtra("nomeViaggio");
-            ArrayList<CharSequence> listPartecipants = intent.getCharSequenceArrayListExtra("partecipanti");
+            urlImmagineViaggio = intent.getStringExtra("urlImmagineViaggio");
+            new DownloadImageTask(ViewImmagineViaggio).execute(Constants.ADDRESS_TAT + urlImmagineViaggio);
+            CharSequence[] listPartecipants = intent.getCharSequenceArrayExtra("partecipanti");
+            CharSequence[] urlImagePartecipants = intent.getCharSequenceArrayExtra("urlImagePartecipants");
+            CharSequence[] sessoPartecipants = intent.getCharSequenceArrayExtra("sessoPartecipants");
 
 
-            Log.i(TAG, "email profilo corrente: " + email + " email partecipants: " + listPartecipants);
-
+            int i = 0;
             for (CharSequence cs : listPartecipants) {
-                Profilo aux = new Profilo(cs.toString(), null, null, null, null, null, null, null, null, null);
+
+                Profilo aux = new Profilo(cs.toString(), null, null, null, null, sessoPartecipants[i].toString(),
+                                                        null, null, null,null, urlImagePartecipants[i].toString(), null);
                 partecipants.add(aux);
 
                 if (email.equals(cs.toString())) {
@@ -287,10 +310,9 @@ public class ListaTappeActivity extends AppCompatActivity
 
                     Log.i("TEST", "sei compreso nel viaggio");
                 }
+
+                i++;
             }
-
-            Log.i(TAG, "email profilo corrente: " + email + " profile partecipants: " + partecipants);
-
 
         }
 
@@ -418,16 +440,15 @@ public class ListaTappeActivity extends AppCompatActivity
             }
 
 
-            Bitmap myBitmap = Bitmap.createScaledBitmap(bitmap, 80, 40, true);
-
             final ImageView image = new ImageView(this, null);
+
+            Bitmap myBitmap = Bitmap.createScaledBitmap(bitmap, 60, 30, true);
             image.setImageBitmap(myBitmap);
 
-            //TODO: sistemare in funzione dello schermo e migliorare allocazione memoria
-            rowHorizontal.addView(image, 80, 50);
+            //TODO: sistemare in funzione dello schermo e migliorare allocazione memoria usando thread
+            rowHorizontal.addView(image, 60, 30);
+
             i++;
-
-
         }
     }
 
@@ -455,17 +476,22 @@ public class ListaTappeActivity extends AppCompatActivity
                         }
                     }
                     try {
-                        Bitmap bitmap;
-                        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-                        bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
-                                bitmapOptions);
-                        Log.i("TEST", "path file immagine: " + f.getAbsolutePath());
-                        Log.i("TEST", "bitmap file immagine: " + bitmap);
 
-                        String pathImage = email+"/"+codiceViaggio+"/";
-                        if(bitmap != null){
-                            immaginiSelezionate.add(bitmap);
+                        Bitmap thumbnail = DownloadImageTask.decodeSampledBitmapFromPath(f.getAbsolutePath(),0,0);
+
+
+                        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
+
+                        String nomeFile = timeStamp + ".jpg";
+
+                        Log.i("TEST", "timeStamp image: " + nomeFile);
+                        if(thumbnail != null){
+                            immaginiSelezionate.add(thumbnail);
+                            bitmap_nomeFile.put(thumbnail,nomeFile);
                         }
+
+                        Log.i("TEST", "path file immagine: " + f.getAbsolutePath());
+                        Log.i("TEST", "bitmap file immagine: " + thumbnail);
 
                         PopolaContenuti();
 
@@ -494,7 +520,7 @@ public class ListaTappeActivity extends AppCompatActivity
                                 Log.i("TEST", "image path: " + path);
                             }
                         } else {
-                            Log.e("TEST", "clipdata is null");
+                            Log.i("TEST", "clipdata is null");
 
                             Uri selectedImage = data.getData();
 
@@ -504,16 +530,35 @@ public class ListaTappeActivity extends AppCompatActivity
                             int columnIndex = c.getColumnIndex(filePath[0]);
                             String picturePath = c.getString(columnIndex);
                             c.close();
-                            Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+
+
+                            Bitmap thumbnail = DownloadImageTask.decodeSampledBitmapFromPath(picturePath, 0,0);
+
+/*
+                            BitmapFactory.Options options = new BitmapFactory.Options();
+                            options.inSampleSize = 16;
+                            Bitmap bitmap = (BitmapFactory.decodeFile(picturePath));
+                            */
 
                             Log.i("TEST", "image from gallery: " + picturePath + "");
                             Log.i("TEST", "bitmap from gallery: " + thumbnail + "");
 
+                            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
+
+                            String nomeFile = timeStamp + ".jpg";
+
+                            Log.i("TEST", "timeStamp image: " + nomeFile);
+
+
                             if(thumbnail != null){
                                 immaginiSelezionate.add(thumbnail);
+                                bitmap_nomeFile.put(thumbnail,nomeFile);
                             }
 
+
                             Log.i("TEST", "elenco immagini selezionate: " + immaginiSelezionate);
+                            Log.i("TEST", "elenco nomi immagini: " + bitmap_nomeFile.values());
+
 
 
 
@@ -772,6 +817,10 @@ public class ListaTappeActivity extends AppCompatActivity
 
     public void onClickAddStop(View v){
 
+        immaginiSelezionate.clear();
+        bitmap_nomeFile.clear();
+
+
         try {
             PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
             Intent intentPlacePicker = intentBuilder.build(ListaTappeActivity.this);
@@ -859,11 +908,23 @@ public class ListaTappeActivity extends AppCompatActivity
             currentProfile = p;
 
 
+            if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
+                new DownloadImageTask(image).execute(Constants.ADDRESS_TAT + p.getIdImageProfile());
+            }
+            else{
+                if(p.getSesso().equals("M")){
+                    image.setImageResource(R.drawable.default_male);
+                }
+                else{
+                    image.setImageResource(R.drawable.default_female);
+                }
+            }
+            
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    for(Profilo p : partecipants){
-                        if(p.getEmail().equals(v.getContentDescription())){
+                    for (Profilo p : partecipants) {
+                        if (p.getEmail().equals(v.getContentDescription())) {
                             ClickImagePartecipant(p);
                             break;
                         }
@@ -871,7 +932,8 @@ public class ListaTappeActivity extends AppCompatActivity
                 }
             });
 
-            image.setImageResource(R.drawable.logodef);
+
+
             layoutProprietariItinerari.addView(image, Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI,
                     Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI);
             layoutProprietariItinerari.addView(new TextView(this), Constants.WIDTH_LAYOUT_PROPRIETARI_ITINERARI,
@@ -889,6 +951,9 @@ public class ListaTappeActivity extends AppCompatActivity
 
     private void CreaMenu(List<Tappa> tappe, List<String > nomiTappe){
         Menu menu = navigationView.getMenu();
+        menu.clear();
+
+
         if(menu != null){
             int i=0;
             for(Tappa t : tappe){
@@ -913,6 +978,7 @@ public class ListaTappeActivity extends AppCompatActivity
     private void AggiungiMarkedPointsOnMap(Profilo p, List<Tappa> tappe) {
         mGoogleApiClient.connect();
 
+        googleMap.clear();
         nomiTappe.clear();
         namesStops.clear();
         int i = 1;
@@ -925,7 +991,6 @@ public class ListaTappeActivity extends AppCompatActivity
             nomiTappe.clear();
             profiloNomiTappe.put(p,nomiTappe);
         }
-
 
 
         Log.i("TEST", "profiloNomiTappe: " + profiloNomiTappe);
@@ -950,8 +1015,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
         currentProfile = p;
 
-
-
+        /*
         //Se sono presenti gia i nomi delle tappe non devo riprenderli
         if(profiloNomiTappe.get(p) != null){
 
@@ -970,10 +1034,9 @@ public class ListaTappeActivity extends AppCompatActivity
 
             */
 
-            return;
+            //return;}
 
 
-        }
         Places.GeoDataApi.getPlaceById( mGoogleApiClient, t.getPoi().getCodicePOI() )
                 .setResultCallback(new ResultCallback<PlaceBuffer>() {
 
@@ -1099,13 +1162,13 @@ public class ListaTappeActivity extends AppCompatActivity
         //mySpinner.setAdapter(new PrivacyLevelAdapter(ListaTappeActivity.this, R.layout.entry_privacy_level, strings, subs, arr_images));
 
 
+        //TODO: prendere di default il livello predefinito del viaggio
+
                mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                    @Override
                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
                        Log.i("TEST", "elemento selezionato: " + adapter.getItem(position).toString());
-
-                       //TODO: settare le impostazioni nel db
+                       livelloCondivisioneTappa = adapter.getItem(position).toString();
                    }
 
                    @Override
@@ -1791,12 +1854,9 @@ public class ListaTappeActivity extends AppCompatActivity
 
             //aggiungo sulla mappa solamente le tappe del profilo corrente, se partecipante al viaggio,
             //altrimenti aggiungo le tappe di un profilo casuale
-
             for(Profilo p : profiloTappe.keySet()){
                 if(p.getEmail().equals(email)){
-
                     List<Tappa> aux = profiloTappe.get(p);
-
                     AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
                     aggiuntiMarkedPoints = true;
                     Log.i("TEST", "aggiunte tappe di " + p);
@@ -1815,13 +1875,14 @@ public class ListaTappeActivity extends AppCompatActivity
             }
 
             ordine = calcolaNumUltimaTappaUtenteCorrente()+1;
-
-
-
         }
-
-
     }
+
+
+
+
+
+
 
     private class MyTaskInserimentoTappa extends AsyncTask<Void, Void, Void> {
 
@@ -1907,16 +1968,36 @@ public class ListaTappeActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            ordine += 1;
 
             if(!result.equals("OK\n")){
                 Log.e("TEST", "tappa non inserita");
             }
             else{
                 Log.i("TEST", "tappa inserita correttamente");
-
                 Toast.makeText(getBaseContext(), "tappa inserita correttamente", Toast.LENGTH_LONG).show();
             }
+
+
+            if(immaginiSelezionate.size() > 0){
+                for(Bitmap bitmap : immaginiSelezionate){
+                    String pathImage = email+"/"+codiceViaggio +"/";
+                    String nameImage = bitmap_nomeFile.get(bitmap);
+                    Log.i("TEST", "email: " + email);
+                    Log.i("TEST", "codiceViaggio: " + codiceViaggio);
+                    Log.i("TEST", "path of the image: " + pathImage);
+                    Log.i("TEST", "name of the image: " + nameImage);
+                    Log.i("TEST", "livello Condivisione: " + livelloCondivisioneTappa);
+
+
+                    new UploadFilePHP(ListaTappeActivity.this, bitmap,pathImage,nameImage).execute();
+                    new TaskInserimentoImmagineTappa(email,codiceViaggio,ordine,null,pathImage + nameImage,livelloCondivisioneTappa).execute();
+                }
+
+            }
+
+
+            ordine += 1;
+
             super.onPostExecute(aVoid);
 
         }
@@ -1940,7 +2021,6 @@ public class ListaTappeActivity extends AppCompatActivity
             Log.i("TEST", "filtro: " + creaStringaFiltro());
 
             try {
-
                 if (InternetConnection.haveInternetConnection(ListaTappeActivity.this)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
 
@@ -1955,7 +2035,6 @@ public class ListaTappeActivity extends AppCompatActivity
                     is = entity.getContent();
 
                     if (is != null) {
-
                         //converto la risposta in stringa
                         try {
                             BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
@@ -2043,5 +2122,88 @@ public class ListaTappeActivity extends AppCompatActivity
         }
     }
 
+
+
+    private class TaskInserimentoImmagineTappa extends AsyncTask<Void, Void, Void> {
+
+        private final static String ADDRESS_INSERT_IMAGE_STOP = "InserimentoImmagineTappa.php";
+
+        InputStream is = null;
+        String result, stringaFinale = "";
+        String email, codiceViaggio, urlImmagine, condivisione;
+        DriveId idDrive;
+        int ordine;
+
+
+        public TaskInserimentoImmagineTappa(String email, String codiceViaggio, int ordine, DriveId idDrive, String urlimmagine, String condivisione){
+            this.email = email;
+            this.codiceViaggio = codiceViaggio;
+            this.ordine = ordine;
+            this.idDrive = idDrive;
+            this.urlImmagine = urlimmagine;
+            this.condivisione = condivisione;
+
+
+        }
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("email", email));
+            dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
+            dataToSend.add(new BasicNameValuePair("ordine", String.valueOf(ordine)));
+            dataToSend.add(new BasicNameValuePair("url", urlImmagine));
+            dataToSend.add(new BasicNameValuePair("condivisione", condivisione));
+
+            try {
+
+                if (InternetConnection.haveInternetConnection(ListaTappeActivity.this)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERT_IMAGE_STOP);
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                    HttpResponse response = httpclient.execute(httppost);
+                    HttpEntity entity = response.getEntity();
+
+                    is = entity.getContent();
+
+                    if (is != null) {
+
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+                            Log.i("TEST", "result: " +result);
+
+                        } catch (Exception e) {
+                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    }
+
+                } else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                Log.e("TEST", "Errore nella connessione http "+e.toString());
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+    }
 
 }

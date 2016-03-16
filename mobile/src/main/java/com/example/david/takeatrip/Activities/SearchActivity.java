@@ -126,8 +126,7 @@ public class SearchActivity extends AppCompatActivity {
         autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
-        //TODO: fare stringa
-        autocompleteFragment.setHint("Search by destination");
+        autocompleteFragment.setHint(getString(R.string.SearchByDestination));
 
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
