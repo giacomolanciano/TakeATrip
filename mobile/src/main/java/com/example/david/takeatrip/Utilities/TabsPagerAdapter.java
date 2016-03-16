@@ -21,13 +21,13 @@ import java.util.ArrayList;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
 
-    private ArrayList<Profilo> followers;
+    private ArrayList<Profilo> follower;
     private ArrayList<Profilo> follow;
     private Context context;
 
     public TabsPagerAdapter(FragmentManager fm, Context context, ArrayList<Profilo> followers) {
         super(fm);
-        this.followers = followers;
+        this.follower = followers;
         this.follow = followers;
 
         this.context = context;
@@ -42,17 +42,17 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
                 return new HomeFragment();
             case 1:
                 // Movies fragment activity
-                Log.i("TEST", "seguiti in Adapter: " + follow);
+                Log.i("TEST", "seguaci in Adapter: " + follower);
                 Log.i("TEST", "context in Adapter: " + context);
 
                 // return new FollowingFragment(context, follow);
-                return new FollowingFragment(context, follow);
+                return new FollowingFragment(context, follower);
             case 2:
                 // Movies fragment activity
-                Log.i("TEST", "seguaci in Adapter: " + followers);
+                Log.i("TEST", "seguiti in Adapter: " + follow);
                 Log.i("TEST", "context in Adapter: " + context);
 
-                    return new FollowersFragment(context, followers);
+                    return new FollowersFragment(context, follow);
             case 3:
                 // Games fragment activity
                 return new TopRatedFragment();

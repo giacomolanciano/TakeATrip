@@ -26,12 +26,14 @@ public class MyRecyclerViewAdapterFollowing extends RecyclerView
             .OnClickListener {
         TextView nomeUtente;
         TextView cognomeUtente;
+        TextView usernameUtente;
 
         public DataObjectHolder(View itemView) {
             super(itemView);
 
             nomeUtente = (TextView) itemView.findViewById(R.id.NomeUtenteFollowing);
             cognomeUtente = (TextView) itemView.findViewById(R.id.CognomeUtenteFollowing);
+            usernameUtente = (TextView) itemView.findViewById(R.id.UsernameUtenteFollowing);
             //emailUser = (TextView) itemView.findViewById(R.id.EmailUser);
 
             itemView.setOnClickListener(this);
@@ -69,6 +71,7 @@ public class MyRecyclerViewAdapterFollowing extends RecyclerView
     public void onBindViewHolder(DataObjectHolder holder, int position) {
        holder.nomeUtente.setText(mDataset.get(position).getNomeFollow());
        holder.cognomeUtente.setText(mDataset.get(position).getCognomeFollow());
+       holder.usernameUtente.setText(mDataset.get(position).getUsernameFollow());
 
 
         //holder.nome.equals(mDataset.get(position).getNomeViaggio());

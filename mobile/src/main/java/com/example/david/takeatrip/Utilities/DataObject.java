@@ -61,6 +61,12 @@ public class DataObject {
         return follow.getSurname();
     }
 
+    public String getUsernameFollow() {
+
+        return follow.getUsername();
+    }
+
+
 
 
 

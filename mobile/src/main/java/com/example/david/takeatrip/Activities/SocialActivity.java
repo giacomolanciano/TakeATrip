@@ -53,6 +53,11 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
     private ArrayList<Following> follow;
     private ArrayList<Following> following;
     private ArrayList<DataObject> dataFollowers;
+
+    ArrayList<Profilo> seguiti = new ArrayList<Profilo>();
+    ArrayList<Profilo> seguaci = new ArrayList<Profilo>();
+
+
     private String email;
 
     private RecyclerView mRecyclerView;
@@ -232,6 +237,9 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
                         if (result.equals("null\n")) {
                             stringaFinale = "Non sono presenti following";
                             Log.i("TEST", "result da Followers: " + stringaFinale);
+                            Log.i("TEST", "NO FOLLOWING " + seguaci);
+                            mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(), seguaci);
+                            viewPager.setAdapter(mAdapter);  //LASCIARE ASSOLUTAMENTE COSI!!!!!
 
                         } else {
                             JSONArray jArray = new JSONArray(result);
@@ -291,13 +299,10 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
     //era un popolalista
     private void PopolaListaFollowers( ArrayList<Following> follow) {
-        ArrayList<Profilo> seguaci = new ArrayList<Profilo>();
         ArrayList<Profilo> vuoto = new ArrayList<Profilo>();
         Log.i("TEST", "LISTA SEGUACI VUOTA " );
-        Log.i("TEST", "INVIO VUOTO" );
+        Log.i("TEST", "INVIO VUOTO");
 
-        mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(), vuoto);
-        viewPager.setAdapter(mAdapter);
 
         for (Following f : follow) {
             Log.i("TEST", "seguaci: " + f.getSegue());
@@ -308,7 +313,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         Log.i("TEST", "contesto SocialActivity: " + getBaseContext());
 
         Log.i("TEST", "INVIO SEGUACI" );
-        mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(),seguaci);
+        mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(), seguaci);
         viewPager.setAdapter(mAdapter);
 
 
@@ -349,6 +354,9 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
                         if (result.equals("null\n")) {
                             stringaFinale = "Non sono presenti followers";
                             Log.i("TEST", "result da Following: " + stringaFinale);
+                            mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(), seguiti);
+                            viewPager.setAdapter(mAdapter); //LASCIARE ASSOLUTAMENTE COSI!!!!!
+
 
                         } else {
                             JSONArray jArray = new JSONArray(result);
@@ -407,11 +415,8 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
     }
 
     private void PopolaListaFollowing( ArrayList<Following> following) {
-        ArrayList<Profilo> seguiti = new ArrayList<Profilo>();
         ArrayList<Profilo> vuoto = new ArrayList<Profilo>();
 
-        mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(), vuoto);
-        viewPager.setAdapter(mAdapter);
         Log.i("TEST", "LISTA SEGUITI VUOTA " );
         Log.i("TEST", "INVIO VUOTO");
 
