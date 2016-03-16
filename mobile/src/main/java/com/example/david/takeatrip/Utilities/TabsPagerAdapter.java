@@ -5,6 +5,7 @@ package com.example.david.takeatrip.Utilities;
  */
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -42,8 +43,15 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 
         switch (index) {
             case 0:
-                // Top Rated fragment activity
-                return new HomeFragment(context, homePage);
+
+                HomeFragment newFragment = new HomeFragment();
+
+                Bundle args = new Bundle();
+
+                newFragment.setArguments(args);
+
+                return newFragment;
+
             case 1:
                 // Movies fragment activity
                 Log.i("TEST", "seguaci in Adapter: " + follower);
