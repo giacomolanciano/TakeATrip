@@ -212,6 +212,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         protected Void doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("email", email));
+            Log.i("TEST: ", "MIA MAIL FOLLOWING: " + email);
             try {
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost httppost = new HttpPost(ADDRESS_PRELIEVO);
@@ -258,6 +259,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
                                     Profilo seguace = new Profilo(emailSeguace, nomeUtente,cognomeUtente, null, null,sesso,username,null,null,null,urlImmagineProfilo,urlImmagineCopertina);
                                     Log.i("TEST", "seguace : " + seguace.getEmail());
+                                    Log.i("TEST", "corrente : " + corrente.getEmail());
                                     follow.add(new Following(seguace, corrente));
                                     //Corrente è il seguito
                                 }
@@ -375,6 +377,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
                                     Profilo seguito = new Profilo(emailSeguito, nomeUtente,cognomeUtente, null, null,sesso,username,null,null,null,urlImmagineProfilo,urlImmagineCopertina);
                                     Log.i("TEST", "seguito : " + seguito.getEmail());
+                                    Log.i("TEST", "corrente : " + corrente.getEmail());
                                     following.add(new Following(corrente,seguito));
                                     //Corrente è il seguace
                                 }
@@ -423,6 +426,8 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         for (Following f : following) {
             Log.i("TEST", "seguiti: " + f.getSeguito());
             seguiti.add(f.getSeguito());
+            Log.i("TEST", "email seguiti: " + f.getSeguito().getEmail());
+
 
         }
 

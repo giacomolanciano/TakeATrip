@@ -29,7 +29,9 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.david.takeatrip.Classes.Following;
 import com.example.david.takeatrip.Classes.InternetConnection;
+import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
 import com.example.david.takeatrip.Interfaces.AsyncResponseDriveId;
 import com.example.david.takeatrip.Interfaces.AsyncResponseDriveIdCover;
@@ -52,6 +54,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -76,7 +79,9 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     private final int QUALITY_OF_IMAGE = Constants.QUALITY_PHOTO;
 
     private final String ADDRESS_INSERIMENTO = "http://www.musichangman.com/TakeATrip/InserimentoDati/Segue.php";
+    private final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/Follower.php";
 
+    private Profilo corrente;
 
 
 
@@ -88,7 +93,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     private ImageView coverImage;
     private LinearLayout layoutCoverImage;
 
-    private String name, surname, email, emailEsterno, emailProfiloVisitato;
+    private String name, surname, email, emailEsterno, emailProfiloVisitato, emailFollowing;
     private String date, password, nazionalita, sesso, username, lavoro, descrizione, tipo;
     private int codice;
 
@@ -101,6 +106,10 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
     private Bitmap bitmap = null;
     private String idFolder, idImageProfile, idCoverImage;
+
+
+    private ArrayList<Following> following = new ArrayList<Following>();
+    ArrayList<Profilo> seguaci = new ArrayList<Profilo>();
 
 
 
@@ -218,9 +227,15 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
             if(password != null) {
                     follow.setVisibility(View.INVISIBLE);
+                    corrente = new Profilo(email);
+
                 }
             if(password == null) {
+                MyTaskFollowing mTF = new MyTaskFollowing();
+                mTF.execute();
+
                 externalView = true;
+                corrente = new Profilo(emailEsterno);
                 if (email != null && email.equals(emailEsterno)) {
                     externalView = false;
                 }
@@ -251,6 +266,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         intentInfo.putExtra("surname", surname);
         if(password != null){
             intentInfo.putExtra("email", email);
+            intentInfo.putExtra("emailEsterno", emailFollowing);
         }
         else{
             TakeATrip TAT = (TakeATrip)getApplicationContext();
@@ -362,6 +378,126 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         follow.setText("FOLLOWING");
         //follow.setBackgroundColor(getResources().getColor(R.color.green));
         follow.setTextColor(getResources().getColor(R.color.greenScuro));
+        Toast.makeText(getBaseContext(), "Add Following", Toast.LENGTH_LONG).show();
+
+
+    }
+
+    private class MyTaskFollowing extends AsyncTask<Void, Void, Void> {
+        InputStream is = null;
+        String stringaFinale = "";
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("email", email));
+            Log.i("TEST: ", "MIA MAIL ESISTE FOLLOWING: " + email);
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost(ADDRESS_PRELIEVO);
+                httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                HttpResponse response = httpclient.execute(httppost);
+
+                HttpEntity entity = response.getEntity();
+                is = entity.getContent();
+
+                if (is != null) {
+                    //converto la risposta in stringa
+                    try {
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                        StringBuilder sb = new StringBuilder();
+                        String line = null;
+                        while ((line = reader.readLine()) != null) {
+                            sb.append(line + "\n");
+                        }
+                        is.close();
+
+                        String result = sb.toString();
+
+                        if (result.equals("null\n")) {
+                            stringaFinale = "Non sono presenti following";
+                            Log.i("TEST", "result da Followers: " + stringaFinale);
+                            Log.i("TEST", "NO FOLLOWING " + seguaci);
+                        }else {
+                            JSONArray jArray = new JSONArray(result);
+                            Log.i("TEST", "jArray" + jArray.toString());
+
+                            if (jArray != null && result != null) {
+                                for (int i = 0; i < jArray.length(); i++) {
+                                    JSONObject json_data = jArray.getJSONObject(i);
+                                    String email = json_data.getString("email").toString();
+                                    String nomeUtente = json_data.getString("nome");
+                                    String cognomeUtente = json_data.getString("cognome");
+                                    String username = json_data.getString("username");
+                                    String sesso = json_data.getString("sesso");
+                                    String urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
+                                    String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
+
+                                    Profilo seguace = new Profilo(email, nomeUtente,cognomeUtente, null, null,sesso,username,null,null,null,urlImmagineProfilo,urlImmagineCopertina);
+                                    Log.i("TEST", "seguace : " + seguace.getEmail());
+
+                                    following.add(new Following(seguace, corrente));
+                                    //Corrente è il seguito
+                                }
+                            }
+
+                            Log.i("TEST", "lista followers di " + email + ": " + follow);
+                            for (int i = 0; i < following.size(); i++) {
+                                Log.i("TEST", "followers : " + following.get(i).toString());
+
+
+                            }
+                        }
+
+
+                    } catch (Exception e) {
+                        Log.e("TEST", "Errore nel risultato o nel convertire il risultato");
+                    }
+                } else {
+                    Log.e("TEST", "Input Stream uguale a null");
+                }
+
+            } catch (Exception e) {
+                Log.e("TEST", "Errore nella connessione http " + e.toString());
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (stringaFinale.equals("")) {
+                PopolaListaFollowers(following);
+            } else {
+                Toast.makeText(getBaseContext(), stringaFinale, Toast.LENGTH_LONG).show();
+            }
+            super.onPostExecute(aVoid);
+        }
+    }
+
+    //era un popolalista
+    private void PopolaListaFollowers( ArrayList<Following> following) {
+        ArrayList<Profilo> vuoto = new ArrayList<Profilo>();
+  ;
+
+
+        for (Following f : following) {
+            Log.i("TEST", "PROFILO SEGUITO PER CONTROLLO FOLLOWING: " + f.getSegue());
+            Log.i("TEST", "EMAIL PROFILO: " + emailEsterno);
+            if(emailEsterno.equals(f.getSegue().getEmail())){
+                Log.i("TEST", "EMAIL SEGUITO: " + f.getSegue().getEmail());
+               // Toast.makeText(getBaseContext(), "GIA' SEGUI QUESTO UTENTE! ", Toast.LENGTH_LONG).show();
+                follow.setText("FOLLOWING");
+                //follow.setBackgroundColor(getResources().getColor(R.color.green));
+                follow.setTextColor(getResources().getColor(R.color.greenScuro));
+
+            }
+        }
+
+        // Initilization
+        Log.i("TEST", "contesto SocialActivity: " + getBaseContext());
+
+
 
     }
 

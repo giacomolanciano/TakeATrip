@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.david.takeatrip.Activities.ProfiloActivity;
-import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
 
 import java.util.ArrayList;
@@ -31,6 +30,7 @@ public class MyRecyclerViewAdapterFollowers extends RecyclerView
         TextView nomeUtente;
         TextView cognomeUtente;
         TextView emailUtente;
+        TextView emailEsterno;
         TextView usernameUtente;
         TextView dataUtente;
         TextView sessoUtente;
@@ -43,7 +43,7 @@ public class MyRecyclerViewAdapterFollowers extends RecyclerView
             super(itemView);
 
             nomeUtente = (TextView) itemView.findViewById(R.id.NomeUtenteFollowers);
-            emailUtente = (TextView) itemView.findViewById(R.id.EmailUserFollowing);
+//            emailUtente = (TextView) itemView.findViewById(R.id.EmailUserFollowing);
             cognomeUtente = (TextView) itemView.findViewById(R.id.CognomeUtenteFollowers);
             usernameUtente = (TextView) itemView.findViewById(R.id.UsernameUtenteFollowers);
             sessoUtente = (TextView) itemView.findViewById(R.id.SessoUtenteFollowers);
@@ -59,18 +59,19 @@ public class MyRecyclerViewAdapterFollowers extends RecyclerView
 
         @Override
         public void onClick(View v) {
-            Profilo p = new Profilo(emailUtente.getText().toString());
 
             Log.i("TEST:", "Email di cui voglio vedere il profilo dalla lista following: " + emailUtente.getText().toString());
             Intent openProfilo = new Intent(v.getContext(), ProfiloActivity.class);
+
             openProfilo.putExtra("name", nomeUtente.getText().toString());
 
             openProfilo.putExtra("surname", cognomeUtente.getText().toString());
             if(emailUtente!= null){
-                openProfilo.putExtra("email", emailUtente.getText().toString());
+            //    openProfilo.putExtra("email", emailUtente.getText().toString());
             }
             else{
-                openProfilo.putExtra("emailEsterno", emailUtente.getText().toString());
+                Log.i("TEST: ", "EMAIL UTENTE: " + emailUtente.getText().toString());
+                //openProfilo.putExtra("emailEsterno", emailUtente.getText().toString());
             }
 
             openProfilo.putExtra("dateOfBirth",dataUtente.getText().toString());
@@ -80,8 +81,8 @@ public class MyRecyclerViewAdapterFollowers extends RecyclerView
             openProfilo.putExtra("lavoro",lavoroUtente.getText().toString());
             openProfilo.putExtra("descrizione", descrizioneUtente.getText().toString());
             openProfilo.putExtra("tipo",tipoUtente.getText().toString());
-            openProfilo.putExtra("urlImmagineProfilo", p.getIdImageProfile());
-            openProfilo.putExtra("urlImmagineCopertina", p.getGetIdImageCover());
+            //openProfilo.putExtra("urlImmagineProfilo", p.getIdImageProfile());
+           // openProfilo.putExtra("urlImmagineCopertina", p.getGetIdImageCover());
 
             // passo all'attivazione dell'activity
             v.getContext().startActivity(openProfilo);
@@ -115,15 +116,32 @@ public class MyRecyclerViewAdapterFollowers extends RecyclerView
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
         holder.nomeUtente.setText(mDataset.get(position).getNomeFollow());
+        Log.i("TEST: ", "NOME UTENTE LISTA FOLLOWERS: " + mDataset.get(position).getNomeFollow());
         holder.cognomeUtente.setText(mDataset.get(position).getCognomeFollow());
+        Log.i("TEST: ", "COGNOME UTENTE LISTA FOLLOWERS: " + mDataset.get(position).getCognomeFollow());
         holder.usernameUtente.setText(mDataset.get(position).getUsernameFollow());
-//        holder.emailUtente.setText(mDataset.get(position).getEmailFollow());
+        Log.i("TEST: ", "USERNAME UTENTE LISTA FOLLOWERS: " + mDataset.get(position).getUsernameFollow());
+        //holder.emailUtente.setText(mDataset.get(position).getEmailFollow());
+        //Log.i("TEST: ", "USERNAME UTENTE LISTA FOLLOWERS: " + mDataset.get(position).getEmailFollow());
+
         holder.dataUtente.setText(mDataset.get(position).getDataNascitaFollow());
+        Log.i("TEST: ", "USERNAME UTENTE LISTA FOLLOWERS: " + mDataset.get(position).getDataNascitaFollow());
+
         holder.sessoUtente.setText(mDataset.get(position).getSessoFollow());
+        Log.i("TEST: ", "USERNAME UTENTE LISTA FOLLOWERS: " + mDataset.get(position).getSessoFollow());
+
         holder.lavoroUtente.setText(mDataset.get(position).getLavoroFollow());
+        Log.i("TEST: ", "USERNAME UTENTE LISTA FOLLOWERS: " + mDataset.get(position).getLavoroFollow());
+
         holder.descrizioneUtente.setText(mDataset.get(position).getDescrizioneFollow());
+        Log.i("TEST: ", "USERNAME UTENTE LISTA FOLLOWERS: " + mDataset.get(position).getDescrizioneFollow());
+
         holder.tipoUtente.setText(mDataset.get(position).getTipoFollow());
+        Log.i("TEST: ", "USERNAME UTENTE LISTA FOLLOWERS: " + mDataset.get(position).getTipoFollow());
+
         holder.nazionalitaUtente.setText(mDataset.get(position).getNazionalitaFollow());
+        Log.i("TEST: ", "USERNAME UTENTE LISTA FOLLOWERS: " + mDataset.get(position).getNazionalitaFollow());
+
 
         //holder.nome.equals(mDataset.get(position).getNomeViaggio());
         //      holder.dateTime.setText(mDataset.get(position).getmText2());
