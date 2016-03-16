@@ -65,6 +65,36 @@ public class DataObject {
 
         return follow.getUsername();
     }
+    public String getEmailFollow() {
+
+        return follow.getEmail();
+    }
+    public String getSessoFollow() {
+
+        return follow.getSesso();
+    }
+    public String getNazionalitaFollow() {
+
+        return follow.getNazionalita();
+    }
+
+    public String getLavoroFollow() {
+
+        return follow.getLavoro();
+    }
+    public String getDataNascitaFollow() {
+
+        return follow.getDataNascita();
+    }
+    public String getDescrizioneFollow() {
+
+        return follow.getDescrizione();
+    }
+
+public String getTipoFollow() {
+
+        return follow.getTipo();
+    }
 
 
 

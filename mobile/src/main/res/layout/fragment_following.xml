@@ -112,7 +112,44 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:id="@+id/EmailUser"
+            android:id="@+id/EmailUserFollowing"
             android:visibility="invisible"/>
+         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:id="@+id/LavoroUtenteFollowing"
+            android:visibility="invisible"/>
+         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:id="@+id/DataUtenteFollowing"
+            android:visibility="invisible"/>
+         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:id="@+id/SessoUtenteFollowing"
+            android:visibility="invisible"/>
+         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:id="@+id/TipoUtenteFollowing"
+            android:visibility="invisible"/>
+         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:id="@+id/DescrizioneUtenteFollowing"
+            android:visibility="invisible"/>
+         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:id="@+id/NazionalitaUtenteFollowing"
+            android:visibility="invisible"/>
+
     </FrameLayout>
 </LinearLayout>

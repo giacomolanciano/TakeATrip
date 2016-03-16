@@ -1,11 +1,15 @@
 package com.example.david.takeatrip.Utilities;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.david.takeatrip.Activities.ProfiloActivity;
+import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
 
 import java.util.ArrayList;
@@ -25,22 +29,63 @@ public class MyRecyclerViewAdapterFollowing extends RecyclerView
             implements View
             .OnClickListener {
         TextView nomeUtente;
+        TextView emailUtente;
         TextView cognomeUtente;
         TextView usernameUtente;
+        TextView dataUtente;
+        TextView sessoUtente;
+        TextView lavoroUtente;
+        TextView descrizioneUtente;
+        TextView tipoUtente;
+        TextView nazionalitaUtente;
 
         public DataObjectHolder(View itemView) {
             super(itemView);
 
             nomeUtente = (TextView) itemView.findViewById(R.id.NomeUtenteFollowing);
+            emailUtente = (TextView) itemView.findViewById(R.id.EmailUserFollowing);
             cognomeUtente = (TextView) itemView.findViewById(R.id.CognomeUtenteFollowing);
             usernameUtente = (TextView) itemView.findViewById(R.id.UsernameUtenteFollowing);
-            //emailUser = (TextView) itemView.findViewById(R.id.EmailUser);
-
+            sessoUtente = (TextView) itemView.findViewById(R.id.SessoUtenteFollowing);
+            dataUtente = (TextView) itemView.findViewById(R.id.DataUtenteFollowing);
+            nazionalitaUtente = (TextView) itemView.findViewById(R.id.NazionalitaUtenteFollowing);
+            lavoroUtente = (TextView) itemView.findViewById(R.id.LavoroUtenteFollowing);
+            descrizioneUtente = (TextView) itemView.findViewById(R.id.DescrizioneUtenteFollowing);
+            tipoUtente = (TextView) itemView.findViewById(R.id.TipoUtenteFollowing);
+            //TODO AGGIUNGERE LE DUE IMMAGINI DA PASSARE AL PROFILO
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
+            Profilo p = new Profilo(emailUtente.getText().toString());
+
+            Log.i("TEST:", "Email di cui voglio vedere il profilo dalla lista following: " + emailUtente.getText().toString());
+            Intent openProfilo = new Intent(v.getContext(), ProfiloActivity.class);
+            openProfilo.putExtra("name", nomeUtente.getText().toString());
+            Log.i("TEST:", "nome di cui voglio vedere il profilo dalla lista following: " + p.getName());
+
+            openProfilo.putExtra("surname", cognomeUtente.getText().toString());
+            if(emailUtente!= null){
+                openProfilo.putExtra("email", emailUtente.getText().toString());
+            }
+            else{
+                openProfilo.putExtra("emailEsterno", emailUtente.getText().toString());
+            }
+
+            openProfilo.putExtra("dateOfBirth",dataUtente.getText().toString());
+            openProfilo.putExtra("nazionalita", nazionalitaUtente.getText().toString());
+            openProfilo.putExtra("sesso", sessoUtente.getText().toString());
+            openProfilo.putExtra("username", usernameUtente.getText().toString());
+            openProfilo.putExtra("lavoro",lavoroUtente.getText().toString());
+            openProfilo.putExtra("descrizione", descrizioneUtente.getText().toString());
+            openProfilo.putExtra("tipo",tipoUtente.getText().toString());
+            openProfilo.putExtra("urlImmagineProfilo", p.getIdImageProfile());
+            openProfilo.putExtra("urlImmagineCopertina", p.getGetIdImageCover());
+
+            // passo all'attivazione dell'activity
+            v.getContext().startActivity(openProfilo);
+
 
         }
     }
@@ -72,6 +117,13 @@ public class MyRecyclerViewAdapterFollowing extends RecyclerView
        holder.nomeUtente.setText(mDataset.get(position).getNomeFollow());
        holder.cognomeUtente.setText(mDataset.get(position).getCognomeFollow());
        holder.usernameUtente.setText(mDataset.get(position).getUsernameFollow());
+       holder.emailUtente.setText(mDataset.get(position).getEmailFollow());
+       holder.dataUtente.setText(mDataset.get(position).getDataNascitaFollow());
+       holder.sessoUtente.setText(mDataset.get(position).getSessoFollow());
+       holder.lavoroUtente.setText(mDataset.get(position).getLavoroFollow());
+       holder.descrizioneUtente.setText(mDataset.get(position).getDescrizioneFollow());
+       holder.tipoUtente.setText(mDataset.get(position).getTipoFollow());
+       holder.nazionalitaUtente.setText(mDataset.get(position).getNazionalitaFollow());
 
 
         //holder.nome.equals(mDataset.get(position).getNomeViaggio());

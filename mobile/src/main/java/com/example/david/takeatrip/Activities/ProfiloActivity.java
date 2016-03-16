@@ -447,7 +447,21 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
     }
 
-    public void ClickFollowing(View v) {}
+    public void ClickFollowing(View v) { Intent intentFollowers = new Intent(this, VisualizzazioneFollowActivity.class);
+        intentFollowers.putExtra("name", name);
+        intentFollowers.putExtra("surname", surname);
+        if(emailEsterno != null ){
+            intentFollowers.putExtra("email", emailEsterno);
+            Log.i("TEST", "Email di chi voglio vedere i followers (Esterno) " + emailEsterno);
+        }
+        else{
+            TakeATrip TAT = (TakeATrip)getApplicationContext();
+            email = TAT.getProfiloCorrente().getEmail();
+            intentFollowers.putExtra("email", email);
+            Log.i("TEST", "Email di chi voglio vedere i followers " + email);
+        }
+        startActivity(intentFollowers);
+    }
 
     public void ClickImageProfile(View v) {
         try {
