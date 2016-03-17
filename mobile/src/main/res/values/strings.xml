@@ -183,7 +183,7 @@
         <item>No one can see these contents</item>
     </string-array>
 
-    <string name="insert_new_stop">Insert a new stop</string>
+    <string name="insert_new_stop">New stop</string>
 
     <string-array name="CommandsAddPhotoToStop">
         <item>Choose existing photos</item>

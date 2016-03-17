@@ -226,9 +226,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         namesPartecipants.clear();
         partecipants.clear();
 
-        final Dialog dialog = new Dialog(this);
+        final Dialog dialog = new Dialog(MainActivity.this);
         dialog.setContentView(R.layout.activity_viaggio2);
-        dialog.setTitle("Create new travel");
+        dialog.setTitle("New travel");
 
         final AutoCompleteTextView text=(AutoCompleteTextView)dialog.findViewById(R.id.autoCompleteTextView1);
         ArrayAdapter adapter = new ArrayAdapter(MainActivity.this,android.R.layout.simple_list_item_1,names);

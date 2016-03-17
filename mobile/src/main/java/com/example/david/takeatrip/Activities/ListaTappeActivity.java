@@ -1169,18 +1169,18 @@ public class ListaTappeActivity extends AppCompatActivity
 
         //TODO: prendere di default il livello predefinito del viaggio
 
-               mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                   @Override
-                   public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                       Log.i("TEST", "elemento selezionato: " + adapter.getItem(position).toString());
-                       livelloCondivisioneTappa = adapter.getItem(position).toString();
-                   }
+        mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("TEST", "elemento selezionato: " + adapter.getItem(position).toString());
+                livelloCondivisioneTappa = adapter.getItem(position).toString();
+            }
 
-                   @Override
-                   public void onNothingSelected(AdapterView<?> parent) {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-                   }
-               });
+            }
+        });
 
 
         //put dialog at bottom

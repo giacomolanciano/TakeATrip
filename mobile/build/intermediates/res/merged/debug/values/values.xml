@@ -644,7 +644,7 @@
     <string name="google_app_id" translatable="false">1:854482298731:android:36c7cba02e592ed8</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="incorrectUsername">Attention! \nIncorrect username!</string>
-    <string name="insert_new_stop">Insert a new stop</string>
+    <string name="insert_new_stop">New stop</string>
     <string name="labelBeforeCaptureAudio">Register</string>
     <string name="labelNote">Insert note</string>
     <string name="messenger_send_button_text">Send</string>
