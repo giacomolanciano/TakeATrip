@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.LinearLayout;
 
-import com.example.david.takeatrip.Classes.ApiClientAsyncTask;
 import com.example.david.takeatrip.Interfaces.AsyncResponseDriveId;
 import com.example.david.takeatrip.Interfaces.AsyncResponseDriveIdCover;
 import com.google.android.gms.common.api.ResultCallback;
@@ -14,12 +13,12 @@ import com.google.android.gms.drive.DriveApi;
 import com.google.android.gms.drive.DriveFolder;
 import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.drive.MetadataChangeSet;
-//import com.google.api.services.drive.model.Permission;
-
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+
+//import com.google.api.services.drive.model.Permission;
 
 public class UploadImageTask extends ApiClientAsyncTask<DriveId, Void, DriveId> {
 

@@ -2,11 +2,11 @@
 <instant-run
     api-level="1"
     format="1"
-    timestamp="1458173494446" >
+    timestamp="1458177305096" >
 
     <task
         name="javac"
-        duration="1348" />
+        duration="2077" />
     <task
         name="instant-run-dex"
         duration="0" />
@@ -17,6 +17,6 @@
         name="verifier"
         duration="0" />
 
-    <build timestamp="1458173494446" />
+    <build timestamp="1458177305096" />
 
 </instant-run>

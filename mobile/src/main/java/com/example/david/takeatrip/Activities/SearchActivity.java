@@ -187,24 +187,7 @@ public class SearchActivity extends AppCompatActivity {
         adapter.onCreateViewHolder(group, 0);
         mRecyclerView.setAdapter(adapter);
 
-      //  final ViaggioAdapter adapter = new ViaggioAdapter(this, R.layout.entry_travels_listview, result);
-       // lista.setAdapter(adapter);
 
-       /* lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adattatore, final View componente, int pos, long id) {
-
-                final Viaggio viaggio = (Viaggio) adattatore.getItemAtPosition(pos);
-
-                Intent intent = new Intent(SearchActivity.this, ViaggioActivity.class);
-                intent.putExtra("email", emailUtente);
-                intent.putExtra("codiceViaggio", viaggio.getCodice());
-                intent.putExtra("nomeViaggio", viaggio.getNome());
-
-                startActivity(intent);
-
-            }
-        });*/
 
     }
 

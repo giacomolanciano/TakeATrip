@@ -1,4 +1,4 @@
-package com.example.david.takeatrip.Classes;
+package com.example.david.takeatrip.Utilities;
 
 import android.content.Context;
 import android.os.AsyncTask;

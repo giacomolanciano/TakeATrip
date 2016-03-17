@@ -81,12 +81,15 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     private final String ADDRESS_INSERIMENTO = "http://www.musichangman.com/TakeATrip/InserimentoDati/Segue.php";
     private final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/Follower.php";
 
+    private final String QUERY_FOLLOWERS = "QueryCountFollowers.php";
+    private final String QUERY_FOLLOWINGS = "QueryCountFollowings.php";
+
     private Profilo corrente;
 
 
 
     private TextView viewName;
-    private TextView viewSurname, viewDate, viewEmail;
+    private TextView viewSurname, viewDate, viewEmail, numFollowersView, numFollowingsView;
     private Button follow;
 
     private RoundedImageView imageProfile;
@@ -105,11 +108,13 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     private boolean externalView = false;
 
     private Bitmap bitmap = null;
-    private String idFolder, idImageProfile, idCoverImage;
+    private String idFolder, idImageProfile, idCoverImage, numFollowers, numFollowings;
 
 
+
+    //TODO sostituire la logica con una semplice query che verifichi se esiste già una relazione tra le due email nel database
     private ArrayList<Following> following = new ArrayList<Following>();
-    ArrayList<Profilo> seguaci = new ArrayList<Profilo>();
+    private ArrayList<Profilo> seguaci = new ArrayList<Profilo>();
 
 
 
@@ -129,6 +134,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         layoutCoverImage = (LinearLayout) findViewById(R.id.layoutCoverImage);
         coverImage = (ImageView) findViewById(R.id.cover_image);
         follow= (Button) findViewById(R.id.segui);
+        numFollowersView = (TextView) findViewById(R.id.numberFollowers);
+        numFollowingsView = (TextView) findViewById(R.id.numberFollowings);
 
         thumb1View = findViewById(R.id.imageView_round_Profile);
 
@@ -150,6 +157,11 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             profile = intent.getParcelableExtra("profile");
             idImageProfile = intent.getStringExtra("urlImmagineProfilo");
             idCoverImage = intent.getStringExtra("urlImmagineCopertina");
+
+            if(email != null) {
+                //new MyTaskQueryFollowers().execute();
+                //new MyTaskQueryFollowings().execute();
+            }
 
 
             if(idImageProfile == null || idImageProfile.equals("null")){
@@ -499,7 +511,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     //era un popolalista
     private void PopolaListaFollowers( ArrayList<Following> following) {
         ArrayList<Profilo> vuoto = new ArrayList<Profilo>();
-  ;
+
 
 
         for (Following f : following) {
@@ -1154,7 +1166,139 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
     }
 
+/*
+
+    private class MyTaskQueryFollowers extends AsyncTask<Void, Void, Void> {
+
+        InputStream is = null;
+        String result = "";
 
 
+        @Override
+        protected Void doInBackground(Void... params) {
+
+                ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("email", email));
+
+
+                try {
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + QUERY_FOLLOWERS);
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                    HttpResponse response = httpclient.execute(httppost);
+
+                    HttpEntity entity = response.getEntity();
+                    is = entity.getContent();
+
+                    if (is != null) {
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line);
+                            }
+                            is.close();
+
+                            result = sb.toString();
+
+                            Log.e("TEST", "result: " + result);
+
+
+
+
+                        } catch (Exception e) {
+                            //Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        //Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    }
+                } catch (Exception e) {
+                    Log.e("TEST", "Errore nella connessione http "+e.toString());
+                }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            super.onPostExecute(aVoid);
+
+            numFollowers = result;
+
+            numFollowersView.setText(numFollowers);
+
+        }
+    }
+
+
+    private class MyTaskQueryFollowings extends AsyncTask<Void, Void, Void> {
+
+        InputStream is = null;
+        String result = "";
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("email", email));
+
+
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + QUERY_FOLLOWINGS);
+                httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                HttpResponse response = httpclient.execute(httppost);
+
+                HttpEntity entity = response.getEntity();
+                is = entity.getContent();
+
+                if (is != null) {
+                    //converto la risposta in stringa
+                    try {
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            sb.append(line);
+                        }
+                        is.close();
+
+                        result = sb.toString();
+
+                        Log.e("TEST", "result: " + result);
+
+
+
+
+                    } catch (Exception e) {
+                        //Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    //Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                }
+            } catch (Exception e) {
+                Log.e("TEST", "Errore nella connessione http "+e.toString());
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            super.onPostExecute(aVoid);
+
+            numFollowings = result;
+
+            numFollowingsView.setText(numFollowings);
+        }
+    }
+*/
 
 }

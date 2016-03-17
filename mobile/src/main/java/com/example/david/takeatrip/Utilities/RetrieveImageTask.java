@@ -1,35 +1,23 @@
 package com.example.david.takeatrip.Utilities;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.david.takeatrip.Classes.ApiClientAsyncTask;
 import com.example.david.takeatrip.R;
-import com.example.david.takeatrip.Utilities.Constants;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveApi;
 import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveId;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class RetrieveImageTask extends ApiClientAsyncTask<DriveId, Void, Bitmap>{
 
