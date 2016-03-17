@@ -19,189 +19,16 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f12b5a04-1321-4fd8-82de-62c7ac20a4e7" name="Default" comment="cambiati privacy level e relative icone">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/AudioRecord.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/AudioRecord.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/Constants.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/Constants.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/CreateDriveFolderActivity$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/CreateDriveFolderActivity$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/CreateDriveFolderActivity.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/CreateDriveFolderActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/DatabaseHandler.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/DatabaseHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Fragments/DatePickerFragment.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Fragments/DatePickerFragment.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/DriveActivity.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/DriveActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Fragments/FollowersFragment$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Fragments/FollowersFragment$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Fragments/FollowersFragment.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Fragments/FollowersFragment.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Fragments/FollowingFragment$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Fragments/FollowingFragment$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Fragments/FollowingFragment.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Fragments/FollowingFragment.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/GoogleTranslate.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/GoogleTranslate.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Fragments/HomeFragment.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Fragments/HomeFragment.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Fragments/ImageGridFragment$ImageAdapter.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Fragments/ImageGridFragment$ImageAdapter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Fragments/ImageGridFragment.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Fragments/ImageGridFragment.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/InfoActivity.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/InfoActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Classes/InternetConnection.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Classes/InternetConnection.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$10.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$10.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$11.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$11.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$12$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$12$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$12$2$1$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$12$2$1$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$12$2$1$2$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$12$2$1$2$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$12$2$1$2.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$12$2$1$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$12$2$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$12$2$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$12$2.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$12$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$12.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$12.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$13.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$13.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$14.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$14.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$2.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$3.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$4.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$5.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$6.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$7.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$7.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$8.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$8.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$9.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$9.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$MyTask.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$MyTask.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$MyTaskInserimentoFiltro.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$MyTaskInserimentoFiltro.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$MyTaskInserimentoTappa.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$MyTaskInserimentoTappa.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$PrivacyLevelAdapter.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$PrivacyLevelAdapter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$TaskInserimentoImmagineTappa.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$TaskInserimentoImmagineTappa.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaViaggiActivity$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaViaggiActivity$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaViaggiActivity$2.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaViaggiActivity$2.class" />
+    <list default="true" id="f12b5a04-1321-4fd8-82de-62c7ac20a4e7" name="Default" comment="sistemato problema timestamp nota tappe (modifica al database)">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaViaggiActivity$MyTask.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaViaggiActivity$MyTask.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaViaggiActivity.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaViaggiActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/LoginActivity$1$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/LoginActivity$1$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/LoginActivity$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/LoginActivity$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/LoginActivity$2.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/LoginActivity$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/LoginActivity$3.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/LoginActivity$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/LoginActivity$MyTask.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/LoginActivity$MyTask.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/LoginActivity.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/LoginActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$2.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$3.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$4$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$4$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$4.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$MyTask.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$MyTask.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$MyTaskIDCoverImage.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$MyTaskIDCoverImage.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$MyTaskIDProfileImage.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$MyTaskIDProfileImage.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$TaskForFilter.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$TaskForFilter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$TaskForItineraries.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$TaskForItineraries.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$TaskForUUID.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity$TaskForUUID.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MainActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MapsActivity$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MapsActivity$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MapsActivity$2.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MapsActivity$2.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MapsActivity$MyTask.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MapsActivity$MyTask.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MapsActivity.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MapsActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/MultimedialFile.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/MultimedialFile.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/MyRecyclerViewAdapter$DataObjectHolder.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/MyRecyclerViewAdapter$DataObjectHolder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/MyRecyclerViewAdapter.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/MyRecyclerViewAdapter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/MyRecyclerViewAdapterFollowers$DataObjectHolder.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/MyRecyclerViewAdapterFollowers$DataObjectHolder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/MyRecyclerViewAdapterFollowers.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/MyRecyclerViewAdapterFollowers.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/MyRecyclerViewAdapterFollowing$DataObjectHolder.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/MyRecyclerViewAdapterFollowing$DataObjectHolder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/MyRecyclerViewAdapterFollowing.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/MyRecyclerViewAdapterFollowing.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Classes/Profilo.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Classes/Profilo.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity$2.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity$2.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity$3.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity$3.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity$MyTaskInsertCoverimage.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity$MyTaskInsertCoverimage.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity$MyTaskInsertImageProfile.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity$MyTaskInsertImageProfile.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/android/support/design/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/android/support/design/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/android/support/v7/appcompat/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/android/support/v7/appcompat/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/android/support/v7/mediarouter/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/android/support/v7/mediarouter/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/facebook/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/facebook/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/ads/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/ads/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/analytics/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/analytics/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/appindexing/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/appindexing/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/appinvite/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/appinvite/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/appstate/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/appstate/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/auth/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/auth/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/base/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/base/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/cast/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/cast/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/drive/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/drive/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/fitness/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/fitness/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/games/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/games/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/gcm/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/gcm/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/identity/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/identity/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/location/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/location/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/maps/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/maps/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/measurement/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/measurement/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/nearby/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/nearby/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/panorama/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/panorama/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/plus/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/plus/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/safetynet/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/safetynet/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/vision/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/vision/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/wallet/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/wallet/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/wearable/R$drawable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/google/android/gms/wearable/R$drawable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R$id.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R$id.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R$integer.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R$integer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R$layout.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R$layout.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R$menu.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R$menu.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R$mipmap.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R$mipmap.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R$raw.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R$raw.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R$string.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R$string.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R$style.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R$style.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R$styleable.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R$styleable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/R.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/RegistrazioneActivity$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/RegistrazioneActivity$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/RegistrazioneActivity$2.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/RegistrazioneActivity$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/RegistrazioneActivity$MyTask.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/RegistrazioneActivity$MyTask.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/RegistrazioneActivity$MyTaskFolder.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/RegistrazioneActivity$MyTaskFolder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/RegistrazioneActivity.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/RegistrazioneActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/RetrieveImageTask.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/RetrieveImageTask.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/RoundedImageView.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/RoundedImageView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SearchActivity$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SearchActivity$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SearchActivity$2.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SearchActivity$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SearchActivity$MyTask$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SearchActivity$MyTask$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SearchActivity$MyTask.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SearchActivity$MyTask.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SearchActivity$MyTaskTranslate.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SearchActivity$MyTaskTranslate.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SearchActivity$myTaskSearchByDestination.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SearchActivity$myTaskSearchByDestination.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SearchActivity$myTaskSearchByUser.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SearchActivity$myTaskSearchByUser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SearchActivity.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SearchActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Fragments/SearchUsersFragment.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Fragments/SearchUsersFragment.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SocialActivity$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SocialActivity$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SocialActivity$2.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SocialActivity$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SocialActivity$MyTaskFollowers.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SocialActivity$MyTaskFollowers.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SocialActivity$MyTaskFollowing.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SocialActivity$MyTaskFollowing.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SocialActivity.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SocialActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SplashActivity$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SplashActivity$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SplashActivity.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/SplashActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/StatsActivity.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/StatsActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$2.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$3.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$4.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$5.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$6.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$2$1$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$2$1$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$2$1$2$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$2$1$2$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$2$1$2.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$2$1$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$2$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$2$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$2.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$8.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$8.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$9.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$9.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$PrivacyLevelAdapter.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$PrivacyLevelAdapter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Fragments/TopRatedFragment.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Fragments/TopRatedFragment.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/UploadFilePHP.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/UploadFilePHP.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/UploadImageTask$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/UploadImageTask$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/UploadImageTask.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Utilities/UploadImageTask.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$2.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$3.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$4.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$5.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$6$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$6$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$6.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$MyTask.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$MyTask.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$MyTaskFolder.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$MyTaskFolder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$MyTaskIDFolder.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$MyTaskIDFolder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$MyTaskInsertImageTravel.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$MyTaskInsertImageTravel.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$MyTaskPerUtenti.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$MyTaskPerUtenti.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$TaskForItineraries.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$TaskForItineraries.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$TaskForUrlsImages.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$TaskForUrlsImages.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex" afterPath="$PROJECT_DIR$/mobile/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" />
@@ -212,51 +39,10 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_mobile_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_mobile_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/outputs/apk/mobile-debug-unaligned.apk" afterPath="$PROJECT_DIR$/mobile/build/outputs/apk/mobile-debug-unaligned.apk" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/outputs/apk/mobile-debug.apk" afterPath="$PROJECT_DIR$/mobile/build/outputs/apk/mobile-debug.apk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/res/resources-debug.ap_" afterPath="$PROJECT_DIR$/mobile/build/intermediates/res/resources-debug.ap_" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/android/support/design/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/android/support/design/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/android/support/v7/appcompat/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/android/support/v7/appcompat/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/android/support/v7/mediarouter/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/android/support/v7/mediarouter/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/example/david/takeatrip/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/example/david/takeatrip/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/facebook/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/facebook/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/ads/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/ads/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/analytics/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/analytics/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/appindexing/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/appindexing/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/appinvite/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/appinvite/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/appstate/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/appstate/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/auth/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/auth/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/base/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/base/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/cast/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/cast/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/drive/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/drive/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/fitness/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/fitness/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/games/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/games/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/gcm/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/gcm/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/identity/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/identity/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/location/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/location/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/maps/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/maps/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/measurement/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/measurement/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/nearby/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/nearby/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/panorama/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/panorama/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/plus/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/plus/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/safetynet/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/safetynet/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/vision/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/vision/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/wallet/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/wallet/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/wearable/R.java" afterPath="$PROJECT_DIR$/mobile/build/generated/source/r/debug/com/google/android/gms/wearable/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/symbols/debug/R.txt" afterPath="$PROJECT_DIR$/mobile/build/intermediates/symbols/debug/R.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/restart-dex/debug/build-info.xml" afterPath="$PROJECT_DIR$/mobile/build/intermediates/restart-dex/debug/build-info.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/blame/res/debug/single/color.json" afterPath="$PROJECT_DIR$/mobile/build/intermediates/blame/res/debug/single/color.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/blame/res/debug/single/drawable-hdpi-v4.json" afterPath="$PROJECT_DIR$/mobile/build/intermediates/blame/res/debug/single/drawable-hdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/blame/res/debug/single/drawable-mdpi-v4.json" afterPath="$PROJECT_DIR$/mobile/build/intermediates/blame/res/debug/single/drawable-mdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/blame/res/debug/single/drawable-xhdpi-v4.json" afterPath="$PROJECT_DIR$/mobile/build/intermediates/blame/res/debug/single/drawable-xhdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/blame/res/debug/single/drawable-xxhdpi-v4.json" afterPath="$PROJECT_DIR$/mobile/build/intermediates/blame/res/debug/single/drawable-xxhdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/blame/res/debug/single/drawable-xxxhdpi-v4.json" afterPath="$PROJECT_DIR$/mobile/build/intermediates/blame/res/debug/single/drawable-xxxhdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml" afterPath="$PROJECT_DIR$/mobile/build/intermediates/incremental/mergeDebugJniLibFolders/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/incremental/mergeDebugResources/merger.xml" afterPath="$PROJECT_DIR$/mobile/build/intermediates/incremental/mergeDebugResources/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/blame/res/debug/multi/values.json" afterPath="$PROJECT_DIR$/mobile/build/intermediates/blame/res/debug/multi/values.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/res/merged/debug/values/values.xml" afterPath="$PROJECT_DIR$/mobile/build/intermediates/res/merged/debug/values/values.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="TakeATrip.iws" />
@@ -311,13 +97,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ListaTappeActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ListaTappeActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7148594">
-              <caret line="2246" column="32" selection-start-line="2246" selection-start-column="32" selection-end-line="2246" selection-end-column="32" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="1730" column="61" selection-start-line="1730" selection-start-column="61" selection-end-line="1730" selection-end-column="61" />
               <folding>
-                <element signature="imports" expanded="true" />
                 <element signature="method#PopolaContenuti#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="method#onMapReady#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="e#27309#29051#0" expanded="true" />
@@ -332,8 +117,38 @@
                 <element signature="method#onClickAddVideo#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="method#onClickAddNote#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="method#getCurrentDateString#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="class#MyTask#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="class#MyTaskInserimentoTappa#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="class#MyTaskInserimentoFiltro#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="class#PrivacyLevelAdapter#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="class#TaskInserimentoImmagineTappa#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="class#MyTaskInserimentoNotaTappa#0;class#ListaTappeActivity#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProfiloActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.3587339">
+              <caret line="426" column="41" selection-start-line="426" selection-start-column="41" selection-end-line="426" selection-end-column="41" />
+              <folding>
+                <element signature="e#2560#2592#0" expanded="true" />
+                <element signature="e#4212#4223#0" expanded="true" />
+                <element signature="e#4281#4290#0" expanded="true" />
+                <element signature="method#ClickFollowers#0;class#ProfiloActivity#0" expanded="false" />
+                <element signature="e#16848#16890#0" expanded="false" />
+                <element signature="method#ClickImageProfile#0;class#ProfiloActivity#0" expanded="false" />
+                <element signature="method#ClickOnCoverImage#0;class#ProfiloActivity#0" expanded="false" />
+                <element signature="method#onActivityResult#0;class#ProfiloActivity#0" expanded="false" />
+                <element signature="method#processFinish#0;class#ProfiloActivity#0" expanded="false" />
+                <element signature="method#processFinish2#0;class#ProfiloActivity#0" expanded="false" />
+                <element signature="class#MyTaskInsertFollowing#0;class#ProfiloActivity#0" expanded="false" />
+                <element signature="class#MyTaskInsertImageProfile#0;class#ProfiloActivity#0" expanded="false" />
+                <element signature="class#MyTaskInsertCoverimage#0;class#ProfiloActivity#0" expanded="false" />
+                <element signature="class#MyTaskQueryNumFollowers#0;class#ProfiloActivity#0" expanded="false" />
+                <element signature="class#MyTaskQueryNumFollowings#0;class#ProfiloActivity#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -3853,7 +3668,6 @@
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/SocialHomeElement.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SearchActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/RegistrazioneActivity.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/DownloadImageTask.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Classes/Immagine.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java" />
@@ -3866,6 +3680,7 @@
         <option value="$PROJECT_DIR$/mobile/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/Constants.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java" />
       </list>
     </option>
   </component>
@@ -4514,7 +4329,13 @@
       <option name="project" value="LOCAL" />
       <updated>1458221882250</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="sistemato problema timestamp nota tappe (modifica al database)">
+      <created>1458225887468</created>
+      <option name="number" value="00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1458225887468</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TodoView">
@@ -4536,7 +4357,8 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32971507" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36004514" sideWeight="0.49454546" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32731378" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36004514" sideWeight="0.49454546" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24248926" sideWeight="0.5081633" order="4" side_tool="true" content_ui="tabs" />
@@ -4557,7 +4379,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3283582" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -4582,12 +4403,13 @@
     <MESSAGE value="rimosse classi e metodi superflui per non creare conflitto su .dex file" />
     <MESSAGE value="aggiunti task per aggiornamento valori followers e followings in profiloactivity" />
     <MESSAGE value="cambiati privacy level e relative icone" />
-    <option name="LAST_COMMIT_MESSAGE" value="cambiati privacy level e relative icone" />
+    <MESSAGE value="sistemato problema timestamp nota tappe (modifica al database)" />
+    <option name="LAST_COMMIT_MESSAGE" value="sistemato problema timestamp nota tappe (modifica al database)" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="2" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -4931,36 +4753,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="428" column="33" selection-start-line="428" selection-start-column="33" selection-end-line="428" selection-end-column="33" />
-          <folding>
-            <element signature="e#7820#9143#0" expanded="false" />
-            <element signature="e#9142#9143#0" expanded="false" />
-            <element signature="method#ClickOnFollow#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="e#15814#15829#0" expanded="false" />
-            <element signature="class#MyTaskInsertFollowing#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="e#21121#21136#0" expanded="false" />
-            <element signature="method#ClickFollowers#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="method#ClickFollowing#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="method#ClickImageProfile#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="method#ClickOnCoverImage#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="method#onActivityResult#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="method#processFinish#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="method#processFinish2#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="class#MyTaskInsertImageProfile#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="e#40168#40183#0" expanded="false" />
-            <element signature="class#MyTaskInsertCoverimage#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="e#43277#43292#0" expanded="false" />
-            <element signature="class#MyTaskQueryFollowers#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="e#45820#45835#0" expanded="false" />
-            <element signature="class#MyTaskQueryFollowings#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="e#48607#48622#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Classes/Immagine.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -5093,10 +4885,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7148594">
-          <caret line="2246" column="32" selection-start-line="2246" selection-start-column="32" selection-end-line="2246" selection-end-column="32" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1730" column="61" selection-start-line="1730" selection-start-column="61" selection-end-line="1730" selection-end-column="61" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="method#PopolaContenuti#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="method#onMapReady#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="e#27309#29051#0" expanded="true" />
@@ -5111,8 +4902,36 @@
             <element signature="method#onClickAddVideo#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="method#onClickAddNote#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="method#getCurrentDateString#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="class#MyTask#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="class#MyTaskInserimentoTappa#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="class#MyTaskInserimentoFiltro#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="class#PrivacyLevelAdapter#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="class#TaskInserimentoImmagineTappa#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="class#MyTaskInserimentoNotaTappa#0;class#ListaTappeActivity#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3587339">
+          <caret line="426" column="41" selection-start-line="426" selection-start-column="41" selection-end-line="426" selection-end-column="41" />
+          <folding>
+            <element signature="e#2560#2592#0" expanded="true" />
+            <element signature="e#4212#4223#0" expanded="true" />
+            <element signature="e#4281#4290#0" expanded="true" />
+            <element signature="method#ClickFollowers#0;class#ProfiloActivity#0" expanded="false" />
+            <element signature="e#16848#16890#0" expanded="false" />
+            <element signature="method#ClickImageProfile#0;class#ProfiloActivity#0" expanded="false" />
+            <element signature="method#ClickOnCoverImage#0;class#ProfiloActivity#0" expanded="false" />
+            <element signature="method#onActivityResult#0;class#ProfiloActivity#0" expanded="false" />
+            <element signature="method#processFinish#0;class#ProfiloActivity#0" expanded="false" />
+            <element signature="method#processFinish2#0;class#ProfiloActivity#0" expanded="false" />
+            <element signature="class#MyTaskInsertFollowing#0;class#ProfiloActivity#0" expanded="false" />
+            <element signature="class#MyTaskInsertImageProfile#0;class#ProfiloActivity#0" expanded="false" />
+            <element signature="class#MyTaskInsertCoverimage#0;class#ProfiloActivity#0" expanded="false" />
+            <element signature="class#MyTaskQueryNumFollowers#0;class#ProfiloActivity#0" expanded="false" />
+            <element signature="class#MyTaskQueryNumFollowings#0;class#ProfiloActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>

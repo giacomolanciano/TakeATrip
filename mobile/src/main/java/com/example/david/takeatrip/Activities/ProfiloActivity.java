@@ -84,6 +84,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     private final String QUERY_FOLLOWERS = "QueryCountFollowers.php";
     private final String QUERY_FOLLOWINGS = "QueryCountFollowings.php";
 
+    private final String QUERY_VERIFICA_FOLLOWING = "QueryCountFollowings.php";
+
     private Profilo corrente;
 
 
@@ -121,6 +123,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     private Animator mCurrentAnimator;
     private int mShortAnimationDuration;
     private View thumb1View;
+    private boolean alreadyFollowing;
 
 
     @Override
@@ -160,8 +163,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
 
             //per aggiornamento numero follow...
-            new MyTaskQueryFollowers().execute();
-            new MyTaskQueryFollowings().execute();
+            new MyTaskQueryNumFollowers().execute();
+            new MyTaskQueryNumFollowings().execute();
 
 
 
@@ -244,7 +247,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                 }
             if(password == null) {
-                MyTaskFollowing mTF = new MyTaskFollowing();
+                alreadyFollowing = false;
+                MyTaskVerificaFollowing mTF = new MyTaskVerificaFollowing();
                 mTF.execute();
 
                 externalView = true;
@@ -413,125 +417,21 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         follow.setText("FOLLOWING");
         //follow.setBackgroundColor(getResources().getColor(R.color.green));
         follow.setTextColor(getResources().getColor(R.color.greenScuro));
-        Toast.makeText(getBaseContext(), "Add Following", Toast.LENGTH_LONG).show();
+        //Toast.makeText(getBaseContext(), "Add Following", Toast.LENGTH_LONG).show();
 
     }
 
 
-    private class MyTaskFollowing extends AsyncTask<Void, Void, Void> {
-        InputStream is = null;
-        String stringaFinale = "";
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("email", email));
-            Log.i("TEST: ", "MIA MAIL ESISTE FOLLOWING: " + email);
-            try {
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_PRELIEVO);
-                httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                HttpResponse response = httpclient.execute(httppost);
-
-                HttpEntity entity = response.getEntity();
-                is = entity.getContent();
-
-                if (is != null) {
-                    //converto la risposta in stringa
-                    try {
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                        StringBuilder sb = new StringBuilder();
-                        String line = null;
-                        while ((line = reader.readLine()) != null) {
-                            sb.append(line + "\n");
-                        }
-                        is.close();
-
-                        String result = sb.toString();
-
-                        if (result.equals("null\n")) {
-                            stringaFinale = "Non sono presenti following";
-                            Log.i("TEST", "result da Followers: " + stringaFinale);
-                            Log.i("TEST", "NO FOLLOWING " + seguaci);
-                        }else {
-                            JSONArray jArray = new JSONArray(result);
-                            Log.i("TEST", "jArray" + jArray.toString());
-
-                            if (jArray != null && result != null) {
-                                for (int i = 0; i < jArray.length(); i++) {
-                                    JSONObject json_data = jArray.getJSONObject(i);
-                                    String email = json_data.getString("email").toString();
-                                    String nomeUtente = json_data.getString("nome");
-                                    String cognomeUtente = json_data.getString("cognome");
-                                    String username = json_data.getString("username");
-                                    String sesso = json_data.getString("sesso");
-                                    String urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
-                                    String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
-
-                                    Profilo seguace = new Profilo(email, nomeUtente,cognomeUtente, null, null,sesso,username,null,null,null,urlImmagineProfilo,urlImmagineCopertina);
-                                    Log.i("TEST", "seguace : " + seguace.getEmail());
-
-                                    following.add(new Following(seguace, corrente));
-                                    //Corrente è il seguito
-                                }
-                            }
-
-                            Log.i("TEST", "lista followers di " + email + ": " + follow);
-                            for (int i = 0; i < following.size(); i++) {
-                                Log.i("TEST", "followers : " + following.get(i).toString());
 
 
-                            }
-                        }
+    private void setButtonToFollowing() {
 
-
-                    } catch (Exception e) {
-                        Log.e("TEST", "Errore nel risultato o nel convertire il risultato");
-                    }
-                } else {
-                    Log.e("TEST", "Input Stream uguale a null");
-                }
-
-            } catch (Exception e) {
-                Log.e("TEST", "Errore nella connessione http " + e.toString());
-            }
-
-            return null;
+        if (alreadyFollowing) {
+            Log.i("TEST", "GIA' SEGUI QUESTO UTENTE! ");
+            follow.setText("FOLLOWING");
+            follow.setTextColor(getResources().getColor(R.color.greenScuro));
         }
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            if (stringaFinale.equals("")) {
-                PopolaListaFollowers(following);
-            } else {
-                Toast.makeText(getBaseContext(), stringaFinale, Toast.LENGTH_LONG).show();
-            }
-            super.onPostExecute(aVoid);
-        }
-    }
-
-
-    private void PopolaListaFollowers( ArrayList<Following> following) {
-
-        //TODO eliminare
-
-
-        ArrayList<Profilo> vuoto = new ArrayList<Profilo>();
-
-
-
-        for (Following f : following) {
-            Log.i("TEST", "PROFILO SEGUITO PER CONTROLLO FOLLOWING: " + f.getSegue());
-            Log.i("TEST", "EMAIL PROFILO: " + emailEsterno);
-            if(emailEsterno.equals(f.getSegue().getEmail())){
-                Log.i("TEST", "EMAIL SEGUITO: " + f.getSegue().getEmail());
-               // Toast.makeText(getBaseContext(), "GIA' SEGUI QUESTO UTENTE! ", Toast.LENGTH_LONG).show();
-                follow.setText("FOLLOWING");
-                //follow.setBackgroundColor(getResources().getColor(R.color.green));
-                follow.setTextColor(getResources().getColor(R.color.greenScuro));
-
-            }
-        }
 
         // Initilization
         Log.i("TEST", "contesto SocialActivity: " + getBaseContext());
@@ -540,70 +440,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
     }
 
-    private class MyTaskInsertFollowing extends AsyncTask<Void, Void, Void> {
-
-
-        InputStream is = null;
-        String result, stringaFinale = "";
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("email", email));
-            dataToSend.add(new BasicNameValuePair("emailEsterno", emailEsterno));
-
-
-            Log.i("TEST", "dati follow: " + email + " " + emailEsterno);
-            try {
-                if (InternetConnection.haveInternetConnection(ProfiloActivity.this)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost;
-
-
-                    httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO);
-
-                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                    HttpResponse response = httpclient.execute(httppost);
-                    HttpEntity entity = response.getEntity();
-
-
-                    is = entity.getContent();
-
-                    if (is != null) {
-                        //converto la risposta in stringa
-                        try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                            StringBuilder sb = new StringBuilder();
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line + "\n");
-                            }
-                            is.close();
-
-                            result = sb.toString();
-
-                            Log.i("TEST", "result " + result);
-
-                        } catch (Exception e) {
-                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
-                        }
-                    } else {
-                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
-                    }
-
-
-                } else
-                    Log.e("CONNESSIONE Internet", "Assente!");
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(e.toString(), e.getMessage());
-            }
-
-
-            return null;
-        }
-    }
 
     public void ClickFollowers(View v) {
         Intent intentFollowers = new Intent(this, VisualizzazioneFollowActivity.class);
@@ -623,22 +459,22 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
     }
 
-    public void ClickFollowing(View v) {
-        Intent intentFollowers = new Intent(this, VisualizzazioneFollowActivity.class);
-        intentFollowers.putExtra("name", name);
-        intentFollowers.putExtra("surname", surname);
-        if(emailEsterno != null ){
-            intentFollowers.putExtra("email", emailEsterno);
-            Log.i("TEST", "Email di chi voglio vedere i followers (Esterno) " + emailEsterno);
-        }
-        else{
-            TakeATrip TAT = (TakeATrip)getApplicationContext();
-            email = TAT.getProfiloCorrente().getEmail();
-            intentFollowers.putExtra("email", email);
-            Log.i("TEST", "Email di chi voglio vedere i followers " + email);
-        }
-        startActivity(intentFollowers);
-    }
+//    public void ClickFollowing(View v) {
+//        Intent intentFollowers = new Intent(this, VisualizzazioneFollowActivity.class);
+//        intentFollowers.putExtra("name", name);
+//        intentFollowers.putExtra("surname", surname);
+//        if(emailEsterno != null ){
+//            intentFollowers.putExtra("email", emailEsterno);
+//            Log.i("TEST", "Email di chi voglio vedere i followers (Esterno) " + emailEsterno);
+//        }
+//        else{
+//            TakeATrip TAT = (TakeATrip)getApplicationContext();
+//            email = TAT.getProfiloCorrente().getEmail();
+//            intentFollowers.putExtra("email", email);
+//            Log.i("TEST", "Email di chi voglio vedere i followers " + email);
+//        }
+//        startActivity(intentFollowers);
+//    }
 
     public void ClickImageProfile(View v) {
         try {
@@ -1007,6 +843,141 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     }
 
 
+    private class MyTaskVerificaFollowing extends AsyncTask<Void, Void, Void> {
+        InputStream is = null;
+        String stringaFinale = "";
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("emailFollower", emailEsterno));
+            dataToSend.add(new BasicNameValuePair("emailFollowing", email));
+
+            Log.i("TEST: ", "MIA MAIL ESISTE FOLLOWING: " + email);
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + QUERY_VERIFICA_FOLLOWING);
+                httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                HttpResponse response = httpclient.execute(httppost);
+
+                HttpEntity entity = response.getEntity();
+                is = entity.getContent();
+
+                if (is != null) {
+                    //converto la risposta in stringa
+                    try {
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            sb.append(line + "\n");
+                        }
+                        is.close();
+
+                        String result = sb.toString();
+
+                        if (result.equals("null\n")) {
+
+                            Log.i("TEST", "Non sono presenti following");
+
+                            alreadyFollowing = false;
+                        }else {
+
+                            alreadyFollowing = true;
+
+                        }
+
+
+                    } catch (Exception e) {
+                        Log.e("TEST", "Errore nel risultato o nel convertire il risultato");
+                    }
+                } else {
+                    Log.e("TEST", "Input Stream uguale a null");
+                }
+
+            } catch (Exception e) {
+                Log.e("TEST", "Errore nella connessione http " + e.toString());
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+                setButtonToFollowing();
+
+            super.onPostExecute(aVoid);
+        }
+    }
+
+
+    private class MyTaskInsertFollowing extends AsyncTask<Void, Void, Void> {
+
+
+        InputStream is = null;
+        String result, stringaFinale = "";
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("email", email));
+            dataToSend.add(new BasicNameValuePair("emailEsterno", emailEsterno));
+
+
+            Log.i("TEST", "dati follow: " + email + " " + emailEsterno);
+            try {
+                if (InternetConnection.haveInternetConnection(ProfiloActivity.this)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost;
+
+
+                    httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO);
+
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                    HttpResponse response = httpclient.execute(httppost);
+                    HttpEntity entity = response.getEntity();
+
+
+                    is = entity.getContent();
+
+                    if (is != null) {
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+
+                            Log.i("TEST", "result " + result);
+
+                        } catch (Exception e) {
+                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    }
+
+
+                } else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(e.toString(), e.getMessage());
+            }
+
+
+            return null;
+        }
+    }
+
+
     private class MyTaskInsertImageProfile extends AsyncTask<Void, Void, Void> {
 
         private final String ADDRESS_INSERT_IMAGE_PROFILE = "InserimentoImmagineProfilo.php";
@@ -1175,7 +1146,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     }
 
 
-    private class MyTaskQueryFollowers extends AsyncTask<Void, Void, Void> {
+    private class MyTaskQueryNumFollowers extends AsyncTask<Void, Void, Void> {
 
         InputStream is = null;
         String result = "";
@@ -1252,7 +1223,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     }
 
 
-    private class MyTaskQueryFollowings extends AsyncTask<Void, Void, Void> {
+    private class MyTaskQueryNumFollowings extends AsyncTask<Void, Void, Void> {
 
         InputStream is = null;
         String result = "";
