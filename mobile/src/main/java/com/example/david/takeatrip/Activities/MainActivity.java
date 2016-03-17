@@ -30,7 +30,6 @@ import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
 import com.example.david.takeatrip.R;
-import com.example.david.takeatrip.Utilities.BitmapWorkerTask;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatabaseHandler;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
@@ -42,6 +41,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.drive.DriveId;
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -333,7 +333,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 image.setContentDescription(p.getEmail());
 
                                 if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
-                                    new BitmapWorkerTask(image).execute(Constants.ADDRESS_TAT + p.getIdImageProfile());
+//                                    new BitmapWorkerTask(image).execute(Constants.ADDRESS_TAT + p.getIdImageProfile());
+                                    Picasso.with(MainActivity.this).load(Constants.ADDRESS_TAT + p.getIdImageProfile()).into(image);
+
                                 }else {
                                     if(p.getSesso().equals("M")){
                                         image.setImageResource(R.drawable.default_male);
@@ -819,7 +821,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         protected void onPostExecute(Void aVoid) {
             Log.i("TEST", "risultato dal prelievo dell'id imm profilo: " + result);
             if(!result.equals("NULL") && !urlImmagineProfilo.equals("null")){
-                new BitmapWorkerTask(imageViewProfileRound).execute(Constants.ADDRESS_TAT + urlImmagineProfilo);
+                //new BitmapWorkerTask(imageViewProfileRound).execute(Constants.ADDRESS_TAT + urlImmagineProfilo);
+
+                Picasso.with(MainActivity.this).load(Constants.ADDRESS_TAT + urlImmagineProfilo).into(imageViewProfileRound);
             }
             else{
                 //L'utente è loggato con facebook
@@ -832,8 +836,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         Log.i("TEST", "url_image: " + image_URI.toURL().toString());
 
-                        BitmapWorkerTask task = new BitmapWorkerTask(imageViewProfileRound);
-                        task.execute(image_URI.toURL().toString());
+//                        BitmapWorkerTask task = new BitmapWorkerTask(imageViewProfileRound);
+//                        task.execute(image_URI.toURL().toString());
+
+                        Picasso.with(MainActivity.this).load(image_URI.toURL().toString()).into(imageViewProfileRound);
+
 
                         imageProfile = ((BitmapDrawable)imageViewProfileRound.getDrawable()).getBitmap();
                         Log.i("TEST", "bitmap image profile: " + imageProfile);

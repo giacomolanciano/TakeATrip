@@ -44,6 +44,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.google.android.gms.drive.DriveId;
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -166,8 +167,11 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                     try {
                         image_URI = new URI(image_uri.toString());
-                        BitmapWorkerTask task = new BitmapWorkerTask(imageProfile);
-                        task.execute(image_URI.toURL().toString());
+//                        BitmapWorkerTask task = new BitmapWorkerTask(imageProfile);
+//                        task.execute(image_URI.toURL().toString());
+
+                        Picasso.with(this).load(image_URI.toURL().toString()).into(imageProfile);
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -183,8 +187,11 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             }
             else{
 
-                BitmapWorkerTask task = new BitmapWorkerTask(imageProfile);
-                task.execute(Constants.ADDRESS_TAT + idImageProfile);
+//                BitmapWorkerTask task = new BitmapWorkerTask(imageProfile);
+//                task.execute(Constants.ADDRESS_TAT + idImageProfile);
+
+                Picasso.with(this).load(Constants.ADDRESS_TAT + idImageProfile).into(imageProfile);
+
             }
 
             if(idCoverImage == null || idCoverImage.equals("null")){
