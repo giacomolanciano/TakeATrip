@@ -73,11 +73,11 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
     private Profilo corrente;
 
     // TODO: Tab titles in other languages
-    private String[] tabs = {"Home","Following","Followers", "Top Rated", "Search"};
+    private String[] tabs = {"   FOLLOWING","   FOLLOWERS"};
 
     private int[] icons = {
-            R.drawable.ic_add_a_photo_black_36dp,
-            R.drawable.ic_add_black_24dp,
+            R.drawable.ic_account_box_black_36dp,
+            R.drawable.ic_account_circle_black_36dp
     };
 
     @Override
@@ -98,9 +98,15 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        // Adding Tabs
+      /*  // Adding Tabs Image
         for (int tab_name : icons) {
             actionBar.addTab(actionBar.newTab().setIcon(tab_name)
+                    .setTabListener(this));
+        }
+*/
+        // Adding Tabs
+        for (String tab_name : tabs) {
+            actionBar.addTab(actionBar.newTab().setText(tab_name)
                     .setTabListener(this));
         }
 

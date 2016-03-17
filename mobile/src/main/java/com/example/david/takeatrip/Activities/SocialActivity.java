@@ -73,13 +73,13 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
     private Profilo corrente;
 
     // TODO: Tab titles in other languages
-    private String[] tabs = {"Home","Following","Followers", "Top Rated", "Search"};
+    private String[] tabs = {"FOLLOWING","FOLLOWERS","SEARCH"};
 
     private int[] icons = {
             //R.drawable.ic_people_black_36dp,
-           R.drawable.ic_add_a_photo_black_36dp,
-            R.drawable.ic_add_black_24dp,
-            R.drawable.ic_add_white_24dp,
+           R.drawable.ic_account_box_black_36dp,
+            R.drawable.ic_account_circle_black_36dp,
+            R.drawable.ic_search_white_36dp,
             //R.drawable.ic_cast_light
     };
 
@@ -102,12 +102,17 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 
-        // Adding Tabs
+      /*  // Adding Tabs Image
         for (int tab_name : icons) {
             actionBar.addTab(actionBar.newTab().setIcon(tab_name)
                     .setTabListener(this));
         }
-
+*/
+        // Adding Tabs
+        for (String tab_name : tabs) {
+            actionBar.addTab(actionBar.newTab().setText(tab_name)
+                    .setTabListener(this));
+        }
 
         //TODO: cambiare in caso di visualizzazione esterna
 
@@ -190,13 +195,13 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
 
         if(tab.getPosition()==0) {
-            tab.setText("FOLLOWING");
+            tab.setText(" FOLLOWING");
         }
         if(tab.getPosition()==1) {
-            tab.setText("FOLLOWERS");
+            tab.setText(" FOLLOWERS");
         }
         if(tab.getPosition()==2) {
-            tab.setText("SEARCH");
+            tab.setText(" SEARCH");
         }
 
         /*

@@ -25,13 +25,14 @@
                 android:layout_height="wrap_content"
                 android:text="Search"
                 android:textSize="25dp"
+                android:visibility="invisible"
                 />
 
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center"
-                android:src="@drawable/lente"
+                android:src="@drawable/search"
                 />
         </LinearLayout>
 
@@ -58,6 +59,14 @@
                 android:layout_height="wrap_content"
                 android:text="Social"
                 android:textSize="25dp"
+                android:visibility="invisible"
+                />
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:src="@drawable/social"
                 />
 
         </LinearLayout>
@@ -92,7 +101,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/book"
+                    android:src="@drawable/travel"
                     />
 
                 <TextView
@@ -100,6 +109,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/Viaggi"
                     android:textSize="25dp"
+                    android:visibility="invisible"
                     />
 
             </LinearLayout>
@@ -123,13 +133,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="New Travel"
-                    android:textSize="25dp"/>
+                    android:textSize="25dp"
+                    android:visibility="invisible"/>
 
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/piu"
+                    android:src="@drawable/aggiungi"
                     />
             </LinearLayout>
         </FrameLayout>
