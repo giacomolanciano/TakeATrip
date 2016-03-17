@@ -78,8 +78,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     private final int REQUEST_UPLOAD_COVER_IMAGE = 124;
     private final int QUALITY_OF_IMAGE = Constants.QUALITY_PHOTO;
 
-    private final String ADDRESS_INSERIMENTO = "http://www.musichangman.com/TakeATrip/InserimentoDati/Segue.php";
-    private final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/Follower.php";
+    private final String ADDRESS_INSERIMENTO = "Segue.php";
+    private final String ADDRESS_PRELIEVO = "Follower.php";
 
     private final String QUERY_FOLLOWERS = "QueryCountFollowers.php";
     private final String QUERY_FOLLOWINGS = "QueryCountFollowings.php";
@@ -158,10 +158,11 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             idImageProfile = intent.getStringExtra("urlImmagineProfilo");
             idCoverImage = intent.getStringExtra("urlImmagineCopertina");
 
-            if(email != null) {
-                //new MyTaskQueryFollowers().execute();
-                //new MyTaskQueryFollowings().execute();
-            }
+
+            //per aggiornamento numero follow...
+            new MyTaskQueryFollowers().execute();
+            new MyTaskQueryFollowings().execute();
+
 
 
             if(idImageProfile == null || idImageProfile.equals("null")){
@@ -427,7 +428,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             Log.i("TEST: ", "MIA MAIL ESISTE FOLLOWING: " + email);
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost(ADDRESS_PRELIEVO);
+                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_PRELIEVO);
                 httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                 HttpResponse response = httpclient.execute(httppost);
 
@@ -555,7 +556,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     HttpPost httppost;
 
 
-                    httppost = new HttpPost(ADDRESS_INSERIMENTO);
+                    httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO);
 
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
@@ -598,6 +599,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             return null;
         }
     }
+
     public void ClickFollowers(View v) {
         Intent intentFollowers = new Intent(this, VisualizzazioneFollowActivity.class);
         intentFollowers.putExtra("name", name);
@@ -1166,22 +1168,26 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
     }
 
-/*
+
 
     private class MyTaskQueryFollowers extends AsyncTask<Void, Void, Void> {
 
         InputStream is = null;
         String result = "";
 
-
         @Override
         protected Void doInBackground(Void... params) {
 
-                ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("email", email));
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+
+            if (!externalView) {
+                dataToSend.add(new BasicNameValuePair("email", email));
+            } else {
+                dataToSend.add(new BasicNameValuePair("email", emailEsterno));
+            }
 
 
-                try {
+            try {
                     HttpClient httpclient = new DefaultHttpClient();
                     HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + QUERY_FOLLOWERS);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
@@ -1203,13 +1209,21 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                             result = sb.toString();
 
-                            Log.e("TEST", "result: " + result);
+                            Log.i("TEST", "result: " + result);
 
+                            JSONArray jsonArray = new JSONArray(result);
+                            JSONObject jsonObject = jsonArray.getJSONObject(0);
+
+                            numFollowers = ""+jsonObject.getInt(Constants.COUNT_FOLLOW_ID);
+
+                            Log.i("TEST", "numFollowers: " + numFollowers);
 
 
 
                         } catch (Exception e) {
                             //Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                            Log.e("TEST", "eccezione query followers: "+e.toString());
+
                         }
                     } else {
                         //Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
@@ -1227,8 +1241,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
             super.onPostExecute(aVoid);
 
-            numFollowers = result;
-
             numFollowersView.setText(numFollowers);
 
         }
@@ -1245,8 +1257,12 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         protected Void doInBackground(Void... params) {
 
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("email", email));
 
+            if (!externalView) {
+                dataToSend.add(new BasicNameValuePair("email", email));
+            } else {
+                dataToSend.add(new BasicNameValuePair("email", emailEsterno));
+            }
 
             try {
                 HttpClient httpclient = new DefaultHttpClient();
@@ -1270,13 +1286,21 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                         result = sb.toString();
 
-                        Log.e("TEST", "result: " + result);
+                        Log.i("TEST", "result: " + result);
 
+                        JSONArray jsonArray = new JSONArray(result);
+                        JSONObject jsonObject = jsonArray.getJSONObject(0);
+
+                        numFollowings = ""+jsonObject.getInt(Constants.COUNT_FOLLOW_ID);
+
+                        Log.i("TEST", "numFollowings: " + numFollowings);
 
 
 
                     } catch (Exception e) {
                         //Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        Log.e("TEST", "eccezione query followings: "+e.toString());
+
                     }
                 } else {
                     //Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
@@ -1294,11 +1318,10 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
             super.onPostExecute(aVoid);
 
-            numFollowings = result;
 
             numFollowingsView.setText(numFollowings);
         }
     }
-*/
+
 
 }

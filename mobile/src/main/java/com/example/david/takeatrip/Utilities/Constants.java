@@ -53,7 +53,7 @@ public class Constants {
     public static final int HEIGH_LAYOUT_PROPRIETARI_ITINERARI = 80;
     public static final int DEFAULT_ZOOM_MAP = 10;
 
-    public static final String WEBAPP_ID   = "854482298731-9maeevj20buep03pjefnvvdq4ch0q19j.apps.googleusercontent.com";
+    public static final String WEBAPP_ID = "854482298731-9maeevj20buep03pjefnvvdq4ch0q19j.apps.googleusercontent.com";
 
     public static final int VIBRATION_MILLISEC = 100;
 
@@ -75,20 +75,21 @@ public class Constants {
     public static final int QUALITY_PHOTO = 60;
 
 
-    public  static final String NAME_IMAGES_PROFILE_DEFAULT = "profileTAT.jpg";
-    public  static final String NAME_IMAGES_COVER_DEFAULT = "coverTAT.jpg";
-    public  static final String NAME_IMAGES_TRAVEL_DEFAULT = "imageTravel.jpg";
+    public static final String NAME_IMAGES_PROFILE_DEFAULT = "profileTAT.jpg";
+    public static final String NAME_IMAGES_COVER_DEFAULT = "coverTAT.jpg";
+    public static final String NAME_IMAGES_TRAVEL_DEFAULT = "imageTravel.jpg";
 
 
     public static final String DISPLAYED_DATE_FORMAT = "dd/MM/yyyy";
     public static final String DATABASE_DATE_FORMAT = "yyyy-MM-dd";
-    public  static final String CURRENT_DATE_ID = "currentDate";
-    public  static final String DATE_FORMAT_ID = "dateFormat";
+    public static final String CURRENT_DATE_ID = "currentDate";
+    public static final String DATE_FORMAT_ID = "dateFormat";
 
 
     public static final int LIMIT_NAMES_PROFILE = 18;
 
 
+    public static final String COUNT_FOLLOW_ID = "count(*)";
 
 
 }

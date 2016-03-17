@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:2:1-116:12
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:2:1-102:12
 	xmlns:android
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:2:11-69
 	package
@@ -103,7 +103,7 @@ ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\Andr
 	android:name
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:30:9-60
 application
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:34:5-114:19
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:34:5-100:19
 MERGED from [com.android.support:appcompat-v7:23.2.1] C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-v4:23.2.1] C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:animated-vector-drawable:23.2.1] C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.2.1\AndroidManifest.xml:7:5-20
@@ -317,124 +317,96 @@ ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\Andr
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:61:13-64
 	android:name
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:60:13-59
-activity#com.example.david.takeatrip.Activities.CategoriaActivity
+activity#com.example.david.takeatrip.Activities.ViaggioActivity
 ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:62:9-65:59
 	android:label
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:64:13-61
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:64:13-59
 	android:theme
 		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:65:13-56
 	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:63:13-57
-activity#com.example.david.takeatrip.Activities.ViaggioActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:66:9-69:59
-	android:label
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:68:13-59
-	android:theme
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:69:13-56
-	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:67:13-55
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:63:13-55
 activity#com.example.david.takeatrip.Activities.SplashActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:70:9-78:20
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:66:9-74:20
 	android:label
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:72:13-45
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:68:13-45
 	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:71:13-54
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:67:13-54
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:73:13-77:29
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:69:13-73:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:74:17-69
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:70:17-69
 	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:74:25-66
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:70:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:76:17-77
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:72:17-77
 	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:76:27-74
-activity#com.example.david.takeatrip.Activities.DestinationSelectionActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:79:9-87:20
-	android:label
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:81:13-73
-	android:theme
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:83:13-44
-	android:parentActivityName
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:82:13-69
-	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:80:13-68
-meta-data#android.support.PARENT_ACTIVITY
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:84:13-86:90
-	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:85:17-63
-	android:value
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:86:17-87
-activity#com.example.david.takeatrip.Activities.PossibleDestinationActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:88:9-76
-	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:88:19-73
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:72:27-74
 activity#com.example.david.takeatrip.Activities.MapsActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:89:9-61
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:75:9-61
 	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:89:19-58
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:75:19-58
 activity#com.example.david.takeatrip.Activities.MainActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:90:9-61
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:76:9-61
 	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:90:19-58
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:76:19-58
 activity#com.example.david.takeatrip.Activities.InfoActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:91:9-61
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:77:9-61
 	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:91:19-58
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:77:19-58
 activity#com.example.david.takeatrip.Activities.StatsActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:92:9-62
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:78:9-62
 	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:92:19-59
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:78:19-59
 activity#com.example.david.takeatrip.Activities.ListaTappeActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:93:9-96:47
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:79:9-82:47
 	android:label
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:95:13-64
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:81:13-64
 	android:theme
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:96:13-44
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:82:13-44
 	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:94:13-58
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:80:13-58
 activity#com.example.david.takeatrip.Activities.SearchActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:97:9-63
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:83:9-63
 	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:97:19-60
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:83:19-60
 activity#com.example.david.takeatrip.Activities.SocialActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:98:9-100:70
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:84:9-86:70
 	android:theme
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:100:13-67
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:86:13-67
 	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:99:13-54
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:85:13-54
 activity#com.facebook.FacebookActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:101:9-105:75
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:87:9-91:75
 	android:label
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:104:13-45
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:90:13-45
 	android:configChanges
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:103:13-96
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:89:13-96
 	android:theme
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:105:13-72
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:91:13-72
 	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:102:13-57
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:88:13-57
 activity#com.example.david.takeatrip.Activities.CreateDriveFolderActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:106:9-74
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:92:9-74
 	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:106:19-71
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:92:19-71
 activity#com.example.david.takeatrip.Utilities.RetrieveImageTask
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:107:9-65
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:93:9-65
 	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:107:19-62
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:93:19-62
 activity#com.example.david.takeatrip.Activities.TappaActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:108:9-111:56
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:94:9-97:56
 	android:label
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:110:13-57
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:96:13-57
 	android:theme
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:111:13-44
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:97:13-44
 	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:109:13-53
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:95:13-53
 activity#com.example.david.takeatrip.Activities.VisualizzazioneFollowActivity
-ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:112:9-113:80
+ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:98:9-99:80
 	android:theme
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:113:13-67
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:99:13-67
 	android:name
-		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:112:19-75
+		ADDED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml:98:19-75
 uses-sdk
 INJECTED from C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:23.2.1] C:\Users\Giacomo\AndroidStudioProjects\TakeATrip\mobile\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\AndroidManifest.xml:21:5-23:78

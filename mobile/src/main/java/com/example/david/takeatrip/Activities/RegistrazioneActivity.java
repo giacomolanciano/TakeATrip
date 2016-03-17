@@ -24,7 +24,6 @@ import com.example.david.takeatrip.Fragments.DatePickerFragment;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatesUtils;
-import com.example.david.takeatrip.Utilities.PasswordHashing;
 import com.facebook.Profile;
 import com.google.android.gms.drive.DriveId;
 
@@ -36,8 +35,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -255,7 +252,8 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
 
                     if(confermaCredenziali(password, confermaPassword)){
 
-                        password = PasswordHashing.sha1Hash(campoPassword.getText().toString());
+                        //TODO decommentare insieme a classe PasswordHashing
+                        //password = PasswordHashing.sha1Hash(campoPassword.getText().toString());
 
                         new MyTask().execute();
 
@@ -749,88 +747,88 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
 
     //eseguito solo nel caso di login indipendente
 
-    private class MyTaskUpdate extends AsyncTask<Void, Void, Void> {
-
-        InputStream is = null;
-        String result, stringaFinale = "";
-
-
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("email", email));
-            dataToSend.add(new BasicNameValuePair("password", vecchiaPassword));
-
-
-            try {
-                if (InternetConnection.haveInternetConnection(RegistrazioneActivity.this)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(ADDRESS_VERIFICA_LOGIN);
-                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                    HttpResponse response = httpclient.execute(httppost);
-
-                    HttpEntity entity = response.getEntity();
-
-                    is = entity.getContent();
-
-                    if (is != null) {
-                        //converto la risposta in stringa
-                        try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                            StringBuilder sb = new StringBuilder();
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line + "\n");
-                            }
-                            is.close();
-
-                            result = sb.toString();
-
-
-                            JSONArray jArray = new JSONArray(result);
-                            //for(int i=0;i<jArray.length();i++){
-                            JSONObject json_data = jArray.getJSONObject(0);
-
-                            if(json_data != null){
-                                stringaFinale = json_data.getString("email").toString() + " " + json_data.getString("password").toString();
-                            }
-
-
-
-                        } catch (Exception e) {
-                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    else {
-                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
-                    }
-                }
-                else
-                    Log.e("CONNESSIONE Internet", "Assente!");
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            if(stringaFinale == ""){
-                Toast.makeText(getBaseContext(), getResources().getString(R.string.LoginError), Toast.LENGTH_LONG).show();
-            }
-            else{
-                new MyTask().execute();
-
-            }
-            super.onPostExecute(aVoid);
-
-        }
-    }
+//    private class MyTaskUpdate extends AsyncTask<Void, Void, Void> {
+//
+//        InputStream is = null;
+//        String result, stringaFinale = "";
+//
+//
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+//            dataToSend.add(new BasicNameValuePair("email", email));
+//            dataToSend.add(new BasicNameValuePair("password", vecchiaPassword));
+//
+//
+//            try {
+//                if (InternetConnection.haveInternetConnection(RegistrazioneActivity.this)) {
+//                    Log.i("CONNESSIONE Internet", "Presente!");
+//                    HttpClient httpclient = new DefaultHttpClient();
+//                    HttpPost httppost = new HttpPost(ADDRESS_VERIFICA_LOGIN);
+//                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+//                    HttpResponse response = httpclient.execute(httppost);
+//
+//                    HttpEntity entity = response.getEntity();
+//
+//                    is = entity.getContent();
+//
+//                    if (is != null) {
+//                        //converto la risposta in stringa
+//                        try {
+//                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+//                            StringBuilder sb = new StringBuilder();
+//                            String line = null;
+//                            while ((line = reader.readLine()) != null) {
+//                                sb.append(line + "\n");
+//                            }
+//                            is.close();
+//
+//                            result = sb.toString();
+//
+//
+//                            JSONArray jArray = new JSONArray(result);
+//                            //for(int i=0;i<jArray.length();i++){
+//                            JSONObject json_data = jArray.getJSONObject(0);
+//
+//                            if(json_data != null){
+//                                stringaFinale = json_data.getString("email").toString() + " " + json_data.getString("password").toString();
+//                            }
+//
+//
+//
+//                        } catch (Exception e) {
+//                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                    else {
+//                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+//                    }
+//                }
+//                else
+//                    Log.e("CONNESSIONE Internet", "Assente!");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                Log.e(e.toString(),e.getMessage());
+//            }
+//
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            if(stringaFinale == ""){
+//                Toast.makeText(getBaseContext(), getResources().getString(R.string.LoginError), Toast.LENGTH_LONG).show();
+//            }
+//            else{
+//                new MyTask().execute();
+//
+//            }
+//            super.onPostExecute(aVoid);
+//
+//        }
+//    }
 
 
 }
