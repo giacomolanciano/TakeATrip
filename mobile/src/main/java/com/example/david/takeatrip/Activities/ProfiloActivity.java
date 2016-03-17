@@ -407,15 +407,16 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
 
     public void ClickOnFollow(View v){
-        MyTaskFollow mTF = new MyTaskFollow();
+
+        MyTaskInsertFollowing mTF = new MyTaskInsertFollowing();
         mTF.execute();
         follow.setText("FOLLOWING");
         //follow.setBackgroundColor(getResources().getColor(R.color.green));
         follow.setTextColor(getResources().getColor(R.color.greenScuro));
         Toast.makeText(getBaseContext(), "Add Following", Toast.LENGTH_LONG).show();
 
-
     }
+
 
     private class MyTaskFollowing extends AsyncTask<Void, Void, Void> {
         InputStream is = null;
@@ -509,8 +510,12 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         }
     }
 
-    //era un popolalista
+
     private void PopolaListaFollowers( ArrayList<Following> following) {
+
+        //TODO eliminare
+
+
         ArrayList<Profilo> vuoto = new ArrayList<Profilo>();
 
 
@@ -535,7 +540,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
     }
 
-    private class MyTaskFollow extends AsyncTask<Void, Void, Void> {
+    private class MyTaskInsertFollowing extends AsyncTask<Void, Void, Void> {
 
 
         InputStream is = null;
@@ -1084,6 +1089,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
     }
 
+
     private class MyTaskInsertCoverimage extends AsyncTask<Void, Void, Void> {
         private final String ADDRESS_INSERT_COVER_PROFILE = "InserimentoImmagineCopertina.php";
         InputStream is = null;
@@ -1167,7 +1173,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
 
     }
-
 
 
     private class MyTaskQueryFollowers extends AsyncTask<Void, Void, Void> {
