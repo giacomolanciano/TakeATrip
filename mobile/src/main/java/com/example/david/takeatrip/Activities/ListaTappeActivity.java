@@ -1976,7 +1976,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
             if(!noteInserite.isEmpty()) {
-                new MyTaskInserimentoNotaTappa(ordine).execute();
+                new TaskInserimentoNotaTappa(ordine).execute();
             }
 
             if(immaginiSelezionate.size() > 0){
@@ -2085,48 +2085,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-    private class PrivacyLevelAdapter extends ArrayAdapter<String> {
-
-
-        public PrivacyLevelAdapter(Context context, int textViewResourceId, String[] strings) {
-            super(context, textViewResourceId, strings);
-
-        }
-
-        @Override
-        public View getDropDownView(int position, View convertView,ViewGroup parent) {
-            return getCustomView(position, convertView, parent);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            return getCustomView(position, convertView, parent);
-        }
-
-        public View getCustomView(int position, View convertView, ViewGroup parent) {
-
-
-            LayoutInflater inflater=getLayoutInflater();
-            convertView=inflater.inflate(R.layout.entry_privacy_level, parent, false);
-            TextView label=(TextView)convertView.findViewById(R.id.privacyLevel);
-            label.setText(strings[position]);
-
-            TextView sub=(TextView)convertView.findViewById(R.id.description);
-            sub.setText(subs[position]);
-
-            ImageView icon=(ImageView)convertView.findViewById(R.id.image);
-            icon.setImageResource(arr_images[position]);
-
-            //Log.i("TEST", "string: " + strings[position]);
-            //Log.i("TEST", "sub: " + subs[position]);
-            //Log.i("TEST", "img: " + arr_images[position]);
-
-            return convertView;
-        }
-    }
-
-
-
     private class TaskInserimentoImmagineTappa extends AsyncTask<Void, Void, Void> {
 
         private final static String ADDRESS_INSERT_IMAGE_STOP = "InserimentoImmagineTappa.php";
@@ -2211,13 +2169,13 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-    private class MyTaskInserimentoNotaTappa extends AsyncTask<Void, Void, Void> {
+    private class TaskInserimentoNotaTappa extends AsyncTask<Void, Void, Void> {
 
         InputStream is = null;
         String result, stringaFinale = "";
         int ordineAux;
 
-        public MyTaskInserimentoNotaTappa(int ordine) {
+        public TaskInserimentoNotaTappa(int ordine) {
             this.ordineAux = ordine;
         }
 
@@ -2305,6 +2263,48 @@ public class ListaTappeActivity extends AppCompatActivity
 
             }
             super.onPostExecute(aVoid);
+        }
+    }
+
+
+
+    private class PrivacyLevelAdapter extends ArrayAdapter<String> {
+
+
+        public PrivacyLevelAdapter(Context context, int textViewResourceId, String[] strings) {
+            super(context, textViewResourceId, strings);
+
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView, ViewGroup parent) {
+
+
+            LayoutInflater inflater=getLayoutInflater();
+            convertView=inflater.inflate(R.layout.entry_privacy_level, parent, false);
+            TextView label=(TextView)convertView.findViewById(R.id.privacyLevel);
+            label.setText(strings[position]);
+
+            TextView sub=(TextView)convertView.findViewById(R.id.description);
+            sub.setText(subs[position]);
+
+            ImageView icon=(ImageView)convertView.findViewById(R.id.image);
+            icon.setImageResource(arr_images[position]);
+
+            //Log.i("TEST", "string: " + strings[position]);
+            //Log.i("TEST", "sub: " + subs[position]);
+            //Log.i("TEST", "img: " + arr_images[position]);
+
+            return convertView;
         }
     }
 

@@ -19,16 +19,35 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f12b5a04-1321-4fd8-82de-62c7ac20a4e7" name="Default" comment="sistemato problema timestamp nota tappe (modifica al database)">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaViaggiActivity$MyTask.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaViaggiActivity$MyTask.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MapsActivity$MyTask.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/MapsActivity$MyTask.class" />
+    <list default="true" id="f12b5a04-1321-4fd8-82de-62c7ac20a4e7" name="Default" comment="resa più efficiente la verifica del following durante visualizzazione profilo da esterno">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$MyTask.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$MyTask.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$MyTaskInserimentoTappa.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$MyTaskInserimentoTappa.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$PrivacyLevelAdapter.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$PrivacyLevelAdapter.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$TaskInserimentoImmagineTappa.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity$TaskInserimentoImmagineTappa.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ListaTappeActivity.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity$2.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity$2.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity$3.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity$3.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity$MyTaskInsertCoverimage.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity$MyTaskInsertCoverimage.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity$MyTaskInsertImageProfile.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity$MyTaskInsertImageProfile.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ProfiloActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$TaskForUrlsImages.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/ViaggioActivity$TaskForUrlsImages.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$2.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$3.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$4.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$5.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$6.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$6.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$2$1$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$2$1$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$2$1$2$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$2$1$2$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$2$1$2.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$2$1$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$2$1.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$2$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$2.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$7.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$8.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$8.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$9.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$9.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$PrivacyLevelAdapter.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity$PrivacyLevelAdapter.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity.class" afterPath="$PROJECT_DIR$/mobile/build/intermediates/classes/debug/com/example/david/takeatrip/Activities/TappaActivity.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex" afterPath="$PROJECT_DIR$/mobile/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" />
@@ -40,9 +59,10 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/outputs/apk/mobile-debug-unaligned.apk" afterPath="$PROJECT_DIR$/mobile/build/outputs/apk/mobile-debug-unaligned.apk" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/outputs/apk/mobile-debug.apk" afterPath="$PROJECT_DIR$/mobile/build/outputs/apk/mobile-debug.apk" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/restart-dex/debug/build-info.xml" afterPath="$PROJECT_DIR$/mobile/build/intermediates/restart-dex/debug/build-info.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="TakeATrip.iws" />
@@ -100,10 +120,11 @@
       <file leaf-file-name="ListaTappeActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="1730" column="61" selection-start-line="1730" selection-start-column="61" selection-end-line="1730" selection-end-column="61" />
+            <state vertical-scroll-proportion="-3.5555556">
+              <caret line="434" column="22" selection-start-line="434" selection-start-column="8" selection-end-line="434" selection-end-column="22" />
               <folding>
-                <element signature="method#PopolaContenuti#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="e#8159#8190#0" expanded="true" />
+                <element signature="e#8192#8224#0" expanded="true" />
                 <element signature="method#onMapReady#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="e#27309#29051#0" expanded="true" />
                 <element signature="e#29050#29051#0" expanded="true" />
@@ -112,54 +133,68 @@
                 <element signature="method#PopolaPartecipanti#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="method#CreaMenu#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="method#AggiungiMarkedPointsOnMap#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="method#findPlaceById#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="method#calcolaNumUltimaTappaUtenteCorrente#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="method#startAddingStop#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="e#41036#41086#0" expanded="true" />
                 <element signature="method#onClickAddImage#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="method#onClickAddVideo#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="method#onClickAddRecord#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="e#54667#54710#0" expanded="true" />
+                <element signature="e#55280#55306#0" expanded="true" />
+                <element signature="e#56340#56365#0" expanded="true" />
+                <element signature="e#57302#57326#0" expanded="true" />
                 <element signature="method#onClickAddNote#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="e#62591#62617#0" expanded="true" />
+                <element signature="e#63003#63025#0" expanded="true" />
+                <element signature="e#63436#63465#0" expanded="true" />
                 <element signature="method#getCurrentDateString#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="class#MyTask#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="class#MyTaskInserimentoTappa#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="class#MyTaskInserimentoFiltro#0;class#ListaTappeActivity#0" expanded="false" />
-                <element signature="class#PrivacyLevelAdapter#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="e#75351#75366#0" expanded="true" />
                 <element signature="class#TaskInserimentoImmagineTappa#0;class#ListaTappeActivity#0" expanded="false" />
-                <element signature="class#MyTaskInserimentoNotaTappa#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="e#81200#81201#0" expanded="true" />
+                <element signature="e#81250#81251#0" expanded="true" />
+                <element signature="class#TaskInserimentoNotaTappa#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="e#81493#81494#0" expanded="true" />
+                <element signature="e#81540#81541#0" expanded="true" />
+                <element signature="class#PrivacyLevelAdapter#0;class#ListaTappeActivity#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProfiloActivity.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java">
+      <file leaf-file-name="TappaActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3587339">
-              <caret line="426" column="41" selection-start-line="426" selection-start-column="41" selection-end-line="426" selection-end-column="41" />
+            <state vertical-scroll-proportion="0.4871481">
+              <caret line="246" column="47" selection-start-line="246" selection-start-column="47" selection-end-line="246" selection-end-column="47" />
               <folding>
-                <element signature="e#2560#2592#0" expanded="true" />
-                <element signature="e#4212#4223#0" expanded="true" />
-                <element signature="e#4281#4290#0" expanded="true" />
-                <element signature="method#ClickFollowers#0;class#ProfiloActivity#0" expanded="false" />
-                <element signature="e#16848#16890#0" expanded="false" />
-                <element signature="method#ClickImageProfile#0;class#ProfiloActivity#0" expanded="false" />
-                <element signature="method#ClickOnCoverImage#0;class#ProfiloActivity#0" expanded="false" />
-                <element signature="method#onActivityResult#0;class#ProfiloActivity#0" expanded="false" />
-                <element signature="method#processFinish#0;class#ProfiloActivity#0" expanded="false" />
-                <element signature="method#processFinish2#0;class#ProfiloActivity#0" expanded="false" />
-                <element signature="class#MyTaskInsertFollowing#0;class#ProfiloActivity#0" expanded="false" />
-                <element signature="class#MyTaskInsertImageProfile#0;class#ProfiloActivity#0" expanded="false" />
-                <element signature="class#MyTaskInsertCoverimage#0;class#ProfiloActivity#0" expanded="false" />
-                <element signature="class#MyTaskQueryNumFollowers#0;class#ProfiloActivity#0" expanded="false" />
-                <element signature="class#MyTaskQueryNumFollowings#0;class#ProfiloActivity#0" expanded="false" />
+                <element signature="method#onActivityResult#0;class#TappaActivity#0" expanded="false" />
+                <element signature="e#9930#9985#0" expanded="false" />
+                <element signature="method#getRealPathFromURI#0;class#TappaActivity#0" expanded="false" />
+                <element signature="method#onClickAddImage#0;class#TappaActivity#0" expanded="false" />
+                <element signature="method#onClickAddVideo#0;class#TappaActivity#0" expanded="false" />
+                <element signature="method#onClickAddRecord#0;class#TappaActivity#0" expanded="false" />
+                <element signature="e#38574#38617#0" expanded="true" />
+                <element signature="e#39187#39213#0" expanded="true" />
+                <element signature="e#40351#40376#0" expanded="true" />
+                <element signature="e#41313#41337#0" expanded="true" />
+                <element signature="e#46602#46628#0" expanded="true" />
+                <element signature="e#47014#47036#0" expanded="true" />
+                <element signature="e#47529#47558#0" expanded="true" />
+                <element signature="e#48771#48786#0" expanded="true" />
+                <element signature="e#51180#51181#0" expanded="true" />
+                <element signature="e#51230#51231#0" expanded="true" />
+                <element signature="e#51473#51474#0" expanded="true" />
+                <element signature="e#51520#51521#0" expanded="true" />
+                <element signature="class#TaskAggiornamentoDataTappa#0;class#TappaActivity#0" expanded="false" />
+                <element signature="e#55113#55114#0" expanded="true" />
+                <element signature="e#55163#55164#0" expanded="true" />
+                <element signature="e#55306#55321#0" expanded="true" />
+                <element signature="class#PrivacyLevelAdapter#0;class#TappaActivity#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ViaggioActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="1165" column="0" selection-start-line="1165" selection-start-column="0" selection-end-line="1165" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -3679,8 +3714,9 @@
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/BitmapWorkerTask.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/Constants.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java" />
       </list>
     </option>
   </component>
@@ -4335,7 +4371,13 @@
       <option name="project" value="LOCAL" />
       <updated>1458225887468</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="resa più efficiente la verifica del following durante visualizzazione profilo da esterno">
+      <created>1458229764767</created>
+      <option name="number" value="00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1458229764767</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TodoView">
@@ -4358,7 +4400,7 @@
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32731378" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36004514" sideWeight="0.49454546" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.79571104" sideWeight="0.49454546" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24248926" sideWeight="0.5081633" order="4" side_tool="true" content_ui="tabs" />
@@ -4404,7 +4446,8 @@
     <MESSAGE value="aggiunti task per aggiornamento valori followers e followings in profiloactivity" />
     <MESSAGE value="cambiati privacy level e relative icone" />
     <MESSAGE value="sistemato problema timestamp nota tappe (modifica al database)" />
-    <option name="LAST_COMMIT_MESSAGE" value="sistemato problema timestamp nota tappe (modifica al database)" />
+    <MESSAGE value="resa più efficiente la verifica del following durante visualizzazione profilo da esterno" />
+    <option name="LAST_COMMIT_MESSAGE" value="resa più efficiente la verifica del following durante visualizzazione profilo da esterno" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -4496,14 +4539,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="52" column="13" selection-start-line="52" selection-start-column="13" selection-end-line="52" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -4864,14 +4899,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1165" column="0" selection-start-line="1165" selection-start-column="0" selection-end-line="1165" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/activity_tappa.xml">
       <provider editor-type-id="android-designer">
         <state />
@@ -4883,12 +4910,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="9.650645">
+          <caret line="832" column="10" selection-start-line="832" selection-start-column="10" selection-end-line="832" selection-end-column="10" />
+          <folding>
+            <element signature="e#2560#2592#0" expanded="true" />
+            <element signature="method#ClickFollowers#0;class#ProfiloActivity#0" expanded="false" />
+            <element signature="e#16576#16618#0" expanded="false" />
+            <element signature="method#ClickImageProfile#0;class#ProfiloActivity#0" expanded="false" />
+            <element signature="method#ClickOnCoverImage#0;class#ProfiloActivity#0" expanded="false" />
+            <element signature="method#onActivityResult#0;class#ProfiloActivity#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="26.219227">
+          <caret line="1165" column="0" selection-start-line="1165" selection-start-column="0" selection-end-line="1165" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1730" column="61" selection-start-line="1730" selection-start-column="61" selection-end-line="1730" selection-end-column="61" />
+        <state vertical-scroll-proportion="-3.5555556">
+          <caret line="434" column="22" selection-start-line="434" selection-start-column="8" selection-end-line="434" selection-end-column="22" />
           <folding>
-            <element signature="method#PopolaContenuti#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="e#8159#8190#0" expanded="true" />
+            <element signature="e#8192#8224#0" expanded="true" />
             <element signature="method#onMapReady#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="e#27309#29051#0" expanded="true" />
             <element signature="e#29050#29051#0" expanded="true" />
@@ -4897,41 +4948,65 @@
             <element signature="method#PopolaPartecipanti#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="method#CreaMenu#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="method#AggiungiMarkedPointsOnMap#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="method#findPlaceById#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="method#calcolaNumUltimaTappaUtenteCorrente#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="method#startAddingStop#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="e#41036#41086#0" expanded="true" />
             <element signature="method#onClickAddImage#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="method#onClickAddVideo#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="method#onClickAddRecord#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="e#54667#54710#0" expanded="true" />
+            <element signature="e#55280#55306#0" expanded="true" />
+            <element signature="e#56340#56365#0" expanded="true" />
+            <element signature="e#57302#57326#0" expanded="true" />
             <element signature="method#onClickAddNote#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="e#62591#62617#0" expanded="true" />
+            <element signature="e#63003#63025#0" expanded="true" />
+            <element signature="e#63436#63465#0" expanded="true" />
             <element signature="method#getCurrentDateString#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="class#MyTask#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="class#MyTaskInserimentoTappa#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="class#MyTaskInserimentoFiltro#0;class#ListaTappeActivity#0" expanded="false" />
-            <element signature="class#PrivacyLevelAdapter#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="e#75351#75366#0" expanded="true" />
             <element signature="class#TaskInserimentoImmagineTappa#0;class#ListaTappeActivity#0" expanded="false" />
-            <element signature="class#MyTaskInserimentoNotaTappa#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="e#81200#81201#0" expanded="true" />
+            <element signature="e#81250#81251#0" expanded="true" />
+            <element signature="class#TaskInserimentoNotaTappa#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="e#81493#81494#0" expanded="true" />
+            <element signature="e#81540#81541#0" expanded="true" />
+            <element signature="class#PrivacyLevelAdapter#0;class#ListaTappeActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java">
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3587339">
-          <caret line="426" column="41" selection-start-line="426" selection-start-column="41" selection-end-line="426" selection-end-column="41" />
+        <state vertical-scroll-proportion="0.4871481">
+          <caret line="246" column="47" selection-start-line="246" selection-start-column="47" selection-end-line="246" selection-end-column="47" />
           <folding>
-            <element signature="e#2560#2592#0" expanded="true" />
-            <element signature="e#4212#4223#0" expanded="true" />
-            <element signature="e#4281#4290#0" expanded="true" />
-            <element signature="method#ClickFollowers#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="e#16848#16890#0" expanded="false" />
-            <element signature="method#ClickImageProfile#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="method#ClickOnCoverImage#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="method#onActivityResult#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="method#processFinish#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="method#processFinish2#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="class#MyTaskInsertFollowing#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="class#MyTaskInsertImageProfile#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="class#MyTaskInsertCoverimage#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="class#MyTaskQueryNumFollowers#0;class#ProfiloActivity#0" expanded="false" />
-            <element signature="class#MyTaskQueryNumFollowings#0;class#ProfiloActivity#0" expanded="false" />
+            <element signature="method#onActivityResult#0;class#TappaActivity#0" expanded="false" />
+            <element signature="e#9930#9985#0" expanded="false" />
+            <element signature="method#getRealPathFromURI#0;class#TappaActivity#0" expanded="false" />
+            <element signature="method#onClickAddImage#0;class#TappaActivity#0" expanded="false" />
+            <element signature="method#onClickAddVideo#0;class#TappaActivity#0" expanded="false" />
+            <element signature="method#onClickAddRecord#0;class#TappaActivity#0" expanded="false" />
+            <element signature="e#38574#38617#0" expanded="true" />
+            <element signature="e#39187#39213#0" expanded="true" />
+            <element signature="e#40351#40376#0" expanded="true" />
+            <element signature="e#41313#41337#0" expanded="true" />
+            <element signature="e#46602#46628#0" expanded="true" />
+            <element signature="e#47014#47036#0" expanded="true" />
+            <element signature="e#47529#47558#0" expanded="true" />
+            <element signature="e#48771#48786#0" expanded="true" />
+            <element signature="e#51180#51181#0" expanded="true" />
+            <element signature="e#51230#51231#0" expanded="true" />
+            <element signature="e#51473#51474#0" expanded="true" />
+            <element signature="e#51520#51521#0" expanded="true" />
+            <element signature="class#TaskAggiornamentoDataTappa#0;class#TappaActivity#0" expanded="false" />
+            <element signature="e#55113#55114#0" expanded="true" />
+            <element signature="e#55163#55164#0" expanded="true" />
+            <element signature="e#55306#55321#0" expanded="true" />
+            <element signature="class#PrivacyLevelAdapter#0;class#TappaActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>

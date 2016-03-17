@@ -10,10 +10,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.os.Build;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -35,23 +34,45 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Fragments.DatePickerFragment;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.AudioRecord;
+import com.example.david.takeatrip.Utilities.BitmapWorkerTask;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatesUtils;
 import com.example.david.takeatrip.Utilities.MultimedialFile;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.google.android.gms.drive.DriveId;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Hashtable;
 
 public class TappaActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
+    private final String ADDRESS_INSERIMENTO_NOTA = "InserimentoNotaTappa.php";
+    private final String ADDRESS_AGGIORNAMENTO_TAPPA = "UpdateDataTappa.php";
 
     private String email, codiceViaggio, nomeTappa, data;
     private int ordineTappa;
@@ -75,6 +96,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
     private TextInputLayout textInputLayout;
     private TextInputEditText textInputEditText;
+    private ArrayList<String> noteInserite;
+    private HashSet<Bitmap> immaginiSelezionate;
+    private Hashtable bitmap_nomeFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +136,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
             email = i.getStringExtra("email");
             codiceViaggio = i.getStringExtra("codiceViaggio");
-            ordineTappa = i.getIntExtra("ordine", 0);
+            ordineTappa = i.getIntExtra("ordine", 0);   //è l'ordine del db
             nomeTappa = i.getStringExtra("nome");
             data = i.getStringExtra("data");
 
@@ -219,6 +243,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         isRecordFileCreated = false;
         progressStatus = 0;
         handler = new Handler();
+
+        noteInserite = new ArrayList<String>();
     }
 
     @Override
@@ -259,8 +285,13 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
         textDataTappa.setText(DatesUtils.getStringFromDate(newDate, Constants.DISPLAYED_DATE_FORMAT));
 
+        new TaskAggiornamentoDataTappa(DatesUtils.getStringFromDate(newDate,
+                Constants.DATABASE_DATE_FORMAT)).execute();
 
-        //TODO asynctask per aggiornamento data su db
+        //TODO
+        // poiche le tappe vengono caricate tutte in lista tappe activity, se si aggiorna, si torna indietro
+        // e si riclicca sulla tappa la data apare non aggiornata, quando invece lo è nel db
+        // capire come sistemare questo inconveniente
 
 
         Log.i("TEST", "date changed");
@@ -276,10 +307,218 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
             switch (requestCode) {
 
+//                case Constants.REQUEST_IMAGE_CAPTURE:
+//
+//                    Log.i("TEST", "REQUEST_IMAGE_CAPTURE");
+//
+//
+//                    File f = new File(Environment.getExternalStorageDirectory().toString());
+//                    for (File temp : f.listFiles()) {
+//                        if (temp.getName().equals(imageFileName)) {
+//                            f = temp;
+//                            break;
+//                        }
+//                    }
+//                    try {
+//                        Bitmap bitmap;
+//                        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+//                        bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
+//                                bitmapOptions);
+//                        Log.i("TEST", "path file immagine: " + f.getAbsolutePath());
+//
+////                        UploadImageTask task = new UploadImageTask(this, bitmap,
+////                                Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
+////                        task.delegate = this;
+////                        task.execute();
+//
+//
+//                        //TODO verifica caricamento su drive
+//
+//                        String path = Environment.getExternalStorageDirectory().toString();
+//                        f.delete();
+//
+////                        OutputStream outFile = null;
+////                        File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
+////                        try {
+////                            outFile = new FileOutputStream(file);
+////                            bitmap.compress(Bitmap.CompressFormat.JPEG, QUALITY_OF_IMAGE, outFile);
+////                            outFile.flush();
+////                            outFile.close();
+////
+////                        } catch (FileNotFoundException e) {
+////                            e.printStackTrace();
+////                        } catch (IOException e) {
+////                            e.printStackTrace();
+////                        } catch (Exception e) {
+////                            e.printStackTrace();
+////                        }
+//
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    break;
+//
+//                case Constants.REQUEST_IMAGE_PICK:
+//
+//
+//                    //############## ALTERNATIVA ##############
+//
+//                    if (data != null) {
+//                        ClipData clipData = data.getClipData();
+//                        if (clipData != null) {
+//
+//                            //TODO per selezione multipla, ancora non funzionante
+//
+//                            for (int i = 0; i < clipData.getItemCount(); i++) {
+//                                ClipData.Item item = clipData.getItemAt(i);
+//                                Uri uri = item.getUri();
+//
+//                                //In case you need image's absolute path
+//                                //String path= MultimedialFile.getRealPathFromURI(ListaTappeActivity.this, uri);
+//                                String path= getRealPathFromURI(TappaActivity.this, uri);
+//
+//
+//                                Log.i("TEST", "image path: " + path);
+//                            }
+//
+//
+//                        } else {
+//                            Log.e("TEST", "clipdata is null");
+//
+//                            Uri selectedImage = data.getData();
+//
+//                            String[] filePath = {MediaStore.Images.Media.DATA};
+//                            Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
+//                            c.moveToFirst();
+//                            int columnIndex = c.getColumnIndex(filePath[0]);
+//                            String picturePath = c.getString(columnIndex);
+//                            c.close();
+//                            Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+//
+//
+//                            //String picturePath = getRealPathFromURI(ListaTappeActivity.this, selectedImage);
+//
+//                            Log.i("TEST", "image from gallery: " + picturePath + "");
+//
+//
+////                            UploadImageTask task = new UploadImageTask(this, thumbnail, Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
+////                            task.delegate = this;
+////                            task.execute();
+//
+//                        }
+//
+//                    } else {
+//                        Log.e("TEST", "data is null");
+//
+//                    }
+//
+//
+//
+//                    //TODO verifica caricamento su drive
+//
+//
+//                    break;
+//
+//                case Constants.REQUEST_VIDEO_CAPTURE:
+//                    Log.i("TEST", "REQUEST_VIDEO_CAPTURE");
+//
+//                    File fileVideo = new File(Environment.getExternalStorageDirectory().toString());
+//                    for (File temp : fileVideo.listFiles()) {
+//                        if (temp.getName().equals(videoFileName)) {
+//                            fileVideo = temp;
+//                            break;
+//                        }
+//                    }
+//                    try {
+//                        Bitmap bitmap;
+////                        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+////                        bitmap = BitmapFactory.decodeFile(fileVideo.getAbsolutePath(),
+////                                bitmapOptions);
+//
+//                        bitmap = ThumbnailUtils.createVideoThumbnail(fileVideo.getAbsolutePath(),
+//                                MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+//                        Log.i("TEST", "path file video: " + fileVideo.getAbsolutePath());
+//
+////                        UploadImageTask task = new UploadImageTask(this, bitmap,
+////                                Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
+////                        task.delegate = this;
+////                        task.execute();
+//
+//
+//                        //TODO verifica caricamento su drive
+//
+////                        String path = Environment.getExternalStorageDirectory().toString();
+////                        fileVideo.delete();
+////
+////                        OutputStream outFile = null;
+////                        File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".3gp");
+////                        try {
+////                            outFile = new FileOutputStream(file);
+////                            //bitmap.compress(Bitmap.CompressFormat.JPEG, QUALITY_OF_IMAGE, outFile);
+////                            outFile.flush();
+////                            outFile.close();
+////
+////                        } catch (FileNotFoundException e) {
+////                            e.printStackTrace();
+////                        } catch (IOException e) {
+////                            e.printStackTrace();
+////                        } catch (Exception e) {
+////                            e.printStackTrace();
+////                        }
+//
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//
+//
+//
+//                    break;
+//
+//                case Constants.REQUEST_VIDEO_PICK:
+//                    Log.i("TEST", "REQUEST_VIDEO_PICK");
+//
+//                    Uri selectedVideo = data.getData();
+//
+//                    String[] filePath = {MediaStore.Video.Media.DATA};
+//                    Cursor c = getContentResolver().query(selectedVideo, filePath, null, null, null);
+//                    c.moveToFirst();
+//                    int columnIndex = c.getColumnIndex(filePath[0]);
+//                    String videoPath = c.getString(columnIndex);
+//                    c.close();
+//
+//                    Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(videoPath,
+//                            MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+//
+//
+//                    break;
+//
+//                case Constants.REQUEST_RECORD_PICK:
+//                    Log.i("TEST", "REQUEST_RECORD_PICK");
+//
+//                    Uri selectedAudio = data.getData();
+//
+//                    String[] audioPath = {MediaStore.Audio.Media.DATA};
+//                    Cursor cursor = getContentResolver().query(selectedAudio, audioPath, null, null, null);
+//                    cursor.moveToFirst();
+//                    int columnIndexAudio = cursor.getColumnIndex(audioPath[0]);
+//                    String audioFilePath = cursor.getString(columnIndexAudio);
+//                    cursor.close();
+//
+////                    Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(audioFilePath,
+////                            MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+//
+//                    break;
+//
+//
+//                default:
+//                    Log.e("TEST", "requestCode non riconosciuto");
+//                    break;
+
+
                 case Constants.REQUEST_IMAGE_CAPTURE:
 
                     Log.i("TEST", "REQUEST_IMAGE_CAPTURE");
-
 
                     File f = new File(Environment.getExternalStorageDirectory().toString());
                     for (File temp : f.listFiles()) {
@@ -289,38 +528,23 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                         }
                     }
                     try {
-                        Bitmap bitmap;
-                        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-                        bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
-                                bitmapOptions);
+
+                        Bitmap thumbnail = BitmapWorkerTask.decodeSampledBitmapFromPath(f.getAbsolutePath(), 0, 0);
+                        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
+
+                        String nomeFile = timeStamp + ".jpg";
+
+                        Log.i("TEST", "timeStamp image: " + nomeFile);
+                        if(thumbnail != null){
+                            immaginiSelezionate.add(thumbnail);
+                            bitmap_nomeFile.put(thumbnail,nomeFile);
+                        }
+
                         Log.i("TEST", "path file immagine: " + f.getAbsolutePath());
+                        Log.i("TEST", "bitmap file immagine: " + thumbnail);
 
-//                        UploadImageTask task = new UploadImageTask(this, bitmap,
-//                                Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
-//                        task.delegate = this;
-//                        task.execute();
-
-
-                        //TODO verifica caricamento su drive
-
-                        String path = Environment.getExternalStorageDirectory().toString();
-                        f.delete();
-
-//                        OutputStream outFile = null;
-//                        File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
-//                        try {
-//                            outFile = new FileOutputStream(file);
-//                            bitmap.compress(Bitmap.CompressFormat.JPEG, QUALITY_OF_IMAGE, outFile);
-//                            outFile.flush();
-//                            outFile.close();
-//
-//                        } catch (FileNotFoundException e) {
-//                            e.printStackTrace();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
+                        //TODO rivedere con Luca
+                        //PopolaContenuti();
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -330,8 +554,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                 case Constants.REQUEST_IMAGE_PICK:
 
-
-                    //############## ALTERNATIVA ##############
 
                     if (data != null) {
                         ClipData clipData = data.getClipData();
@@ -346,14 +568,10 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                                 //In case you need image's absolute path
                                 //String path= MultimedialFile.getRealPathFromURI(ListaTappeActivity.this, uri);
                                 String path= getRealPathFromURI(TappaActivity.this, uri);
-
-
                                 Log.i("TEST", "image path: " + path);
                             }
-
-
                         } else {
-                            Log.e("TEST", "clipdata is null");
+                            Log.i("TEST", "clipdata is null");
 
                             Uri selectedImage = data.getData();
 
@@ -363,17 +581,41 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                             int columnIndex = c.getColumnIndex(filePath[0]);
                             String picturePath = c.getString(columnIndex);
                             c.close();
-                            Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
 
 
-                            //String picturePath = getRealPathFromURI(ListaTappeActivity.this, selectedImage);
+                            Bitmap thumbnail = BitmapWorkerTask.decodeSampledBitmapFromPath(picturePath, 0, 0);
+
+/*
+                            BitmapFactory.Options options = new BitmapFactory.Options();
+                            options.inSampleSize = 16;
+                            Bitmap bitmap = (BitmapFactory.decodeFile(picturePath));
+                            */
 
                             Log.i("TEST", "image from gallery: " + picturePath + "");
+                            Log.i("TEST", "bitmap from gallery: " + thumbnail + "");
+
+                            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
+
+                            String nomeFile = timeStamp + ".jpg";
+
+                            Log.i("TEST", "timeStamp image: " + nomeFile);
 
 
-//                            UploadImageTask task = new UploadImageTask(this, thumbnail, Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
-//                            task.delegate = this;
-//                            task.execute();
+                            if(thumbnail != null){
+                                immaginiSelezionate.add(thumbnail);
+                                bitmap_nomeFile.put(thumbnail, nomeFile);
+                            }
+
+
+                            Log.i("TEST", "elenco immagini selezionate: " + immaginiSelezionate);
+                            Log.i("TEST", "elenco nomi immagini: " + bitmap_nomeFile.values());
+
+
+
+                            //TODO rivedere con Luca
+                            //PopolaContenuti();
+
+                            //TODO: visualizzare le miniature delle immagini sul dialog
 
                         }
 
@@ -483,6 +725,11 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                 default:
                     Log.e("TEST", "requestCode non riconosciuto");
                     break;
+
+
+
+
+
             }
 
         } else {
@@ -495,6 +742,36 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
     //metodi ausiliari
+
+    //TODO rivedere con Luca
+//    private void PopolaContenuti(){
+//        layoutContents.removeAllViews();
+//
+//        int i=0;
+//        for(Bitmap bitmap : immaginiSelezionate){
+//            if(i%LIMIT_IMAGES_VIEWS == 0){
+//                rowHorizontal = new LinearLayout(ListaTappeActivity.this);
+//                rowHorizontal.setOrientation(LinearLayout.HORIZONTAL);
+//
+//                //Log.i(TAG, "creato nuovo layout");
+//                layoutContents.addView(rowHorizontal);
+//                layoutContents.addView(new TextView(ListaTappeActivity.this), 10, 10);
+//            }
+//
+//
+//            final ImageView image = new ImageView(this, null);
+//
+//            Bitmap myBitmap = Bitmap.createScaledBitmap(bitmap, 60, 30, true);
+//            image.setImageBitmap(myBitmap);
+//
+//            //TODO: sistemare in funzione dello schermo e migliorare allocazione memoria usando thread
+//            rowHorizontal.addView(image, 60, 30);
+//
+//            i++;
+//        }
+//    }
+
+
 
     private static String getRealPathFromURI(Context context, Uri contentUri) {
 
@@ -529,6 +806,10 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             }
         }
     }
+
+
+
+
 
     private void onClickAddImage(View v) {
 
@@ -577,12 +858,14 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                                 try {
 
                                     photoFile = MultimedialFile.createMediaFile(Constants.IMAGE_FILE, mCurrentPhotoPath, imageFileName);
+                                    imageFileName = photoFile.getName();
+
 
                                 } catch (IOException ex) {
                                     Log.e("TEST", "eccezione nella creazione di file immagine");
                                 }
 
-                                Log.i("TEST", "creato file immagine");
+                                Log.i("TEST", "creato file immagine col nome: " +imageFileName);
 
                                 // Continue only if the File was successfully created
                                 if (photoFile != null) {
@@ -797,6 +1080,13 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                                                     progressDialog.dismiss();
 
+
+                                                    Log.i("TEST", "file audio generato: " + record.getFileName());
+
+                                                    File fileAudio = record.getFileAudio();
+
+                                                    Log.i("TEST", "file audio generato: " + fileAudio);
+
                                                     //TODO implementare caricamento su db
 
                                                 }
@@ -897,13 +1187,24 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
             ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
+            final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(wrapper);
+            LayoutInflater inflater = this.getLayoutInflater();
+            final View dialogView = inflater.inflate(R.layout.material_edit_text, null);
+            builder.setView(dialogView);
+
+            textInputLayout = (TextInputLayout) dialogView.findViewById(R.id.textInputLayout);
+            if (textInputLayout != null) {
+                textInputLayout.setCounterEnabled(true);
+                textInputLayout.setCounterMaxLength(Constants.NOTE_MAX_LENGTH);
+            }
+            textInputEditText = (TextInputEditText) dialogView.findViewById(R.id.editText);
 
             builder.setNegativeButton(getString(R.string.cancel),
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+
 
                             Log.i("TEST", "edit text dialog canceled");
                         }
@@ -914,37 +1215,18 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-                            //TODO caricare dati su db
+                            noteInserite.add(textInputEditText.getText().toString());
 
+                            new TaskInserimentoNotaTappa(ordineTappa).execute();
                             Log.i("TEST", "edit text confirmed");
                         }
                     });
 
 
-            //TODO: gestire compatibilità
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                builder.setView(R.layout.material_edit_text);
-            } else {
-                Log.e("TEST", "versione android < 21");
-            }
             builder.setTitle(getString(R.string.labelNote));
 
-
-            //Dialog dialog = builder.create();
-            AlertDialog dialog = builder.create();
+            android.support.v7.app.AlertDialog dialog = builder.create();
             dialog.show();
-
-
-
-
-
-            textInputLayout = (TextInputLayout) dialog.findViewById(R.id.textInputLayout);
-            if (textInputLayout != null) {
-                textInputLayout.setCounterEnabled(true);
-                textInputLayout.setCounterMaxLength(Constants.NOTE_MAX_LENGTH);
-            }
-            textInputEditText = (TextInputEditText) dialog.findViewById(R.id.editText);
-
 
         } catch (Exception e) {
             Log.e(e.toString().toUpperCase(), e.getMessage());
@@ -956,6 +1238,283 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     }
 
 
+
+    //TODO da chiamare in onActivityResult
+    private class TaskInserimentoImmagineTappa extends AsyncTask<Void, Void, Void> {
+
+        private final static String ADDRESS_INSERT_IMAGE_STOP = "InserimentoImmagineTappa.php";
+
+        InputStream is = null;
+        String result, stringaFinale = "";
+        String email, codiceViaggio, urlImmagine, condivisione;
+        DriveId idDrive;
+        int ordine;
+
+
+        public TaskInserimentoImmagineTappa(String email, String codiceViaggio, int ordine, DriveId idDrive, String urlimmagine, String condivisione){
+            this.email = email;
+            this.codiceViaggio = codiceViaggio;
+            this.ordine = ordine;
+            this.idDrive = idDrive;
+            this.urlImmagine = urlimmagine;
+            this.condivisione = condivisione;
+
+
+        }
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("email", email));
+            dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
+            dataToSend.add(new BasicNameValuePair("ordine", String.valueOf(ordine)));
+            dataToSend.add(new BasicNameValuePair("url", urlImmagine));
+            dataToSend.add(new BasicNameValuePair("condivisione", condivisione));
+
+            try {
+
+                if (InternetConnection.haveInternetConnection(TappaActivity.this)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERT_IMAGE_STOP);
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                    HttpResponse response = httpclient.execute(httppost);
+                    HttpEntity entity = response.getEntity();
+
+                    is = entity.getContent();
+
+                    if (is != null) {
+
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+                            Log.i("TEST", "result: " +result);
+
+                        } catch (Exception e) {
+                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    }
+
+                } else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                Log.e("TEST", "Errore nella connessione http "+e.toString());
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+    }
+
+
+
+    private class TaskInserimentoNotaTappa extends AsyncTask<Void, Void, Void> {
+
+        InputStream is = null;
+        String result, stringaFinale = "";
+        int ordineAux;
+
+        public TaskInserimentoNotaTappa(int ordine) {
+            this.ordineAux = ordine;
+        }
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("ordine", ""+ordineAux));
+            dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
+            dataToSend.add(new BasicNameValuePair("emailProfilo", email));
+
+            Log.i("TEST", "ordine: " + ordineAux);
+            Log.i("TEST", "codiceViaggio: " + codiceViaggio);
+            Log.i("TEST", "emailProfilo: " + email);
+
+            try {
+                if (InternetConnection.haveInternetConnection(TappaActivity.this)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+
+
+
+                    for (String nota : noteInserite) {
+
+                        dataToSend.add(new BasicNameValuePair("timestamp",
+                                new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date())));
+                        dataToSend.add(new BasicNameValuePair("nota", nota));
+                        Log.i("TEST", "nota: " + nota);
+
+                        HttpClient httpclient = new DefaultHttpClient();
+                        HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_NOTA);
+                        httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+
+                        HttpResponse response = httpclient.execute(httppost);
+
+                        HttpEntity entity = response.getEntity();
+
+                        is = entity.getContent();
+
+                        if (is != null) {
+                            //converto la risposta in stringa
+                            try {
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                                StringBuilder sb = new StringBuilder();
+                                String line = null;
+                                while ((line = reader.readLine()) != null) {
+                                    sb.append(line + "\n");
+                                }
+                                is.close();
+
+                                result = sb.toString();
+                                Log.i("TEST", "result: " +result);
+
+                            } catch (Exception e) {
+                                Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        else {
+                            Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    noteInserite.clear();
+
+
+                } else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                Log.e("TEST", "Errore nella connessione http "+e.toString());
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            if(!result.equals("OK\n")){
+                Log.e("TEST", "note non inserite");
+            }
+            else{
+                Log.i("TEST", "note inserite correttamente");
+
+            }
+            super.onPostExecute(aVoid);
+        }
+    }
+
+
+
+    private class TaskAggiornamentoDataTappa extends AsyncTask<Void, Void, Void> {
+
+        InputStream is = null;
+        String result, stringaFinale = "", dataTappa;
+
+        public TaskAggiornamentoDataTappa(String dataTappa) {
+            this.dataTappa = dataTappa;
+        }
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("ordine", ""+ ordineTappa));
+            dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
+            dataToSend.add(new BasicNameValuePair("emailProfilo", email));
+            dataToSend.add(new BasicNameValuePair("data", dataTappa));
+
+
+            Log.i("TEST", "ordine: " + ordineTappa);
+            Log.i("TEST", "codiceViaggio: " + codiceViaggio);
+            Log.i("TEST", "emailProfilo: " + email);
+            Log.i("TEST", "dataTappa: " + dataTappa);
+
+            try {
+                if (InternetConnection.haveInternetConnection(TappaActivity.this)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+
+
+
+
+
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_AGGIORNAMENTO_TAPPA);
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+
+                    HttpResponse response = httpclient.execute(httppost);
+
+                    HttpEntity entity = response.getEntity();
+
+                    is = entity.getContent();
+
+                    if (is != null) {
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+                            Log.i("TEST", "result: " +result);
+
+                        } catch (Exception e) {
+                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    }
+
+
+
+
+                } else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                Log.e("TEST", "Errore nella connessione http "+e.toString());
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            if(!result.equals("OK\n")){
+                Log.e("TEST", "data non aggiornata");
+            }
+            else{
+                Log.i("TEST", "data aggiornata");
+
+            }
+            super.onPostExecute(aVoid);
+        }
+    }
 
 
 
@@ -1000,5 +1559,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             return convertView;
         }
     }
+
+
+
 
 }

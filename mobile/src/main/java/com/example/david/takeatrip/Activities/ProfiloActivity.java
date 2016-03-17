@@ -29,7 +29,6 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.david.takeatrip.Classes.Following;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
@@ -111,14 +110,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
     private Bitmap bitmap = null;
     private String idFolder, idImageProfile, idCoverImage, numFollowers, numFollowings;
-
-
-
-    //TODO sostituire la logica con una semplice query che verifichi se esiste già una relazione tra le due email nel database
-    private ArrayList<Following> following = new ArrayList<Following>();
-    private ArrayList<Profilo> seguaci = new ArrayList<Profilo>();
-
-
 
     private Animator mCurrentAnimator;
     private int mShortAnimationDuration;
