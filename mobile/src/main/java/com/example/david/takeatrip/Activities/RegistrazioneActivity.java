@@ -259,17 +259,6 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
 
                         new MyTask().execute();
 
-                        // definisco l'intenzione
-                        Intent openProfilo = new Intent(RegistrazioneActivity.this, MainActivity.class);
-                        openProfilo.putExtra("name", nome);
-                        openProfilo.putExtra("surname", cognome);
-                        openProfilo.putExtra("email", email);
-                        openProfilo.putExtra("dateOfBirth", data);
-                        openProfilo.putExtra("pwd", password);
-
-                        // passo all'attivazione dell'activity
-                        startActivity(openProfilo);
-
 
                     }
                 } else {
@@ -313,7 +302,25 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
                                 sesso = campoFemale.getText().toString();
                             }
 
+
                             new MyTask().execute();
+
+                            Intent openProfilo = new Intent(RegistrazioneActivity.this, MainActivity.class);
+                            openProfilo.putExtra("name", nome);
+                            openProfilo.putExtra("surname", cognome);
+                            openProfilo.putExtra("email", email);
+                            openProfilo.putExtra("dateOfBirth", data);
+                            openProfilo.putExtra("pwd", password);
+                            openProfilo.putExtra("nazionalita", nazionalita);
+                            openProfilo.putExtra("sesso", sesso);
+                            openProfilo.putExtra("username", username);
+                            openProfilo.putExtra("lavoro", lavoro);
+                            openProfilo.putExtra("descrizione", descrizione);
+                            openProfilo.putExtra("tipo", tipo);
+                            openProfilo.putExtra("profile", profile);
+
+                            startActivity(openProfilo);
+                            finish();
 
                         }
                     }

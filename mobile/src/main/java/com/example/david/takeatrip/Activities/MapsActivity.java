@@ -109,15 +109,6 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_maps);
         initViews();
 
-        buttonSatellite = (Button) findViewById(R.id.buttonSatellite);
-        buttonTerrain = (Button) findViewById(R.id.buttonTerrain);
-        buttonHybrid = (Button) findViewById(R.id.buttonHybrid);
-
-/*
-        MapFragment mapFragment = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this); */
-
         if(getIntent() != null){
             Intent intent = getIntent();
             email = intent.getStringExtra("email");
@@ -166,18 +157,6 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         new MyTask().execute();
     }
 
-
-    public void onSatelliteButtonClick(View view) {
-        googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-    }
-
-    public void onHybridButtonClick(View view) {
-        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-    }
-
-    public void onTerrainButtonClick(View view) {
-        googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-    }
 
     private void initViews() {
 
@@ -278,14 +257,9 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         Log.i("TEST", "#codicedelviaggio  " + comboCodice.get(marker.getTitle()));
 
         startActivity(i);
-      /*  */ /*Toast.makeText(this,"Hai selezionato un viaggio",
-                Toast.LENGTH_SHORT).show();*/
     }
 
     public boolean onMarkerClick(Marker arg0) {
-      /*  Intent i = new Intent(this, ViaggioActivity.class);
-        i.putExtra("email", email);
-        startActivity(i);*/
         return false;
     }
 
@@ -297,14 +271,11 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
     private void AggiungiMarkedPointsOnMap(Profilo p, List<Tappa> tappe, List<Viaggio> viaggio) {
         mGoogleApiClient.connect();
-
         count = 0;
-
         namesStops.clear();
         for (Tappa t : tappe){
             findPlaceById(p, t);
         }
-
         profiloNomiTappe.put(p, tappe);
         viaggioTappa.put(tappe, nome);
         Log.i("TEST", "profiloNomiTappe: " + profiloNomiTappe);

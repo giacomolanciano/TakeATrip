@@ -43,18 +43,15 @@ public class HomeFragment extends Fragment {
 
     private ArrayList<Profilo> followers;
 
-//    public HomeFragment(Context context, ArrayList<Profilo> listaSeguaci) {
-//        this.context = context;
-//        followers = listaSeguaci;
-//
-//        dataFollowers = new ArrayList<DataObject>();
-//
-//
-//        for(Profilo p : followers){
-//            dataFollowers.add(new DataObject(p));
-//        }
-//
-//    }
+    public HomeFragment(Context context, ArrayList<Profilo> listaSeguaci) {
+        this.context = context;
+        followers = listaSeguaci;
+        dataFollowers = new ArrayList<DataObject>();
+
+        for(Profilo p : followers){
+            dataFollowers.add(new DataObject(p));
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

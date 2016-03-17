@@ -17,29 +17,6 @@
         android:weightSum="3"
         >
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/buttonSatellite"
-            android:text="@string/Satellite"
-            android:onClick="onSatelliteButtonClick"
-            android:layout_weight="1"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/buttonHybrid"
-            android:text="@string/Hybrid"
-            android:onClick="onHybridButtonClick"
-            android:layout_weight="1"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/buttonTerrain"
-            android:text="@string/Terrain"
-            android:onClick="onTerrainButtonClick"
-            android:layout_weight="1"/>
 
     </LinearLayout>
 

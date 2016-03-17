@@ -97,6 +97,11 @@ public String getTipoFollow() {
     }
 
 
+    public String getUrlImmagineProfilo(){
+        return follow.getIdImageProfile();
+    }
+
+
 
 
 

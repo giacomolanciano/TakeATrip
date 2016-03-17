@@ -86,6 +86,7 @@ public class Constants {
     public  static final String DATE_FORMAT_ID = "dateFormat";
 
 
+    public static final int LIMIT_NAMES_PROFILE = 18;
 
 
 

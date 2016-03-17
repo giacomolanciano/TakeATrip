@@ -5,7 +5,6 @@ package com.example.david.takeatrip.Utilities;
  */
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -14,26 +13,34 @@ import android.util.Log;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Fragments.FollowersFragment;
 import com.example.david.takeatrip.Fragments.FollowingFragment;
-import com.example.david.takeatrip.Fragments.HomeFragment;
 import com.example.david.takeatrip.Fragments.SearchUsersFragment;
-import com.example.david.takeatrip.Fragments.TopRatedFragment;
 
 import java.util.ArrayList;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
 
-    private ArrayList<Profilo> follower;
-    private ArrayList<Profilo> follow;
+    private ArrayList<Profilo> followers;
+    private ArrayList<Profilo> following;
     private ArrayList<Profilo> homePage;
     private Context context;
 
-    public TabsPagerAdapter(FragmentManager fm, Context context, ArrayList<Profilo> followers) {
+    public TabsPagerAdapter(FragmentManager fm, Context context, ArrayList<Profilo> followers, ArrayList<Profilo> following) {
         super(fm);
-        this.follower = followers;
 
-        //TODO modificare
-        this.follow = followers;
-        this.homePage = followers;
+        if(followers == null){
+            this.followers = new ArrayList<Profilo>();
+        }
+        else{
+            this.followers = followers;
+
+        }
+
+        if(following == null){
+            this.following = new ArrayList<Profilo>();
+        }
+        else{
+            this.following = following;
+        }
 
         this.context = context;
     }
@@ -42,35 +49,40 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int index) {
 
         switch (index) {
+
+            /*
             case 0:
 
-                HomeFragment newFragment = new HomeFragment();
+                HomeFragment newFragment = new HomeFragment(context, follower);
 
                 Bundle args = new Bundle();
 
                 newFragment.setArguments(args);
 
                 return newFragment;
+                */
+
+            case 0:
+                // Movies fragment activity
+                Log.i("TEST", "seguiti in Adapter: " + following);
+                Log.i("TEST", "context in Adapter: " + context);
+                return new FollowingFragment(context, following);
 
             case 1:
                 // Movies fragment activity
-                Log.i("TEST", "seguaci in Adapter: " + follower);
+                Log.i("TEST", "seguaci in Adapter: " + followers);
                 Log.i("TEST", "context in Adapter: " + context);
 
-                // return new FollowingFragment(context, follow);
-                return new FollowingFragment(context, follower);
+                    return new FollowersFragment(context, followers);
             case 2:
-                // Movies fragment activity
-                Log.i("TEST", "seguiti in Adapter: " + follow);
-                Log.i("TEST", "context in Adapter: " + context);
-
-                    return new FollowersFragment(context, follow);
-            case 3:
                 // Games fragment activity
-                return new TopRatedFragment();
+                return new SearchUsersFragment();
+
+            /*
             case 4:
                 // Movies fragment activity
-                return new SearchUsersFragment();
+                return new TopRatedFragment();
+                */
 
         }
 
@@ -80,7 +92,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         // get item count - equal to number of tabs
-        return 5;
+        return 3;
     }
 
 }

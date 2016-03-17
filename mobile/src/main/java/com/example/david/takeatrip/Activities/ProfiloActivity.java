@@ -243,8 +243,24 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             if(externalView){
                 Log.i("TEST", "visualizzazione esterna del profilo");
             }
-            viewName.setText(name);
-            viewSurname.setText(surname);
+
+            if(name.length() > Constants.LIMIT_NAMES_PROFILE){
+                String newName = name.substring(0,Constants.LIMIT_NAMES_PROFILE-2);
+                newName += "...";
+                viewName.setText(newName);
+            }
+            else{
+                viewName.setText(name);
+            }
+
+            if(surname.length() > Constants.LIMIT_NAMES_PROFILE){
+                String newName = surname.substring(0,Constants.LIMIT_NAMES_PROFILE-2);
+                newName += "...";
+                viewSurname.setText(newName);
+            }
+            else{
+                viewSurname.setText(surname);
+            }
         }
 
 
@@ -256,10 +272,16 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         TabHost.TabSpec tab3 = TabHost.newTabSpec("DESTINATIONS");
 
 
-        //TODO: usare setIndicator(View) per personalizzare i tab
-        tab1.setIndicator("INFO");
-        tab2.setIndicator("STATS");
-        tab3.setIndicator("DEST");
+        ImageView image1 = new ImageView(this);
+        image1.setImageResource(R.drawable.ic_person_black_18dp);
+
+        ImageView image2 = new ImageView(this);
+        image2.setImageResource(R.drawable.ic_map_black_18dp);
+
+        //ImageView image3 = new ImageView(this);
+        tab1.setIndicator(image1);
+        //tab2.setIndicator("STATS");
+        tab3.setIndicator(image2);
 
         Intent intentInfo = new Intent(this, InfoActivity.class);
         intentInfo.putExtra("name", name);
@@ -282,10 +304,9 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         intentInfo.putExtra("descrizione", descrizione);
         intentInfo.putExtra("tipo", tipo);
         intentInfo.putExtra("profile", profile);
-
-
-
         tab1.setContent(intentInfo);
+
+
         tab2.setContent(new Intent(this, StatsActivity.class));
 
         Intent intentDest = new Intent(this, MapsActivity.class);

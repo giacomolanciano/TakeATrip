@@ -50,6 +50,8 @@ public class FollowingFragment extends Fragment {
 
         dataFollowing = new ArrayList<DataObject>();
 
+        Log.i("TEST", "seguiti: "+ following);
+
 
         for(Profilo p : following){
             dataFollowing.add(new DataObject(p));
