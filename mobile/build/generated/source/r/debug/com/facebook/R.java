@@ -159,13 +159,13 @@ public final class R {
 		public static final int MessengerButton_White = 0x7f0a00cb;
 		public static final int MessengerButton_White_Large = 0x7f0a00cc;
 		public static final int MessengerButton_White_Small = 0x7f0a00cd;
-		public static final int com_facebook_button = 0x7f0a0180;
-		public static final int com_facebook_button_like = 0x7f0a0181;
-		public static final int com_facebook_button_send = 0x7f0a0182;
-		public static final int com_facebook_button_share = 0x7f0a0183;
-		public static final int com_facebook_loginview_default_style = 0x7f0a0184;
-		public static final int com_facebook_loginview_silver_style = 0x7f0a0185;
-		public static final int tooltip_bubble_text = 0x7f0a0187;
+		public static final int com_facebook_button = 0x7f0a0181;
+		public static final int com_facebook_button_like = 0x7f0a0182;
+		public static final int com_facebook_button_send = 0x7f0a0183;
+		public static final int com_facebook_button_share = 0x7f0a0184;
+		public static final int com_facebook_loginview_default_style = 0x7f0a0185;
+		public static final int com_facebook_loginview_silver_style = 0x7f0a0186;
+		public static final int tooltip_bubble_text = 0x7f0a0188;
 	}
 	public static final class styleable {
 		public static final int[] com_facebook_like_view = { 0x7f01016a, 0x7f01016b, 0x7f01016c, 0x7f01016d, 0x7f01016e, 0x7f01016f };

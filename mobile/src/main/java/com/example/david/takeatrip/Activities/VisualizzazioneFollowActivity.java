@@ -73,10 +73,12 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
     private Profilo corrente;
 
     // TODO: Tab titles in other languages
-    private String[] tabs = {"FOLLOWING","FOLLOWERS"};
+    private String[] tabs = {"Home","Following","Followers", "Top Rated", "Search"};
 
-    private int[] icons = {R.drawable.ic_people_black_36dp,
-            R.drawable.ic_add_a_photo_black_36dp};
+    private int[] icons = {
+            R.drawable.ic_add_a_photo_black_36dp,
+            R.drawable.ic_add_black_24dp,
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +93,7 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
 
         }
         viewPager = (ViewPager) findViewById(R.id.pagerVisualizzazione);
+
         actionBar = getActionBar();
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -147,12 +150,17 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
 
 
         /*Email Utente*/
-
-
-
-
         MyTaskFollowers mT = new MyTaskFollowers();
         mT.execute();
+
+
+        //TODO: introdurre delegate per download followers and following
+        try {
+            Thread.currentThread().sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
         MyTaskFollowing mTF = new MyTaskFollowing();
         mTF.execute();
@@ -169,6 +177,14 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
 
 
         //TODO una volta impostate le icone giuste queste scritte vanno levate
+
+        /*
+        if(tab.getPosition()==0) {
+            tab.setText("HOME");
+        }
+        */
+
+
         if(tab.getPosition()==0) {
             tab.setText("FOLLOWING");
         }
@@ -176,6 +192,12 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
             tab.setText("FOLLOWERS");
         }
 
+
+        /*
+        if(tab.getPosition()==4) {
+            tab.setText("TOP RATED");
+        }
+        */
 
         Log.i("TEST", "TAB SELEZIONATO: "+ tab.getPosition() );
 
@@ -192,7 +214,7 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
 
     }
 
-    private class MyTaskFollowers extends AsyncTask<Void, Void, Void> {
+    private class MyTaskFollowing extends AsyncTask<Void, Void, Void> {
         InputStream is = null;
         String stringaFinale = "";
 
@@ -200,7 +222,6 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
         protected Void doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("email", email));
-            Log.i("TEST: ", "MIA MAIL FOLLOWING: " + email);
             try {
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost httppost = new HttpPost(ADDRESS_PRELIEVO);
@@ -227,12 +248,11 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
                             stringaFinale = "Non sono presenti following";
                             Log.i("TEST", "result da Followers: " + stringaFinale);
                             Log.i("TEST", "NO FOLLOWING " + seguaci);
-                            mAdapter = new TabsPagerAdapterVisualizzazioneFollow(getSupportFragmentManager(), getBaseContext(), seguaci);
-                            viewPager.setAdapter(mAdapter);  //LASCIARE ASSOLUTAMENTE COSI!!!!!
+                            //mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(), seguaci,null);
+                            //viewPager.setAdapter(mAdapter);  //LASCIARE ASSOLUTAMENTE COSI!!!!!
 
                         } else {
                             JSONArray jArray = new JSONArray(result);
-                            Log.i("TEST", "jArray" + jArray.toString());
 
                             if (jArray != null && result != null) {
                                 for (int i = 0; i < jArray.length(); i++) {
@@ -245,20 +265,13 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
                                     String urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
                                     String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
 
-                                    Profilo seguace = new Profilo(emailSeguace, nomeUtente,cognomeUtente, null, null,sesso,username,null,null,null,urlImmagineProfilo,urlImmagineCopertina);
-                                    Log.i("TEST", "seguace : " + seguace.getEmail());
-                                    Log.i("TEST", "corrente : " + corrente.getEmail());
-                                    follow.add(new Following(seguace, corrente));
+                                    Profilo seguito = new Profilo(emailSeguace, nomeUtente,cognomeUtente, null, null,sesso,username,null,null,null,urlImmagineProfilo,urlImmagineCopertina);
+                                    Log.i("TEST", "seguito : " + seguito.getEmail());
+                                    follow.add(new Following(corrente, seguito));
                                     //Corrente è il seguito
                                 }
                             }
 
-                            Log.i("TEST", "lista followers di " + email + ": " + follow);
-                            for (int i = 0; i < follow.size(); i++) {
-                                Log.i("TEST", "followers : " + follow.get(i).toString());
-
-
-                            }
                         }
 
 
@@ -279,7 +292,7 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
         @Override
         protected void onPostExecute(Void aVoid) {
             if (stringaFinale.equals("")) {
-                PopolaListaFollowers(follow);
+                PopolaListaFollowing(follow);
             } else {
                 Toast.makeText(getBaseContext(), stringaFinale, Toast.LENGTH_LONG).show();
             }
@@ -288,30 +301,24 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
     }
 
     //era un popolalista
-    private void PopolaListaFollowers( ArrayList<Following> follow) {
-        ArrayList<Profilo> vuoto = new ArrayList<Profilo>();
-        Log.i("TEST", "LISTA SEGUACI VUOTA " );
-        Log.i("TEST", "INVIO VUOTO");
-
-
+    private void PopolaListaFollowing( ArrayList<Following> follow) {
+        seguiti.clear();
+        seguiti = new ArrayList<Profilo>();
         for (Following f : follow) {
-            Log.i("TEST", "seguaci: " + f.getSegue());
-            seguaci.add(f.getSegue());
+            Log.i("TEST", "seguito: " + f.getSeguito());
+            seguiti.add(f.getSeguito());
         }
 
-        // Initilization
-        Log.i("TEST", "contesto SocialActivity: " + getBaseContext());
-
-        Log.i("TEST", "INVIO SEGUACI" );
-        mAdapter = new TabsPagerAdapterVisualizzazioneFollow(getSupportFragmentManager(), getBaseContext(), seguaci);
+        mAdapter = new TabsPagerAdapterVisualizzazioneFollow(getSupportFragmentManager(), getBaseContext(),seguaci,seguiti);
         viewPager.setAdapter(mAdapter);
 
-
-
-        Log.i("TEST", "seguaci di: "+ corrente + ": " + seguaci);
+        Log.i("TEST", "seguiti di: "+ corrente + ": " + seguiti);
 
     }
-    private class MyTaskFollowing extends AsyncTask<Void, Void, Void> {
+
+
+
+    private class MyTaskFollowers extends AsyncTask<Void, Void, Void> {
         InputStream is = null;
         String stringaFinale = "";
 
@@ -343,14 +350,13 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
 
                         if (result.equals("null\n")) {
                             stringaFinale = "Non sono presenti followers";
-                            Log.i("TEST", "result da Following: " + stringaFinale);
-                            mAdapter = new TabsPagerAdapterVisualizzazioneFollow(getSupportFragmentManager(), getBaseContext(), seguiti);
-                            viewPager.setAdapter(mAdapter); //LASCIARE ASSOLUTAMENTE COSI!!!!!
+                            Log.i("TEST", "result da Followers: " + stringaFinale);
+                            //mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(), seguiti);
+                            //viewPager.setAdapter(mAdapter); //LASCIARE ASSOLUTAMENTE COSI!!!!!
 
 
                         } else {
                             JSONArray jArray = new JSONArray(result);
-                            Log.i("TEST", "jArray" + jArray.toString());
 
                             if (jArray != null && result != null) {
                                 for (int i = 0; i < jArray.length(); i++) {
@@ -363,19 +369,15 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
                                     String urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
                                     String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
 
-                                    Profilo seguito = new Profilo(emailSeguito, nomeUtente,cognomeUtente, null, null,sesso,username,null,null,null,urlImmagineProfilo,urlImmagineCopertina);
-                                    Log.i("TEST", "seguito : " + seguito.getEmail());
-                                    Log.i("TEST", "corrente : " + corrente.getEmail());
-                                    following.add(new Following(corrente,seguito));
-                                    //Corrente è il seguace
+                                    Profilo seguace = new Profilo(emailSeguito, nomeUtente,cognomeUtente, null, null,sesso,username,null,null,null,urlImmagineProfilo,urlImmagineCopertina);
+                                    Log.i("TEST", "seguace : " + seguace.getEmail());
+                                    following.add(new Following(seguace,corrente));
                                 }
                             }
 
-                            Log.i("TEST", "lista following di " + email + ": " + following);
+                            Log.i("TEST", "lista followers di " + email + ": " + follow);
                             for (int i = 0; i < following.size(); i++) {
-                                Log.i("TEST", "following : " + following.get(i).toString());
-
-
+                                Log.i("TEST", "followers : " + following.get(i).toString());
                             }
                         }
 
@@ -397,7 +399,7 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
         @Override
         protected void onPostExecute(Void aVoid) {
             if (stringaFinale.equals("")) {
-                PopolaListaFollowing(following);
+                PopolaListaFollowers(following);
             } else {
                 Toast.makeText(getBaseContext(), stringaFinale, Toast.LENGTH_LONG).show();
             }
@@ -405,31 +407,21 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
         }
     }
 
-    private void PopolaListaFollowing( ArrayList<Following> following) {
-        ArrayList<Profilo> vuoto = new ArrayList<Profilo>();
-
-        Log.i("TEST", "LISTA SEGUITI VUOTA " );
-        Log.i("TEST", "INVIO VUOTO");
-
+    private void PopolaListaFollowers( ArrayList<Following> following) {
+        seguaci.clear();
         for (Following f : following) {
-            Log.i("TEST", "seguiti: " + f.getSeguito());
-            seguiti.add(f.getSeguito());
-            Log.i("TEST", "email seguiti: " + f.getSeguito().getEmail());
-
-
+            seguaci.add(f.getSegue());
+            Log.i("TEST", "email seguaci: " + f.getSegue().getEmail());
         }
 
-        // Initilization
-        Log.i("TEST", "contesto SocialActivity: " + getBaseContext());
 
-        Log.i("TEST", "INVIO SEGUITI" );
 
-        mAdapter = new TabsPagerAdapterVisualizzazioneFollow(getSupportFragmentManager(), getBaseContext(), seguiti);
+/*
+        mAdapter = new  (getSupportFragmentManager(), getBaseContext(), seguaci,seguiti);
         viewPager.setAdapter(mAdapter);
+*/
 
-
-
-        Log.i("TEST", "seguiti di: "+ corrente + ": " + seguiti);
+        Log.i("TEST", "seguaci di: "+ corrente + ": " + seguaci);
 
     }
 }

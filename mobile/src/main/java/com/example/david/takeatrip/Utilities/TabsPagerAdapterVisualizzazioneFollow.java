@@ -18,14 +18,28 @@ import java.util.ArrayList;
 
 public class TabsPagerAdapterVisualizzazioneFollow extends FragmentPagerAdapter {
 
-    private ArrayList<Profilo> follower;
-    private ArrayList<Profilo> follow;
+    private ArrayList<Profilo> followers;
+    private ArrayList<Profilo> following;
+    private ArrayList<Profilo> homePage;
     private Context context;
 
-    public TabsPagerAdapterVisualizzazioneFollow(FragmentManager fm, Context context, ArrayList<Profilo> followers) {
+    public TabsPagerAdapterVisualizzazioneFollow(FragmentManager fm, Context context, ArrayList<Profilo> followers, ArrayList<Profilo> following) {
         super(fm);
-        this.follower = followers;
-        this.follow = followers;
+
+        if(followers == null){
+            this.followers = new ArrayList<Profilo>();
+        }
+        else{
+            this.followers = followers;
+
+        }
+
+        if(following == null){
+            this.following = new ArrayList<Profilo>();
+        }
+        else{
+            this.following = following;
+        }
 
         this.context = context;
     }
@@ -35,18 +49,17 @@ public class TabsPagerAdapterVisualizzazioneFollow extends FragmentPagerAdapter 
 
         switch (index) {
             case 0:
-                Log.i("TEST", "seguaci in Adapter: " + follower);
+                // Movies fragment activity
+                Log.i("TEST", "seguiti in Adapter: " + following);
                 Log.i("TEST", "context in Adapter: " + context);
+                return new FollowingFragment(context, following);
 
-                // return new FollowingFragment(context, follow);
-                return new FollowingFragment(context, follower);
             case 1:
                 // Movies fragment activity
-                Log.i("TEST", "seguiti in Adapter: " + follow);
+                Log.i("TEST", "seguaci in Adapter: " + followers);
                 Log.i("TEST", "context in Adapter: " + context);
 
-                return new FollowersFragment(context, follow);
-
+                return new FollowersFragment(context, followers);
         }
 
         return null;

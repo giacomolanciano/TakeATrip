@@ -101,6 +101,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
+
         // Adding Tabs
         for (int tab_name : icons) {
             actionBar.addTab(actionBar.newTab().setIcon(tab_name)
@@ -159,7 +160,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
         //TODO: introdurre delegate per download followers and following
         try {
-            Thread.currentThread().sleep(1500);
+            Thread.currentThread().sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

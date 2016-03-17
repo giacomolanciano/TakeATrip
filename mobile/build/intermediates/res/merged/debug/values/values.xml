@@ -1705,7 +1705,7 @@
         <item name="android:windowNoTitle">true</item>
     </style>
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/black_overlay</item>
+        <item name="android:background">@color/blue</item>
     </style>
     <style name="FullscreenTheme" parent="AppTheme">
         <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
@@ -1922,7 +1922,14 @@
         <item name="android:textColorPrimaryInverse">@color/primary_text_material_light</item>
     </style>
     <style name="SocialDef" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/primary_material_dark_3</item>
+        <item name="colorPrimary">@color/blue</item>
+    </style>
+    <style name="TEMA" parent="Widget.AppCompat.ActionBar">
+        <item name="colorPrimary">#90CAF9</item>
+        <item name="android:colorBackground">@color/sfondoBianco</item>
+        <item name="android:textColorPrimaryInverse">#90CAF9</item>
+        <item name="android:solidColor">@color/blue</item>
+
     </style>
     <style name="TextAppearance.AppCompat" parent="Base.TextAppearance.AppCompat"/>
     <style name="TextAppearance.AppCompat.Body1" parent="Base.TextAppearance.AppCompat.Body1"/>
@@ -2243,7 +2250,13 @@
     <item name="android:colorBackground">@color/sfondoBianco</item>
     <item name="android:textColorPrimaryInverse">@color/blue</item>
         <item name="android:colorPrimaryDark">@color/blue</item>
+        <item name="android:actionBarTheme">@color/blue</item>
+        <item name="android:actionBarWidgetTheme">@color/blue</item>
+        <item name="android:actionBarTabStyle">@color/blue</item>
         <item name="android:actionBarItemBackground">@color/blue</item>
+        <item name="android:panelColorBackground">@color/blue</item>
+        <item name="android:solidColor">@color/blue</item>
+        <item name="android:statusBarColor">@color/blue</item>
         <!--METTERE QUI COLORE BLUE DELLA BARRA SOPRA -->
 
 
