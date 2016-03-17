@@ -52,7 +52,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -149,8 +148,8 @@ public class LoginActivity extends AppCompatActivity implements
 
         setContentView(R.layout.activity_login);
 
-        campoEmail = (EditText) findViewById(R.id.campoEmail);
-        campoPassword = (EditText) findViewById(R.id.campoPassword);
+//        campoEmail = (EditText) findViewById(R.id.campoEmail);
+//        campoPassword = (EditText) findViewById(R.id.campoPassword);
 
 
         // If the access token is available already assign it.
@@ -492,6 +491,13 @@ public class LoginActivity extends AppCompatActivity implements
         }
     }
 
+    public void onClickSignUpFacebook(View view) {
+        blogin.performClick();
+    }
+
+    public void onClickSignUpGoogle(View view) {
+        this.onClick(signInButton);
+    }
 
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
@@ -613,65 +619,55 @@ public class LoginActivity extends AppCompatActivity implements
 
 
 
-
-
-/*
-
 //serve solo quando si ha un login indipendente
 
-    private class MyTaskInsert extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("nome", nome));
-            dataToSend.add(new BasicNameValuePair("cognome", cognome));
-            dataToSend.add(new BasicNameValuePair("dataNascita",data));
-            dataToSend.add(new BasicNameValuePair("email", email));
-            dataToSend.add(new BasicNameValuePair("password", password));
-            dataToSend.add(new BasicNameValuePair("nazionalita", nazionalita));
-            dataToSend.add(new BasicNameValuePair("sesso", sesso));
-            dataToSend.add(new BasicNameValuePair("username", username));
-            dataToSend.add(new BasicNameValuePair("lavoro", lavoro));
-            dataToSend.add(new BasicNameValuePair("descrizione", descrizione));
-            dataToSend.add(new BasicNameValuePair("tipo", tipo));
-
-
-            Log.i("TEST", "dati: " + nome + " " + cognome + " " + data + " " + email + " " + password);
-
-            try {
-                if (InternetConnection.haveInternetConnection(LoginActivity.this)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost;
-                    httppost = new HttpPost(ADDRESS_INSERIMENTO_UTENTE);
-                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                    httpclient.execute(httppost);
-                }
-                else
-                    Log.e("CONNESSIONE Internet", "Assente!");
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            openMainActivity(email, nome,cognome,data,password,nazionalita,sesso,username,lavoro,descrizione,tipo);
-
-        }
-    }
-
-
-    */
-
-
-
+//    private class MyTaskInsert extends AsyncTask<Void, Void, Void> {
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+//            dataToSend.add(new BasicNameValuePair("nome", nome));
+//            dataToSend.add(new BasicNameValuePair("cognome", cognome));
+//            dataToSend.add(new BasicNameValuePair("dataNascita",data));
+//            dataToSend.add(new BasicNameValuePair("email", email));
+//            dataToSend.add(new BasicNameValuePair("password", password));
+//            dataToSend.add(new BasicNameValuePair("nazionalita", nazionalita));
+//            dataToSend.add(new BasicNameValuePair("sesso", sesso));
+//            dataToSend.add(new BasicNameValuePair("username", username));
+//            dataToSend.add(new BasicNameValuePair("lavoro", lavoro));
+//            dataToSend.add(new BasicNameValuePair("descrizione", descrizione));
+//            dataToSend.add(new BasicNameValuePair("tipo", tipo));
+//
+//
+//            Log.i("TEST", "dati: " + nome + " " + cognome + " " + data + " " + email + " " + password);
+//
+//            try {
+//                if (InternetConnection.haveInternetConnection(LoginActivity.this)) {
+//                    Log.i("CONNESSIONE Internet", "Presente!");
+//                    HttpClient httpclient = new DefaultHttpClient();
+//                    HttpPost httppost;
+//                    httppost = new HttpPost(ADDRESS_INSERIMENTO_UTENTE);
+//                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+//                    httpclient.execute(httppost);
+//                }
+//                else
+//                    Log.e("CONNESSIONE Internet", "Assente!");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                Log.e(e.toString(),e.getMessage());
+//            }
+//
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//            openMainActivity(email, nome,cognome,data,password,nazionalita,sesso,username,lavoro,descrizione,tipo);
+//
+//        }
+//    }
 
 
     private void openMainActivity(String e, String name, String surname, String date, String pwd, String n, String sex, String username,

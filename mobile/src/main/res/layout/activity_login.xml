@@ -6,121 +6,104 @@
     tools:context=".MainActivity">
 
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal|top"
+        android:weightSum="1"
+        >
+
+        <FrameLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_weight="0.3"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            >
+
+            <ImageView
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:id="@+id/image"
+                android:src="@drawable/logodef" />
+        </FrameLayout>
+
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
+            android:layout_height="match_parent"
+            android:layout_weight="0.7">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/layoutBottoni"
                 android:orientation="vertical"
-                android:layout_gravity="center">
+                android:weightSum="1"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:layout_gravity="bottom">
 
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                <FrameLayout
+                    android:id="@+id/FrameLayoutFacebook"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
 
-                    <ImageView
-                        android:layout_width="200dp"
-                        android:layout_height="300dp"
-                        android:layout_gravity="center_horizontal"
-                        android:id="@+id/image"
-                        android:src="@drawable/logodef"/>
-
-                    <EditText
+                    <com.facebook.login.widget.LoginButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:id="@+id/campoEmail"
-                        android:hint="@string/Email"
-                        android:visibility="invisible"/>
+                        android:text="@string/LoginWithFb"
+                        android:id="@+id/LoginButtonFb"
+                        android:visibility="gone" />
 
-                    <EditText
-                        android:layout_width="wrap_content"
+                    <Button
+                        android:id="@+id/fb"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPassword"
-                        android:ems="10"
-                        android:id="@+id/campoPassword"
-                        android:hint="@string/Password"
-                        android:layout_centerVertical="true"
-                        android:password="true"
-                        android:visibility="invisible"
-                        />
+                        android:background="#416BC1"
+                        android:onClick="onClickSignUpFacebook"
+                        android:text="@string/LoginWithFb"
+                        android:textColor="#ffffff"
+                        android:textStyle="bold" />
 
+                </FrameLayout>
 
-
-                </LinearLayout>
-
-                <LinearLayout
+                <FrameLayout
+                    android:id="@+id/FrameLayoutGoogle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/layoutBottoni"
-                    android:orientation="vertical"
-                    android:weightSum="1">
+                    android:layout_marginTop="10dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_weight="0.5"
-                        android:weightSum="1">
-
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="@string/Login"
-                            android:id="@+id/Accedi"
-                            android:layout_weight="0.5"
-                            android:visibility="invisible"/>
-
-
-                        <TextView
-                            style="?android:attr/buttonStyleSmall"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:text="@string/Register"
-                            android:id="@+id/Registrati"
-                            android:layout_weight="0.5"
-                            android:visibility="invisible"
-                            />
-
-
-                    </LinearLayout>
-
-
-                        <com.facebook.login.widget.LoginButton
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/LoginWithFb"
-                            android:id="@+id/LoginButtonFb"
-                            />
 
                     <com.google.android.gms.common.SignInButton
                         android:id="@+id/sign_in_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:text="@string/LoginWithGoogle"
-                        />
-                </LinearLayout>
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/google"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/red"
+                        android:onClick="onClickSignUpGoogle"
+                        android:text="@string/LoginWithGoogle"
+                        android:textColor="#ffffff"
+                        android:textStyle="bold" />
+                </FrameLayout>
+
             </LinearLayout>
         </FrameLayout>
 
+    </LinearLayout>
 
 
-
-    </ScrollView>
 
 
 

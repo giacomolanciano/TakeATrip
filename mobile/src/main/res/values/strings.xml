@@ -26,8 +26,8 @@
 
 
     <string name="Register">Register</string>
-    <string name="LoginWithFb">Login with Facebook</string>
-    <string name="LoginWithGoogle">Login with Google</string>
+    <string name="LoginWithFb">Sign up with Facebook</string>
+    <string name="LoginWithGoogle">Sign up with Google</string>
     <string name="Logout">Logout</string>
 
 
