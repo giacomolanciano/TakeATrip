@@ -1714,6 +1714,8 @@ public class ListaTappeActivity extends AppCompatActivity
         return placeName.toLowerCase().replaceAll(" ", "_");
     }
 
+
+
     private String getCurrentDateString() {
         Calendar calendar = Calendar.getInstance();
         int cDay = calendar.get(Calendar.DAY_OF_MONTH);
@@ -1878,6 +1880,7 @@ public class ListaTappeActivity extends AppCompatActivity
     }
 
 
+
     private class MyTaskInserimentoTappa extends AsyncTask<Void, Void, Void> {
 
         InputStream is = null;
@@ -2002,6 +2005,7 @@ public class ListaTappeActivity extends AppCompatActivity
     }
 
 
+
     private class MyTaskInserimentoFiltro extends AsyncTask<Void, Void, Void> {
 
         InputStream is = null;
@@ -2078,6 +2082,7 @@ public class ListaTappeActivity extends AppCompatActivity
             super.onPostExecute(aVoid);
         }
     }
+
 
 
     private class PrivacyLevelAdapter extends ArrayAdapter<String> {
@@ -2238,6 +2243,8 @@ public class ListaTappeActivity extends AppCompatActivity
 
                     for (String nota : noteInserite) {
 
+                        dataToSend.add(new BasicNameValuePair("timestamp",
+                                new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date())));
                         dataToSend.add(new BasicNameValuePair("nota", nota));
                         Log.i("TEST", "nota: " + nota);
 
