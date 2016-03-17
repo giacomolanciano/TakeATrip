@@ -60,9 +60,9 @@ import com.example.david.takeatrip.Interfaces.AsyncResponseDriveId;
 import com.example.david.takeatrip.Interfaces.AsyncResponseDriveIdCover;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.AudioRecord;
+import com.example.david.takeatrip.Utilities.BitmapWorkerTask;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatesUtils;
-import com.example.david.takeatrip.Utilities.DownloadImageTask;
 import com.example.david.takeatrip.Utilities.MultimedialFile;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
 import com.example.david.takeatrip.Utilities.UploadFilePHP;
@@ -285,7 +285,7 @@ public class ListaTappeActivity extends AppCompatActivity
             codiceViaggio = intent.getStringExtra("codiceViaggio");
             nomeViaggio = intent.getStringExtra("nomeViaggio");
             urlImmagineViaggio = intent.getStringExtra("urlImmagineViaggio");
-            new DownloadImageTask(ViewImmagineViaggio).execute(Constants.ADDRESS_TAT + urlImmagineViaggio);
+            new BitmapWorkerTask(ViewImmagineViaggio).execute(Constants.ADDRESS_TAT + urlImmagineViaggio);
             CharSequence[] listPartecipants = intent.getCharSequenceArrayExtra("partecipanti");
             CharSequence[] urlImagePartecipants = intent.getCharSequenceArrayExtra("urlImagePartecipants");
             CharSequence[] sessoPartecipants = intent.getCharSequenceArrayExtra("sessoPartecipants");
@@ -483,9 +483,7 @@ public class ListaTappeActivity extends AppCompatActivity
                     }
                     try {
 
-                        Bitmap thumbnail = DownloadImageTask.decodeSampledBitmapFromPath(f.getAbsolutePath(),0,0);
-
-
+                        Bitmap thumbnail = BitmapWorkerTask.decodeSampledBitmapFromPath(f.getAbsolutePath(), 0, 0);
                         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
 
                         String nomeFile = timeStamp + ".jpg";
@@ -538,7 +536,7 @@ public class ListaTappeActivity extends AppCompatActivity
                             c.close();
 
 
-                            Bitmap thumbnail = DownloadImageTask.decodeSampledBitmapFromPath(picturePath, 0,0);
+                            Bitmap thumbnail = BitmapWorkerTask.decodeSampledBitmapFromPath(picturePath, 0, 0);
 
 /*
                             BitmapFactory.Options options = new BitmapFactory.Options();
@@ -916,7 +914,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
             if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
-                new DownloadImageTask(image).execute(Constants.ADDRESS_TAT + p.getIdImageProfile());
+                new BitmapWorkerTask(image).execute(Constants.ADDRESS_TAT + p.getIdImageProfile());
             }
             else{
                 if(p.getSesso().equals("M")){

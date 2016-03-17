@@ -13,8 +13,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.BitmapWorkerTask;
 import com.example.david.takeatrip.Utilities.Constants;
-import com.example.david.takeatrip.Utilities.DownloadImageTask;
 
 /**
  * Created by lucagiacomelli on 16/03/16.
@@ -114,23 +114,84 @@ public class ImageGridFragment extends Fragment implements AdapterView.OnItemCli
                 imageView = new ImageView(mContext);
 
                 //TODO: vedere la risoluzione dello schermo
-                imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                imageView.setPadding(8, 8, 8, 8);
+
+
+                imageView.setLayoutParams(new GridView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+                //imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                //imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView.setPadding(5, 5, 5, 5);
 
             } else {
                 imageView = (ImageView) convertView;
             }
 
-            //imageView.setImageResource(R.drawable.empty_image); // Load image into ImageView
 
             //if(URLs[position] != null && !URLs[position].equals("null")){
-                Log.i("TEST", "ora carico le foto nella gridView...");
-                new DownloadImageTask(imageView).execute(Constants.ADDRESS_TAT + URLs[position]);
+
+            //imageView.setImageResource(R.drawable.empty_image); // Load image into ImageView
+            loadBitmap(URLs[position], imageView);
+
+
+            //new BitmapWorkerTask(imageView).execute(Constants.ADDRESS_TAT + URLs[position]);
             //}
 
 
             return imageView;
         }
     }
+
+    public void loadBitmap(String url, ImageView imageView) {
+        if (cancelPotentialWork(url, imageView)) {
+            if(url != null && !url.equals("null")){
+                Log.i("TEST", "ora carico le foto nella gridView...");
+                final BitmapWorkerTask task = new BitmapWorkerTask(imageView);
+                task.execute(Constants.ADDRESS_TAT +url);
+            }
+
+
+        }
+    }
+
+
+    public static boolean cancelPotentialWork(String url, ImageView imageView) {
+        //final BitmapWorkerTask bitmapWorkerTask = BitmapWorkerTask.getBitmapWorkerTask(imageView);
+        final BitmapWorkerTask bitmapWorkerTask = BitmapWorkerTask.getBitmapWorkerTask(imageView);
+
+        if (bitmapWorkerTask != null) {
+
+
+            Log.i("TEST", "worker task: " + bitmapWorkerTask.toString());
+            Log.i("TEST", "worker task with data: " + bitmapWorkerTask.data);
+
+            if (bitmapWorkerTask== null || !bitmapWorkerTask.equals(url)) {
+                // Cancel previous task
+                bitmapWorkerTask.cancel(true);
+            } else {
+                // The same work is already in progress
+                return false;
+            }
+
+
+
+            //final String bitmapData = bitmapWorkerTask.data;
+
+            /*
+            Log.i("TEST", "worker task: " + bitmapWorkerTask.toString());
+            Log.i("TEST", "worker task with data: " + bitmapWorkerTask.data);
+
+            if (bitmapData== null || !bitmapData.equals(url)) {
+                // Cancel previous task
+                bitmapWorkerTask.cancel(true);
+            } else {
+                // The same work is already in progress
+                return false;
+            }*/
+        }
+        // No task associated with the ImageView, or an existing task was cancelled
+        return true;
+    }
+
 }

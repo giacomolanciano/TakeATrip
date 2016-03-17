@@ -30,13 +30,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.david.takeatrip.Classes.Immagine;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
 import com.example.david.takeatrip.Fragments.ImageGridFragment;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.BitmapWorkerTask;
 import com.example.david.takeatrip.Utilities.Constants;
-import com.example.david.takeatrip.Utilities.DownloadImageTask;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
 import com.example.david.takeatrip.Utilities.UploadFilePHP;
 import com.google.android.gms.drive.DriveId;
@@ -283,7 +284,7 @@ public class ViaggioActivity extends FragmentActivity {
 
 
             if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
-                new DownloadImageTask(image).execute(Constants.ADDRESS_TAT + p.getIdImageProfile());
+                new BitmapWorkerTask(image).execute(Constants.ADDRESS_TAT + p.getIdImageProfile());
             }else {
                 if(p.getSesso().equals("M")){
                     image.setImageResource(R.drawable.default_male);
@@ -341,7 +342,7 @@ public class ViaggioActivity extends FragmentActivity {
 
                     if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
                         String urlProfilePartecipant =  Constants.ADDRESS_TAT + p.getIdImageProfile();
-                        new DownloadImageTask(imageProfile).execute(urlProfilePartecipant);
+                        new BitmapWorkerTask(imageProfile).execute(urlProfilePartecipant);
 
                     }
                     else{
@@ -355,7 +356,7 @@ public class ViaggioActivity extends FragmentActivity {
 
                     if(p.getGetIdImageCover() != null && !p.getGetIdImageCover().equals("null")){
                         String urlCoverPartecipant =  Constants.ADDRESS_TAT+ p.getGetIdImageCover();
-                        new DownloadImageTask(null, layoutCopertina).execute(urlCoverPartecipant);
+                        new BitmapWorkerTask(null, layoutCopertina).execute(urlCoverPartecipant);
                     }
 
                     break;
@@ -599,29 +600,13 @@ public class ViaggioActivity extends FragmentActivity {
                 }
             }
 
-            /*
-            if(proprioViaggio){
-                setContentView(R.layout.activity_viaggio);
-                //TODO: scaricare tutti gli url delle immagini e visualizzarli nel fragment
-                //TODO: anche per il layout di visualizzazione esterna
-                //tenere conto dei livelli di condivisione: in questa fase Public, Travel
-
-            }
-            else{
-                Log.i("TEST", "non sei compreso nel viaggio");
-                setContentView(R.layout.activity_viaggio3);
-            }
-
-*/
-
             new TaskForUrlsImages(codiceViaggio).execute();
-
 
             viewTitoloViaggio = (TextView)findViewById(R.id.titoloViaggio);
             layoutCopertinaViaggio = (LinearLayout)findViewById(R.id.layoutCoverImageTravel);
 
             if(urlImageTravel != null && !urlImageTravel.equals("null")){
-                new DownloadImageTask(null,layoutCopertinaViaggio).execute(Constants.ADDRESS_TAT + urlImageTravel);
+                new BitmapWorkerTask(null,layoutCopertinaViaggio).execute(Constants.ADDRESS_TAT + urlImageTravel);
             }
 
 
@@ -809,7 +794,7 @@ public class ViaggioActivity extends FragmentActivity {
                 }
                 else{
                     Log.i("TEST", "solo prelievo immagine copertina viaggio gia presente");
-                    new DownloadImageTask(null,layoutCopertinaViaggio).execute(Constants.ADDRESS_TAT + urlFolder + "/" + Constants.NAME_IMAGES_TRAVEL_DEFAULT);
+                    new BitmapWorkerTask(null,layoutCopertinaViaggio).execute(Constants.ADDRESS_TAT + urlFolder + "/" + Constants.NAME_IMAGES_TRAVEL_DEFAULT);
                 }
             }
             else{
@@ -1068,13 +1053,13 @@ public class ViaggioActivity extends FragmentActivity {
         private String codiceViaggio;
         InputStream is = null;
         String result, stringaFinale = "";
-        private List<String> listUrls;
+        private List<Immagine> listImages;
         private String [] URLs;
 
 
         public TaskForUrlsImages(String codiceViaggio){
             this.codiceViaggio = codiceViaggio;
-            listUrls = new ArrayList<String>();
+            listImages = new ArrayList<Immagine>();
         }
 
 
@@ -1122,7 +1107,8 @@ public class ViaggioActivity extends FragmentActivity {
                             JSONObject json_data = jArray.getJSONObject(i);
                             String urlImmagine = json_data.getString("urlImmagineViaggio").toString();
                             int orineTappa  = json_data.getInt("ordineTappa");
-                            listUrls.add(urlImmagine);
+                            String livelloCondivisione  = json_data.getString("livelloCondivisione");
+                            listImages.add(new Immagine(urlImmagine, livelloCondivisione));
 
                         }
                     }
@@ -1145,14 +1131,17 @@ public class ViaggioActivity extends FragmentActivity {
 
 
             //TODO: controllare i livelli di condivisione e mettere nell'array solo quelle giuste
-            if(listUrls.size()>0){
-                URLs = new String[listUrls.size()];
+            if(listImages.size()>0){
+                URLs = new String[listImages.size()];
                 int i=0;
-                for(String url : listUrls){
-                    URLs[i] = url;
-                    Log.i("TEST", "url ["+i+"]: "+ URLs[i]);
+                for(Immagine image : listImages){
+                    if(image.getLivelloCondivisione().equalsIgnoreCase("public")
+                            || image.getLivelloCondivisione().equalsIgnoreCase("travel")){
+                        URLs[i] = image.getUrlImmagine();
+                        Log.i("TEST", "url ["+i+"]: "+ URLs[i]);
 
-                    i++;
+                        i++;
+                    }
                 }
             }
 
@@ -1161,20 +1150,18 @@ public class ViaggioActivity extends FragmentActivity {
             }
 
             ImageGridFragment fragment = (ImageGridFragment)getFragmentManager().findFragmentById(R.id.fragment_images);
+
             ImageGridFragment fragment1 = fragment.newInstance(URLs);
 
             //fragment.setArguments(fragment1.getArguments());
 
+            fragment.onDestroy();
 
-            Log.i("TEST", "creato un nuovo fragment with bundle: " + fragment1.getArguments());
+            Log.i("TEST", "creato un nuovo fragment with bundle: " + fragment1.getArguments().getStringArray("urls"));
 
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
             transaction.replace(R.id.fragment_images, fragment1);
-            transaction.detach(fragment);
             transaction.addToBackStack(null);
-
-
             transaction.commit();
 
         }

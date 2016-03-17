@@ -140,7 +140,7 @@ public class MyRecyclerViewAdapterFollowers extends RecyclerView
         immagineProfilo.setContentDescription(urlImmagine);
 
         if(urlImmagine != null && !urlImmagine.equals("null")){
-            new DownloadImageTask(immagineProfilo).execute(Constants.ADDRESS_TAT +urlImmagine);
+            new BitmapWorkerTask(immagineProfilo).execute(Constants.ADDRESS_TAT +urlImmagine);
         }
         else{
             if(sesso.equals("M")){

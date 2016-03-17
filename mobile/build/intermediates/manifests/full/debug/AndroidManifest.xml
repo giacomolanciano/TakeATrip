@@ -95,7 +95,7 @@
         <activity android:name="com.example.david.takeatrip.Activities.SearchActivity" />
         <activity
             android:name="com.example.david.takeatrip.Activities.SocialActivity"
-            android:theme="@style/TEMA" />
+            android:theme="@style/Widget.AppTheme.ActionBar.Solid" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"

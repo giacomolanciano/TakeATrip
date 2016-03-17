@@ -30,9 +30,9 @@ import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.BitmapWorkerTask;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatabaseHandler;
-import com.example.david.takeatrip.Utilities.DownloadImageTask;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
@@ -143,6 +143,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //new MyTaskIDFolder(this,email).execute();
         new MyTaskIDProfileImage(this,email).execute();
         new MyTaskIDCoverImage(this,email).execute();
+
+        showProgressDialog();
 
 
         if(sesso != null && sesso.equals("M")){
@@ -331,7 +333,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 image.setContentDescription(p.getEmail());
 
                                 if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
-                                    new DownloadImageTask(image).execute(Constants.ADDRESS_TAT + p.getIdImageProfile());
+                                    new BitmapWorkerTask(image).execute(Constants.ADDRESS_TAT + p.getIdImageProfile());
                                 }else {
                                     if(p.getSesso().equals("M")){
                                         image.setImageResource(R.drawable.default_male);
@@ -817,7 +819,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         protected void onPostExecute(Void aVoid) {
             Log.i("TEST", "risultato dal prelievo dell'id imm profilo: " + result);
             if(!result.equals("NULL") && !urlImmagineProfilo.equals("null")){
-                new DownloadImageTask(imageViewProfileRound).execute(Constants.ADDRESS_TAT + urlImmagineProfilo);
+                new BitmapWorkerTask(imageViewProfileRound).execute(Constants.ADDRESS_TAT + urlImmagineProfilo);
             }
             else{
                 //L'utente è loggato con facebook
@@ -830,20 +832,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         Log.i("TEST", "url_image: " + image_URI.toURL().toString());
 
-                        DownloadImageTask task = new DownloadImageTask(imageViewProfileRound);
+                        BitmapWorkerTask task = new BitmapWorkerTask(imageViewProfileRound);
                         task.execute(image_URI.toURL().toString());
 
                         imageProfile = ((BitmapDrawable)imageViewProfileRound.getDrawable()).getBitmap();
                         Log.i("TEST", "bitmap image profile: " + imageProfile);
-
-                        //new UploadFilePHP(this,imageProfile,email).execute();
-
 
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             }
+
+            hideProgressDialog();
+
         }
     }
 
@@ -948,5 +950,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     */
 
+
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
+    }
 
 }

@@ -220,7 +220,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
                     //TODO: con il thread non si visualizza questo bitmap
                     // l'allocazione di memoria per visualizzare questo bitmap
-                    //new DownloadImageTask(imageTravel).execute(Constants.ADDRESS_TAT + urlImmagineViaggio);
+                    //new BitmapWorkerTask(imageTravel).execute(Constants.ADDRESS_TAT + urlImmagineViaggio);
                 }
 
                 // Getting reference to the TextView to set title

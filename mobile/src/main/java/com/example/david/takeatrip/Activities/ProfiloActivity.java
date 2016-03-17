@@ -36,8 +36,8 @@ import com.example.david.takeatrip.Classes.TakeATrip;
 import com.example.david.takeatrip.Interfaces.AsyncResponseDriveId;
 import com.example.david.takeatrip.Interfaces.AsyncResponseDriveIdCover;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.BitmapWorkerTask;
 import com.example.david.takeatrip.Utilities.Constants;
-import com.example.david.takeatrip.Utilities.DownloadImageTask;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
 import com.example.david.takeatrip.Utilities.UploadFilePHP;
 import com.facebook.AccessToken;
@@ -172,7 +172,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                     try {
                         image_URI = new URI(image_uri.toString());
-                        DownloadImageTask task = new DownloadImageTask(imageProfile);
+                        BitmapWorkerTask task = new BitmapWorkerTask(imageProfile);
                         task.execute(image_URI.toURL().toString());
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -189,7 +189,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             }
             else{
 
-                DownloadImageTask task = new DownloadImageTask(imageProfile);
+                BitmapWorkerTask task = new BitmapWorkerTask(imageProfile);
                 task.execute(Constants.ADDRESS_TAT + idImageProfile);
             }
 
@@ -214,7 +214,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                                             Log.i("TEST", "immagine copertina: " + url_cover_image);
 
                                             //URL newurl = new URL(url_image);
-                                            DownloadImageTask task = new DownloadImageTask(coverImage, layoutCoverImage);
+                                            BitmapWorkerTask task = new BitmapWorkerTask(coverImage, layoutCoverImage);
                                             task.execute(url_cover_image);
 
 
@@ -235,7 +235,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 }
             }
             else{
-                new DownloadImageTask(coverImage,layoutCoverImage).execute(Constants.ADDRESS_TAT + idCoverImage);
+                new BitmapWorkerTask(coverImage,layoutCoverImage).execute(Constants.ADDRESS_TAT + idCoverImage);
             }
 
             if(password != null) {

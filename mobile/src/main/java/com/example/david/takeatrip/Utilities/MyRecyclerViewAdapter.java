@@ -108,7 +108,7 @@ public class MyRecyclerViewAdapter extends RecyclerView
         immagineViaggio.setContentDescription(urlImmagine);
 
         if(urlImmagine != null && !urlImmagine.equals("null")){
-            new DownloadImageTask(immagineViaggio).execute(Constants.ADDRESS_TAT +urlImmagine);
+            new BitmapWorkerTask(immagineViaggio).execute(Constants.ADDRESS_TAT +urlImmagine);
         }
         else{
             immagineViaggio.setImageResource(R.drawable.empty_image);

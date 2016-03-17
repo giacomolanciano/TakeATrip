@@ -1,6 +1,7 @@
 package com.example.david.takeatrip.Activities;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -59,6 +60,7 @@ public class ListaViaggiActivity extends ActionBarActivity {
 
     private ViewGroup group;
     private ImageView image_default;
+    private ProgressDialog mProgressDialog;
 
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -110,6 +112,7 @@ public class ListaViaggiActivity extends ActionBarActivity {
 
 //        ViewCaricamentoInCorso.setVisibility(View.VISIBLE);
 
+        showProgressDialog();
         MyTask mT = new MyTask();
         mT.execute();
 
@@ -131,6 +134,8 @@ public class ListaViaggiActivity extends ActionBarActivity {
         MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(dataTravels);
         adapter.onCreateViewHolder(group, 0);
         mRecyclerView.setAdapter(adapter);
+        hideProgressDialog();
+
 
         /*
         mRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -286,6 +291,23 @@ public class ListaViaggiActivity extends ActionBarActivity {
                 Log.i(LOG_TAG, " Clicked on Item " + position);
             }
         });
+    }
+
+
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
     }
 
 }
