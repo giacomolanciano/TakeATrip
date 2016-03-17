@@ -694,6 +694,7 @@
     <string name="title_activity_registrazione">Registration</string>
     <string name="title_activity_tappa">TappaActivity</string>
     <string name="title_activity_viaggio">ViaggioActivity</string>
+    <string name="update_failed">Update failed</string>
     <string name="wallet_buy_button_place_holder">Buy with Google</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>

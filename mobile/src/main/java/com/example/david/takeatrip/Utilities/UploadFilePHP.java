@@ -5,12 +5,8 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.david.takeatrip.Interfaces.AsyncResponseDriveId;
-import com.example.david.takeatrip.Interfaces.AsyncResponseDriveIdCover;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -59,7 +55,9 @@ public class UploadFilePHP extends AsyncTask<Void, Void, Void> {
         String image_str = android.util.Base64.encodeToString(byte_arr, android.util.Base64.DEFAULT);
         ArrayList<NameValuePair> nameValuePairs = new  ArrayList<NameValuePair>();
 
-        nameValuePairs.add(new BasicNameValuePair("path",path));
+        Log.i("TEST","parametri della post in upload file: " + path + " " + nomeFile);
+
+        nameValuePairs.add(new BasicNameValuePair("path", path));
         nameValuePairs.add(new BasicNameValuePair("nome",nomeFile));
         nameValuePairs.add(new BasicNameValuePair("image",image_str));
 

@@ -2,7 +2,6 @@ package com.example.david.takeatrip.Fragments;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,16 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.GridLayout;
-import android.widget.GridLayout.LayoutParams;
 import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DownloadImageTask;
-
-import java.net.URL;
 
 /**
  * Created by lucagiacomelli on 16/03/16.
@@ -58,16 +53,13 @@ public class ImageGridFragment extends Fragment implements AdapterView.OnItemCli
             URLs = getArguments().getStringArray("urls");
         }
 
-
         final View v = inflater.inflate(R.layout.image_grid_fragment, container, false);
 
         Log.i("TEST", "URLs: " + URLs);
 
         if(URLs != null && URLs.length>0){
-
             final GridView mGridView = (GridView) v.findViewById(R.id.gridView);
             mGridView.setAdapter(mAdapter);
-
             Log.i("TEST", "settato l'adapter per il grid");
 
             mGridView.setOnItemClickListener(this);
@@ -121,9 +113,8 @@ public class ImageGridFragment extends Fragment implements AdapterView.OnItemCli
             if (convertView == null) { // if it's not recycled, initialize some attributes
                 imageView = new ImageView(mContext);
 
-
-                imageView = new ImageView(mContext);
-                //imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
+                //TODO: vedere la risoluzione dello schermo
+                imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setPadding(8, 8, 8, 8);
 
@@ -131,13 +122,12 @@ public class ImageGridFragment extends Fragment implements AdapterView.OnItemCli
                 imageView = (ImageView) convertView;
             }
 
+            //imageView.setImageResource(R.drawable.empty_image); // Load image into ImageView
 
-
-            //TODO
-            imageView.setImageResource(R.drawable.empty_image); // Load image into ImageView
-
-            Log.i("TEST", "ora carico le foto nella gridView...");
-            new DownloadImageTask(imageView).execute(Constants.ADDRESS_TAT + URLs[position]);
+            //if(URLs[position] != null && !URLs[position].equals("null")){
+                Log.i("TEST", "ora carico le foto nella gridView...");
+                new DownloadImageTask(imageView).execute(Constants.ADDRESS_TAT + URLs[position]);
+            //}
 
 
             return imageView;

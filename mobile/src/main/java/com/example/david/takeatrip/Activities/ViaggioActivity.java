@@ -241,10 +241,15 @@ public class ViaggioActivity extends FragmentActivity {
                 bitmapImageTravel = (BitmapFactory.decodeFile(picturePath));
                 Log.i("image from gallery:", picturePath + "");
 
-                String NameForUrl = codiceViaggio.trim().replace(" ", "");
-                if(email!= null){
+                if(email!= null && codiceViaggio != null){
+
+                    String NameForUrl = codiceViaggio.trim().replace(" ", "");
+
                     String url = email+"/"+NameForUrl;
                     new MyTaskIDFolder(this,email,url,NameForUrl).execute();
+                }
+                else{
+                    Toast.makeText(getBaseContext(), R.string.update_failed, Toast.LENGTH_LONG);
                 }
             }
         }
@@ -796,7 +801,7 @@ public class ViaggioActivity extends FragmentActivity {
                     Log.i("TEST", "upload dell'immagine del viaggio");
 
                     String pathImage = urlFolder+"/";
-                    nameImageTravel = String.valueOf(System.currentTimeMillis());
+                    nameImageTravel = String.valueOf(System.currentTimeMillis()) + ".jpg";
 
                     Log.i("TEST", "nome immagine: " + nameImageTravel);
                     new UploadFilePHP(ViaggioActivity.this,bitmapImageTravel,pathImage,Constants.NAME_IMAGES_TRAVEL_DEFAULT).execute();
@@ -897,15 +902,9 @@ public class ViaggioActivity extends FragmentActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
 
-
-            Log.i("TEST", "risultato operazione di inserimento cartella nel DB:" + result);
-            if(!result.equals("OK")){
-                //upload dell'immagine
-
-                String pathImage = urlCartella+"/";
-                new UploadFilePHP(ViaggioActivity.this,bitmapImageTravel,pathImage,Constants.NAME_IMAGES_TRAVEL_DEFAULT).execute();
-                new MyTaskInsertImageTravel(ViaggioActivity.this,email,codiceViaggio, null,pathImage + Constants.NAME_IMAGES_TRAVEL_DEFAULT).execute();
-            }
+            String pathImage = urlCartella+"/";
+            new UploadFilePHP(ViaggioActivity.this,bitmapImageTravel,pathImage,Constants.NAME_IMAGES_TRAVEL_DEFAULT).execute();
+            new MyTaskInsertImageTravel(ViaggioActivity.this,email,codiceViaggio, null,pathImage + Constants.NAME_IMAGES_TRAVEL_DEFAULT).execute();
 
             super.onPostExecute(aVoid);
 
@@ -1157,10 +1156,11 @@ public class ViaggioActivity extends FragmentActivity {
                 }
             }
 
+            if(URLs[0] == null || URLs[0].equals("null")){
+                return;
+            }
+
             ImageGridFragment fragment = (ImageGridFragment)getFragmentManager().findFragmentById(R.id.fragment_images);
-
-
-
             ImageGridFragment fragment1 = fragment.newInstance(URLs);
 
             //fragment.setArguments(fragment1.getArguments());
@@ -1171,7 +1171,8 @@ public class ViaggioActivity extends FragmentActivity {
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
             transaction.replace(R.id.fragment_images, fragment1);
-            //transaction.addToBackStack(null);
+            transaction.detach(fragment);
+            transaction.addToBackStack(null);
 
 
             transaction.commit();
