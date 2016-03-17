@@ -17,13 +17,12 @@ public class Constants {
     public static final String PREFIX_FACEBOOK = "facebo";
 
 
-    //TODO assicurarsi che tutti i codici privacy siano univoci
-    public static final int PUBLIC_PRIVACY = 0;
-    public static final int TRAVEL_PRIVACY = 1;
-    public static final int STOP_PRIVACY = 2;
-    public static final int CUSTOM_PRIVACY = 3;
+//    public static int[] privacy_images = {R.drawable.ic_public_black_36dp, R.drawable.ic_people_black_36dp,
+//            R.drawable.ic_person_pin_circle_black_36dp, R.drawable.ic_settings_black_36dp};
+
+    //i nuovi livelli sono: public, followers, travel, private
     public static int[] privacy_images = {R.drawable.ic_public_black_36dp, R.drawable.ic_people_black_36dp,
-            R.drawable.ic_person_pin_circle_black_36dp, R.drawable.ic_settings_black_36dp};
+            R.drawable.ic_person_pin_circle_black_36dp, R.drawable.ic_lock_black_36dp};
 
 
     //php files
