@@ -123,6 +123,7 @@ public class ListaTappeActivity extends AppCompatActivity
     private final String ADDRESS_PRELIEVO_TAPPE = "QueryTappe.php";
     private final String ADDRESS_INSERIMENTO_TAPPA = "InserimentoTappa.php";
     private final String ADDRESS_INSERIMENTO_FILTRO = "InserimentoFiltro.php";
+    private final String ADDRESS_INSERIMENTO_NOTA = "InserimentoNotaTappa.php";
     private final int QUALITY_OF_IMAGE = Constants.QUALITY_PHOTO;
 
 
@@ -201,6 +202,8 @@ public class ListaTappeActivity extends AppCompatActivity
     private TextInputEditText textInputEditText;
     private RoundedImageView ViewImmagineViaggio;
 
+    private List<String> noteInserite;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -271,6 +274,8 @@ public class ListaTappeActivity extends AppCompatActivity
         immaginiSelezionate = new ArrayList<Bitmap>();
         immaginiUpload = new ArrayList<Bitmap>();
         bitmap_nomeFile = new HashMap<Bitmap,String>();
+
+        noteInserite = new ArrayList<String>();
 
 
 
@@ -553,7 +558,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
                             if(thumbnail != null){
                                 immaginiSelezionate.add(thumbnail);
-                                bitmap_nomeFile.put(thumbnail,nomeFile);
+                                bitmap_nomeFile.put(thumbnail, nomeFile);
                             }
 
 
@@ -1213,7 +1218,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
                 Calendar cal = DatesUtils.getDateFromString(getCurrentDateString(), Constants.DATABASE_DATE_FORMAT);
 
-                Log.i("TEST", "cal.getTime: "+cal.getTime());
+                Log.i("TEST", "cal.getTime: " + cal.getTime());
 
                 profiloTappe.get(profiloVisualizzazioneCorrente).add(new Tappa(itAux, stopOrder, cal.getTime()));
 
@@ -1656,13 +1661,24 @@ public class ListaTappeActivity extends AppCompatActivity
 
             ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
+            final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(wrapper);
+            LayoutInflater inflater = this.getLayoutInflater();
+            final View dialogView = inflater.inflate(R.layout.material_edit_text, null);
+            builder.setView(dialogView);
+
+            textInputLayout = (TextInputLayout) dialogView.findViewById(R.id.textInputLayout);
+            if (textInputLayout != null) {
+                textInputLayout.setCounterEnabled(true);
+                textInputLayout.setCounterMaxLength(Constants.NOTE_MAX_LENGTH);
+            }
+            textInputEditText = (TextInputEditText) dialogView.findViewById(R.id.editText);
 
             builder.setNegativeButton(getString(R.string.cancel),
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+
 
                             Log.i("TEST", "edit text dialog canceled");
                         }
@@ -1673,37 +1689,16 @@ public class ListaTappeActivity extends AppCompatActivity
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-                            //TODO caricare dati su db
-
+                            noteInserite.add(textInputEditText.getText().toString());
                             Log.i("TEST", "edit text confirmed");
                         }
                     });
 
 
-            //TODO: gestire compatibilità
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                builder.setView(R.layout.material_edit_text);
-            } else {
-                Log.e("TEST", "versione android < 21");
-            }
             builder.setTitle(getString(R.string.labelNote));
 
-
-            //Dialog dialog = builder.create();
-            AlertDialog dialog = builder.create();
+            android.support.v7.app.AlertDialog dialog = builder.create();
             dialog.show();
-
-
-
-
-
-            textInputLayout = (TextInputLayout) dialog.findViewById(R.id.textInputLayout);
-            if (textInputLayout != null) {
-                textInputLayout.setCounterEnabled(true);
-                textInputLayout.setCounterMaxLength(Constants.NOTE_MAX_LENGTH);
-            }
-            textInputEditText = (TextInputEditText) dialog.findViewById(R.id.editText);
-
 
         } catch (Exception e) {
             Log.e(e.toString().toUpperCase(), e.getMessage());
@@ -1885,11 +1880,6 @@ public class ListaTappeActivity extends AppCompatActivity
     }
 
 
-
-
-
-
-
     private class MyTaskInserimentoTappa extends AsyncTask<Void, Void, Void> {
 
         InputStream is = null;
@@ -1983,6 +1973,10 @@ public class ListaTappeActivity extends AppCompatActivity
                 Toast.makeText(getBaseContext(), "tappa inserita correttamente", Toast.LENGTH_LONG).show();
             }
 
+
+            if(!noteInserite.isEmpty()) {
+                new MyTaskInserimentoNotaTappa(ordine).execute();
+            }
 
             if(immaginiSelezionate.size() > 0){
                 for(Bitmap bitmap : immaginiSelezionate){
@@ -2211,5 +2205,103 @@ public class ListaTappeActivity extends AppCompatActivity
             super.onPostExecute(aVoid);
         }
     }
+
+
+
+    private class MyTaskInserimentoNotaTappa extends AsyncTask<Void, Void, Void> {
+
+        InputStream is = null;
+        String result, stringaFinale = "";
+        int ordineAux;
+
+        public MyTaskInserimentoNotaTappa(int ordine) {
+            this.ordineAux = ordine;
+        }
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("ordine", ""+ordineAux));
+            dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
+            dataToSend.add(new BasicNameValuePair("emailProfilo", email));
+
+            Log.i("TEST", "ordine: " + ordineAux);
+            Log.i("TEST", "codiceViaggio: " + codiceViaggio);
+            Log.i("TEST", "emailProfilo: " + email);
+
+            try {
+                if (InternetConnection.haveInternetConnection(ListaTappeActivity.this)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+
+
+
+                    for (String nota : noteInserite) {
+
+                        dataToSend.add(new BasicNameValuePair("nota", nota));
+                        Log.i("TEST", "nota: " + nota);
+
+                        HttpClient httpclient = new DefaultHttpClient();
+                        HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_NOTA);
+                        httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+
+                        HttpResponse response = httpclient.execute(httppost);
+
+                        HttpEntity entity = response.getEntity();
+
+                        is = entity.getContent();
+
+                        if (is != null) {
+                            //converto la risposta in stringa
+                            try {
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                                StringBuilder sb = new StringBuilder();
+                                String line = null;
+                                while ((line = reader.readLine()) != null) {
+                                    sb.append(line + "\n");
+                                }
+                                is.close();
+
+                                result = sb.toString();
+                                Log.i("TEST", "result: " +result);
+
+                            } catch (Exception e) {
+                                Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        else {
+                            Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    noteInserite.clear();
+
+
+                } else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                Log.e("TEST", "Errore nella connessione http "+e.toString());
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            if(!result.equals("OK\n")){
+                Log.e("TEST", "note non inserite");
+            }
+            else{
+                Log.i("TEST", "note inserite correttamente");
+
+            }
+            super.onPostExecute(aVoid);
+        }
+    }
+
 
 }

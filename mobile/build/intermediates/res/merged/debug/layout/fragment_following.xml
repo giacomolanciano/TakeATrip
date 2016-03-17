@@ -18,17 +18,23 @@
         <!--card_view:cardBackgroundColor="@color/blue"-->
 
 
-        <ImageView
-            android:layout_width="121dp"
-            android:layout_height="85dp"
-            android:id="@+id/ImageProfile"
-            android:src="@drawable/empty_image"
-            android:layout_gravity="left|bottom|center"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:orientation="horizontal">
 
+            <ImageView
+                android:layout_width="121dp"
+                android:layout_height="85dp"
+                android:id="@+id/ImageProfile"
+                android:src="@drawable/empty_image"
+                android:layout_gravity="left|bottom|center"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -53,6 +59,39 @@
                 android:textColor="#000000"
                 android:id="@+id/CognomeUtenteFollowing"
                 android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|bottom|center_horizontal"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="("
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Username"
+                    android:textColor="#000000"
+                    android:id="@+id/UsernameUtenteFollowing"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text=")"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -80,7 +119,44 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:id="@+id/EmailUser"
+            android:id="@+id/EmailUserFollowing"
             android:visibility="invisible"/>
+         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:id="@+id/LavoroUtenteFollowing"
+            android:visibility="invisible"/>
+         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:id="@+id/DataUtenteFollowing"
+            android:visibility="invisible"/>
+         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:id="@+id/SessoUtenteFollowing"
+            android:visibility="invisible"/>
+         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:id="@+id/TipoUtenteFollowing"
+            android:visibility="invisible"/>
+         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:id="@+id/DescrizioneUtenteFollowing"
+            android:visibility="invisible"/>
+         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:id="@+id/NazionalitaUtenteFollowing"
+            android:visibility="invisible"/>
+
     </FrameLayout>
 </LinearLayout>

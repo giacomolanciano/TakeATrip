@@ -5,10 +5,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/ic_people_black_36dp"
-        android:id="@+id/prova"/>
-
 </android.support.v4.view.ViewPager>
