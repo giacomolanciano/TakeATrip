@@ -32,7 +32,7 @@ On the 18-th of March we presented our work to the staff.
  * [video 1](https://drive.google.com/file/d/0B0FHkIijDk2hZEZXcXNaSVFDbjA/view?usp=sharing)
  * [video 2](https://drive.google.com/file/d/0B0FHkIijDk2heFpIZUM5SHplX00/view?usp=sharing)
 
-An installation guide for the beta application is avalaible on our [website](www.takeatrip.altervista.org).
+An installation guide for the beta application is avalaible on our [website](https://www.takeatrip.altervista.org).
 
 # Possible extension after the semester
 * Crossing paths analysis
