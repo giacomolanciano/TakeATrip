@@ -181,10 +181,7 @@ public class LoginActivity extends AppCompatActivity implements
                 nome = profile.getFirstName();
                 cognome = profile.getLastName();
                 data = "0000-00-00";
-
                 new MyTask().execute();
-
-
                 return;
                 //openMainActivity2(email, nome, cognome, data, password, nazionalita, sesso, username, lavoro, descrizione, tipo);
             }

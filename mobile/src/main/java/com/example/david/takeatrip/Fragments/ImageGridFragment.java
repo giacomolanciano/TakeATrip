@@ -15,6 +15,9 @@ import android.widget.ImageView;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.BitmapWorkerTask;
 import com.example.david.takeatrip.Utilities.Constants;
+import com.example.david.takeatrip.Utilities.GridViewAdapter;
+import com.example.david.takeatrip.Utilities.ScrollListener;
+import com.example.david.takeatrip.Utilities.SquaredImageView;
 
 /**
  * Created by lucagiacomelli on 16/03/16.
@@ -40,7 +43,7 @@ public class ImageGridFragment extends Fragment implements AdapterView.OnItemCli
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new ImageAdapter(getActivity());
+        //mAdapter = new ImageAdapter(getActivity());
 
     }
 
@@ -54,15 +57,15 @@ public class ImageGridFragment extends Fragment implements AdapterView.OnItemCli
         }
 
         final View v = inflater.inflate(R.layout.image_grid_fragment, container, false);
-
         Log.i("TEST", "URLs: " + URLs);
 
         if(URLs != null && URLs.length>0){
-            final GridView mGridView = (GridView) v.findViewById(R.id.gridView);
-            mGridView.setAdapter(mAdapter);
-            Log.i("TEST", "settato l'adapter per il grid");
 
-            mGridView.setOnItemClickListener(this);
+            GridView gv = (GridView) v.findViewById(R.id.grid_view);
+            gv.setAdapter(new GridViewAdapter(getActivity(), URLs));
+            gv.setOnScrollListener(new ScrollListener(getActivity()));
+
+            Log.i("TEST", "settato l'adapter per il grid");
         }
 
 
@@ -110,6 +113,12 @@ public class ImageGridFragment extends Fragment implements AdapterView.OnItemCli
             ImageView imageView;
 
 
+            SquaredImageView view = (SquaredImageView) convertView;
+            if (view == null) {
+                view = new SquaredImageView(mContext);
+            }
+
+
             if (convertView == null) { // if it's not recycled, initialize some attributes
                 imageView = new ImageView(mContext);
 
@@ -132,7 +141,7 @@ public class ImageGridFragment extends Fragment implements AdapterView.OnItemCli
             //if(URLs[position] != null && !URLs[position].equals("null")){
 
             //imageView.setImageResource(R.drawable.empty_image); // Load image into ImageView
-            loadBitmap(URLs[position], imageView);
+            //loadBitmap(URLs[position], imageView);
 
 
             //new BitmapWorkerTask(imageView).execute(Constants.ADDRESS_TAT + URLs[position]);

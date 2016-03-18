@@ -161,7 +161,7 @@
         android:layout_height="150dp"
         android:layout_gravity="center"
         android:src="@drawable/logodef"
-        android:onClick="ClickImageProfile"/>
+        android:onClick="ClickImageProfile" />
 
     <ImageView
         android:layout_width="wrap_content"

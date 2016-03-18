@@ -239,6 +239,7 @@
     <string name="LogOutFailed">Logout failed, try again</string>
     <string name="SearchByDestination">Search by destination</string>
     <string name="update_failed">Update failed</string>
+    <string name="NewTravel">New travel</string>
 
 
 </resources>

@@ -4,6 +4,8 @@
 
 
     <color name="white">#FFFFFF</color>
+    <color name="blu_scuro">#1976D2</color>
+    <color name="verde_follow">#9CCC65</color>
 
     <color name="red">#FF0000 </color>
     <color name="green">#00FF00</color>
@@ -22,6 +24,8 @@
 
     <color name="translucent_scrim_bottom">#2A000000</color>
     <color name="translucent_scrim_bottom_center">#40000000</color>
+    <color name="translucent_scrim_bottom_profilo">#2A000000</color>
+    <color name="translucent_scrim_bottom_center_profilo">#66000000</color>
 
 
 

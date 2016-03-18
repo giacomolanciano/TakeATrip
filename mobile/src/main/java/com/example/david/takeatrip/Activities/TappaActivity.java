@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -31,11 +32,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.david.takeatrip.Classes.Immagine;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Fragments.DatePickerFragment;
 import com.example.david.takeatrip.R;
@@ -43,10 +47,14 @@ import com.example.david.takeatrip.Utilities.AudioRecord;
 import com.example.david.takeatrip.Utilities.BitmapWorkerTask;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatesUtils;
+import com.example.david.takeatrip.Utilities.GridViewAdapter;
 import com.example.david.takeatrip.Utilities.MultimedialFile;
+import com.example.david.takeatrip.Utilities.MyExpandableListItemAdapter;
+import com.example.david.takeatrip.Utilities.ScrollListener;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.drive.DriveId;
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -56,6 +64,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -68,6 +78,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.List;
 
 public class TappaActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
@@ -100,15 +111,40 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     private HashSet<Bitmap> immaginiSelezionate;
     private Hashtable bitmap_nomeFile;
 
+    private AppBarLayout appBarLayout;
+
+
+
+
+    private static final int INITIAL_DELAY_MILLIS = 500;
+    private MyExpandableListItemAdapter mExpandableListItemAdapter;
+    private ListView listView;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tappa);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.myToolbar);
+
+/*
+        mExpandableListItemAdapter = new MyExpandableListItemAdapter(this);
+        AlphaInAnimationAdapter alphaInAnimationAdapter = new AlphaInAnimationAdapter(mExpandableListItemAdapter);
+        alphaInAnimationAdapter.setAbsListView(lista);
+
+        assert alphaInAnimationAdapter.getViewAnimator() != null;
+        alphaInAnimationAdapter.getViewAnimator().setInitialDelayMillis(INITIAL_DELAY_MILLIS);
+        lista.setAdapter(alphaInAnimationAdapter);
+        //getListView().setAdapter(alphaInAnimationAdapter);
+
+*/
+
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.myToolbar);
         setSupportActionBar(toolbar);
 
-        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
         textDataTappa = (TextView) findViewById(R.id.textDataTappa);
 
@@ -130,6 +166,25 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
 
+        appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
+        final View view = findViewById(R.id.viewSfondoTitolo);
+
+
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if(verticalOffset == -toolbar.getHeight()){
+                    Log.i("TEST", "toolbar collapsed");
+
+                    view.setVisibility(View.INVISIBLE);
+                }else
+                    view.setVisibility(View.VISIBLE);
+
+
+            }
+        });
+
+
 
         Intent i = getIntent();
         if (i != null) {
@@ -141,6 +196,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             data = i.getStringExtra("data");
 
         }
+
+
+        new TaskForUrlsImages(codiceViaggio, ordineTappa).execute();
 
         Log.i("TEST", "email: "+email);
         Log.i("TEST", "codice: "+codiceViaggio);
@@ -1557,6 +1615,149 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             //Log.i("TEST", "img: " + arr_images[position]);
 
             return convertView;
+        }
+    }
+
+
+
+
+    private class TaskForUrlsImages extends AsyncTask<Void, Void, Void> {
+
+        private final static  String ADDRESS_QUERY_URLS= "http://www.musichangman.com//TakeATrip/InserimentoDati/QueryImagesOfTravel.php";
+
+        private String codiceViaggio;
+        InputStream is = null;
+        String result, stringaFinale = "";
+        private List<Immagine> listImages;
+        private String [] URLs;
+        private int ordineTappa;
+
+
+        public TaskForUrlsImages(String codiceViaggio, int ordineTappa){
+            this.codiceViaggio = codiceViaggio;
+            listImages = new ArrayList<Immagine>();
+            this.ordineTappa = ordineTappa;
+        }
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
+            dataToSend.add(new BasicNameValuePair("ordine", String.valueOf(ordineTappa)));
+
+
+            try {
+                if (InternetConnection.haveInternetConnection(TappaActivity.this)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost(ADDRESS_QUERY_URLS);
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                    HttpResponse response = httpclient.execute(httppost);
+                    HttpEntity entity = response.getEntity();
+
+                    is = entity.getContent();
+
+                    if (is != null) {
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+                        } catch (Exception e) {
+                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
+                        }
+                    }
+                    else {
+                        Log.i("TEST", "Input Stream uguale a null");
+                    }
+
+                    JSONArray jArray = new JSONArray(result);
+
+                    if(jArray != null && result != null){
+                        for(int i=0;i<jArray.length();i++){
+                            JSONObject json_data = jArray.getJSONObject(i);
+                            String urlImmagine = json_data.getString("urlImmagineViaggio").toString();
+                            int orineTappa  = json_data.getInt("ordineTappa");
+                            String livelloCondivisione  = json_data.getString("livelloCondivisione");
+                            listImages.add(new Immagine(urlImmagine, livelloCondivisione));
+                        }
+                    }
+                }
+                else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(e.toString(),e.getMessage());
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            Log.i("TEST", "array di url: ");
+
+
+            //TODO: controllare i livelli di condivisione e mettere nell'array solo quelle giuste
+            if(listImages.size()>0){
+                URLs = new String[listImages.size()];
+                int i=0;
+                for(Immagine image : listImages){
+                    if(image.getLivelloCondivisione().equalsIgnoreCase("public")
+                            || image.getLivelloCondivisione().equalsIgnoreCase("travel")){
+                        URLs[i] = Constants.ADDRESS_TAT + image.getUrlImmagine();
+                        Log.i("TEST", "url ["+i+"]: "+ URLs[i]);
+
+                        i++;
+                    }
+                }
+            }
+
+            if(URLs[0] == null || URLs[0].equals("null")){
+                return;
+            }
+
+
+            ImageView coverImageTappa = (ImageView) findViewById(R.id.coverImageTappa);
+
+            Picasso.with(TappaActivity.this).load(URLs[0]).into(coverImageTappa);
+
+
+            GridView gv = (GridView) findViewById(R.id.grid_view_foto_tappa);
+            gv.setAdapter(new GridViewAdapter(TappaActivity.this, URLs));
+            gv.setOnScrollListener(new ScrollListener(TappaActivity.this));
+
+            Log.i("TEST", "settato l'adapter per il grid");
+
+
+
+            /*
+            ImageGridFragment fragment = (ImageGridFragment)getFragmentManager().findFragmentById(R.id.fragment_images);
+
+            ImageGridFragment fragment1 = fragment.newInstance(URLs);
+
+            //fragment.setArguments(fragment1.getArguments());
+
+            fragment.onDestroy();
+
+            Log.i("TEST", "creato un nuovo fragment with bundle: " + fragment1.getArguments().getStringArray("urls"));
+
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_images, fragment1);
+            transaction.addToBackStack(null);
+            transaction.commit();
+
+            */
+
         }
     }
 

@@ -1,0 +1,7 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="90"
+        android:startColor="@color/translucent_scrim_bottom_profilo"
+        android:centerColor="@color/translucent_scrim_bottom_center_profilo"
+        android:endColor="@color/translucent_scrim_bottom_profilo"/>
+</shape>

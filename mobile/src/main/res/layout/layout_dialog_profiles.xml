@@ -18,7 +18,13 @@
             android:layout_weight="1"
             android:background="@color/com_facebook_blue">
 
-            </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/CoverImageDialog"
+                />
+
+        </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -1,7 +1,5 @@
 package com.example.david.takeatrip.Activities;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +10,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -19,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -226,9 +224,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         namesPartecipants.clear();
         partecipants.clear();
 
-        final Dialog dialog = new Dialog(MainActivity.this);
-        dialog.setContentView(R.layout.activity_viaggio2);
-        dialog.setTitle("New travel");
+
+        ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
+
+        final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(wrapper);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialog = inflater.inflate(R.layout.activity_viaggio2, null);
+        builder.setView(dialog);
+        builder.setTitle(getString(R.string.NewTravel));
+
 
         final AutoCompleteTextView text=(AutoCompleteTextView)dialog.findViewById(R.id.autoCompleteTextView1);
         ArrayAdapter adapter = new ArrayAdapter(MainActivity.this,android.R.layout.simple_list_item_1,names);
@@ -244,61 +248,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         TextView travel = (TextView) dialog.findViewById(R.id.titoloViaggio);
-
         editTextNameTravel = (EditText) dialog.findViewById(R.id.editTextNameTravel);
 
 
-        Button buttonCreate = (Button) dialog.findViewById(R.id.buttonCreateTravel);
-        buttonCreate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                if(editTextNameTravel.getText().toString().equals("")){
-                    Toast.makeText(getBaseContext(), "Name Travel omitted", Toast.LENGTH_LONG).show();
-                }
-                else {
 
-                    if(!partecipants.contains(myProfile)){
-                        partecipants.add(myProfile);
+        builder.setNegativeButton(getString(R.string.cancel),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        namesPartecipants.clear();
+                        partecipants.clear();
+                        layoutNewPartecipants.removeAllViews();
+                        editTextNameTravel.setText("");
+
+                        Log.i("TEST", "lista nomi partecipanti:" + namesPartecipants);
+                        Log.i("TEST", "lista partecipanti:" + partecipants);
+
                     }
-                    nomeViaggio = editTextNameTravel.getText().toString();
-                    for(String s : namesPartecipants){
-                        for(Profilo p : profiles){
-                            if(p.getUsername().equals(s)){
-                                if(!partecipants.contains(p)){
-                                    partecipants.add(p);
+                });
+
+        builder.setPositiveButton(getString(R.string.Create),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(editTextNameTravel.getText().toString().equals("")){
+                            Toast.makeText(getBaseContext(), "Name Travel omitted", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+
+                            if(!partecipants.contains(myProfile)){
+                                partecipants.add(myProfile);
+                            }
+                            nomeViaggio = editTextNameTravel.getText().toString();
+                            for(String s : namesPartecipants){
+                                for(Profilo p : profiles){
+                                    if(p.getUsername().equals(s)){
+                                        if(!partecipants.contains(p)){
+                                            partecipants.add(p);
+                                        }
+                                    }
                                 }
                             }
+                            Log.i("TEST", "lista partecipanti:" + partecipants);
+                            Log.i("TEST", "nome Viaggio:" + nomeViaggio);
+
+                            new TaskForUUID().execute();
+
                         }
                     }
-                    Log.i("TEST", "lista partecipanti:" + partecipants);
-                    Log.i("TEST", "nome Viaggio:" + nomeViaggio);
-
-                    new TaskForUUID().execute();
-
-                    dialog.dismiss();
-                }
-            }
-        });
-
-
-        Button buttonCancella = (Button) dialog.findViewById(R.id.buttonCancellaDialog);
-        buttonCancella.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                namesPartecipants.clear();
-                partecipants.clear();
-                layoutNewPartecipants.removeAllViews();
-                editTextNameTravel.setText("");
-
-                Log.i("TEST", "lista nomi partecipanti:" + namesPartecipants);
-                Log.i("TEST", "lista partecipanti:" + partecipants);
-
-                dialog.dismiss();
-            }
-        });
-
+                });
 
 
 
@@ -366,7 +366,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
-        dialog.show();
+        android.support.v7.app.AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
 

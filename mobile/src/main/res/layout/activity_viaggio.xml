@@ -13,6 +13,8 @@
         android:weightSum="1">
 
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -23,17 +25,33 @@
             android:background="@drawable/empty_image"
             android:onClick="onClickImageTravel">
 
-
-            <TextView
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/titoloViaggio"
-                android:textColor="@color/white"
-                android:textSize="38sp"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:layout_gravity="bottom"
-                android:background="#af3d3d3d"
-                android:textStyle="bold" />
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imageTravel"/>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/titoloViaggio"
+                    android:textColor="@color/white"
+                    android:textSize="38sp"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:layout_gravity="bottom"
+                    android:background="#af3d3d3d"
+                    android:textStyle="bold" />
+
+            </FrameLayout>
+
+
+
+
+
 
         </LinearLayout>
 
@@ -114,12 +132,17 @@
                 android:text="Photos"
                 android:layout_gravity="left"/>
 
-            <fragment
-                class="com.example.david.takeatrip.Fragments.ImageGridFragment"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:id="@+id/fragment_images"
+            <GridView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/grid_view"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"/>
+                android:numColumns="3"
+                android:scrollbarStyle="insideOverlay"
+                android:scrollbars="none"
+                android:listSelector="@null"
+                />
 
         </LinearLayout>
     </LinearLayout>

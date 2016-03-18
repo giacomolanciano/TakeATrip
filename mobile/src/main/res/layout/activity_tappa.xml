@@ -14,6 +14,7 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/appBarLayout"
         android:theme="@style/AppTheme.AppBarOverlay">
 
 
@@ -70,6 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/sheet_text_scrim_height_bottom"
                 android:layout_gravity="bottom"
+                android:id="@+id/viewSfondoTitolo"
                 android:layout_alignBottom="@+id/coverImageTappa"
                 android:background="@drawable/scrim_bottom"/>
 
@@ -134,10 +136,6 @@
                     android:layout_gravity="left"
                     android:textAlignment="center"
                     android:onClick="onClickChangeDate"/>
-
-
-
-
             </LinearLayout>
 
 
@@ -186,11 +184,34 @@
 
 
             <LinearLayout
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 >
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    tools:ignore="overdraw">
+
+                    <FrameLayout
+                        android:id="@+id/activity_expandablelistitem_card_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <FrameLayout
+                        android:id="@+id/activity_expandablelistitem_card_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="4dp" />
+
+                </LinearLayout>
+
+
 
                 <!--<LinearLayout-->
                     <!--android:layout_width="match_parent"-->
@@ -225,68 +246,17 @@
                     android:layout_gravity="left" />
 
 
-                <TableLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/layoutForPhotos">
-
-
-                </TableLayout>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="24dp"
-                    android:text="@string/Videos"
-                    android:layout_gravity="left" />
-
-
-                <TableLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/layoutForVideos">
-
-
-                </TableLayout>
-
-
-
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <GridView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/grid_view_foto_tappa"
                     android:paddingTop="@dimen/activity_vertical_margin"
-                    android:textSize="24dp"
-                    android:text="@string/Records"
-                    android:layout_gravity="left" />
-
-
-                <TableLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/layoutRecords">
-
-
-                </TableLayout>
+                    android:layout_width="match_parent"
+                    android:layout_height="600dp"
+                    android:numColumns="3"
+                    android:scrollbarStyle="insideOverlay"
+                    android:scrollbars="none"
+                    android:listSelector="@null"
+                    />
 
 
             </LinearLayout>
@@ -316,6 +286,45 @@
 
 
             </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:visibility="invisible"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24dp"
+                    android:text="@string/Videos"
+                    android:layout_gravity="left" />
+
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:textSize="24dp"
+                    android:text="@string/Records"
+                    android:layout_gravity="left" />
+
+            </LinearLayout>
+
+
 
 
 

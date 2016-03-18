@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.david.takeatrip.Classes.TakeATrip;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.DatesUtils;
 import com.facebook.Profile;
@@ -70,11 +71,17 @@ public class InfoActivity extends AppCompatActivity {
 
             Log.i("TEST", "profilo facebook: " + profile);
 
-            if(email == null || (email != null && emailEsterno!= null)){
-                visualizzazioneEsterna = true;
-                if(email != null && email.equals(emailEsterno)){
-                    visualizzazioneEsterna = false;
-                }
+
+            visualizzazioneEsterna = true;
+            if(email == null){
+                TakeATrip TAT = (TakeATrip)getApplicationContext();
+                if(TAT != null)
+                    email = TAT.getProfiloCorrente().getEmail();
+            }
+
+            if((email != null && emailEsterno == null) || email != null && email.equals(emailEsterno)){
+                visualizzazioneEsterna = false;
+
             }
             if(visualizzazioneEsterna){
                 buttonEdit.setVisibility(View.INVISIBLE);

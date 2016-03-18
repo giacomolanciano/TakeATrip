@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.david.takeatrip.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -140,7 +141,9 @@ public class MyRecyclerViewAdapterFollowers extends RecyclerView
         immagineProfilo.setContentDescription(urlImmagine);
 
         if(urlImmagine != null && !urlImmagine.equals("null")){
-            new BitmapWorkerTask(immagineProfilo).execute(Constants.ADDRESS_TAT +urlImmagine);
+            //new BitmapWorkerTask(immagineProfilo).execute(Constants.ADDRESS_TAT +urlImmagine);
+            Picasso.with(null).load(Constants.ADDRESS_TAT +urlImmagine).into(immagineProfilo);
+
         }
         else{
             if(sesso.equals("M")){

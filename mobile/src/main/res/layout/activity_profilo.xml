@@ -25,7 +25,9 @@
                 android:weightSum="1"
                 android:background="@drawable/empty_image"
                 android:id="@+id/layoutCoverImage"
-                android:layout_weight="0.65">
+                android:layout_weight="0.65"
+                android:onClick="ClickOnCoverImage"
+                >
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -53,7 +55,7 @@
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:paddingBottom="3dp"
                         android:layout_weight="0.3"
-                        android:background="#af3d3d3d"
+                        android:background="@drawable/scrim_bottom_profilo"
                         android:layout_gravity="bottom">
 
                         <TextView
@@ -99,18 +101,22 @@
                             android:weightSum="1">
 
 
+
                             <com.example.david.takeatrip.Utilities.RoundedImageView
                                 android:id="@+id/imageView_round_Profile"
                                 android:layout_width="75dp"
                                 android:layout_height="75dp"
                                 android:layout_gravity="center_horizontal"
                                 android:src="@drawable/default_male"
+                                android:layout_marginBottom="2dp"
                                 android:onClick="ClickImageProfile" />
+
 
                             <Button
                                 android:layout_width="wrap_content"
                                 android:layout_height="32dp"
                                 android:textSize="11dp"
+                                android:background="@drawable/button_style"
                                 android:id="@+id/segui"
                                 android:text="FOLLOW"
                                 android:onClick="ClickOnFollow"
@@ -121,6 +127,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:paddingTop="8dp"
                             android:layout_weight="0.75"
                             android:orientation="vertical"
                             android:onClick="ClickFollowers">

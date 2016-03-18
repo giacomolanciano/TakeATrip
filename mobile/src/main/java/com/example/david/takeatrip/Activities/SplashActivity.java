@@ -12,7 +12,6 @@ public class SplashActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-
         int timeout = 2000;
 
         super.onCreate(savedInstanceState);

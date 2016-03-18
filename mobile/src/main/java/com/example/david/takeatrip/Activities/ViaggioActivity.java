@@ -2,7 +2,6 @@ package com.example.david.takeatrip.Activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,13 +34,15 @@ import com.example.david.takeatrip.Classes.Immagine;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
-import com.example.david.takeatrip.Fragments.ImageGridFragment;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.BitmapWorkerTask;
 import com.example.david.takeatrip.Utilities.Constants;
+import com.example.david.takeatrip.Utilities.GridViewAdapter;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
+import com.example.david.takeatrip.Utilities.ScrollListener;
 import com.example.david.takeatrip.Utilities.UploadFilePHP;
 import com.google.android.gms.drive.DriveId;
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -93,9 +95,12 @@ public class ViaggioActivity extends FragmentActivity {
     private List<String> names;
 
     private TextView viewTitoloViaggio;
+    private ImageView coverImageDialog;
     private LinearLayout layoutCopertinaViaggio;
     private LinearLayout layoutPartecipants;
     private LinearLayout rowHorizontal;
+
+    private ImageView imageTravel;
 
     private DriveId idFolder;
     private Bitmap bitmapImageTravel;
@@ -109,6 +114,8 @@ public class ViaggioActivity extends FragmentActivity {
         setContentView(R.layout.activity_viaggio);
 
 
+
+        imageTravel = (ImageView) findViewById(R.id.imageTravel);
 
         Intent intent;
         if((intent = getIntent()) != null){
@@ -335,6 +342,7 @@ public class ViaggioActivity extends FragmentActivity {
             TextView viewName = (TextView) dialog.findViewById(R.id.viewNameProfileDialog);
             LinearLayout layoutCopertina = (LinearLayout)dialog.findViewById(R.id.layoutCopertinaNelDialog);
             ImageView imageProfile = (ImageView) dialog.findViewById(R.id.imageView_round_Dialog);
+            ImageView coverImageProfile = (ImageView) dialog.findViewById(R.id.CoverImageDialog);
 
             for(Profilo p : listPartecipants){
                 if(p.getEmail().equals(v.getContentDescription())){
@@ -342,7 +350,8 @@ public class ViaggioActivity extends FragmentActivity {
 
                     if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
                         String urlProfilePartecipant =  Constants.ADDRESS_TAT + p.getIdImageProfile();
-                        new BitmapWorkerTask(imageProfile).execute(urlProfilePartecipant);
+                        //new BitmapWorkerTask(imageProfile).execute(urlProfilePartecipant);
+                        Picasso.with(this).load(urlProfilePartecipant).into(imageProfile);
 
                     }
                     else{
@@ -357,6 +366,8 @@ public class ViaggioActivity extends FragmentActivity {
                     if(p.getGetIdImageCover() != null && !p.getGetIdImageCover().equals("null")){
                         String urlCoverPartecipant =  Constants.ADDRESS_TAT+ p.getGetIdImageCover();
                         new BitmapWorkerTask(null, layoutCopertina).execute(urlCoverPartecipant);
+                        //Picasso.with(this).load(urlCoverPartecipant).into(coverImageProfile);
+
                     }
 
                     break;
@@ -365,7 +376,13 @@ public class ViaggioActivity extends FragmentActivity {
 
 
             Button viewProfileButton = (Button) dialog.findViewById(R.id.buttonViewProfile);
+            viewProfileButton.setBackground(getDrawable(R.drawable.button_style));
+            viewProfileButton.setTextSize(20);
             Button cancelDialogButton = (Button) dialog.findViewById(R.id.buttonCancelDialog);
+            cancelDialogButton.setBackground(getDrawable(R.drawable.button_style));
+            cancelDialogButton.setTextSize(20);
+
+
 
             viewProfileButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -438,12 +455,14 @@ public class ViaggioActivity extends FragmentActivity {
         nameTravel.setEnabled(false);
 
 
+        /*
 
         Button buttonCreate = (Button) dialog.findViewById(R.id.buttonCreateTravel);
         buttonCreate.setVisibility(View.INVISIBLE);
 
         Button buttonCancella = (Button) dialog.findViewById(R.id.buttonCancellaDialog);
         buttonCancella.setVisibility(View.INVISIBLE);
+        */
 
         final FloatingActionButton buttonAdd = (FloatingActionButton) dialog.findViewById(R.id.floatingButtonAdd);
 
@@ -795,6 +814,7 @@ public class ViaggioActivity extends FragmentActivity {
                 else{
                     Log.i("TEST", "solo prelievo immagine copertina viaggio gia presente");
                     new BitmapWorkerTask(null,layoutCopertinaViaggio).execute(Constants.ADDRESS_TAT + urlFolder + "/" + Constants.NAME_IMAGES_TRAVEL_DEFAULT);
+
                 }
             }
             else{
@@ -1137,7 +1157,7 @@ public class ViaggioActivity extends FragmentActivity {
                 for(Immagine image : listImages){
                     if(image.getLivelloCondivisione().equalsIgnoreCase("public")
                             || image.getLivelloCondivisione().equalsIgnoreCase("travel")){
-                        URLs[i] = image.getUrlImmagine();
+                        URLs[i] = Constants.ADDRESS_TAT + image.getUrlImmagine();
                         Log.i("TEST", "url ["+i+"]: "+ URLs[i]);
 
                         i++;
@@ -1149,6 +1169,16 @@ public class ViaggioActivity extends FragmentActivity {
                 return;
             }
 
+
+            GridView gv = (GridView) findViewById(R.id.grid_view);
+            gv.setAdapter(new GridViewAdapter(ViaggioActivity.this, URLs));
+            gv.setOnScrollListener(new ScrollListener(ViaggioActivity.this));
+
+            Log.i("TEST", "settato l'adapter per il grid");
+
+
+
+            /*
             ImageGridFragment fragment = (ImageGridFragment)getFragmentManager().findFragmentById(R.id.fragment_images);
 
             ImageGridFragment fragment1 = fragment.newInstance(URLs);
@@ -1163,6 +1193,8 @@ public class ViaggioActivity extends FragmentActivity {
             transaction.replace(R.id.fragment_images, fragment1);
             transaction.addToBackStack(null);
             transaction.commit();
+
+            */
 
         }
     }

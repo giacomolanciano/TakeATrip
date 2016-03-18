@@ -47,6 +47,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -218,9 +219,8 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
                 if(urlImmagineViaggio!= null && !urlImmagineViaggio.equals("null")){
                     Log.i("TEST", "esecuzione download immagine viaggio... ");
 
-                    //TODO: con il thread non si visualizza questo bitmap
-                    // l'allocazione di memoria per visualizzare questo bitmap
-                    //new BitmapWorkerTask(imageTravel).execute(Constants.ADDRESS_TAT + urlImmagineViaggio);
+                    Picasso.with(MapsActivity.this).load(urlImmagineViaggio).into(imageTravel);
+
                 }
 
                 // Getting reference to the TextView to set title

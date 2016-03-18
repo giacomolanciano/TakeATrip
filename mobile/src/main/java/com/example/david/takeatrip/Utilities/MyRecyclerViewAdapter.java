@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.david.takeatrip.Activities.ViaggioActivity;
 import com.example.david.takeatrip.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -108,7 +109,8 @@ public class MyRecyclerViewAdapter extends RecyclerView
         immagineViaggio.setContentDescription(urlImmagine);
 
         if(urlImmagine != null && !urlImmagine.equals("null")){
-            new BitmapWorkerTask(immagineViaggio).execute(Constants.ADDRESS_TAT +urlImmagine);
+            //new BitmapWorkerTask(immagineViaggio).execute(Constants.ADDRESS_TAT +urlImmagine);
+            Picasso.with(null).load(Constants.ADDRESS_TAT +urlImmagine).into(immagineViaggio);
         }
         else{
             immagineViaggio.setImageResource(R.drawable.empty_image);

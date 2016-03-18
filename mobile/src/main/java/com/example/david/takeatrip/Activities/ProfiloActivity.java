@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewAnimator;
 
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
@@ -115,7 +116,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     private Animator mCurrentAnimator;
     private int mShortAnimationDuration;
     private View thumb1View;
-    private boolean alreadyFollowing;
+    private boolean alreadyFollowing = false;
 
 
     @Override
@@ -132,7 +133,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         numFollowersView = (TextView) findViewById(R.id.numberFollowers);
         numFollowingsView = (TextView) findViewById(R.id.numberFollowings);
 
-        thumb1View = findViewById(R.id.imageView_round_Profile);
 
 
         if (getIntent() != null) {
@@ -218,7 +218,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                                             BitmapWorkerTask task = new BitmapWorkerTask(coverImage, layoutCoverImage);
                                             task.execute(url_cover_image);
 
-
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                             Log.e("TEST", e.getMessage());
@@ -240,23 +239,37 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             }
 
             if(password != null) {
-                    follow.setVisibility(View.INVISIBLE);
-                    corrente = new Profilo(email);
-
-                }
-            if(password == null) {
-                alreadyFollowing = false;
+                corrente = new Profilo(email);
+                follow.setVisibility(View.INVISIBLE);
+            }
+            else {
                 MyTaskVerificaFollowing mTF = new MyTaskVerificaFollowing();
                 mTF.execute();
 
                 externalView = true;
                 corrente = new Profilo(emailEsterno);
-                if (email != null && email.equals(emailEsterno)) {
+                if(email == null){
+                    TakeATrip TAT = (TakeATrip)getApplicationContext();
+                    if(TAT != null)
+                        email = TAT.getProfiloCorrente().getEmail();
+                }
+                if(email.equals(emailEsterno)){
                     externalView = false;
+                    follow.setVisibility(View.INVISIBLE);
+                    Log.i("TEST", "email: " + email);
+                    Log.i("TEST", "email esterno: " + emailEsterno);
+                }
+                else{
+                    follow.setVisibility(View.VISIBLE);
+                    Log.i("TEST", "settato visibile: ");
+
                 }
             }
+
             if(externalView){
                 Log.i("TEST", "visualizzazione esterna del profilo");
+                Log.i("TEST", "email: "+ email);
+                Log.i("TEST", "emailEsterno: " + emailEsterno);
             }
 
             if(name.length() > Constants.LIMIT_NAMES_PROFILE){
@@ -413,8 +426,10 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         MyTaskInsertFollowing mTF = new MyTaskInsertFollowing();
         mTF.execute();
         follow.setText("FOLLOWING");
-        //follow.setBackgroundColor(getResources().getColor(R.color.green));
-        follow.setTextColor(getResources().getColor(R.color.greenScuro));
+        follow.setEnabled(false);
+
+        follow.setBackground(getDrawable(R.drawable.button_follow_cliccato));
+        //follow.setTextColor(getResources().getColor(R.color.greenScuro));
         //Toast.makeText(getBaseContext(), "Add Following", Toast.LENGTH_LONG).show();
 
     }
@@ -427,7 +442,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         if (alreadyFollowing) {
             Log.i("TEST", "GIA' SEGUI QUESTO UTENTE! ");
             follow.setText("FOLLOWING");
-            follow.setTextColor(getResources().getColor(R.color.greenScuro));
+            follow.setEnabled(false);
+            follow.setBackground(getDrawable(R.drawable.button_follow_cliccato));
         }
 
 
@@ -474,6 +490,9 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 //        startActivity(intentFollowers);
 //    }
 
+
+    private ViewAnimator animator;
+
     public void ClickImageProfile(View v) {
         try {
 
@@ -491,6 +510,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                                 break;
                             case 1: //change image profile
+
+
                                 Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                                 startActivityForResult(intentPick, Constants.REQUEST_IMAGE_PICK);
 
@@ -757,7 +778,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
 
 
                     Drawable d = new BitmapDrawable(getResources(), bitmap);
@@ -1214,9 +1234,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         protected void onPostExecute(Void aVoid) {
 
             super.onPostExecute(aVoid);
-
-            numFollowersView.setText(numFollowers);
-
         }
     }
 
@@ -1292,8 +1309,9 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
             super.onPostExecute(aVoid);
 
-
-            numFollowingsView.setText(numFollowings);
+            //TODO: sono scambiati followers and following
+            numFollowersView.setText(numFollowings);
+            numFollowingsView.setText(numFollowers);
         }
     }
 
