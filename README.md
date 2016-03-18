@@ -25,22 +25,14 @@ On the 19-th of February we presented our work to the staff.
 We also made two surveys: one to [test our assumptions](https://docs.google.com/forms/d/1Zv56_v1ZuZZqiHn8yTgUw28Aner85m9wxontsFKDkhw/viewform), one to get some [feedbacks on the UI](https://docs.google.com/forms/d/1ofDH0Io4UXvVyn-AbiNeVzTNlRk-w-k3x8bMZiSMni4/viewform). Since the results may contain private informations about our users, we do not publish them here. If interested, [contact us](mailto:apptakeatrip@gmail.com).
 
 # Milestone 3 - Final
-* Complete tasks of Milestone II
-  * Add Stop
-  * Search 
-* Implement Path Drawing and POI suggestion
-* Implement Social integration
-  * Shared experiences board
-  * Facebook API integration
-* UI design improvement
-  * Better application of material design patterns
+On the 18-th of March we presented our work to the staff.
+* [Presentation](https://drive.google.com/file/d/0B0FHkIijDk2hSGVPdHA3RTFFajg/view?usp=sharing)
+* [Beta apk file](https://drive.google.com/file/d/0B0FHkIijDk2hOVRkdFg2bVNyTVk/view?usp=sharing)
+* Usage Guide
+ * [video 1](https://drive.google.com/file/d/0B0FHkIijDk2hZEZXcXNaSVFDbjA/view?usp=sharing)
+ * [video 2](https://drive.google.com/file/d/0B0FHkIijDk2heFpIZUM5SHplX00/view?usp=sharing)
 
-[//]: # (On the 18-th of March we presented our work to the staff.)
-[//]: # (* [Presentation]())
-[//]: # (* [Installation Guide](https://docs.google.com/document/d/1rpsw019e0uM3I5sh10lFPqupNvlqYNzZBaLNTT-Vbkg/edit?usp=sharing))
-[//]: # (* [Usage Guide (video)]())
-[//]: # (* [Beta apk file]())
-
+An installation guide for the beta application is avalaible on our [website](www.takeatrip.altervista.org).
 
 # Possible extension after the semester
 * Crossing paths analysis
