@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.mobileconnectors.cognito.CognitoSyncManager;
+import com.amazonaws.regions.Regions;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.TakeATrip;
 import com.example.david.takeatrip.R;
@@ -52,6 +55,8 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -80,12 +85,22 @@ public class LoginActivity extends AppCompatActivity implements
     ProfileTracker profileTracker;
     Profile profile;
 
+    private CognitoCachingCredentialsProvider credentialsProvider;
+    private CognitoSyncManager syncClient;
+    private Map<String, String> logins;
 
     private CallbackManager callbackManager;
 
     private FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(LoginResult loginResult) {
+
+            logins.put("graph.facebook.com", AccessToken.getCurrentAccessToken().getToken());
+
+            Log.i("TEST", "token: " + AccessToken.getCurrentAccessToken().getToken());
+            Log.i("TEST", "logins: "+logins);
+
+            credentialsProvider.setLogins(logins);
 
             if(Profile.getCurrentProfile() == null) {
                 profileTracker = new ProfileTracker() {
@@ -203,6 +218,33 @@ public class LoginActivity extends AppCompatActivity implements
         signInButton.setScopes(gso.getScopeArray());
         signInButton.setOnClickListener(this);
 
+
+
+
+        // Initialize the Amazon Cognito credentials provider
+        credentialsProvider = new CognitoCachingCredentialsProvider(
+                getApplicationContext(),
+                Constants.AMAZON_POOL_ID, // Identity Pool ID
+                Regions.EU_WEST_1 // Region
+        );
+
+        // Initialize the Cognito Sync client
+        syncClient = new CognitoSyncManager(
+                getApplicationContext(),
+                Regions.EU_WEST_1, // Region
+                credentialsProvider);
+
+        // Create a record in a dataset and synchronize with the server
+//        Dataset dataset = syncClient.openOrCreateDataset("myDataset");
+//        dataset.put("myKey", "myValue");
+//        dataset.synchronize(new DefaultSyncCallback() {
+//            @Override
+//            public void onSuccess(Dataset dataset, List newRecords) {
+//                //Your handler code here
+//            }
+//        });
+
+        logins = new HashMap<String, String>();
 
 
 
@@ -331,6 +373,7 @@ public class LoginActivity extends AppCompatActivity implements
 
 
     protected void handleSignInResult(GoogleSignInResult result) {
+
         Log.i("TEST", "handleSignInResult:" + result.isSuccess());
         Log.i("TEST", "status:" + result.getStatus().toString());
 
@@ -366,6 +409,9 @@ public class LoginActivity extends AppCompatActivity implements
                 }
             }
 
+
+            logins.put("accounts.google.com", tokenId);
+            credentialsProvider.setLogins(logins);
 
             new MyTask().execute();
 
@@ -412,6 +458,10 @@ public class LoginActivity extends AppCompatActivity implements
                 });
             }
         }
+
+
+
+
 
     }
 
