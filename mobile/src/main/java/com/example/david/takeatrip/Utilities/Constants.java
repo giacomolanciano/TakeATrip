@@ -54,6 +54,13 @@ public class Constants {
 
     public static final String WEBAPP_ID = "854482298731-9maeevj20buep03pjefnvvdq4ch0q19j.apps.googleusercontent.com";
     public static final String AMAZON_POOL_ID = "eu-west-1:9a6dd1d8-f20f-4bc3-8af6-edab26a39164";
+    public static final String BUCKET_NAME = "takeatripusers";
+
+    public static final String PROFILE_PICTURES = "profilePictures";
+    public static final String COVER_IMAGES = "coverImages";
+
+
+
 
     public static final int VIBRATION_MILLISEC = 100;
 

@@ -1,50 +1,168 @@
 package com.example.david.takeatrip.Activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.mobileconnectors.cognito.CognitoSyncManager;
+import com.amazonaws.regions.Regions;
+import com.example.david.takeatrip.AsyncTask.LoginTask;
+import com.example.david.takeatrip.Classes.Profilo;
+import com.example.david.takeatrip.Classes.TakeATrip;
+import com.example.david.takeatrip.Interfaces.AsyncResponseLogin;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.Constants;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.FacebookSdk;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
 
-public class SplashActivity extends Activity {
+import java.util.HashMap;
+import java.util.Map;
+
+public class SplashActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, AsyncResponseLogin{
+
+    AccessToken fbAccessToken;
+    AccessTokenTracker tracker;
+    ProfileTracker profileTracker;
+    Profile profile;
+    private GoogleApiClient mGoogleApiClient;
+
+    String email, password, nome, cognome, data;
+
+
+    private CognitoCachingCredentialsProvider credentialsProvider;
+    private CognitoSyncManager syncClient;
+    private Map<String, String> logins;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         int timeout = 2000;
-
         super.onCreate(savedInstanceState);
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_splash);
 
-//        // Initialize the Amazon Cognito credentials provider
-//        CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
-//                getApplicationContext(),
-//                Constants.AMAZON_POOL_ID, // Identity Pool ID
-//                Regions.EU_WEST_1 // Region
-//        );
-//
-//        // Initialize the Cognito Sync client
-//        CognitoSyncManager syncClient = new CognitoSyncManager(
-//                getApplicationContext(),
-//                Regions.EU_WEST_1, // Region
-//                credentialsProvider);
-//
-//        // Create a record in a dataset and synchronize with the server
-//        Dataset dataset = syncClient.openOrCreateDataset("myDataset");
-//        dataset.put("myKey", "myValue");
-//        dataset.synchronize(new DefaultSyncCallback() {
-//            @Override
-//            public void onSuccess(Dataset dataset, List newRecords) {
-//                //Your handler code here
-//            }
-//        });
-//
-//        Log.i("TEST", "amazon credential provider: "+ credentialsProvider);
-//        Log.i("TEST", "amazon syncClient: "+ syncClient);
-//        Log.i("TEST", "amazon dataset: "+ dataset);
+
+        //TODO: cambiare in fase di release il WEBAPP_ID
+        GoogleSignInOptions.Builder builder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN);
+        builder.requestIdToken(Constants.WEBAPP_ID);
+
+        GoogleSignInOptions gso = builder.build();
 
 
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        logins = new HashMap<String, String>();
+
+        // Initialize the Amazon Cognito credentials provider
+        credentialsProvider = new CognitoCachingCredentialsProvider(
+                getApplicationContext(),
+                Constants.AMAZON_POOL_ID, // Identity Pool ID
+                Regions.EU_WEST_1 // Region
+        );
+
+        // Initialize the Cognito Sync client
+        syncClient = new CognitoSyncManager(
+                getApplicationContext(),
+                Regions.EU_WEST_1, // Region
+                credentialsProvider);
+
+
+
+
+        // If the access token is available already assign it.
+        fbAccessToken = AccessToken.getCurrentAccessToken();
+        if(fbAccessToken != null){
+            Log.i("TEST", "fbAccessToken:" + "user id: " + fbAccessToken.getUserId() + "  token: " + fbAccessToken.getToken());
+
+            profile = Profile.getCurrentProfile();
+
+            if(Profile.getCurrentProfile() == null) {
+                profileTracker = new ProfileTracker() {
+                    @Override
+                    protected void onCurrentProfileChanged(Profile oldProfile, Profile profile2) {
+                        profile = profile2;
+                        // profile2 is the new profile
+                        Log.i("facebook - profile", profile.getName());
+                        profileTracker.stopTracking();
+                    }
+                };
+                profileTracker.startTracking();
+            }
+            else {
+                profile = Profile.getCurrentProfile();
+                Log.v("facebook - profile", profile.getFirstName());
+
+                email = Constants.PREFIX_FACEBOOK  +profile.getId();
+                password = "pwdFb";
+
+                nome = profile.getFirstName();
+                cognome = profile.getLastName();
+                data = "0000-00-00";
+
+
+                logins.put("graph.facebook.com", fbAccessToken.getToken());
+
+                Log.i("TEST", "token FB: " + fbAccessToken.getToken());
+                Log.i("TEST", "logins: " + logins);
+
+                credentialsProvider.setLogins(logins);
+
+                TakeATrip TAT = ((TakeATrip) getApplicationContext());
+                TAT.setCredentialsProvider(credentialsProvider);
+
+                LoginTask task = new LoginTask(this,email,password);
+                task.delegate = this;
+                task.execute();
+                //new MyTask().execute();
+                return;
+                //openMainActivity2(email, nome, cognome, data, password, nazionalita, sesso, username, lavoro, descrizione, tipo);
+            }
+        }
+
+        //Mettere condizione login google
+        else if(mGoogleApiClient != null){
+            Log.i("TEST", "mGoogleApiClient diverso da null");
+
+            mGoogleApiClient.connect();
+            OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+            if (opr.isDone()) {
+                // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+                // and the GoogleSignInResult will be available instantly.
+                Log.i("TEST", "Google Sign In isDone");
+                GoogleSignInResult result = opr.get();
+                handleSignInResult(result);
+            }
+
+            else{
+                openLoginActivity(timeout);
+            }
+        }
+        else{
+            openLoginActivity(timeout);
+        }
+    }
+
+
+    public void openLoginActivity(int timeout){
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -53,15 +171,96 @@ public class SplashActivity extends Activity {
                 finish();
             }
         }, timeout);
+
     }
 
 
-/*
-    public boolean onCreateOptionMenu(Menu menu){
-    getMenuInflater().inflate(R.menu.splash, menu);
-        return true;
+    @Override
+    public void processFinish(Profilo output) {
+        if(output != null){
+            Log.i("TEST", "non primo accesso a TakeATrip");
+            openMainActivity2(output.getEmail(), output.getName(), output.getSurname(), output.getDataNascita(),
+                    password, output.getNazionalita(), output.getSesso(), output.getUsername(),output.getLavoro(),
+                    output.getDescrizione(), output.getTipo());
+
+        }
     }
-*/
+
+    private void openMainActivity2(String e, String name, String surname, String date, String pwd, String n, String sex, String username,
+                                   String job, String description, String type){
+
+        Intent openAccedi = new Intent(SplashActivity.this, MainActivity.class);
+        openAccedi.putExtra("email", e);
+        openAccedi.putExtra("name", name);
+        openAccedi.putExtra("surname", surname);
+        openAccedi.putExtra("dateOfBirth", date);
+        openAccedi.putExtra("pwd", pwd);
+        openAccedi.putExtra("nazionalita", n);
+        openAccedi.putExtra("sesso", sex);
+        openAccedi.putExtra("username", username);
+        openAccedi.putExtra("lavoro", job);
+        openAccedi.putExtra("descrizione", description);
+        openAccedi.putExtra("tipo", type);
+        openAccedi.putExtra("profile", profile);
+
+        startActivity(openAccedi);
+
+        finish();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
 
 
+    protected void handleSignInResult(GoogleSignInResult result) {
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            Log.i("TEST", "result success!!!");
+
+            TakeATrip TAT = ((TakeATrip) getApplicationContext());
+            TAT.setmGoogleApiClient(mGoogleApiClient);
+
+            GoogleSignInAccount acct = result.getSignInAccount();
+
+            email = acct.getEmail();
+            email = Constants.PREFIX_GOOGLE  + acct.getId();
+
+            int describeContents = acct.describeContents();
+            String displayName = acct.getDisplayName();
+            String idUser = acct.getId();
+            String tokenId = acct.getIdToken();
+
+            Log.i("TEST", "email: " + email + " describeContents: " + describeContents + " dispplayName: " + displayName
+                    + " idUser: " + idUser + " tokenId: " + tokenId);
+            password = "pwdGoogle";
+
+            if(displayName != null){
+                String [] nameSplitted = displayName.split(" ");
+                if(nameSplitted.length==2){
+                    nome = nameSplitted[0];
+                    cognome = nameSplitted[1];
+                }
+                else{
+                    nome = displayName;
+                }
+            }
+
+
+            logins.put("accounts.google.com", tokenId);
+            credentialsProvider.setLogins(logins);
+
+
+            TAT.setCredentialsProvider(credentialsProvider);
+
+            LoginTask task = new LoginTask(SplashActivity.this,email,password);
+            task.delegate = SplashActivity.this;
+            task.execute();
+            //new MyTask().execute();
+
+        } else {
+            // Signed out, show unauthenticated UI.
+        }
+    }
 }

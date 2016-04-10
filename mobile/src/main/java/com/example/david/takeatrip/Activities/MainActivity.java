@@ -5,10 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -21,9 +20,16 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amazonaws.HttpMethod;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
@@ -31,6 +37,7 @@ import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatabaseHandler;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
+import com.example.david.takeatrip.Utilities.UtilS3Amazon;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
@@ -53,10 +60,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -68,8 +77,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final String ADDRESS_INSERIMENTO_VIAGGIO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoViaggio.php";
     private final String ADDRESS_INSERIMENTO_ITINERARIO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoItinerario.php";
     private final String ADDRESS_INSERIMENTO_FILTRO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoFiltro.php";
-
-
 
     private final String ADDRESS_INSERT_FOLDER = "http://www.musichangman.com/TakeATrip/InserimentoCartella.php";
 
@@ -103,11 +110,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DriveId idFolderTAT, idImmagineCopertina, idImageProfile;
     private String urlFolderTAT;
 
-
     private ProgressDialog mProgressDialog;
-
-
     private GoogleApiClient googleApiClient;
+
+    private TakeATrip TAT;
+
+
+    // The TransferUtility is the primary class for managing transfer to S3
+    private TransferUtility transferUtility;
+
+    // The SimpleAdapter adapts the data about transfers to rows in the UI
+    private SimpleAdapter simpleAdapter;
+
+    // A List of all transfers
+    private List<TransferObserver> observers;
+
+    /**
+     * This map is used to provide data to the SimpleAdapter above. See the
+     * fillMap() function for how it relates observers to rows in the displayed
+     * activity.
+     */
+    private ArrayList<HashMap<String, List<Object>>> transferRecordMaps;
+
+
+    // The S3 client
+    private AmazonS3Client s3;
 
 
     @Override
@@ -136,13 +163,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         imageViewProfileRound = (ImageView)findViewById(R.id.imageView_round);
 
+        transferUtility = UtilS3Amazon.getTransferUtility(this);
+        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
+        s3 = UtilS3Amazon.getS3Client(MainActivity.this);
+
+
 
         new MyTask().execute();
         //new MyTaskIDFolder(this,email).execute();
-        new MyTaskIDProfileImage(this,email).execute();
-        new MyTaskIDCoverImage(this,email).execute();
+        //new MyTaskIDProfileImage(this,email).execute();
 
-        showProgressDialog();
+
+        new MyTaskIDProfileImage().execute();
+
+        new MyTaskIDCoverImage(this,email).execute();
 
 
         if(sesso != null && sesso.equals("M")){
@@ -257,7 +291,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         namesPartecipants.clear();
                         partecipants.clear();
                         layoutNewPartecipants.removeAllViews();
@@ -518,7 +551,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
 
 
-
                         } catch (Exception e) {
                             Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
                         }
@@ -534,18 +566,151 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 e.printStackTrace();
                 Log.e(e.toString(),e.getMessage());
             }
-
-
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
             super.onPostExecute(aVoid);
-
         }
     }
+
+
+
+
+    private class MyTaskIDProfileImage extends AsyncTask<Void, Void, Void> {
+
+        // The list of objects we find in the S3 bucket
+        private List<S3ObjectSummary> s3ObjList;
+        // A dialog to let the user know we are retrieving the files
+        private ProgressDialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            dialog = ProgressDialog.show(MainActivity.this, getString(R.string.CaricamentoInCorso), "");
+        }
+
+        @Override
+        protected Void doInBackground(Void... inputs) {
+
+            try{
+                // Queries files in the bucket from S3.
+                s3ObjList = s3.listObjects(Constants.BUCKET_NAME).getObjectSummaries();
+                transferRecordMaps.clear();
+
+                HashMap<String, List<Object>> map = new HashMap<String, List<Object>>();
+                List<Object> immaginiProfilo = new ArrayList<Object>();
+                for (S3ObjectSummary summary : s3ObjList) {
+                    Log.i("TEST", "keys of object in the bucket " + Constants.BUCKET_NAME + ": " + summary.getKey());
+                    if(summary.getKey().contains(Constants.PROFILE_PICTURES)){
+                        immaginiProfilo.add(summary.getKey());
+                    }
+                }
+
+                map.put("profileImages", immaginiProfilo);
+                transferRecordMaps.add(map);
+
+            }
+            catch(Exception e){
+                Log.e("TEST", e.getMessage());
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            dialog.dismiss();
+
+            //se sono presenti immagini del profilo, prendo la prima
+            if(transferRecordMaps.size()>0){
+                if(transferRecordMaps.get(0) != null){
+                    List<Object> immaginiProfilo = transferRecordMaps.get(0).get("profileImages");
+
+
+                    //TODO: qui prelevare le immagini del profilo degli utenti
+                    if(immaginiProfilo != null){
+                        for(Object keyImage : immaginiProfilo){
+                            String image = (String) keyImage;
+                            if(image.contains(email)){
+
+                                Log.i("TEST", "profile image: " + image);
+
+                                beginDownloadProfilePicture(image);
+
+                            }
+                        }
+
+
+                        //beginDownloadProfilePicture((String) transferRecordMaps.get(0).get("profileImages"));
+                    }
+                }
+
+                transferRecordMaps.clear();
+            }
+        }
+    }
+
+
+
+
+    private void beginDownloadProfilePicture(String key) {
+        // Location to download files from S3 to. You can choose any accessible
+        // file.
+        File file = new File(Environment.getExternalStorageDirectory().toString() + "/" + key);
+
+        java.util.Date expiration = new java.util.Date();
+        long msec = expiration.getTime();
+        msec += 1000 * 60 * 60; // 1 hour.
+        expiration.setTime(msec);
+
+        GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                new GeneratePresignedUrlRequest(Constants.BUCKET_NAME,key);
+        generatePresignedUrlRequest.setMethod(HttpMethod.GET);
+        generatePresignedUrlRequest.setExpiration(expiration);
+
+        Log.i("TEST","expiration date image: " + generatePresignedUrlRequest.getExpiration());
+
+        URL url = s3.generatePresignedUrl(generatePresignedUrlRequest);
+
+        urlImmagineProfilo = url.toString();
+
+        Picasso.with(this).load(url.toString()).into(imageViewProfileRound);
+
+
+        // Initiate the download
+        //TransferObserver observer = transferUtility.download(email, key, file);
+        //Log.i("TEST", "downloaded file: " + file);
+        //Log.i("TEST", "key file: " + key);
+
+        Log.i("TEST", "url file: " + url);
+
+        //observer.setTransferListener(new DownloadListener());
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -744,7 +909,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
+/*
 
     private class MyTaskIDProfileImage extends AsyncTask<Void, Void, Void> {
 
@@ -764,6 +929,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         protected Void doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("email", emailUser));
+
+
+            //TODO: verificare se è presente una immagine del profilo e scaricarla -> vedere ProfiloActivity
+
+
+
 
             try {
                 if (InternetConnection.haveInternetConnection(context)) {
@@ -856,7 +1027,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
     }
-
+*/
 
     private class MyTaskIDCoverImage extends AsyncTask<Void, Void, Void> {
 

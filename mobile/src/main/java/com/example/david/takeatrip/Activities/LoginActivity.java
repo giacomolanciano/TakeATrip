@@ -2,7 +2,6 @@ package com.example.david.takeatrip.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,8 +15,10 @@ import android.widget.TextView;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.cognito.CognitoSyncManager;
 import com.amazonaws.regions.Regions;
-import com.example.david.takeatrip.Classes.InternetConnection;
+import com.example.david.takeatrip.AsyncTask.LoginTask;
+import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
+import com.example.david.takeatrip.Interfaces.AsyncResponseLogin;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.facebook.AccessToken;
@@ -37,24 +38,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.ResultCallback;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -62,7 +46,7 @@ import java.util.regex.Pattern;
 
 
 public class LoginActivity extends AppCompatActivity implements
-        GoogleApiClient.OnConnectionFailedListener,View.OnClickListener {
+        GoogleApiClient.OnConnectionFailedListener,View.OnClickListener,AsyncResponseLogin {
 
     private final String ADDRESS_VERIFICA_LOGIN = "http://www.musichangman.com/TakeATrip/InserimentoDati/VerificaLogin.php";
     private final String ADDRESS_INSERIMENTO_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoProfilo.php";
@@ -80,7 +64,7 @@ public class LoginActivity extends AppCompatActivity implements
 
 
     LoginButton blogin;
-    AccessToken accessToken;
+    AccessToken fbAccessToken;
     AccessTokenTracker tracker;
     ProfileTracker profileTracker;
     Profile profile;
@@ -98,9 +82,13 @@ public class LoginActivity extends AppCompatActivity implements
             logins.put("graph.facebook.com", AccessToken.getCurrentAccessToken().getToken());
 
             Log.i("TEST", "token: " + AccessToken.getCurrentAccessToken().getToken());
-            Log.i("TEST", "logins: "+logins);
+            Log.i("TEST", "logins: " + logins);
 
             credentialsProvider.setLogins(logins);
+
+            TakeATrip TAT = ((TakeATrip) getApplicationContext());
+            TAT.setCredentialsProvider(credentialsProvider);
+
 
             if(Profile.getCurrentProfile() == null) {
                 profileTracker = new ProfileTracker() {
@@ -120,8 +108,10 @@ public class LoginActivity extends AppCompatActivity implements
 
                         profileTracker.stopTracking();
 
-                        new MyTask().execute();
-
+                        //new MyTask().execute();
+                        LoginTask task = new LoginTask(LoginActivity.this,email,password);
+                        task.delegate = LoginActivity.this;
+                        task.execute();
                         //new MyTaskInsert().execute();
                     }
                 };
@@ -152,9 +142,6 @@ public class LoginActivity extends AppCompatActivity implements
 
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,45 +149,23 @@ public class LoginActivity extends AppCompatActivity implements
         callbackManager = CallbackManager.Factory.create();
 
         setContentView(R.layout.activity_login);
-
-//        campoEmail = (EditText) findViewById(R.id.campoEmail);
-//        campoPassword = (EditText) findViewById(R.id.campoPassword);
+        logins = new HashMap<String, String>();
 
 
-        // If the access token is available already assign it.
-        accessToken = AccessToken.getCurrentAccessToken();
-        if(accessToken != null){
-            Log.i("TEST", "accessToken:" + "user id: " + accessToken.getUserId() + "  token: " + accessToken.getToken());
+        // Initialize the Amazon Cognito credentials provider
+        credentialsProvider = new CognitoCachingCredentialsProvider(
+                getApplicationContext(),
+                Constants.AMAZON_POOL_ID, // Identity Pool ID
+                Regions.EU_WEST_1 // Region
+        );
 
-            profile = Profile.getCurrentProfile();
+        // Initialize the Cognito Sync client
+        syncClient = new CognitoSyncManager(
+                getApplicationContext(),
+                Regions.EU_WEST_1, // Region
+                credentialsProvider);
 
-            if(Profile.getCurrentProfile() == null) {
-                profileTracker = new ProfileTracker() {
-                    @Override
-                    protected void onCurrentProfileChanged(Profile oldProfile, Profile profile2) {
-                        profile = profile2;
-                        // profile2 is the new profile
-                        Log.i("facebook - profile", profile.getName());
-                        profileTracker.stopTracking();
-                    }
-                };
-                profileTracker.startTracking();
-            }
-            else {
-                profile = Profile.getCurrentProfile();
-                Log.v("facebook - profile", profile.getFirstName());
 
-                email = Constants.PREFIX_FACEBOOK  +profile.getId();
-                password = "pwdFb";
-
-                nome = profile.getFirstName();
-                cognome = profile.getLastName();
-                data = "0000-00-00";
-                new MyTask().execute();
-                return;
-                //openMainActivity2(email, nome, cognome, data, password, nazionalita, sesso, username, lavoro, descrizione, tipo);
-            }
-        }
 
         //TODO: cambiare in fase di release il WEBAPP_ID
         GoogleSignInOptions.Builder builder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN);
@@ -220,19 +185,9 @@ public class LoginActivity extends AppCompatActivity implements
 
 
 
+//        campoEmail = (EditText) findViewById(R.id.campoEmail);
+//        campoPassword = (EditText) findViewById(R.id.campoPassword);
 
-        // Initialize the Amazon Cognito credentials provider
-        credentialsProvider = new CognitoCachingCredentialsProvider(
-                getApplicationContext(),
-                Constants.AMAZON_POOL_ID, // Identity Pool ID
-                Regions.EU_WEST_1 // Region
-        );
-
-        // Initialize the Cognito Sync client
-        syncClient = new CognitoSyncManager(
-                getApplicationContext(),
-                Regions.EU_WEST_1, // Region
-                credentialsProvider);
 
         // Create a record in a dataset and synchronize with the server
 //        Dataset dataset = syncClient.openOrCreateDataset("myDataset");
@@ -243,13 +198,6 @@ public class LoginActivity extends AppCompatActivity implements
 //                //Your handler code here
 //            }
 //        });
-
-        logins = new HashMap<String, String>();
-
-
-
-
-
 
 
         //Questi due bottoni servono solo nel caso di login indipendente
@@ -413,7 +361,13 @@ public class LoginActivity extends AppCompatActivity implements
             logins.put("accounts.google.com", tokenId);
             credentialsProvider.setLogins(logins);
 
-            new MyTask().execute();
+
+            TAT.setCredentialsProvider(credentialsProvider);
+
+            LoginTask task = new LoginTask(LoginActivity.this,email,password);
+            task.delegate = LoginActivity.this;
+            task.execute();
+            //new MyTask().execute();
 
         } else {
             // Signed out, show unauthenticated UI.
@@ -431,50 +385,6 @@ public class LoginActivity extends AppCompatActivity implements
     }
 
 
-
-
-    public void onStart() {
-        super.onStart();
-        if(mGoogleApiClient != null){
-            mGoogleApiClient.connect();
-            OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-            if (opr.isDone()) {
-                // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-                // and the GoogleSignInResult will be available instantly.
-                Log.d("TEST", "Got cached sign-in");
-                GoogleSignInResult result = opr.get();
-                handleSignInResult(result);
-            } else {
-                // If the user has not previously signed in on this device or the sign-in has expired,
-                // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-                // single sign-on will occur in this branch.
-                showProgressDialog();
-                opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                    @Override
-                    public void onResult(GoogleSignInResult googleSignInResult) {
-                        hideProgressDialog();
-                        handleSignInResult(googleSignInResult);
-                    }
-                });
-            }
-        }
-
-
-
-
-
-    }
-
-
-
-    /*
-    protected void onStop() {
-        super.onStop();
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
-        }
-    }
-*/
 
     @Override
     public void onDestroy() {
@@ -546,124 +456,26 @@ public class LoginActivity extends AppCompatActivity implements
         this.onClick(signInButton);
     }
 
+    @Override
+    public void processFinish(Profilo output) {
+        Log.i("TEST", "login finished with profile: " + output);
 
-    private class MyTask extends AsyncTask<Void, Void, Void> {
+        if(output != null){
+            Log.i("TEST", "non primo accesso a TakeATrip");
+            openMainActivity2(output.getEmail(), output.getName(), output.getSurname(), output.getDataNascita(),
+                    output.getPassword(), output.getNazionalita(), output.getSesso(), output.getUsername(),output.getLavoro(),
+                    output.getDescrizione(), output.getTipo());
 
-        InputStream is = null;
-        String result, stringaFinale = "";
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("email", email));
-            dataToSend.add(new BasicNameValuePair("password", password));
-
-            try {
-                if (InternetConnection.haveInternetConnection(LoginActivity.this)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(ADDRESS_VERIFICA_LOGIN);
-                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                    HttpResponse response = httpclient.execute(httppost);
-
-                    HttpEntity entity = response.getEntity();
-
-                    is = entity.getContent();
-
-                    if (is != null) {
-                        //converto la risposta in stringa
-                        try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                            StringBuilder sb = new StringBuilder();
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line + "\n");
-                            }
-                            is.close();
-
-                            result = sb.toString();
-                            JSONArray jArray = new JSONArray(result);
-                            for(int i=0;i<jArray.length();i++) {
-                                JSONObject json_data = jArray.getJSONObject(i);
-                                if(json_data != null){
-                                    stringaFinale = json_data.getString("email").toString() + " " + json_data.getString("password").toString();
-                                    email = json_data.getString("email").toString();
-                                    nome =  json_data.getString("nome").toString();
-                                    cognome = json_data.getString("cognome").toString();
-                                    data = json_data.getString("dataNascita").toString();
-                                    nazionalita = json_data.getString("nazionalita").toString();
-                                    sesso = json_data.getString("sesso").toString();
-                                    username = json_data.getString("username").toString();
-                                    lavoro = json_data.getString("lavoro").toString();
-                                    descrizione = json_data.getString("descrizione").toString();
-                                    tipo = json_data.getString("tipo").toString();
-                                }
-                            }
-
-                        } catch (Exception e) {
-                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
-                        }
-                    }
-                    else {
-                        Log.i("TEST", "Input Stream uguale a null");
-                    }
-                }
-                else
-                    Log.e("CONNESSIONE Internet", "Assente!");
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
-            }
-
-
-            return null;
         }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            if(stringaFinale == ""){
-                //Non presente ancora nel DB -> primo accesso a TakeATrip
-                openMainActivity(email, nome, cognome, data, password, nazionalita, sesso, username, lavoro, descrizione, tipo);
-                Log.i("TEST", "primo accesso a TakeATrip");
-            }
-            else{
-/*
-                //Questo serve solo nel caso di login indipendente
-
-                DatabaseHandler db = new DatabaseHandler(LoginActivity.this);
-                //SQLiteDatabase newdb = db.getWritableDatabase();
-                //db.onUpgrade(newdb,2,1);
-
-                // Inserting Users
-                Log.d("Insert: ", "Inserting ..");
-
-                //TODO dubbio su modifica
-                db.addUser(new Profilo(email, nome, cognome, data, nazionalita, sesso, username, lavoro, descrizione, tipo), password);
-
-
-                // Reading all contacts
-                Log.d("Reading: ", "Reading all contacts..");
-                List<Profilo> contacts = db.getAllContacts();
-
-                for (Profilo cn : contacts) {
-                    String log = "Email: "+cn.getEmail()+" ,Name: " + cn.getName() + " ,Surname: " + cn.getSurname() + " ,Date: "+ cn.getDataNascita()
-                            + " ,Password: " + cn.getPassword();
-                    // Writing Contacts to log
-                    Log.i("LOG: ", log);
-                }
-
-*/
-                Log.i("TEST", "non primo accesso a TakeATrip");
-                openMainActivity2(email, nome, cognome, data, password, nazionalita, sesso, username, lavoro, descrizione, tipo);
-            }
-            super.onPostExecute(aVoid);
+        else{
+            openMainActivity(email, nome, cognome, output.getDataNascita(),
+                    output.getPassword(), output.getNazionalita(), output.getSesso(), output.getUsername(),output.getLavoro(),
+                    output.getDescrizione(), output.getTipo());
 
         }
 
 
     }
-
-
 
 
 //serve solo quando si ha un login indipendente
@@ -756,28 +568,11 @@ public class LoginActivity extends AppCompatActivity implements
         openAccedi.putExtra("tipo", type);
         openAccedi.putExtra("profile", profile);
 
-
         startActivity(openAccedi);
 
         finish();
     }
 
-
-    private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
-            mProgressDialog.setIndeterminate(true);
-        }
-
-        mProgressDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
-        }
-    }
 
 }
 

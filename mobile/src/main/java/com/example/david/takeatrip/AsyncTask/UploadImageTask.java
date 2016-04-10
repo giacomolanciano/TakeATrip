@@ -1,4 +1,4 @@
-package com.example.david.takeatrip.Utilities;
+package com.example.david.takeatrip.AsyncTask;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 
 import com.example.david.takeatrip.Interfaces.AsyncResponseDriveId;
 import com.example.david.takeatrip.Interfaces.AsyncResponseDriveIdCover;
+import com.example.david.takeatrip.Utilities.Constants;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveApi;

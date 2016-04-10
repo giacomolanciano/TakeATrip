@@ -50,6 +50,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.david.takeatrip.AsyncTask.BitmapWorkerTask;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Itinerario;
 import com.example.david.takeatrip.Classes.POI;
@@ -60,7 +61,6 @@ import com.example.david.takeatrip.Interfaces.AsyncResponseDriveId;
 import com.example.david.takeatrip.Interfaces.AsyncResponseDriveIdCover;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.AudioRecord;
-import com.example.david.takeatrip.Utilities.BitmapWorkerTask;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatesUtils;
 import com.example.david.takeatrip.Utilities.MultimedialFile;

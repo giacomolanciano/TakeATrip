@@ -39,12 +39,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.david.takeatrip.AsyncTask.BitmapWorkerTask;
 import com.example.david.takeatrip.Classes.Immagine;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Fragments.DatePickerFragment;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.AudioRecord;
-import com.example.david.takeatrip.Utilities.BitmapWorkerTask;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatesUtils;
 import com.example.david.takeatrip.Utilities.GridViewAdapter;

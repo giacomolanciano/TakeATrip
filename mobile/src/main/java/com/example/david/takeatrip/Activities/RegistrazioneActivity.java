@@ -3,7 +3,6 @@ package com.example.david.takeatrip.Activities;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -434,8 +433,6 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
                 Log.i("TEST", "Ricevuto il nome della cartella: " + nameFolder);
 
                 cartellaCreata = true;
-                MyTaskFolder myTaskFolder = new MyTaskFolder(this, email, idTravel, idFolder, nameFolder);
-                myTaskFolder.execute();
             }
 
         }
@@ -474,7 +471,6 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
 
         campoDataNascita.setText(DatesUtils.getStringFromDate(newDate, Constants.DISPLAYED_DATE_FORMAT));
 
-
         Log.i("TEST", "date changed");
     }
 
@@ -499,7 +495,6 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
             dataToSend.add(new BasicNameValuePair("tipo", tipo));
 
 
-
             if (update && passwordModificata)
                 dataToSend.add(new BasicNameValuePair("password", nuovaPassword));
             else
@@ -521,12 +516,9 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
                         httppost = new HttpPost(ADDRESS_INSERIMENTO_UTENTE);
                     }
 
-
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
                     HttpEntity entity = response.getEntity();
-
-
                     is = entity.getContent();
 
                     if (is != null) {
@@ -574,6 +566,7 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
             }
             else{
                 if(!updateProfilo){
+
                     //Creo cartella nel drive per ospitare i viaggi dell'utente
                     if(loginGoogle && !cartellaCreata){
                         Intent intent = new Intent(getBaseContext(), CreateDriveFolderActivity.class);
@@ -581,10 +574,6 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
                         intent.putExtra("firstFolder", "YES");
 
                         startActivityForResult(intent, REQUEST_FOLDER);
-                    }
-                    else if(loginFB){
-                        MyTaskFolder myTaskFolder = new MyTaskFolder(RegistrazioneActivity.this, email, "folderTakeATrip", null, "TakeATrip");
-                        myTaskFolder.execute();
                     }
                 }
             }
@@ -640,6 +629,8 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
         }
     }
 
+
+    /*
 
     private class MyTaskFolder extends AsyncTask<Void, Void, Void> {
 
@@ -743,7 +734,7 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
         }
     }
 
-
+*/
 
     //eseguito solo nel caso di login indipendente
 

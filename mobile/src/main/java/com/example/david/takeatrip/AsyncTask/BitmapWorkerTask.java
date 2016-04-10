@@ -1,4 +1,4 @@
-package com.example.david.takeatrip.Utilities;
+package com.example.david.takeatrip.AsyncTask;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

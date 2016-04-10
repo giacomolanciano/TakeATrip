@@ -1,4 +1,4 @@
-package com.example.david.takeatrip.Utilities;
+package com.example.david.takeatrip.AsyncTask;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -19,7 +19,7 @@ import com.google.android.gms.drive.DriveId;
 
 import java.io.InputStream;
 
-public class RetrieveImageTask extends ApiClientAsyncTask<DriveId, Void, Bitmap>{
+public class RetrieveImageTask extends ApiClientAsyncTask<DriveId, Void, Bitmap> {
 
     private static final String TAG = "RetrieveImageTask";
     private String idContent, typeContent;
