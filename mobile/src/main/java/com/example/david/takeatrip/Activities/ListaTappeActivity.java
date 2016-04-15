@@ -714,6 +714,11 @@ public class ListaTappeActivity extends AppCompatActivity
 
     @Override
     public void onMapReady(GoogleMap map) {
+
+        //TODO il metodo sembra non venire chiamato, capire se problema emulatore
+
+        Log.i("TEST", "enter onMapReady");
+
         googleMap = map;
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 

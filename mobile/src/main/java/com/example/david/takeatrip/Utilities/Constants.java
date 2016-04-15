@@ -26,9 +26,12 @@ public class Constants {
 
 
     //php files
-    public static final String PREFIX_ADDRESS = "http://www.musichangman.com/TakeATrip/InserimentoDati/";
-    public static final String ADDRESS_TAT = "http://www.musichangman.com/TakeATrip/";
-    public static final String ERROR_TAPPA_NON_INSERITA = "";
+
+    //public static final String PREFIX_ADDRESS = "http://www.musichangman.com/TakeATrip/InserimentoDati/";
+    //public static final String ADDRESS_TAT = "http://www.musichangman.com/TakeATrip/";
+
+    public static final String ADDRESS_TAT = "http://ec2-54-194-7-136.eu-west-1.compute.amazonaws.com/";
+    public static final String PREFIX_ADDRESS = ADDRESS_TAT + "InserimentoDati/";
 
 
     //TODO assicurarsi che tutti i codici request da utilizzare per AcitivityResult siano univoci
