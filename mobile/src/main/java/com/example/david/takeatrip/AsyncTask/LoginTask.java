@@ -7,6 +7,7 @@ import android.util.Log;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Interfaces.AsyncResponseLogin;
+import com.example.david.takeatrip.Utilities.Constants;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 
 public class LoginTask extends AsyncTask<Void, Void, Profilo> {
 
-    private final String ADDRESS_VERIFICA_LOGIN = "http://www.musichangman.com/TakeATrip/InserimentoDati/VerificaLogin.php";
+    private final String ADDRESS_VERIFICA_LOGIN = "VerificaLogin.php";
 
 
     public AsyncResponseLogin delegate = null;
@@ -59,7 +60,7 @@ public class LoginTask extends AsyncTask<Void, Void, Profilo> {
             if (InternetConnection.haveInternetConnection(context)) {
                 Log.i("CONNESSIONE Internet", "Presente!");
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost(ADDRESS_VERIFICA_LOGIN);
+                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_VERIFICA_LOGIN);
                 httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                 HttpResponse response = httpclient.execute(httppost);
 

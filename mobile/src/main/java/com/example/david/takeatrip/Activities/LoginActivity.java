@@ -48,8 +48,8 @@ import java.util.regex.Pattern;
 public class LoginActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,View.OnClickListener,AsyncResponseLogin {
 
-    private final String ADDRESS_VERIFICA_LOGIN = "http://www.musichangman.com/TakeATrip/InserimentoDati/VerificaLogin.php";
-    private final String ADDRESS_INSERIMENTO_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoProfilo.php";
+    private final String ADDRESS_VERIFICA_LOGIN = "VerificaLogin.php";
+    private final String ADDRESS_INSERIMENTO_UTENTE = "InserimentoProfilo.php";
     private static final int RC_SIGN_IN = 9001;
 
     private GoogleApiClient mGoogleApiClient;
@@ -505,7 +505,7 @@ public class LoginActivity extends AppCompatActivity implements
 //                    Log.i("CONNESSIONE Internet", "Presente!");
 //                    HttpClient httpclient = new DefaultHttpClient();
 //                    HttpPost httppost;
-//                    httppost = new HttpPost(ADDRESS_INSERIMENTO_UTENTE);
+//                    httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_UTENTE);
 //                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
 //                    httpclient.execute(httppost);
 //                }

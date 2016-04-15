@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 
 public class UploadFilePHP extends AsyncTask<Void, Void, Void> {
-    private final String ADDRESS_UPLOAD_IMAGE = "http://www.musichangman.com/TakeATrip/UploadFile.php";
+    private final String ADDRESS_UPLOAD_IMAGE = "UploadFile.php";
 
     InputStream is = null;
     Context context;
@@ -63,7 +63,7 @@ public class UploadFilePHP extends AsyncTask<Void, Void, Void> {
 
         try{
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(ADDRESS_UPLOAD_IMAGE);
+            HttpPost httppost = new HttpPost(Constants.ADDRESS_TAT+ADDRESS_UPLOAD_IMAGE);
 
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             HttpResponse response = httpclient.execute(httppost);

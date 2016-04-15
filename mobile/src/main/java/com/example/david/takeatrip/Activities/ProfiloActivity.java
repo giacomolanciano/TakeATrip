@@ -100,6 +100,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     private final String QUERY_FOLLOWINGS = "QueryCountFollowings.php";
 
     private final String QUERY_VERIFICA_FOLLOWING = "QueryCountFollowings.php";
+    private final String ADDRESS_INSERT_COVER_PROFILE = "InserimentoImmagineCopertina.php";
+
 
     private Profilo corrente;
 
@@ -1249,7 +1251,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
 
     private class MyTaskInsertCoverimage extends AsyncTask<Void, Void, Void> {
-        private final String ADDRESS_INSERT_COVER_PROFILE = "InserimentoImmagineCopertina.php";
         InputStream is = null;
         String emailUser, result, urlImmagine;
         DriveId idFile;

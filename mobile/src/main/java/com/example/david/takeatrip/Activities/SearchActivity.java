@@ -22,6 +22,7 @@ import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DataObject;
 import com.example.david.takeatrip.Utilities.GoogleTranslate;
 import com.example.david.takeatrip.Utilities.MyRecyclerViewAdapter;
@@ -52,9 +53,9 @@ import java.util.Map;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private final String ADDRESS = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryNomiUtenti.php";
-    private final String ADDRESS_PER_VIAGGI_DA_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryViaggiDiUtente.php";
-    private final String ADDRESS_PER_VIAGGI_DA_DESTINAZIONE = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryViaggiDaDestinazione.php";
+    private final String ADDRESS = "QueryNomiUtenti.php";
+    private final String ADDRESS_PER_VIAGGI_DA_UTENTE = "QueryViaggiDiUtente.php";
+    private final String ADDRESS_PER_VIAGGI_DA_DESTINAZIONE = "QueryViaggiDaDestinazione.php";
 
     private final String API_KEY = "AIzaSyAj4Z5rzBBBXq7jUxUYuXI5pQ6_RR1OUkQ";
 
@@ -277,7 +278,7 @@ public class SearchActivity extends AppCompatActivity {
                 if (InternetConnection.haveInternetConnection(SearchActivity.this)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(ADDRESS);
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS);
                     HttpResponse response = httpclient.execute(httppost);
 
                     HttpEntity entity = response.getEntity();
@@ -404,7 +405,7 @@ public class SearchActivity extends AppCompatActivity {
                 if (InternetConnection.haveInternetConnection(SearchActivity.this)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(ADDRESS_PER_VIAGGI_DA_UTENTE);
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_PER_VIAGGI_DA_UTENTE);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
 
@@ -502,7 +503,7 @@ public class SearchActivity extends AppCompatActivity {
                 if (InternetConnection.haveInternetConnection(SearchActivity.this)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(ADDRESS_PER_VIAGGI_DA_DESTINAZIONE);
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_PER_VIAGGI_DA_DESTINAZIONE);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
 

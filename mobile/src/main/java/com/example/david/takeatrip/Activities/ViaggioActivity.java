@@ -76,9 +76,17 @@ import com.google.gcloud.storage.BucketInfo;
 
 public class ViaggioActivity extends FragmentActivity {
 
-    private static final String ADDRESS = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryNomiUtenti.php";
-    private static final String ADDRESS_PARTECIPANTS = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryPartecipantiViaggio.php";
-    private static final String ADDRESS_INSERIMENTO_ITINERARIO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoItinerario.php";
+    private static final String ADDRESS = "QueryNomiUtenti.php";
+    private static final String ADDRESS_PARTECIPANTS = "QueryPartecipantiViaggio.php";
+    private static final String ADDRESS_INSERIMENTO_ITINERARIO = "InserimentoItinerario.php";
+    private static final String ADDRESS_QUERY_FOLDER = "QueryCartellaGenerica.php";
+    private static final String ADDRESS_INSERT_FOLDER = "CreazioneCartellaViaggio.php";
+    private static final String ADDRESS_INSERT_IMAGE_TRAVEL = "InserimentoImmagineViaggio.php";
+    private static final String ADDRESS_QUERY_URLS= "QueryImagesOfTravel.php";
+
+
+
+
 
     private static final String TAG = "ViaggioActivity";
 
@@ -543,7 +551,7 @@ public class ViaggioActivity extends FragmentActivity {
                 if (InternetConnection.haveInternetConnection(ViaggioActivity.this)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(ADDRESS_PARTECIPANTS);
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_PARTECIPANTS);
 
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
 
@@ -660,7 +668,7 @@ public class ViaggioActivity extends FragmentActivity {
                 if (InternetConnection.haveInternetConnection(ViaggioActivity.this)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(ADDRESS);
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS);
                     HttpResponse response = httpclient.execute(httppost);
 
                     HttpEntity entity = response.getEntity();
@@ -734,7 +742,6 @@ public class ViaggioActivity extends FragmentActivity {
 
     private class MyTaskIDFolder extends AsyncTask<Void, Void, Void> {
 
-        private final String ADDRESS_QUERY_FOLDER = "QueryCartellaGenerica.php";
 
         InputStream is = null;
         String emailUser, nameFolder,result;
@@ -832,7 +839,6 @@ public class ViaggioActivity extends FragmentActivity {
 
     private class MyTaskFolder extends AsyncTask<Void, Void, Void> {
 
-        private final String ADDRESS_INSERT_FOLDER = "http://www.musichangman.com/TakeATrip/CreazioneCartellaViaggio.php";
         InputStream is = null;
         String emailUser, idTravel,result, urlCartella;
         String nomeCartella;
@@ -866,7 +872,7 @@ public class ViaggioActivity extends FragmentActivity {
                 if (InternetConnection.haveInternetConnection(context)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(ADDRESS_INSERT_FOLDER);
+                    HttpPost httppost = new HttpPost(Constants.ADDRESS_TAT+ADDRESS_INSERT_FOLDER);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
 
@@ -919,7 +925,6 @@ public class ViaggioActivity extends FragmentActivity {
 
     private class MyTaskInsertImageTravel extends AsyncTask<Void, Void, Void> {
 
-        private final String ADDRESS_INSERT_IMAGE_TRAVEL = "InserimentoImmagineViaggio.php";
         InputStream is = null;
         String emailUser,codiceViaggio, result, urlImmagine;
         DriveId idFile;
@@ -1038,7 +1043,7 @@ public class ViaggioActivity extends FragmentActivity {
                 if (InternetConnection.haveInternetConnection(ViaggioActivity.this)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(ADDRESS_INSERIMENTO_ITINERARIO);
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_INSERIMENTO_ITINERARIO);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
 
@@ -1068,7 +1073,6 @@ public class ViaggioActivity extends FragmentActivity {
 
     private class TaskForUrlsImages extends AsyncTask<Void, Void, Void> {
 
-        private final static  String ADDRESS_QUERY_URLS= "http://www.musichangman.com//TakeATrip/InserimentoDati/QueryImagesOfTravel.php";
 
         private String codiceViaggio;
         InputStream is = null;
@@ -1093,7 +1097,7 @@ public class ViaggioActivity extends FragmentActivity {
                 if (InternetConnection.haveInternetConnection(ViaggioActivity.this)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(ADDRESS_QUERY_URLS);
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_QUERY_URLS);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
                     HttpEntity entity = response.getEntity();

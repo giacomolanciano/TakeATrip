@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.david.takeatrip.Classes.Following;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DataObject;
 import com.example.david.takeatrip.Utilities.TabsPagerAdapterVisualizzazioneFollow;
 
@@ -46,8 +47,8 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
     private TabsPagerAdapterVisualizzazioneFollow mAdapter;
     private ActionBar actionBar;
 
-    private final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/Follower.php";
-    private final String ADDRESS_PRELIEVO_FOLLOWING = "http://www.musichangman.com/TakeATrip/InserimentoDati/Following.php";
+    private final String ADDRESS_PRELIEVO = "Follower.php";
+    private final String ADDRESS_PRELIEVO_FOLLOWING = "Following.php";
 
 
     private ArrayList<Following> follow;
@@ -230,7 +231,7 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
             dataToSend.add(new BasicNameValuePair("email", email));
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost(ADDRESS_PRELIEVO);
+                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_PRELIEVO);
                 httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                 HttpResponse response = httpclient.execute(httppost);
 
@@ -334,7 +335,7 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
             dataToSend.add(new BasicNameValuePair("email", email));
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost(ADDRESS_PRELIEVO_FOLLOWING);
+                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_PRELIEVO_FOLLOWING);
                 httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                 HttpResponse response = httpclient.execute(httppost);
 

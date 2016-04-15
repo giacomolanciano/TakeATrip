@@ -48,9 +48,9 @@ import java.util.regex.Pattern;
 
 public class  RegistrazioneActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    private final String ADDRESS_INSERIMENTO_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoProfilo.php";
-    private final String ADDRESS_UPDATE_UTENTE = "http://www.musichangman.com/TakeATrip/InserimentoDati/UpdateProfilo.php";
-    private final String ADDRESS_VERIFICA_LOGIN = "http://www.musichangman.com/TakeATrip/InserimentoDati/VerificaLogin.php";
+    private final String ADDRESS_INSERIMENTO_UTENTE = "InserimentoProfilo.php";
+    private final String ADDRESS_UPDATE_UTENTE = "UpdateProfilo.php";
+    private final String ADDRESS_VERIFICA_LOGIN = "VerificaLogin.php";
 
     private static final int REQUEST_FOLDER = 123;
 
@@ -510,10 +510,10 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
                     HttpPost httppost;
 
                     if(updateProfilo){
-                        httppost = new HttpPost(ADDRESS_UPDATE_UTENTE);
+                        httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_UPDATE_UTENTE);
                     }
                     else {
-                        httppost = new HttpPost(ADDRESS_INSERIMENTO_UTENTE);
+                        httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_INSERIMENTO_UTENTE);
                     }
 
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
@@ -634,7 +634,7 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
 
     private class MyTaskFolder extends AsyncTask<Void, Void, Void> {
 
-        private final String ADDRESS_INSERT_FOLDER = "http://www.musichangman.com/TakeATrip/CreazioneCartellaViaggio.php";
+        private final String ADDRESS_INSERT_FOLDER = "CreazioneCartellaViaggio.php";
         InputStream is = null;
         String emailUser, idTravel,result;
         String nomeCartella;
@@ -664,7 +664,7 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
                 if (InternetConnection.haveInternetConnection(context)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(ADDRESS_INSERT_FOLDER);
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_INSERT_FOLDER);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
 
@@ -756,7 +756,7 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
 //                if (InternetConnection.haveInternetConnection(RegistrazioneActivity.this)) {
 //                    Log.i("CONNESSIONE Internet", "Presente!");
 //                    HttpClient httpclient = new DefaultHttpClient();
-//                    HttpPost httppost = new HttpPost(ADDRESS_VERIFICA_LOGIN);
+//                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_VERIFICA_LOGIN);
 //                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
 //                    HttpResponse response = httpclient.execute(httppost);
 //

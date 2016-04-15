@@ -73,12 +73,11 @@ import java.util.Set;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
 
-    private final String ADDRESS = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryNomiUtenti.php";
-    private final String ADDRESS_INSERIMENTO_VIAGGIO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoViaggio.php";
-    private final String ADDRESS_INSERIMENTO_ITINERARIO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoItinerario.php";
-    private final String ADDRESS_INSERIMENTO_FILTRO = "http://www.musichangman.com/TakeATrip/InserimentoDati/InserimentoFiltro.php";
+    private final String ADDRESS = "QueryNomiUtenti.php";
+    private final String ADDRESS_INSERIMENTO_VIAGGIO = "InserimentoViaggio.php";
+    private final String ADDRESS_INSERIMENTO_ITINERARIO = "InserimentoItinerario.php";
+    private final String ADDRESS_INSERIMENTO_FILTRO = "InserimentoFiltro.php";
 
-    private final String ADDRESS_INSERT_FOLDER = "http://www.musichangman.com/TakeATrip/InserimentoCartella.php";
 
 
     private static final int REQUEST_FOLDER = 123;
@@ -495,7 +494,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (InternetConnection.haveInternetConnection(MainActivity.this)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(ADDRESS);
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS);
                     HttpResponse response = httpclient.execute(httppost);
 
                     HttpEntity entity = response.getEntity();
@@ -731,7 +730,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (InternetConnection.haveInternetConnection(MainActivity.this)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(ADDRESS_INSERIMENTO_VIAGGIO);
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_INSERIMENTO_VIAGGIO);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
 
@@ -815,7 +814,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (InternetConnection.haveInternetConnection(MainActivity.this)) {
                         Log.i("CONNESSIONE Internet", "Presente!");
                         HttpClient httpclient = new DefaultHttpClient();
-                        HttpPost httppost = new HttpPost(ADDRESS_INSERIMENTO_ITINERARIO);
+                        HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_INSERIMENTO_ITINERARIO);
                         httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                         HttpResponse response = httpclient.execute(httppost);
 
@@ -867,7 +866,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (InternetConnection.haveInternetConnection(MainActivity.this)) {
                         Log.i("CONNESSIONE Internet", "Presente!");
                         HttpClient httpclient = new DefaultHttpClient();
-                        HttpPost httppost = new HttpPost(ADDRESS_INSERIMENTO_FILTRO);
+                        HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_INSERIMENTO_FILTRO);
                         httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                         HttpResponse response = httpclient.execute(httppost);
 

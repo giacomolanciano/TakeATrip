@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DataObject;
 import com.example.david.takeatrip.Utilities.MyRecyclerViewAdapter;
 
@@ -44,7 +45,7 @@ import java.util.ArrayList;
 public class ListaViaggiActivity extends ActionBarActivity {
 
 
-    private final String ADDRESS_PRELIEVO = "http://www.musichangman.com/TakeATrip/InserimentoDati/QueryViaggi.php";
+    private final String ADDRESS_PRELIEVO = "QueryViaggi.php";
 
 
     private ArrayList<Viaggio> viaggi;
@@ -201,7 +202,7 @@ public class ListaViaggiActivity extends ActionBarActivity {
             try {
 
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost(ADDRESS_PRELIEVO);
+                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_PRELIEVO);
                 httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                 HttpResponse response = httpclient.execute(httppost);
 
