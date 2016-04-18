@@ -1,7 +1,6 @@
 package com.example.david.takeatrip.Fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.david.takeatrip.Activities.SocialActivity;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.DataObject;
@@ -21,7 +19,6 @@ import com.example.david.takeatrip.Utilities.MyRecyclerViewAdapter;
 import com.example.david.takeatrip.Utilities.MyRecyclerViewAdapterFollowers;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by lucagiacomelli on 21/02/16.
@@ -71,7 +68,7 @@ public class FollowersFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(context);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyRecyclerViewAdapter(getDataSet());
+        mAdapter = new MyRecyclerViewAdapter(getDataSet(), this.getContext());
         mRecyclerView.setAdapter(mAdapter);
 
 

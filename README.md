@@ -1,4 +1,4 @@
-# <img src="http://www.katadoryu.it/images/TakeATrip/Logo/LogoDef.png" width="100" height="100" />TakeATrip
+# <img src="http://ec2-54-194-7-136.eu-west-1.compute.amazonaws.com/logodef.png" width="100" height="100" />TakeATrip
 Don't miss anything you love in your journey... TakeATrip!
 
 TakeATrip is an application developed for Google Technologies for Cloud and Web Development (Rome 2015/2016 edition).  
@@ -31,6 +31,7 @@ On the 18-th of March we presented our work to the staff.
 * Usage Guide
  * [video 1](https://drive.google.com/file/d/0B0FHkIijDk2hZEZXcXNaSVFDbjA/view?usp=sharing)
  * [video 2](https://drive.google.com/file/d/0B0FHkIijDk2heFpIZUM5SHplX00/view?usp=sharing)
+* Server [repository](https://github.com/giacomolanciano/TakeATripServer)
 
 An installation guide for the beta application is avalaible on our [website](http://www.takeatrip.altervista.org).
 

@@ -69,7 +69,7 @@ public class FollowingFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(context);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyRecyclerViewAdapter(getDataSet());
+        mAdapter = new MyRecyclerViewAdapter(getDataSet(), this.getContext());
         mRecyclerView.setAdapter(mAdapter);
 
 

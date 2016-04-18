@@ -26,22 +26,27 @@
     </layouts>
   </component>
   <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="test" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f12b5a04-1321-4fd8-82de-62c7ac20a4e7" name="Default" comment="modificato address server (amazon)">
+    <list default="true" id="f12b5a04-1321-4fd8-82de-62c7ac20a4e7" name="Default" comment="revisionate tutte le classi del progetto che usano l'indirizzo del server; effettuata modularizzazione dell'indirizzo in tutte; mantenere questo pattern in futuro">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/outputFileStates.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services/8.4.0/jars/classes.jar" afterPath="$PROJECT_DIR$/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services/8.4.0/jars/classes.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/mobile.iml" afterPath="$PROJECT_DIR$/mobile/mobile.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaViaggiActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaViaggiActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/LoginActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/LoginActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/MainActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/RegistrazioneActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/RegistrazioneActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SearchActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SearchActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SocialActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SocialActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/VisualizzazioneFollowActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/VisualizzazioneFollowActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/LoginTask.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/LoginTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/UploadFilePHP.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/UploadFilePHP.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Fragments/FollowersFragment.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Fragments/FollowersFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Fragments/FollowingFragment.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Fragments/FollowingFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Fragments/HomeFragment.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Fragments/HomeFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/Constants.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/Constants.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/MyRecyclerViewAdapter.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/MyRecyclerViewAdapter.java" />
     </list>
     <ignored path="TakeATrip.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -60,7 +65,20 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
-        <projects_view />
+        <projects_view>
+          <tree_state>
+            <PATH>
+              <PATH_ELEMENT>
+                <option name="myItemId" value="" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
+              </PATH_ELEMENT>
+              <PATH_ELEMENT>
+                <option name="myItemId" value="TakeATrip" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
+              </PATH_ELEMENT>
+            </PATH>
+          </tree_state>
+        </projects_view>
       </state>
     </system>
   </component>
@@ -69,102 +87,55 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="PasswordHashing.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/PasswordHashing.java">
+      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/Constants.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+              <caret line="63" column="79" selection-start-line="63" selection-start-column="79" selection-end-line="63" selection-end-column="79" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PrivacyLevelAdapter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/PrivacyLevelAdapter.java">
+      <file leaf-file-name="ProfiloActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+              <caret line="1529" column="13" selection-start-line="1529" selection-start-column="13" selection-end-line="1529" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RoundedImageView.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/RoundedImageView.java">
+      <file leaf-file-name="ListaViaggiActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaViaggiActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+              <caret line="135" column="45" selection-start-line="135" selection-start-column="45" selection-end-line="135" selection-end-column="45" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ScrollListener.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/ScrollListener.java">
+      <file leaf-file-name="MyRecyclerViewAdapter.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/MyRecyclerViewAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="1.1478873">
+              <caret line="223" column="59" selection-start-line="223" selection-start-column="59" selection-end-line="223" selection-end-column="59" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Viaggio.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Classes/Viaggio.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SocialHomeElement.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/SocialHomeElement.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SquaredImageView.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/SquaredImageView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TabsPagerAdapter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/TabsPagerAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TabsPagerAdapterVisualizzazioneFollow.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/TabsPagerAdapterVisualizzazioneFollow.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UploadFilePHP.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/UploadFilePHP.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.8333335">
-              <caret line="28" column="45" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="45" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UtilS3Amazon.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/UtilS3Amazon.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.1549296">
-              <caret line="41" column="13" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
-              <folding />
+              <caret line="41" column="18" selection-start-line="41" selection-start-column="18" selection-end-line="41" selection-end-column="18" />
+              <folding>
+                <element signature="e#831#832#0" expanded="true" />
+                <element signature="e#865#866#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -175,8 +146,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="resourceFile" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -4597,11 +4568,11 @@
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/external/lombok/lombok-ast/0.2.3/lombok-ast-0.2.3.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.gms/google-services/2.0.0-alpha6/e78b2795bd89efe74483ab33e3bb52941d2865eb/google-services-2.0.0-alpha6-sources.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.gms/google-services/2.0.0-alpha6/544d625fdb6cf2e6860f844ab6950c75108d510b/google-services-2.0.0-alpha6.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.appengine/appengine-endpoints/1.9.18/7fb7b64f5e6ef9c79d34229fc42b2bebc94a73b6/appengine-endpoints-1.9.18.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.servlet/servlet-api/2.5/21599814ad9a605b86f3e6381571beccd861a32/servlet-api-2.5-sources.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.servlet/servlet-api/2.5/5959582d97d8b61f4d154ca9e495aafd16726e34/servlet-api-2.5.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.appengine/appengine-endpoints/1.9.18/7fb7b64f5e6ef9c79d34229fc42b2bebc94a73b6/appengine-endpoints-1.9.18.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.appengine/appengine-endpoints-deps/1.9.18/c870c4c9d89cb76edf38c440ec30145d4df33435/appengine-endpoints-deps-1.9.18.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.appengine/appengine-api-1.0-sdk/1.9.18/831d0186441861511cb2d5d3ed5983f352c2d6f1/appengine-api-1.0-sdk-1.9.18.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.appengine/appengine-endpoints-deps/1.9.18/c870c4c9d89cb76edf38c440ec30145d4df33435/appengine-endpoints-deps-1.9.18.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.appengine/gradle-appengine-plugin/1.9.18/124dab944aa0d21b69ba728df2a7a3367729282b/gradle-appengine-plugin-1.9.18-sources.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.appengine/gradle-appengine-plugin/1.9.18/e68431da3f9d1b720877826fe418f19ddee633d0/gradle-appengine-plugin-1.9.18.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.appengine/gradle-appengine-builder-model/0.1.0/d66a188f481ab63e2c2ef29449804cbbcb511268/gradle-appengine-builder-model-0.1.0-sources.jar" />
@@ -4988,10 +4959,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/AudioRecord.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/layout/nav_header_lista_tappe2.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/MultimedialFile.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/res/drawable/textlines.xml" />
         <option value="$PROJECT_DIR$/mobile/src/main/res/layout/info_poi.xml" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/RoundedImageView.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/res/layout/activity_lista_viaggi.xml" />
@@ -5023,21 +4990,26 @@
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Interfaces/AsyncResponseLogin.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SplashActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/UtilS3Amazon.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/MyRecyclerViewAdapter.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/Constants.java" />
         <option value="$PROJECT_DIR$/local.properties" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaViaggiActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/LoginActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/RegistrazioneActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/MainActivity.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SearchActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SocialActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/VisualizzazioneFollowActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/LoginTask.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/UploadFilePHP.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/S3TransferUtils.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaViaggiActivity.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/Constants.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SearchActivity.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Fragments/FollowersFragment.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Fragments/FollowingFragment.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Fragments/HomeFragment.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/MyRecyclerViewAdapter.java" />
       </list>
     </option>
   </component>
@@ -5085,6 +5057,104 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="AndroidView">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TakeATrip" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TakeATrip" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobile" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TakeATrip" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobile" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TakeATrip" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobile" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="takeatrip" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Utilities" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TakeATrip" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobile" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="takeatrip" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TakeATrip" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobile" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="takeatrip" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Activities" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -5364,104 +5434,6 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="AndroidView">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TakeATrip" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TakeATrip" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mobile" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TakeATrip" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mobile" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TakeATrip" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mobile" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="takeatrip" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Utilities" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TakeATrip" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mobile" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="takeatrip" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TakeATrip" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mobile" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="takeatrip" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Activities" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -5474,7 +5446,7 @@
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager2.SHOW" value="true" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
-    <property name="SearchEverywhereHistoryKey" value="json&#9;FILE&#9;file://C:/Users/Giacomo/AndroidStudioProjects/TakeATrip/mobile/google-services.json" />
+    <property name="SearchEverywhereHistoryKey" value="inserimento vi&#9;PSI&#9;JAVA://com.example.david.takeatrip.Activities.MainActivity#ADDRESS_INSERIMENTO_VIAGGIO&#10;inserimentoV&#9;PSI&#9;JAVA://com.example.david.takeatrip.Activities.MainActivity#ADDRESS_INSERIMENTO_VIAGGIO&#10;json&#9;FILE&#9;file://C:/Users/Giacomo/AndroidStudioProjects/TakeATrip/mobile/google-services.json" />
     <property name="device.picker.selection" value="Galaxy_Nexus_API_23_Google_API_-_x86" />
   </component>
   <component name="RecentsManager">
@@ -5726,7 +5698,7 @@
       <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
       <option name="FORCE_STOP_RUNNING_APP" value="true" />
       <option name="DEBUGGER_TYPE" value="Java" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="true" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
       <option name="PREFERRED_AVD" value="" />
       <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="0" />
       <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
@@ -5922,7 +5894,13 @@
       <option name="project" value="LOCAL" />
       <updated>1460750937426</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="revisionate tutte le classi del progetto che usano l'indirizzo del server; effettuata modularizzazione dell'indirizzo in tutte; mantenere questo pattern in futuro">
+      <created>1460752926859</created>
+      <option name="number" value="00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1460752926859</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TodoView">
@@ -5943,17 +5921,17 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32971507" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5841808" sideWeight="0.49454546" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5841808" sideWeight="0.49249732" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24248926" sideWeight="0.5081633" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42776525" sideWeight="0.50545454" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5841808" sideWeight="0.5075027" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3758465" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24569893" sideWeight="0.51299435" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32881355" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329582" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32971507" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973205" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2449089" sideWeight="0.48700565" order="0" side_tool="false" content_ui="combo" />
@@ -5962,8 +5940,8 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2911302" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2909968" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32628798" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329582" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -5996,7 +5974,8 @@
     <MESSAGE value="aggiunte impostazioni multidex; importata libreria picasso per gestione immagini" />
     <MESSAGE value="sistemato layout loginactivity" />
     <MESSAGE value="modificato address server (amazon)" />
-    <option name="LAST_COMMIT_MESSAGE" value="modificato address server (amazon)" />
+    <MESSAGE value="revisionate tutte le classi del progetto che usano l'indirizzo del server; effettuata modularizzazione dell'indirizzo in tutte; mantenere questo pattern in futuro" />
+    <option name="LAST_COMMIT_MESSAGE" value="revisionate tutte le classi del progetto che usano l'indirizzo del server; effettuata modularizzazione dell'indirizzo in tutte; mantenere questo pattern in futuro" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -6006,106 +5985,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
-          <folding>
-            <element signature="method#onClickSocialButton#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#showProgressDialog#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#hideProgressDialog#0;class#MainActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/RegistrazioneActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.6666665">
-          <caret line="50" column="32" selection-start-line="50" selection-start-column="25" selection-end-line="50" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SearchActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.5">
-          <caret line="55" column="32" selection-start-line="55" selection-start-column="25" selection-end-line="55" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SocialActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.4166665">
-          <caret line="49" column="32" selection-start-line="49" selection-start-column="25" selection-end-line="49" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SplashActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="155" column="0" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/StatsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="155" column="0" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
-          <folding>
-            <element signature="method#onActivityResult#0;class#TappaActivity#0" expanded="false" />
-            <element signature="method#getRealPathFromURI#0;class#TappaActivity#0" expanded="false" />
-            <element signature="method#onClickAddImage#0;class#TappaActivity#0" expanded="false" />
-            <element signature="method#onClickAddVideo#0;class#TappaActivity#0" expanded="false" />
-            <element signature="method#onClickAddRecord#0;class#TappaActivity#0" expanded="false" />
-            <element signature="class#TaskAggiornamentoDataTappa#0;class#TappaActivity#0" expanded="false" />
-            <element signature="class#PrivacyLevelAdapter#0;class#TappaActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.5555553">
-          <caret line="78" column="39" selection-start-line="78" selection-start-column="32" selection-end-line="78" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/VisualizzazioneFollowActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.4166665">
-          <caret line="49" column="32" selection-start-line="49" selection-start-column="25" selection-end-line="49" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/ApiClientAsyncTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="22" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/BitmapWorkerTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/LoginTask.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-5.8333335">
@@ -6166,30 +6045,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Fragments/FollowersFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Fragments/FollowingFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Fragments/HomeFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -6258,26 +6113,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="56" selection-start-line="15" selection-start-column="56" selection-end-line="15" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/DatabaseHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/DataObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -6310,22 +6149,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/MyExpandableListItemAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/MyRecyclerViewAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="112" column="0" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -6418,10 +6241,184 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/activity_tappa.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="69" column="12" selection-start-line="69" selection-start-column="12" selection-end-line="69" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="774" column="9" selection-start-line="774" selection-start-column="9" selection-end-line="774" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="155" column="0" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
+          <folding>
+            <element signature="method#onActivityResult#0;class#TappaActivity#0" expanded="false" />
+            <element signature="method#getRealPathFromURI#0;class#TappaActivity#0" expanded="false" />
+            <element signature="method#onClickAddImage#0;class#TappaActivity#0" expanded="false" />
+            <element signature="method#onClickAddVideo#0;class#TappaActivity#0" expanded="false" />
+            <element signature="method#onClickAddRecord#0;class#TappaActivity#0" expanded="false" />
+            <element signature="class#TaskAggiornamentoDataTappa#0;class#TappaActivity#0" expanded="false" />
+            <element signature="class#PrivacyLevelAdapter#0;class#TappaActivity#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-66.5">
+          <caret line="95" column="56" selection-start-line="95" selection-start-column="56" selection-end-line="95" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MultiMarkdownPreviewEditor]">
+        <state split_layout="FIRST">
+          <first_editor vertical-scroll-proportion="0.0">
+            <caret line="0" column="12" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+      <provider editor-type-id="MultiMarkdownFxPreviewEditor">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/UtilS3Amazon.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.1549296">
-          <caret line="41" column="13" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="56" column="36" selection-start-line="56" selection-start-column="36" selection-end-line="56" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/MyExpandableListItemAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.17253521">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="265" column="32" selection-start-line="265" selection-start-column="32" selection-end-line="265" selection-end-column="32" />
+          <folding>
+            <element signature="e#27437#29179#0" expanded="true" />
+            <element signature="e#29178#29179#0" expanded="true" />
+            <element signature="e#37140#39864#0" expanded="true" />
+            <element signature="e#39863#39864#0" expanded="true" />
+            <element signature="e#64956#64971#0" expanded="true" />
+            <element signature="e#70731#70746#0" expanded="true" />
+            <element signature="e#75409#75424#0" expanded="true" />
+            <element signature="e#78844#78859#0" expanded="true" />
+            <element signature="e#81741#81756#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/DataObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="49" column="29" selection-start-line="49" selection-start-column="29" selection-end-line="49" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/Constants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="63" column="79" selection-start-line="63" selection-start-column="79" selection-end-line="63" selection-end-column="79" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Fragments/FollowersFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="73" column="76" selection-start-line="73" selection-start-column="76" selection-end-line="73" selection-end-column="76" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Fragments/FollowingFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="71" column="76" selection-start-line="71" selection-start-column="76" selection-end-line="71" selection-end-column="76" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/AndroidSDK/sdk/sources/android-23/android/view/ViewGroup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3313433">
+          <caret line="5436" column="0" selection-start-line="5436" selection-start-column="0" selection-end-line="5436" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Fragments/HomeFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="68" column="80" selection-start-line="68" selection-start-column="80" selection-end-line="68" selection-end-column="80" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SearchActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="186" column="93" selection-start-line="186" selection-start-column="93" selection-end-line="186" selection-end-column="93" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1529" column="13" selection-start-line="1529" selection-start-column="13" selection-end-line="1529" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaViaggiActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="135" column="45" selection-start-line="135" selection-start-column="45" selection-end-line="135" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Classes/Viaggio.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="41" column="18" selection-start-line="41" selection-start-column="18" selection-end-line="41" selection-end-column="18" />
+          <folding>
+            <element signature="e#831#832#0" expanded="true" />
+            <element signature="e#865#866#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/MyRecyclerViewAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.1478873">
+          <caret line="223" column="59" selection-start-line="223" selection-start-column="59" selection-end-line="223" selection-end-column="59" />
           <folding />
         </state>
       </provider>

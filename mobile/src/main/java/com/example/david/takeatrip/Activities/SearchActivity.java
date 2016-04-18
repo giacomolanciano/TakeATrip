@@ -102,7 +102,7 @@ public class SearchActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyRecyclerViewAdapter(getDataSet());
+        mAdapter = new MyRecyclerViewAdapter(getDataSet(), SearchActivity.this);
         mRecyclerView.setAdapter(mAdapter);
         image_default = new ImageView(this);
         image_default.setImageDrawable(getDrawable(R.drawable.default_male));
@@ -184,7 +184,7 @@ public class SearchActivity extends AppCompatActivity {
 
 
 
-        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(result);
+        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(result, SearchActivity.this);
         adapter.onCreateViewHolder(group, 0);
         mRecyclerView.setAdapter(adapter);
 

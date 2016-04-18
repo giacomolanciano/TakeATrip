@@ -74,7 +74,7 @@ public class ListaViaggiActivity extends ActionBarActivity {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyRecyclerViewAdapter(getDataSet());
+        mAdapter = new MyRecyclerViewAdapter(getDataSet(), ListaViaggiActivity.this);
         mRecyclerView.setAdapter(mAdapter);
 
 /*      lista = (ListView)findViewById(R.id.listViewTravels);
@@ -132,7 +132,7 @@ public class ListaViaggiActivity extends ActionBarActivity {
 
     private void PopolaLista() {
 
-        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(dataTravels);
+        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(dataTravels, ListaViaggiActivity.this);
         adapter.onCreateViewHolder(group, 0);
         mRecyclerView.setAdapter(adapter);
         hideProgressDialog();
