@@ -197,7 +197,7 @@ public class MyRecyclerViewAdapter extends RecyclerView
 
         java.util.Date expiration = new java.util.Date();
         long msec = expiration.getTime();
-        msec += 1000 * 60 * 60; // 1 hour.
+        msec += Constants.ONE_HOUR_IN_MILLISEC;
         expiration.setTime(msec);
 
         GeneratePresignedUrlRequest generatePresignedUrlRequest =
@@ -212,14 +212,8 @@ public class MyRecyclerViewAdapter extends RecyclerView
 
         Picasso.with(context).load(url.toString()).into(travelImage);
 
-        // Initiate the download
-        //TransferObserver observer = transferUtility.download(email, key, file);
-        //Log.i("TEST", "downloaded file: " + file);
-        //Log.i("TEST", "key file: " + key);
-
         Log.i("TEST", "url file: " + url);
 
-        //observer.setTransferListener(new DownloadListener());
 
     }
 

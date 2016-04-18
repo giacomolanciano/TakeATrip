@@ -104,6 +104,8 @@ public class Constants {
 
     public static final int LIMIT_NAMES_PROFILE = 18;
 
+    public static final int ONE_HOUR_IN_MILLISEC = 1000 * 60 * 60;
+
 
     public static final String COUNT_FOLLOW_ID = "count(*)";
 
