@@ -8,30 +8,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.amazonaws.HttpMethod;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.example.david.takeatrip.Activities.ViaggioActivity;
+import com.example.david.takeatrip.AsyncTask.LoadTravelImageTask;
+import com.example.david.takeatrip.Interfaces.AsyncResponseUrl;
 import com.example.david.takeatrip.R;
 import com.squareup.picasso.Picasso;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-/**
- * Created by david on 08/03/2016.
- */
 
 public class MyRecyclerViewAdapter extends RecyclerView
         .Adapter<MyRecyclerViewAdapter
-        .DataObjectHolder> {
+        .DataObjectHolder> implements AsyncResponseUrl {
 
     private static final String LOG_TAG = "MyRecyclerViewAdapter";
     private static final String COVER_NAME = "cover.jpg";
@@ -44,71 +36,10 @@ public class MyRecyclerViewAdapter extends RecyclerView
     private String urlImmagineViaggio;
     //private Map<String,String> codice_urlImmagineViaggio;
 
+    private ImageView immagineViaggio;
+    private String urlImmagine, codiceViaggio;
+    private URL completeUrl;
 
-    // The TransferUtility is the primary class for managing transfer to S3
-    private TransferUtility transferUtility;
-
-    // The SimpleAdapter adapts the data about transfers to rows in the UI
-    private SimpleAdapter simpleAdapter;
-
-    // A List of all transfers
-    private List<TransferObserver> observers;
-
-    /**
-     * This map is used to provide data to the SimpleAdapter above. See the
-     * fillMap() function for how it relates observers to rows in the displayed
-     * activity.
-     */
-    private ArrayList<HashMap<String, List<Object>>> transferRecordMaps;
-
-
-    // The S3 client
-    private AmazonS3Client s3;
-
-
-    public class DataObjectHolder extends RecyclerView.ViewHolder
-            implements View
-            .OnClickListener {
-        TextView nomeViaggio;
-        TextView codiceViaggio;
-        TextView emailUser;
-        TextView dateTime;
-        ImageView imageTravel;
-
-        public DataObjectHolder(View itemView) {
-            super(itemView);
-
-            nomeViaggio = (TextView) itemView.findViewById(R.id.NameTravel);
-            codiceViaggio = (TextView) itemView.findViewById(R.id.CodeTravel);
-            emailUser = (TextView) itemView.findViewById(R.id.EmailUser);
-            imageTravel = (ImageView) itemView.findViewById(R.id.ImageTravel);
-
-
-            //codice_urlImmagineViaggio = new HashMap<String,String >();
-
-            //nomeViaggio.setText(());
-            //   dateTime = (TextView) itemView.findViewById(R.id.textView2);
-
-
-            Log.i(LOG_TAG, "Adding Listener");
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-
-           // myClickListener.onItemClick(getAdapterPosition(), v);
-          //  Toast.makeText(v.getContext(), "PROVA", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(v.getContext(), ViaggioActivity.class);
-
-            intent.putExtra("emailEsterno",emailUser.getText().toString());
-           // Log.e("TEST", "email card viaggi: "+ emailUser.getText().toString());
-            intent.putExtra("nomeViaggio", nomeViaggio.getText().toString());
-            intent.putExtra("codiceViaggio", codiceViaggio.getText().toString());
-            intent.putExtra("urlImmagineViaggio", imageTravel.getContentDescription());
-            v.getContext().startActivity(intent);
-        }
-    }
 
     public void setOnItemClickListener(MyClickListener myClickListener) {
         this.myClickListener = myClickListener;
@@ -117,10 +48,7 @@ public class MyRecyclerViewAdapter extends RecyclerView
     public MyRecyclerViewAdapter(ArrayList<DataObject> myDataset, Context context) {
         mDataset = myDataset;
         this.context = context;
-
-        transferUtility = UtilS3Amazon.getTransferUtility(context);
-        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
-        s3 = UtilS3Amazon.getS3Client(context);
+        completeUrl = null;
 
     }
 
@@ -137,27 +65,38 @@ public class MyRecyclerViewAdapter extends RecyclerView
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
 
-        String codiceViaggio = mDataset.get(position).getCodiceViaggio();
+
+        codiceViaggio = mDataset.get(position).getCodiceViaggio();
 
         holder.nomeViaggio.setText(mDataset.get(position).getNomeViaggio());
         holder.codiceViaggio.setText(codiceViaggio);
         holder.emailUser.setText(mDataset.get(position).getEmail());
 
 
-        String urlImmagine = mDataset.get(position).getUrlImageTravel();
+        urlImmagine = mDataset.get(position).getUrlImageTravel();
         //ImageView immagineViaggio = mDataset.get(position).getImmagineViaggio();
 
 
 
-        ImageView immagineViaggio = holder.imageTravel;
+        immagineViaggio = holder.imageTravel;
         immagineViaggio.setContentDescription(urlImmagine);
 
         if(urlImmagine != null && !urlImmagine.equals("null")){
-            //new BitmapWorkerTask(immagineViaggio).execute(Constants.ADDRESS_TAT +urlImmagine);
-            //Picasso.with(null).load(Constants.ADDRESS_TAT +urlImmagine).into(immagineViaggio);
 
-            //loadTravelImage(COVER_NAME, immagineViaggio, codiceViaggio);
-            loadTravelImage(urlImmagine, immagineViaggio, codiceViaggio);
+            try {
+
+                //TODO verificare efficienza
+                //la recyclerView chiama asynctask ogni volta che l'immagine esce fuori dallo schermo
+
+                completeUrl = new LoadTravelImageTask(urlImmagine, codiceViaggio, context).execute().get();
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+            Picasso.with(context).load(completeUrl.toString()).into(immagineViaggio);
 
         }
         else{
@@ -194,28 +133,58 @@ public class MyRecyclerViewAdapter extends RecyclerView
     }
 
 
-    private void loadTravelImage(String key, ImageView travelImage, String codiceViaggio) {
-
-        java.util.Date expiration = new java.util.Date();
-        long msec = expiration.getTime();
-        msec += Constants.ONE_HOUR_IN_MILLISEC;
-        expiration.setTime(msec);
-
-        GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                new GeneratePresignedUrlRequest(Constants.BUCKET_TRAVELS_NAME,codiceViaggio
-                        + "/" +Constants.TRAVEL_COVER_IMAGE_LOCATION+"/"+key);
-        generatePresignedUrlRequest.setMethod(HttpMethod.GET);
-        generatePresignedUrlRequest.setExpiration(expiration);
-
-        Log.i("TEST", "expiration date image: " + generatePresignedUrlRequest.getExpiration());
-
-        URL url = s3.generatePresignedUrl(generatePresignedUrlRequest);
-
-        Picasso.with(context).load(url.toString()).into(travelImage);
-
-        Log.i("TEST", "url file: " + url);
-
-
+    @Override
+    public void processFinish(URL url) {
+        this.completeUrl = url;
     }
+
+
+
+    public class DataObjectHolder extends RecyclerView.ViewHolder
+            implements View
+            .OnClickListener {
+        TextView nomeViaggio;
+        TextView codiceViaggio;
+        TextView emailUser;
+        TextView dateTime;
+        ImageView imageTravel;
+
+        public DataObjectHolder(View itemView) {
+            super(itemView);
+
+            nomeViaggio = (TextView) itemView.findViewById(R.id.NameTravel);
+            codiceViaggio = (TextView) itemView.findViewById(R.id.CodeTravel);
+            emailUser = (TextView) itemView.findViewById(R.id.EmailUser);
+            imageTravel = (ImageView) itemView.findViewById(R.id.ImageTravel);
+
+
+            //codice_urlImmagineViaggio = new HashMap<String,String >();
+
+            //nomeViaggio.setText(());
+            //   dateTime = (TextView) itemView.findViewById(R.id.textView2);
+
+
+            Log.i(LOG_TAG, "Adding Listener");
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            // myClickListener.onItemClick(getAdapterPosition(), v);
+            //  Toast.makeText(v.getContext(), "PROVA", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(v.getContext(), ViaggioActivity.class);
+
+            intent.putExtra("emailEsterno",emailUser.getText().toString());
+            // Log.e("TEST", "email card viaggi: "+ emailUser.getText().toString());
+            intent.putExtra("nomeViaggio", nomeViaggio.getText().toString());
+            intent.putExtra("codiceViaggio", codiceViaggio.getText().toString());
+            intent.putExtra("urlImmagineViaggio", imageTravel.getContentDescription());
+            v.getContext().startActivity(intent);
+        }
+    }
+
+
+
 
 }
