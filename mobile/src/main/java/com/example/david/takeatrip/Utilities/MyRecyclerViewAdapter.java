@@ -156,7 +156,8 @@ public class MyRecyclerViewAdapter extends RecyclerView
             //new BitmapWorkerTask(immagineViaggio).execute(Constants.ADDRESS_TAT +urlImmagine);
             //Picasso.with(null).load(Constants.ADDRESS_TAT +urlImmagine).into(immagineViaggio);
 
-            loadTravelImage(COVER_NAME, immagineViaggio, codiceViaggio);
+            //loadTravelImage(COVER_NAME, immagineViaggio, codiceViaggio);
+            loadTravelImage(urlImmagine, immagineViaggio, codiceViaggio);
 
         }
         else{

@@ -45,7 +45,7 @@ import java.util.ArrayList;
 public class ListaViaggiActivity extends ActionBarActivity {
 
 
-    private final String ADDRESS_PRELIEVO = "QueryViaggi.php";
+    private static final String ADDRESS_PRELIEVO = "QueryViaggi.php";
 
 
     private ArrayList<Viaggio> viaggi;
@@ -234,9 +234,9 @@ public class ListaViaggiActivity extends ActionBarActivity {
                             if (jArray != null && result != null) {
                                 for (int i = 0; i < jArray.length(); i++) {
                                     JSONObject json_data = jArray.getJSONObject(i);
-                                    String codiceViaggio = json_data.getString("codiceViaggio").toString();
-                                    String nomeViaggio = json_data.getString("nomeViaggio").toString();
-                                    String urlImmagineViaggio = json_data.getString("urlImmagineViaggio").toString();
+                                    String codiceViaggio = json_data.getString("codiceViaggio");
+                                    String nomeViaggio = json_data.getString("nomeViaggio");
+                                    String urlImmagineViaggio = json_data.getString("idFotoViaggio");
 
                                     viaggi.add(new Viaggio(codiceViaggio, nomeViaggio, urlImmagineViaggio));
                                     profili.add(new Profilo(email));
