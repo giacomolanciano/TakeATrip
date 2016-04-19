@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
@@ -27,9 +28,16 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amazonaws.HttpMethod;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.example.david.takeatrip.AsyncTask.BitmapWorkerTask;
 import com.example.david.takeatrip.Classes.Immagine;
 import com.example.david.takeatrip.Classes.InternetConnection;
@@ -41,6 +49,7 @@ import com.example.david.takeatrip.Utilities.GridViewAdapter;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
 import com.example.david.takeatrip.Utilities.ScrollListener;
 import com.example.david.takeatrip.Utilities.UploadFilePHP;
+import com.example.david.takeatrip.Utilities.UtilS3Amazon;
 import com.google.android.gms.drive.DriveId;
 import com.squareup.picasso.Picasso;
 
@@ -56,9 +65,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -82,6 +94,8 @@ public class ViaggioActivity extends FragmentActivity {
     private static final String ADDRESS_QUERY_FOLDER = "QueryCartellaGenerica.php";
     private static final String ADDRESS_INSERT_FOLDER = "CreazioneCartellaViaggio.php";
     private static final String ADDRESS_INSERT_IMAGE_TRAVEL = "InserimentoImmagineViaggio.php";
+    private static final String ADDRESS_INSERT_IMAGE_COVER_TRAVEL = "InserimentoImmagineCopertinaViaggio.php";
+
     private static final String ADDRESS_QUERY_URLS= "QueryImagesOfTravel.php";
 
 
@@ -116,6 +130,30 @@ public class ViaggioActivity extends FragmentActivity {
 
     private String NameForUrl;
 
+    // The TransferUtility is the primary class for managing transfer to S3
+    private TransferUtility transferUtility;
+
+    // The SimpleAdapter adapts the data about transfers to rows in the UI
+    private SimpleAdapter simpleAdapter;
+
+    // A List of all transfers
+    private List<TransferObserver> observers;
+
+    /**
+     * This map is used to provide data to the SimpleAdapter above. See the
+     * fillMap() function for how it relates observers to rows in the displayed
+     * activity.
+     */
+    private ArrayList<HashMap<String, List<Object>>> transferRecordMaps;
+
+
+    // The S3 client
+    private AmazonS3Client s3;
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,9 +172,12 @@ public class ViaggioActivity extends FragmentActivity {
             idFolder = intent.getParcelableExtra("idFolder");
             urlImageTravel = intent.getStringExtra("urlImmagineViaggio");
 
-            Log.i("TEST"+ TAG+": ", "email: " +email +"codiceViaggio: "+ codiceViaggio + "nomeViaggio: " + nomeViaggio +"id Cartella Viaggio: " + idFolder);
-
         }
+
+
+        transferUtility = UtilS3Amazon.getTransferUtility(this);
+        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
+        s3 = UtilS3Amazon.getS3Client(ViaggioActivity.this);
 
         listPartecipants = new ArrayList<Profilo>();
         names = new ArrayList<String>();
@@ -158,7 +199,7 @@ public class ViaggioActivity extends FragmentActivity {
 
 
         new MyTask().execute();
-        new MyTaskPerUtenti().execute();
+        //new MyTaskPerUtenti().execute();
 
 
 
@@ -257,16 +298,25 @@ public class ViaggioActivity extends FragmentActivity {
                 bitmapImageTravel = (BitmapFactory.decodeFile(picturePath));
                 Log.i("image from gallery:", picturePath + "");
 
+
+                beginUploadTravelPicture(picturePath);
+                Drawable d = new BitmapDrawable(getResources(), bitmapImageTravel);
+                layoutCopertinaViaggio.setBackground(d);
+
+/*
                 if(email!= null && codiceViaggio != null){
 
                     String NameForUrl = codiceViaggio.trim().replace(" ", "");
 
                     String url = email+"/"+NameForUrl;
                     new MyTaskIDFolder(this,email,url,NameForUrl).execute();
+
                 }
                 else{
                     Toast.makeText(getBaseContext(), R.string.update_failed, Toast.LENGTH_LONG);
                 }
+
+                */
             }
         }
     }
@@ -299,7 +349,12 @@ public class ViaggioActivity extends FragmentActivity {
 
 
             if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
-                new BitmapWorkerTask(image).execute(Constants.ADDRESS_TAT + p.getIdImageProfile());
+
+
+                //new BitmapWorkerTask(image).execute(Constants.ADDRESS_TAT + p.getIdImageProfile());
+                String signedUrl = beginDownloadPicture(Constants.BUCKET_NAME, p.getIdImageProfile());
+                Picasso.with(ViaggioActivity.this).load(signedUrl).into(image);
+
             }else {
                 if(p.getSesso().equals("M")){
                     image.setImageResource(R.drawable.default_male);
@@ -357,9 +412,8 @@ public class ViaggioActivity extends FragmentActivity {
                     viewName.setText(p.getName() + " " + p.getSurname());
 
                     if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
-                        String urlProfilePartecipant =  Constants.ADDRESS_TAT + p.getIdImageProfile();
-                        //new BitmapWorkerTask(imageProfile).execute(urlProfilePartecipant);
-                        Picasso.with(this).load(urlProfilePartecipant).into(imageProfile);
+                        String signedUrl = beginDownloadPicture(Constants.BUCKET_NAME, p.getIdImageProfile());
+                        Picasso.with(ViaggioActivity.this).load(signedUrl).into(imageProfile);
 
                     }
                     else{
@@ -372,9 +426,12 @@ public class ViaggioActivity extends FragmentActivity {
                     }
 
                     if(p.getGetIdImageCover() != null && !p.getGetIdImageCover().equals("null")){
-                        String urlCoverPartecipant =  Constants.ADDRESS_TAT+ p.getGetIdImageCover();
-                        new BitmapWorkerTask(null, layoutCopertina).execute(urlCoverPartecipant);
-                        //Picasso.with(this).load(urlCoverPartecipant).into(coverImageProfile);
+
+                        //String urlCoverPartecipant =  Constants.ADDRESS_TAT+ p.getGetIdImageCover();
+
+                        String signedUrl = beginDownloadPicture(Constants.BUCKET_NAME, p.getGetIdImageCover());
+                        new BitmapWorkerTask(null, layoutCopertina).execute(signedUrl);
+
 
                     }
 
@@ -533,6 +590,65 @@ public class ViaggioActivity extends FragmentActivity {
     }
 
 
+    private String beginDownloadPicture(String bucket, String key) {
+        // Location to download files from S3 to. You can choose any accessible
+        // file.
+        File file = new File(Environment.getExternalStorageDirectory().toString() + "/" + key);
+        URL url = null;
+        try {
+            java.util.Date expiration = new java.util.Date();
+            long msec = expiration.getTime();
+            msec += 1000 * 60 * 60; // 1 hour.
+            expiration.setTime(msec);
+
+            GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                    new GeneratePresignedUrlRequest(bucket,key);
+            generatePresignedUrlRequest.setMethod(HttpMethod.GET);
+            generatePresignedUrlRequest.setExpiration(expiration);
+
+            url = s3.generatePresignedUrl(generatePresignedUrlRequest);
+        }
+        catch(Exception exception){
+            exception.printStackTrace();
+        }
+
+
+        return url.toString();
+
+    }
+
+
+
+    private void beginUploadTravelPicture(String filePath) {
+        if (filePath == null) {
+            Toast.makeText(this, "Could not find the filepath of the selected file",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        File file = new File(filePath);
+
+        ObjectMetadata myObjectMetadata = new ObjectMetadata();
+
+        TransferObserver observer = transferUtility.upload("takeatriptravels", codiceViaggio + "/" + "coverTravelImages" +"/"+file.getName(),
+                file);
+
+
+        Log.i("TEST", "inserimento nel DB del path: " +  codiceViaggio + "/" + "coverTravelImages" +"/"+file.getName());
+        new MyTaskInsertImageTravel(ViaggioActivity.this,email,codiceViaggio, null, codiceViaggio + "/" + "coverTravelImages" +"/"+file.getName()).execute();
+
+        /*
+         * Note that usually we set the transfer listener after initializing the
+         * transfer. However it isn't required in this sample app. The flow is
+         * click upload button -> start an activity for image selection
+         * startActivityForResult -> onActivityResult -> beginUploadProfilePicture -> onResume
+         * -> set listeners to in progress transfers.
+         */
+        // observer.setTransferListener(new UploadListener());
+    }
+
+
+
+
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
 
@@ -627,15 +743,15 @@ public class ViaggioActivity extends FragmentActivity {
                 }
             }
 
-            new TaskForUrlsImages(codiceViaggio).execute();
+
+            //new TaskForUrlsImages(codiceViaggio).execute();
 
             viewTitoloViaggio = (TextView)findViewById(R.id.titoloViaggio);
             layoutCopertinaViaggio = (LinearLayout)findViewById(R.id.layoutCoverImageTravel);
 
             if(urlImageTravel != null && !urlImageTravel.equals("null")){
-                new BitmapWorkerTask(null,layoutCopertinaViaggio).execute(Constants.ADDRESS_TAT + urlImageTravel);
+                //new BitmapWorkerTask(null,layoutCopertinaViaggio).execute(Constants.ADDRESS_TAT + urlImageTravel);
             }
-
 
             if (viewTitoloViaggio != null) {
                 viewTitoloViaggio.setText(nomeViaggio);
@@ -949,17 +1065,15 @@ public class ViaggioActivity extends FragmentActivity {
         @Override
         protected Void doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("email", emailUser));
             dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
-            dataToSend.add(new BasicNameValuePair("id", idFile+""));
-            dataToSend.add(new BasicNameValuePair("url", urlImmagine));
+            dataToSend.add(new BasicNameValuePair("id", urlImmagine));
 
 
             try {
                 if (InternetConnection.haveInternetConnection(context)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERT_IMAGE_TRAVEL);
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERT_IMAGE_COVER_TRAVEL);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
 

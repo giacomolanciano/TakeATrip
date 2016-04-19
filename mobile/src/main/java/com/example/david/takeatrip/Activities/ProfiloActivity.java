@@ -180,7 +180,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         transferRecordMaps = new ArrayList<HashMap<String, Object>>();
         s3 = UtilS3Amazon.getS3Client(ProfiloActivity.this);
 
-        new GetFileListTask().execute();
+        //new GetFileListTask().execute();
 
 
 
@@ -208,7 +208,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             new MyTaskQueryNumFollowings().execute();
 
 
-            /*
+
 
             if(idImageProfile == null || idImageProfile.equals("null")){
                 if(profile!= null){
@@ -217,8 +217,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                     try {
                         image_URI = new URI(image_uri.toString());
-//                        BitmapWorkerTask task = new BitmapWorkerTask(imageProfile);
-//                        task.execute(image_URI.toURL().toString());
                         Picasso.with(this).load(image_URI.toURL().toString()).into(imageProfile);
 
                     } catch (Exception e) {
@@ -236,19 +234,18 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             }
             else{
 
-//                BitmapWorkerTask task = new BitmapWorkerTask(imageProfile);
-//                task.execute(Constants.ADDRESS_TAT + idImageProfile);
+                beginDownloadProfilePicture(idImageProfile);
 
-                Picasso.with(this).load(Constants.ADDRESS_TAT + idImageProfile).into(imageProfile);
-
+                //Picasso.with(this).load(Constants.ADDRESS_TAT + idImageProfile).into(imageProfile);
             }
 
-*/
+
+            if(idCoverImage != null && !idCoverImage.equals("null")){
+                beginDownloadCoverPicture(idCoverImage);
+            }
 
 
-
-
-            if(password != null) {
+                if(password != null) {
                 corrente = new Profilo(email);
                 follow.setVisibility(View.INVISIBLE);
             }
@@ -666,7 +663,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                         beginUploadProfilePicture(f.getAbsolutePath());
 
 
-
 /*
                         if(false){
 
@@ -732,7 +728,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 beginUploadProfilePicture(picturePath);
                 imageProfile.setImageBitmap(thumbnail);
 
-
                 /*
 
 
@@ -785,34 +780,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     beginUploadCoverPicture(f.getAbsolutePath());
 
 
-
-
-
-                    try {
-
-/*
-                        //TODO: fornire anche il caricamento sul drive
-                        if(false){
-
-                            UploadImageTask task = new UploadImageTask(this, bitmap, Constants.NAME_IMAGES_COVER_DEFAULT, idFolder, "cover");
-                            task.delegate2 = this;
-                            task.execute();
-
-                        }
-                        else{
-                            String pathImage = email+"/";
-
-                            new UploadFilePHP(this,bitmap,pathImage,Constants.NAME_IMAGES_COVER_DEFAULT).execute();
-                            new MyTaskInsertCoverimage(this,email,null,pathImage + Constants.NAME_IMAGES_COVER_DEFAULT).execute();
-                        }
-
-
-                    */
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-
                     Drawable d = new BitmapDrawable(getResources(), bitmap);
                     layoutCoverImage.setBackground(d);
 
@@ -852,26 +819,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                 beginUploadCoverPicture(picturePath);
 
-
-
-/*
-                //TODO: fornire anche il caricamento sul drive
-                if(false){
-
-                    UploadImageTask task = new UploadImageTask(this, thumbnail, Constants.NAME_IMAGES_COVER_DEFAULT, idFolder, "cover");
-                    task.delegate2 = this;
-                    task.execute();
-
-                }
-                else{
-                    String pathImage = email+"/";
-                    new UploadFilePHP(this,thumbnail,pathImage,Constants.NAME_IMAGES_COVER_DEFAULT).execute();
-                    new MyTaskInsertCoverimage(this,email,null,pathImage + Constants.NAME_IMAGES_COVER_DEFAULT).execute();
-                }
-
-*/
-
-
                 Drawable d = new BitmapDrawable(getResources(), thumbnail);
                 layoutCoverImage.setBackground(d);
             }
@@ -887,7 +834,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         // Location to download files from S3 to. You can choose any accessible
         // file.
         File file = new File(Environment.getExternalStorageDirectory().toString() + "/" + key);
-
 
         java.util.Date expiration = new java.util.Date();
         long msec = expiration.getTime();
@@ -922,6 +868,10 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         // file.
         File file = new File(Environment.getExternalStorageDirectory().toString() + "/" + key);
 
+        java.util.Date expiration = new java.util.Date();
+        long msec = expiration.getTime();
+        msec += 1000 * 60 * 60; // 1 hour.
+        expiration.setTime(msec);
 
         GeneratePresignedUrlRequest generatePresignedUrlRequest =
                 new GeneratePresignedUrlRequest(Constants.BUCKET_NAME,key);
@@ -932,11 +882,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
         new BitmapWorkerTask(coverImage,layoutCoverImage).execute(url.toString());
 
-
-        // Initiate the download
-        //TransferObserver observer = transferUtility.download(email, key, file);
-        //Log.i("TEST", "downloaded file: " + file);
-        //Log.i("TEST", "key file: " + key);
 
         Log.i("TEST", "url file: " + url);
 
@@ -960,6 +905,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
         TransferObserver observer = transferUtility.upload(Constants.BUCKET_NAME, email + "/"+ Constants.PROFILE_PICTURES+"/"+file.getName(),
                 file);
+        new MyTaskInsertImageProfile(this,email,null,email + "/"+ Constants.PROFILE_PICTURES+"/"+file.getName()).execute();
+
 
 
         /*
@@ -988,6 +935,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         TransferObserver observer = transferUtility.upload(Constants.BUCKET_NAME, email +"/"+ Constants.COVER_IMAGES+"/"+file.getName(),
                 file);
 
+        new MyTaskInsertCoverimage(this,email,null,email +"/"+ Constants.COVER_IMAGES+"/"+file.getName()).execute();
 
         /*
          * Note that usually we set the transfer listener after initializing the
@@ -1014,7 +962,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     @Override
     public void processFinish(DriveId output) {
         Log.i("TEST", "uploaded profile image with id: " + output);
-
 
         //TODO: aggiungere url al DB
         new MyTaskInsertImageProfile(this,email,output).execute();

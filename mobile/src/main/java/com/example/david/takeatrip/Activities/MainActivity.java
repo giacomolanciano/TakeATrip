@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,7 +30,6 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
@@ -63,6 +63,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -167,14 +168,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         s3 = UtilS3Amazon.getS3Client(MainActivity.this);
 
 
-
         new MyTask().execute();
-        //new MyTaskIDFolder(this,email).execute();
-        //new MyTaskIDProfileImage(this,email).execute();
 
-
-        new MyTaskIDProfileImage().execute();
-
+        new MyTaskIDProfileImage(this,email).execute();
         new MyTaskIDCoverImage(this,email).execute();
 
 
@@ -366,7 +362,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
 //                                    new BitmapWorkerTask(image).execute(Constants.ADDRESS_TAT + p.getIdImageProfile());
-                                    Picasso.with(MainActivity.this).load(Constants.ADDRESS_TAT + p.getIdImageProfile()).into(image);
+                                    String signedUrl = beginDownloadProfilePicture(p.getIdImageProfile());
+                                    Picasso.with(MainActivity.this).load(signedUrl).into(image);
 
                                 }else {
                                     if(p.getSesso().equals("M")){
@@ -576,7 +573,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-
+/*
     private class MyTaskIDProfileImage extends AsyncTask<Void, Void, Void> {
 
         // The list of objects we find in the S3 bucket
@@ -605,6 +602,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         immaginiProfilo.add(summary.getKey());
                     }
                 }
+
+
+
+
 
                 map.put("profileImages", immaginiProfilo);
                 transferRecordMaps.add(map);
@@ -650,65 +651,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+*/
 
 
-
-    private void beginDownloadProfilePicture(String key) {
+    private String beginDownloadProfilePicture(String key) {
         // Location to download files from S3 to. You can choose any accessible
         // file.
         File file = new File(Environment.getExternalStorageDirectory().toString() + "/" + key);
+        URL url = null;
+        try {
 
-        java.util.Date expiration = new java.util.Date();
-        long msec = expiration.getTime();
-        msec += 1000 * 60 * 60; // 1 hour.
-        expiration.setTime(msec);
+            java.util.Date expiration = new java.util.Date();
+            long msec = expiration.getTime();
+            msec += 1000 * 60 * 60; // 1 hour.
+            expiration.setTime(msec);
 
-        GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                new GeneratePresignedUrlRequest(Constants.BUCKET_NAME,key);
-        generatePresignedUrlRequest.setMethod(HttpMethod.GET);
-        generatePresignedUrlRequest.setExpiration(expiration);
+            GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                    new GeneratePresignedUrlRequest(Constants.BUCKET_NAME,key);
+            generatePresignedUrlRequest.setMethod(HttpMethod.GET);
+            generatePresignedUrlRequest.setExpiration(expiration);
 
-        Log.i("TEST","expiration date image: " + generatePresignedUrlRequest.getExpiration());
-
-        URL url = s3.generatePresignedUrl(generatePresignedUrlRequest);
-
-        urlImmagineProfilo = url.toString();
-
-        Picasso.with(this).load(url.toString()).into(imageViewProfileRound);
+            Log.i("TEST", "expiration date image: " + generatePresignedUrlRequest.getExpiration());
+            Log.i("TEST", "amazon client: " + s3);
 
 
-        // Initiate the download
-        //TransferObserver observer = transferUtility.download(email, key, file);
-        //Log.i("TEST", "downloaded file: " + file);
-        //Log.i("TEST", "key file: " + key);
 
-        Log.i("TEST", "url file: " + url);
+            url = s3.generatePresignedUrl(generatePresignedUrlRequest);
 
-        //observer.setTransferListener(new DownloadListener());
+            Log.i("TEST", "url file: " + url);
+
+
+            // Initiate the download
+            //TransferObserver observer = transferUtility.download(Constants.BUCKET_NAME, key, file);
+            //Log.i("TEST", "downloaded file: " + file);
+
+
+            //observer.setTransferListener(new DownloadListener());
+        }
+        catch(Exception exception){
+            exception.printStackTrace();
+        }
+
+
+        return url.toString();
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -908,7 +895,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-/*
+
 
     private class MyTaskIDProfileImage extends AsyncTask<Void, Void, Void> {
 
@@ -919,6 +906,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String nomeCartella;
         DriveId idFolder;
         Context context;
+        String signedUrl;
 
         public MyTaskIDProfileImage(Context c, String emailUtente){
             context  = c;
@@ -928,12 +916,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         protected Void doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("email", emailUser));
-
-
-            //TODO: verificare se è presente una immagine del profilo e scaricarla -> vedere ProfiloActivity
-
-
-
 
             try {
                 if (InternetConnection.haveInternetConnection(context)) {
@@ -970,6 +952,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 }
                             }
+
+
+                            if(!result.equals("NULL") && !urlImmagineProfilo.equals("null")){
+                                signedUrl = beginDownloadProfilePicture(urlImmagineProfilo);
+                            }
+
+
                         } catch (Exception e) {
                             result = "NULL";
                             //Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
@@ -991,10 +980,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(Void aVoid) {
             Log.i("TEST", "risultato dal prelievo dell'id imm profilo: " + result);
-            if(!result.equals("NULL") && !urlImmagineProfilo.equals("null")){
-                //new BitmapWorkerTask(imageViewProfileRound).execute(Constants.ADDRESS_TAT + urlImmagineProfilo);
-
-                Picasso.with(MainActivity.this).load(Constants.ADDRESS_TAT + urlImmagineProfilo).into(imageViewProfileRound);
+            if(signedUrl != null ){
+                Picasso.with(MainActivity.this).load(signedUrl.toString()).into(imageViewProfileRound);
             }
             else{
                 //L'utente è loggato con facebook
@@ -1007,26 +994,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         Log.i("TEST", "url_image: " + image_URI.toURL().toString());
 
-//                        BitmapWorkerTask task = new BitmapWorkerTask(imageViewProfileRound);
-//                        task.execute(image_URI.toURL().toString());
 
                         Picasso.with(MainActivity.this).load(image_URI.toURL().toString()).into(imageViewProfileRound);
 
-
-                        imageProfile = ((BitmapDrawable)imageViewProfileRound.getDrawable()).getBitmap();
-                        Log.i("TEST", "bitmap image profile: " + imageProfile);
 
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             }
-
             hideProgressDialog();
 
         }
     }
-*/
+
 
     private class MyTaskIDCoverImage extends AsyncTask<Void, Void, Void> {
 
@@ -1099,7 +1080,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Log.i("TEST", "risultato dal prelievo dell'id imm copertina: " + idImmagineCopertina);
+            Log.i("TEST", "risultato dal prelievo dell'id imm copertina: " + urlImmagineCopertina);
+
             super.onPostExecute(aVoid);
         }
     }
