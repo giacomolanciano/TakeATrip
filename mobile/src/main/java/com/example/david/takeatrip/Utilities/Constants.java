@@ -61,7 +61,7 @@ public class Constants {
     public static final String BUCKET_TRAVELS_NAME = "takeatriptravels";
 
 
-    public static final String TRAVEL_COVER_IMAGE_LOCATION = "travelCoverImages";
+    public static final String TRAVEL_COVER_IMAGE_LOCATION = "coverTravelImages";
 
 
 
