@@ -77,7 +77,6 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
 
 
         immagineViaggio = holder.imageTravel;
-        immagineViaggio.setContentDescription(urlImmagine);
 
         if(urlImmagine != null && !urlImmagine.equals("null")){
 
@@ -93,6 +92,8 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
+
+            immagineViaggio.setContentDescription(completeUrl.toString());
 
             Picasso.with(context).load(completeUrl.toString()).into(immagineViaggio);
 
@@ -177,7 +178,7 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
             // Log.e("TEST", "email card viaggi: "+ emailUser.getText().toString());
             intent.putExtra("nomeViaggio", nomeViaggio.getText().toString());
             intent.putExtra("codiceViaggio", codiceViaggio.getText().toString());
-            intent.putExtra("urlImmagineViaggio", imageTravel.getContentDescription());
+            intent.putExtra("urlImmagineViaggio", immagineViaggio.getContentDescription());
             v.getContext().startActivity(intent);
         }
     }

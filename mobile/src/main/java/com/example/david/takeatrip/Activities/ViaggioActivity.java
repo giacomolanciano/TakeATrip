@@ -244,6 +244,8 @@ public class ViaggioActivity extends FragmentActivity {
         intent.putExtra("urlImagePartecipants", urlImagePartecipants);
         intent.putExtra("sessoPartecipants", sessoPartecipants);
 
+
+
         startActivity(intent);
     }
 
@@ -744,13 +746,16 @@ public class ViaggioActivity extends FragmentActivity {
             }
 
 
-            //new TaskForUrlsImages(codiceViaggio).execute();
+            new TaskForUrlsImages(codiceViaggio).execute();
 
             viewTitoloViaggio = (TextView)findViewById(R.id.titoloViaggio);
             layoutCopertinaViaggio = (LinearLayout)findViewById(R.id.layoutCoverImageTravel);
 
             if(urlImageTravel != null && !urlImageTravel.equals("null")){
-                //new BitmapWorkerTask(null,layoutCopertinaViaggio).execute(Constants.ADDRESS_TAT + urlImageTravel);
+
+
+                new BitmapWorkerTask(null,layoutCopertinaViaggio).execute(urlImageTravel);
+
             }
 
             if (viewTitoloViaggio != null) {
@@ -1275,8 +1280,10 @@ public class ViaggioActivity extends FragmentActivity {
                 for(Immagine image : listImages){
                     if(image.getLivelloCondivisione().equalsIgnoreCase("public")
                             || image.getLivelloCondivisione().equalsIgnoreCase("travel")){
-                        URLs[i] = Constants.ADDRESS_TAT + image.getUrlImmagine();
-                        Log.i("TEST", "url ["+i+"]: "+ URLs[i]);
+
+                        URLs[i] = beginDownloadFile(image.getUrlImmagine());
+
+                        //Log.i("TEST", "url ["+i+"]: "+ URLs[i]);
 
                         i++;
                     }
@@ -1296,25 +1303,62 @@ public class ViaggioActivity extends FragmentActivity {
 
 
 
-            /*
-            ImageGridFragment fragment = (ImageGridFragment)getFragmentManager().findFragmentById(R.id.fragment_images);
 
-            ImageGridFragment fragment1 = fragment.newInstance(URLs);
+//            ImageGridFragment fragment = (ImageGridFragment)getFragmentManager().findFragmentById(R.id.fragment_images);
+//
+//            ImageGridFragment fragment1 = fragment.newInstance(URLs);
+//
+//            //fragment.setArguments(fragment1.getArguments());
+//
+//            fragment.onDestroy();
+//
+//            Log.i("TEST", "creato un nuovo fragment with bundle: " + fragment1.getArguments().getStringArray("urls"));
+//
+//            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//            transaction.replace(R.id.fragment_images, fragment1);
+//            transaction.addToBackStack(null);
+//            transaction.commit();
 
-            //fragment.setArguments(fragment1.getArguments());
 
-            fragment.onDestroy();
-
-            Log.i("TEST", "creato un nuovo fragment with bundle: " + fragment1.getArguments().getStringArray("urls"));
-
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_images, fragment1);
-            transaction.addToBackStack(null);
-            transaction.commit();
-
-            */
 
         }
     }
+
+
+
+    private String beginDownloadFile(String key) {
+        // Location to download files from S3 to. You can choose any accessible
+        // file.
+
+
+        java.util.Date expiration = new java.util.Date();
+        long msec = expiration.getTime();
+        msec += 1000 * 60 * 60; // 1 hour.
+        expiration.setTime(msec);
+
+        GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                new GeneratePresignedUrlRequest(Constants.BUCKET_TRAVELS_NAME, key);
+        generatePresignedUrlRequest.setMethod(HttpMethod.GET);
+        generatePresignedUrlRequest.setExpiration(expiration);
+
+        Log.i("TEST", "expiration date image: " + generatePresignedUrlRequest.getExpiration());
+
+        URL url = s3.generatePresignedUrl(generatePresignedUrlRequest);
+
+
+        // Initiate the download
+        //TransferObserver observer = transferUtility.download(email, key, file);
+        //Log.i("TEST", "downloaded file: " + file);
+        //Log.i("TEST", "key file: " + key);
+
+        //Log.i("TEST", "url file: " + url);
+
+        //observer.setTransferListener(new DownloadListener());
+
+
+        return url.toString();
+
+    }
+
 
 }
