@@ -15,8 +15,8 @@ import android.widget.TextView;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.DataObject;
-import com.example.david.takeatrip.Utilities.MyRecyclerViewAdapter;
 import com.example.david.takeatrip.Utilities.MyRecyclerViewAdapterFollowing;
+import com.example.david.takeatrip.Utilities.RecyclerViewViaggiAdapter;
 
 import java.util.ArrayList;
 
@@ -69,7 +69,7 @@ public class FollowingFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(context);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyRecyclerViewAdapter(getDataSet(), this.getContext());
+        mAdapter = new RecyclerViewViaggiAdapter(getDataSet(), this.getContext());
         mRecyclerView.setAdapter(mAdapter);
 
 

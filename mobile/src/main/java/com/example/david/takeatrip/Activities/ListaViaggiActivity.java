@@ -22,7 +22,7 @@ import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DataObject;
-import com.example.david.takeatrip.Utilities.MyRecyclerViewAdapter;
+import com.example.david.takeatrip.Utilities.RecyclerViewViaggiAdapter;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -74,7 +74,7 @@ public class ListaViaggiActivity extends ActionBarActivity {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyRecyclerViewAdapter(getDataSet(), ListaViaggiActivity.this);
+        mAdapter = new RecyclerViewViaggiAdapter(getDataSet(), ListaViaggiActivity.this);
         mRecyclerView.setAdapter(mAdapter);
 
 /*      lista = (ListView)findViewById(R.id.listViewTravels);
@@ -132,7 +132,7 @@ public class ListaViaggiActivity extends ActionBarActivity {
 
     private void PopolaLista() {
 
-        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(dataTravels, ListaViaggiActivity.this);
+        RecyclerViewViaggiAdapter adapter = new RecyclerViewViaggiAdapter(dataTravels, ListaViaggiActivity.this);
         adapter.onCreateViewHolder(group, 0);
         mRecyclerView.setAdapter(adapter);
         hideProgressDialog();
@@ -285,7 +285,7 @@ public class ListaViaggiActivity extends ActionBarActivity {
 
     protected void onResume() {
         super.onResume();
-        ((MyRecyclerViewAdapter) mAdapter).setOnItemClickListener(new MyRecyclerViewAdapter
+        ((RecyclerViewViaggiAdapter) mAdapter).setOnItemClickListener(new RecyclerViewViaggiAdapter
                 .MyClickListener() {
             @Override
             public void onItemClick(int position, View v) {

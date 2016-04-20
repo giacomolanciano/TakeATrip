@@ -25,7 +25,7 @@ import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DataObject;
 import com.example.david.takeatrip.Utilities.GoogleTranslate;
-import com.example.david.takeatrip.Utilities.MyRecyclerViewAdapter;
+import com.example.david.takeatrip.Utilities.RecyclerViewViaggiAdapter;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -102,7 +102,7 @@ public class SearchActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyRecyclerViewAdapter(getDataSet(), SearchActivity.this);
+        mAdapter = new RecyclerViewViaggiAdapter(getDataSet(), SearchActivity.this);
         mRecyclerView.setAdapter(mAdapter);
         image_default = new ImageView(this);
         image_default.setImageDrawable(getDrawable(R.drawable.default_male));
@@ -184,7 +184,7 @@ public class SearchActivity extends AppCompatActivity {
 
 
 
-        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(result, SearchActivity.this);
+        RecyclerViewViaggiAdapter adapter = new RecyclerViewViaggiAdapter(result, SearchActivity.this);
         adapter.onCreateViewHolder(group, 0);
         mRecyclerView.setAdapter(adapter);
 

@@ -65,6 +65,9 @@ public class Constants {
 
     public static final String PROFILE_PICTURES = "profilePictures";
     public static final String COVER_IMAGES = "coverImages";
+    public static final String TRAVEL_IMAGES = "travelImages";
+    public static final String TRAVEL_VIDEOS = "travelVideo";
+    public static final String TRAVEL_AUDIO = "travelAudio";
 
 
 

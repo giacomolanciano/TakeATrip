@@ -51,6 +51,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.AsyncTask.BitmapWorkerTask;
+import com.example.david.takeatrip.AsyncTask.InserimentoImmagineTappaTask;
+import com.example.david.takeatrip.AsyncTask.UploadFileS3Task;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Itinerario;
 import com.example.david.takeatrip.Classes.POI;
@@ -65,7 +67,6 @@ import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatesUtils;
 import com.example.david.takeatrip.Utilities.MultimedialFile;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
-import com.example.david.takeatrip.Utilities.UploadFilePHP;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -120,17 +121,19 @@ public class ListaTappeActivity extends AppCompatActivity
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         AsyncResponseDriveId, AsyncResponseDriveIdCover, GoogleMap.OnInfoWindowClickListener {
 
-    private final String ADDRESS_PRELIEVO_TAPPE = "QueryTappe.php";
-    private final String ADDRESS_INSERIMENTO_TAPPA = "InserimentoTappa.php";
-    private final String ADDRESS_INSERIMENTO_FILTRO = "InserimentoFiltro.php";
-    private final String ADDRESS_INSERIMENTO_NOTA = "InserimentoNotaTappa.php";
-    private final int QUALITY_OF_IMAGE = Constants.QUALITY_PHOTO;
+    private static final String TAG = "TEST ListaTappeAct";
+
+    private static final String ADDRESS_PRELIEVO_TAPPE = "QueryTappe.php";
+    private static final String ADDRESS_INSERIMENTO_TAPPA = "InserimentoTappa.php";
+    private static final String ADDRESS_INSERIMENTO_FILTRO = "InserimentoFiltro.php";
+    private static final String ADDRESS_INSERIMENTO_NOTA = "InserimentoNotaTappa.php";
+    private static final int QUALITY_OF_IMAGE = Constants.QUALITY_PHOTO;
 
 
-    private final int LIMIT_IMAGES_VIEWS = 10;
+    private static final int LIMIT_IMAGES_VIEWS = 10;
 
 
-    private final String TAG = "ListaTappeActivity";
+
     private static final int GOOGLE_API_CLIENT_ID = 0;
 
     private GoogleMap googleMap;
@@ -195,6 +198,7 @@ public class ListaTappeActivity extends AppCompatActivity
     private List<Bitmap> immaginiSelezionate, immaginiUpload;
     private Map<Bitmap,String> bitmap_nomeFile;
     private String livelloCondivisioneTappa;
+    private Map<Bitmap, String> pathsImmaginiSelezionate;
 
     private LinearLayout layoutContents,rowHorizontal;
 
@@ -223,7 +227,7 @@ public class ListaTappeActivity extends AppCompatActivity
             navigationView.setNavigationItemSelectedListener(this);
         } else {
             //TODO capire perchè da eccezione sporadicamente
-            Log.e("TEST", "navigationView is null");
+            Log.e(TAG, "navigationView is null");
         }
 
         View layoutHeader = navigationView.getHeaderView(0);
@@ -240,7 +244,7 @@ public class ListaTappeActivity extends AppCompatActivity
             buttonAddStop.setVisibility(View.INVISIBLE);
         } else {
             //TODO capire perchè da eccezione sporadicamente
-            Log.e("TEST", "buttonAddStop is null");
+            Log.e(TAG, "buttonAddStop is null");
         }
 
         layoutProprietariItinerari = (LinearLayout) findViewById(R.id.layoutProprietariItinerari);
@@ -274,6 +278,7 @@ public class ListaTappeActivity extends AppCompatActivity
         immaginiSelezionate = new ArrayList<Bitmap>();
         immaginiUpload = new ArrayList<Bitmap>();
         bitmap_nomeFile = new HashMap<Bitmap,String>();
+        pathsImmaginiSelezionate = new HashMap<Bitmap, String>();
 
         noteInserite = new ArrayList<String>();
 
@@ -308,7 +313,7 @@ public class ListaTappeActivity extends AppCompatActivity
                     //altrimenti c'è bisogno di ridefinire equals(), che sbrasa searchActivity
                     profiloUtenteLoggato = aux;
 
-                    Log.i("TEST", "sei compreso nel viaggio");
+                    Log.i(TAG, "sei compreso nel viaggio");
                 }
 
                 i++;
@@ -325,10 +330,10 @@ public class ListaTappeActivity extends AppCompatActivity
         if (ViewNomeViaggio != null) {
             ViewNomeViaggio.setText(nomeViaggio);
         } else {
-            Log.e("TEST", "viewNomeViaggio is null");
+            Log.e(TAG, "viewNomeViaggio is null");
         }
 
-        MyTask mT = new MyTask();
+        MyTaskGetTappe mT = new MyTaskGetTappe();
         mT.execute();
 
 
@@ -472,7 +477,7 @@ public class ListaTappeActivity extends AppCompatActivity
             switch (requestCode) {
                 case Constants.REQUEST_IMAGE_CAPTURE:
 
-                    Log.i("TEST", "REQUEST_IMAGE_CAPTURE");
+                    Log.i(TAG, "REQUEST_IMAGE_CAPTURE");
 
                     File f = new File(Environment.getExternalStorageDirectory().toString());
                     for (File temp : f.listFiles()) {
@@ -488,14 +493,18 @@ public class ListaTappeActivity extends AppCompatActivity
 
                         String nomeFile = timeStamp + ".jpg";
 
-                        Log.i("TEST", "timeStamp image: " + nomeFile);
+                        Log.i(TAG, "timeStamp image: " + nomeFile);
                         if(thumbnail != null){
+
+                            //TODO controllare
+                            pathsImmaginiSelezionate.put(thumbnail, Environment.getExternalStorageDirectory() + imageFileName);
+
                             immaginiSelezionate.add(thumbnail);
                             bitmap_nomeFile.put(thumbnail,nomeFile);
                         }
 
-                        Log.i("TEST", "path file immagine: " + f.getAbsolutePath());
-                        Log.i("TEST", "bitmap file immagine: " + thumbnail);
+                        Log.i(TAG, "path file immagine: " + f.getAbsolutePath());
+                        Log.i(TAG, "bitmap file immagine: " + thumbnail);
 
                         PopolaContenuti();
 
@@ -521,12 +530,14 @@ public class ListaTappeActivity extends AppCompatActivity
                                 //In case you need image's absolute path
                                 //String path= MultimedialFile.getRealPathFromURI(ListaTappeActivity.this, uri);
                                 String path= getRealPathFromURI(ListaTappeActivity.this, uri);
-                                Log.i("TEST", "image path: " + path);
+                                Log.i(TAG, "image path: " + path);
                             }
                         } else {
-                            Log.i("TEST", "clipdata is null");
+                            Log.i(TAG, "clipdata is null");
 
                             Uri selectedImage = data.getData();
+
+                            Log.i(TAG, "uri selected image: " + selectedImage);
 
                             String[] filePath = {MediaStore.Images.Media.DATA};
                             Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
@@ -536,44 +547,49 @@ public class ListaTappeActivity extends AppCompatActivity
                             c.close();
 
 
+                            //TODO creazione bitmap per ora necessaria per far apparire miniature durante aggiunta tappa
+                            //rivedere meccanismo usando Picasso
+
                             Bitmap thumbnail = BitmapWorkerTask.decodeSampledBitmapFromPath(picturePath, 0, 0);
 
-/*
+                            /*
                             BitmapFactory.Options options = new BitmapFactory.Options();
                             options.inSampleSize = 16;
                             Bitmap bitmap = (BitmapFactory.decodeFile(picturePath));
                             */
 
-                            Log.i("TEST", "image from gallery: " + picturePath + "");
-                            Log.i("TEST", "bitmap from gallery: " + thumbnail + "");
+                            Log.i(TAG, "image from gallery: " + picturePath + "");
 
                             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
 
                             String nomeFile = timeStamp + ".jpg";
 
-                            Log.i("TEST", "timeStamp image: " + nomeFile);
+                            Log.i(TAG, "timeStamp image: " + nomeFile);
 
 
                             if(thumbnail != null){
+
+                                //inserire file in una lista di file per caricamento in s3
+                                pathsImmaginiSelezionate.put(thumbnail, picturePath);
+
                                 immaginiSelezionate.add(thumbnail);
                                 bitmap_nomeFile.put(thumbnail, nomeFile);
                             }
 
 
-                            Log.i("TEST", "elenco immagini selezionate: " + immaginiSelezionate);
-                            Log.i("TEST", "elenco nomi immagini: " + bitmap_nomeFile.values());
+                            Log.i(TAG, "elenco immagini selezionate: " + immaginiSelezionate);
+                            Log.i(TAG, "elenco paht immagini selezionate: " + pathsImmaginiSelezionate);
+                            Log.i(TAG, "elenco nomi immagini: " + bitmap_nomeFile.values());
 
 
 
 
                             PopolaContenuti();
 
-                            //TODO: visualizzare le miniature delle immagini sul dialog
-
                         }
 
                     } else {
-                        Log.e("TEST", "data is null");
+                        Log.e(TAG, "data is null");
 
                     }
 
@@ -586,17 +602,17 @@ public class ListaTappeActivity extends AppCompatActivity
 
                 case Constants.REQUEST_PLACE_PICKER:
 
-                    Log.i("TEST", "REQUEST_PLACE_PICKER");
+                    Log.i(TAG, "REQUEST_PLACE_PICKER");
 
                     Place place = PlacePicker.getPlace(this, data);
-                    Log.i("TEST", "Place: %s" + place.getName());
+                    Log.i(TAG, "Place: %s" + place.getName());
 
                     startAddingStop(place);
 
                     break;
 
                 case Constants.REQUEST_VIDEO_CAPTURE:
-                    Log.i("TEST", "REQUEST_VIDEO_CAPTURE");
+                    Log.i(TAG, "REQUEST_VIDEO_CAPTURE");
 
                     File fileVideo = new File(Environment.getExternalStorageDirectory().toString());
                     for (File temp : fileVideo.listFiles()) {
@@ -613,7 +629,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
                         bitmap = ThumbnailUtils.createVideoThumbnail(fileVideo.getAbsolutePath(),
                                 MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
-                        Log.i("TEST", "path file video: " + fileVideo.getAbsolutePath());
+                        Log.i(TAG, "path file video: " + fileVideo.getAbsolutePath());
 
 //                        UploadImageTask task = new UploadImageTask(this, bitmap,
 //                                Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
@@ -651,7 +667,7 @@ public class ListaTappeActivity extends AppCompatActivity
                     break;
 
                 case Constants.REQUEST_VIDEO_PICK:
-                    Log.i("TEST", "REQUEST_VIDEO_PICK");
+                    Log.i(TAG, "REQUEST_VIDEO_PICK");
 
                     Uri selectedVideo = data.getData();
 
@@ -669,7 +685,7 @@ public class ListaTappeActivity extends AppCompatActivity
                     break;
 
                 case Constants.REQUEST_RECORD_PICK:
-                    Log.i("TEST", "REQUEST_RECORD_PICK");
+                    Log.i(TAG, "REQUEST_RECORD_PICK");
 
                     Uri selectedAudio = data.getData();
 
@@ -687,13 +703,13 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
                 default:
-                    Log.e("TEST", "requestCode non riconosciuto");
+                    Log.e(TAG, "requestCode non riconosciuto");
                     break;
             }
 
         } else {
 
-            Log.e("TEST", "result: " + resultCode);
+            Log.e(TAG, "result: " + resultCode);
         }
     }
 
@@ -717,7 +733,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
         //TODO il metodo sembra non venire chiamato, capire se problema emulatore
 
-        Log.i("TEST", "enter onMapReady");
+        Log.i(TAG, "enter onMapReady");
 
         googleMap = map;
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -766,14 +782,14 @@ public class ListaTappeActivity extends AppCompatActivity
                         GooglePlayServicesUtil
                                 .getErrorDialog(e.getConnectionStatusCode(), ListaTappeActivity.this, 0);
 
-                        Log.e("TEST", e.toString());
+                        Log.e(TAG, e.toString());
 
                     } catch (GooglePlayServicesNotAvailableException e) {
                         Toast.makeText(ListaTappeActivity.this, "Google Play Services is not available.",
                                 Toast.LENGTH_LONG)
                                 .show();
 
-                        Log.e("TEST", e.toString());
+                        Log.e(TAG, e.toString());
                     }
                 }
 
@@ -787,13 +803,13 @@ public class ListaTappeActivity extends AppCompatActivity
 
     public void onInfoWindowClick(Marker marker) {
 
-        Log.i("TEST", "click info");
+        Log.i(TAG, "click info");
 
         String nomeTappa = marker.getTitle();
         String labelTappa = nomeTappa.split("\\.")[0];
         int numeroTappa = Integer.parseInt(labelTappa)-1;
 
-        Log.i("TEST", "tappa numero " + numeroTappa);
+        Log.i(TAG, "tappa numero " + numeroTappa);
 
 
         Tappa tappaSelezionata = profiloTappe.get(profiloVisualizzazioneCorrente).get(numeroTappa);
@@ -815,10 +831,10 @@ public class ListaTappeActivity extends AppCompatActivity
         //TODO sarà inutile una volta modificato il database
         i.putExtra("codAccount", 0);
 
-//        Log.e("TEST", "#email  " + profiloUtente.getEmail());
-//        Log.e("TEST", "#nomedelviaggio  " + marker.getTitle() );
-        Log.e("TEST", "ordine tappa: " + ordineTappa);
-        Log.e("TEST", "data tappa: " + tappaSelezionata.getData().toString());
+//        Log.e(TAG, "#email  " + profiloUtente.getEmail());
+//        Log.e(TAG, "#nomedelviaggio  " + marker.getTitle() );
+        Log.e(TAG, "ordine tappa: " + ordineTappa);
+        Log.e(TAG, "data tappa: " + tappaSelezionata.getData().toString());
 
         startActivity(i);
 
@@ -827,6 +843,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
     public void onClickAddStop(View v){
 
+        pathsImmaginiSelezionate.clear();
         immaginiSelezionate.clear();
         bitmap_nomeFile.clear();
 
@@ -842,14 +859,14 @@ public class ListaTappeActivity extends AppCompatActivity
             GooglePlayServicesUtil
                     .getErrorDialog(e.getConnectionStatusCode(), ListaTappeActivity.this, 0);
 
-            Log.e("TEST", e.toString());
+            Log.e(TAG, e.toString());
 
         } catch (GooglePlayServicesNotAvailableException e) {
             Toast.makeText(ListaTappeActivity.this, "Google Play Services is not available.",
                     Toast.LENGTH_LONG)
                     .show();
 
-            Log.e("TEST", e.toString());
+            Log.e(TAG, e.toString());
         }
     }
 
@@ -870,7 +887,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
     private static String getRealPathFromURI(Context context, Uri contentUri) {
 
-        Log.i("TEST", "entro in getRealPathFromURI(...)");
+        Log.i(TAG, "entro in getRealPathFromURI(...)");
 
         Cursor cursor = null;
         String result = null;
@@ -886,13 +903,13 @@ public class ListaTappeActivity extends AppCompatActivity
                         .getColumnIndex(proj[0]);
 
                 result = cursor.getString(columnIndex);
-                Log.i("TEST", "result: "+result);
+                Log.i(TAG, "result: "+result);
             }
 
             return result;
 
         } catch (Exception e) {
-            Log.e("TEST", "eccezione nel restituire il path: "+e.toString());
+            Log.e(TAG, "eccezione nel restituire il path: "+e.toString());
             return null;
 
         } finally {
@@ -909,7 +926,7 @@ public class ListaTappeActivity extends AppCompatActivity
                 Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI);
 
 
-        Log.i("TEST", "partecipants: " + partecipants);
+        Log.i(TAG, "partecipants: " + partecipants);
 
         for(Profilo p : partecipants){
 
@@ -969,10 +986,10 @@ public class ListaTappeActivity extends AppCompatActivity
             int i=0;
             for(Tappa t : tappe){
 
-                Log.i("TEST", "tappa: " + t.getPoi().getCodicePOI());
+                Log.i(TAG, "tappa: " + t.getPoi().getCodicePOI());
 
                 if(nomiTappe.size() > 0){
-                    Log.i("TEST", "nome tappa: " + nomiTappe.get(i));
+                    Log.i(TAG, "nome tappa: " + nomiTappe.get(i));
                     menu.add(0, i, Menu.NONE, nomiTappe.get(i));
                 }
                 else{
@@ -1004,8 +1021,8 @@ public class ListaTappeActivity extends AppCompatActivity
         }
 
 
-        Log.i("TEST", "profiloNomiTappe: " + profiloNomiTappe);
-        Log.i("TEST", "ho aggiunto i markedPoints di " + p);
+        Log.i(TAG, "profiloNomiTappe: " + profiloNomiTappe);
+        Log.i(TAG, "ho aggiunto i markedPoints di " + p);
 
     }
 
@@ -1014,8 +1031,8 @@ public class ListaTappeActivity extends AppCompatActivity
         final int index = i;
 
         if( TextUtils.isEmpty(t.getPoi().getCodicePOI()) || mGoogleApiClient == null){
-            Log.i("TEST", "codice tappa: " + t.getPoi().getCodicePOI());
-            Log.i("TEST", "return");
+            Log.i(TAG, "codice tappa: " + t.getPoi().getCodicePOI());
+            Log.i(TAG, "return");
             return;
         }
 
@@ -1053,19 +1070,19 @@ public class ListaTappeActivity extends AppCompatActivity
 
                     @Override
                     public void onResult(PlaceBuffer places) {
-                        Log.i("TEST", "sono in onResult");
-                        Log.i("TEST", "PlaceBuffer: " + places.toString());
-                        Log.i("TEST", "Status PlaceBuffer: " + places.getStatus());
-                        Log.i("TEST", "Count PlaceBuffer: " + places.getCount());
+                        Log.i(TAG, "sono in onResult");
+                        Log.i(TAG, "PlaceBuffer: " + places.toString());
+                        Log.i(TAG, "Status PlaceBuffer: " + places.getStatus());
+                        Log.i(TAG, "Count PlaceBuffer: " + places.getCount());
 
                         if (places.getStatus().isSuccess()) {
                             Place place = places.get(0);
                             LatLng currentLatLng = place.getLatLng();
-                            Log.i("TEST", "nome place: " + place.getName());
+                            Log.i(TAG, "nome place: " + place.getName());
 
                             nomiTappe.add(place);
                             namesStops.add(place.getName().toString());
-                            Log.i("TEST", "aggiunto ai places: " + nomiTappe);
+                            Log.i(TAG, "aggiunto ai places: " + nomiTappe);
 
 
                             //add Marker
@@ -1083,12 +1100,12 @@ public class ListaTappeActivity extends AppCompatActivity
                             if (nomiTappe.size() == profiloTappe.get(currentProfile).size()
                                     && namesStops.size() == nomiTappe.size()) {
 
-                                Log.i("TEST", "nomi places: " + namesStops);
+                                Log.i(TAG, "nomi places: " + namesStops);
                                 CreaMenu(profiloTappe.get(currentProfile), namesStops);
 
                                 profiloNomiTappe.put(currentProfile, nomiTappe);
-                                Log.i("TEST", "profiloNomiTappe: " + profiloNomiTappe);
-                                Log.i("TEST", "ho aggiunto i markedPoints di " + currentProfile);
+                                Log.i(TAG, "profiloNomiTappe: " + profiloNomiTappe);
+                                Log.i(TAG, "ho aggiunto i markedPoints di " + currentProfile);
 
 
                                 //traccia linea
@@ -1116,18 +1133,18 @@ public class ListaTappeActivity extends AppCompatActivity
 
         int result = 0;
 
-        Log.i("TEST", "profilo: " + profiloUtenteLoggato);
-        Log.i("TEST", "mappa profiloTappe: " + profiloTappe);
+        Log.i(TAG, "profilo: " + profiloUtenteLoggato);
+        Log.i(TAG, "mappa profiloTappe: " + profiloTappe);
 
 
         ArrayList<Tappa> listaTappe = (ArrayList<Tappa>) profiloTappe.get(profiloUtenteLoggato);
 
-        Log.i("TEST", "lista tappe di " + profiloUtenteLoggato + ": " + listaTappe);
+        Log.i(TAG, "lista tappe di " + profiloUtenteLoggato + ": " + listaTappe);
 
         if(listaTappe != null)
             result = listaTappe.size();
 
-        Log.i("TEST", "result ordine tappa: " + result);
+        Log.i(TAG, "result ordine tappa: " + result);
 
         return result;
 
@@ -1151,8 +1168,8 @@ public class ListaTappeActivity extends AppCompatActivity
             placeAttr += aux;
 
 
-        Log.i("TEST", "name: " + placeName);
-        Log.i("TEST", "addr: " + placeAddress);
+        Log.i(TAG, "name: " + placeName);
+        Log.i(TAG, "addr: " + placeAddress);
 
         dialog = new Dialog(ListaTappeActivity.this);
         dialog.setContentView(R.layout.info_poi);
@@ -1177,7 +1194,7 @@ public class ListaTappeActivity extends AppCompatActivity
         mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("TEST", "elemento selezionato: " + adapter.getItem(position).toString());
+                Log.i(TAG, "elemento selezionato: " + adapter.getItem(position).toString());
                 livelloCondivisioneTappa = adapter.getItem(position).toString();
             }
 
@@ -1221,7 +1238,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
                 Calendar cal = DatesUtils.getDateFromString(getCurrentDateString(), Constants.DATABASE_DATE_FORMAT);
 
-                Log.i("TEST", "cal.getTime: " + cal.getTime());
+                Log.i(TAG, "cal.getTime: " + cal.getTime());
 
                 profiloTappe.get(profiloVisualizzazioneCorrente).add(new Tappa(itAux, stopOrder, cal.getTime()));
 
@@ -1290,7 +1307,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
     private void onClickAddImage(View v) {
 
-        Log.i("TEST", "add image pressed");
+        Log.i(TAG, "add image pressed");
 
         try {
             ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
@@ -1339,10 +1356,10 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
                                 } catch (IOException ex) {
-                                    Log.e("TEST", "eccezione nella creazione di file immagine");
+                                    Log.e(TAG, "eccezione nella creazione di file immagine");
                                 }
 
-                                Log.i("TEST", "creato file immagine col nome: " +imageFileName);
+                                Log.i(TAG, "creato file immagine col nome: " +imageFileName);
 
                                 // Continue only if the File was successfully created
                                 if (photoFile != null) {
@@ -1356,7 +1373,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
                         default:
-                            Log.e("TEST", "azione non riconosciuta");
+                            Log.e(TAG, "azione non riconosciuta");
                             break;
                     }
                 }
@@ -1370,14 +1387,14 @@ public class ListaTappeActivity extends AppCompatActivity
             Log.e(e.toString().toUpperCase(), e.getMessage());
         }
 
-        Log.i("TEST", "END add image");
+        Log.i(TAG, "END add image");
 
     }
 
 
     private void onClickAddVideo(View v) {
 
-        Log.i("TEST", "add video pressed");
+        Log.i(TAG, "add video pressed");
 
         try {
             ContextThemeWrapper wrapper = new ContextThemeWrapper(this,
@@ -1417,10 +1434,10 @@ public class ListaTappeActivity extends AppCompatActivity
                                             mCurrentVideoPath, videoFileName);
 
                                 } catch (IOException ex) {
-                                    Log.e("TEST", "eccezione nella creazione di file video");
+                                    Log.e(TAG, "eccezione nella creazione di file video");
                                 }
 
-                                Log.i("TEST", "creato file video");
+                                Log.i(TAG, "creato file video");
 
                                 // Continue only if the File was successfully created
                                 if (videoFile != null) {
@@ -1434,7 +1451,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
                         default:
-                            Log.e("TEST", "azione non riconosciuta");
+                            Log.e(TAG, "azione non riconosciuta");
                             break;
                     }
                 }
@@ -1448,7 +1465,7 @@ public class ListaTappeActivity extends AppCompatActivity
             Log.e(e.toString().toUpperCase(), e.getMessage());
         }
 
-        Log.i("TEST", "END add video");
+        Log.i(TAG, "END add video");
 
 
     }
@@ -1456,7 +1473,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
     private void onClickAddRecord(View v) {
 
-        Log.i("TEST", "add record pressed");
+        Log.i(TAG, "add record pressed");
 
         try {
             final ContextThemeWrapper wrapper = new ContextThemeWrapper(this,
@@ -1521,7 +1538,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
                                     }
 
-                                    Log.i("TEST", "progress dialog canceled");
+                                    Log.i(TAG, "progress dialog canceled");
                                 }
                             });
 
@@ -1558,11 +1575,11 @@ public class ListaTappeActivity extends AppCompatActivity
                                                     progressDialog.dismiss();
 
 
-                                                    Log.i("TEST", "file audio generato: " + record.getFileName());
+                                                    Log.i(TAG, "file audio generato: " + record.getFileName());
 
                                                     File fileAudio = record.getFileAudio();
 
-                                                    Log.i("TEST", "file audio generato: " + fileAudio);
+                                                    Log.i(TAG, "file audio generato: " + fileAudio);
 
                                                     //TODO implementare caricamento su db
 
@@ -1580,7 +1597,7 @@ public class ListaTappeActivity extends AppCompatActivity
                                                         if (isCanceled) {
                                                             // Stop the operation/loop
 
-                                                            Log.i("TEST", "thread stopped");
+                                                            Log.i(TAG, "thread stopped");
 
                                                             break;
                                                         }
@@ -1601,7 +1618,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
                                                                 if (progressStatus == progressDialog.getMax()) {
 
-                                                                    Log.i("TEST", "thread stopped");
+                                                                    Log.i(TAG, "thread stopped");
 
                                                                     record.stopRecording();
 
@@ -1632,7 +1649,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
                         default:
-                            Log.e("TEST", "azione non riconosciuta");
+                            Log.e(TAG, "azione non riconosciuta");
                             break;
                     }
                 }
@@ -1648,7 +1665,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-        Log.i("TEST", "END add record");
+        Log.i(TAG, "END add record");
 
     }
 
@@ -1657,7 +1674,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-        Log.i("TEST", "add note pressed");
+        Log.i(TAG, "add note pressed");
 
 
         try {
@@ -1683,7 +1700,7 @@ public class ListaTappeActivity extends AppCompatActivity
                             dialog.dismiss();
 
 
-                            Log.i("TEST", "edit text dialog canceled");
+                            Log.i(TAG, "edit text dialog canceled");
                         }
                     });
 
@@ -1693,7 +1710,7 @@ public class ListaTappeActivity extends AppCompatActivity
                         public void onClick(DialogInterface dialog, int which) {
 
                             noteInserite.add(textInputEditText.getText().toString());
-                            Log.i("TEST", "edit text confirmed");
+                            Log.i(TAG, "edit text confirmed");
                         }
                     });
 
@@ -1708,7 +1725,7 @@ public class ListaTappeActivity extends AppCompatActivity
         }
 
 
-        Log.i("TEST", "END add note");
+        Log.i(TAG, "END add note");
 
     }
 
@@ -1733,7 +1750,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-    private class MyTask extends AsyncTask<Void, Void, Void> {
+    private class MyTaskGetTappe extends AsyncTask<Void, Void, Void> {
 
         //TODO implementare meccanismo di selezione del profilo di cui prelevare tappe
         //TODO aggiornare variabile profiloVisCorr con il numero dell'ordine
@@ -1779,7 +1796,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
                             String result = sb.toString();
 
-                            //Log.e("TEST", "json ricevuto:\n" + result);
+                            //Log.e(TAG, "json ricevuto:\n" + result);
 
                             JSONArray jArray = new JSONArray(result);
 
@@ -1795,7 +1812,7 @@ public class ListaTappeActivity extends AppCompatActivity
                                     stringaFinale = email + " " + codiceViaggio  +" "+ ordine;
                                     int ordineTappaPrecedente = json_data.optInt("ordineTappaPrecedente", DEFAULT_INT);
 
-                                    //Log.e("TEST", "ordinePrec:\n" + ordineTappaPrecedente);
+                                    //Log.e(TAG, "ordinePrec:\n" + ordineTappaPrecedente);
 
                                     Tappa tappaPrecedente = new Tappa(itinerario, (ordineTappaPrecedente));
 
@@ -1822,7 +1839,7 @@ public class ListaTappeActivity extends AppCompatActivity
                         //Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
                     }
                 } catch (Exception e) {
-                    Log.e("TEST", "Errore nella connessione http "+e.toString());
+                    Log.e(TAG, "Errore nella connessione http "+e.toString());
                 }
 
 
@@ -1844,10 +1861,10 @@ public class ListaTappeActivity extends AppCompatActivity
             ViewCaricamentoInCorso.setVisibility(View.INVISIBLE);
 
 
-            Log.i("TEST", "profiloTappe: " + profiloTappe);
-            Log.i("TEST", "numero profili: " + profiloTappe.size());
-            Log.i("TEST", "profili: " + profiloTappe.keySet());
-            Log.i("TEST", "tappe: " + profiloTappe.values());
+            Log.i(TAG, "profiloTappe: " + profiloTappe);
+            Log.i(TAG, "numero profili: " + profiloTappe.size());
+            Log.i(TAG, "profili: " + profiloTappe.keySet());
+            Log.i(TAG, "tappe: " + profiloTappe.values());
 
             PopolaPartecipanti(profiloTappe.keySet());
 
@@ -1861,7 +1878,7 @@ public class ListaTappeActivity extends AppCompatActivity
                     List<Tappa> aux = profiloTappe.get(p);
                     AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
                     aggiuntiMarkedPoints = true;
-                    Log.i("TEST", "aggiunte tappe di " + p);
+                    Log.i(TAG, "aggiunte tappe di " + p);
 
 
                     profiloVisualizzazioneCorrente = p;
@@ -1872,7 +1889,7 @@ public class ListaTappeActivity extends AppCompatActivity
             if(!aggiuntiMarkedPoints){
                 for(Profilo p : profiloTappe.keySet()){
                     AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
-                    Log.i("TEST", "aggiunte tappe di " + p);
+                    Log.i(TAG, "aggiunte tappe di " + p);
 
                     profiloVisualizzazioneCorrente =p;
                     break;
@@ -1910,12 +1927,12 @@ public class ListaTappeActivity extends AppCompatActivity
             String paginaDiario = "";
             dataToSend.add(new BasicNameValuePair("paginaDiario", paginaDiario));
 
-            Log.i("TEST", "email: " + email);
-            Log.i("TEST", "codiceViaggio: " + codiceViaggio);
-            Log.i("TEST", "ordine: " + ordine);
-            Log.i("TEST", "placeId: " + placeId);
-            Log.i("TEST", "date: " + data);
-            Log.i("TEST", "paginaDiario: " + paginaDiario);
+            Log.i(TAG, "email: " + email);
+            Log.i(TAG, "codiceViaggio: " + codiceViaggio);
+            Log.i(TAG, "ordine: " + ordine);
+            Log.i(TAG, "placeId: " + placeId);
+            Log.i(TAG, "date: " + data);
+            Log.i(TAG, "paginaDiario: " + paginaDiario);
 
 
             try {
@@ -1946,7 +1963,7 @@ public class ListaTappeActivity extends AppCompatActivity
                             is.close();
 
                             result = sb.toString();
-                            Log.i("TEST", "result: " +result);
+                            Log.i(TAG, "result: " +result);
 
                         } catch (Exception e) {
                             Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
@@ -1960,7 +1977,7 @@ public class ListaTappeActivity extends AppCompatActivity
                 } else
                     Log.e("CONNESSIONE Internet", "Assente!");
             } catch (Exception e) {
-                Log.e("TEST", "Errore nella connessione http "+e.toString());
+                Log.e(TAG, "Errore nella connessione http "+e.toString());
             }
 
 
@@ -1972,10 +1989,10 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
             if(!result.equals("OK\n")){
-                Log.e("TEST", "tappa non inserita");
+                Log.e(TAG, "tappa non inserita");
             }
             else{
-                Log.i("TEST", "tappa inserita correttamente");
+                Log.i(TAG, "tappa inserita correttamente");
                 Toast.makeText(getBaseContext(), "tappa inserita correttamente", Toast.LENGTH_LONG).show();
             }
 
@@ -1985,18 +2002,32 @@ public class ListaTappeActivity extends AppCompatActivity
             }
 
             if(immaginiSelezionate.size() > 0){
-                for(Bitmap bitmap : immaginiSelezionate){
-                    String pathImage = email+"/"+codiceViaggio +"/";
+                int i = 0;
+                for(Bitmap bitmap : immaginiSelezionate) {
+
                     String nameImage = bitmap_nomeFile.get(bitmap);
-                    Log.i("TEST", "email: " + email);
-                    Log.i("TEST", "codiceViaggio: " + codiceViaggio);
-                    Log.i("TEST", "path of the image: " + pathImage);
-                    Log.i("TEST", "name of the image: " + nameImage);
-                    Log.i("TEST", "livello Condivisione: " + livelloCondivisioneTappa);
+                    String pathImage = pathsImmaginiSelezionate.get(bitmap);
+
+                    Log.i(TAG, "email: " + email);
+                    Log.i(TAG, "codiceViaggio: " + codiceViaggio);
+                    Log.i(TAG, "name of the image: " + nameImage);
+                    Log.i(TAG, "livello Condivisione: " + livelloCondivisioneTappa);
 
 
-                    new UploadFilePHP(ListaTappeActivity.this, bitmap,pathImage,nameImage).execute();
-                    new TaskInserimentoImmagineTappa(email,codiceViaggio,ordine,null,pathImage + nameImage,livelloCondivisioneTappa).execute();
+
+                    new UploadFileS3Task(ListaTappeActivity.this, Constants.BUCKET_TRAVELS_NAME,
+                            codiceViaggio, Constants.TRAVEL_IMAGES, email, pathImage, nameImage).execute();
+
+
+                    //TODO nella colonna urlImmagine si potrebbe salvare soltanto il nome del file
+                    //si può riscostruire il path a partire dalle altre info nella riga corrispondente
+
+                    //String completePath = codiceViaggio + "/" + Constants.TRAVEL_IMAGES + "/" + email + "@" + nameImage;
+
+                    new InserimentoImmagineTappaTask(ListaTappeActivity.this, email,codiceViaggio,
+                            ordine,null,nameImage,livelloCondivisioneTappa).execute();
+
+                    i++;
                 }
 
             }
@@ -2025,7 +2056,7 @@ public class ListaTappeActivity extends AppCompatActivity
             dataToSend.add(new BasicNameValuePair("filtro", creaStringaFiltro()));
             dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
 
-            Log.i("TEST", "filtro: " + creaStringaFiltro());
+            Log.i(TAG, "filtro: " + creaStringaFiltro());
 
             try {
                 if (InternetConnection.haveInternetConnection(ListaTappeActivity.this)) {
@@ -2053,7 +2084,7 @@ public class ListaTappeActivity extends AppCompatActivity
                             is.close();
 
                             result = sb.toString();
-                            Log.i("TEST", "result: " +result);
+                            Log.i(TAG, "result: " +result);
 
                         } catch (Exception e) {
                             Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
@@ -2067,7 +2098,7 @@ public class ListaTappeActivity extends AppCompatActivity
                 } else
                     Log.e("CONNESSIONE Internet", "Assente!");
             } catch (Exception e) {
-                Log.e("TEST", "Errore nella connessione http "+e.toString());
+                Log.e(TAG, "Errore nella connessione http "+e.toString());
             }
 
 
@@ -2078,96 +2109,12 @@ public class ListaTappeActivity extends AppCompatActivity
         protected void onPostExecute(Void aVoid) {
 
             if(!result.equals("OK\n")){
-                Log.e("TEST", "filtro non inserito");
+                Log.e(TAG, "filtro non inserito");
             }
             else{
-                Log.i("TEST", "filtro inserito correttamente");
+                Log.i(TAG, "filtro inserito correttamente");
 
             }
-            super.onPostExecute(aVoid);
-        }
-    }
-
-
-
-    private class TaskInserimentoImmagineTappa extends AsyncTask<Void, Void, Void> {
-
-        private final static String ADDRESS_INSERT_IMAGE_STOP = "InserimentoImmagineTappa.php";
-
-        InputStream is = null;
-        String result, stringaFinale = "";
-        String email, codiceViaggio, urlImmagine, condivisione;
-        DriveId idDrive;
-        int ordine;
-
-
-        public TaskInserimentoImmagineTappa(String email, String codiceViaggio, int ordine, DriveId idDrive, String urlimmagine, String condivisione){
-            this.email = email;
-            this.codiceViaggio = codiceViaggio;
-            this.ordine = ordine;
-            this.idDrive = idDrive;
-            this.urlImmagine = urlimmagine;
-            this.condivisione = condivisione;
-
-
-        }
-        @Override
-        protected Void doInBackground(Void... params) {
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("email", email));
-            dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
-            dataToSend.add(new BasicNameValuePair("ordine", String.valueOf(ordine)));
-            dataToSend.add(new BasicNameValuePair("url", urlImmagine));
-            dataToSend.add(new BasicNameValuePair("condivisione", condivisione));
-
-            try {
-
-                if (InternetConnection.haveInternetConnection(ListaTappeActivity.this)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
-
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERT_IMAGE_STOP);
-                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                    HttpResponse response = httpclient.execute(httppost);
-                    HttpEntity entity = response.getEntity();
-
-                    is = entity.getContent();
-
-                    if (is != null) {
-
-                        //converto la risposta in stringa
-                        try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                            StringBuilder sb = new StringBuilder();
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line + "\n");
-                            }
-                            is.close();
-
-                            result = sb.toString();
-                            Log.i("TEST", "result: " +result);
-
-                        } catch (Exception e) {
-                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    else {
-                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
-                    }
-
-                } else
-                    Log.e("CONNESSIONE Internet", "Assente!");
-            } catch (Exception e) {
-                Log.e("TEST", "Errore nella connessione http "+e.toString());
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
         }
     }
@@ -2194,9 +2141,9 @@ public class ListaTappeActivity extends AppCompatActivity
             dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
             dataToSend.add(new BasicNameValuePair("emailProfilo", email));
 
-            Log.i("TEST", "ordine: " + ordineAux);
-            Log.i("TEST", "codiceViaggio: " + codiceViaggio);
-            Log.i("TEST", "emailProfilo: " + email);
+            Log.i(TAG, "ordine: " + ordineAux);
+            Log.i(TAG, "codiceViaggio: " + codiceViaggio);
+            Log.i(TAG, "emailProfilo: " + email);
 
             try {
                 if (InternetConnection.haveInternetConnection(ListaTappeActivity.this)) {
@@ -2209,7 +2156,7 @@ public class ListaTappeActivity extends AppCompatActivity
                         dataToSend.add(new BasicNameValuePair("timestamp",
                                 new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date())));
                         dataToSend.add(new BasicNameValuePair("nota", nota));
-                        Log.i("TEST", "nota: " + nota);
+                        Log.i(TAG, "nota: " + nota);
 
                         HttpClient httpclient = new DefaultHttpClient();
                         HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_NOTA);
@@ -2233,7 +2180,7 @@ public class ListaTappeActivity extends AppCompatActivity
                                 is.close();
 
                                 result = sb.toString();
-                                Log.i("TEST", "result: " +result);
+                                Log.i(TAG, "result: " +result);
 
                             } catch (Exception e) {
                                 Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
@@ -2250,7 +2197,7 @@ public class ListaTappeActivity extends AppCompatActivity
                 } else
                     Log.e("CONNESSIONE Internet", "Assente!");
             } catch (Exception e) {
-                Log.e("TEST", "Errore nella connessione http "+e.toString());
+                Log.e(TAG, "Errore nella connessione http "+e.toString());
             }
 
 
@@ -2261,10 +2208,10 @@ public class ListaTappeActivity extends AppCompatActivity
         protected void onPostExecute(Void aVoid) {
 
             if(!result.equals("OK\n")){
-                Log.e("TEST", "note non inserite");
+                Log.e(TAG, "note non inserite");
             }
             else{
-                Log.i("TEST", "note inserite correttamente");
+                Log.i(TAG, "note inserite correttamente");
 
             }
             super.onPostExecute(aVoid);
@@ -2305,9 +2252,9 @@ public class ListaTappeActivity extends AppCompatActivity
             ImageView icon=(ImageView)convertView.findViewById(R.id.image);
             icon.setImageResource(arr_images[position]);
 
-            //Log.i("TEST", "string: " + strings[position]);
-            //Log.i("TEST", "sub: " + subs[position]);
-            //Log.i("TEST", "img: " + arr_images[position]);
+            //Log.i(TAG, "string: " + strings[position]);
+            //Log.i(TAG, "sub: " + subs[position]);
+            //Log.i(TAG, "img: " + arr_images[position]);
 
             return convertView;
         }
