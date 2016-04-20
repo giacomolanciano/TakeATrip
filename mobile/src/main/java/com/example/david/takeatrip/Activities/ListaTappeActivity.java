@@ -2066,10 +2066,10 @@ public class ListaTappeActivity extends AppCompatActivity
                     //TODO nella colonna urlImmagine si potrebbe salvare soltanto il nome del file
                     //si può riscostruire il path a partire dalle altre info nella riga corrispondente
 
-                    //String completePath = codiceViaggio + "/" + Constants.TRAVEL_IMAGES_LOCATION + "/" + email + "@" + nameImage;
+                    String completePath = codiceViaggio + "/" + Constants.TRAVEL_IMAGES_LOCATION + "/" + email + "@" + nameImage;
 
                     new InserimentoImmagineTappaTask(ListaTappeActivity.this, email,codiceViaggio,
-                            ordine,null,nameImage,livelloCondivisioneTappa).execute();
+                            ordine,null,completePath,livelloCondivisioneTappa).execute();
 
                 }
 
@@ -2096,10 +2096,10 @@ public class ListaTappeActivity extends AppCompatActivity
                     //TODO nella colonna urlImmagine si potrebbe salvare soltanto il nome del file
                     //si può riscostruire il path a partire dalle altre info nella riga corrispondente
 
-                    //String completePath = codiceViaggio + "/" + Constants.TRAVEL_IMAGES_LOCATION + "/" + email + "@" + nameImage;
+                    String completePath = codiceViaggio + "/" + Constants.TRAVEL_VIDEOS_LOCATION + "/" + email + "@" + nameVideo;
 
                     new InserimentoVideoTappaTask(ListaTappeActivity.this, email,codiceViaggio,
-                            ordine,null,nameVideo,livelloCondivisioneTappa).execute();
+                            ordine,null,completePath,livelloCondivisioneTappa).execute();
 
                 }
 
