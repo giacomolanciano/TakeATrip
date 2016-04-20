@@ -29,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -39,13 +40,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.david.takeatrip.Adapters.GridViewAdapter;
 import com.example.david.takeatrip.Adapters.MyExpandableListItemAdapter;
-import com.example.david.takeatrip.AsyncTask.BitmapWorkerTask;
-import com.example.david.takeatrip.AsyncTask.InserimentoImmagineTappaTask;
-import com.example.david.takeatrip.AsyncTask.InserimentoVideoTappaTask;
-import com.example.david.takeatrip.AsyncTask.UploadFileS3Task;
-import com.example.david.takeatrip.Classes.Immagine;
+import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
+import com.example.david.takeatrip.AsyncTasks.InserimentoImmagineTappaTask;
+import com.example.david.takeatrip.AsyncTasks.InserimentoVideoTappaTask;
+import com.example.david.takeatrip.AsyncTasks.UploadFileS3Task;
+import com.example.david.takeatrip.AsyncTasks.UrlsImagesTask;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Fragments.DatePickerFragment;
 import com.example.david.takeatrip.R;
@@ -53,10 +53,8 @@ import com.example.david.takeatrip.Utilities.AudioRecord;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatesUtils;
 import com.example.david.takeatrip.Utilities.MultimedialFile;
-import com.example.david.takeatrip.Utilities.ScrollListener;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.squareup.picasso.Picasso;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -66,8 +64,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -86,8 +82,10 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
     private static final String TAG = "TEST TappaActivity";
 
-    private final String ADDRESS_INSERIMENTO_NOTA = "InserimentoNotaTappa.php";
-    private final String ADDRESS_AGGIORNAMENTO_TAPPA = "UpdateDataTappa.php";
+    private static final String ADDRESS_INSERIMENTO_NOTA = "InserimentoNotaTappa.php";
+    private static final String ADDRESS_AGGIORNAMENTO_TAPPA = "UpdateDataTappa.php";
+    private static final String ADDRESS_QUERY_URLS= "QueryImagesOfStops.php";
+
 
     private String email, codiceViaggio, nomeTappa, data;
     private int ordineTappa;
@@ -128,6 +126,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     private List<Bitmap> immaginiSelezionate, videoSelezionati;
     private Map<Bitmap,String> bitmap_nomeFile;
     private Map<Bitmap, String> pathsImmaginiSelezionate;
+
+    private GridView gridView;
 
 
 
@@ -170,24 +170,20 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
         privacySpinner.setAdapter(adapter);
 
+        privacySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.i(TAG, "elemento selezionato: " + adapter.getItem(position));
+                livelloCondivisioneTappa = adapter.getItem(position);
+            }
 
-        //TODO: prendere di default il livello predefinito del viaggio
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-//        privacySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                Log.i(TAG, "elemento selezionato: " + adapter.getItem(position).toString());
-//                livelloCondivisioneTappa = adapter.getItem(position).toString();
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
+            }
+        });
 
 
-         livelloCondivisioneTappa = "Public";
 
 
 
@@ -217,6 +213,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 //        });
 
 
+        gridView = (GridView) findViewById(R.id.grid_view_foto_tappa);
+
+
 
         Intent i = getIntent();
         if (i != null) {
@@ -230,7 +229,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         }
 
 
-        new TaskForUrlsImages(codiceViaggio, ordineTappa).execute();
+        new UrlsImagesTask(TappaActivity.this, codiceViaggio, gridView, ADDRESS_QUERY_URLS,
+                email, ordineTappa).execute();
+
 
         Log.i("TEST", "email: "+email);
         Log.i("TEST", "codice: "+codiceViaggio);
@@ -341,6 +342,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
         noteInserite = new ArrayList<String>();
+
+
+
     }
 
     @Override
@@ -1461,146 +1465,146 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
 
-
-    private class TaskForUrlsImages extends AsyncTask<Void, Void, Void> {
-
-        private final static  String ADDRESS_QUERY_URLS= "QueryImagesOfTravel.php";
-
-        private String codiceViaggio;
-        InputStream is = null;
-        String result, stringaFinale = "";
-        private List<Immagine> listImages;
-        private String [] URLs;
-        private int ordineTappa;
-
-
-        public TaskForUrlsImages(String codiceViaggio, int ordineTappa){
-            this.codiceViaggio = codiceViaggio;
-            listImages = new ArrayList<Immagine>();
-            this.ordineTappa = ordineTappa;
-        }
-
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
-            dataToSend.add(new BasicNameValuePair("ordine", String.valueOf(ordineTappa)));
-
-
-            try {
-                if (InternetConnection.haveInternetConnection(TappaActivity.this)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_QUERY_URLS);
-                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                    HttpResponse response = httpclient.execute(httppost);
-                    HttpEntity entity = response.getEntity();
-
-                    is = entity.getContent();
-
-                    if (is != null) {
-                        //converto la risposta in stringa
-                        try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                            StringBuilder sb = new StringBuilder();
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line + "\n");
-                            }
-                            is.close();
-
-                            result = sb.toString();
-                        } catch (Exception e) {
-                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
-                        }
-                    }
-                    else {
-                        Log.i("TEST", "Input Stream uguale a null");
-                    }
-
-                    JSONArray jArray = new JSONArray(result);
-
-                    if(jArray != null && result != null){
-                        for(int i=0;i<jArray.length();i++){
-                            JSONObject json_data = jArray.getJSONObject(i);
-                            String urlImmagine = json_data.getString("urlImmagineViaggio").toString();
-                            int orineTappa  = json_data.getInt("ordineTappa");
-                            String livelloCondivisione  = json_data.getString("livelloCondivisione");
-                            listImages.add(new Immagine(urlImmagine, livelloCondivisione));
-                        }
-                    }
-                }
-                else
-                    Log.e("CONNESSIONE Internet", "Assente!");
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
-            Log.i("TEST", "array di url: ");
-
-
-            //TODO: controllare i livelli di condivisione e mettere nell'array solo quelle giuste
-            if(listImages.size()>0){
-                URLs = new String[listImages.size()];
-                int i=0;
-                for(Immagine image : listImages){
-                    if(image.getLivelloCondivisione().equalsIgnoreCase("public")
-                            || image.getLivelloCondivisione().equalsIgnoreCase("travel")){
-                        URLs[i] = Constants.ADDRESS_TAT + image.getUrlImmagine();
-                        Log.i("TEST", "url ["+i+"]: "+ URLs[i]);
-
-                        i++;
-                    }
-                }
-            }
-
-            if(URLs[0] == null || URLs[0].equals("null")){
-                return;
-            }
-
-
-            ImageView coverImageTappa = (ImageView) findViewById(R.id.coverImageTappa);
-
-            Picasso.with(TappaActivity.this).load(URLs[0]).into(coverImageTappa);
-
-
-            GridView gv = (GridView) findViewById(R.id.grid_view_foto_tappa);
-            gv.setAdapter(new GridViewAdapter(TappaActivity.this, URLs));
-            gv.setOnScrollListener(new ScrollListener(TappaActivity.this));
-
-            Log.i("TEST", "settato l'adapter per il grid");
-
-
-
-            /*
-            ImageGridFragment fragment = (ImageGridFragment)getFragmentManager().findFragmentById(R.id.fragment_images);
-
-            ImageGridFragment fragment1 = fragment.newInstance(URLs);
-
-            //fragment.setArguments(fragment1.getArguments());
-
-            fragment.onDestroy();
-
-            Log.i("TEST", "creato un nuovo fragment with bundle: " + fragment1.getArguments().getStringArray("urls"));
-
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_images, fragment1);
-            transaction.addToBackStack(null);
-            transaction.commit();
-
-            */
-
-        }
-    }
+//
+//    private class TaskForUrlsImages extends AsyncTask<Void, Void, Void> {
+//
+//        private final static  String ADDRESS_QUERY_URLS= "QueryImagesOfTravel.php";
+//
+//        private String codiceViaggio;
+//        InputStream is = null;
+//        String result, stringaFinale = "";
+//        private List<Immagine> listImages;
+//        private String [] URLs;
+//        private int ordineTappa;
+//
+//
+//        public TaskForUrlsImages(String codiceViaggio, int ordineTappa){
+//            this.codiceViaggio = codiceViaggio;
+//            listImages = new ArrayList<Immagine>();
+//            this.ordineTappa = ordineTappa;
+//        }
+//
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+//            dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
+//            dataToSend.add(new BasicNameValuePair("ordine", String.valueOf(ordineTappa)));
+//
+//
+//            try {
+//                if (InternetConnection.haveInternetConnection(TappaActivity.this)) {
+//                    Log.i("CONNESSIONE Internet", "Presente!");
+//                    HttpClient httpclient = new DefaultHttpClient();
+//                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_QUERY_URLS);
+//                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+//                    HttpResponse response = httpclient.execute(httppost);
+//                    HttpEntity entity = response.getEntity();
+//
+//                    is = entity.getContent();
+//
+//                    if (is != null) {
+//                        //converto la risposta in stringa
+//                        try {
+//                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+//                            StringBuilder sb = new StringBuilder();
+//                            String line = null;
+//                            while ((line = reader.readLine()) != null) {
+//                                sb.append(line + "\n");
+//                            }
+//                            is.close();
+//
+//                            result = sb.toString();
+//                        } catch (Exception e) {
+//                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
+//                        }
+//                    }
+//                    else {
+//                        Log.i("TEST", "Input Stream uguale a null");
+//                    }
+//
+//                    JSONArray jArray = new JSONArray(result);
+//
+//                    if(jArray != null && result != null){
+//                        for(int i=0;i<jArray.length();i++){
+//                            JSONObject json_data = jArray.getJSONObject(i);
+//                            String urlImmagine = json_data.getString("urlImmagineViaggio").toString();
+//                            int orineTappa  = json_data.getInt("ordineTappa");
+//                            String livelloCondivisione  = json_data.getString("livelloCondivisione");
+//                            listImages.add(new Immagine(urlImmagine, livelloCondivisione));
+//                        }
+//                    }
+//                }
+//                else
+//                    Log.e("CONNESSIONE Internet", "Assente!");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                Log.e(e.toString(),e.getMessage());
+//            }
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//
+//            Log.i("TEST", "array di url: ");
+//
+//
+//            //TODO: controllare i livelli di condivisione e mettere nell'array solo quelle giuste
+//            if(listImages.size()>0){
+//                URLs = new String[listImages.size()];
+//                int i=0;
+//                for(Immagine image : listImages){
+//                    if(image.getLivelloCondivisione().equalsIgnoreCase("public")
+//                            || image.getLivelloCondivisione().equalsIgnoreCase("travel")){
+//                        URLs[i] = Constants.ADDRESS_TAT + image.getUrlImmagine();
+//                        Log.i("TEST", "url ["+i+"]: "+ URLs[i]);
+//
+//                        i++;
+//                    }
+//                }
+//            }
+//
+//            if(URLs[0] == null || URLs[0].equals("null")){
+//                return;
+//            }
+//
+//
+//            ImageView coverImageTappa = (ImageView) findViewById(R.id.coverImageTappa);
+//
+//            Picasso.with(TappaActivity.this).load(URLs[0]).into(coverImageTappa);
+//
+//
+//            GridView gv = (GridView) findViewById(R.id.grid_view_foto_tappa);
+//            gv.setAdapter(new GridViewAdapter(TappaActivity.this, URLs));
+//            gv.setOnScrollListener(new ScrollListener(TappaActivity.this));
+//
+//            Log.i("TEST", "settato l'adapter per il grid");
+//
+//
+//
+//            /*
+//            ImageGridFragment fragment = (ImageGridFragment)getFragmentManager().findFragmentById(R.id.fragment_images);
+//
+//            ImageGridFragment fragment1 = fragment.newInstance(URLs);
+//
+//            //fragment.setArguments(fragment1.getArguments());
+//
+//            fragment.onDestroy();
+//
+//            Log.i("TEST", "creato un nuovo fragment with bundle: " + fragment1.getArguments().getStringArray("urls"));
+//
+//            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//            transaction.replace(R.id.fragment_images, fragment1);
+//            transaction.addToBackStack(null);
+//            transaction.commit();
+//
+//            */
+//
+//        }
+//    }
 
 
 

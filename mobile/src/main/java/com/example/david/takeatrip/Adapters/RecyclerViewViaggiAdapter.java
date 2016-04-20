@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.david.takeatrip.Activities.ViaggioActivity;
-import com.example.david.takeatrip.AsyncTask.LoadTravelImageTask;
+import com.example.david.takeatrip.AsyncTasks.LoadTravelImageTask;
 import com.example.david.takeatrip.Interfaces.AsyncResponseUrl;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.DataObject;

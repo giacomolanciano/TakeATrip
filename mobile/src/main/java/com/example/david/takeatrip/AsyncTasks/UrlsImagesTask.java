@@ -1,4 +1,4 @@
-package com.example.david.takeatrip.AsyncTask;
+package com.example.david.takeatrip.AsyncTasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -46,13 +46,14 @@ public class UrlsImagesTask extends AsyncTask<Void, Void, Void> {
 
     private Context context;
     private GridView gridView;
-    private String phpFile;
+    private String phpFile, emailProfilo;
+    private int ordineTappa;
 
     private String codiceViaggio;
     InputStream is = null;
     String result, stringaFinale = "";
     private List<Immagine> listImages;
-    private String [] URLs;
+    private String[] URLs;
 
 
     // The TransferUtility is the primary class for managing transfer to S3
@@ -76,7 +77,7 @@ public class UrlsImagesTask extends AsyncTask<Void, Void, Void> {
     private AmazonS3Client s3;
 
 
-    public UrlsImagesTask(Context context, String codiceViaggio, GridView gridView, String phpFile){
+    public UrlsImagesTask(Context context, String codiceViaggio, GridView gridView, String phpFile) {
         this.codiceViaggio = codiceViaggio;
         this.context = context;
         this.gridView = gridView;
@@ -88,11 +89,33 @@ public class UrlsImagesTask extends AsyncTask<Void, Void, Void> {
         s3 = UtilS3Amazon.getS3Client(context);
     }
 
+    public UrlsImagesTask(Context context, String codiceViaggio, GridView gridView, String phpFile,
+                          String emailProfilo, int ordineTappa) {
+
+        this(context, codiceViaggio, gridView, phpFile);
+
+        this.emailProfilo = emailProfilo;
+        this.ordineTappa = ordineTappa;
+
+    }
+
 
     @Override
     protected Void doInBackground(Void... params) {
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
         dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
+
+        Log.i(TAG, "codice: " + codiceViaggio);
+
+
+        if (phpFile.equals(Constants.QUERY_STOP_IMAGE)) {
+            dataToSend.add(new BasicNameValuePair("ordine", ordineTappa + ""));
+            dataToSend.add(new BasicNameValuePair("email", emailProfilo));
+
+            Log.i(TAG, "ordine: " + ordineTappa);
+            Log.i(TAG, "email: " + emailProfilo);
+
+        }
 
 
         try {
@@ -121,29 +144,27 @@ public class UrlsImagesTask extends AsyncTask<Void, Void, Void> {
                     } catch (Exception e) {
                         Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
                     }
-                }
-                else {
+                } else {
                     Log.i(TAG, "Input Stream uguale a null");
                 }
 
                 JSONArray jArray = new JSONArray(result);
 
-                if(jArray != null && result != null){
-                    for(int i=0;i<jArray.length();i++){
+                if (jArray != null && result != null) {
+                    for (int i = 0; i < jArray.length(); i++) {
                         JSONObject json_data = jArray.getJSONObject(i);
-                        String urlImmagine = json_data.getString("urlImmagineViaggio").toString();
-                        int orineTappa  = json_data.getInt("ordineTappa");
-                        String livelloCondivisione  = json_data.getString("livelloCondivisione");
+                        String urlImmagine = json_data.getString("urlImmagineViaggio");
+                        int orineTappa = json_data.getInt("ordineTappa");
+                        String livelloCondivisione = json_data.getString("livelloCondivisione");
                         listImages.add(new Immagine(urlImmagine, livelloCondivisione));
 
                     }
                 }
-            }
-            else
+            } else
                 Log.e(TAG, "CONNESSIONE Internet Assente!");
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(e.toString(),e.getMessage());
+            Log.e(e.toString(), e.getMessage());
         }
 
         return null;
@@ -157,12 +178,12 @@ public class UrlsImagesTask extends AsyncTask<Void, Void, Void> {
 
 
         //TODO: controllare i livelli di condivisione e mettere nell'array solo quelle giuste
-        if(listImages.size()>0){
+        if (listImages.size() > 0) {
             URLs = new String[listImages.size()];
-            int i=0;
-            for(Immagine image : listImages){
-                if(image.getLivelloCondivisione().equalsIgnoreCase("public")
-                        || image.getLivelloCondivisione().equalsIgnoreCase("travel")){
+            int i = 0;
+            for (Immagine image : listImages) {
+                if (image.getLivelloCondivisione().equalsIgnoreCase("public")
+                        || image.getLivelloCondivisione().equalsIgnoreCase("travel")) {
 
                     URLs[i] = beginDownloadFile(image.getUrlImmagine());
 
@@ -171,9 +192,10 @@ public class UrlsImagesTask extends AsyncTask<Void, Void, Void> {
                     i++;
                 }
             }
-        }
-
-        if(URLs[0] == null || URLs[0].equals("null")){
+            if (URLs[0] == null || URLs[0].equals("null")) {
+                return;
+            }
+        } else {
             return;
         }
 
@@ -183,8 +205,6 @@ public class UrlsImagesTask extends AsyncTask<Void, Void, Void> {
         gv.setOnScrollListener(new ScrollListener(context));
 
         Log.i(TAG, "settato l'adapter per il grid");
-
-
 
 
 //            ImageGridFragment fragment = (ImageGridFragment)getFragmentManager().findFragmentById(R.id.fragment_images);
@@ -201,7 +221,6 @@ public class UrlsImagesTask extends AsyncTask<Void, Void, Void> {
 //            transaction.replace(R.id.fragment_images, fragment1);
 //            transaction.addToBackStack(null);
 //            transaction.commit();
-
 
 
     }

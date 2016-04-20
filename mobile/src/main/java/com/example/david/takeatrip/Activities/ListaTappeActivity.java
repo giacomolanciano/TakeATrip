@@ -50,10 +50,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.david.takeatrip.AsyncTask.BitmapWorkerTask;
-import com.example.david.takeatrip.AsyncTask.InserimentoImmagineTappaTask;
-import com.example.david.takeatrip.AsyncTask.InserimentoVideoTappaTask;
-import com.example.david.takeatrip.AsyncTask.UploadFileS3Task;
+import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
+import com.example.david.takeatrip.AsyncTasks.InserimentoImmagineTappaTask;
+import com.example.david.takeatrip.AsyncTasks.InserimentoVideoTappaTask;
+import com.example.david.takeatrip.AsyncTasks.UploadFileS3Task;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Itinerario;
 import com.example.david.takeatrip.Classes.POI;

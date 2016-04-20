@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.cognito.CognitoSyncManager;
 import com.amazonaws.regions.Regions;
-import com.example.david.takeatrip.AsyncTask.LoginTask;
+import com.example.david.takeatrip.AsyncTasks.LoginTask;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
 import com.example.david.takeatrip.Interfaces.AsyncResponseLogin;

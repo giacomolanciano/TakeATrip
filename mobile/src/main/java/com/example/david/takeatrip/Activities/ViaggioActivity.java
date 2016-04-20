@@ -38,8 +38,8 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.example.david.takeatrip.AsyncTask.BitmapWorkerTask;
-import com.example.david.takeatrip.AsyncTask.UrlsImagesTask;
+import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
+import com.example.david.takeatrip.AsyncTasks.UrlsImagesTask;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
@@ -602,7 +602,7 @@ public class ViaggioActivity extends FragmentActivity {
         try {
             java.util.Date expiration = new java.util.Date();
             long msec = expiration.getTime();
-            msec += 1000 * 60 * 60; // 1 hour.
+            msec += Constants.ONE_HOUR_IN_MILLISEC; // 1 hour.
             expiration.setTime(msec);
 
             GeneratePresignedUrlRequest generatePresignedUrlRequest =

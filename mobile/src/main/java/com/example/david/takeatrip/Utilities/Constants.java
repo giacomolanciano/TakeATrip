@@ -111,4 +111,8 @@ public class Constants {
     public static final String AUDIO_EXT = ".3gp";
 
 
+    public static final String QUERY_STOP_IMAGE = "QueryImagesOfStops.php";
+
+
+
 }

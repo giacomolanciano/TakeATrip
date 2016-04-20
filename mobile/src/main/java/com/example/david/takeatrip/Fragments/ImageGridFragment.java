@@ -13,7 +13,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.example.david.takeatrip.Adapters.GridViewAdapter;
-import com.example.david.takeatrip.AsyncTask.BitmapWorkerTask;
+import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.ScrollListener;
