@@ -127,7 +127,6 @@ public class UploadFileS3Task extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
 
-        //TODO far partire task per inserimento path risorsa nel database
 
 
         super.onPostExecute(aVoid);

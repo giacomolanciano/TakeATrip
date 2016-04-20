@@ -903,9 +903,9 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
 
 
-        TransferObserver observer = transferUtility.upload(Constants.BUCKET_NAME, email + "/"+ Constants.PROFILE_PICTURES+"/"+file.getName(),
+        TransferObserver observer = transferUtility.upload(Constants.BUCKET_NAME, email + "/"+ Constants.PROFILE_PICTURES_LOCATION +"/"+file.getName(),
                 file);
-        new MyTaskInsertImageProfile(this,email,null,email + "/"+ Constants.PROFILE_PICTURES+"/"+file.getName()).execute();
+        new MyTaskInsertImageProfile(this,email,null,email + "/"+ Constants.PROFILE_PICTURES_LOCATION +"/"+file.getName()).execute();
 
 
 
@@ -932,10 +932,10 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         ObjectMetadata myObjectMetadata = new ObjectMetadata();
 
 
-        TransferObserver observer = transferUtility.upload(Constants.BUCKET_NAME, email +"/"+ Constants.COVER_IMAGES+"/"+file.getName(),
+        TransferObserver observer = transferUtility.upload(Constants.BUCKET_NAME, email +"/"+ Constants.COVER_IMAGES_LOCATION +"/"+file.getName(),
                 file);
 
-        new MyTaskInsertCoverimage(this,email,null,email +"/"+ Constants.COVER_IMAGES+"/"+file.getName()).execute();
+        new MyTaskInsertCoverimage(this,email,null,email +"/"+ Constants.COVER_IMAGES_LOCATION +"/"+file.getName()).execute();
 
         /*
          * Note that usually we set the transfer listener after initializing the
@@ -1458,13 +1458,13 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 for (S3ObjectSummary summary : s3ObjList) {
                     Log.i("TEST", "keys of object in the bucket " + Constants.BUCKET_NAME + ":" + summary.getKey());
 
-                    if(summary.getKey().contains(Constants.PROFILE_PICTURES)){
+                    if(summary.getKey().contains(Constants.PROFILE_PICTURES_LOCATION)){
                         HashMap<String, Object> map = new HashMap<String, Object>();
                         map.put("profileImages", summary.getKey());
                         transferRecordMaps.add(map);
                     }
 
-                    if(summary.getKey().contains(Constants.COVER_IMAGES)){
+                    if(summary.getKey().contains(Constants.COVER_IMAGES_LOCATION)){
                         HashMap<String, Object> map = new HashMap<String, Object>();
                         map.put("coverImages", summary.getKey());
                         transferRecordMaps.add(map);

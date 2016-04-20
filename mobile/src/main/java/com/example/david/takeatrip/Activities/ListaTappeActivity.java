@@ -496,8 +496,7 @@ public class ListaTappeActivity extends AppCompatActivity
                         Log.i(TAG, "timeStamp image: " + nomeFile);
                         if(thumbnail != null){
 
-                            //TODO controllare
-                            pathsImmaginiSelezionate.put(thumbnail, Environment.getExternalStorageDirectory() + imageFileName);
+                            pathsImmaginiSelezionate.put(thumbnail, f.getAbsolutePath());
 
                             immaginiSelezionate.add(thumbnail);
                             bitmap_nomeFile.put(thumbnail,nomeFile);
@@ -2016,13 +2015,13 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
                     new UploadFileS3Task(ListaTappeActivity.this, Constants.BUCKET_TRAVELS_NAME,
-                            codiceViaggio, Constants.TRAVEL_IMAGES, email, pathImage, nameImage).execute();
+                            codiceViaggio, Constants.TRAVEL_IMAGES_LOCATION, email, pathImage, nameImage).execute();
 
 
                     //TODO nella colonna urlImmagine si potrebbe salvare soltanto il nome del file
                     //si può riscostruire il path a partire dalle altre info nella riga corrispondente
 
-                    //String completePath = codiceViaggio + "/" + Constants.TRAVEL_IMAGES + "/" + email + "@" + nameImage;
+                    //String completePath = codiceViaggio + "/" + Constants.TRAVEL_IMAGES_LOCATION + "/" + email + "@" + nameImage;
 
                     new InserimentoImmagineTappaTask(ListaTappeActivity.this, email,codiceViaggio,
                             ordine,null,nameImage,livelloCondivisioneTappa).execute();

@@ -598,7 +598,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 List<Object> immaginiProfilo = new ArrayList<Object>();
                 for (S3ObjectSummary summary : s3ObjList) {
                     Log.i("TEST", "keys of object in the bucket " + Constants.BUCKET_NAME + ": " + summary.getKey());
-                    if(summary.getKey().contains(Constants.PROFILE_PICTURES)){
+                    if(summary.getKey().contains(Constants.PROFILE_PICTURES_LOCATION)){
                         immaginiProfilo.add(summary.getKey());
                     }
                 }
