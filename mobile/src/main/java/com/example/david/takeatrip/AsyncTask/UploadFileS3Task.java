@@ -95,8 +95,7 @@ public class UploadFileS3Task extends AsyncTask<Void, Void, Void> {
 
 
 
-                //TODO spiegare: inserito idUtente per evitare confilitti (nomi file uguali, utenti diversi)
-                String key = idViaggio +"/" + tipoFile + "/" + idUtente + "@" + newFileName;
+                String key = idViaggio +"/" + tipoFile + "/" + idUtente + "_" + newFileName;
 
                 TransferObserver observer = transferUtility.upload(bucketName, key, file);
 

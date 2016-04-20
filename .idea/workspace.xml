@@ -29,14 +29,14 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f12b5a04-1321-4fd8-82de-62c7ac20a4e7" name="Default" comment="inserito download immagine copertina viaggio in viaggioActivity">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/UrlsImagesTask.java" />
+    <list default="true" id="f12b5a04-1321-4fd8-82de-62c7ac20a4e7" name="Default" comment="modularizzato task per caricamento immagini in gridView (viaggio e tappa)">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/UploadFileS3Task.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/UploadFileS3Task.java" />
     </list>
     <ignored path="TakeATrip.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -77,36 +77,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="ListaTappeActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="2098" column="116" selection-start-line="2098" selection-start-column="113" selection-end-line="2098" selection-end-column="116" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#onNavigationItemSelected#0;class#ListaTappeActivity#0" expanded="false" />
-                <element signature="method#getRealPathFromURI#0;class#ListaTappeActivity#0" expanded="false" />
-                <element signature="method#PopolaPartecipanti#0;class#ListaTappeActivity#0" expanded="false" />
-                <element signature="method#CreaMenu#0;class#ListaTappeActivity#0" expanded="false" />
-                <element signature="method#AggiungiMarkedPointsOnMap#0;class#ListaTappeActivity#0" expanded="false" />
-                <element signature="method#findPlaceById#0;class#ListaTappeActivity#0" expanded="false" />
-                <element signature="method#calcolaNumUltimaTappaUtenteCorrente#0;class#ListaTappeActivity#0" expanded="false" />
-                <element signature="method#onClickAddImage#0;class#ListaTappeActivity#0" expanded="false" />
-                <element signature="method#onClickAddRecord#0;class#ListaTappeActivity#0" expanded="false" />
-                <element signature="method#onClickAddNote#0;class#ListaTappeActivity#0" expanded="false" />
-                <element signature="class#MyTaskGetTappe#0;class#ListaTappeActivity#0" expanded="false" />
-                <element signature="class#MyTaskInserimentoFiltro#0;class#ListaTappeActivity#0" expanded="false" />
-                <element signature="class#TaskInserimentoNotaTappa#0;class#ListaTappeActivity#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TappaActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TappaActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="1213" column="57" selection-start-line="1213" selection-start-column="57" selection-end-line="1213" selection-end-column="57" />
+            <state vertical-scroll-proportion="21.77817">
+              <caret line="1213" column="83" selection-start-line="1213" selection-start-column="83" selection-end-line="1213" selection-end-column="83" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#onClickAddImage#0;class#TappaActivity#0" expanded="false" />
@@ -116,21 +91,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ViaggioActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="750" column="96" selection-start-line="750" selection-start-column="96" selection-end-line="750" selection-end-column="96" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="UploadFileS3Task.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/UploadFileS3Task.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="25" column="62" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="62" />
+              <caret line="97" column="0" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -138,11 +103,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UrlsImagesTask.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="UrlsImagesTask.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/UrlsImagesTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.7605634">
-              <caret line="144" column="49" selection-start-line="144" selection-start-column="49" selection-end-line="144" selection-end-column="49" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="236" column="63" selection-start-line="236" selection-start-column="63" selection-end-line="236" selection-end-column="63" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -155,36 +120,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="95" column="72" selection-start-line="95" selection-start-column="72" selection-end-line="95" selection-end-column="72" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ListaViaggiActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaViaggiActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="281" column="9" selection-start-line="281" selection-start-column="9" selection-end-line="283" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GridViewAdapter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/GridViewAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="23" column="11" selection-start-line="23" selection-start-column="11" selection-end-line="23" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ImageGridFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Fragments/ImageGridFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -5063,16 +4998,16 @@
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/LoadTravelImageTask.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/MyRecyclerViewAdapter.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/InserimentoImmagineTappaTask.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/UploadFileS3Task.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/MainActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/Constants.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/InserimentoVideoTappaTask.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/RecyclerViewViaggiAdapter.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/UrlsImagesViaggioTask.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/UrlsImagesTask.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/UploadFileS3Task.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java" />
       </list>
     </option>
   </component>
@@ -6042,7 +5977,13 @@
       <option name="project" value="LOCAL" />
       <updated>1461170294981</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="modularizzato task per caricamento immagini in gridView (viaggio e tappa)">
+      <created>1461171399905</created>
+      <option name="number" value="00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1461171399905</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TodoView">
@@ -6072,7 +6013,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5841808" sideWeight="0.5096463" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37514123" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5344633" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24569893" sideWeight="0.51299435" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32881355" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329582" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -6134,7 +6075,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Risolto problema logout" />
     <MESSAGE value="Ottmizzazione caricamento contenuti listaTappe fweifhahwehfaevbszibiabevbeszvbabeiugvbibz iubaiuvbiu zdadnvuaeruivaeruvndziuhvaeuiguifwHUICGUIEGFWUIGC&lt;ISGUIuwievguiwEUCGUIVBW idguiweUIFUDwuiefhiweHIUVHwivuhuiwH SONO ALL'UNIVERSITA I CHIAMO LUCA GIACOMELLI HO 23 ANNI E HO GIOCATO A CALCIO FINO ALDUE ANNI FAPOI MI SONO LAUREATO ALLA SAPIENza alla facolta di ingegneria dell=informazione informatica e statistica e mi piace viaggiare quindi ho scelto dii fare l'app TakeATrip!!!" />
     <MESSAGE value="Gestione immagini nelle tappe" />
     <MESSAGE value="correzione bug listatappe e maps" />
@@ -6159,7 +6099,8 @@
     <MESSAGE value="implementato caricamento su s3 nel caso di scelta video esistente (ancora non funzionante con google photo)" />
     <MESSAGE value="modificata struttura url da inserire nel db per video e immagini" />
     <MESSAGE value="inserito download immagine copertina viaggio in viaggioActivity" />
-    <option name="LAST_COMMIT_MESSAGE" value="inserito download immagine copertina viaggio in viaggioActivity" />
+    <MESSAGE value="modularizzato task per caricamento immagini in gridView (viaggio e tappa)" />
+    <option name="LAST_COMMIT_MESSAGE" value="modularizzato task per caricamento immagini in gridView (viaggio e tappa)" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -6552,18 +6493,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1213" column="57" selection-start-line="1213" selection-start-column="57" selection-end-line="1213" selection-end-column="57" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#onClickAddImage#0;class#TappaActivity#0" expanded="false" />
-            <element signature="method#onClickAddVideo#0;class#TappaActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -6572,22 +6501,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/UploadFileS3Task.java">
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/UrlsImagesTask.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="62" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="62" />
+          <caret line="236" column="63" selection-start-line="236" selection-start-column="63" selection-end-line="236" selection-end-column="63" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/UrlsImagesTask.java">
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/UploadFileS3Task.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.7605634">
-          <caret line="144" column="49" selection-start-line="144" selection-start-column="49" selection-end-line="144" selection-end-column="49" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="97" column="0" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="21.77817">
+          <caret line="1213" column="83" selection-start-line="1213" selection-start-column="83" selection-end-line="1213" selection-end-column="83" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#onClickAddImage#0;class#TappaActivity#0" expanded="false" />
+            <element signature="method#onClickAddVideo#0;class#TappaActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>

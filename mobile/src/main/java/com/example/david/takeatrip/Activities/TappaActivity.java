@@ -1211,7 +1211,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                 //TODO nella colonna urlImmagine si potrebbe salvare soltanto il nome del file
                 //si può riscostruire il path a partire dalle altre info nella riga corrispondente
 
-                String completePath = codiceViaggio + "/" + Constants.TRAVEL_IMAGES_LOCATION + "/" + email + "_" + nameVideo;
+                String completePath = codiceViaggio + "/" + Constants.TRAVEL_VIDEOS_LOCATION + "/" + email + "_" + nameVideo;
 
                 new InserimentoVideoTappaTask(TappaActivity.this, email,codiceViaggio,
                         ordineTappa,null,completePath,livelloCondivisioneTappa).execute();
