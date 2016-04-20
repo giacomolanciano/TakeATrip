@@ -52,6 +52,7 @@ import android.widget.Toast;
 
 import com.example.david.takeatrip.AsyncTask.BitmapWorkerTask;
 import com.example.david.takeatrip.AsyncTask.InserimentoImmagineTappaTask;
+import com.example.david.takeatrip.AsyncTask.InserimentoVideoTappaTask;
 import com.example.david.takeatrip.AsyncTask.UploadFileS3Task;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Itinerario;
@@ -195,10 +196,13 @@ public class ListaTappeActivity extends AppCompatActivity
     private DriveId idFolder;
     private String imageFileName, mCurrentPhotoPath;
     private String videoFileName, mCurrentVideoPath;
-    private List<Bitmap> immaginiSelezionate, immaginiUpload;
-    private Map<Bitmap,String> bitmap_nomeFile;
     private String livelloCondivisioneTappa;
+
+    private List<Bitmap> immaginiSelezionate, videoSelezionati;
+    private Map<Bitmap,String> bitmap_nomeFile;
     private Map<Bitmap, String> pathsImmaginiSelezionate;
+
+
 
     private LinearLayout layoutContents,rowHorizontal;
 
@@ -276,7 +280,7 @@ public class ListaTappeActivity extends AppCompatActivity
         profiloTappe = new HashMap<Profilo, List<Tappa>>();
         profiloNomiTappe = new HashMap<Profilo, List<Place>>();
         immaginiSelezionate = new ArrayList<Bitmap>();
-        immaginiUpload = new ArrayList<Bitmap>();
+        videoSelezionati = new ArrayList<Bitmap>();
         bitmap_nomeFile = new HashMap<Bitmap,String>();
         pathsImmaginiSelezionate = new HashMap<Bitmap, String>();
 
@@ -491,7 +495,7 @@ public class ListaTappeActivity extends AppCompatActivity
                         Bitmap thumbnail = BitmapWorkerTask.decodeSampledBitmapFromPath(f.getAbsolutePath(), 0, 0);
                         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
 
-                        String nomeFile = timeStamp + ".jpg";
+                        String nomeFile = timeStamp + Constants.IMAGE_EXT;
 
                         Log.i(TAG, "timeStamp image: " + nomeFile);
                         if(thumbnail != null){
@@ -561,7 +565,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
                             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
 
-                            String nomeFile = timeStamp + ".jpg";
+                            String nomeFile = timeStamp + Constants.IMAGE_EXT;
 
                             Log.i(TAG, "timeStamp image: " + nomeFile);
 
@@ -577,8 +581,8 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
                             Log.i(TAG, "elenco immagini selezionate: " + immaginiSelezionate);
-                            Log.i(TAG, "elenco paht immagini selezionate: " + pathsImmaginiSelezionate);
-                            Log.i(TAG, "elenco nomi immagini: " + bitmap_nomeFile.values());
+                            Log.i(TAG, "elenco path risorse selezionate: " + pathsImmaginiSelezionate);
+                            Log.i(TAG, "elenco nomi risorse: " + bitmap_nomeFile.values());
 
 
 
@@ -628,7 +632,23 @@ public class ListaTappeActivity extends AppCompatActivity
 
                         bitmap = ThumbnailUtils.createVideoThumbnail(fileVideo.getAbsolutePath(),
                                 MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+
+                        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
+
+                        String nomeFile = timeStamp + Constants.VIDEO_EXT;
+
+                        Log.i(TAG, "timeStamp image: " + nomeFile);
+                        if(bitmap != null){
+
+                            pathsImmaginiSelezionate.put(bitmap, fileVideo.getAbsolutePath());
+
+                            videoSelezionati.add(bitmap);
+                            bitmap_nomeFile.put(bitmap,nomeFile);
+                        }
+
                         Log.i(TAG, "path file video: " + fileVideo.getAbsolutePath());
+                        Log.i(TAG, "bitmap file immagine: " + bitmap);
+
 
 //                        UploadImageTask task = new UploadImageTask(this, bitmap,
 //                                Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
@@ -642,7 +662,7 @@ public class ListaTappeActivity extends AppCompatActivity
 //                        fileVideo.delete();
 //
 //                        OutputStream outFile = null;
-//                        File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".3gp");
+//                        File file = new File(path, String.valueOf(System.currentTimeMillis()) + Constants.VIDEO_EXT);
 //                        try {
 //                            outFile = new FileOutputStream(file);
 //                            //bitmap.compress(Bitmap.CompressFormat.JPEG, QUALITY_OF_IMAGE, outFile);
@@ -679,6 +699,30 @@ public class ListaTappeActivity extends AppCompatActivity
 
                     Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(videoPath,
                             MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+
+
+                    Log.i(TAG, "video from gallery: " + videoPath + "");
+
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
+
+                    String nomeFile = timeStamp + Constants.VIDEO_EXT;
+
+                    Log.i(TAG, "timeStamp video: " + nomeFile);
+
+
+                    if(thumbnail != null){
+
+                        //inserire file in una lista di file per caricamento in s3
+                        pathsImmaginiSelezionate.put(thumbnail, videoPath);
+
+                        videoSelezionati.add(thumbnail);
+                        bitmap_nomeFile.put(thumbnail, nomeFile);
+                    }
+
+
+                    Log.i(TAG, "elenco video selezionate: " + videoSelezionati);
+                    Log.i(TAG, "elenco path risorse selezionate: " + pathsImmaginiSelezionate);
+                    Log.i(TAG, "elenco nomi risorse: " + bitmap_nomeFile.values());
 
 
                     break;
@@ -844,6 +888,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
         pathsImmaginiSelezionate.clear();
         immaginiSelezionate.clear();
+        videoSelezionati.clear();
         bitmap_nomeFile.clear();
 
 
@@ -1431,6 +1476,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
                                     videoFile = MultimedialFile.createMediaFile(Constants.VIDEO_FILE,
                                             mCurrentVideoPath, videoFileName);
+                                    videoFileName = videoFile.getName();
 
                                 } catch (IOException ex) {
                                     Log.e(TAG, "eccezione nella creazione di file video");
@@ -2001,7 +2047,6 @@ public class ListaTappeActivity extends AppCompatActivity
             }
 
             if(immaginiSelezionate.size() > 0){
-                int i = 0;
                 for(Bitmap bitmap : immaginiSelezionate) {
 
                     String nameImage = bitmap_nomeFile.get(bitmap);
@@ -2026,7 +2071,36 @@ public class ListaTappeActivity extends AppCompatActivity
                     new InserimentoImmagineTappaTask(ListaTappeActivity.this, email,codiceViaggio,
                             ordine,null,nameImage,livelloCondivisioneTappa).execute();
 
-                    i++;
+                }
+
+            }
+
+
+            if(videoSelezionati.size() > 0){
+                for(Bitmap bitmap : videoSelezionati) {
+
+                    String nameVideo = bitmap_nomeFile.get(bitmap);
+                    String pathVideo = pathsImmaginiSelezionate.get(bitmap);
+
+                    Log.i(TAG, "email: " + email);
+                    Log.i(TAG, "codiceViaggio: " + codiceViaggio);
+                    Log.i(TAG, "name of the video: " + nameVideo);
+                    Log.i(TAG, "livello Condivisione: " + livelloCondivisioneTappa);
+
+
+
+                    new UploadFileS3Task(ListaTappeActivity.this, Constants.BUCKET_TRAVELS_NAME,
+                            codiceViaggio, Constants.TRAVEL_VIDEOS_LOCATION, email, pathVideo, nameVideo).execute();
+
+
+                    //TODO nella colonna urlImmagine si potrebbe salvare soltanto il nome del file
+                    //si può riscostruire il path a partire dalle altre info nella riga corrispondente
+
+                    //String completePath = codiceViaggio + "/" + Constants.TRAVEL_IMAGES_LOCATION + "/" + email + "@" + nameImage;
+
+                    new InserimentoVideoTappaTask(ListaTappeActivity.this, email,codiceViaggio,
+                            ordine,null,nameVideo,livelloCondivisioneTappa).execute();
+
                 }
 
             }

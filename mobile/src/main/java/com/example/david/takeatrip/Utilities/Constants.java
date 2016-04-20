@@ -106,6 +106,9 @@ public class Constants {
 
 
     public static final String COUNT_FOLLOW_ID = "count(*)";
+    public static final String IMAGE_EXT = ".jpg";
+    public static final String VIDEO_EXT = ".3gp";
+    public static final String AUDIO_EXT = ".3gp";
 
 
 }

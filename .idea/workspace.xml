@@ -29,16 +29,14 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f12b5a04-1321-4fd8-82de-62c7ac20a4e7" name="Default" comment="sistemato problema caricamento su s3 nel caso di scelta immagine esistente">
+    <list default="true" id="f12b5a04-1321-4fd8-82de-62c7ac20a4e7" name="Default" comment="implementato caricamento su s3 nel caso di scelta immagine da fotografare">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/InserimentoVideoTappaTask.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/MainActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/UploadFileS3Task.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/UploadFileS3Task.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/Constants.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/Constants.java" />
     </list>
     <ignored path="TakeATrip.iws" />
@@ -80,6 +78,16 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
+      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/Constants.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-63.0">
+              <caret line="110" column="36" selection-start-line="110" selection-start-column="36" selection-end-line="110" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -93,9 +101,12 @@
       <file leaf-file-name="ListaTappeActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.806338">
-              <caret line="498" column="0" selection-start-line="498" selection-start-column="0" selection-end-line="498" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.35915494">
+              <caret line="584" column="59" selection-start-line="584" selection-start-column="59" selection-end-line="584" selection-end-column="59" />
               <folding>
+                <element signature="e#8423#8454#0" expanded="true" />
+                <element signature="e#8456#8488#0" expanded="true" />
+                <element signature="method#onNavigationItemSelected#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="method#onMapReady#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="method#onInfoWindowClick#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="method#getRealPathFromURI#0;class#ListaTappeActivity#0" expanded="false" />
@@ -105,13 +116,36 @@
                 <element signature="method#findPlaceById#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="method#calcolaNumUltimaTappaUtenteCorrente#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="method#startAddingStop#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="e#43493#43543#0" expanded="true" />
                 <element signature="method#onClickAddImage#0;class#ListaTappeActivity#0" expanded="false" />
-                <element signature="method#onClickAddVideo#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="method#onClickAddRecord#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="e#57088#57131#0" expanded="true" />
+                <element signature="e#57701#57727#0" expanded="true" />
+                <element signature="e#58758#58783#0" expanded="true" />
+                <element signature="e#59720#59744#0" expanded="true" />
                 <element signature="method#onClickAddNote#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="e#64988#65014#0" expanded="true" />
+                <element signature="e#65397#65419#0" expanded="true" />
+                <element signature="e#65827#65856#0" expanded="true" />
                 <element signature="class#MyTaskGetTappe#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="class#MyTaskInserimentoFiltro#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="class#TaskInserimentoNotaTappa#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="class#PrivacyLevelAdapter#0;class#ListaTappeActivity#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InserimentoVideoTappaTask.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/InserimentoVideoTappaTask.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="31" column="77" selection-start-line="31" selection-start-column="77" selection-end-line="31" selection-end-column="77" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1862#1877#0" expanded="true" />
+                <element signature="e#4056#4057#0" expanded="true" />
+                <element signature="e#4098#4099#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -4936,7 +4970,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/ImageGridFragment.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/ImageAdapter.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/res/layout/image_grid_fragment.xml" />
         <option value="$PROJECT_DIR$/mobile/src/main/res/layout/activity_viaggio3.xml" />
@@ -4986,6 +5019,7 @@
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/UploadFileS3Task.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/MainActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/Constants.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/InserimentoVideoTappaTask.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" />
       </list>
     </option>
@@ -5870,7 +5904,13 @@
       <option name="project" value="LOCAL" />
       <updated>1461144478085</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="implementato caricamento su s3 nel caso di scelta immagine da fotografare">
+      <created>1461147957397</created>
+      <option name="number" value="00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1461147957397</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TodoView">
@@ -5950,23 +5990,17 @@
     <MESSAGE value="cambiato nome cartella immagini copertina per uniformarmi allo standard deciso con luca" />
     <MESSAGE value="creato asynktask per il recupero dell'imagine copertina del viaggio (listaViaggi)" />
     <MESSAGE value="sistemato problema caricamento su s3 nel caso di scelta immagine esistente" />
-    <option name="LAST_COMMIT_MESSAGE" value="sistemato problema caricamento su s3 nel caso di scelta immagine esistente" />
+    <MESSAGE value="implementato caricamento su s3 nel caso di scelta immagine da fotografare" />
+    <option name="LAST_COMMIT_MESSAGE" value="implementato caricamento su s3 nel caso di scelta immagine da fotografare" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="15" />
+      <option name="time" value="18" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/DatabaseHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/DatesUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -6293,16 +6327,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/InserimentoImmagineTappaTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9366197">
-          <caret line="38" column="20" selection-start-line="38" selection-start-column="20" selection-end-line="38" selection-end-column="20" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/LoadTravelImageTask.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.7746478">
@@ -6331,14 +6355,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.6267606">
-          <caret line="66" column="52" selection-start-line="66" selection-start-column="52" selection-end-line="66" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -6347,11 +6363,45 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/Constants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-63.0">
+          <caret line="110" column="36" selection-start-line="110" selection-start-column="36" selection-end-line="110" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/InserimentoImmagineTappaTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="112" column="1" selection-start-line="28" selection-start-column="42" selection-end-line="112" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/InserimentoVideoTappaTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="31" column="77" selection-start-line="31" selection-start-column="77" selection-end-line="31" selection-end-column="77" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1862#1877#0" expanded="true" />
+            <element signature="e#4056#4057#0" expanded="true" />
+            <element signature="e#4098#4099#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.806338">
-          <caret line="498" column="0" selection-start-line="498" selection-start-column="0" selection-end-line="498" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.35915494">
+          <caret line="584" column="59" selection-start-line="584" selection-start-column="59" selection-end-line="584" selection-end-column="59" />
           <folding>
+            <element signature="e#8423#8454#0" expanded="true" />
+            <element signature="e#8456#8488#0" expanded="true" />
+            <element signature="method#onNavigationItemSelected#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="method#onMapReady#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="method#onInfoWindowClick#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="method#getRealPathFromURI#0;class#ListaTappeActivity#0" expanded="false" />
@@ -6361,13 +6411,21 @@
             <element signature="method#findPlaceById#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="method#calcolaNumUltimaTappaUtenteCorrente#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="method#startAddingStop#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="e#43493#43543#0" expanded="true" />
             <element signature="method#onClickAddImage#0;class#ListaTappeActivity#0" expanded="false" />
-            <element signature="method#onClickAddVideo#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="method#onClickAddRecord#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="e#57088#57131#0" expanded="true" />
+            <element signature="e#57701#57727#0" expanded="true" />
+            <element signature="e#58758#58783#0" expanded="true" />
+            <element signature="e#59720#59744#0" expanded="true" />
             <element signature="method#onClickAddNote#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="e#64988#65014#0" expanded="true" />
+            <element signature="e#65397#65419#0" expanded="true" />
+            <element signature="e#65827#65856#0" expanded="true" />
             <element signature="class#MyTaskGetTappe#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="class#MyTaskInserimentoFiltro#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="class#TaskInserimentoNotaTappa#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="class#PrivacyLevelAdapter#0;class#ListaTappeActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>
