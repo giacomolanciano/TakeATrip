@@ -229,8 +229,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         }
 
 
-        new UrlsImagesTask(TappaActivity.this, codiceViaggio, gridView, ADDRESS_QUERY_URLS,
-                email, ordineTappa).execute();
+
 
 
         Log.i("TEST", "email: "+email);
@@ -344,6 +343,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         noteInserite = new ArrayList<String>();
 
 
+        new UrlsImagesTask(TappaActivity.this, codiceViaggio, gridView, ADDRESS_QUERY_URLS,
+                email, ordineTappa).execute();
 
     }
 

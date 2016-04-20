@@ -30,32 +30,9 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f12b5a04-1321-4fd8-82de-62c7ac20a4e7" name="Default" comment="creato package dedicato agli adapter">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/ApiClientAsyncTask.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/ApiClientAsyncTask.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/BitmapWorkerTask.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/BitmapWorkerTask.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/InserimentoImmagineTappaTask.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/InserimentoImmagineTappaTask.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/InserimentoVideoTappaTask.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/InserimentoVideoTappaTask.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/LoadTravelImageTask.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/LoadTravelImageTask.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/LoginTask.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/LoginTask.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/RetrieveImageTask.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/RetrieveImageTask.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/UploadFileS3Task.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/UploadFileS3Task.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/UploadImageTask.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/UploadImageTask.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTask/UrlsImagesTask.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/UrlsImagesTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" />
+    <list default="true" id="f12b5a04-1321-4fd8-82de-62c7ac20a4e7" name="Default" comment="implementato caricamento imagini della tappa">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/mobile/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/LoginActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/LoginActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ProfiloActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SplashActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SplashActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Adapters/RecyclerViewViaggiAdapter.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Adapters/RecyclerViewViaggiAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Fragments/ImageGridFragment.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Fragments/ImageGridFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/Constants.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/Constants.java" />
     </list>
     <ignored path="TakeATrip.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -106,11 +83,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TappaActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TappaActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-138.83333">
-              <caret line="238" column="16" selection-start-line="238" selection-start-column="16" selection-end-line="238" selection-end-column="16" />
+            <state vertical-scroll-proportion="3.139706">
+              <caret line="346" column="46" selection-start-line="346" selection-start-column="46" selection-end-line="346" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#onClickAddImage#0;class#TappaActivity#0" expanded="false" />
@@ -120,10 +97,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ViaggioActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ViaggioActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="5.5598593">
+            <state vertical-scroll-proportion="0.0">
               <caret line="656" column="44" selection-start-line="656" selection-start-column="18" selection-end-line="656" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -6021,7 +5998,13 @@
       <option name="project" value="LOCAL" />
       <updated>1461176114972</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="implementato caricamento imagini della tappa">
+      <created>1461179894341</created>
+      <option name="number" value="00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1461179894341</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TodoView">
@@ -6113,7 +6096,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="correzione bug listatappe e maps" />
     <MESSAGE value="sistemato inserimento nota tappa in listatappeactivity" />
     <MESSAGE value="rimosse classi e metodi superflui per non creare conflitto su .dex file" />
     <MESSAGE value="aggiunti task per aggiornamento valori followers e followings in profiloactivity" />
@@ -6138,7 +6120,8 @@
     <MESSAGE value="modularizzato task per caricamento immagini in gridView (viaggio e tappa)" />
     <MESSAGE value="caricamento immagini/video funzionante da tappaActivity" />
     <MESSAGE value="creato package dedicato agli adapter" />
-    <option name="LAST_COMMIT_MESSAGE" value="creato package dedicato agli adapter" />
+    <MESSAGE value="implementato caricamento imagini della tappa" />
+    <option name="LAST_COMMIT_MESSAGE" value="implementato caricamento imagini della tappa" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -6551,21 +6534,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-138.83333">
-          <caret line="238" column="16" selection-start-line="238" selection-start-column="16" selection-end-line="238" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#onClickAddImage#0;class#TappaActivity#0" expanded="false" />
-            <element signature="method#onClickAddVideo#0;class#TappaActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="5.5598593">
+        <state vertical-scroll-proportion="0.0">
           <caret line="656" column="44" selection-start-line="656" selection-start-column="18" selection-end-line="656" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -6574,6 +6545,18 @@
             <element signature="class#MyTaskFolder#0;class#ViaggioActivity#0" expanded="false" />
             <element signature="class#MyTaskInsertImageTravel#0;class#ViaggioActivity#0" expanded="false" />
             <element signature="class#TaskForItineraries#0;class#ViaggioActivity#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="3.139706">
+          <caret line="346" column="46" selection-start-line="346" selection-start-column="46" selection-end-line="346" selection-end-column="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#onClickAddImage#0;class#TappaActivity#0" expanded="false" />
+            <element signature="method#onClickAddVideo#0;class#TappaActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>
