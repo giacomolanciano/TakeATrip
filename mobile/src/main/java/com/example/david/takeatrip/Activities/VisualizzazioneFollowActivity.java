@@ -17,12 +17,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.david.takeatrip.Adapters.TabsPagerAdapterVisualizzazioneFollow;
 import com.example.david.takeatrip.Classes.Following;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DataObject;
-import com.example.david.takeatrip.Utilities.TabsPagerAdapterVisualizzazioneFollow;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

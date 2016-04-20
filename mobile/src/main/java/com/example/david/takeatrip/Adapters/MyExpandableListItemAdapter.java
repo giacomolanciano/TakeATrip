@@ -1,4 +1,4 @@
-package com.example.david.takeatrip.Utilities;
+package com.example.david.takeatrip.Adapters;
 
 /**
  * Created by lucagiacomelli on 18/03/16.
@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.BitmapCache;
 import com.nhaarman.listviewanimations.itemmanipulation.expandablelistitem.ExpandableListItemAdapter;
 
 public class MyExpandableListItemAdapter extends ExpandableListItemAdapter<Integer> {

@@ -39,6 +39,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.david.takeatrip.Adapters.GridViewAdapter;
+import com.example.david.takeatrip.Adapters.MyExpandableListItemAdapter;
 import com.example.david.takeatrip.AsyncTask.BitmapWorkerTask;
 import com.example.david.takeatrip.AsyncTask.InserimentoImmagineTappaTask;
 import com.example.david.takeatrip.AsyncTask.InserimentoVideoTappaTask;
@@ -50,9 +52,7 @@ import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.AudioRecord;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatesUtils;
-import com.example.david.takeatrip.Utilities.GridViewAdapter;
 import com.example.david.takeatrip.Utilities.MultimedialFile;
-import com.example.david.takeatrip.Utilities.MyExpandableListItemAdapter;
 import com.example.david.takeatrip.Utilities.ScrollListener;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;

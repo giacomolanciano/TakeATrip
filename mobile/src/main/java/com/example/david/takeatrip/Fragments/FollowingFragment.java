@@ -12,11 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.david.takeatrip.Adapters.MyRecyclerViewAdapterFollowing;
+import com.example.david.takeatrip.Adapters.RecyclerViewViaggiAdapter;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.DataObject;
-import com.example.david.takeatrip.Utilities.MyRecyclerViewAdapterFollowing;
-import com.example.david.takeatrip.Utilities.RecyclerViewViaggiAdapter;
 
 import java.util.ArrayList;
 

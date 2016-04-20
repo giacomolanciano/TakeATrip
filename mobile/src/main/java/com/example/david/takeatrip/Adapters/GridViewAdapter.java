@@ -1,4 +1,4 @@
-package com.example.david.takeatrip.Utilities;
+package com.example.david.takeatrip.Adapters;
 
 /**
  * Created by lucagiacomelli on 17/03/16.
@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.example.david.takeatrip.Utilities.SquaredImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

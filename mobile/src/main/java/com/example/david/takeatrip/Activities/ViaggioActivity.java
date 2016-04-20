@@ -200,7 +200,7 @@ public class ViaggioActivity extends FragmentActivity {
         gridView = (GridView) findViewById(R.id.grid_view);
 
 
-        new MyTask().execute();
+        new GetPartecipantiViaggioTask().execute();
         //new MyTaskPerUtenti().execute();
 
 
@@ -654,7 +654,7 @@ public class ViaggioActivity extends FragmentActivity {
 
 
 
-    private class MyTask extends AsyncTask<Void, Void, Void> {
+    private class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Void> {
 
         //query partecipanti viaggio
 
@@ -1188,181 +1188,6 @@ public class ViaggioActivity extends FragmentActivity {
             super.onPostExecute(aVoid);
         }
     }
-
-
-
-
-
-    //TODO ommentare sotto
-//    private class TaskForUrlsImages extends AsyncTask<Void, Void, Void> {
-//
-//
-//        private String codiceViaggio;
-//        InputStream is = null;
-//        String result, stringaFinale = "";
-//        private List<Immagine> listImages;
-//        private String [] URLs;
-//
-//
-//        public TaskForUrlsImages(String codiceViaggio){
-//            this.codiceViaggio = codiceViaggio;
-//            listImages = new ArrayList<Immagine>();
-//        }
-//
-//
-//        @Override
-//        protected Void doInBackground(Void... params) {
-//            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-//            dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
-//
-//
-//            try {
-//                if (InternetConnection.haveInternetConnection(ViaggioActivity.this)) {
-//                    Log.i("CONNESSIONE Internet", "Presente!");
-//                    HttpClient httpclient = new DefaultHttpClient();
-//                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_QUERY_URLS);
-//                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-//                    HttpResponse response = httpclient.execute(httppost);
-//                    HttpEntity entity = response.getEntity();
-//
-//                    is = entity.getContent();
-//
-//                    if (is != null) {
-//                        //converto la risposta in stringa
-//                        try {
-//                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-//                            StringBuilder sb = new StringBuilder();
-//                            String line = null;
-//                            while ((line = reader.readLine()) != null) {
-//                                sb.append(line + "\n");
-//                            }
-//                            is.close();
-//
-//                            result = sb.toString();
-//                        } catch (Exception e) {
-//                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
-//                        }
-//                    }
-//                    else {
-//                        Log.i("TEST", "Input Stream uguale a null");
-//                    }
-//
-//                    JSONArray jArray = new JSONArray(result);
-//
-//                    if(jArray != null && result != null){
-//                        for(int i=0;i<jArray.length();i++){
-//                            JSONObject json_data = jArray.getJSONObject(i);
-//                            String urlImmagine = json_data.getString("urlImmagineViaggio").toString();
-//                            int orineTappa  = json_data.getInt("ordineTappa");
-//                            String livelloCondivisione  = json_data.getString("livelloCondivisione");
-//                            listImages.add(new Immagine(urlImmagine, livelloCondivisione));
-//
-//                        }
-//                    }
-//                }
-//                else
-//                    Log.e("CONNESSIONE Internet", "Assente!");
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                Log.e(e.toString(),e.getMessage());
-//            }
-//
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            super.onPostExecute(aVoid);
-//
-//            Log.i("TEST", "array di url: ");
-//
-//
-//            //TODO: controllare i livelli di condivisione e mettere nell'array solo quelle giuste
-//            if(listImages.size()>0){
-//                URLs = new String[listImages.size()];
-//                int i=0;
-//                for(Immagine image : listImages){
-//                    if(image.getLivelloCondivisione().equalsIgnoreCase("public")
-//                            || image.getLivelloCondivisione().equalsIgnoreCase("travel")){
-//
-//                        URLs[i] = beginDownloadFile(image.getUrlImmagine());
-//
-//                        //Log.i("TEST", "url ["+i+"]: "+ URLs[i]);
-//
-//                        i++;
-//                    }
-//                }
-//            }
-//
-//            if(URLs[0] == null || URLs[0].equals("null")){
-//                return;
-//            }
-//
-//
-//            GridView gridView = (GridView) findViewById(R.id.grid_view);
-//            gridView.setAdapter(new GridViewAdapter(ViaggioActivity.this, URLs));
-//            gridView.setOnScrollListener(new ScrollListener(ViaggioActivity.this));
-//
-//            Log.i("TEST", "settato l'adapter per il grid");
-//
-//
-//
-//
-////            ImageGridFragment fragment = (ImageGridFragment)getFragmentManager().findFragmentById(R.id.fragment_images);
-////
-////            ImageGridFragment fragment1 = fragment.newInstance(URLs);
-////
-////            //fragment.setArguments(fragment1.getArguments());
-////
-////            fragment.onDestroy();
-////
-////            Log.i("TEST", "creato un nuovo fragment with bundle: " + fragment1.getArguments().getStringArray("urls"));
-////
-////            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-////            transaction.replace(R.id.fragment_images, fragment1);
-////            transaction.addToBackStack(null);
-////            transaction.commit();
-//
-//
-//
-//        }
-//    }
-//
-//
-//
-//    private String beginDownloadFile(String key) {
-//        // Location to download files from S3 to. You can choose any accessible
-//        // file.
-//
-//
-//        java.util.Date expiration = new java.util.Date();
-//        long msec = expiration.getTime();
-//        msec += 1000 * 60 * 60; // 1 hour.
-//        expiration.setTime(msec);
-//
-//        GeneratePresignedUrlRequest generatePresignedUrlRequest =
-//                new GeneratePresignedUrlRequest(Constants.BUCKET_TRAVELS_NAME, key);
-//        generatePresignedUrlRequest.setMethod(HttpMethod.GET);
-//        generatePresignedUrlRequest.setExpiration(expiration);
-//
-//        Log.i("TEST", "expiration date image: " + generatePresignedUrlRequest.getExpiration());
-//
-//        URL url = s3.generatePresignedUrl(generatePresignedUrlRequest);
-//
-//
-//        // Initiate the download
-//        //TransferObserver observer = transferUtility.download(email, key, file);
-//        //Log.i("TEST", "downloaded file: " + file);
-//        //Log.i("TEST", "key file: " + key);
-//
-//        //Log.i("TEST", "url file: " + url);
-//
-//        //observer.setTransferListener(new DownloadListener());
-//
-//
-//        return url.toString();
-//
-//    }
 
 
 }

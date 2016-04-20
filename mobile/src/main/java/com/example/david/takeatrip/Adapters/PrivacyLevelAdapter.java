@@ -1,4 +1,4 @@
-package com.example.david.takeatrip.Utilities;
+package com.example.david.takeatrip.Adapters;
 
 /**
  * Created by Giacomo Lanciano on 14/03/2016.

@@ -1,4 +1,4 @@
-package com.example.david.takeatrip.Utilities;
+package com.example.david.takeatrip.Adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.Constants;
+import com.example.david.takeatrip.Utilities.DataObject;
+import com.example.david.takeatrip.Utilities.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

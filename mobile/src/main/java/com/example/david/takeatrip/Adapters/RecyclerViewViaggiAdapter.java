@@ -1,4 +1,4 @@
-package com.example.david.takeatrip.Utilities;
+package com.example.david.takeatrip.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import com.example.david.takeatrip.Activities.ViaggioActivity;
 import com.example.david.takeatrip.AsyncTask.LoadTravelImageTask;
 import com.example.david.takeatrip.Interfaces.AsyncResponseUrl;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.DataObject;
 import com.squareup.picasso.Picasso;
 
 import java.net.URL;

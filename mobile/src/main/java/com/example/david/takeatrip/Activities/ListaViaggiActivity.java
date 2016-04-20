@@ -17,12 +17,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.david.takeatrip.Adapters.RecyclerViewViaggiAdapter;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DataObject;
-import com.example.david.takeatrip.Utilities.RecyclerViewViaggiAdapter;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
