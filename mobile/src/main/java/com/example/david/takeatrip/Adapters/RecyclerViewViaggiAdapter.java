@@ -143,6 +143,7 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
     public class DataObjectHolder extends RecyclerView.ViewHolder
             implements View
             .OnClickListener {
+
         TextView nomeViaggio;
         TextView codiceViaggio;
         TextView emailUser;
@@ -179,8 +180,11 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
             // Log.e("TEST", "email card viaggi: "+ emailUser.getText().toString());
             intent.putExtra("nomeViaggio", nomeViaggio.getText().toString());
             intent.putExtra("codiceViaggio", codiceViaggio.getText().toString());
-            intent.putExtra("urlImmagineViaggio", immagineViaggio.getContentDescription());
+            intent.putExtra("urlImmagineViaggio", v.getContentDescription());
             v.getContext().startActivity(intent);
+
+            Log.i(TAG, "urlImmagineViaggio: " + v.getContentDescription());
+
         }
     }
 

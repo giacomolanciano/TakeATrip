@@ -172,6 +172,10 @@ public class ViaggioActivity extends FragmentActivity {
             idFolder = intent.getParcelableExtra("idFolder");
             urlImageTravel = intent.getStringExtra("urlImmagineViaggio");
 
+            Log.i("TEST ViaggioActivity", "urlImageTravel: " + urlImageTravel);
+            Log.i("TEST ViaggioActivity", "prova");
+
+
         }
 
 
@@ -201,7 +205,7 @@ public class ViaggioActivity extends FragmentActivity {
 
 
         new GetPartecipantiViaggioTask().execute();
-        //new MyTaskPerUtenti().execute();
+        new MyTaskPerUtenti().execute();
 
 
 
@@ -638,7 +642,7 @@ public class ViaggioActivity extends FragmentActivity {
 
 
         Log.i("TEST", "inserimento nel DB del path: " +  codiceViaggio + "/" + "coverTravelImages" +"/"+file.getName());
-        new MyTaskInsertImageTravel(ViaggioActivity.this,email,codiceViaggio, null, codiceViaggio + "/" + "coverTravelImages" +"/"+file.getName()).execute();
+        new MyTaskInsertImageTravel(ViaggioActivity.this,email,codiceViaggio, null, file.getName()).execute();
 
         /*
          * Note that usually we set the transfer listener after initializing the
