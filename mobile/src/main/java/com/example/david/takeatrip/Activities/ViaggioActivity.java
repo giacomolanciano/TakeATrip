@@ -388,7 +388,11 @@ public class ViaggioActivity extends FragmentActivity {
         }
 
         if(proprioViaggio){
+
             FloatingActionButton buttonAddPartecipant = new FloatingActionButton(this);
+
+            //TODO capire perchè il bottone non viene modificato (nè colore, nè più bianco)
+
             buttonAddPartecipant.setRippleColor(getResources().getColor(R.color.blue));
             buttonAddPartecipant.setImageResource(R.drawable.ic_add_white_24dp);
             buttonAddPartecipant.setOnClickListener(new View.OnClickListener() {
