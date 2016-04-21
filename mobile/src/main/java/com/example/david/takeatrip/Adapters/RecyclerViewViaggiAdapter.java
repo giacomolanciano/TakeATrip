@@ -52,8 +52,8 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
     }
 
     @Override
-    public DataObjectHolder onCreateViewHolder(ViewGroup parent,
-                                               int viewType) {
+    public DataObjectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_lista_viaggi, parent, false);
 
@@ -140,9 +140,7 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
 
 
 
-    public class DataObjectHolder extends RecyclerView.ViewHolder
-            implements View
-            .OnClickListener {
+    public class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView nomeViaggio;
         TextView codiceViaggio;
@@ -172,15 +170,18 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
         @Override
         public void onClick(View v) {
 
-            // myClickListener.onItemClick(getAdapterPosition(), v);
-            //  Toast.makeText(v.getContext(), "PROVA", Toast.LENGTH_SHORT).show();
+
             Intent intent = new Intent(v.getContext(), ViaggioActivity.class);
 
             intent.putExtra("emailEsterno",emailUser.getText().toString());
             // Log.e("TEST", "email card viaggi: "+ emailUser.getText().toString());
             intent.putExtra("nomeViaggio", nomeViaggio.getText().toString());
             intent.putExtra("codiceViaggio", codiceViaggio.getText().toString());
-            intent.putExtra("urlImmagineViaggio", v.getContentDescription());
+
+            //NB deve essere usata la variabile imageTravel,
+            //non immagineViaggio poichè viene continuamente sovrascritta
+            intent.putExtra("urlImmagineViaggio", imageTravel.getContentDescription());
+
             v.getContext().startActivity(intent);
 
             Log.i(TAG, "urlImmagineViaggio: " + v.getContentDescription());

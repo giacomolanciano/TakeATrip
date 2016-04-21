@@ -29,119 +29,13 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f12b5a04-1321-4fd8-82de-62c7ac20a4e7" name="Default" comment="implementato caricamento imagini della tappa (da ottimizzare)">
+    <list default="true" id="f12b5a04-1321-4fd8-82de-62c7ac20a4e7" name="Default" comment="trovato bug per immagine copertina viaggio, in recyclerViewViaggiAdapter la variabile che mantiene l'url viene sovrascritta prima di poter passare l'url all'activity successiva">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/outputFileStates.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services/8.4.0/jars/classes.jar" afterPath="$PROJECT_DIR$/mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services/8.4.0/jars/classes.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/res/resources-debug-androidTest.ap_" afterPath="$PROJECT_DIR$/wear/build/intermediates/res/resources-debug-androidTest.ap_" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/res/resources-debug.ap_" afterPath="$PROJECT_DIR$/wear/build/intermediates/res/resources-debug.ap_" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/mobile.iml" afterPath="$PROJECT_DIR$/mobile/mobile.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Adapters/RecyclerViewViaggiAdapter.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Adapters/RecyclerViewViaggiAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-af.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-af.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-am.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-am.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ar.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ar.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-az-rAZ.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-az-rAZ.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-bg.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-bg.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-bn-rBD.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-bn-rBD.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ca.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ca.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-cs.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-cs.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-da.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-da.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-de.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-de.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-el.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-el.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-en-rAU.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-en-rAU.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-en-rGB.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-en-rGB.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-en-rIN.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-en-rIN.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-es-rUS.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-es-rUS.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-es.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-es.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-et-rEE.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-et-rEE.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-eu-rES.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-eu-rES.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-fa.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-fa.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-fi.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-fi.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-fr-rCA.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-fr-rCA.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-fr.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-fr.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-gl-rES.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-gl-rES.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-gu-rIN.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-gu-rIN.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-hi.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-hi.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-hr.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-hr.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-hu.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-hu.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-hy-rAM.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-hy-rAM.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-in.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-in.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-is-rIS.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-is-rIS.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-it.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-it.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-iw.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-iw.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ja.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ja.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ka-rGE.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ka-rGE.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-kk-rKZ.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-kk-rKZ.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-km-rKH.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-km-rKH.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-kn-rIN.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-kn-rIN.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ko.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ko.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ky-rKG.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ky-rKG.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-lo-rLA.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-lo-rLA.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-lt.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-lt.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-lv.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-lv.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-mk-rMK.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-mk-rMK.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ml-rIN.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ml-rIN.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-mn-rMN.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-mn-rMN.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-mr-rIN.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-mr-rIN.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ms-rMY.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ms-rMY.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-my-rMM.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-my-rMM.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-nb.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-nb.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ne-rNP.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ne-rNP.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-nl.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-nl.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-pa-rIN.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-pa-rIN.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-pl.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-pl.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-pt-rBR.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-pt-rBR.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-pt-rPT.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-pt-rPT.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-pt.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-pt.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ro.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ro.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ru.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ru.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-si-rLK.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-si-rLK.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-sk.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-sk.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-sl.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-sl.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-sq-rAL.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-sq-rAL.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-sr.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-sr.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-sv.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-sv.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-sw.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-sw.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ta-rIN.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ta-rIN.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-te-rIN.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-te-rIN.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-th.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-th.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-tl.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-tl.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-tr.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-tr.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-uk.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-uk.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ur-rPK.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-ur-rPK.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-uz-rUZ.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-uz-rUZ.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-v20.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-v20.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-v21.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-v21.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-vi.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-vi.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-zh-rCN.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-zh-rCN.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-zh-rHK.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-zh-rHK.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-zh-rTW.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-zh-rTW.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-zu.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values-zu.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/multi/values.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/anim-v21.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/anim-v21.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/animator.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/animator.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/color.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/color.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/drawable-hdpi-v4.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/drawable-hdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/drawable-mdpi-v4.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/drawable-mdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/drawable-tvdpi-v4.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/drawable-tvdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/drawable-v21.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/drawable-v21.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/drawable-xhdpi-v4.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/drawable-xhdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/drawable-xxhdpi-v4.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/drawable-xxhdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/drawable.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/drawable.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/interpolator.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/interpolator.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/layout-v20.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/layout-v20.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/layout-v21.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/layout-v21.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/layout.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/layout.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/mipmap-hdpi-v4.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/mipmap-hdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/mipmap-mdpi-v4.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/mipmap-mdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/mipmap-xhdpi-v4.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/mipmap-xhdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/mipmap-xxhdpi-v4.json" afterPath="$PROJECT_DIR$/wear/build/intermediates/blame/res/debug/single/mipmap-xxhdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/wear.iml" afterPath="$PROJECT_DIR$/wear/wear.iml" />
     </list>
     <ignored path="TakeATrip.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -275,8 +169,8 @@
       <file leaf-file-name="RecyclerViewViaggiAdapter.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Adapters/RecyclerViewViaggiAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.7977941">
-              <caret line="26" column="56" selection-start-line="26" selection-start-column="56" selection-end-line="26" selection-end-column="56" />
+            <state vertical-scroll-proportion="0.69485295">
+              <caret line="181" column="14" selection-start-line="181" selection-start-column="14" selection-end-line="181" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -6000,7 +5894,13 @@
       <option name="project" value="LOCAL" />
       <updated>1461179965389</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="trovato bug per immagine copertina viaggio, in recyclerViewViaggiAdapter la variabile che mantiene l'url viene sovrascritta prima di poter passare l'url all'activity successiva">
+      <created>1461277267777</created>
+      <option name="number" value="00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1461277267777</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TodoView">
@@ -6092,7 +5992,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="rimosse classi e metodi superflui per non creare conflitto su .dex file" />
     <MESSAGE value="aggiunti task per aggiornamento valori followers e followings in profiloactivity" />
     <MESSAGE value="cambiati privacy level e relative icone" />
     <MESSAGE value="sistemato problema timestamp nota tappe (modifica al database)" />
@@ -6117,7 +6016,8 @@
     <MESSAGE value="creato package dedicato agli adapter" />
     <MESSAGE value="implementato caricamento imagini della tappa" />
     <MESSAGE value="implementato caricamento imagini della tappa (da ottimizzare)" />
-    <option name="LAST_COMMIT_MESSAGE" value="implementato caricamento imagini della tappa (da ottimizzare)" />
+    <MESSAGE value="trovato bug per immagine copertina viaggio, in recyclerViewViaggiAdapter la variabile che mantiene l'url viene sovrascritta prima di poter passare l'url all'activity successiva" />
+    <option name="LAST_COMMIT_MESSAGE" value="trovato bug per immagine copertina viaggio, in recyclerViewViaggiAdapter la variabile che mantiene l'url viene sovrascritta prima di poter passare l'url all'activity successiva" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -6127,13 +6027,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Adapters/MyRecyclerViewAdapterFollowers.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="144" column="0" selection-start-line="144" selection-start-column="0" selection-end-line="144" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Adapters/MyRecyclerViewAdapterFollowing.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -6546,10 +6439,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/activity_lista_viaggi.xml">
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Adapters/RecyclerViewViaggiAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.7977941">
-          <caret line="26" column="56" selection-start-line="26" selection-start-column="56" selection-end-line="26" selection-end-column="56" />
+        <state vertical-scroll-proportion="0.69485295">
+          <caret line="181" column="14" selection-start-line="181" selection-start-column="14" selection-end-line="181" selection-end-column="14" />
           <folding />
         </state>
       </provider>
