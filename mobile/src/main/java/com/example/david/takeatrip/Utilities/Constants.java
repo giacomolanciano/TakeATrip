@@ -114,5 +114,8 @@ public class Constants {
     public static final String QUERY_STOP_IMAGE = "QueryImagesOfStops.php";
 
 
+    public static final int BASE_DIMENSION_OF_IMAGE_PARTECIPANT = 100;
+    public static final int BASE_DIMENSION_OF_SPACE = 20;
+
 
 }

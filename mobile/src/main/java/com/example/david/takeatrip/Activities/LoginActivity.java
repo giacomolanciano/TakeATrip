@@ -242,37 +242,6 @@ public class LoginActivity extends AppCompatActivity implements
 
         });
 
-        //If the user is already registered, then skip this activity (MySqLite)
-        DatabaseHandler db = new DatabaseHandler(LoginActivity.this);
-        try{
-            Log.d("Reading: ", "Reading all contacts..");
-            List<Profilo> contacts = db.getAllContacts();
-
-            if(contacts.size() != 0){
-                for (Profilo cn : contacts) {
-                    String log = "Email: "+cn.getEmail()+" ,Name: " + cn.getName() + " ,Surname: " + cn.getSurname() + " ,Date: "+ cn.getDataNascita()+ " ,Nazionalità: " + cn.getNazionalita()+ " ,Sesso: " + cn.getSesso() + " ,Username: " + cn.getUsername()+" ,Lavoro: " + cn.getLavoro() + " ,Descrizione: " + cn.getDescrizione() + " ,Tipo: " + cn.getTipo()
-                            + " ,HashPassword: " + cn.getPassword();
-                    Log.i("LOG: ", log);
-
-                    //5633
-                    //
-                    // TODO: decommentare
-                    openMainActivity(cn.getEmail(), cn.getName(),cn.getSurname(),cn.getDataNascita(),cn.getPassword(), cn.getNazionalita(), cn.getSesso(), cn.getUsername(), cn.getLavoro(), cn.getDescrizione(), cn.getTipo() );
-                }
-
-            }
-        }
-        catch (Exception e){
-            Log.d("table does not exitst: ", "Recreating the table..");
-
-            //TODO chiarire il motivo dell'errore
-            //nel caso in cui l'esecuzione dia problemi per via della riga sottostante,
-            //commentarla e decommentare quella successiva
-
-            db.onCreate(db.getWritableDatabase());
-     //       db.onUpgrade(db.getWritableDatabase(), 0,1);
-
-        }
 
         */
 
@@ -283,12 +252,7 @@ public class LoginActivity extends AppCompatActivity implements
 
         blogin = (LoginButton) findViewById(R.id.LoginButtonFb);
 
-
-        /*
-        blogin.setReadPermissions("user_friends");
-        blogin.setReadPermissions(Arrays.asList("user_status"));
-        blogin.setReadPermissions(Arrays.asList("user_photos"));
-
+/*
         //TODO:decommentare quando diamo la possitibilità all'utente di immagazzinare i contenuti du fb
         blogin.setPublishPermissions(Arrays.asList("publish_actions"));
 

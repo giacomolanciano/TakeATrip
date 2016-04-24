@@ -14,6 +14,7 @@ import com.example.david.takeatrip.Activities.ViaggioActivity;
 import com.example.david.takeatrip.AsyncTasks.LoadTravelImageTask;
 import com.example.david.takeatrip.Interfaces.AsyncResponseUrl;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DataObject;
 import com.squareup.picasso.Picasso;
 
@@ -27,7 +28,8 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
         .DataObjectHolder> implements AsyncResponseUrl {
 
     private static final String TAG = "RecyclerViewViaggiAdapt";
-
+    private static final int HEIGHT_DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*10;
+    private static final int WIDTH_DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*15;
 
     private ArrayList<DataObject> mDataset;
     private Context context;
@@ -96,7 +98,10 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
 
             immagineViaggio.setContentDescription(completeUrl.toString());
 
-            Picasso.with(context).load(completeUrl.toString()).into(immagineViaggio);
+            Picasso.with(context).
+                    load(completeUrl.toString()).
+                    resize(WIDTH_DIMENSION_IMAGE_TRAVEL, HEIGHT_DIMENSION_IMAGE_TRAVEL).
+                    into(immagineViaggio);
 
         }
         else{

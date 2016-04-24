@@ -96,6 +96,8 @@ public class ViaggioActivity extends FragmentActivity {
     private static final String ADDRESS_QUERY_URLS= "QueryImagesOfTravel.php";
 
 
+    private static final int DIMENSION_OF_IMAGE_PARTECIPANT = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT;
+    private static final int DIMENSION_OF_SPACE = Constants.BASE_DIMENSION_OF_SPACE;
 
 
 
@@ -148,9 +150,6 @@ public class ViaggioActivity extends FragmentActivity {
     private AmazonS3Client s3;
 
     private GridView gridView;
-
-
-
 
 
 
@@ -287,9 +286,6 @@ public class ViaggioActivity extends FragmentActivity {
                 Log.e(e.toString().toUpperCase(), e.getMessage());
             }
         }
-        else{
-            //TODO: si visualizza solo l'immagine del viaggio
-        }
 
     }
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -339,11 +335,9 @@ public class ViaggioActivity extends FragmentActivity {
 
                 //Log.i(TAG, "creato nuovo layout");
                 layoutPartecipants.addView(rowHorizontal);
-                layoutPartecipants.addView(new TextView(ViaggioActivity.this), 20, 20);
+                layoutPartecipants.addView(new TextView(ViaggioActivity.this), DIMENSION_OF_SPACE, DIMENSION_OF_SPACE);
                 //Log.i(TAG, "aggiunto row e view al layout verticale");
             }
-
-
 
             final ImageView image = new RoundedImageView(this, null);
             image.setContentDescription(p.getEmail());
@@ -357,11 +351,16 @@ public class ViaggioActivity extends FragmentActivity {
 
 
             if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
-
-
                 //new BitmapWorkerTask(image).execute(Constants.ADDRESS_TAT + p.getIdImageProfile());
                 String signedUrl = beginDownloadPicture(Constants.BUCKET_NAME, p.getIdImageProfile());
-                Picasso.with(ViaggioActivity.this).load(signedUrl).into(image);
+
+
+
+                Picasso.with(ViaggioActivity.this).
+                        load(signedUrl).
+                        resize(DIMENSION_OF_IMAGE_PARTECIPANT, DIMENSION_OF_IMAGE_PARTECIPANT).
+                        into(image);
+
 
             }else {
                 if(p.getSesso().equals("M")){
@@ -379,8 +378,8 @@ public class ViaggioActivity extends FragmentActivity {
                 e.printStackTrace();
             }
             //image.setImageResource(R.drawable.logodef);
-            rowHorizontal.addView(image, 100, 100);
-            rowHorizontal.addView(new TextView(this), 20, 100);
+            rowHorizontal.addView(image, DIMENSION_OF_IMAGE_PARTECIPANT, DIMENSION_OF_IMAGE_PARTECIPANT);
+            rowHorizontal.addView(new TextView(this), DIMENSION_OF_SPACE, DIMENSION_OF_IMAGE_PARTECIPANT);
 
 
             i++;
@@ -391,7 +390,7 @@ public class ViaggioActivity extends FragmentActivity {
 
             FloatingActionButton buttonAddPartecipant = new FloatingActionButton(this);
 
-            //TODO capire perchè il bottone non viene modificato (nè colore, nè più bianco)
+            //TODO capire perchè il bottone non viene modificato (no colore)
 
             buttonAddPartecipant.setRippleColor(getResources().getColor(R.color.blue));
             buttonAddPartecipant.setImageResource(R.drawable.ic_add_white_24dp);
@@ -402,7 +401,7 @@ public class ViaggioActivity extends FragmentActivity {
                 }
             });
 
-            rowHorizontal.addView(buttonAddPartecipant, 100, 100);
+            rowHorizontal.addView(buttonAddPartecipant, DIMENSION_OF_IMAGE_PARTECIPANT, DIMENSION_OF_IMAGE_PARTECIPANT);
 
         }
 
@@ -425,7 +424,12 @@ public class ViaggioActivity extends FragmentActivity {
 
                     if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
                         String signedUrl = beginDownloadPicture(Constants.BUCKET_NAME, p.getIdImageProfile());
-                        Picasso.with(ViaggioActivity.this).load(signedUrl).into(imageProfile);
+
+                        Picasso.with(ViaggioActivity.this).
+                                load(signedUrl).
+                                resize(DIMENSION_OF_IMAGE_PARTECIPANT*2, DIMENSION_OF_IMAGE_PARTECIPANT*2).
+                                into(imageProfile);
+
 
                     }
                     else{
@@ -771,7 +775,6 @@ public class ViaggioActivity extends FragmentActivity {
             if (viewTitoloViaggio != null) {
                 viewTitoloViaggio.setText(nomeViaggio);
             } else {
-                //TODO capire perchè da eccezione sporadicamente
                 Log.e("TEST", "viewTitoloViaggio is null");
             }
 

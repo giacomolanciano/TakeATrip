@@ -73,8 +73,7 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
 
     private Profilo corrente;
 
-    // TODO: Tab titles in other languages
-    private String[] tabs = {"   FOLLOWING","   FOLLOWERS"};
+    private String[] tabs = {getString(R.string.FOLLOWING),getString(R.string.FOLLOWERS)};
 
     private int[] icons = {
             R.drawable.ic_account_box_black_36dp,
@@ -110,9 +109,6 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
             actionBar.addTab(actionBar.newTab().setText(tab_name)
                     .setTabListener(this));
         }
-
-
-        //TODO: cambiare in caso di visualizzazione esterna
 
         corrente = new Profilo(email);
 

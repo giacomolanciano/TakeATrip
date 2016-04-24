@@ -1,10 +1,7 @@
 package com.example.david.takeatrip.Activities;
 
-import android.animation.Animator;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.app.TabActivity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -40,8 +37,9 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
+import com.example.david.takeatrip.AsyncTasks.InserimentoImmagineCopertinaTask;
+import com.example.david.takeatrip.AsyncTasks.InserimentoImmagineProfiloTask;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
@@ -51,9 +49,6 @@ import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
 import com.example.david.takeatrip.Utilities.UtilS3Amazon;
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.google.android.gms.drive.DriveId;
 import com.squareup.picasso.Picasso;
@@ -92,6 +87,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     private final int REQUEST_UPLOAD_PROFILE_IMAGE = 123;
     private final int REQUEST_UPLOAD_COVER_IMAGE = 124;
     private final int QUALITY_OF_IMAGE = Constants.QUALITY_PHOTO;
+    private final int DIMENSION_PROFILE_IMAGE = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT - 30;
+
 
     private final String ADDRESS_INSERIMENTO = "Segue.php";
     private final String ADDRESS_PRELIEVO = "Follower.php";
@@ -100,15 +97,10 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     private final String QUERY_FOLLOWINGS = "QueryCountFollowings.php";
 
     private final String QUERY_VERIFICA_FOLLOWING = "QueryCountFollowings.php";
-    private final String ADDRESS_INSERT_COVER_PROFILE = "InserimentoImmagineCopertina.php";
-
-
     private Profilo corrente;
 
-
-
     private TextView viewName;
-    private TextView viewSurname, viewDate, viewEmail, numFollowersView, numFollowingsView;
+    private TextView viewSurname, numFollowersView, numFollowingsView;
     private Button follow;
 
     private RoundedImageView imageProfile;
@@ -117,25 +109,15 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
     private String name, surname, email, emailEsterno, emailProfiloVisitato, emailFollowing;
     private String date, password, nazionalita, sesso, username, lavoro, descrizione, tipo;
-    private int codice;
 
     private Profile profile;
-    private Bitmap immagineProfilo, immagineCopertina;
-
     private TabHost TabHost;
 
     private boolean externalView = false;
 
-    private Bitmap bitmap = null;
     private String idFolder, idImageProfile, idCoverImage, numFollowers, numFollowings;
 
-    private Animator mCurrentAnimator;
-    private int mShortAnimationDuration;
-    private View thumb1View;
     private boolean alreadyFollowing = false;
-
-
-
 
 
     // The TransferUtility is the primary class for managing transfer to S3
@@ -180,9 +162,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         transferRecordMaps = new ArrayList<HashMap<String, Object>>();
         s3 = UtilS3Amazon.getS3Client(ProfiloActivity.this);
 
-        //new GetFileListTask().execute();
-
-
 
         if (getIntent() != null) {
             Intent intent = getIntent();
@@ -208,11 +187,9 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             new MyTaskQueryNumFollowings().execute();
 
 
-
-
             if(idImageProfile == null || idImageProfile.equals("null")){
                 if(profile!= null){
-                    final Uri image_uri = profile.getProfilePictureUri(70, 70);
+                    final Uri image_uri = profile.getProfilePictureUri(DIMENSION_PROFILE_IMAGE, DIMENSION_PROFILE_IMAGE);
                     final URI image_URI;
 
                     try {
@@ -235,8 +212,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             else{
 
                 beginDownloadProfilePicture(idImageProfile);
-
-                //Picasso.with(this).load(Constants.ADDRESS_TAT + idImageProfile).into(imageProfile);
             }
 
 
@@ -297,8 +272,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 viewSurname.setText(surname);
             }
         }
-
-
 
         TabHost = (TabHost) findViewById(android.R.id.tabhost);
 
@@ -439,9 +412,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         follow.setEnabled(false);
 
         follow.setBackground(getDrawable(R.drawable.button_follow_cliccato));
-        //follow.setTextColor(getResources().getColor(R.color.greenScuro));
-        //Toast.makeText(getBaseContext(), "Add Following", Toast.LENGTH_LONG).show();
-
     }
 
 
@@ -455,13 +425,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             follow.setEnabled(false);
             follow.setBackground(getDrawable(R.drawable.button_follow_cliccato));
         }
-
-
-        // Initilization
-        Log.i("TEST", "contesto SocialActivity: " + getBaseContext());
-
-
-
     }
 
 
@@ -513,8 +476,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
-                            case 0: //view image profile
-
+                            case 0:
+                                //TODO: VIEW IMAGE PROFILE
 
                                 break;
                             case 1: //change image profile
@@ -556,12 +519,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 // Create the AlertDialog object and return it
                 builder.create().show();
             }
-            else{
-
-
-                //TODO: far visualizzare solo la foto profilo
-            }
-
 
         } catch (Exception e) {
             Log.e(e.toString().toUpperCase(), e.getMessage());
@@ -582,7 +539,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                         switch (which) {
                             case 0: //view cover image
 
-                                //TODO
+                                //TODO : IMPLEMENT THE VIEW OF THE IMAGE
 
                                 break;
                             case 1:
@@ -623,13 +580,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 Log.e(e.toString().toUpperCase(), e.getMessage());
             }
         }
-        else{
-            //TODO: far visualizzare solo l'immagine copertina
-        }
-
-
-
-
     }
 
     @Override
@@ -641,7 +591,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             //return from take a photo
             if (requestCode == Constants.REQUEST_IMAGE_CAPTURE) {
                 Log.i("TEST", "immagine fatta");
-
 
                 File f = new File(Environment.getExternalStorageDirectory().toString());
                 for (File temp : f.listFiles()) {
@@ -659,27 +608,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     Log.i("TEST", "path file immagine: " + f.getAbsolutePath());
 
                     try {
-
                         beginUploadProfilePicture(f.getAbsolutePath());
 
-
-/*
-                        if(false){
-
-                            //TODO: fornire anche il caricamento sul drive
-                    UploadImageTask task = new UploadImageTask(this, bitmap, Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
-                    task.delegate = this;
-                    task.execute();
-
-                        }
-                        else{
-                            String pathImage = email+"/";
-
-                            new UploadFilePHP(this,bitmap,pathImage,Constants.NAME_IMAGES_PROFILE_DEFAULT).execute();
-                            new MyTaskInsertImageProfile(this,email,null,pathImage + Constants.NAME_IMAGES_PROFILE_DEFAULT).execute();
-                        }
-
-                        */
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -727,36 +657,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                 beginUploadProfilePicture(picturePath);
                 imageProfile.setImageBitmap(thumbnail);
-
-                /*
-
-
-                String pathImage = email+"/";
-
-                try {
-
-                    //TODO: loggato con google
-
-                    if(false){
-
-                    }
-                    else{
-                        new UploadFilePHP(this,thumbnail,pathImage,Constants.NAME_IMAGES_PROFILE_DEFAULT).execute();
-                        new MyTaskInsertImageProfile(this,email,null,pathImage + Constants.NAME_IMAGES_PROFILE_DEFAULT).execute();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-                //UploadImageTask task = new UploadImageTask(this, thumbnail, Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
-                //task.delegate = this;
-                //task.execute();
-
-                imageProfile.setImageBitmap(thumbnail);
-
-
-                */
 
 
             } else if (requestCode == Constants.REQUEST_COVER_IMAGE_CAPTURE) {
@@ -826,14 +726,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     }
 
 
-
-
-
-
     private void beginDownloadProfilePicture(String key) {
-        // Location to download files from S3 to. You can choose any accessible
-        // file.
-        File file = new File(Environment.getExternalStorageDirectory().toString() + "/" + key);
 
         java.util.Date expiration = new java.util.Date();
         long msec = expiration.getTime();
@@ -849,7 +742,10 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
         URL url = s3.generatePresignedUrl(generatePresignedUrlRequest);
 
-        Picasso.with(this).load(url.toString()).into(imageProfile);
+        Picasso.with(this).
+                load(url.toString()).
+                resize(DIMENSION_PROFILE_IMAGE,DIMENSION_PROFILE_IMAGE).
+                into(imageProfile);
 
         // Initiate the download
         //TransferObserver observer = transferUtility.download(email, key, file);
@@ -864,9 +760,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
 
     private void beginDownloadCoverPicture(String key) {
-        // Location to download files from S3 to. You can choose any accessible
-        // file.
-        File file = new File(Environment.getExternalStorageDirectory().toString() + "/" + key);
 
         java.util.Date expiration = new java.util.Date();
         long msec = expiration.getTime();
@@ -900,22 +793,9 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         File file = new File(filePath);
 
         ObjectMetadata myObjectMetadata = new ObjectMetadata();
+        TransferObserver observer = transferUtility.upload(Constants.BUCKET_NAME, email + "/"+ Constants.PROFILE_PICTURES_LOCATION +"/"+file.getName(), file);
+        new InserimentoImmagineProfiloTask(this,email,null,email + "/"+ Constants.PROFILE_PICTURES_LOCATION +"/"+file.getName()).execute();
 
-
-
-        TransferObserver observer = transferUtility.upload(Constants.BUCKET_NAME, email + "/"+ Constants.PROFILE_PICTURES_LOCATION +"/"+file.getName(),
-                file);
-        new MyTaskInsertImageProfile(this,email,null,email + "/"+ Constants.PROFILE_PICTURES_LOCATION +"/"+file.getName()).execute();
-
-
-
-        /*
-         * Note that usually we set the transfer listener after initializing the
-         * transfer. However it isn't required in this sample app. The flow is
-         * click upload button -> start an activity for image selection
-         * startActivityForResult -> onActivityResult -> beginUploadProfilePicture -> onResume
-         * -> set listeners to in progress transfers.
-         */
         // observer.setTransferListener(new UploadListener());
     }
 
@@ -930,12 +810,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         File file = new File(filePath);
 
         ObjectMetadata myObjectMetadata = new ObjectMetadata();
-
-
-        TransferObserver observer = transferUtility.upload(Constants.BUCKET_NAME, email +"/"+ Constants.COVER_IMAGES_LOCATION +"/"+file.getName(),
-                file);
-
-        new MyTaskInsertCoverimage(this,email,null,email +"/"+ Constants.COVER_IMAGES_LOCATION +"/"+file.getName()).execute();
+        TransferObserver observer = transferUtility.upload(Constants.BUCKET_NAME, email +"/"+ Constants.COVER_IMAGES_LOCATION +"/"+file.getName(), file);
+        new InserimentoImmagineCopertinaTask(this,email,null,email +"/"+ Constants.COVER_IMAGES_LOCATION +"/"+file.getName()).execute();
 
         /*
          * Note that usually we set the transfer listener after initializing the
@@ -949,22 +825,12 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
 
 
-
-
-
-
-
-
-
-
-
     //Return the id of the uploaded profile image
     @Override
     public void processFinish(DriveId output) {
         Log.i("TEST", "uploaded profile image with id: " + output);
 
-        //TODO: aggiungere url al DB
-        new MyTaskInsertImageProfile(this,email,output).execute();
+        new InserimentoImmagineProfiloTask(this,email,output).execute();
 
     }
 
@@ -973,9 +839,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     @Override
     public void processFinish2(DriveId output) {
         Log.i("TEST", "uploaded cover image with id: " + output);
-
-        //TODO: aggiungere url al DB
-        new MyTaskInsertCoverimage(this,email,output).execute();
+        new InserimentoImmagineCopertinaTask(this,email,output).execute();
     }
 
 
@@ -1049,8 +913,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
 
     private class MyTaskInsertFollowing extends AsyncTask<Void, Void, Void> {
-
-
         InputStream is = null;
         String result, stringaFinale = "";
 
@@ -1067,15 +929,11 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     Log.i("CONNESSIONE Internet", "Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
                     HttpPost httppost;
-
-
                     httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO);
 
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
                     HttpEntity entity = response.getEntity();
-
-
                     is = entity.getContent();
 
                     if (is != null) {
@@ -1099,190 +957,17 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     } else {
                         Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
                     }
-
-
                 } else
                     Log.e("CONNESSIONE Internet", "Assente!");
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.e(e.toString(), e.getMessage());
             }
-
-
             return null;
         }
     }
-
-
-    private class MyTaskInsertImageProfile extends AsyncTask<Void, Void, Void> {
-
-        private final String ADDRESS_INSERT_IMAGE_PROFILE = "InserimentoImmagineProfilo.php";
-        InputStream is = null;
-        String emailUser, result, urlImmagine;
-        DriveId idFile;
-        Context context;
-
-        public MyTaskInsertImageProfile(Context c, String emailUtente, DriveId id){
-            context  = c;
-            emailUser = emailUtente;
-            idFile = id;
-        }
-
-        public MyTaskInsertImageProfile(Context c, String emailUtente, DriveId id, String url){
-            context  = c;
-            emailUser = emailUtente;
-            idFile = id;
-            urlImmagine = url;
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("email", emailUser));
-            dataToSend.add(new BasicNameValuePair("id", idFile+""));
-            dataToSend.add(new BasicNameValuePair("url", urlImmagine));
-            try {
-                if (InternetConnection.haveInternetConnection(context)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERT_IMAGE_PROFILE);
-                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                    HttpResponse response = httpclient.execute(httppost);
-
-                    HttpEntity entity = response.getEntity();
-
-                    is = entity.getContent();
-
-                    if (is != null) {
-                        //converto la risposta in stringa
-                        try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                            StringBuilder sb = new StringBuilder();
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line + "\n");
-                            }
-                            is.close();
-
-                            result = sb.toString();
-
-
-                        } catch (Exception e) {
-                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
-                        }
-                    }
-                    else {
-                        Log.i("TEST", "Input Stream uguale a null");
-                    }
-                }
-                else
-                    Log.e("CONNESSIONE Internet", "Assente!");
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            Log.i("TEST", "risultato operazione di inserimento immagine profilo nel DB:" + result);
-
-            super.onPostExecute(aVoid);
-
-        }
-
-    }
-
-
-    private class MyTaskInsertCoverimage extends AsyncTask<Void, Void, Void> {
-        InputStream is = null;
-        String emailUser, result, urlImmagine;
-        DriveId idFile;
-        Context context;
-
-        public MyTaskInsertCoverimage(Context c, String emailUtente, DriveId id){
-            context  = c;
-            emailUser = emailUtente;
-            idFile = id;
-        }
-
-        public MyTaskInsertCoverimage(Context c, String emailUtente, DriveId id, String url){
-            context  = c;
-            emailUser = emailUtente;
-            idFile = id;
-            urlImmagine = url;
-        }
-
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("email", emailUser));
-            dataToSend.add(new BasicNameValuePair("id", idFile+""));
-            dataToSend.add(new BasicNameValuePair("url", urlImmagine));
-
-
-            try {
-                if (InternetConnection.haveInternetConnection(context)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERT_COVER_PROFILE);
-                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                    HttpResponse response = httpclient.execute(httppost);
-
-                    HttpEntity entity = response.getEntity();
-
-                    is = entity.getContent();
-
-                    if (is != null) {
-                        //converto la risposta in stringa
-                        try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                            StringBuilder sb = new StringBuilder();
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line + "\n");
-                            }
-                            is.close();
-
-                            result = sb.toString();
-
-
-                        } catch (Exception e) {
-                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
-                        }
-                    }
-                    else {
-                        Log.i("TEST", "Input Stream uguale a null");
-                    }
-                }
-                else
-                    Log.e("CONNESSIONE Internet", "Assente!");
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            Log.i("TEST", "risultato operazione di inserimento immagine copertina nel DB:" + result);
-            super.onPostExecute(aVoid);
-
-        }
-
-
-    }
-
 
     private class MyTaskQueryNumFollowers extends AsyncTask<Void, Void, Void> {
-
         InputStream is = null;
         String result = "";
 
@@ -1328,8 +1013,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                             numFollowers = ""+jsonObject.getInt(Constants.COUNT_FOLLOW_ID);
 
                             Log.i("TEST", "numFollowers: " + numFollowers);
-
-
 
                         } catch (Exception e) {
                             //Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
@@ -1399,9 +1082,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                         numFollowings = ""+jsonObject.getInt(Constants.COUNT_FOLLOW_ID);
 
                         Log.i("TEST", "numFollowings: " + numFollowings);
-
-
-
                     } catch (Exception e) {
                         //Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
                         Log.e("TEST", "eccezione query followings: "+e.toString());
@@ -1430,151 +1110,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     }
 
 
-
-
-
-
-    /**
-     * This async task queries S3 for all files in the profile pictures
-     * */
-    private class GetFileListTask extends AsyncTask<Void, Void, Void> {
-        // The list of objects we find in the S3 bucket
-        private List<S3ObjectSummary> s3ObjList;
-        // A dialog to let the user know we are retrieving the files
-        private ProgressDialog dialog;
-
-        @Override
-        protected void onPreExecute() {
-            dialog = ProgressDialog.show(ProfiloActivity.this, getString(R.string.CaricamentoInCorso), "");
-        }
-
-        @Override
-        protected Void doInBackground(Void... inputs) {
-
-            try{
-                // Queries files in the bucket from S3.
-                s3ObjList = s3.listObjects(Constants.BUCKET_NAME).getObjectSummaries();
-                transferRecordMaps.clear();
-                for (S3ObjectSummary summary : s3ObjList) {
-                    Log.i("TEST", "keys of object in the bucket " + Constants.BUCKET_NAME + ":" + summary.getKey());
-
-                    if(summary.getKey().contains(Constants.PROFILE_PICTURES_LOCATION)){
-                        HashMap<String, Object> map = new HashMap<String, Object>();
-                        map.put("profileImages", summary.getKey());
-                        transferRecordMaps.add(map);
-                    }
-
-                    if(summary.getKey().contains(Constants.COVER_IMAGES_LOCATION)){
-                        HashMap<String, Object> map = new HashMap<String, Object>();
-                        map.put("coverImages", summary.getKey());
-                        transferRecordMaps.add(map);
-                    }
-
-
-
-                }
-
-            }
-            catch(Exception e){
-                Log.e("TEST", e.getMessage());
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            dialog.dismiss();
-
-
-            //se sono presenti immagini del profilo, prendo la prima
-            if(transferRecordMaps.size()>0) {
-
-            //TODO: vedere se sono presenti immagini profilo e copertina
-
-                if(transferRecordMaps.get(0) != null){
-                    if(transferRecordMaps.get(0).get("profileImages") != null){
-
-                        Log.i("TEST", "profile image: " + transferRecordMaps.get(0).get("profileImages"));
-
-                        beginDownloadProfilePicture((String) transferRecordMaps.get(0).get("profileImages"));
-                    }
-                }
-            }
-            else if(profile!= null){
-                try {
-                    AccessToken accessToken = AccessToken.getCurrentAccessToken();
-                    GraphRequest request = GraphRequest.newMeRequest(
-                            accessToken,
-                            new GraphRequest.GraphJSONObjectCallback() {
-                                @Override
-                                public void onCompleted(
-                                        JSONObject object,
-                                        GraphResponse response) {
-                                    try {
-
-                                        Log.i("TEST",  response.toString());
-
-                                        JSONObject coverImageObject =  object.getJSONObject("cover");
-                                        String url_cover_image = coverImageObject.getString("source");
-
-                                        Log.i("TEST", "immagine copertina: " + url_cover_image);
-
-                                        //URL newurl = new URL(url_image);
-                                        BitmapWorkerTask task = new BitmapWorkerTask(coverImage, layoutCoverImage);
-                                        task.execute(url_cover_image);
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                        Log.e("TEST", e.getMessage());
-                                    }
-                                }
-                            });
-                    Bundle parameters = new Bundle();
-                    parameters.putString("fields", "cover");
-                    request.setParameters(parameters);
-                    request.executeAsync();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-                final Uri image_uri = profile.getProfilePictureUri(70, 70);
-                final URI image_URI;
-
-                try {
-                    image_URI = new URI(image_uri.toString());
-                    Picasso.with(ProfiloActivity.this).load(image_URI.toURL().toString()).into(imageProfile);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-            else{
-                if(sesso != null && sesso.equals("M")){
-                    imageProfile.setImageDrawable(getResources().getDrawable(R.drawable.default_male));
-                }
-                else if (sesso != null && sesso.equals("F")){
-                    imageProfile.setImageDrawable(getResources().getDrawable(R.drawable.default_female));
-                }
-            }
-
-
-
-
-
-
-
-
-
-        }
-    }
-
-
-
     /*
      * A TransferListener class that can listen to a download task and be
      * notified when the status changes.
@@ -1596,7 +1131,5 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             Log.i("TEST", "onStateChanged: " + id + ", " + state);
         }
     }
-
-
 
 }

@@ -73,6 +73,8 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,GoogleMap.OnMarkerClickListener {
 
 
+    private final int DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT-50;
+
     private Button buttonSatellite, buttonHybrid, buttonTerrain;
     private String email, emailEsterno, nomeViaggio, urlImmagineViaggio, codiceViaggio;
     ;
@@ -178,13 +180,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for Activity#requestPermissions for more details.
+
                 return;
             }
         }
@@ -219,7 +215,10 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
                 if(urlImmagineViaggio!= null && !urlImmagineViaggio.equals("null")){
                     Log.i("TEST", "esecuzione download immagine viaggio... ");
 
-                    Picasso.with(MapsActivity.this).load(urlImmagineViaggio).into(imageTravel);
+                    Picasso.with(MapsActivity.this).
+                            load(urlImmagineViaggio).
+                            resize(DIMENSION_IMAGE_TRAVEL,DIMENSION_IMAGE_TRAVEL).
+                            into(imageTravel);
 
                 }
 
@@ -249,7 +248,6 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         else{
             i.putExtra("email", emailEsterno);
         }
-        //TODO passare codice e nome per ricreare viaggio
         i.putExtra("codiceViaggio", comboCodice.get(marker.getTitle()));
         i.putExtra("nomeViaggio", marker.getTitle());
         Log.i("TEST", "#email  " + profiloUtente.getEmail());
@@ -309,8 +307,6 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
         //Se sono presenti gia i nomi delle tappe non devo riprenderli
         if (profiloNomiTappe.get(p) != null) {
-
-            //TODO: aggiungere la classe Place che memorizza Nome e LatLong in modo da non richiamare sempre le API
 
             /*
             googleMap.clear();
@@ -466,10 +462,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
 
                         if(result.equals("null\n")){
-                            //TODO: convertire in values
-                            stringaFinale = "Non sono presenti viaggi";
-                            Log.i("TEST", "result da queryViaggi: " + stringaFinale);
-
+                            stringaFinale = getString(R.string.no_travels);
                         }
                         else{
                             JSONArray jArray = new JSONArray(result);

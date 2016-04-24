@@ -79,11 +79,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final String ADDRESS_INSERIMENTO_ITINERARIO = "InserimentoItinerario.php";
     private final String ADDRESS_INSERIMENTO_FILTRO = "InserimentoFiltro.php";
 
+    private static final int SIZE_IMAGE_PARTECIPANT = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT-40;
 
 
     private static final int REQUEST_FOLDER = 123;
     private static final int REQUEST_IMAGE_PROFILE = 124;
     private static final int REQUEST_COVER_IMAGE = 125;
+
 
 
     private final int LIMIT_IMAGES_VIEWS = 5;
@@ -354,16 +356,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     rowHorizontal.setOrientation(LinearLayout.HORIZONTAL);
 
                                     layoutNewPartecipants.addView(rowHorizontal);
-                                    layoutNewPartecipants.addView(new TextView(MainActivity.this), 20, 20);
+                                    layoutNewPartecipants.addView(new TextView(MainActivity.this), Constants.BASE_DIMENSION_OF_SPACE, Constants.BASE_DIMENSION_OF_SPACE);
                                 }
 
                                 final ImageView image = new RoundedImageView(MainActivity.this, null);
                                 image.setContentDescription(p.getEmail());
 
                                 if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
-//                                    new BitmapWorkerTask(image).execute(Constants.ADDRESS_TAT + p.getIdImageProfile());
                                     String signedUrl = beginDownloadProfilePicture(p.getIdImageProfile());
-                                    Picasso.with(MainActivity.this).load(signedUrl).into(image);
+                                    Picasso.with(MainActivity.this).
+                                            load(signedUrl).
+                                            resize(SIZE_IMAGE_PARTECIPANT,SIZE_IMAGE_PARTECIPANT).
+                                            into(image);
 
                                 }else {
                                     if(p.getSesso().equals("M")){
@@ -374,8 +378,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     }
                                 }
 
-                                rowHorizontal.addView(image, 60, 60);
-                                rowHorizontal.addView(new TextView(MainActivity.this), 20, 60);
+                                rowHorizontal.addView(image, SIZE_IMAGE_PARTECIPANT, SIZE_IMAGE_PARTECIPANT);
+                                rowHorizontal.addView(new TextView(MainActivity.this), Constants.BASE_DIMENSION_OF_SPACE, SIZE_IMAGE_PARTECIPANT);
                                 Log.i(TAG, "aggiungo la view nel layout orizzonale");
                                 partecipants.add(p);
                                 namesPartecipants.add(p.getUsername());
@@ -572,88 +576,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-/*
-    private class MyTaskIDProfileImage extends AsyncTask<Void, Void, Void> {
-
-        // The list of objects we find in the S3 bucket
-        private List<S3ObjectSummary> s3ObjList;
-        // A dialog to let the user know we are retrieving the files
-        private ProgressDialog dialog;
-
-        @Override
-        protected void onPreExecute() {
-            dialog = ProgressDialog.show(MainActivity.this, getString(R.string.CaricamentoInCorso), "");
-        }
-
-        @Override
-        protected Void doInBackground(Void... inputs) {
-
-            try{
-                // Queries files in the bucket from S3.
-                s3ObjList = s3.listObjects(Constants.BUCKET_NAME).getObjectSummaries();
-                transferRecordMaps.clear();
-
-                HashMap<String, List<Object>> map = new HashMap<String, List<Object>>();
-                List<Object> immaginiProfilo = new ArrayList<Object>();
-                for (S3ObjectSummary summary : s3ObjList) {
-                    Log.i("TEST", "keys of object in the bucket " + Constants.BUCKET_NAME + ": " + summary.getKey());
-                    if(summary.getKey().contains(Constants.PROFILE_PICTURES_LOCATION)){
-                        immaginiProfilo.add(summary.getKey());
-                    }
-                }
-
-
-
-
-
-                map.put("profileImages", immaginiProfilo);
-                transferRecordMaps.add(map);
-
-            }
-            catch(Exception e){
-                Log.e("TEST", e.getMessage());
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            dialog.dismiss();
-
-            //se sono presenti immagini del profilo, prendo la prima
-            if(transferRecordMaps.size()>0){
-                if(transferRecordMaps.get(0) != null){
-                    List<Object> immaginiProfilo = transferRecordMaps.get(0).get("profileImages");
-
-
-                    //TODO: qui prelevare le immagini del profilo degli utenti
-                    if(immaginiProfilo != null){
-                        for(Object keyImage : immaginiProfilo){
-                            String image = (String) keyImage;
-                            if(image.contains(email)){
-
-                                Log.i("TEST", "profile image: " + image);
-
-                                beginDownloadProfilePicture(image);
-
-                            }
-                        }
-
-
-                        //beginDownloadProfilePicture((String) transferRecordMaps.get(0).get("profileImages"));
-                    }
-                }
-
-                transferRecordMaps.clear();
-            }
-        }
-    }
-
-*/
-
-
     private String beginDownloadProfilePicture(String key) {
         // Location to download files from S3 to. You can choose any accessible
         // file.
@@ -691,13 +613,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         catch(Exception exception){
             exception.printStackTrace();
         }
-
-
         return url.toString();
 
     }
-
-
 
 
     private class TaskForUUID extends AsyncTask<Void, Void, Void> {
@@ -788,9 +706,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             Log.i("TEST", "lista partecipanti:" + partecipants);
 
-
             for(Profilo p : partecipants){
-
 
                 ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
                 dataToSend.add(new BasicNameValuePair("codice", UUIDViaggio));
@@ -871,30 +787,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(Void aVoid) {
             try {
-                Thread.currentThread().sleep(1000);
+                Thread.currentThread().sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-
-            /*
-
-            Intent intent = new Intent(getBaseContext(), CreateDriveFolderActivity.class);
-            intent.putExtra("nameFolder", nomeViaggio);
-            intent.putExtra("idFolder", idFolderTAT);
-
-            //TODO: far in modo che l'activity non si veda
-            startActivityForResult(intent, REQUEST_FOLDER);
-
-            */
             Toast.makeText(getBaseContext(), R.string.created_travel, Toast.LENGTH_LONG).show();
-
             super.onPostExecute(aVoid);
 
         }
     }
-
-
 
 
     private class MyTaskIDProfileImage extends AsyncTask<Void, Void, Void> {
@@ -981,13 +882,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         protected void onPostExecute(Void aVoid) {
             Log.i("TEST", "risultato dal prelievo dell'id imm profilo: " + result);
             if(signedUrl != null ){
-                Picasso.with(MainActivity.this).load(signedUrl.toString()).into(imageViewProfileRound);
+                Picasso.with(MainActivity.this).
+                        load(signedUrl.toString()).
+                        resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*2, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*2).
+                        into(imageViewProfileRound);
             }
             else{
                 //L'utente è loggato con facebook
                 if(profile != null){
-                    Log.i("TEST", profile.getProfilePictureUri(150, 150).toString());
-                    final Uri image_uri = profile.getProfilePictureUri(150, 150);
+                    Log.i("TEST", profile.getProfilePictureUri(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT+50, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT+50).toString());
+                    final Uri image_uri = profile.getProfilePictureUri(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT+50, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT+50);
 
                     try {
                         final URI image_URI = new URI(image_uri.toString());
@@ -1003,8 +907,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
             }
-            hideProgressDialog();
-
         }
     }
 
@@ -1086,46 +988,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
-
-    /*
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == REQUEST_FOLDER){
-            if(resultCode == RESULT_OK) {
-                String idTravel = UUIDViaggio;
-                DriveId idFolder = data.getParcelableExtra("idFolder");
-                String nameFolder = data.getStringExtra("nameFolder");
-
-                Log.i("TEST", "Ricevuto l'id della cartella: " + idFolder);
-                Log.i("TEST", "Ricevuto il nome della cartella: " + nameFolder);
-
-
-                MyTaskFolder myTaskFolder = new MyTaskFolder(this, email, idTravel, idFolder, nameFolder);
-                myTaskFolder.execute();
-            }
-
-        }
-    }
-    */
-
-
-    private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
-            mProgressDialog.setIndeterminate(true);
-        }
-
-
-        mProgressDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
-        }
-    }
 
 }

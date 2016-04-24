@@ -251,7 +251,6 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
 
                     if(confermaCredenziali(password, confermaPassword)){
 
-                        //TODO decommentare insieme a classe PasswordHashing
                         //password = PasswordHashing.sha1Hash(campoPassword.getText().toString());
 
                         new MyTask().execute();
@@ -325,7 +324,7 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
                     finish();
 
 /*
-                    //TODO: questo nel caso di login indipendente
+                    // questo nel caso di login indipendente
                     else{
                         passwordModificata = true;
                         if(confermaCredenziali(nuovaPassword, confermaNuovaPassword)) {
