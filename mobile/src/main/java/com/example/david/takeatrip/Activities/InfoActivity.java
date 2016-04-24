@@ -122,10 +122,6 @@ public class InfoActivity extends AppCompatActivity {
         intent.putExtra("profile", profile);
         intent.putExtra("provieneDa", "InfoActivity");
 
-
-
-
-        //TODO vedere se i nuovi valori possono essere ritornati tramite la chiamata startActivityForResult
         startActivity(intent);
 
     }

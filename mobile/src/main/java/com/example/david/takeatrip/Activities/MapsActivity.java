@@ -20,10 +20,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.amazonaws.HttpMethod;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
 import com.example.david.takeatrip.Classes.Itinerario;
 import com.example.david.takeatrip.Classes.POI;
 import com.example.david.takeatrip.Classes.Profilo;
@@ -31,6 +37,7 @@ import com.example.david.takeatrip.Classes.Tappa;
 import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
+import com.example.david.takeatrip.Utilities.UtilS3Amazon;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -47,7 +54,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.squareup.picasso.Picasso;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -63,6 +69,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,10 +80,8 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,GoogleMap.OnMarkerClickListener {
 
 
-    private final int DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT-50;
-
-    private Button buttonSatellite, buttonHybrid, buttonTerrain;
-    private String email, emailEsterno, nomeViaggio, urlImmagineViaggio, codiceViaggio;
+    private final int DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT;
+    private String email, emailEsterno, nomeViaggio, urlImmagineViaggio, codiceViaggio, currentUrlImageTravel;
     ;
     private final String ADDRESS_PRELIEVO = "QueryDest.php";
     private Profilo profiloUtente;
@@ -96,13 +101,30 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
     private LatLngBounds.Builder mapBoundsBuilder;
     private LatLngBounds mapBounds;
 
-
-
-
     private List<Tappa> tappe;
     private List<Tappa> nomeTappa;
     private List<Viaggio> nome;
 
+
+    // The TransferUtility is the primary class for managing transfer to S3
+    private TransferUtility transferUtility;
+
+    // The SimpleAdapter adapts the data about transfers to rows in the UI
+    private SimpleAdapter simpleAdapter;
+
+    // A List of all transfers
+    private List<TransferObserver> observers;
+
+    /**
+     * This map is used to provide data to the SimpleAdapter above. See the
+     * fillMap() function for how it relates observers to rows in the displayed
+     * activity.
+     */
+    private ArrayList<HashMap<String, List<Object>>> transferRecordMaps;
+
+
+    // The S3 client
+    private AmazonS3Client s3;
 
 
 
@@ -120,6 +142,10 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
             Log.i("TEST", "email esterno: " + emailEsterno);
 
         }
+
+        transferUtility = UtilS3Amazon.getTransferUtility(this);
+        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
+        s3 = UtilS3Amazon.getS3Client(MapsActivity.this);
 
         tappe = new ArrayList<Tappa>();
         nomeTappa = new ArrayList<Tappa>();
@@ -146,7 +172,6 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         }
 
         Log.i("TEST", "Profilo utente corrente: " + profiloUtente);
-
 
         mGoogleApiClient = new GoogleApiClient
                 .Builder( this )
@@ -186,7 +211,8 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         }
         // map.setMyLocationEnabled(true);
         map.setOnInfoWindowClickListener(this);
-        //  map.setOnMarkerClickListener(this);
+
+        // Returning the view containing InfoWindow contents
         map.setInfoWindowAdapter(new InfoWindowAdapter() {
 
             // Use default InfoWindow frame
@@ -198,35 +224,35 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
             // Defines the contents of the InfoWindow
             @Override
             public View getInfoContents(Marker marker) {
-                // Getting view from the layout file info_window_layout
-                View v = getLayoutInflater().inflate(R.layout.view_custom_marker, null);
 
-                ImageView imageTravel = (ImageView) v.findViewById(R.id.imageTravelOnMap);
+                View v = getLayoutInflater().inflate(R.layout.view_custom_marker, null);
+                final ImageView imageTravel = (ImageView) v.findViewById(R.id.imageTravelOnMap);
 
                 String urlImmagineViaggio = null;
                 for(Viaggio viaggio: combo.values()){
                     if(viaggio.getCodice().equals(comboCodice.get(marker.getTitle()))){
-                        urlImmagineViaggio = viaggio.getUrlImmagine();
+                        urlImmagineViaggio = downloadUrlOfImage(viaggio.getCodice()+"/"+Constants.TRAVEL_COVER_IMAGE_LOCATION + "/"+viaggio.getUrlImmagine());
                         break;
                     }
                 }
 
-                Log.i("TEST", "urlImmagine del viaggio " + marker.getTitle() + ": " + urlImmagineViaggio );
-                if(urlImmagineViaggio!= null && !urlImmagineViaggio.equals("null")){
-                    Log.i("TEST", "esecuzione download immagine viaggio... ");
-
-                    Picasso.with(MapsActivity.this).
-                            load(urlImmagineViaggio).
-                            resize(DIMENSION_IMAGE_TRAVEL,DIMENSION_IMAGE_TRAVEL).
-                            into(imageTravel);
-
-                }
-
-                // Getting reference to the TextView to set title
                 TextView note = (TextView) v.findViewById(R.id.note);
                 note.setText(marker.getTitle());
+                if(urlImmagineViaggio!= null && !urlImmagineViaggio.equals("")){
+                    currentUrlImageTravel = urlImmagineViaggio;
 
-                // Returning the view containing InfoWindow contents
+                    imageTravel.setContentDescription(urlImmagineViaggio);
+
+                    try {
+                        Bitmap bitmap = new BitmapWorkerTask(imageTravel).execute(urlImmagineViaggio).get();
+                        imageTravel.setImageBitmap(bitmap);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
                 return v;
 
             }
@@ -236,9 +262,35 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
 
 
+    private String downloadUrlOfImage(String key){
+        URL url = null;
+        try {
+
+            java.util.Date expiration = new java.util.Date();
+            long msec = expiration.getTime();
+            msec += 1000 * 60 * 60; // 1 hour.
+            expiration.setTime(msec);
+
+            GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                    new GeneratePresignedUrlRequest(Constants.BUCKET_TRAVELS_NAME,key);
+            generatePresignedUrlRequest.setMethod(HttpMethod.GET);
+            generatePresignedUrlRequest.setExpiration(expiration);
+
+            url = s3.generatePresignedUrl(generatePresignedUrlRequest);
+
+            Log.i("TEST", "url file: " + url);
+        }
+        catch(Exception exception){
+            exception.printStackTrace();
+        }
+
+        return  url.toString();
+
+    }
+
+
     public void onInfoWindowClick(Marker marker) {
         Intent i = new Intent(this, ViaggioActivity.class);
-
         if(email == null || (email != null && emailEsterno!= null)) {
             i.putExtra("email", email);
         }
@@ -248,8 +300,14 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         else{
             i.putExtra("email", emailEsterno);
         }
+
         i.putExtra("codiceViaggio", comboCodice.get(marker.getTitle()));
         i.putExtra("nomeViaggio", marker.getTitle());
+
+        if(currentUrlImageTravel != null){
+            i.putExtra("urlImmagineViaggio", currentUrlImageTravel);
+        }
+
         Log.i("TEST", "#email  " + profiloUtente.getEmail());
         Log.i("TEST", "#nomedelviaggio  " + marker.getTitle() );
         Log.i("TEST", "#codicedelviaggio  " + comboCodice.get(marker.getTitle()));
@@ -476,7 +534,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
                                     String codiceViaggio = json_data.getString("codiceViaggio");
                                     nomeViaggio = json_data.getString("nomeViaggio");
-                                    urlImmagineViaggio = json_data.getString("urlImmagineViaggio");
+                                    urlImmagineViaggio = json_data.getString("idFotoViaggio");
 
                                     Viaggio viaggio = new Viaggio(codiceViaggio, nomeViaggio,urlImmagineViaggio);
 

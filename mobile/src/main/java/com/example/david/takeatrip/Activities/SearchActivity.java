@@ -133,7 +133,6 @@ public class SearchActivity extends AppCompatActivity {
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
                 Log.i("TEST", "Place: " + place.getName());
 
                 if(viaggi_profilo.size() != 0 && editTextUser.getText().toString().equals("")){
@@ -439,7 +438,7 @@ public class SearchActivity extends AppCompatActivity {
                                     String emailUtente = json_data.getString("email").toString();
                                     String nomeUtente = json_data.getString("nome").toString();
                                     String cognomeUtente = json_data.getString("cognome").toString();
-                                    String urlImmagineViaggio = json_data.getString("urlImmagineViaggio").toString();
+                                    String urlImmagineViaggio = json_data.getString("idFotoViaggio").toString();
                                     Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente,null, null, null, null, null, null, null);
 
                                     List<Viaggio> viaggi = new ArrayList<Viaggio>();
@@ -535,7 +534,7 @@ public class SearchActivity extends AppCompatActivity {
                                     String emailUtente = json_data.getString("email").toString();
                                     String nomeUtente = json_data.getString("nome").toString();
                                     String cognomeUtente = json_data.getString("cognome").toString();
-                                    String urlImmagineViaggio = json_data.getString("urlImmagineViaggio").toString();
+                                    String urlImmagineViaggio = json_data.getString("idFotoViaggio").toString();
 
                                     Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente,null, null, null, null, null, null, null);
 

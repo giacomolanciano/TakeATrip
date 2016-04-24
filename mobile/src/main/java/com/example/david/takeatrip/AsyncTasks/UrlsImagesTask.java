@@ -114,13 +114,11 @@ public class UrlsImagesTask extends AsyncTask<Void, Void, Void> {
 
             Log.i(TAG, "ordine: " + ordineTappa);
             Log.i(TAG, "email: " + emailProfilo);
-
         }
 
 
         try {
             if (InternetConnection.haveInternetConnection(context)) {
-                Log.i(TAG, "CONNESSIONE Internet Presente!");
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + phpFile);
                 httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
