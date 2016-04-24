@@ -90,13 +90,13 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     private final int DIMENSION_PROFILE_IMAGE = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT - 30;
 
 
-    private final String ADDRESS_INSERIMENTO = "Segue.php";
-    private final String ADDRESS_PRELIEVO = "Follower.php";
+    private final String ADDRESS_INSERIMENTO = "InserimentoFollow.php";
+    private final String ADDRESS_PRELIEVO = "PrendiFollower.php";
 
     private final String QUERY_FOLLOWERS = "QueryCountFollowers.php";
     private final String QUERY_FOLLOWINGS = "QueryCountFollowings.php";
 
-    private final String QUERY_VERIFICA_FOLLOWING = "QueryCountFollowings.php";
+    private final String QUERY_VERIFICA_FOLLOWING = "QueryCountFlowings.php";
     private Profilo corrente;
 
     private TextView viewName;
@@ -407,6 +407,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     public void ClickOnFollow(View v){
 
         MyTaskInsertFollowing mTF = new MyTaskInsertFollowing();
+        Log.i("TEST", "CLICCATO INSERIMENTO FOLLOWER");
         mTF.execute();
         follow.setText("FOLLOWING");
         follow.setEnabled(false);
@@ -905,7 +906,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         @Override
         protected void onPostExecute(Void aVoid) {
 
-                setButtonToFollowing();
+              //TODO Riattivare  setButtonToFollowing();
 
             super.onPostExecute(aVoid);
         }
