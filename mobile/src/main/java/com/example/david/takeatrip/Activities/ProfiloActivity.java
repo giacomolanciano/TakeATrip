@@ -91,6 +91,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
 
     private final String ADDRESS_INSERIMENTO = "InserimentoFollow.php";
+    private final String ADDRESS_ELIMINAZIONE = "EliminazioneFollow.php";
     private final String ADDRESS_PRELIEVO = "PrendiFollower.php";
 
     private final String QUERY_FOLLOWERS = "QueryCountFollowers.php";
@@ -222,6 +223,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                 if(password != null) {
                 corrente = new Profilo(email);
+                    Log.i("TEST", "Password: "+ password);
                 follow.setVisibility(View.INVISIBLE);
             }
             else {
@@ -405,14 +407,22 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
 
     public void ClickOnFollow(View v){
+        if (alreadyFollowing){
+            MyTaskDeleteFollowing mTD = new MyTaskDeleteFollowing();
+            Log.i("TEST", "CLICCATO ELIMINAZIONE FOLLOWER");
+            mTD.execute();
+            follow.setText("FOLLOW");
+            alreadyFollowing=false;
+            follow.setBackground(getDrawable(R.drawable.button_style));
+        }else {
+            MyTaskInsertFollowing mTF = new MyTaskInsertFollowing();
+            Log.i("TEST", "CLICCATO INSERIMENTO FOLLOWER");
+            mTF.execute();
+            follow.setText("FOLLOWING");
+            alreadyFollowing=true;
+            follow.setBackground(getDrawable(R.drawable.button_follow_cliccato));
+        }
 
-        MyTaskInsertFollowing mTF = new MyTaskInsertFollowing();
-        Log.i("TEST", "CLICCATO INSERIMENTO FOLLOWER");
-        mTF.execute();
-        follow.setText("FOLLOWING");
-        follow.setEnabled(false);
-
-        follow.setBackground(getDrawable(R.drawable.button_follow_cliccato));
     }
 
 
@@ -423,7 +433,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         if (alreadyFollowing) {
             Log.i("TEST", "GIA' SEGUI QUESTO UTENTE! ");
             follow.setText("FOLLOWING");
-            follow.setEnabled(false);
             follow.setBackground(getDrawable(R.drawable.button_follow_cliccato));
         }
     }
@@ -934,6 +943,61 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     HttpClient httpclient = new DefaultHttpClient();
                     HttpPost httppost;
                     httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO);
+
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                    HttpResponse response = httpclient.execute(httppost);
+                    HttpEntity entity = response.getEntity();
+                    is = entity.getContent();
+
+                    if (is != null) {
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+
+                            Log.i("TEST", "result " + result);
+
+                        } catch (Exception e) {
+                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    }
+                } else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(e.toString(), e.getMessage());
+            }
+            return null;
+        }
+    }
+
+ private class MyTaskDeleteFollowing extends AsyncTask<Void, Void, Void> {
+        InputStream is = null;
+        String result, stringaFinale = "";
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+            dataToSend.add(new BasicNameValuePair("email", email));
+            dataToSend.add(new BasicNameValuePair("emailEsterno", emailEsterno));
+
+
+            Log.i("TEST", "dati follow: " + email + " " + emailEsterno);
+            try {
+                if (InternetConnection.haveInternetConnection(ProfiloActivity.this)) {
+                    Log.i("CONNESSIONE Internet", "Presente!");
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost;
+                    httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_ELIMINAZIONE);
 
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
