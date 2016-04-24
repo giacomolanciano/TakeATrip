@@ -202,7 +202,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 //            @Override
 //            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
 //                if(verticalOffset == -toolbar.getHeight()){
-//                    Log.i("TEST", "toolbar collapsed");
+//                    Log.i(TAG, "toolbar collapsed");
 //
 //                    view.setVisibility(View.INVISIBLE);
 //                }else
@@ -232,11 +232,11 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
 
-        Log.i("TEST", "email: "+email);
-        Log.i("TEST", "codice: "+codiceViaggio);
-        Log.i("TEST", "ordine: "+ordineTappa);
-        Log.i("TEST", "nome: "+nomeTappa);
-        Log.i("TEST", "data: "+data);
+        Log.i(TAG, "email: "+email);
+        Log.i(TAG, "codice: "+codiceViaggio);
+        Log.i(TAG, "ordine: "+ordineTappa);
+        Log.i(TAG, "nome: "+nomeTappa);
+        Log.i(TAG, "data: "+data);
 
 
 
@@ -266,7 +266,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                 @Override
                 public void onClick(View view) {
 
-                    Log.i("TEST", "add note pressed");
+                    Log.i(TAG, "add note pressed");
 
                     fabMenu.collapse();
 
@@ -284,7 +284,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                 @Override
                 public void onClick(View view) {
 
-                    Log.i("TEST", "add record pressed");
+                    Log.i(TAG, "add record pressed");
 
                     fabMenu.collapse();
 
@@ -301,7 +301,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                 @Override
                 public void onClick(View view) {
 
-                    Log.i("TEST", "add video pressed");
+                    Log.i(TAG, "add video pressed");
 
                     fabMenu.collapse();
 
@@ -319,7 +319,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                 @Override
                 public void onClick(View view) {
 
-                    Log.i("TEST", "add photo pressed");
+                    Log.i(TAG, "add photo pressed");
 
                     fabMenu.collapse();
 
@@ -359,7 +359,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
     public void onClickChangeDate(View v) {
 
-        Log.i("TEST", "changing date");
+        Log.i(TAG, "changing date");
 
         DialogFragment newFragment = new DatePickerFragment();
 
@@ -395,7 +395,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         // capire come sistemare questo inconveniente
 
 
-        Log.i("TEST", "date changed");
+        Log.i(TAG, "date changed");
 
     }
 
@@ -625,7 +625,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
                 case Constants.REQUEST_RECORD_PICK:
-                    Log.i("TEST", "REQUEST_RECORD_PICK");
+                    Log.i(TAG, "REQUEST_RECORD_PICK");
 
                     Uri selectedAudio = data.getData();
 
@@ -643,7 +643,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
                 default:
-                    Log.e("TEST", "requestCode non riconosciuto");
+                    Log.e(TAG, "requestCode non riconosciuto");
                     break;
 
 
@@ -654,7 +654,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
         } else {
 
-            Log.e("TEST", "result: " + resultCode);
+            Log.e(TAG, "result: " + resultCode);
         }
     }
 
@@ -695,7 +695,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
     private static String getRealPathFromURI(Context context, Uri contentUri) {
 
-        Log.i("TEST", "entro in getRealPathFromURI(...)");
+        Log.i(TAG, "entro in getRealPathFromURI(...)");
 
         Cursor cursor = null;
         String result = null;
@@ -711,13 +711,13 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                         .getColumnIndex(proj[0]);
 
                 result = cursor.getString(columnIndex);
-                Log.i("TEST", "result: "+result);
+                Log.i(TAG, "result: "+result);
             }
 
             return result;
 
         } catch (Exception e) {
-            Log.e("TEST", "eccezione nel restituire il path: "+e.toString());
+            Log.e(TAG, "eccezione nel restituire il path: "+e.toString());
             return null;
 
         } finally {
@@ -733,7 +733,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
     private void onClickAddImage(View v) {
 
-        Log.i("TEST", "add image pressed");
+        Log.i(TAG, "add image pressed");
 
         try {
             ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
@@ -813,14 +813,14 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             Log.e(e.toString().toUpperCase(), e.getMessage());
         }
 
-        Log.i("TEST", "END add image");
+        Log.i(TAG, "END add image");
 
     }
 
 
     private void onClickAddVideo(View v) {
 
-        Log.i("TEST", "add video pressed");
+        Log.i(TAG, "add video pressed");
 
         try {
             ContextThemeWrapper wrapper = new ContextThemeWrapper(this,
@@ -892,7 +892,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             Log.e(e.toString().toUpperCase(), e.getMessage());
         }
 
-        Log.i("TEST", "END add video");
+        Log.i(TAG, "END add video");
 
 
     }
@@ -900,7 +900,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
     private void onClickAddRecord(View v) {
 
-        Log.i("TEST", "add record pressed");
+        Log.i(TAG, "add record pressed");
 
         try {
             final ContextThemeWrapper wrapper = new ContextThemeWrapper(this,
@@ -965,7 +965,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                                             }
 
-                                            Log.i("TEST", "progress dialog canceled");
+                                            Log.i(TAG, "progress dialog canceled");
                                         }
                                     });
 
@@ -1002,11 +1002,11 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                                                     progressDialog.dismiss();
 
 
-                                                    Log.i("TEST", "file audio generato: " + record.getFileName());
+                                                    Log.i(TAG, "file audio generato: " + record.getFileName());
 
                                                     File fileAudio = record.getFileAudio();
 
-                                                    Log.i("TEST", "file audio generato: " + fileAudio);
+                                                    Log.i(TAG, "file audio generato: " + fileAudio);
 
                                                     //TODO implementare caricamento su db
 
@@ -1024,7 +1024,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                                                         if (isCanceled) {
                                                             // Stop the operation/loop
 
-                                                            Log.i("TEST", "thread stopped");
+                                                            Log.i(TAG, "thread stopped");
 
                                                             break;
                                                         }
@@ -1045,7 +1045,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                                                                 if (progressStatus == progressDialog.getMax()) {
 
-                                                                    Log.i("TEST", "thread stopped");
+                                                                    Log.i(TAG, "thread stopped");
 
                                                                     record.stopRecording();
 
@@ -1076,7 +1076,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
                         default:
-                            Log.e("TEST", "azione non riconosciuta");
+                            Log.e(TAG, "azione non riconosciuta");
                             break;
                     }
                 }
@@ -1092,7 +1092,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
 
-        Log.i("TEST", "END add record");
+        Log.i(TAG, "END add record");
 
     }
 
@@ -1101,7 +1101,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
 
-        Log.i("TEST", "add note pressed");
+        Log.i(TAG, "add note pressed");
 
 
         try {
@@ -1127,7 +1127,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                             dialog.dismiss();
 
 
-                            Log.i("TEST", "edit text dialog canceled");
+                            Log.i(TAG, "edit text dialog canceled");
                         }
                     });
 
@@ -1139,7 +1139,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                             noteInserite.add(textInputEditText.getText().toString());
 
                             new TaskInserimentoNotaTappa(ordineTappa).execute();
-                            Log.i("TEST", "edit text confirmed");
+                            Log.i(TAG, "edit text confirmed");
                         }
                     });
 
@@ -1154,7 +1154,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         }
 
 
-        Log.i("TEST", "END add note");
+        Log.i(TAG, "END add note");
 
     }
 
@@ -1248,13 +1248,13 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
             dataToSend.add(new BasicNameValuePair("emailProfilo", email));
 
-            Log.i("TEST", "ordine: " + ordineAux);
-            Log.i("TEST", "codiceViaggio: " + codiceViaggio);
-            Log.i("TEST", "emailProfilo: " + email);
+            Log.i(TAG, "ordine: " + ordineAux);
+            Log.i(TAG, "codiceViaggio: " + codiceViaggio);
+            Log.i(TAG, "emailProfilo: " + email);
 
             try {
                 if (InternetConnection.haveInternetConnection(TappaActivity.this)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
+                    Log.i(TAG, "CONNESSIONE Internet Presente!");
 
 
 
@@ -1263,7 +1263,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                         dataToSend.add(new BasicNameValuePair("timestamp",
                                 new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date())));
                         dataToSend.add(new BasicNameValuePair("nota", nota));
-                        Log.i("TEST", "nota: " + nota);
+                        Log.i(TAG, "nota: " + nota);
 
                         HttpClient httpclient = new DefaultHttpClient();
                         HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_NOTA);
@@ -1287,7 +1287,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                                 is.close();
 
                                 result = sb.toString();
-                                Log.i("TEST", "result: " +result);
+                                Log.i(TAG, "result: " +result);
 
                             } catch (Exception e) {
                                 Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
@@ -1302,9 +1302,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
                 } else
-                    Log.e("CONNESSIONE Internet", "Assente!");
+                    Log.e(TAG, "CONNESSIONE Internet Assente!");
             } catch (Exception e) {
-                Log.e("TEST", "Errore nella connessione http "+e.toString());
+                Log.e(TAG, "Errore nella connessione http "+e.toString());
             }
 
 
@@ -1315,10 +1315,10 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         protected void onPostExecute(Void aVoid) {
 
             if(!result.equals("OK\n")){
-                Log.e("TEST", "note non inserite");
+                Log.e(TAG, "note non inserite");
             }
             else{
-                Log.i("TEST", "note inserite correttamente");
+                Log.i(TAG, "note inserite correttamente");
 
             }
             super.onPostExecute(aVoid);
@@ -1348,14 +1348,14 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             dataToSend.add(new BasicNameValuePair("data", dataTappa));
 
 
-            Log.i("TEST", "ordine: " + ordineTappa);
-            Log.i("TEST", "codiceViaggio: " + codiceViaggio);
-            Log.i("TEST", "emailProfilo: " + email);
-            Log.i("TEST", "dataTappa: " + dataTappa);
+            Log.i(TAG, "ordine: " + ordineTappa);
+            Log.i(TAG, "codiceViaggio: " + codiceViaggio);
+            Log.i(TAG, "emailProfilo: " + email);
+            Log.i(TAG, "dataTappa: " + dataTappa);
 
             try {
                 if (InternetConnection.haveInternetConnection(TappaActivity.this)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
+                    Log.i(TAG, "CONNESSIONE Internet Presente!");
 
 
 
@@ -1383,7 +1383,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                             is.close();
 
                             result = sb.toString();
-                            Log.i("TEST", "result: " +result);
+                            Log.i(TAG, "result: " +result);
 
                         } catch (Exception e) {
                             Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
@@ -1397,9 +1397,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
                 } else
-                    Log.e("CONNESSIONE Internet", "Assente!");
+                    Log.e(TAG, "CONNESSIONE Internet Assente!");
             } catch (Exception e) {
-                Log.e("TEST", "Errore nella connessione http "+e.toString());
+                Log.e(TAG, "Errore nella connessione http "+e.toString());
             }
 
 
@@ -1410,10 +1410,10 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         protected void onPostExecute(Void aVoid) {
 
             if(!result.equals("OK\n")){
-                Log.e("TEST", "data non aggiornata");
+                Log.e(TAG, "data non aggiornata");
             }
             else{
-                Log.i("TEST", "data aggiornata");
+                Log.i(TAG, "data aggiornata");
 
             }
             super.onPostExecute(aVoid);
@@ -1456,156 +1456,15 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             ImageView icon=(ImageView)convertView.findViewById(R.id.image);
             icon.setImageResource(arr_images[position]);
 
-            //Log.i("TEST", "string: " + strings[position]);
-            //Log.i("TEST", "sub: " + subs[position]);
-            //Log.i("TEST", "img: " + arr_images[position]);
+            //Log.i(TAG, "string: " + strings[position]);
+            //Log.i(TAG, "sub: " + subs[position]);
+            //Log.i(TAG, "img: " + arr_images[position]);
 
             return convertView;
         }
     }
 
 
-
-//
-//    private class TaskForUrlsImages extends AsyncTask<Void, Void, Void> {
-//
-//        private final static  String ADDRESS_QUERY_URLS= "QueryImagesOfTravel.php";
-//
-//        private String codiceViaggio;
-//        InputStream is = null;
-//        String result, stringaFinale = "";
-//        private List<Immagine> listImages;
-//        private String [] URLs;
-//        private int ordineTappa;
-//
-//
-//        public TaskForUrlsImages(String codiceViaggio, int ordineTappa){
-//            this.codiceViaggio = codiceViaggio;
-//            listImages = new ArrayList<Immagine>();
-//            this.ordineTappa = ordineTappa;
-//        }
-//
-//
-//        @Override
-//        protected Void doInBackground(Void... params) {
-//            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-//            dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
-//            dataToSend.add(new BasicNameValuePair("ordine", String.valueOf(ordineTappa)));
-//
-//
-//            try {
-//                if (InternetConnection.haveInternetConnection(TappaActivity.this)) {
-//                    Log.i("CONNESSIONE Internet", "Presente!");
-//                    HttpClient httpclient = new DefaultHttpClient();
-//                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_QUERY_URLS);
-//                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-//                    HttpResponse response = httpclient.execute(httppost);
-//                    HttpEntity entity = response.getEntity();
-//
-//                    is = entity.getContent();
-//
-//                    if (is != null) {
-//                        //converto la risposta in stringa
-//                        try {
-//                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-//                            StringBuilder sb = new StringBuilder();
-//                            String line = null;
-//                            while ((line = reader.readLine()) != null) {
-//                                sb.append(line + "\n");
-//                            }
-//                            is.close();
-//
-//                            result = sb.toString();
-//                        } catch (Exception e) {
-//                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
-//                        }
-//                    }
-//                    else {
-//                        Log.i("TEST", "Input Stream uguale a null");
-//                    }
-//
-//                    JSONArray jArray = new JSONArray(result);
-//
-//                    if(jArray != null && result != null){
-//                        for(int i=0;i<jArray.length();i++){
-//                            JSONObject json_data = jArray.getJSONObject(i);
-//                            String urlImmagine = json_data.getString("urlImmagineViaggio").toString();
-//                            int orineTappa  = json_data.getInt("ordineTappa");
-//                            String livelloCondivisione  = json_data.getString("livelloCondivisione");
-//                            listImages.add(new Immagine(urlImmagine, livelloCondivisione));
-//                        }
-//                    }
-//                }
-//                else
-//                    Log.e("CONNESSIONE Internet", "Assente!");
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                Log.e(e.toString(),e.getMessage());
-//            }
-//
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            super.onPostExecute(aVoid);
-//
-//            Log.i("TEST", "array di url: ");
-//
-//
-//            //TODO: controllare i livelli di condivisione e mettere nell'array solo quelle giuste
-//            if(listImages.size()>0){
-//                URLs = new String[listImages.size()];
-//                int i=0;
-//                for(Immagine image : listImages){
-//                    if(image.getLivelloCondivisione().equalsIgnoreCase("public")
-//                            || image.getLivelloCondivisione().equalsIgnoreCase("travel")){
-//                        URLs[i] = Constants.ADDRESS_TAT + image.getUrlImmagine();
-//                        Log.i("TEST", "url ["+i+"]: "+ URLs[i]);
-//
-//                        i++;
-//                    }
-//                }
-//            }
-//
-//            if(URLs[0] == null || URLs[0].equals("null")){
-//                return;
-//            }
-//
-//
-//            ImageView coverImageTappa = (ImageView) findViewById(R.id.coverImageTappa);
-//
-//            Picasso.with(TappaActivity.this).load(URLs[0]).into(coverImageTappa);
-//
-//
-//            GridView gv = (GridView) findViewById(R.id.grid_view_foto_tappa);
-//            gv.setAdapter(new GridViewAdapter(TappaActivity.this, URLs));
-//            gv.setOnScrollListener(new ScrollListener(TappaActivity.this));
-//
-//            Log.i("TEST", "settato l'adapter per il grid");
-//
-//
-//
-//            /*
-//            ImageGridFragment fragment = (ImageGridFragment)getFragmentManager().findFragmentById(R.id.fragment_images);
-//
-//            ImageGridFragment fragment1 = fragment.newInstance(URLs);
-//
-//            //fragment.setArguments(fragment1.getArguments());
-//
-//            fragment.onDestroy();
-//
-//            Log.i("TEST", "creato un nuovo fragment with bundle: " + fragment1.getArguments().getStringArray("urls"));
-//
-//            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//            transaction.replace(R.id.fragment_images, fragment1);
-//            transaction.addToBackStack(null);
-//            transaction.commit();
-//
-//            */
-//
-//        }
-//    }
 
 
 
