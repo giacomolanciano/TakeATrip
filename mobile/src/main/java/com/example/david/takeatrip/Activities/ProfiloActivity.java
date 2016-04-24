@@ -183,9 +183,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             idCoverImage = intent.getStringExtra("urlImmagineCopertina");
 
 
-            //per aggiornamento numero follow...
-            new MyTaskQueryNumFollowers().execute();
-            new MyTaskQueryNumFollowings().execute();
+
 
 
             if(idImageProfile == null || idImageProfile.equals("null")){
@@ -211,7 +209,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 }
             }
             else{
-
                 beginDownloadProfilePicture(idImageProfile);
             }
 
@@ -237,6 +234,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     if(TAT != null)
                         email = TAT.getProfiloCorrente().getEmail();
                 }
+
                 if(email.equals(emailEsterno)){
                     externalView = false;
                     follow.setVisibility(View.INVISIBLE);
@@ -274,6 +272,10 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 viewSurname.setText(surname);
             }
         }
+
+        //per aggiornamento numero follow...
+        new MyTaskQueryNumFollowers().execute();
+        new MyTaskQueryNumFollowings().execute();
 
         TabHost = (TabHost) findViewById(android.R.id.tabhost);
 
@@ -324,9 +326,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             intentDest.putExtra("email", email);
         }
         intentDest.putExtra("emailEsterno", emailEsterno);
-
-        Log.i("TEST", "email: " + email);
-        Log.i("TEST", "email esterno: " + emailEsterno);
 
         tab3.setContent(intentDest);
 
@@ -409,14 +408,12 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     public void ClickOnFollow(View v){
         if (alreadyFollowing){
             MyTaskDeleteFollowing mTD = new MyTaskDeleteFollowing();
-            Log.i("TEST", "CLICCATO ELIMINAZIONE FOLLOWER");
             mTD.execute();
             follow.setText("FOLLOW");
             alreadyFollowing=false;
             follow.setBackground(getDrawable(R.drawable.button_style));
         }else {
             MyTaskInsertFollowing mTF = new MyTaskInsertFollowing();
-            Log.i("TEST", "CLICCATO INSERIMENTO FOLLOWER");
             mTF.execute();
             follow.setText("FOLLOWING");
             alreadyFollowing=true;
@@ -509,7 +506,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                                         Log.e("TEST", "eccezione nella creazione di file immagine");
                                     }
 
-                                    Log.i("TEST", "creato file immagine");
 
                                     // Continue only if the File was successfully created
                                     if (photoFile != null) {
@@ -661,17 +657,12 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                 c.close();
                 Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-                Log.i("TEST", "image from gallery:" + picturePath + "");
-                Log.i("TEST", "bitmap:" + thumbnail + "");
-
 
                 beginUploadProfilePicture(picturePath);
                 imageProfile.setImageBitmap(thumbnail);
 
 
             } else if (requestCode == Constants.REQUEST_COVER_IMAGE_CAPTURE) {
-                Log.i("TEST", "immagine copertina fatta");
-
                 File f = new File(Environment.getExternalStorageDirectory().toString());
                 for (File temp : f.listFiles()) {
                     if (temp.getName().equals(imageFileName)) {
@@ -1043,8 +1034,10 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
 
+            Log.i("TEST", "EXTERNAL VIEW: "+ externalView);
             if (!externalView) {
                 dataToSend.add(new BasicNameValuePair("email", email));
+                Log.i("TEST", "EMAIL EXTERNAL VIEW " + email);
             } else {
                 dataToSend.add(new BasicNameValuePair("email", emailEsterno));
             }
@@ -1078,10 +1071,10 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                         numFollowers = ""+jsonObject.getInt(Constants.COUNT_FOLLOW_ID);
 
-                        Log.i("TEST", "numFollowings: " + numFollowers);
+                        Log.i("TEST", "numFollowers: " + numFollowers);
                     } catch (Exception e) {
                         //Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
-                        Log.e("TEST", "eccezione query followings: "+e.toString());
+                        Log.e("TEST", "eccezione query followers: "+e.toString());
 
                     }
                 } else {
@@ -1099,6 +1092,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            numFollowingsView.setText(numFollowings);
+            numFollowersView.setText(numFollowers);
         }
     }
 
