@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
-import com.example.david.takeatrip.AsyncTasks.InsertImageTravelTask;
+import com.example.david.takeatrip.AsyncTasks.InsertCoverImageTravelTask;
 import com.example.david.takeatrip.AsyncTasks.UploadFileS3Task;
 
 import java.net.URL;
@@ -65,7 +65,7 @@ public class UtilS3AmazonCustom {
         new UploadFileS3Task(context, Constants.BUCKET_TRAVELS_NAME, codiceViaggio,
                 Constants.TRAVEL_COVER_IMAGE_LOCATION, email, filePath, newFileName).execute();
 
-        new InsertImageTravelTask(context,email,codiceViaggio, null, newFileName,
+        new InsertCoverImageTravelTask(context,email,codiceViaggio, null, newFileName,
                 bitmapImageTravel, layoutCopertinaViaggio).execute();
     }
 

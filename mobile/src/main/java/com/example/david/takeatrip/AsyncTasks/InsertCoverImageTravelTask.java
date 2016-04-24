@@ -29,9 +29,9 @@ import java.util.ArrayList;
 /**
  * Created by Giacomo Lanciano on 24/04/2016.
  */
-public class InsertImageTravelTask extends AsyncTask<Void, Void, Void> {
+public class InsertCoverImageTravelTask extends AsyncTask<Void, Void, Void> {
 
-    private static final String TAG = "TEST InsImageTravelTask";
+    private static final String TAG = "TEST InsCovImgTravel";
     private static final String ADDRESS_INSERT_IMAGE_COVER_TRAVEL = "InserimentoImmagineCopertinaViaggio.php";
 
 
@@ -43,14 +43,14 @@ public class InsertImageTravelTask extends AsyncTask<Void, Void, Void> {
     private LinearLayout layoutCopertinaViaggio;
 
 
-    public InsertImageTravelTask(Context c, String emailUtente, DriveId id){
+    public InsertCoverImageTravelTask(Context c, String emailUtente, DriveId id){
         context  = c;
         emailUser = emailUtente;
         idFile = id;
     }
 
-    public InsertImageTravelTask(Context c, String emailUtente, String codiceViaggio, DriveId id,
-                                 String url, Bitmap bitmapImageTravel, LinearLayout layoutCopertinaViaggio){
+    public InsertCoverImageTravelTask(Context c, String emailUtente, String codiceViaggio, DriveId id,
+                                      String url, Bitmap bitmapImageTravel, LinearLayout layoutCopertinaViaggio){
         context  = c;
         emailUser = emailUtente;
         this.codiceViaggio = codiceViaggio;

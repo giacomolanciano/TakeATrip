@@ -8,12 +8,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
@@ -32,15 +29,12 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amazonaws.HttpMethod;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
 import com.example.david.takeatrip.AsyncTasks.GetPartecipantiViaggioTask;
-import com.example.david.takeatrip.AsyncTasks.InsertImageTravelTask;
+import com.example.david.takeatrip.AsyncTasks.InsertCoverImageTravelTask;
 import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
@@ -65,10 +59,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -786,7 +778,7 @@ public class ViaggioActivity extends FragmentActivity {
 
                     Log.i(TAG, "nome immagine: " + nameImageTravel);
                     new UploadFilePHP(ViaggioActivity.this,bitmapImageTravel,pathImage,Constants.NAME_IMAGES_TRAVEL_DEFAULT).execute();
-                    new InsertImageTravelTask(ViaggioActivity.this,email,codiceViaggio, null,
+                    new InsertCoverImageTravelTask(ViaggioActivity.this,email,codiceViaggio, null,
                             pathImage + Constants.NAME_IMAGES_TRAVEL_DEFAULT, bitmapImageTravel, layoutCopertinaViaggio).execute();
                 }
                 else{
@@ -886,7 +878,7 @@ public class ViaggioActivity extends FragmentActivity {
 
             String pathImage = urlCartella+"/";
             new UploadFilePHP(ViaggioActivity.this,bitmapImageTravel,pathImage,Constants.NAME_IMAGES_TRAVEL_DEFAULT).execute();
-            new InsertImageTravelTask(ViaggioActivity.this,email,codiceViaggio, null,
+            new InsertCoverImageTravelTask(ViaggioActivity.this,email,codiceViaggio, null,
                     pathImage + Constants.NAME_IMAGES_TRAVEL_DEFAULT, bitmapImageTravel, layoutCopertinaViaggio).execute();
 
             super.onPostExecute(aVoid);
