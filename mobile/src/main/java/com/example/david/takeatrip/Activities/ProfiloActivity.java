@@ -96,7 +96,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     private final String QUERY_FOLLOWERS = "QueryCountFollowers.php";
     private final String QUERY_FOLLOWINGS = "QueryCountFollowings.php";
 
-    private final String QUERY_VERIFICA_FOLLOWING = "QueryCountFlowings.php";
+    private final String QUERY_VERIFICA_FOLLOWING = "QueryVerificaFollowing.php";
     private Profilo corrente;
 
     private TextView viewName;
@@ -851,8 +851,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         @Override
         protected Void doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("emailFollower", emailEsterno));
-            dataToSend.add(new BasicNameValuePair("emailFollowing", email));
+            dataToSend.add(new BasicNameValuePair("emailSeguito", emailEsterno));
+            dataToSend.add(new BasicNameValuePair("emailSeguace", email));
 
             Log.i("TEST: ", "MIA MAIL ESISTE FOLLOWING: " + email);
             try {
@@ -877,7 +877,10 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                         String result = sb.toString();
 
-                        if (result.equals("null\n")) {
+                        Log.i("TEST", "result VERIFICA FOLLOWING " + result);
+
+
+                        if (result.contains("null")) {
 
                             Log.i("TEST", "Non sono presenti following");
 
@@ -906,7 +909,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         @Override
         protected void onPostExecute(Void aVoid) {
 
-              //TODO Riattivare  setButtonToFollowing();
+              setButtonToFollowing();
 
             super.onPostExecute(aVoid);
         }
