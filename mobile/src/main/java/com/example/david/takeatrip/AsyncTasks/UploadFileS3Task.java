@@ -50,8 +50,8 @@ public class UploadFileS3Task extends AsyncTask<Void, Void, Void> {
     private AmazonS3Client s3;
 
 
-    public UploadFileS3Task(Context context, String bucketName, String idViaggio, String tipoFile, String idUtente,
-                            String filePath, String newFileName) {
+    public UploadFileS3Task(Context context, String bucketName, String idViaggio, String tipoFile,
+                            String idUtente, String filePath, String newFileName) {
 
         this.context = context;
         this.filePath = filePath;

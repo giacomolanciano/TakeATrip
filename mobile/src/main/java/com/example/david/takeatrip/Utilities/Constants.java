@@ -98,6 +98,7 @@ public class Constants {
     public static final String DATABASE_DATE_FORMAT = "yyyy-MM-dd";
     public static final String CURRENT_DATE_ID = "currentDate";
     public static final String DATE_FORMAT_ID = "dateFormat";
+    public static final String FILE_NAME_TIMESTAMP_FORMAT = "yyyyMMdd_HHmmss_SSS";
 
 
     public static final int LIMIT_NAMES_PROFILE = 18;

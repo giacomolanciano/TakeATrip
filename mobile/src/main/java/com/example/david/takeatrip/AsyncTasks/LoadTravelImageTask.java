@@ -25,6 +25,8 @@ import java.util.List;
  */
 public class LoadTravelImageTask extends AsyncTask<Void, Void, URL>  {
 
+    private static final String TAG = "TEST LoadTravImgTask";
+
     //private ImageView immagineViaggio;
     private String urlImmagine, codiceViaggio;
 
@@ -84,13 +86,13 @@ public class LoadTravelImageTask extends AsyncTask<Void, Void, URL>  {
                 generatePresignedUrlRequest.setMethod(HttpMethod.GET);
                 generatePresignedUrlRequest.setExpiration(expiration);
 
-                Log.i("TEST", "expiration date image: " + generatePresignedUrlRequest.getExpiration());
+                Log.i(TAG, "expiration date image: " + generatePresignedUrlRequest.getExpiration());
 
 
                 url = s3.generatePresignedUrl(generatePresignedUrlRequest);
 
 
-                Log.i("TEST", "url file: " + url);
+                Log.i(TAG, "url file: " + url);
 
 
 
@@ -98,7 +100,7 @@ public class LoadTravelImageTask extends AsyncTask<Void, Void, URL>  {
                 Log.e("CONNESSIONE Internet", "Assente!");
 
         } catch (Exception e) {
-            Log.e("TEST", "Errore nella connessione http "+e.toString());
+            Log.e(TAG, "Errore nella connessione http "+e.toString());
         }
 
 

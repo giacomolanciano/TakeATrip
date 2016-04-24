@@ -27,15 +27,13 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
         .Adapter<RecyclerViewViaggiAdapter
         .DataObjectHolder> implements AsyncResponseUrl {
 
-    private static final String TAG = "RecyclerViewViaggiAdapt";
+    private static final String TAG = "TEST RecViewViaggiAdapt";
     private static final int HEIGHT_DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*10;
     private static final int WIDTH_DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*15;
 
     private ArrayList<DataObject> mDataset;
     private Context context;
-    private boolean[] giaInserita;
     private static MyClickListener myClickListener;
-    private String urlImmagineViaggio;
 
     private ImageView immagineViaggio;
     private String urlImmagine, codiceViaggio;
@@ -105,12 +103,12 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
 
         }
         else{
-            Log.i("TEST", "urlImmagine = null");
+            Log.i(TAG, "urlImmagine = null");
             immagineViaggio.setImageResource(R.drawable.empty_image);
         }
 
-        Log.i("TEST", "email: " + mDataset.get(position).getEmail());
-        Log.i("TEST", "immagine del viaggio" + mDataset.get(position).getNomeViaggio()+": " +
+        Log.i(TAG, "email: " + mDataset.get(position).getEmail());
+        Log.i(TAG, "immagine del viaggio: " + mDataset.get(position).getNomeViaggio()+": " +
                 holder.imageTravel.getContentDescription() + " "+
                 mDataset.get(position).getUrlImageTravel());
 
@@ -179,7 +177,7 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
             Intent intent = new Intent(v.getContext(), ViaggioActivity.class);
 
             intent.putExtra("emailEsterno",emailUser.getText().toString());
-            // Log.e("TEST", "email card viaggi: "+ emailUser.getText().toString());
+            // Log.e(TAG, "email card viaggi: "+ emailUser.getText().toString());
             intent.putExtra("nomeViaggio", nomeViaggio.getText().toString());
             intent.putExtra("codiceViaggio", codiceViaggio.getText().toString());
 

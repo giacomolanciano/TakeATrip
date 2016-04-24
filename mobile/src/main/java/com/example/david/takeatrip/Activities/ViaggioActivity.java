@@ -164,8 +164,8 @@ public class ViaggioActivity extends FragmentActivity {
             idFolder = intent.getParcelableExtra("idFolder");
             urlImageTravel = intent.getStringExtra("urlImmagineViaggio");
 
-            Log.i("TEST ViaggioActivity", "urlImageTravel: " + urlImageTravel);
-            Log.i("TEST ViaggioActivity", "prova");
+            Log.i(TAG, "urlImageTravel: " + urlImageTravel);
+            Log.i(TAG, "prova");
 
 
         }
@@ -191,9 +191,11 @@ public class ViaggioActivity extends FragmentActivity {
             String url = email+"/"+NameForUrl;
         }
 
-        Log.i("TEST", "email utente: " + email + " codiceViaggio: " + codiceViaggio + " nomeVaggio: " + nomeViaggio);
+        Log.i(TAG, "email utente: " + email + " codiceViaggio: " + codiceViaggio + " nomeVaggio: " + nomeViaggio);
 
         gridView = (GridView) findViewById(R.id.grid_view);
+
+        layoutCopertinaViaggio = (LinearLayout) findViewById(R.id.layoutCoverImageTravel);
 
         layoutPartecipants = (LinearLayout)findViewById(R.id.Partecipants);
         rowHorizontal = (LinearLayout) findViewById(R.id.layout_horizontal2);
@@ -312,10 +314,10 @@ public class ViaggioActivity extends FragmentActivity {
                 String picturePath = c.getString(columnIndex);
                 c.close();
                 bitmapImageTravel = (BitmapFactory.decodeFile(picturePath));
-                Log.i("image from gallery:", picturePath + "");
+                Log.i(TAG, "image from gallery: " + picturePath);
 
 
-                UtilS3AmazonCustom.uploadTravelPicture(ViaggioActivity.this, transferUtility, picturePath,
+                UtilS3AmazonCustom.uploadTravelCoverPicture(ViaggioActivity.this, picturePath,
                         codiceViaggio, email, bitmapImageTravel, layoutCopertinaViaggio);
 
 
@@ -482,7 +484,7 @@ public class ViaggioActivity extends FragmentActivity {
             viewProfileButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.i("TEST","email profilo selezionato: "+ v.getContentDescription().toString());
+                    Log.i(TAG,"email profilo selezionato: "+ v.getContentDescription().toString());
                     for(Profilo p : listPartecipants){
                         if(p.getEmail().equals(v.getContentDescription())){
 
@@ -524,7 +526,7 @@ public class ViaggioActivity extends FragmentActivity {
             dialog.show();
 
         } catch (Exception e) {
-            Log.e(e.toString().toUpperCase(), e.getMessage());
+            Log.e(TAG, e.toString().toUpperCase() + ": " + e.getMessage());
         }
     }
 
@@ -625,6 +627,8 @@ public class ViaggioActivity extends FragmentActivity {
 
     private class MyTaskPerUtenti extends AsyncTask<Void, Void, Void> {
 
+        private static final String TAG = "TEST UtentiTask";
+
         InputStream is = null;
         String result, stringaFinale = "";
 
@@ -632,7 +636,7 @@ public class ViaggioActivity extends FragmentActivity {
         protected Void doInBackground(Void... params) {
             try {
                 if (InternetConnection.haveInternetConnection(ViaggioActivity.this)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
+                    Log.i(TAG, "CONNESSIONE Internet Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
                     HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS);
                     HttpResponse response = httpclient.execute(httppost);
@@ -685,10 +689,10 @@ public class ViaggioActivity extends FragmentActivity {
 
                 }
                 else
-                    Log.e("CONNESSIONE Internet", "Assente!");
+                    Log.e(TAG, "CONNESSIONE Internet Assente!");
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
+                Log.e(TAG, e.toString()+ ": " + e.getMessage());
             }
 
 
@@ -730,7 +734,7 @@ public class ViaggioActivity extends FragmentActivity {
 
             try {
                 if (InternetConnection.haveInternetConnection(context)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
+                    Log.i(TAG, "CONNESSIONE Internet Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
 
                     HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_QUERY_FOLDER);
@@ -752,41 +756,41 @@ public class ViaggioActivity extends FragmentActivity {
 
                             result = sb.toString();
                         } catch (Exception e) {
-                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
+                            Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
                         }
                     }
                     else {
-                        Log.i("TEST", "Input Stream uguale a null");
+                        Log.i(TAG, "Input Stream uguale a null");
                     }
                 }
                 else
-                    Log.e("CONNESSIONE Internet", "Assente!");
+                    Log.e(TAG, "CONNESSIONE Internet Assente!");
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
+                Log.e(TAG, e.toString()+ ": " + e.getMessage());
             }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Log.i("TEST", "risultato della query: " + result);
+            Log.i(TAG, "risultato della query: " + result);
             if(result != null && !result.equals("null\n")){
-                Log.i("TEST", "Presente cartella di viaggio");
+                Log.i(TAG, "Presente cartella di viaggio");
 
                 if(bitmapImageTravel != null){
-                    Log.i("TEST", "upload dell'immagine del viaggio");
+                    Log.i(TAG, "upload dell'immagine del viaggio");
 
                     String pathImage = urlFolder+"/";
                     nameImageTravel = String.valueOf(System.currentTimeMillis()) + ".jpg";
 
-                    Log.i("TEST", "nome immagine: " + nameImageTravel);
+                    Log.i(TAG, "nome immagine: " + nameImageTravel);
                     new UploadFilePHP(ViaggioActivity.this,bitmapImageTravel,pathImage,Constants.NAME_IMAGES_TRAVEL_DEFAULT).execute();
                     new InsertImageTravelTask(ViaggioActivity.this,email,codiceViaggio, null,
                             pathImage + Constants.NAME_IMAGES_TRAVEL_DEFAULT, bitmapImageTravel, layoutCopertinaViaggio).execute();
                 }
                 else{
-                    Log.i("TEST", "solo prelievo immagine copertina viaggio gia presente");
+                    Log.i(TAG, "solo prelievo immagine copertina viaggio gia presente");
                     new BitmapWorkerTask(null,layoutCopertinaViaggio).execute(Constants.ADDRESS_TAT + urlFolder + "/" + Constants.NAME_IMAGES_TRAVEL_DEFAULT);
 
                 }
@@ -837,7 +841,7 @@ public class ViaggioActivity extends FragmentActivity {
 
             try {
                 if (InternetConnection.haveInternetConnection(context)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
+                    Log.i(TAG, "CONNESSIONE Internet Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
                     HttpPost httppost = new HttpPost(Constants.ADDRESS_TAT+ADDRESS_INSERT_FOLDER);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
@@ -859,18 +863,18 @@ public class ViaggioActivity extends FragmentActivity {
                             is.close();
                             result = sb.toString();
                         } catch (Exception e) {
-                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
+                            Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
                         }
                     }
                     else {
-                        Log.i("TEST", "Input Stream uguale a null");
+                        Log.i(TAG, "Input Stream uguale a null");
                     }
                 }
                 else
-                    Log.e("CONNESSIONE Internet", "Assente!");
+                    Log.e(TAG, "CONNESSIONE Internet Assente!");
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
+                Log.e(TAG, e.toString()+ ": " + e.getMessage());
             }
 
 
@@ -891,7 +895,10 @@ public class ViaggioActivity extends FragmentActivity {
     }
 
 
+
     private class TaskForItineraries extends AsyncTask<Void, Void, Void> {
+
+        private static final String TAG = "TEST ItinerariesTask";
 
         private Profilo profilo;
         public TaskForItineraries(Profilo p){
@@ -909,13 +916,13 @@ public class ViaggioActivity extends FragmentActivity {
 
             String url = profilo.getEmail()+"/"+NameForUrl;
 
-            Log.i("TEST", "url della cartella del nuovo partecipante: " + url);
+            Log.i(TAG, "url della cartella del nuovo partecipante: " + url);
             dataToSend.add(new BasicNameValuePair("urlCartella",url));
             dataToSend.add(new BasicNameValuePair("nomeCartella",NameForUrl));
 
             try {
                 if (InternetConnection.haveInternetConnection(ViaggioActivity.this)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
+                    Log.i(TAG, "CONNESSIONE Internet Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
                     HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_INSERIMENTO_ITINERARIO);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
@@ -927,10 +934,10 @@ public class ViaggioActivity extends FragmentActivity {
 
                 }
                 else
-                    Log.e("CONNESSIONE Internet", "Assente!");
+                    Log.e(TAG, "CONNESSIONE Internet Assente!");
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
+                Log.e(TAG, e.toString()+ ": " + e.getMessage());
             }
 
             return null;

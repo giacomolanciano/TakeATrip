@@ -44,6 +44,7 @@ import java.util.ArrayList;
 
 public class ListaViaggiActivity extends ActionBarActivity {
 
+    private static final String TAG = "TEST ListaViaggiAct";
 
     private static final String ADDRESS_PRELIEVO = "QueryViaggi.php";
 
@@ -106,7 +107,7 @@ public class ListaViaggiActivity extends ActionBarActivity {
         Intent intent;
         if ((intent = getIntent()) != null) {
             email = intent.getStringExtra("email");
-            Log.i("TEST", "email utente in lista viaggi: " + email);
+            Log.i(TAG, "email utente in lista viaggi: " + email);
 
         }
 
@@ -222,7 +223,7 @@ public class ListaViaggiActivity extends ActionBarActivity {
 
                         String result = sb.toString();
 
-                        Log.i("TEST", "result da queryViaggi: " + result);
+                        Log.i(TAG, "result da queryViaggi: " + result);
 
 
                         if (result.equals("null\n")) {
@@ -243,19 +244,19 @@ public class ListaViaggiActivity extends ActionBarActivity {
                                 }
                             }
 
-                            Log.i("TEST", "lista viaggi di " + email + ": " + viaggi);
+                            Log.i(TAG, "lista viaggi di " + email + ": " + viaggi);
                         }
 
 
                     } catch (Exception e) {
-                        Log.e("TEST", "Errore nel risultato o nel convertire il risultato");
+                        Log.e(TAG, "Errore nel risultato o nel convertire il risultato");
                     }
                 } else {
-                    Log.e("TEST", "Input Stream uguale a null");
+                    Log.e(TAG, "Input Stream uguale a null");
                 }
 
             } catch (Exception e) {
-                Log.e("TEST", "Errore nella connessione http " + e.toString());
+                Log.e(TAG, "Errore nella connessione http " + e.toString());
             }
 
             return null;
