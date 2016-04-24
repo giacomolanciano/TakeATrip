@@ -63,7 +63,7 @@ public class UtilS3AmazonCustom {
         String newFileName = timeStamp + Constants.IMAGE_EXT;
 
         new UploadFileS3Task(context, Constants.BUCKET_TRAVELS_NAME, codiceViaggio,
-                Constants.TRAVEL_COVER_IMAGE_LOCATION, email, filePath, newFileName);
+                Constants.TRAVEL_COVER_IMAGE_LOCATION, email, filePath, newFileName).execute();
 
         new InsertImageTravelTask(context,email,codiceViaggio, null, newFileName,
                 bitmapImageTravel, layoutCopertinaViaggio).execute();
