@@ -1034,7 +1034,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             return null;
         }
     }
-
     private class MyTaskQueryNumFollowers extends AsyncTask<Void, Void, Void> {
         InputStream is = null;
         String result = "";
@@ -1050,53 +1049,52 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 dataToSend.add(new BasicNameValuePair("email", emailEsterno));
             }
 
-
             try {
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + QUERY_FOLLOWERS);
-                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                    HttpResponse response = httpclient.execute(httppost);
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + QUERY_FOLLOWERS);
+                httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                HttpResponse response = httpclient.execute(httppost);
 
-                    HttpEntity entity = response.getEntity();
-                    is = entity.getContent();
+                HttpEntity entity = response.getEntity();
+                is = entity.getContent();
 
-                    if (is != null) {
-                        //converto la risposta in stringa
-                        try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                            StringBuilder sb = new StringBuilder();
-                            String line;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line);
-                            }
-                            is.close();
-
-                            result = sb.toString();
-
-                            Log.i("TEST", "result: " + result);
-
-                            JSONArray jsonArray = new JSONArray(result);
-                            JSONObject jsonObject = jsonArray.getJSONObject(0);
-
-                            numFollowers = ""+jsonObject.getInt(Constants.COUNT_FOLLOW_ID);
-
-                            Log.i("TEST", "numFollowers: " + numFollowers);
-
-                        } catch (Exception e) {
-                            //Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
-                            Log.e("TEST", "eccezione query followers: "+e.toString());
-
+                if (is != null) {
+                    //converto la risposta in stringa
+                    try {
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            sb.append(line);
                         }
-                    } else {
-                        //Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                        is.close();
+
+                        result = sb.toString();
+
+                        Log.i("TEST", "result FOLLOWERS: " + result);
+
+                        JSONArray jsonArray = new JSONArray(result);
+                        JSONObject jsonObject = jsonArray.getJSONObject(0);
+
+                        numFollowers = ""+jsonObject.getInt(Constants.COUNT_FOLLOW_ID);
+
+                        Log.i("TEST", "numFollowings: " + numFollowers);
+                    } catch (Exception e) {
+                        //Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        Log.e("TEST", "eccezione query followings: "+e.toString());
+
                     }
-                } catch (Exception e) {
-                    Log.e("TEST", "Errore nella connessione http "+e.toString());
+                } else {
+                    //Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
                 }
+            } catch (Exception e) {
+                Log.e("TEST", "Errore nella connessione http "+e.toString());
+            }
 
 
             return null;
         }
+
 
         @Override
         protected void onPostExecute(Void aVoid) {
@@ -1105,7 +1103,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     }
 
 
-    private class MyTaskQueryNumFollowings extends AsyncTask<Void, Void, Void> {
+        private class MyTaskQueryNumFollowings extends AsyncTask<Void, Void, Void> {
         InputStream is = null;
         String result = "";
 
@@ -1142,7 +1140,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                         result = sb.toString();
 
-                        Log.i("TEST", "result: " + result);
+                        Log.i("TEST", "result FOLLOWING: " + result);
 
                         JSONArray jsonArray = new JSONArray(result);
                         JSONObject jsonObject = jsonArray.getJSONObject(0);
@@ -1171,9 +1169,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
             super.onPostExecute(aVoid);
 
-            //TODO: sono scambiati followers and following
-            numFollowersView.setText(numFollowings);
-            numFollowingsView.setText(numFollowers);
+            numFollowingsView.setText(numFollowings);
+            numFollowersView.setText(numFollowers);
         }
     }
 
