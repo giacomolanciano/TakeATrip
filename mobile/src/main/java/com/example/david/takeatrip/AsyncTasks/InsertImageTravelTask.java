@@ -65,7 +65,7 @@ public class InsertImageTravelTask extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... params) {
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
         dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
-        dataToSend.add(new BasicNameValuePair("id", urlImmagine));
+        dataToSend.add(new BasicNameValuePair("id", emailUser + "_" + urlImmagine));
 
 
         try {
