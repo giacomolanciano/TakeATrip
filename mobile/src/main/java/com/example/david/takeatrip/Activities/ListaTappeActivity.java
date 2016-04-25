@@ -52,6 +52,7 @@ import android.widget.Toast;
 
 import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoImmagineTappaTask;
+import com.example.david.takeatrip.AsyncTasks.InserimentoNotaTappaTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoVideoTappaTask;
 import com.example.david.takeatrip.AsyncTasks.UploadFileS3Task;
 import com.example.david.takeatrip.Classes.Itinerario;
@@ -337,7 +338,7 @@ public class ListaTappeActivity extends AppCompatActivity
             Log.e(TAG, "viewNomeViaggio is null");
         }
 
-        MyTaskGetTappe mT = new MyTaskGetTappe();
+        GetTappeTask mT = new GetTappeTask();
         mT.execute();
 
 
@@ -1275,7 +1276,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
                 int stopOrder = calcolaNumUltimaTappaUtenteCorrente()+1;
 
-                new MyTaskInserimentoTappa().execute();
+                new InserimentoTappaTask().execute();
 
                 //per prevenire crash se si clicca sul marker appena aggiunto
                 Itinerario itAux = new Itinerario(profiloUtenteLoggato, new Viaggio(codiceViaggio));
@@ -1286,7 +1287,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
                 profiloTappe.get(profiloVisualizzazioneCorrente).add(new Tappa(itAux, stopOrder, cal.getTime()));
 
-                new MyTaskInserimentoFiltro().execute();
+                new InserimentoFiltroTask().execute();
 
 
                 //add marker
@@ -1795,7 +1796,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-    private class MyTaskGetTappe extends AsyncTask<Void, Void, Void> {
+    private class GetTappeTask extends AsyncTask<Void, Void, Void> {
 
         //TODO implementare meccanismo di selezione del profilo di cui prelevare tappe
         //TODO aggiornare variabile profiloVisCorr con il numero dell'ordine
@@ -1948,7 +1949,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-    private class MyTaskInserimentoTappa extends AsyncTask<Void, Void, Void> {
+    private class InserimentoTappaTask extends AsyncTask<Void, Void, Void> {
 
         InputStream is = null;
         String result, stringaFinale = "";
@@ -2043,7 +2044,8 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
             if(!noteInserite.isEmpty()) {
-                new TaskInserimentoNotaTappa(ordine).execute();
+                new InserimentoNotaTappaTask(ListaTappeActivity.this, ordine, codiceViaggio, email,
+                        noteInserite).execute();
             }
 
             if(immaginiSelezionate.size() > 0){
@@ -2115,7 +2117,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-    private class MyTaskInserimentoFiltro extends AsyncTask<Void, Void, Void> {
+    private class InserimentoFiltroTask extends AsyncTask<Void, Void, Void> {
 
         InputStream is = null;
         String result, stringaFinale = "";
@@ -2193,104 +2195,104 @@ public class ListaTappeActivity extends AppCompatActivity
     }
 
 
-
-    private class TaskInserimentoNotaTappa extends AsyncTask<Void, Void, Void> {
-
-        InputStream is = null;
-        String result, stringaFinale = "";
-        int ordineAux;
-
-        public TaskInserimentoNotaTappa(int ordine) {
-            this.ordineAux = ordine;
-        }
-
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("ordine", ""+ordineAux));
-            dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
-            dataToSend.add(new BasicNameValuePair("emailProfilo", email));
-
-            Log.i(TAG, "ordine: " + ordineAux);
-            Log.i(TAG, "codiceViaggio: " + codiceViaggio);
-            Log.i(TAG, "emailProfilo: " + email);
-
-            try {
-                if (InternetConnection.haveInternetConnection(ListaTappeActivity.this)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
-
-
-
-                    for (String nota : noteInserite) {
-
-                        dataToSend.add(new BasicNameValuePair("timestamp",
-                                new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date())));
-                        dataToSend.add(new BasicNameValuePair("nota", nota));
-                        Log.i(TAG, "nota: " + nota);
-
-                        HttpClient httpclient = new DefaultHttpClient();
-                        HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_NOTA);
-                        httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-
-                        HttpResponse response = httpclient.execute(httppost);
-
-                        HttpEntity entity = response.getEntity();
-
-                        is = entity.getContent();
-
-                        if (is != null) {
-                            //converto la risposta in stringa
-                            try {
-                                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                                StringBuilder sb = new StringBuilder();
-                                String line = null;
-                                while ((line = reader.readLine()) != null) {
-                                    sb.append(line + "\n");
-                                }
-                                is.close();
-
-                                result = sb.toString();
-                                Log.i(TAG, "result: " +result);
-
-                            } catch (Exception e) {
-                                Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                        else {
-                            Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
-                        }
-                    }
-
-                    noteInserite.clear();
-
-
-                } else
-                    Log.e("CONNESSIONE Internet", "Assente!");
-            } catch (Exception e) {
-                Log.e(TAG, "Errore nella connessione http "+e.toString());
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-
-            if(!result.equals("OK\n")){
-                Log.e(TAG, "note non inserite");
-            }
-            else{
-                Log.i(TAG, "note inserite correttamente");
-
-            }
-            super.onPostExecute(aVoid);
-        }
-    }
-
+//
+//    private class InserimentoNotaTappaTask extends AsyncTask<Void, Void, Void> {
+//
+//        InputStream is = null;
+//        String result, stringaFinale = "";
+//        int ordineAux;
+//
+//        public InserimentoNotaTappaTask(int ordine) {
+//            this.ordineAux = ordine;
+//        }
+//
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//
+//
+//            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+//            dataToSend.add(new BasicNameValuePair("ordine", ""+ordineAux));
+//            dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
+//            dataToSend.add(new BasicNameValuePair("emailProfilo", email));
+//
+//            Log.i(TAG, "ordine: " + ordineAux);
+//            Log.i(TAG, "codiceViaggio: " + codiceViaggio);
+//            Log.i(TAG, "emailProfilo: " + email);
+//
+//            try {
+//                if (InternetConnection.haveInternetConnection(ListaTappeActivity.this)) {
+//                    Log.i("CONNESSIONE Internet", "Presente!");
+//
+//
+//
+//                    for (String nota : noteInserite) {
+//
+//                        dataToSend.add(new BasicNameValuePair("timestamp",
+//                                new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date())));
+//                        dataToSend.add(new BasicNameValuePair("nota", nota));
+//                        Log.i(TAG, "nota: " + nota);
+//
+//                        HttpClient httpclient = new DefaultHttpClient();
+//                        HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_NOTA);
+//                        httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+//
+//                        HttpResponse response = httpclient.execute(httppost);
+//
+//                        HttpEntity entity = response.getEntity();
+//
+//                        is = entity.getContent();
+//
+//                        if (is != null) {
+//                            //converto la risposta in stringa
+//                            try {
+//                                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+//                                StringBuilder sb = new StringBuilder();
+//                                String line = null;
+//                                while ((line = reader.readLine()) != null) {
+//                                    sb.append(line + "\n");
+//                                }
+//                                is.close();
+//
+//                                result = sb.toString();
+//                                Log.i(TAG, "result: " +result);
+//
+//                            } catch (Exception e) {
+//                                Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+//                            }
+//                        }
+//                        else {
+//                            Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//
+//                    noteInserite.clear();
+//
+//
+//                } else
+//                    Log.e("CONNESSIONE Internet", "Assente!");
+//            } catch (Exception e) {
+//                Log.e(TAG, "Errore nella connessione http "+e.toString());
+//            }
+//
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//
+//            if(!result.equals("OK\n")){
+//                Log.e(TAG, "note non inserite");
+//            }
+//            else{
+//                Log.i(TAG, "note inserite correttamente");
+//
+//            }
+//            super.onPostExecute(aVoid);
+//        }
+//    }
+//
 
 
     private class PrivacyLevelAdapter extends ArrayAdapter<String> {
