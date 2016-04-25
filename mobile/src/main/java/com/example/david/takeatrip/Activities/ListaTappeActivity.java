@@ -51,6 +51,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
+import com.example.david.takeatrip.AsyncTasks.InserimentoFiltroTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoImmagineTappaTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoNotaTappaTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoVideoTappaTask;
@@ -1287,7 +1288,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
                 profiloTappe.get(profiloVisualizzazioneCorrente).add(new Tappa(itAux, stopOrder, cal.getTime()));
 
-                new InserimentoFiltroTask().execute();
+                new InserimentoFiltroTask(ListaTappeActivity.this, codiceViaggio, placeName).execute();
 
 
                 //add marker
@@ -1777,10 +1778,10 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-
-    private String creaStringaFiltro() {
-        return placeName.toLowerCase().replaceAll(" ", "_");
-    }
+//
+//    private String creaStringaFiltro() {
+//        return placeName.toLowerCase().replaceAll(" ", "_");
+//    }
 
 
 
@@ -2117,82 +2118,82 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-    private class InserimentoFiltroTask extends AsyncTask<Void, Void, Void> {
-
-        InputStream is = null;
-        String result, stringaFinale = "";
-
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("filtro", creaStringaFiltro()));
-            dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
-
-            Log.i(TAG, "filtro: " + creaStringaFiltro());
-
-            try {
-                if (InternetConnection.haveInternetConnection(ListaTappeActivity.this)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
-
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_FILTRO);
-                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-
-                    HttpResponse response = httpclient.execute(httppost);
-
-                    HttpEntity entity = response.getEntity();
-
-                    is = entity.getContent();
-
-                    if (is != null) {
-                        //converto la risposta in stringa
-                        try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                            StringBuilder sb = new StringBuilder();
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line + "\n");
-                            }
-                            is.close();
-
-                            result = sb.toString();
-                            Log.i(TAG, "result: " +result);
-
-                        } catch (Exception e) {
-                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    else {
-                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
-                    }
-
-
-                } else
-                    Log.e("CONNESSIONE Internet", "Assente!");
-            } catch (Exception e) {
-                Log.e(TAG, "Errore nella connessione http "+e.toString());
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-
-            if(!result.equals("OK\n")){
-                Log.e(TAG, "filtro non inserito");
-            }
-            else{
-                Log.i(TAG, "filtro inserito correttamente");
-
-            }
-            super.onPostExecute(aVoid);
-        }
-    }
+//    private class InserimentoFiltroTask extends AsyncTask<Void, Void, Void> {
+//
+//        InputStream is = null;
+//        String result, stringaFinale = "";
+//
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//
+//
+//            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+//            dataToSend.add(new BasicNameValuePair("filtro", creaStringaFiltro()));
+//            dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
+//
+//            Log.i(TAG, "filtro: " + creaStringaFiltro());
+//
+//            try {
+//                if (InternetConnection.haveInternetConnection(ListaTappeActivity.this)) {
+//                    Log.i("CONNESSIONE Internet", "Presente!");
+//
+//                    HttpClient httpclient = new DefaultHttpClient();
+//                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_FILTRO);
+//                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+//
+//                    HttpResponse response = httpclient.execute(httppost);
+//
+//                    HttpEntity entity = response.getEntity();
+//
+//                    is = entity.getContent();
+//
+//                    if (is != null) {
+//                        //converto la risposta in stringa
+//                        try {
+//                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+//                            StringBuilder sb = new StringBuilder();
+//                            String line = null;
+//                            while ((line = reader.readLine()) != null) {
+//                                sb.append(line + "\n");
+//                            }
+//                            is.close();
+//
+//                            result = sb.toString();
+//                            Log.i(TAG, "result: " +result);
+//
+//                        } catch (Exception e) {
+//                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                    else {
+//                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+//                    }
+//
+//
+//                } else
+//                    Log.e("CONNESSIONE Internet", "Assente!");
+//            } catch (Exception e) {
+//                Log.e(TAG, "Errore nella connessione http "+e.toString());
+//            }
+//
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//
+//            if(!result.equals("OK\n")){
+//                Log.e(TAG, "filtro non inserito");
+//            }
+//            else{
+//                Log.i(TAG, "filtro inserito correttamente");
+//
+//            }
+//            super.onPostExecute(aVoid);
+//        }
+//    }
 
 
 //

@@ -35,8 +35,8 @@ public class InserimentoNotaTappaTask extends AsyncTask<Void, Void, Void> {
     private static final String ADDRESS_INSERIMENTO_NOTA = "InserimentoNotaTappa.php";
 
 
-    InputStream is = null;
-    String result, stringaFinale = "";
+    private InputStream is = null;
+    private String result, stringaFinale = "";
 
     private Context context;
     private int ordineAux;
