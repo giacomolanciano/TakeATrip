@@ -35,8 +35,10 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/VisualizzazioneFollowActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/VisualizzazioneFollowActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wear/wear.iml" afterPath="$PROJECT_DIR$/wear/wear.iml" />
     </list>
     <ignored path="TakeATrip.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -80,7 +82,7 @@
       <file leaf-file-name="ListaTappeActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-280.18518">
+            <state vertical-scroll-proportion="0.0">
               <caret line="468" column="53" selection-start-line="468" selection-start-column="38" selection-end-line="468" selection-end-column="53" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -104,7 +106,7 @@
       <file leaf-file-name="TappaActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-19.407408">
+            <state vertical-scroll-proportion="0.0">
               <caret line="354" column="28" selection-start-line="354" selection-start-column="28" selection-end-line="354" selection-end-column="28" />
               <folding>
                 <element signature="class#PrivacyLevelAdapter#0;class#TappaActivity#0" expanded="false" />
@@ -116,12 +118,9 @@
       <file leaf-file-name="VisualizzazioneFollowActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/VisualizzazioneFollowActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33183858">
-              <caret line="317" column="122" selection-start-line="317" selection-start-column="122" selection-end-line="317" selection-end-column="122" />
-              <folding>
-                <element signature="e#6482#6497#0" expanded="true" />
-                <element signature="e#11157#11172#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.39157894">
+              <caret line="317" column="39" selection-start-line="317" selection-start-column="39" selection-end-line="317" selection-end-column="39" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -129,14 +128,10 @@
       <file leaf-file-name="SocialActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SocialActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.333334">
+            <state vertical-scroll-proportion="0.0">
               <caret line="441" column="0" selection-start-line="230" selection-start-column="4" selection-end-line="441" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2063#2072#0" expanded="true" />
-                <element signature="e#2122#2131#0" expanded="true" />
-                <element signature="e#6657#6672#0" expanded="true" />
-                <element signature="e#11311#11326#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -145,7 +140,7 @@
       <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/res/values/strings.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.8">
+            <state vertical-scroll-proportion="0.0">
               <caret line="244" column="30" selection-start-line="244" selection-start-column="30" selection-end-line="244" selection-end-column="30" />
               <folding />
             </state>
@@ -5099,7 +5094,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView">
+      <pane id="Scope" />
+      <pane id="Scratches">
         <subPane />
       </pane>
       <pane id="ProjectPane">
@@ -5514,8 +5510,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches">
+      <pane id="AndroidView">
         <subPane />
       </pane>
     </panes>
@@ -6159,7 +6154,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32893" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32881355" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
@@ -6168,7 +6163,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5841808" sideWeight="0.5096463" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09556314" sideWeight="0.4903537" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5344633" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5341297" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30734465" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32971507" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -6660,7 +6655,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-280.18518">
+        <state vertical-scroll-proportion="0.0">
           <caret line="468" column="53" selection-start-line="468" selection-start-column="38" selection-end-line="468" selection-end-column="53" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -6682,7 +6677,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.407408">
+        <state vertical-scroll-proportion="0.0">
           <caret line="354" column="28" selection-start-line="354" selection-start-column="28" selection-end-line="354" selection-end-column="28" />
           <folding>
             <element signature="class#PrivacyLevelAdapter#0;class#TappaActivity#0" expanded="false" />
@@ -6700,7 +6695,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.8">
+        <state vertical-scroll-proportion="0.0">
           <caret line="244" column="30" selection-start-line="244" selection-start-column="30" selection-end-line="244" selection-end-column="30" />
           <folding />
         </state>
@@ -6708,26 +6703,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SocialActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.333334">
+        <state vertical-scroll-proportion="0.0">
           <caret line="441" column="0" selection-start-line="230" selection-start-column="4" selection-end-line="441" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2063#2072#0" expanded="true" />
-            <element signature="e#2122#2131#0" expanded="true" />
-            <element signature="e#6657#6672#0" expanded="true" />
-            <element signature="e#11311#11326#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/VisualizzazioneFollowActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33183858">
-          <caret line="317" column="122" selection-start-line="317" selection-start-column="122" selection-end-line="317" selection-end-column="122" />
-          <folding>
-            <element signature="e#6482#6497#0" expanded="true" />
-            <element signature="e#11157#11172#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.39157894">
+          <caret line="317" column="39" selection-start-line="317" selection-start-column="39" selection-end-line="317" selection-end-column="39" />
+          <folding />
         </state>
       </provider>
     </entry>
