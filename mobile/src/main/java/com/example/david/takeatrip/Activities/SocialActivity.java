@@ -49,8 +49,8 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
 
-    private final String ADDRESS_PRELIEVO = "Follower.php";
-    private final String ADDRESS_PRELIEVO_FOLLOWING = "Following.php";
+    private final String ADDRESS_PRELIEVO = "PrendiFollower.php";
+    private final String ADDRESS_PRELIEVO_FOLLOWING = "PrendiFollowing.php";
 
 
     private ArrayList<Following> follow;

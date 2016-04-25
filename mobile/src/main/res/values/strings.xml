@@ -241,8 +241,8 @@
     <string name="update_failed">Update failed</string>
     <string name="NewTravel">New travel</string>
     <string name="no_travels">No travels</string>
-    <string name="FOLLOWING">"   FOLLOWING"</string>
-    <string name="FOLLOWERS">"   FOLLOWERS"</string>
+    <string name="FOLLOWING">"FOLLOWING"</string>
+    <string name="FOLLOWERS">"FOLLOWERS"</string>
 
 
 </resources>
