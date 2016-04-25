@@ -18,8 +18,18 @@ public class DatesUtils {
 
     public static int seconds, minutes, hours, days, years;
 
+    public static String getCurrentDateString() {
+        Calendar calendar = Calendar.getInstance();
+        int cDay = calendar.get(Calendar.DAY_OF_MONTH);
+        int cMonth = calendar.get(Calendar.MONTH) + 1;
+        int cYear = calendar.get(Calendar.YEAR);
+        String data = cYear+"-"+cMonth+"-"+cDay;
 
-    public static int eta(String strDate1, String strDate2) {
+        return data;
+    }
+
+
+    public static int calcolaEta(String strDate1, String strDate2) {
         try {
 
             SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");

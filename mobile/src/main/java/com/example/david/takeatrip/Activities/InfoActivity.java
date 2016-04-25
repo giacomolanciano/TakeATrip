@@ -59,7 +59,7 @@ public class InfoActivity extends AppCompatActivity {
             email = intent.getStringExtra("email");
             emailEsterno = intent.getStringExtra("emailEsterno");
             date = intent.getStringExtra("dateOfBirth");
-            etaFinale = DatesUtils.eta(date, dataToday);
+            etaFinale = DatesUtils.calcolaEta(date, dataToday);
             password = intent.getStringExtra("pwd");
             nazionalità = intent.getStringExtra("nazionalita");
             sesso = intent.getStringExtra("sesso");

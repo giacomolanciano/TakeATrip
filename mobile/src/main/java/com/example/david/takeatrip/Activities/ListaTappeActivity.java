@@ -442,38 +442,6 @@ public class ListaTappeActivity extends AppCompatActivity
     }
 
 
-    private void PopolaContenuti(){
-        layoutContents.removeAllViews();
-
-        int i=0;
-        for(Bitmap bitmap : immaginiSelezionate){
-            if(i%LIMIT_IMAGES_VIEWS == 0){
-                rowHorizontal = new LinearLayout(ListaTappeActivity.this);
-                rowHorizontal.setOrientation(LinearLayout.HORIZONTAL);
-
-                //Log.i(TAG, "creato nuovo layout");
-                layoutContents.addView(rowHorizontal);
-                layoutContents.addView(new TextView(ListaTappeActivity.this), 10, 10);
-            }
-
-
-            final ImageView image = new ImageView(this, null);
-
-            Bitmap myBitmap = Bitmap.createScaledBitmap(bitmap, 60, 30, true);
-            image.setImageBitmap(myBitmap);
-
-            //TODO: sistemare in funzione dello schermo e migliorare allocazione memoria usando thread
-            rowHorizontal.addView(image, 60, 30);
-
-            i++;
-        }
-    }
-
-
-
-
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -885,6 +853,20 @@ public class ListaTappeActivity extends AppCompatActivity
 
     }
 
+    @Override
+    public void processFinish(DriveId output) {
+        //TODO
+    }
+
+    @Override
+    public void processFinish2(DriveId output) {
+        //TODO
+    }
+
+
+
+    //metodi ausiliari
+
 
     public void onClickAddStop(View v){
 
@@ -917,19 +899,34 @@ public class ListaTappeActivity extends AppCompatActivity
     }
 
 
-    @Override
-    public void processFinish(DriveId output) {
-        //TODO
+
+
+    private void PopolaContenuti(){
+        layoutContents.removeAllViews();
+
+        int i=0;
+        for(Bitmap bitmap : immaginiSelezionate){
+            if(i%LIMIT_IMAGES_VIEWS == 0){
+                rowHorizontal = new LinearLayout(ListaTappeActivity.this);
+                rowHorizontal.setOrientation(LinearLayout.HORIZONTAL);
+
+                //Log.i(TAG, "creato nuovo layout");
+                layoutContents.addView(rowHorizontal);
+                layoutContents.addView(new TextView(ListaTappeActivity.this), 10, 10);
+            }
+
+
+            final ImageView image = new ImageView(this, null);
+
+            Bitmap myBitmap = Bitmap.createScaledBitmap(bitmap, 60, 30, true);
+            image.setImageBitmap(myBitmap);
+
+            //TODO: sistemare in funzione dello schermo e migliorare allocazione memoria usando thread
+            rowHorizontal.addView(image, 60, 30);
+
+            i++;
+        }
     }
-
-    @Override
-    public void processFinish2(DriveId output) {
-        //TODO
-    }
-
-
-
-    //metodi ausiliari
 
     private static String getRealPathFromURI(Context context, Uri contentUri) {
 
@@ -1208,7 +1205,6 @@ public class ListaTappeActivity extends AppCompatActivity
         placeAddress = ""+place.getAddress();
         placeAttr = "";
 
-        //TODO chiarire se siamo obbligati da google a inserire attribution, vedi pagina PlacePicker
         CharSequence aux = place.getAttributions();
         if(aux != null)
             placeAttr += aux;
@@ -1282,7 +1278,7 @@ public class ListaTappeActivity extends AppCompatActivity
                 //per prevenire crash se si clicca sul marker appena aggiunto
                 Itinerario itAux = new Itinerario(profiloUtenteLoggato, new Viaggio(codiceViaggio));
 
-                Calendar cal = DatesUtils.getDateFromString(getCurrentDateString(), Constants.DATABASE_DATE_FORMAT);
+                Calendar cal = DatesUtils.getDateFromString(DatesUtils.getCurrentDateString(), Constants.DATABASE_DATE_FORMAT);
 
                 Log.i(TAG, "cal.getTime: " + cal.getTime());
 
@@ -1778,26 +1774,10 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-//
-//    private String creaStringaFiltro() {
-//        return placeName.toLowerCase().replaceAll(" ", "_");
-//    }
-
-
-
-    private String getCurrentDateString() {
-        Calendar calendar = Calendar.getInstance();
-        int cDay = calendar.get(Calendar.DAY_OF_MONTH);
-        int cMonth = calendar.get(Calendar.MONTH) + 1;
-        int cYear = calendar.get(Calendar.YEAR);
-        String data = cYear+"-"+cMonth+"-"+cDay;
-
-        return data;
-    }
-
-
 
     private class GetTappeTask extends AsyncTask<Void, Void, Void> {
+
+        //TODO da modularizzare, lasciato così per via di side-effect importanti su variabili della classe
 
         //TODO implementare meccanismo di selezione del profilo di cui prelevare tappe
         //TODO aggiornare variabile profiloVisCorr con il numero dell'ordine
@@ -1952,6 +1932,8 @@ public class ListaTappeActivity extends AppCompatActivity
 
     private class InserimentoTappaTask extends AsyncTask<Void, Void, Void> {
 
+        //TODO da modularizzare, lasciato così per via di side-effect importanti su variabili della classe
+
         InputStream is = null;
         String result, stringaFinale = "";
 
@@ -1968,7 +1950,7 @@ public class ListaTappeActivity extends AppCompatActivity
             dataToSend.add(new BasicNameValuePair("ordine", ""+ordine));
             dataToSend.add(new BasicNameValuePair("POI", "" + placeId));
 
-            String data = getCurrentDateString();
+            String data = DatesUtils.getCurrentDateString();
             dataToSend.add(new BasicNameValuePair("data", ""+data));
 
             String paginaDiario = "";
@@ -2115,185 +2097,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
         }
     }
-
-
-
-//    private class InserimentoFiltroTask extends AsyncTask<Void, Void, Void> {
-//
-//        InputStream is = null;
-//        String result, stringaFinale = "";
-//
-//
-//        @Override
-//        protected Void doInBackground(Void... params) {
-//
-//
-//            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-//            dataToSend.add(new BasicNameValuePair("filtro", creaStringaFiltro()));
-//            dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
-//
-//            Log.i(TAG, "filtro: " + creaStringaFiltro());
-//
-//            try {
-//                if (InternetConnection.haveInternetConnection(ListaTappeActivity.this)) {
-//                    Log.i("CONNESSIONE Internet", "Presente!");
-//
-//                    HttpClient httpclient = new DefaultHttpClient();
-//                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_FILTRO);
-//                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-//
-//                    HttpResponse response = httpclient.execute(httppost);
-//
-//                    HttpEntity entity = response.getEntity();
-//
-//                    is = entity.getContent();
-//
-//                    if (is != null) {
-//                        //converto la risposta in stringa
-//                        try {
-//                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-//                            StringBuilder sb = new StringBuilder();
-//                            String line = null;
-//                            while ((line = reader.readLine()) != null) {
-//                                sb.append(line + "\n");
-//                            }
-//                            is.close();
-//
-//                            result = sb.toString();
-//                            Log.i(TAG, "result: " +result);
-//
-//                        } catch (Exception e) {
-//                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
-//                        }
-//                    }
-//                    else {
-//                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
-//                    }
-//
-//
-//                } else
-//                    Log.e("CONNESSIONE Internet", "Assente!");
-//            } catch (Exception e) {
-//                Log.e(TAG, "Errore nella connessione http "+e.toString());
-//            }
-//
-//
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//
-//            if(!result.equals("OK\n")){
-//                Log.e(TAG, "filtro non inserito");
-//            }
-//            else{
-//                Log.i(TAG, "filtro inserito correttamente");
-//
-//            }
-//            super.onPostExecute(aVoid);
-//        }
-//    }
-
-
-//
-//    private class InserimentoNotaTappaTask extends AsyncTask<Void, Void, Void> {
-//
-//        InputStream is = null;
-//        String result, stringaFinale = "";
-//        int ordineAux;
-//
-//        public InserimentoNotaTappaTask(int ordine) {
-//            this.ordineAux = ordine;
-//        }
-//
-//
-//        @Override
-//        protected Void doInBackground(Void... params) {
-//
-//
-//            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-//            dataToSend.add(new BasicNameValuePair("ordine", ""+ordineAux));
-//            dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
-//            dataToSend.add(new BasicNameValuePair("emailProfilo", email));
-//
-//            Log.i(TAG, "ordine: " + ordineAux);
-//            Log.i(TAG, "codiceViaggio: " + codiceViaggio);
-//            Log.i(TAG, "emailProfilo: " + email);
-//
-//            try {
-//                if (InternetConnection.haveInternetConnection(ListaTappeActivity.this)) {
-//                    Log.i("CONNESSIONE Internet", "Presente!");
-//
-//
-//
-//                    for (String nota : noteInserite) {
-//
-//                        dataToSend.add(new BasicNameValuePair("timestamp",
-//                                new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date())));
-//                        dataToSend.add(new BasicNameValuePair("nota", nota));
-//                        Log.i(TAG, "nota: " + nota);
-//
-//                        HttpClient httpclient = new DefaultHttpClient();
-//                        HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_NOTA);
-//                        httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-//
-//                        HttpResponse response = httpclient.execute(httppost);
-//
-//                        HttpEntity entity = response.getEntity();
-//
-//                        is = entity.getContent();
-//
-//                        if (is != null) {
-//                            //converto la risposta in stringa
-//                            try {
-//                                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-//                                StringBuilder sb = new StringBuilder();
-//                                String line = null;
-//                                while ((line = reader.readLine()) != null) {
-//                                    sb.append(line + "\n");
-//                                }
-//                                is.close();
-//
-//                                result = sb.toString();
-//                                Log.i(TAG, "result: " +result);
-//
-//                            } catch (Exception e) {
-//                                Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
-//                            }
-//                        }
-//                        else {
-//                            Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
-//                        }
-//                    }
-//
-//                    noteInserite.clear();
-//
-//
-//                } else
-//                    Log.e("CONNESSIONE Internet", "Assente!");
-//            } catch (Exception e) {
-//                Log.e(TAG, "Errore nella connessione http "+e.toString());
-//            }
-//
-//
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//
-//            if(!result.equals("OK\n")){
-//                Log.e(TAG, "note non inserite");
-//            }
-//            else{
-//                Log.i(TAG, "note inserite correttamente");
-//
-//            }
-//            super.onPostExecute(aVoid);
-//        }
-//    }
-//
 
 
     private class PrivacyLevelAdapter extends ArrayAdapter<String> {
