@@ -91,7 +91,6 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_social);
 
-
         Intent intent;
         if ((intent = getIntent()) != null) {
             email = intent.getStringExtra("email");
