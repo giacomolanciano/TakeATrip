@@ -1,4 +1,4 @@
-package com.example.david.takeatrip.Classes;
+package com.example.david.takeatrip.Utilities;
 
 /**
  * Created by lucagiacomelli on 28/09/15.

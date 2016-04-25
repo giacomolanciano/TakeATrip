@@ -13,6 +13,9 @@ import java.util.Date;
 
 public class DatesUtils {
 
+    private static final String TAG = "TEST DatesUtils";
+
+
     public static int seconds, minutes, hours, days, years;
 
 
@@ -35,7 +38,7 @@ public class DatesUtils {
             hours = (int) (millisDiff / 3600000 % 24);
             days = (int) (millisDiff / 86400000);
             years = days / 365;
-            Log.i("TEST", "anno: " + years);
+            Log.i(TAG, "anno: " + years);
 
         } catch (Exception e) {
             System.err.println(e);

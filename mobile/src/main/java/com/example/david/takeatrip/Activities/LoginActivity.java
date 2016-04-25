@@ -48,6 +48,8 @@ import java.util.regex.Pattern;
 public class LoginActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,View.OnClickListener,AsyncResponseLogin {
 
+    private static final String TAG = "TEST LoginActivity";
+
     private final String ADDRESS_VERIFICA_LOGIN = "VerificaLogin.php";
     private final String ADDRESS_INSERIMENTO_UTENTE = "InserimentoProfilo.php";
     private static final int RC_SIGN_IN = 9001;
@@ -81,8 +83,8 @@ public class LoginActivity extends AppCompatActivity implements
 
             logins.put("graph.facebook.com", AccessToken.getCurrentAccessToken().getToken());
 
-            Log.i("TEST", "token: " + AccessToken.getCurrentAccessToken().getToken());
-            Log.i("TEST", "logins: " + logins);
+            Log.i(TAG, "token: " + AccessToken.getCurrentAccessToken().getToken());
+            Log.i(TAG, "logins: " + logins);
 
             credentialsProvider.setLogins(logins);
 
@@ -126,7 +128,7 @@ public class LoginActivity extends AppCompatActivity implements
 
             }
 
-            Log.i("TEST", "onSuccess!");
+            Log.i(TAG, "onSuccess!");
 
         }
 
@@ -274,7 +276,7 @@ public class LoginActivity extends AppCompatActivity implements
             }
 
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            Log.i("TEST", "result: " + result.toString());
+            Log.i(TAG, "result: " + result.toString());
             handleSignInResult(result);
         }
         else {
@@ -286,12 +288,12 @@ public class LoginActivity extends AppCompatActivity implements
 
     protected void handleSignInResult(GoogleSignInResult result) {
 
-        Log.i("TEST", "handleSignInResult:" + result.isSuccess());
-        Log.i("TEST", "status:" + result.getStatus().toString());
+        Log.i(TAG, "handleSignInResult:" + result.isSuccess());
+        Log.i(TAG, "status:" + result.getStatus().toString());
 
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
-            Log.i("TEST", "result success!!!");
+            Log.i(TAG, "result success!!!");
 
             TakeATrip TAT = ((TakeATrip) getApplicationContext());
             TAT.setmGoogleApiClient(mGoogleApiClient);
@@ -306,7 +308,7 @@ public class LoginActivity extends AppCompatActivity implements
             String idUser = acct.getId();
             String tokenId = acct.getIdToken();
 
-            Log.i("TEST", "email: " + email + " describeContents: " + describeContents + " dispplayName: " + displayName
+            Log.i(TAG, "email: " + email + " describeContents: " + describeContents + " dispplayName: " + displayName
                     + " idUser: " + idUser + " tokenId: " + tokenId);
             password = "pwdGoogle";
 
@@ -342,7 +344,7 @@ public class LoginActivity extends AppCompatActivity implements
         if (!mGoogleApiClient.isConnected()) {
             mGoogleApiClient.connect();
         }
-        Log.i("TEST", "status ApiClient:" + mGoogleApiClient.isConnected());
+        Log.i(TAG, "status ApiClient:" + mGoogleApiClient.isConnected());
 
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -398,7 +400,7 @@ public class LoginActivity extends AppCompatActivity implements
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.d("TEST", "onConnectionFailed:" + connectionResult);
+        Log.d(TAG, "onConnectionFailed:" + connectionResult);
 
     }
 
@@ -422,10 +424,10 @@ public class LoginActivity extends AppCompatActivity implements
 
     @Override
     public void processFinish(Profilo output) {
-        Log.i("TEST", "login finished with profile: " + output);
+        Log.i(TAG, "login finished with profile: " + output);
 
         if(output != null){
-            Log.i("TEST", "non primo accesso a TakeATrip");
+            Log.i(TAG, "non primo accesso a TakeATrip");
             openMainActivity2(output.getEmail(), output.getName(), output.getSurname(), output.getDataNascita(),
                     output.getPassword(), output.getNazionalita(), output.getSesso(), output.getUsername(),output.getLavoro(),
                     output.getDescrizione(), output.getTipo());
@@ -462,7 +464,7 @@ public class LoginActivity extends AppCompatActivity implements
 //            dataToSend.add(new BasicNameValuePair("tipo", tipo));
 //
 //
-//            Log.i("TEST", "dati: " + nome + " " + cognome + " " + data + " " + email + " " + password);
+//            Log.i(TAG, "dati: " + nome + " " + cognome + " " + data + " " + email + " " + password);
 //
 //            try {
 //                if (InternetConnection.haveInternetConnection(LoginActivity.this)) {

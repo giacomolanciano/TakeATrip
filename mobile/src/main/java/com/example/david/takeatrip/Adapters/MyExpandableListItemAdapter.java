@@ -18,6 +18,8 @@ import com.nhaarman.listviewanimations.itemmanipulation.expandablelistitem.Expan
 
 public class MyExpandableListItemAdapter extends ExpandableListItemAdapter<Integer> {
 
+    private final String TAG = "TEST ExpListItemAdapt";
+
     private final Context mContext;
     private final BitmapCache mMemoryCache;
 

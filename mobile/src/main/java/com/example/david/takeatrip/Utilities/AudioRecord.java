@@ -14,7 +14,7 @@ import java.util.Calendar;
  */
 public class AudioRecord  {
 
-    private static final String LOG_TAG = "TEST";
+    private static final String TAG = "TEST AudioRecord";
 
     private MediaRecorder mRecorder = null;
     private MediaPlayer mPlayer = null;
@@ -47,7 +47,7 @@ public class AudioRecord  {
             mPlayer.prepare();
             mPlayer.start();
         } catch (IOException e) {
-            Log.e(LOG_TAG, "prepare() failed");
+            Log.e(TAG, "prepare() failed");
         }
     }
 
@@ -66,8 +66,8 @@ public class AudioRecord  {
         try {
             mRecorder.prepare();
         } catch (IOException e) {
-            Log.e(LOG_TAG, "prepare() failed");
-            Log.e(LOG_TAG, e.toString());
+            Log.e(TAG, "prepare() failed");
+            Log.e(TAG, e.toString());
         }
 
         mRecorder.start();

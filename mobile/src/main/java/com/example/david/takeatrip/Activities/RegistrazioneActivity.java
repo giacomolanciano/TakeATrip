@@ -18,11 +18,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Fragments.DatePickerFragment;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatesUtils;
+import com.example.david.takeatrip.Utilities.InternetConnection;
 import com.facebook.Profile;
 import com.google.android.gms.drive.DriveId;
 
@@ -47,6 +47,8 @@ import java.util.regex.Pattern;
 
 
 public class  RegistrazioneActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+
+    private final String TAG = "TEST RegistrAct";
 
     private final String ADDRESS_INSERIMENTO_UTENTE = "InserimentoProfilo.php";
     private final String ADDRESS_UPDATE_UTENTE = "UpdateProfilo.php";
@@ -280,7 +282,7 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
                     if(nuovaPassword == null || nuovaPassword.equals("")){
                         passwordModificata = false;
 
-                        Log.i("TEST", "dati modificati: " + nome + " " + cognome + " " + username + " " + data + " " + email + "vpwd " + password);
+                        Log.i(TAG, "dati modificati: " + nome + " " + cognome + " " + username + " " + data + " " + email + "vpwd " + password);
 
 
                         if(username == null || username.equals("")){
@@ -428,8 +430,8 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
                 DriveId idFolder = data.getParcelableExtra("idFolder");
                 String nameFolder = data.getStringExtra("nameFolder");
 
-                Log.i("TEST", "Ricevuto l'id della cartella: " + idFolder);
-                Log.i("TEST", "Ricevuto il nome della cartella: " + nameFolder);
+                Log.i(TAG, "Ricevuto l'id della cartella: " + idFolder);
+                Log.i(TAG, "Ricevuto il nome della cartella: " + nameFolder);
 
                 cartellaCreata = true;
             }
@@ -440,14 +442,14 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
 
     public void onClickChangeDate(View v) {
 
-        Log.i("TEST", "changing date");
+        Log.i(TAG, "changing date");
 
         DialogFragment newFragment = new DatePickerFragment();
 
         EditText e = (EditText) v;
         String text = e.getText().toString();
 
-        Log.i("TEST", "text: " + text);
+        Log.i(TAG, "text: " + text);
 
         if(!text.equals("")) {
             Bundle args = new Bundle();
@@ -470,7 +472,7 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
 
         campoDataNascita.setText(DatesUtils.getStringFromDate(newDate, Constants.DISPLAYED_DATE_FORMAT));
 
-        Log.i("TEST", "date changed");
+        Log.i(TAG, "date changed");
     }
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
@@ -500,7 +502,7 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
                 dataToSend.add(new BasicNameValuePair("password", password));
 
 
-            Log.i("TEST", "dati modificati: " + nome + " " + cognome + " " + data + " " + email + " " + password + " " + nuovaPassword);
+            Log.i(TAG, "dati modificati: " + nome + " " + cognome + " " + data + " " + email + " " + password + " " + nuovaPassword);
 
             try {
                 if (InternetConnection.haveInternetConnection(RegistrazioneActivity.this)) {
@@ -533,7 +535,7 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
 
                             result = sb.toString();
 
-                            Log.i("TEST", "result " +result);
+                            Log.i(TAG, "result " +result);
 
                         } catch (Exception e) {
                             Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
@@ -560,7 +562,7 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
             super.onPostExecute(aVoid);
 
             if(result.contains("Duplicate")){
-                Log.e("TEST", "duplicati nell'username");
+                Log.e(TAG, "duplicati nell'username");
                 Toast.makeText(getBaseContext(), "Username already used", Toast.LENGTH_LONG).show();
             }
             else{
@@ -683,11 +685,11 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
                             is.close();
                             result = sb.toString();
                         } catch (Exception e) {
-                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
+                            Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
                         }
                     }
                     else {
-                        Log.i("TEST", "Input Stream uguale a null");
+                        Log.i(TAG, "Input Stream uguale a null");
                     }
                 }
                 else
@@ -705,7 +707,7 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
         protected void onPostExecute(Void aVoid) {
 
 
-            Log.i("TEST", "risultato operazione di inserimento cartella nel DB:" + result);
+            Log.i(TAG, "risultato operazione di inserimento cartella nel DB:" + result);
             if(!result.equals("OK")){
                 //Non è stata creata una cartella per ospitare il viaggio
                 //new MyTaskFolder().execute();

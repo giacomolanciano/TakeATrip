@@ -18,6 +18,7 @@ import java.util.Calendar;
  */
 public class DatePickerFragment extends DialogFragment {
 
+    private static final String TAG = "TEST DatePickerFragment";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -33,12 +34,12 @@ public class DatePickerFragment extends DialogFragment {
             if (currentDate != null && dateFormat != null) {
                 cal = DatesUtils.getDateFromString(currentDate, dateFormat);
             } else {
-                Log.i("TEST", "null bundle, setting default date to current");
+                Log.i(TAG, "null bundle, setting default date to current");
                 cal = Calendar.getInstance();
             }
 
         } else {
-            Log.i("TEST", "null bundle, setting default date to current");
+            Log.i(TAG, "null bundle, setting default date to current");
             cal = Calendar.getInstance();
         }
 

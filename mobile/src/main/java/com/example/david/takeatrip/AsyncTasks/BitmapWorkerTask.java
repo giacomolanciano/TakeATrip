@@ -17,6 +17,9 @@ import java.lang.ref.WeakReference;
  * Created by lucagiacomelli on 05/03/16.
  */
 public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
+
+    private static String TAG = "TEST BitmapWorkerTask";
+
     //ImageView bmImage;
     LinearLayout layout;
     int width, height;
@@ -84,14 +87,14 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
         if (imageView != null) {
             final Drawable drawable = imageView.getDrawable();
 
-            Log.i("TEST", "image view diversa da null");
-            Log.i("TEST", "drawable: " +drawable);
+            Log.i(TAG, "image view diversa da null");
+            Log.i(TAG, "drawable: " +drawable);
 
 
             if (drawable instanceof AsyncDrawable) {
                 final AsyncDrawable asyncDrawable = (AsyncDrawable) drawable;
 
-                Log.i("TEST", "result form getBitmapWorkerTask: " + asyncDrawable.getBitmapWorkerTask());
+                Log.i(TAG, "result form getBitmapWorkerTask: " + asyncDrawable.getBitmapWorkerTask());
 
                 return asyncDrawable.getBitmapWorkerTask();
                 //return "OK";
@@ -112,7 +115,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
             bitmapWorkerTaskReference =
                     new WeakReference<BitmapWorkerTask>(bitmapWorkerTask);
 
-            Log.i("TEST", "taskPreference");
+            Log.i(TAG, "taskPreference");
         }
 
         public BitmapWorkerTask getBitmapWorkerTask() {
@@ -134,8 +137,8 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeStream(in, null, options);
 
-            Log.i("TEST", "width of image: " + options.outWidth);
-            Log.i("TEST", "height of image: " + options.outHeight);
+            Log.i(TAG, "width of image: " + options.outWidth);
+            Log.i(TAG, "height of image: " + options.outHeight);
 
             options.inSampleSize = 1;
 
@@ -154,7 +157,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
                 options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
             }
 
-            Log.i("TEST", "inSampleSize: " + options.inSampleSize);
+            Log.i(TAG, "inSampleSize: " + options.inSampleSize);
 
             options.inJustDecodeBounds = false;
 
@@ -162,7 +165,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
             in = new java.net.URL(url).openStream();
 
             mIcon11 = BitmapFactory.decodeStream(in, null, options);
-            Log.i("TEST", "bitmap decoded: " + mIcon11);
+            Log.i(TAG, "bitmap decoded: " + mIcon11);
             in.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -186,8 +189,8 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeFile(path, options);
 
-            Log.i("TEST", "width of image: " + options.outWidth);
-            Log.i("TEST", "height of image: " + options.outHeight);
+            Log.i(TAG, "width of image: " + options.outWidth);
+            Log.i(TAG, "height of image: " + options.outHeight);
 
             options.inSampleSize = 1;
             if (options.outHeight > 200 && options.outWidth > 200) {
@@ -205,11 +208,11 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
             }
 
 
-            Log.i("TEST", "inSampleSize: " + options.inSampleSize);
+            Log.i(TAG, "inSampleSize: " + options.inSampleSize);
             options.inJustDecodeBounds = false;
 
             mIcon11 = BitmapFactory.decodeFile(path, options);
-            Log.i("TEST", "bitmap decoded: " + mIcon11);
+            Log.i(TAG, "bitmap decoded: " + mIcon11);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -17,6 +17,8 @@ import java.util.concurrent.CountDownLatch;
 public abstract class ApiClientAsyncTask<Params, Progress, Result>
         extends AsyncTask<Params, Progress, Result> {
 
+    private static String TAG = "TEST ApiClientAsyncTask";
+
     private GoogleApiClient mClient;
 
     public ApiClientAsyncTask(Context context) {

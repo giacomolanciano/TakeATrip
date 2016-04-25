@@ -5,8 +5,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Utilities.Constants;
+import com.example.david.takeatrip.Utilities.InternetConnection;
 import com.google.android.gms.drive.DriveId;
 
 import org.apache.http.HttpEntity;
@@ -28,7 +28,8 @@ import java.util.ArrayList;
  */
 public class InserimentoVideoTappaTask extends AsyncTask<Void, Void, Void> {
 
-    private static final String TAG = "TEST InsImmTappaTask";
+    private static final String TAG = "TEST InsVidTappaTask";
+
     private final static String ADDRESS_INSERT_IMAGE_STOP = "InserimentoVideoTappa.php";
 
     private Context context;

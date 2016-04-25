@@ -4,8 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Utilities.Constants;
+import com.example.david.takeatrip.Utilities.InternetConnection;
 import com.google.android.gms.drive.DriveId;
 
 import org.apache.http.HttpEntity;
@@ -27,6 +27,8 @@ import java.util.ArrayList;
  */
 
 public class InserimentoImmagineProfiloTask extends AsyncTask<Void, Void, Void> {
+
+    private static final String TAG = "TEST InsImmProfTask";
 
     private final String ADDRESS_INSERT_IMAGE_PROFILE = "InserimentoImmagineProfilo.php";
     InputStream is = null;
@@ -78,11 +80,11 @@ public class InserimentoImmagineProfiloTask extends AsyncTask<Void, Void, Void> 
 
                         result = sb.toString();
                     } catch (Exception e) {
-                        Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
+                        Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
                     }
                 }
                 else {
-                    Log.i("TEST", "Input Stream uguale a null");
+                    Log.i(TAG, "Input Stream uguale a null");
                 }
             }
             else
@@ -96,7 +98,7 @@ public class InserimentoImmagineProfiloTask extends AsyncTask<Void, Void, Void> 
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        Log.i("TEST", "risultato operazione di inserimento immagine profilo nel DB:" + result);
+        Log.i(TAG, "risultato operazione di inserimento immagine profilo nel DB:" + result);
 
         super.onPostExecute(aVoid);
 

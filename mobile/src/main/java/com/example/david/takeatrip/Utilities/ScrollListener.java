@@ -11,6 +11,9 @@ import android.widget.AbsListView;
 import com.squareup.picasso.Picasso;
 
 public class ScrollListener implements AbsListView.OnScrollListener {
+
+    private static final String TAG = "TEST ScrollListener";
+
     private final Context context;
 
     public ScrollListener(Context context) {

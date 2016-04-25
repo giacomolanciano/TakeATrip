@@ -14,10 +14,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
+
 import javax.net.ssl.HttpsURLConnection;
 
 
 public class GoogleTranslate {
+
+    private static final String TAG = "TEST GoogleTranslate";
 
     private String key;
 
@@ -66,11 +69,11 @@ public class GoogleTranslate {
             }
 
             if (conn.getResponseCode() != 200) {
-                Log.i("TEST", "result: " + result);
+                Log.i(TAG, "result: " + result);
             }
 
         } catch (IOException | JsonSyntaxException ex) {
-            Log.i("TEST", "eccezione: " + ex.getMessage());
+            Log.i(TAG, "eccezione: " + ex.getMessage());
         }
 
         return null;

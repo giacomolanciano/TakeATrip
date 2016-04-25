@@ -23,6 +23,9 @@ import com.example.david.takeatrip.Utilities.SquaredImageView;
  * Created by lucagiacomelli on 16/03/16.
  */
 public class ImageGridFragment extends Fragment implements AdapterView.OnItemClickListener {
+
+    private static final String TAG = "TEST ImageGridFragment";
+
     private ImageAdapter mAdapter;
 
     // A static dataset to back the GridView adapter
@@ -52,12 +55,12 @@ public class ImageGridFragment extends Fragment implements AdapterView.OnItemCli
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         if(getArguments() != null){
-            Log.i("TEST", " arguments diversi da null");
+            Log.i(TAG, " arguments diversi da null");
             URLs = getArguments().getStringArray("urls");
         }
 
         final View v = inflater.inflate(R.layout.image_grid_fragment, container, false);
-        Log.i("TEST", "URLs: " + URLs);
+        Log.i(TAG, "URLs: " + URLs);
 
         if(URLs != null && URLs.length>0){
 
@@ -65,7 +68,7 @@ public class ImageGridFragment extends Fragment implements AdapterView.OnItemCli
             gv.setAdapter(new GridViewAdapter(getActivity(), URLs));
             gv.setOnScrollListener(new ScrollListener(getActivity()));
 
-            Log.i("TEST", "settato l'adapter per il grid");
+            Log.i(TAG, "settato l'adapter per il grid");
         }
 
 
@@ -155,7 +158,7 @@ public class ImageGridFragment extends Fragment implements AdapterView.OnItemCli
     public void loadBitmap(String url, ImageView imageView) {
         if (cancelPotentialWork(url, imageView)) {
             if(url != null && !url.equals("null")){
-                Log.i("TEST", "ora carico le foto nella gridView...");
+                Log.i(TAG, "ora carico le foto nella gridView...");
                 final BitmapWorkerTask task = new BitmapWorkerTask(imageView);
                 task.execute(Constants.ADDRESS_TAT +url);
             }
@@ -172,8 +175,8 @@ public class ImageGridFragment extends Fragment implements AdapterView.OnItemCli
         if (bitmapWorkerTask != null) {
 
 
-            Log.i("TEST", "worker task: " + bitmapWorkerTask.toString());
-            Log.i("TEST", "worker task with data: " + bitmapWorkerTask.data);
+            Log.i(TAG, "worker task: " + bitmapWorkerTask.toString());
+            Log.i(TAG, "worker task with data: " + bitmapWorkerTask.data);
 
             if (bitmapWorkerTask== null || !bitmapWorkerTask.equals(url)) {
                 // Cancel previous task
@@ -188,8 +191,8 @@ public class ImageGridFragment extends Fragment implements AdapterView.OnItemCli
             //final String bitmapData = bitmapWorkerTask.data;
 
             /*
-            Log.i("TEST", "worker task: " + bitmapWorkerTask.toString());
-            Log.i("TEST", "worker task with data: " + bitmapWorkerTask.data);
+            Log.i(TAG, "worker task: " + bitmapWorkerTask.toString());
+            Log.i(TAG, "worker task with data: " + bitmapWorkerTask.data);
 
             if (bitmapData== null || !bitmapData.equals(url)) {
                 // Cancel previous task

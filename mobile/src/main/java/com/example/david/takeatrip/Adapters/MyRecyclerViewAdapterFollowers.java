@@ -22,7 +22,9 @@ import java.util.ArrayList;
 public class MyRecyclerViewAdapterFollowers extends RecyclerView
         .Adapter<MyRecyclerViewAdapterFollowers
         .DataObjectHolder> {
-    private static String LOG_TAG = "MyRecyclerViewAdapterFollowers";
+
+    private static String TAG = "TEST RecViewAdaptFollowers";
+
     private ArrayList<DataObject> mDataset;
     private static MyClickListener myClickListener;
 

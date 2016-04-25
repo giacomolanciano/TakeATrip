@@ -19,13 +19,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Adapters.RecyclerViewViaggiAdapter;
-import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DataObject;
 import com.example.david.takeatrip.Utilities.GoogleTranslate;
+import com.example.david.takeatrip.Utilities.InternetConnection;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -52,6 +52,8 @@ import java.util.Locale;
 import java.util.Map;
 
 public class SearchActivity extends AppCompatActivity {
+
+    private final String TAG = "TEST SearchActivity";
 
     private final String ADDRESS = "QueryNomiUtenti.php";
     private final String ADDRESS_PER_VIAGGI_DA_UTENTE = "QueryViaggiDiUtente.php";
@@ -133,7 +135,7 @@ public class SearchActivity extends AppCompatActivity {
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                Log.i("TEST", "Place: " + place.getName());
+                Log.i(TAG, "Place: " + place.getName());
 
                 if(viaggi_profilo.size() != 0 && editTextUser.getText().toString().equals("")){
                     viaggi_profilo.clear();
@@ -147,7 +149,7 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onError(Status status) {
-                Log.i("TEST", "An error occurred: " + status);
+                Log.i(TAG, "An error occurred: " + status);
             }
 
 
@@ -177,7 +179,7 @@ public class SearchActivity extends AppCompatActivity {
 
         for(int i=0; i<result.size(); i++){
 
-            Log.i("TEST", "result:" + result.get(i).getCodiceViaggio() + " " + result.get(i).getUrlImageTravel());
+            Log.i(TAG, "result:" + result.get(i).getCodiceViaggio() + " " + result.get(i).getUrlImageTravel());
 
         }
 
@@ -217,7 +219,7 @@ public class SearchActivity extends AppCompatActivity {
             try {
                 if (InternetConnection.haveInternetConnection(SearchActivity.this)) {
 
-                    Log.i("TEST", "placeNuovo: " + toTranslate);
+                    Log.i(TAG, "placeNuovo: " + toTranslate);
 
                     String languageDevice = Locale.getDefault().getLanguage();
                     if(!languageDevice.equals("it")){
@@ -227,7 +229,7 @@ public class SearchActivity extends AppCompatActivity {
                         String finalTranslated = translated.toLowerCase();
                         translated = finalTranslated.replace(" ", "_");
 
-                        Log.i("TEST", "placeNuovo tradotto: " + translated);
+                        Log.i(TAG, "placeNuovo tradotto: " + translated);
 
                         destination = translated;
 
@@ -426,7 +428,7 @@ public class SearchActivity extends AppCompatActivity {
                             result = sb.toString();
 
 
-                            Log.i("TEST","risultato dalla search: " + result);
+                            Log.i(TAG,"risultato dalla search: " + result);
 
                             JSONArray jArray = new JSONArray(result);
 
@@ -444,7 +446,7 @@ public class SearchActivity extends AppCompatActivity {
                                     List<Viaggio> viaggi = new ArrayList<Viaggio>();
                                     viaggi.add(new Viaggio(codice, nomeViaggio, urlImmagineViaggio));
 
-                                    Log.i("TEST", "viaggi: " + viaggi);
+                                    Log.i(TAG, "viaggi: " + viaggi);
                                     mappaProvvisoria.put(p,viaggi);
                                 }
                             }
@@ -473,7 +475,7 @@ public class SearchActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Log.i("TEST", "mappaProvvisoria:" +mappaProvvisoria);
+            Log.i(TAG, "mappaProvvisoria:" +mappaProvvisoria);
 
             PopolaLista(mappaProvvisoria);
             autocompleteFragment.setText("");
@@ -496,7 +498,7 @@ public class SearchActivity extends AppCompatActivity {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("destinazione", destination));
 
-            Log.i("TEST", "destinazione: " + destination);
+            Log.i(TAG, "destinazione: " + destination);
 
             try {
                 if (InternetConnection.haveInternetConnection(SearchActivity.this)) {
@@ -545,11 +547,11 @@ public class SearchActivity extends AppCompatActivity {
                                 }
                             }
                         } catch (Exception e) {
-                            Log.e("TEST", "Errore nel risultato o nel convertire il risultato");
+                            Log.e(TAG, "Errore nel risultato o nel convertire il risultato");
                         }
                     }
                     else {
-                        Log.e("TEST", "Input Stream uguale a null");
+                        Log.e(TAG, "Input Stream uguale a null");
                     }
 
                 }
@@ -566,7 +568,7 @@ public class SearchActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Log.i("TEST", "Mappa mappaProvvisoria:" +mappaProvvisoria);
+            Log.i(TAG, "Mappa mappaProvvisoria:" +mappaProvvisoria);
 
             PopolaLista(mappaProvvisoria);
             editTextUser.setText("");

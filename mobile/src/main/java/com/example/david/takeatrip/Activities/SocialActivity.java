@@ -43,6 +43,8 @@ import java.util.ArrayList;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class SocialActivity extends FragmentActivity implements ActionBar.TabListener {
 
+    private final String TAG = "TEST SocialActivity";
+
     private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
@@ -93,7 +95,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         Intent intent;
         if ((intent = getIntent()) != null) {
             email = intent.getStringExtra("email");
-            Log.i("TEST", "email utente in Social: " + email);
+            Log.i(TAG, "email utente in Social: " + email);
 
         }
         viewPager = (ViewPager) findViewById(R.id.pager);
@@ -211,7 +213,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         }
         */
 
-        Log.i("TEST", "TAB SELEZIONATO: "+ tab.getPosition() );
+        Log.i(TAG, "TAB SELEZIONATO: "+ tab.getPosition() );
 
 
     }
@@ -258,8 +260,8 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
                         if (result.equals("null\n")) {
                             stringaFinale = "Non sono presenti following";
-                            Log.i("TEST", "result da Followers: " + stringaFinale);
-                            Log.i("TEST", "NO FOLLOWING " + seguaci);
+                            Log.i(TAG, "result da Followers: " + stringaFinale);
+                            Log.i(TAG, "NO FOLLOWING " + seguaci);
                             //mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(), seguaci,null);
                             //viewPager.setAdapter(mAdapter);  //LASCIARE ASSOLUTAMENTE COSI!!!!!
 
@@ -278,7 +280,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
                                     String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
 
                                     Profilo seguito = new Profilo(emailSeguace, nomeUtente,cognomeUtente, null, null,sesso,username,null,null,null,urlImmagineProfilo,urlImmagineCopertina);
-                                    Log.i("TEST", "seguito : " + seguito.getEmail());
+                                    Log.i(TAG, "seguito : " + seguito.getEmail());
                                     follow.add(new Following(corrente, seguito));
                                     //Corrente è il seguito
                                 }
@@ -288,14 +290,14 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
 
                     } catch (Exception e) {
-                        Log.e("TEST", "Errore nel risultato o nel convertire il risultato");
+                        Log.e(TAG, "Errore nel risultato o nel convertire il risultato");
                     }
                 } else {
-                    Log.e("TEST", "Input Stream uguale a null");
+                    Log.e(TAG, "Input Stream uguale a null");
                 }
 
             } catch (Exception e) {
-                Log.e("TEST", "Errore nella connessione http " + e.toString());
+                Log.e(TAG, "Errore nella connessione http " + e.toString());
             }
 
             return null;
@@ -317,14 +319,14 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         seguiti.clear();
         seguiti = new ArrayList<Profilo>();
         for (Following f : follow) {
-            Log.i("TEST", "seguito: " + f.getSeguito());
+            Log.i(TAG, "seguito: " + f.getSeguito());
             seguiti.add(f.getSeguito());
         }
 
         mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(),seguaci,seguiti);
         viewPager.setAdapter(mAdapter);
 
-        Log.i("TEST", "seguiti di: "+ corrente + ": " + seguiti);
+        Log.i(TAG, "seguiti di: "+ corrente + ": " + seguiti);
 
     }
 
@@ -362,7 +364,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
                         if (result.equals("null\n")) {
                             stringaFinale = "Non sono presenti followers";
-                            Log.i("TEST", "result da Followers: " + stringaFinale);
+                            Log.i(TAG, "result da Followers: " + stringaFinale);
                             //mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(), seguiti);
                             //viewPager.setAdapter(mAdapter); //LASCIARE ASSOLUTAMENTE COSI!!!!!
 
@@ -382,27 +384,27 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
                                     String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
 
                                     Profilo seguace = new Profilo(emailSeguito, nomeUtente,cognomeUtente, null, null,sesso,username,null,null,null,urlImmagineProfilo,urlImmagineCopertina);
-                                    Log.i("TEST", "seguace : " + seguace.getEmail());
+                                    Log.i(TAG, "seguace : " + seguace.getEmail());
                                     following.add(new Following(seguace,corrente));
                                    }
                             }
 
-                            Log.i("TEST", "lista followers di " + email + ": " + follow);
+                            Log.i(TAG, "lista followers di " + email + ": " + follow);
                             for (int i = 0; i < following.size(); i++) {
-                                Log.i("TEST", "followers : " + following.get(i).toString());
+                                Log.i(TAG, "followers : " + following.get(i).toString());
                             }
                         }
 
 
                     } catch (Exception e) {
-                        Log.e("TEST", "Errore nel risultato o nel convertire il risultato");
+                        Log.e(TAG, "Errore nel risultato o nel convertire il risultato");
                     }
                 } else {
-                    Log.e("TEST", "Input Stream uguale a null");
+                    Log.e(TAG, "Input Stream uguale a null");
                 }
 
             } catch (Exception e) {
-                Log.e("TEST", "Errore nella connessione http " + e.toString());
+                Log.e(TAG, "Errore nella connessione http " + e.toString());
             }
 
             return null;
@@ -423,7 +425,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         seguaci.clear();
         for (Following f : following) {
             seguaci.add(f.getSegue());
-            Log.i("TEST", "email seguaci: " + f.getSegue().getEmail());
+            Log.i(TAG, "email seguaci: " + f.getSegue().getEmail());
         }
 
 
@@ -433,7 +435,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         viewPager.setAdapter(mAdapter);
 */
 
-        Log.i("TEST", "seguaci di: "+ corrente + ": " + seguaci);
+        Log.i(TAG, "seguaci di: "+ corrente + ": " + seguaci);
 
     }
 }

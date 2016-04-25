@@ -13,8 +13,8 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.example.david.takeatrip.Adapters.GridViewAdapter;
 import com.example.david.takeatrip.Classes.Immagine;
-import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Utilities.Constants;
+import com.example.david.takeatrip.Utilities.InternetConnection;
 import com.example.david.takeatrip.Utilities.ScrollListener;
 import com.example.david.takeatrip.Utilities.UtilS3Amazon;
 

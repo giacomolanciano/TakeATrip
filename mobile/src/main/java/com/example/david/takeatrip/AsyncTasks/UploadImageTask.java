@@ -23,10 +23,11 @@ import java.io.OutputStream;
 
 public class UploadImageTask extends ApiClientAsyncTask<DriveId, Void, DriveId> {
 
+    private static final String TAG = "UploadImageTask";
+    
     public AsyncResponseDriveId delegate = null;
     public AsyncResponseDriveIdCover delegate2 = null;
 
-    private static final String TAG = "UploadImageTask";
     private String nameImage, typeContent;
     private DriveId driveIdImage, driveIdFolder;
     private Bitmap bitmap;
@@ -40,10 +41,10 @@ public class UploadImageTask extends ApiClientAsyncTask<DriveId, Void, DriveId> 
                 @Override
                 public void onResult(DriveFolder.DriveFileResult result) {
                     if (!result.getStatus().isSuccess()) {
-                        Log.i("TEST","Error while trying to create the file");
+                        Log.i(TAG,"Error while trying to create the file");
                         return;
                     }
-                    Log.i("TEST","uploaded a file: " + result.getDriveFile().getDriveId());
+                    Log.i(TAG,"uploaded a file: " + result.getDriveFile().getDriveId());
 
                     driveIdImage = result.getDriveFile().getDriveId();
                 }
@@ -59,14 +60,14 @@ public class UploadImageTask extends ApiClientAsyncTask<DriveId, Void, DriveId> 
         driveIdFolder = idFolder;
         typeContent = type;
 
-        Log.i("TEST", "parametri asynch task: " + bitmap + " "+ nameImage + " " +driveIdFolder);
+        Log.i(TAG, "parametri asynch task: " + bitmap + " "+ nameImage + " " +driveIdFolder);
     }
 
     @Override
     protected DriveId doInBackgroundConnected(DriveId... params) {
 
-        Log.i("TEST","googleApiClient: " + getGoogleApiClient());
-        Log.i("TEST", "googleApiClient is conncected?: " + getGoogleApiClient().isConnected());
+        Log.i(TAG,"googleApiClient: " + getGoogleApiClient());
+        Log.i(TAG, "googleApiClient is conncected?: " + getGoogleApiClient().isConnected());
 
         DriveApi.DriveContentsResult result= Drive.DriveApi.newDriveContents(getGoogleApiClient()).await();
 
@@ -75,7 +76,7 @@ public class UploadImageTask extends ApiClientAsyncTask<DriveId, Void, DriveId> 
             return null;
         }
 
-        Log.i("TEST", "result form DriveContent: " + result);
+        Log.i(TAG, "result form DriveContent: " + result);
 
         OutputStream outputStream = result.getDriveContents().getOutputStream();
 
@@ -93,7 +94,7 @@ public class UploadImageTask extends ApiClientAsyncTask<DriveId, Void, DriveId> 
                 .setViewed(true)
                 .setTitle(nameImage).build();
 
-        Log.i("TEST", "I'm creating the file into Drive...");
+        Log.i(TAG, "I'm creating the file into Drive...");
 
         DriveFolder folder = driveIdFolder.asDriveFolder();
         DriveFolder.DriveFileResult result2 = folder.createFile(getGoogleApiClient(), metadataChangeSet, result.getDriveContents()).await();

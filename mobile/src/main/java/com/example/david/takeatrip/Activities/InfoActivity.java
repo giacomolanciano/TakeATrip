@@ -18,7 +18,7 @@ import java.util.Calendar;
 
 public class InfoActivity extends AppCompatActivity {
 
-    private static final String TAG = "InfoActivity";
+    private static final String TAG = "TEST InfoActivity";
 
 
     private String name, surname, email, date, password, nazionalità, dataToday, sesso, username, lavoro, descrizione, tipo,emailEsterno;
@@ -69,7 +69,7 @@ public class InfoActivity extends AppCompatActivity {
             tipo = intent.getStringExtra("tipo");
             profile = intent.getParcelableExtra("profile");
 
-            Log.i("TEST", "profilo facebook: " + profile);
+            Log.i(TAG, "profilo facebook: " + profile);
 
 
             visualizzazioneEsterna = true;

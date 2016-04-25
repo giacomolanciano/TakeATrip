@@ -16,6 +16,9 @@ import java.util.Date;
  */
 public class MultimedialFile {
 
+    private static final String TAG = "TEST MultimedialFile";
+
+
     public static File createMediaFile(int tipoFile, String mCurrentMediaPath,
                                        String mediaFileName) throws IOException {
 
@@ -35,7 +38,7 @@ public class MultimedialFile {
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentMediaPath = mediaFile.getAbsolutePath();
 
-        Log.i("TEST", "path media file: " + mCurrentMediaPath);
+        Log.i(TAG, "path media file: " + mCurrentMediaPath);
 
         return mediaFile;
 
@@ -44,7 +47,7 @@ public class MultimedialFile {
 
     public static String getRealPathFromURI(Context context, Uri contentUri) {
 
-        Log.i("TEST", "entro in getRealPathFromURI(...)");
+        Log.i(TAG, "entro in getRealPathFromURI(...)");
 
         Cursor cursor = null;
         String result = null;
@@ -61,13 +64,13 @@ public class MultimedialFile {
                         .getColumnIndex(proj[0]);
 
                 result = cursor.getString(columnIndex);
-                Log.i("TEST", "result: "+result);
+                Log.i(TAG, "result: "+result);
             }
 
             return result;
 
         } catch (Exception e) {
-            Log.e("TEST", "eccezione nel restituire il path: "+e.toString());
+            Log.e(TAG, "eccezione nel restituire il path: "+e.toString());
             return null;
 
         } finally {

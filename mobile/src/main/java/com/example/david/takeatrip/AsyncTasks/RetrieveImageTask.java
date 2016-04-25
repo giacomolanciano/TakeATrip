@@ -21,7 +21,7 @@ import java.io.InputStream;
 
 public class RetrieveImageTask extends ApiClientAsyncTask<DriveId, Void, Bitmap> {
 
-    private static final String TAG = "RetrieveImageTask";
+    private static final String TAG = "TEST RetrieveImageTask";
     private String idContent, typeContent;
     private DriveId contenuto;
     private Bitmap bitmap;
@@ -71,7 +71,7 @@ public class RetrieveImageTask extends ApiClientAsyncTask<DriveId, Void, Bitmap>
         InputStream stream = driveContents.getInputStream();
 
         bitmap =  BitmapFactory.decodeStream(stream);
-        Log.i("TEST", "prelevato bitmap: " +bitmap);
+        Log.i(TAG, "prelevato bitmap: " +bitmap);
 
         driveContents.discard(getGoogleApiClient());
         return bitmap;
@@ -80,12 +80,12 @@ public class RetrieveImageTask extends ApiClientAsyncTask<DriveId, Void, Bitmap>
     @Override
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
-        Log.i("TEST", "bitmap: " + bitmap);
+        Log.i(TAG, "bitmap: " + bitmap);
 
         if(layoutCopertina != null && typeContent.equals("little_image")){
             viewImage.setImageBitmap(bitmap);
 
-            Log.i("TEST", "context: " + context);
+            Log.i(TAG, "context: " + context);
 
             layoutCopertina.addView(viewImage, 60, 60);
             layoutCopertina.addView(new TextView(context), 20, 60);
@@ -97,9 +97,9 @@ public class RetrieveImageTask extends ApiClientAsyncTask<DriveId, Void, Bitmap>
         }
         if(layoutCopertina != null){
 
-            Log.i("TEST", "bitmap image profile: " + bitmap);
+            Log.i(TAG, "bitmap image profile: " + bitmap);
             Drawable dr = new BitmapDrawable(bitmap);
-            Log.i("TEST", "drawable immagine copertina: " + dr);
+            Log.i(TAG, "drawable immagine copertina: " + dr);
 
             layoutCopertina.setBackground(dr);
 

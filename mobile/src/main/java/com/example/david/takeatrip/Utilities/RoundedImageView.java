@@ -16,6 +16,8 @@ import android.widget.ImageView;
 
 public class RoundedImageView extends ImageView {
 
+    private static final String TAG = "TEST RoundedImageView";
+
     public RoundedImageView(Context ctx, AttributeSet attrs) {
         super(ctx, attrs);
     }

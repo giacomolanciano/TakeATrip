@@ -25,6 +25,8 @@ import java.util.ArrayList;
  */
 public class HomeFragment extends Fragment {
 
+    private static final String TAG = "TEST HomeFragment";
+
     TextView nome;
     TextView cognome;
 
@@ -70,7 +72,7 @@ public class HomeFragment extends Fragment {
             mRecyclerView.setAdapter(mAdapter);
 
 
-            Log.i("TEST", "context of the Followers Fragment: " + context);
+            Log.i(TAG, "context of the Followers Fragment: " + context);
 
 
             image_default = new ImageView(context);
@@ -84,7 +86,7 @@ public class HomeFragment extends Fragment {
             group.addView(image_default);
 
 
-            Log.i("TEST", "data set: " + getDataSet());
+            Log.i(TAG, "data set: " + getDataSet());
             MyRecyclerViewAdapterFollowers adapter = new MyRecyclerViewAdapterFollowers(getDataSet());
             adapter.onCreateViewHolder(group, 0);
             mRecyclerView.setAdapter(adapter);

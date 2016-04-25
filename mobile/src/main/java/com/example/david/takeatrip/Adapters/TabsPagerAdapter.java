@@ -19,6 +19,8 @@ import java.util.ArrayList;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
 
+    private static String TAG = "TEST TabsPagerAdapt";
+
     private ArrayList<Profilo> followers;
     private ArrayList<Profilo> following;
     private ArrayList<Profilo> homePage;
@@ -64,14 +66,14 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 
             case 0:
                 // Movies fragment activity
-                Log.i("TEST", "seguiti in Adapter: " + following);
-                Log.i("TEST", "context in Adapter: " + context);
+                Log.i(TAG, "seguiti in Adapter: " + following);
+                Log.i(TAG, "context in Adapter: " + context);
                 return new FollowingFragment(context, following);
 
             case 1:
                 // Movies fragment activity
-                Log.i("TEST", "seguaci in Adapter: " + followers);
-                Log.i("TEST", "context in Adapter: " + context);
+                Log.i(TAG, "seguaci in Adapter: " + followers);
+                Log.i(TAG, "context in Adapter: " + context);
 
                     return new FollowersFragment(context, followers);
             case 2:

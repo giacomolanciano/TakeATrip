@@ -13,6 +13,8 @@ import com.example.david.takeatrip.R;
  */
 public class TopRatedFragment extends Fragment {
 
+    private static final String TAG = "TEST TopRatedFragment";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

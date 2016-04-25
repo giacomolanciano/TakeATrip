@@ -5,6 +5,9 @@ package com.example.david.takeatrip.Utilities;
  */
 public class PasswordHashing {
 
+    private static final String TAG = "TEST PasswordHashing";
+
+
 //    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
 //
 //    public static String sha1Hash(String toHash) {

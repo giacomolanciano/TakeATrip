@@ -8,8 +8,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.LinearLayout;
 
-import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Utilities.Constants;
+import com.example.david.takeatrip.Utilities.InternetConnection;
 import com.google.android.gms.drive.DriveId;
 
 import org.apache.http.HttpEntity;

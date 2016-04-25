@@ -1,14 +1,11 @@
 package com.example.david.takeatrip.Activities;
 
-import android.app.ProgressDialog;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -29,7 +26,7 @@ public abstract class DriveActivity extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
-    private static final String TAG = "BaseDriveActivity";
+    private static final String TAG = "TEST BaseDriveActivity";
 
     /**
      * DriveId of an existing folder to be used as a parent folder in

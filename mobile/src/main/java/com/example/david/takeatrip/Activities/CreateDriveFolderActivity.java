@@ -2,7 +2,6 @@ package com.example.david.takeatrip.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -12,9 +11,11 @@ import com.google.android.gms.drive.DriveFolder;
 import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.drive.MetadataChangeSet;
 
-import java.net.URL;
-
 public class CreateDriveFolderActivity extends DriveActivity {
+
+    private static final String TAG = "TEST CreateDriveFoldAct";
+
+
     @Override
     public void onConnected(Bundle connectionHint) {
         super.onConnected(connectionHint);
@@ -39,7 +40,7 @@ public class CreateDriveFolderActivity extends DriveActivity {
                 showMessage("Error while trying to create the folder");
                 return;
             }
-            Log.i("TEST","Created a folder with id: " + result.getDriveFolder().getDriveId());
+            Log.i(TAG,"Created a folder with id: " + result.getDriveFolder().getDriveId());
 
             //String idFolder = result.getDriveFolder().getDriveId()+"";
             DriveId idFolder = result.getDriveFolder().getDriveId();

@@ -4,10 +4,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Interfaces.AsyncResponseLogin;
 import com.example.david.takeatrip.Utilities.Constants;
+import com.example.david.takeatrip.Utilities.InternetConnection;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -30,6 +30,8 @@ import java.util.ArrayList;
  */
 
 public class LoginTask extends AsyncTask<Void, Void, Profilo> {
+
+    private static final String TAG = "TEST LoginTask";
 
     private final String ADDRESS_VERIFICA_LOGIN = "VerificaLogin.php";
 
@@ -102,11 +104,11 @@ public class LoginTask extends AsyncTask<Void, Void, Profilo> {
                         }
 
                     } catch (Exception e) {
-                        Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
+                        Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
                     }
                 }
                 else {
-                    Log.i("TEST", "Input Stream uguale a null");
+                    Log.i(TAG, "Input Stream uguale a null");
                 }
             }
             else

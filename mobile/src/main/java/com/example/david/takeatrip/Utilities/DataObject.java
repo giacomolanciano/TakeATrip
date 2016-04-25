@@ -6,6 +6,9 @@ import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.Viaggio;
 
 public class DataObject {
+
+    private static final String TAG = "TEST DataObject";
+
     private Viaggio viaggio;
     private Profilo profilo, follow;
     private ImageView immagineViaggio;

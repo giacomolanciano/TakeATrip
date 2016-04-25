@@ -30,12 +30,12 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
-import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatabaseHandler;
+import com.example.david.takeatrip.Utilities.InternetConnection;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
 import com.example.david.takeatrip.Utilities.UtilS3Amazon;
 import com.facebook.Profile;
@@ -73,6 +73,8 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private final String TAG = "TEST MainActivity";
+
 
     private final String ADDRESS = "QueryNomiUtenti.php";
     private final String ADDRESS_INSERIMENTO_VIAGGIO = "InserimentoViaggio.php";
@@ -89,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private final int LIMIT_IMAGES_VIEWS = 5;
-    private final String TAG = "MainActivity";
 
     private String name, surname, email, nazionalità, sesso, username, lavoro, descrizione, tipo;
     private String date, password, urlImmagineProfilo, urlImmagineCopertina;
@@ -293,8 +294,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         layoutNewPartecipants.removeAllViews();
                         editTextNameTravel.setText("");
 
-                        Log.i("TEST", "lista nomi partecipanti:" + namesPartecipants);
-                        Log.i("TEST", "lista partecipanti:" + partecipants);
+                        Log.i(TAG, "lista nomi partecipanti:" + namesPartecipants);
+                        Log.i(TAG, "lista partecipanti:" + partecipants);
 
                     }
                 });
@@ -321,8 +322,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     }
                                 }
                             }
-                            Log.i("TEST", "lista partecipanti:" + partecipants);
-                            Log.i("TEST", "nome Viaggio:" + nomeViaggio);
+                            Log.i(TAG, "lista partecipanti:" + partecipants);
+                            Log.i(TAG, "nome Viaggio:" + nomeViaggio);
 
                             new TaskForUUID().execute();
 
@@ -341,11 +342,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     tv.setText(text.getText().toString());
 
                     String s = text.getText().toString();
-                    Log.i("TEST", "partecipante selezionato: " + s);
+                    Log.i(TAG, "partecipante selezionato: " + s);
 
 
                     String usernameUtenteSelezionato = s.substring(s.indexOf('(')+1, s.indexOf(')'));
-                    Log.i("TEST", "username selezionato: " + usernameUtenteSelezionato);
+                    Log.i(TAG, "username selezionato: " + usernameUtenteSelezionato);
                     for(Profilo p : profiles){
 
                         if(p.getUsername().equals(usernameUtenteSelezionato)){
@@ -427,19 +428,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if(email.contains("@")){
                                 DatabaseHandler db = new DatabaseHandler(MainActivity.this);
                                 // Inserting Users
-                                Log.d("TEST", "Drop the user...");
+                                Log.d(TAG, "Drop the user...");
                                 db.deleteContact(myProfile);
                             }
                             else{
 
                                 if(profile!= null && LoginManager.getInstance() != null){
-                                    Log.d("TEST", "Log out from facebook: ..");
+                                    Log.d(TAG, "Log out from facebook: ..");
 
                                     LoginManager.getInstance().logOut();
                                     startActivity(new Intent(MainActivity.this,LoginActivity.class));
                                     finish();
                                 }else{
-                                    Log.d("TEST", "Log out from google con apiClient: " + googleApiClient);
+                                    Log.d(TAG, "Log out from google con apiClient: " + googleApiClient);
 
                                     if(!googleApiClient.isConnected()) {
                                         googleApiClient.connect();
@@ -451,7 +452,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                 new ResultCallback<Status>() {
                                                     @Override
                                                     public void onResult(Status status) {
-                                                        Log.d("TEST", "Status: " + status);
+                                                        Log.d(TAG, "Status: " + status);
                                                         if(status.isSuccess()){
                                                             startActivity(new Intent(MainActivity.this,LoginActivity.class));
                                                         }
@@ -493,7 +494,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         protected Void doInBackground(Void... params) {
             try {
                 if (InternetConnection.haveInternetConnection(MainActivity.this)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
+                    Log.i(TAG, "CONNESSIONE Internet Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
                     HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS);
                     HttpResponse response = httpclient.execute(httppost);
@@ -552,7 +553,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                         } catch (Exception e) {
-                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
+                            Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
                         }
                     }
                     else {
@@ -561,7 +562,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
                 else
-                    Log.e("CONNESSIONE Internet", "Assente!");
+                    Log.e(TAG, "CONNESSIONE Internet Assente!");
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.e(e.toString(),e.getMessage());
@@ -593,19 +594,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             generatePresignedUrlRequest.setMethod(HttpMethod.GET);
             generatePresignedUrlRequest.setExpiration(expiration);
 
-            Log.i("TEST", "expiration date image: " + generatePresignedUrlRequest.getExpiration());
-            Log.i("TEST", "amazon client: " + s3);
+            Log.i(TAG, "expiration date image: " + generatePresignedUrlRequest.getExpiration());
+            Log.i(TAG, "amazon client: " + s3);
 
 
 
             url = s3.generatePresignedUrl(generatePresignedUrlRequest);
 
-            Log.i("TEST", "url file: " + url);
+            Log.i(TAG, "url file: " + url);
 
 
             // Initiate the download
             //TransferObserver observer = transferUtility.download(Constants.BUCKET_NAME, key, file);
-            //Log.i("TEST", "downloaded file: " + file);
+            //Log.i(TAG, "downloaded file: " + file);
 
 
             //observer.setTransferListener(new DownloadListener());
@@ -629,11 +630,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("viaggio", nomeViaggio));
 
-            Log.i("TEST", "nomeViaggio: " + nomeViaggio);
+            Log.i(TAG, "nomeViaggio: " + nomeViaggio);
 
             try {
                 if (InternetConnection.haveInternetConnection(MainActivity.this)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
+                    Log.i(TAG, "CONNESSIONE Internet Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
                     HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_INSERIMENTO_VIAGGIO);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
@@ -655,11 +656,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             is.close();
 
                             result = sb.toString();
-                            //Log.i("TEST", "result" +result);
+                            //Log.i(TAG, "result" +result);
 
                             UUIDViaggio = result;
 
-                            Log.i("TEST", "UUID viaggio " +UUIDViaggio);
+                            Log.i(TAG, "UUID viaggio " +UUIDViaggio);
 
                         } catch (Exception e) {
                             Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
@@ -671,7 +672,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
                 else
-                    Log.e("CONNESSIONE Internet", "Assente!");
+                    Log.e(TAG, "CONNESSIONE Internet Assente!");
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.e(e.toString(),e.getMessage());
@@ -683,11 +684,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         protected void onPostExecute(Void aVoid) {
 
             if(result.contains("Duplicate")){
-                Log.e("TEST", "devo generare un nuovo UUID");
+                Log.e(TAG, "devo generare un nuovo UUID");
                 new TaskForUUID().execute();
             }
             else{
-                Log.i("TEST", "UUID corretto, ora aggiungo gli itinerari");
+                Log.i(TAG, "UUID corretto, ora aggiungo gli itinerari");
                 new TaskForItineraries().execute();
             }
             super.onPostExecute(aVoid);
@@ -704,7 +705,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected Void doInBackground(Void... params) {
 
-            Log.i("TEST", "lista partecipanti:" + partecipants);
+            Log.i(TAG, "lista partecipanti:" + partecipants);
 
             for(Profilo p : partecipants){
 
@@ -715,7 +716,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 try {
                     if (InternetConnection.haveInternetConnection(MainActivity.this)) {
-                        Log.i("CONNESSIONE Internet", "Presente!");
+                        Log.i(TAG, "CONNESSIONE Internet Presente!");
                         HttpClient httpclient = new DefaultHttpClient();
                         HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_INSERIMENTO_ITINERARIO);
                         httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
@@ -727,7 +728,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     }
                     else
-                        Log.e("CONNESSIONE Internet", "Assente!");
+                        Log.e(TAG, "CONNESSIONE Internet Assente!");
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.e(e.toString(),e.getMessage());
@@ -741,7 +742,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String stringaFiltro = nomeViaggio.replace(" ","_");
             filtro = stringaFiltro.toLowerCase();
 
-            Log.i("TEST", "filtro: " + filtro);
+            Log.i(TAG, "filtro: " + filtro);
 
             new TaskForFilter().execute();
 
@@ -767,7 +768,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 try {
                     if (InternetConnection.haveInternetConnection(MainActivity.this)) {
-                        Log.i("CONNESSIONE Internet", "Presente!");
+                        Log.i(TAG, "CONNESSIONE Internet Presente!");
                         HttpClient httpclient = new DefaultHttpClient();
                         HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_INSERIMENTO_FILTRO);
                         httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
@@ -775,7 +776,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     }
                     else
-                        Log.e("CONNESSIONE Internet", "Assente!");
+                        Log.e(TAG, "CONNESSIONE Internet Assente!");
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.e(e.toString(),e.getMessage());
@@ -820,7 +821,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             try {
                 if (InternetConnection.haveInternetConnection(context)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
+                    Log.i(TAG, "CONNESSIONE Internet Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
 
                     HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_QUERY_PROFILE_IMAGE);
@@ -862,15 +863,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         } catch (Exception e) {
                             result = "NULL";
-                            //Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
+                            //Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
                         }
                     }
                     else {
-                        Log.i("TEST", "Input Stream uguale a null");
+                        Log.i(TAG, "Input Stream uguale a null");
                     }
                 }
                 else
-                    Log.e("CONNESSIONE Internet", "Assente!");
+                    Log.e(TAG, "CONNESSIONE Internet Assente!");
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.e(e.toString(),e.getMessage());
@@ -880,7 +881,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Log.i("TEST", "risultato dal prelievo dell'id imm profilo: " + result);
+            Log.i(TAG, "risultato dal prelievo dell'id imm profilo: " + result);
             if(signedUrl != null ){
                 Picasso.with(MainActivity.this).
                         load(signedUrl.toString()).
@@ -890,13 +891,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             else{
                 //L'utente è loggato con facebook
                 if(profile != null){
-                    Log.i("TEST", profile.getProfilePictureUri(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT+50, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT+50).toString());
+                    Log.i(TAG, profile.getProfilePictureUri(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT+50, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT+50).toString());
                     final Uri image_uri = profile.getProfilePictureUri(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT+50, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT+50);
 
                     try {
                         final URI image_URI = new URI(image_uri.toString());
 
-                        Log.i("TEST", "url_image: " + image_URI.toURL().toString());
+                        Log.i(TAG, "url_image: " + image_URI.toURL().toString());
 
 
                         Picasso.with(MainActivity.this).load(image_URI.toURL().toString()).into(imageViewProfileRound);
@@ -931,7 +932,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             dataToSend.add(new BasicNameValuePair("email", emailUser));
             try {
                 if (InternetConnection.haveInternetConnection(context)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
+                    Log.i(TAG, "CONNESSIONE Internet Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
 
                     HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_QUERY_COVER_IMAGE);
@@ -964,15 +965,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         } catch (Exception e) {
                             result = "ERRORE";
-                            Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
+                            Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
                         }
                     }
                     else {
-                        Log.i("TEST", "Input Stream uguale a null");
+                        Log.i(TAG, "Input Stream uguale a null");
                     }
                 }
                 else
-                    Log.e("CONNESSIONE Internet", "Assente!");
+                    Log.e(TAG, "CONNESSIONE Internet Assente!");
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.e(e.toString(),e.getMessage());
@@ -982,7 +983,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Log.i("TEST", "risultato dal prelievo dell'id imm copertina: " + urlImmagineCopertina);
+            Log.i(TAG, "risultato dal prelievo dell'id imm copertina: " + urlImmagineCopertina);
 
             super.onPostExecute(aVoid);
         }

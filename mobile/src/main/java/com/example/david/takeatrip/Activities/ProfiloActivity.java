@@ -40,13 +40,13 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoImmagineCopertinaTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoImmagineProfiloTask;
-import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
 import com.example.david.takeatrip.Interfaces.AsyncResponseDriveId;
 import com.example.david.takeatrip.Interfaces.AsyncResponseDriveIdCover;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
+import com.example.david.takeatrip.Utilities.InternetConnection;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
 import com.example.david.takeatrip.Utilities.UtilS3Amazon;
 import com.facebook.Profile;
@@ -83,6 +83,8 @@ import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId, AsyncResponseDriveIdCover{
+
+    private final String TAG = "TEST ProfiloActivity";
 
     private final int REQUEST_UPLOAD_PROFILE_IMAGE = 123;
     private final int REQUEST_UPLOAD_COVER_IMAGE = 124;
@@ -220,7 +222,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                 if(password != null) {
                 corrente = new Profilo(email);
-                    Log.i("TEST", "Password: "+ password);
+                    Log.i(TAG, "Password: "+ password);
                 follow.setVisibility(View.INVISIBLE);
             }
             else {
@@ -238,20 +240,20 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 if(email.equals(emailEsterno)){
                     externalView = false;
                     follow.setVisibility(View.INVISIBLE);
-                    Log.i("TEST", "email: " + email);
-                    Log.i("TEST", "email esterno: " + emailEsterno);
+                    Log.i(TAG, "email: " + email);
+                    Log.i(TAG, "email esterno: " + emailEsterno);
                 }
                 else{
                     follow.setVisibility(View.VISIBLE);
-                    Log.i("TEST", "settato visibile: ");
+                    Log.i(TAG, "settato visibile: ");
 
                 }
             }
 
             if(externalView){
-                Log.i("TEST", "visualizzazione esterna del profilo");
-                Log.i("TEST", "email: "+ email);
-                Log.i("TEST", "emailEsterno: " + emailEsterno);
+                Log.i(TAG, "visualizzazione esterna del profilo");
+                Log.i(TAG, "email: "+ email);
+                Log.i(TAG, "emailEsterno: " + emailEsterno);
             }
 
             if(name.length() > Constants.LIMIT_NAMES_PROFILE){
@@ -399,7 +401,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
 
-        Log.i("TEST", "path file immagine: " + mCurrentPhotoPath);
+        Log.i(TAG, "path file immagine: " + mCurrentPhotoPath);
 
         return image;
     }
@@ -428,7 +430,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     private void setButtonToFollowing() {
 
         if (alreadyFollowing) {
-            Log.i("TEST", "GIA' SEGUI QUESTO UTENTE! ");
+            Log.i(TAG, "GIA' SEGUI QUESTO UTENTE! ");
             follow.setText("FOLLOWING");
             follow.setBackground(getDrawable(R.drawable.button_follow_cliccato));
         }
@@ -441,13 +443,13 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         intentFollowers.putExtra("surname", surname);
         if(emailEsterno != null ){
             intentFollowers.putExtra("email", emailEsterno);
-            Log.i("TEST", "Email di chi voglio vedere i followers (Esterno) " + emailEsterno);
+            Log.i(TAG, "Email di chi voglio vedere i followers (Esterno) " + emailEsterno);
         }
         else{
             TakeATrip TAT = (TakeATrip)getApplicationContext();
             email = TAT.getProfiloCorrente().getEmail();
             intentFollowers.putExtra("email", email);
-            Log.i("TEST", "Email di chi voglio vedere i followers " + email);
+            Log.i(TAG, "Email di chi voglio vedere i followers " + email);
         }
     startActivity(intentFollowers);
 
@@ -459,13 +461,13 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 //        intentFollowers.putExtra("surname", surname);
 //        if(emailEsterno != null ){
 //            intentFollowers.putExtra("email", emailEsterno);
-//            Log.i("TEST", "Email di chi voglio vedere i followers (Esterno) " + emailEsterno);
+//            Log.i(TAG, "Email di chi voglio vedere i followers (Esterno) " + emailEsterno);
 //        }
 //        else{
 //            TakeATrip TAT = (TakeATrip)getApplicationContext();
 //            email = TAT.getProfiloCorrente().getEmail();
 //            intentFollowers.putExtra("email", email);
-//            Log.i("TEST", "Email di chi voglio vedere i followers " + email);
+//            Log.i(TAG, "Email di chi voglio vedere i followers " + email);
 //        }
 //        startActivity(intentFollowers);
 //    }
@@ -503,7 +505,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                                         photoFile = createImageFile();
 
                                     } catch (IOException ex) {
-                                        Log.e("TEST", "eccezione nella creazione di file immagine");
+                                        Log.e(TAG, "eccezione nella creazione di file immagine");
                                     }
 
 
@@ -561,10 +563,10 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                                     try {
                                         photoFile = createImageFile();
                                     } catch (IOException ex) {
-                                        Log.e("TEST", "eccezione nella creazione di file immagine");
+                                        Log.e(TAG, "eccezione nella creazione di file immagine");
                                     }
 
-                                    Log.i("TEST", "creato file immagine");
+                                    Log.i(TAG, "creato file immagine");
 
                                     // Continue only if the File was successfully created
                                     if (photoFile != null) {
@@ -596,7 +598,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
             //return from take a photo
             if (requestCode == Constants.REQUEST_IMAGE_CAPTURE) {
-                Log.i("TEST", "immagine fatta");
+                Log.i(TAG, "immagine fatta");
 
                 File f = new File(Environment.getExternalStorageDirectory().toString());
                 for (File temp : f.listFiles()) {
@@ -611,7 +613,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
                             bitmapOptions);
 
-                    Log.i("TEST", "path file immagine: " + f.getAbsolutePath());
+                    Log.i(TAG, "path file immagine: " + f.getAbsolutePath());
 
                     try {
                         beginUploadProfilePicture(f.getAbsolutePath());
@@ -739,7 +741,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         generatePresignedUrlRequest.setMethod(HttpMethod.GET);
         generatePresignedUrlRequest.setExpiration(expiration);
 
-        Log.i("TEST", "expiration date image: " + generatePresignedUrlRequest.getExpiration());
+        Log.i(TAG, "expiration date image: " + generatePresignedUrlRequest.getExpiration());
 
         URL url = s3.generatePresignedUrl(generatePresignedUrlRequest);
 
@@ -750,10 +752,10 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
         // Initiate the download
         //TransferObserver observer = transferUtility.download(email, key, file);
-        //Log.i("TEST", "downloaded file: " + file);
-        //Log.i("TEST", "key file: " + key);
+        //Log.i(TAG, "downloaded file: " + file);
+        //Log.i(TAG, "key file: " + key);
 
-        Log.i("TEST", "url file: " + url);
+        Log.i(TAG, "url file: " + url);
 
         //observer.setTransferListener(new DownloadListener());
 
@@ -777,7 +779,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         new BitmapWorkerTask(coverImage,layoutCoverImage).execute(url.toString());
 
 
-        Log.i("TEST", "url file: " + url);
+        Log.i(TAG, "url file: " + url);
 
         //observer.setTransferListener(new DownloadListener());
 
@@ -829,7 +831,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     //Return the id of the uploaded profile image
     @Override
     public void processFinish(DriveId output) {
-        Log.i("TEST", "uploaded profile image with id: " + output);
+        Log.i(TAG, "uploaded profile image with id: " + output);
 
         new InserimentoImmagineProfiloTask(this,email,output).execute();
 
@@ -839,7 +841,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     //Return the id of the uploaded cover image
     @Override
     public void processFinish2(DriveId output) {
-        Log.i("TEST", "uploaded cover image with id: " + output);
+        Log.i(TAG, "uploaded cover image with id: " + output);
         new InserimentoImmagineCopertinaTask(this,email,output).execute();
     }
 
@@ -877,12 +879,12 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                         String result = sb.toString();
 
-                        Log.i("TEST", "result VERIFICA FOLLOWING " + result);
+                        Log.i(TAG, "result VERIFICA FOLLOWING " + result);
 
 
                         if (result.contains("null")) {
 
-                            Log.i("TEST", "Non sono presenti following");
+                            Log.i(TAG, "Non sono presenti following");
 
                             alreadyFollowing = false;
                         }else {
@@ -893,14 +895,14 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
 
                     } catch (Exception e) {
-                        Log.e("TEST", "Errore nel risultato o nel convertire il risultato");
+                        Log.e(TAG, "Errore nel risultato o nel convertire il risultato");
                     }
                 } else {
-                    Log.e("TEST", "Input Stream uguale a null");
+                    Log.e(TAG, "Input Stream uguale a null");
                 }
 
             } catch (Exception e) {
-                Log.e("TEST", "Errore nella connessione http " + e.toString());
+                Log.e(TAG, "Errore nella connessione http " + e.toString());
             }
 
             return null;
@@ -927,7 +929,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             dataToSend.add(new BasicNameValuePair("emailEsterno", emailEsterno));
 
 
-            Log.i("TEST", "dati follow: " + email + " " + emailEsterno);
+            Log.i(TAG, "dati follow: " + email + " " + emailEsterno);
             try {
                 if (InternetConnection.haveInternetConnection(ProfiloActivity.this)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
@@ -953,7 +955,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                             result = sb.toString();
 
-                            Log.i("TEST", "result " + result);
+                            Log.i(TAG, "result " + result);
 
                         } catch (Exception e) {
                             Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
@@ -982,7 +984,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             dataToSend.add(new BasicNameValuePair("emailEsterno", emailEsterno));
 
 
-            Log.i("TEST", "dati follow: " + email + " " + emailEsterno);
+            Log.i(TAG, "dati follow: " + email + " " + emailEsterno);
             try {
                 if (InternetConnection.haveInternetConnection(ProfiloActivity.this)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
@@ -1008,7 +1010,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                             result = sb.toString();
 
-                            Log.i("TEST", "result " + result);
+                            Log.i(TAG, "result " + result);
 
                         } catch (Exception e) {
                             Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
@@ -1034,10 +1036,10 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
 
-            Log.i("TEST", "EXTERNAL VIEW: "+ externalView);
+            Log.i(TAG, "EXTERNAL VIEW: "+ externalView);
             if (!externalView) {
                 dataToSend.add(new BasicNameValuePair("email", email));
-                Log.i("TEST", "EMAIL EXTERNAL VIEW " + email);
+                Log.i(TAG, "EMAIL EXTERNAL VIEW " + email);
             } else {
                 dataToSend.add(new BasicNameValuePair("email", emailEsterno));
             }
@@ -1064,24 +1066,24 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                         result = sb.toString();
 
-                        Log.i("TEST", "result FOLLOWERS: " + result);
+                        Log.i(TAG, "result FOLLOWERS: " + result);
 
                         JSONArray jsonArray = new JSONArray(result);
                         JSONObject jsonObject = jsonArray.getJSONObject(0);
 
                         numFollowers = ""+jsonObject.getInt(Constants.COUNT_FOLLOW_ID);
 
-                        Log.i("TEST", "numFollowers: " + numFollowers);
+                        Log.i(TAG, "numFollowers: " + numFollowers);
                     } catch (Exception e) {
                         //Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
-                        Log.e("TEST", "eccezione query followers: "+e.toString());
+                        Log.e(TAG, "eccezione query followers: "+e.toString());
 
                     }
                 } else {
                     //Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
-                Log.e("TEST", "Errore nella connessione http "+e.toString());
+                Log.e(TAG, "Errore nella connessione http "+e.toString());
             }
 
 
@@ -1135,24 +1137,24 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                         result = sb.toString();
 
-                        Log.i("TEST", "result FOLLOWING: " + result);
+                        Log.i(TAG, "result FOLLOWING: " + result);
 
                         JSONArray jsonArray = new JSONArray(result);
                         JSONObject jsonObject = jsonArray.getJSONObject(0);
 
                         numFollowings = ""+jsonObject.getInt(Constants.COUNT_FOLLOW_ID);
 
-                        Log.i("TEST", "numFollowings: " + numFollowings);
+                        Log.i(TAG, "numFollowings: " + numFollowings);
                     } catch (Exception e) {
                         //Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
-                        Log.e("TEST", "eccezione query followings: "+e.toString());
+                        Log.e(TAG, "eccezione query followings: "+e.toString());
 
                     }
                 } else {
                     //Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
-                Log.e("TEST", "Errore nella connessione http "+e.toString());
+                Log.e(TAG, "Errore nella connessione http "+e.toString());
             }
 
 
@@ -1178,17 +1180,17 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         // Simply updates the list when notified.
         @Override
         public void onError(int id, Exception e) {
-            Log.e("TEST", "onError: " + id, e);
+            Log.e(TAG, "onError: " + id, e);
         }
 
         @Override
         public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
-            Log.i("TEST", String.format("onProgressChanged: %d, total: %d, current: %d",
+            Log.i(TAG, String.format("onProgressChanged: %d, total: %d, current: %d",
                     id, bytesTotal, bytesCurrent));
         }
         @Override
         public void onStateChanged(int id, TransferState state) {
-            Log.i("TEST", "onStateChanged: " + id + ", " + state);
+            Log.i(TAG, "onStateChanged: " + id + ", " + state);
         }
     }
 

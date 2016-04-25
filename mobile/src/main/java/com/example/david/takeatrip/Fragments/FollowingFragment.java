@@ -24,6 +24,9 @@ import java.util.ArrayList;
  * Created by lucagiacomelli on 21/02/16.
  */
 public class FollowingFragment extends Fragment {
+
+    private static final String TAG = "TEST FollowingFragment";
+
     TextView nome;
     TextView cognome;
 
@@ -50,7 +53,7 @@ public class FollowingFragment extends Fragment {
 
         dataFollowing = new ArrayList<DataObject>();
 
-        Log.i("TEST", "seguiti: "+ following);
+        Log.i(TAG, "seguiti: "+ following);
 
 
         for(Profilo p : following){
@@ -74,7 +77,7 @@ public class FollowingFragment extends Fragment {
 
 
 
-        Log.i("TEST", "context of the Followers Fragment: " + context);
+        Log.i(TAG, "context of the Followers Fragment: " + context);
 
 
         image_default = new ImageView(context);
@@ -88,7 +91,7 @@ public class FollowingFragment extends Fragment {
         group.addView(image_default);
 
 
-        Log.i("TEST", "data set: " + getDataSet());
+        Log.i(TAG, "data set: " + getDataSet());
         MyRecyclerViewAdapterFollowing adapter = new MyRecyclerViewAdapterFollowing(getDataSet());
         adapter.onCreateViewHolder(group, 0);
         mRecyclerView.setAdapter(adapter);

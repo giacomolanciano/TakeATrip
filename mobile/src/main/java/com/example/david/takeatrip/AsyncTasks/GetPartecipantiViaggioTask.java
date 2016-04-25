@@ -9,10 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.example.david.takeatrip.Classes.InternetConnection;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
+import com.example.david.takeatrip.Utilities.InternetConnection;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -37,6 +37,7 @@ import java.util.List;
 public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
 
     private static final String TAG = "TEST GetPartViaggioTask";
+
     private static final String ADDRESS_PARTECIPANTS = "QueryPartecipantiViaggio.php";
     private static final String ADDRESS_QUERY_URLS= "QueryImagesOfTravel.php";
 

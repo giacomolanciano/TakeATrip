@@ -5,6 +5,8 @@ package com.example.david.takeatrip.Utilities;
  */
 public class SocialHomeElement {//implements Parcelable {
 
+    private static final String TAG = "TEST SocialHomeElement";
+
 //    private Viaggio viaggio;
 //    private Profilo profilo, follow;
 //    private ImageView immagineViaggio;

@@ -26,6 +26,9 @@ import java.util.ArrayList;
 
 
 public class UploadFilePHP extends AsyncTask<Void, Void, Void> {
+
+    private static final String TAG = "TEST UploadFilePHP";
+
     private final String ADDRESS_UPLOAD_IMAGE = "UploadFile.php";
 
     InputStream is = null;
@@ -55,7 +58,7 @@ public class UploadFilePHP extends AsyncTask<Void, Void, Void> {
         String image_str = android.util.Base64.encodeToString(byte_arr, android.util.Base64.DEFAULT);
         ArrayList<NameValuePair> nameValuePairs = new  ArrayList<NameValuePair>();
 
-        Log.i("TEST","parametri della post in upload file: " + path + " " + nomeFile);
+        Log.i(TAG,"parametri della post in upload file: " + path + " " + nomeFile);
 
         nameValuePairs.add(new BasicNameValuePair("path", path));
         nameValuePairs.add(new BasicNameValuePair("nome",nomeFile));
@@ -83,19 +86,19 @@ public class UploadFilePHP extends AsyncTask<Void, Void, Void> {
                     is.close();
 
                     result = sb.toString();
-                    Log.i("TEST", "result: "+ result);
+                    Log.i(TAG, "result: "+ result);
 
 
                 } catch (Exception e) {
-                    Log.i("TEST", "Errore nel risultato o nel convertire il risultato");
+                    Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
                 }
             }
             else {
-                Log.i("TEST", "Input Stream uguale a null");
+                Log.i(TAG, "Input Stream uguale a null");
             }
 
         }catch(Exception e){
-            Log.i("TEST","Error in http connection "+e.toString());
+            Log.i(TAG,"Error in http connection "+e.toString());
         }
 
 

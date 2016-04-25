@@ -79,6 +79,8 @@ import java.util.Map;
 public class MapsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnInfoWindowClickListener, OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,GoogleMap.OnMarkerClickListener {
 
+    private final String TAG = "TEST MapsActivity";
+
 
     private final int DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT;
     private String email, emailEsterno, nomeViaggio, urlImmagineViaggio, codiceViaggio, currentUrlImageTravel;
@@ -138,8 +140,8 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = getIntent();
             email = intent.getStringExtra("email");
             emailEsterno = intent.getStringExtra("emailEsterno");
-            Log.i("TEST", "email" + email);
-            Log.i("TEST", "email esterno: " + emailEsterno);
+            Log.i(TAG, "email" + email);
+            Log.i(TAG, "email esterno: " + emailEsterno);
 
         }
 
@@ -171,7 +173,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
             profiloUtente = new Profilo(email, null, null, null, null, null, null, null, null, null);
         }
 
-        Log.i("TEST", "Profilo utente corrente: " + profiloUtente);
+        Log.i(TAG, "Profilo utente corrente: " + profiloUtente);
 
         mGoogleApiClient = new GoogleApiClient
                 .Builder( this )
@@ -278,7 +280,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
             url = s3.generatePresignedUrl(generatePresignedUrlRequest);
 
-            Log.i("TEST", "url file: " + url);
+            Log.i(TAG, "url file: " + url);
         }
         catch(Exception exception){
             exception.printStackTrace();
@@ -308,9 +310,9 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
             i.putExtra("urlImmagineViaggio", currentUrlImageTravel);
         }
 
-        Log.i("TEST", "#email  " + profiloUtente.getEmail());
-        Log.i("TEST", "#nomedelviaggio  " + marker.getTitle() );
-        Log.i("TEST", "#codicedelviaggio  " + comboCodice.get(marker.getTitle()));
+        Log.i(TAG, "#email  " + profiloUtente.getEmail());
+        Log.i(TAG, "#nomedelviaggio  " + marker.getTitle() );
+        Log.i(TAG, "#codicedelviaggio  " + comboCodice.get(marker.getTitle()));
 
         startActivity(i);
     }
@@ -334,9 +336,9 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         }
         profiloNomiTappe.put(p, tappe);
         viaggioTappa.put(tappe, nome);
-        Log.i("TEST", "profiloNomiTappe: " + profiloNomiTappe);
-        Log.i("TEST", "viaggioTappa: " + viaggioTappa);
-        Log.i("TEST", "ho aggiunto i markedPoints di " + p);
+        Log.i(TAG, "profiloNomiTappe: " + profiloNomiTappe);
+        Log.i(TAG, "viaggioTappa: " + viaggioTappa);
+        Log.i(TAG, "ho aggiunto i markedPoints di " + p);
     }
 
 
@@ -346,8 +348,8 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
     private void findPlaceById(Profilo p, Tappa t) {
         if( TextUtils.isEmpty(t.getPoi().getCodicePOI()) || mGoogleApiClient == null){
-            Log.i("TEST", "codice tappa: " + t.getPoi().getCodicePOI());
-            Log.i("TEST", "return");
+            Log.i(TAG, "codice tappa: " + t.getPoi().getCodicePOI());
+            Log.i(TAG, "return");
             return;
         }
 
@@ -360,7 +362,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-        Log.i("TEST", "Profilo utente corrente in findPlace: " + profiloUtente);
+        Log.i(TAG, "Profilo utente corrente in findPlace: " + profiloUtente);
 
 
         //Se sono presenti gia i nomi delle tappe non devo riprenderli
@@ -387,16 +389,16 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
                     @Override
                     public void onResult(PlaceBuffer places) {
-                        Log.i("TEST", "sono in onResult");
-                        Log.i("TEST", "PlaceBuffer: " + places.toString());
-                        Log.i("TEST", "Status PlaceBuffer: " + places.getStatus());
-                        Log.i("TEST", "Count PlaceBuffer: " + places.getCount());
+                        Log.i(TAG, "sono in onResult");
+                        Log.i(TAG, "PlaceBuffer: " + places.toString());
+                        Log.i(TAG, "Status PlaceBuffer: " + places.getStatus());
+                        Log.i(TAG, "Count PlaceBuffer: " + places.getCount());
 
                         if (places.getStatus().isSuccess()) {
                             Place place = places.get(0);
-                            Log.i("TEST", "nome place: " + place.getName());
-                            Log.i("TEST", "idPlace " + place.getId());
-                            Log.i("TEST", "titolo Viaggio " + combo.get(place.getId()));
+                            Log.i(TAG, "nome place: " + place.getName());
+                            Log.i(TAG, "idPlace " + place.getId());
+                            Log.i(TAG, "titolo Viaggio " + combo.get(place.getId()));
 
 
                             googleMap.addMarker(new MarkerOptions()
@@ -412,7 +414,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
                             count++;
 
-                            Log.i("TEST", "count: " + count);
+                            Log.i(TAG, "count: " + count);
 
 
                             if (count == 1) {
@@ -516,7 +518,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
                         String result = sb.toString();
 
-                        Log.i("TEST", "result da queryViaggi: " + result);
+                        Log.i(TAG, "result da queryViaggi: " + result);
 
 
                         if(result.equals("null\n")){
@@ -543,7 +545,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
                                     int ordine = json_data.getInt("ordine");
 
                                     stringaFinale = email + " " + codiceViaggio  +" "+ nomeViaggio  +" "+ ordine + " "+ urlImmagineViaggio;
-                                    Log.i("TEST", "result da queryDEST: " + stringaFinale);
+                                    Log.i(TAG, "result da queryDEST: " + stringaFinale);
 
 
                                     String paginaDiario = json_data.getString("paginaDiario");
@@ -559,8 +561,8 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
                                     tappe.add(new Tappa(itinerario, ordine, null, null, paginaDiario, poi));
                                     nomeTappa.add(new Tappa(null, ordine, null, null, codicePOI, null));
                                 }
-                                Log.i("TEST", " combo finale: " + combo);
-                                Log.i("TEST", " combo finale Codice: " + comboCodice);
+                                Log.i(TAG, " combo finale: " + combo);
+                                Log.i(TAG, " combo finale Codice: " + comboCodice);
 
                             }
 
@@ -568,14 +570,14 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
 
                     } catch (Exception e) {
-                        Log.e("TEST", "Errore nel risultato o nel convertire il risultato");
+                        Log.e(TAG, "Errore nel risultato o nel convertire il risultato");
                     }
                 } else {
-                    Log.e("TEST", "Input Stream uguale a null");
+                    Log.e(TAG, "Input Stream uguale a null");
                 }
 
             } catch (Exception e) {
-                Log.e("TEST", "Errore nella connessione http "+e.toString());
+                Log.e(TAG, "Errore nella connessione http "+e.toString());
             }
 
             return null;
@@ -583,11 +585,11 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Log.i("TEST", "lista tappe: " + tappe);
-            Log.i("TEST", "lista viaggi: " + nome);
+            Log.i(TAG, "lista tappe: " + tappe);
+            Log.i(TAG, "lista viaggi: " + nome);
 
 
-            Log.i("TEST", "Profilo utente corrente: " + profiloUtente);
+            Log.i(TAG, "Profilo utente corrente: " + profiloUtente);
 
             AggiungiMarkedPointsOnMap(profiloUtente,tappe, nome);
 

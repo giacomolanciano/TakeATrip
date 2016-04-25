@@ -5,6 +5,9 @@ package com.example.david.takeatrip.Adapters;
  */
 public class PrivacyLevelAdapter { //extends ArrayAdapter<String> {
 
+    private static String TAG = "TEST PrivLevelAdapt";
+
+
 //    Context context;
 //    private String[] strings;
 //    private String[] subs;
@@ -20,9 +23,9 @@ public class PrivacyLevelAdapter { //extends ArrayAdapter<String> {
 //        this.arr_images = arr_images;
 //
 //
-//        Log.i("TEST", "context: "+context);
-//        Log.i("TEST", "strings: "+strings);
-//        Log.i("TEST", "subs: "+subs);
+//        Log.i(TAG, "context: "+context);
+//        Log.i(TAG, "strings: "+strings);
+//        Log.i(TAG, "subs: "+subs);
 //    }
 //
 //    @Override
@@ -54,9 +57,9 @@ public class PrivacyLevelAdapter { //extends ArrayAdapter<String> {
 //        ImageView icon=(ImageView)convertView.findViewById(R.id.image);
 //        icon.setImageResource(arr_images[position]);
 //
-//        Log.i("TEST", "string: " + strings[position]);
-//        Log.i("TEST", "sub: " + subs[position]);
-//        Log.i("TEST", "img: " + arr_images[position]);
+//        Log.i(TAG, "string: " + strings[position]);
+//        Log.i(TAG, "sub: " + subs[position]);
+//        Log.i(TAG, "img: " + arr_images[position]);
 //
 //        return convertView;
 //    }

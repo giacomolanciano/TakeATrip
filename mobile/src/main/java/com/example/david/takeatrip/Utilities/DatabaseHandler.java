@@ -17,6 +17,9 @@ import java.util.List;
  */
 public class DatabaseHandler extends SQLiteOpenHelper {
 
+    private static final String TAG = "TEST DatabaseHandler";
+
+
     // All Static variables
     // Database Version
     private static final int DATABASE_VERSION = 2;
@@ -84,12 +87,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(TIPO, profilo.getTipo());
 
 
-        Log.i("TEST", "contenuto db locale:" + db.toString());
+        Log.i(TAG, "contenuto db locale:" + db.toString());
 
         // Inserting Row
         db.insert(TABLE_USERS, null, values);
 
-        Log.i("TEST", "contenuto db locale:" + db.toString());
+        Log.i(TAG, "contenuto db locale:" + db.toString());
 
         db.close(); // Closing database connection
     }
@@ -102,24 +105,24 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        Log.i("TEST", "contenuto db locale:" + db.toString());
+        Log.i(TAG, "contenuto db locale:" + db.toString());
 
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Log.i("TEST", "contenuto cursore 0:" + cursor.getColumnName(0));
-                Log.i("TEST", "contenuto cursore 1:" + cursor.getColumnName(1));
-                Log.i("TEST", "contenuto cursore 2:" + cursor.getColumnName(2));
-                Log.i("TEST", "contenuto cursore 3:" + cursor.getColumnName(3));
-                Log.i("TEST", "contenuto cursore 4:" + cursor.getColumnName(4));
-                Log.i("TEST", "contenuto cursore 5:" + cursor.getColumnName(5));
-                Log.i("TEST", "contenuto cursore 6:" + cursor.getColumnName(6));
-                Log.i("TEST", "contenuto cursore 7:" + cursor.getColumnName(7));
-                Log.i("TEST", "contenuto cursore 8:" + cursor.getColumnName(8));
-                Log.i("TEST", "contenuto cursore 9:" + cursor.getColumnName(9));
-                Log.i("TEST", "contenuto cursore 10:" + cursor.getColumnName(10));
-                Log.i("TEST", "count cursore :" + cursor.getCount());
+                Log.i(TAG, "contenuto cursore 0:" + cursor.getColumnName(0));
+                Log.i(TAG, "contenuto cursore 1:" + cursor.getColumnName(1));
+                Log.i(TAG, "contenuto cursore 2:" + cursor.getColumnName(2));
+                Log.i(TAG, "contenuto cursore 3:" + cursor.getColumnName(3));
+                Log.i(TAG, "contenuto cursore 4:" + cursor.getColumnName(4));
+                Log.i(TAG, "contenuto cursore 5:" + cursor.getColumnName(5));
+                Log.i(TAG, "contenuto cursore 6:" + cursor.getColumnName(6));
+                Log.i(TAG, "contenuto cursore 7:" + cursor.getColumnName(7));
+                Log.i(TAG, "contenuto cursore 8:" + cursor.getColumnName(8));
+                Log.i(TAG, "contenuto cursore 9:" + cursor.getColumnName(9));
+                Log.i(TAG, "contenuto cursore 10:" + cursor.getColumnName(10));
+                Log.i(TAG, "count cursore :" + cursor.getCount());
 
 
 

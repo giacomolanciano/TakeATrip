@@ -13,6 +13,9 @@ import com.example.david.takeatrip.R;
  */
 public class SearchUsersFragment extends Fragment {
 
+    private static final String TAG = "TEST SearchUsersFragment";
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

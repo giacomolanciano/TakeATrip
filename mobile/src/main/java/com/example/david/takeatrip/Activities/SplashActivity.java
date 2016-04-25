@@ -33,6 +33,8 @@ import java.util.Map;
 
 public class SplashActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, AsyncResponseLogin{
 
+    private final String TAG = "TEST SplashActivity";
+
     AccessToken fbAccessToken;
     AccessTokenTracker tracker;
     ProfileTracker profileTracker;
@@ -91,7 +93,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
         // If the access token is available already assign it.
         fbAccessToken = AccessToken.getCurrentAccessToken();
         if(fbAccessToken != null){
-            Log.i("TEST", "fbAccessToken:" + "user id: " + fbAccessToken.getUserId() + "  token: " + fbAccessToken.getToken());
+            Log.i(TAG, "fbAccessToken:" + "user id: " + fbAccessToken.getUserId() + "  token: " + fbAccessToken.getToken());
 
             profile = Profile.getCurrentProfile();
 
@@ -121,8 +123,8 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
 
                 logins.put("graph.facebook.com", fbAccessToken.getToken());
 
-                Log.i("TEST", "token FB: " + fbAccessToken.getToken());
-                Log.i("TEST", "logins: " + logins);
+                Log.i(TAG, "token FB: " + fbAccessToken.getToken());
+                Log.i(TAG, "logins: " + logins);
 
                 credentialsProvider.setLogins(logins);
 
@@ -140,14 +142,14 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
 
         //Mettere condizione login google
         else if(mGoogleApiClient != null){
-            Log.i("TEST", "mGoogleApiClient diverso da null");
+            Log.i(TAG, "mGoogleApiClient diverso da null");
 
             mGoogleApiClient.connect();
             OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
             if (opr.isDone()) {
                 // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
                 // and the GoogleSignInResult will be available instantly.
-                Log.i("TEST", "Google Sign In isDone");
+                Log.i(TAG, "Google Sign In isDone");
                 GoogleSignInResult result = opr.get();
                 handleSignInResult(result);
             }
@@ -178,7 +180,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
     @Override
     public void processFinish(Profilo output) {
         if(output != null){
-            Log.i("TEST", "non primo accesso a TakeATrip");
+            Log.i(TAG, "non primo accesso a TakeATrip");
             openMainActivity2(output.getEmail(), output.getName(), output.getSurname(), output.getDataNascita(),
                     password, output.getNazionalita(), output.getSesso(), output.getUsername(),output.getLavoro(),
                     output.getDescrizione(), output.getTipo());
@@ -217,7 +219,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
     protected void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
-            Log.i("TEST", "result success!!!");
+            Log.i(TAG, "result success!!!");
 
             TakeATrip TAT = ((TakeATrip) getApplicationContext());
             TAT.setmGoogleApiClient(mGoogleApiClient);
@@ -232,7 +234,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
             String idUser = acct.getId();
             String tokenId = acct.getIdToken();
 
-            Log.i("TEST", "email: " + email + " describeContents: " + describeContents + " dispplayName: " + displayName
+            Log.i(TAG, "email: " + email + " describeContents: " + describeContents + " dispplayName: " + displayName
                     + " idUser: " + idUser + " tokenId: " + tokenId);
             password = "pwdGoogle";
 

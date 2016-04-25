@@ -8,6 +8,8 @@ import android.util.LruCache;
 
 public class BitmapCache extends LruCache<Integer, Bitmap> {
 
+    private static final String TAG = "TEST BitmapCache";
+
     private static final int KILO = 1024;
     private static final int MEMORY_FACTOR = 2 * KILO;
 
