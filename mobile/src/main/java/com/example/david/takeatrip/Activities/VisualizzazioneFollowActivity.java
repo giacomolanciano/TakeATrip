@@ -49,8 +49,8 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
     private TabsPagerAdapterVisualizzazioneFollow mAdapter;
     private ActionBar actionBar;
 
-    private final String ADDRESS_PRELIEVO = "Follower.php";
-    private final String ADDRESS_PRELIEVO_FOLLOWING = "Following.php";
+    private final String ADDRESS_PRELIEVO = "PrendiFollower.php";
+    private final String ADDRESS_PRELIEVO_FOLLOWING = "PrendiFollowing.php";
 
 
     private ArrayList<Following> follow;
@@ -75,7 +75,7 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
 
     private Profilo corrente;
 
-    private String[] tabs = {getString(R.string.FOLLOWING),getString(R.string.FOLLOWERS)};
+    private String[] tabs = {"FOLLOWING","FOLLOWERS"};
 
     private int[] icons = {
             R.drawable.ic_account_box_black_36dp,
@@ -422,7 +422,7 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
 
 
 /*
-        mAdapter = new  (getSupportFragmentManager(), getBaseContext(), seguaci,seguiti);
+        mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(), seguaci,seguiti);
         viewPager.setAdapter(mAdapter);
 */
 
