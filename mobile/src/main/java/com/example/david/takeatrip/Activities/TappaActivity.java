@@ -12,7 +12,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -38,11 +37,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.david.takeatrip.Adapters.MyExpandableListItemAdapter;
+import com.example.david.takeatrip.AsyncTasks.AggiornamentoDataTappaTask;
 import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
+import com.example.david.takeatrip.AsyncTasks.InserimentoAudioTappaTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoImmagineTappaTask;
+import com.example.david.takeatrip.AsyncTasks.InserimentoNotaTappaTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoVideoTappaTask;
 import com.example.david.takeatrip.AsyncTasks.UploadFileS3Task;
 import com.example.david.takeatrip.AsyncTasks.UrlsImagesTask;
@@ -51,25 +52,12 @@ import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.AudioRecord;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatesUtils;
-import com.example.david.takeatrip.Utilities.InternetConnection;
 import com.example.david.takeatrip.Utilities.MultimedialFile;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -82,8 +70,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
     private static final String TAG = "TEST TappaActivity";
 
-    private static final String ADDRESS_INSERIMENTO_NOTA = "InserimentoNotaTappa.php";
-    private static final String ADDRESS_AGGIORNAMENTO_TAPPA = "UpdateDataTappa.php";
     private static final String ADDRESS_QUERY_URLS= "QueryImagesOfStops.php";
 
 
@@ -99,8 +85,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
     private String imageFileName;
     private String videoFileName;
-    private String mCurrentVideoPath;
-    private String mCurrentPhotoPath;
     private boolean isCanceled;
     private boolean isRecordFileCreated;
     private int progressStatus;
@@ -109,7 +93,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
     private TextInputLayout textInputLayout;
     private TextInputEditText textInputEditText;
-    private ArrayList<String> noteInserite;
 
     private AppBarLayout appBarLayout;
 
@@ -126,6 +109,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     private List<Bitmap> immaginiSelezionate, videoSelezionati;
     private Map<Bitmap,String> bitmap_nomeFile;
     private Map<Bitmap, String> pathsImmaginiSelezionate;
+    private List<String> audioSelezionati;
+
+    private List<String> noteInserite;
 
     private GridView gridView;
 
@@ -341,6 +327,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
         noteInserite = new ArrayList<String>();
+        audioSelezionati = new ArrayList<String>();
 
 
         new UrlsImagesTask(TappaActivity.this, codiceViaggio, gridView, ADDRESS_QUERY_URLS,
@@ -386,8 +373,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
         textDataTappa.setText(DatesUtils.getStringFromDate(newDate, Constants.DISPLAYED_DATE_FORMAT));
 
-        new TaskAggiornamentoDataTappa(DatesUtils.getStringFromDate(newDate,
-                Constants.DATABASE_DATE_FORMAT)).execute();
+        new AggiornamentoDataTappaTask(TappaActivity.this, ordineTappa, codiceViaggio, email,
+                DatesUtils.getStringFromDate(newDate, Constants.DATABASE_DATE_FORMAT)).execute();
 
         //TODO
         // poiche le tappe vengono caricate tutte in lista tappe activity, se si aggiorna, si torna indietro
@@ -636,8 +623,10 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                     String audioFilePath = cursor.getString(columnIndexAudio);
                     cursor.close();
 
-//                    Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(audioFilePath,
-//                            MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+                    audioSelezionati.add(audioFilePath);
+
+                    uploadAudio();
+
 
                     break;
 
@@ -662,35 +651,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
     //metodi ausiliari
-
-    //TODO rivedere con Luca
-//    private void PopolaContenuti(){
-//        layoutContents.removeAllViews();
-//
-//        int i=0;
-//        for(Bitmap bitmap : immaginiSelezionate){
-//            if(i%LIMIT_IMAGES_VIEWS == 0){
-//                rowHorizontal = new LinearLayout(ListaTappeActivity.this);
-//                rowHorizontal.setOrientation(LinearLayout.HORIZONTAL);
-//
-//                //Log.i(TAG, "creato nuovo layout");
-//                layoutContents.addView(rowHorizontal);
-//                layoutContents.addView(new TextView(ListaTappeActivity.this), 10, 10);
-//            }
-//
-//
-//            final ImageView image = new ImageView(this, null);
-//
-//            Bitmap myBitmap = Bitmap.createScaledBitmap(bitmap, 60, 30, true);
-//            image.setImageBitmap(myBitmap);
-//
-//            //TODO: sistemare in funzione dello schermo e migliorare allocazione memoria usando thread
-//            rowHorizontal.addView(image, 60, 30);
-//
-//            i++;
-//        }
-//    }
-
 
 
     private static String getRealPathFromURI(Context context, Uri contentUri) {
@@ -777,7 +737,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                                 File photoFile = null;
                                 try {
 
-                                    photoFile = MultimedialFile.createMediaFile(Constants.IMAGE_FILE, mCurrentPhotoPath, imageFileName);
+                                    photoFile = MultimedialFile.createImageFile();
                                     imageFileName = photoFile.getName();
 
 
@@ -856,8 +816,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                                 File videoFile = null;
                                 try {
 
-                                    videoFile = MultimedialFile.createMediaFile(Constants.VIDEO_FILE,
-                                            mCurrentVideoPath, videoFileName);
+                                    videoFile = MultimedialFile.createVideoFile();
                                     videoFileName = videoFile.getName();
 
                                 } catch (IOException ex) {
@@ -914,7 +873,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                         case 0: //pick audio from storage
 
-                            Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+                            Intent intentPick = new Intent(Intent.ACTION_PICK,
+                                    android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+
                             startActivityForResult(intentPick, Constants.REQUEST_RECORD_PICK);
 
                             //TODO per selezione multipla, non funzionante
@@ -1001,14 +962,12 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                                                     progressDialog.dismiss();
 
-
                                                     Log.i(TAG, "file audio generato: " + record.getFileName());
 
-                                                    File fileAudio = record.getFileAudio();
+                                                    audioSelezionati.add(record.getFileName());
 
-                                                    Log.i(TAG, "file audio generato: " + fileAudio);
-
-                                                    //TODO implementare caricamento su db
+                                                    //il caricamento viene iniziato immediatamente
+                                                    uploadAudio();
 
                                                 }
                                             });
@@ -1051,8 +1010,12 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                                                                     progressDialog.dismiss();
 
-                                                                    //TODO implementare caricamento su db
+                                                                    Log.i(TAG, "file audio generato: " + record.getFileName());
 
+                                                                    audioSelezionati.add(record.getFileName());
+
+                                                                    //il caricamento viene iniziato immediatamente
+                                                                    uploadAudio();
                                                                 }
                                                             }
                                                         });
@@ -1138,7 +1101,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                             noteInserite.add(textInputEditText.getText().toString());
 
-                            new TaskInserimentoNotaTappa(ordineTappa).execute();
+                            new InserimentoNotaTappaTask(TappaActivity.this, ordineTappa, codiceViaggio,
+                                    email, noteInserite).execute();
                             Log.i(TAG, "edit text confirmed");
                         }
                     });
@@ -1153,6 +1117,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             Log.e(e.toString().toUpperCase(), e.getMessage());
         }
 
+        noteInserite.clear();
 
         Log.i(TAG, "END add note");
 
@@ -1191,6 +1156,10 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
         }
 
+
+        //per evitare che un contenuto venga caricato due volte
+        immaginiSelezionate.clear();
+
     }
 
 
@@ -1224,201 +1193,40 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             }
 
         }
+
+        //per evitare che un contenuto venga caricato due volte
+        videoSelezionati.clear();
     }
 
 
+    private void uploadAudio() {
 
-    private class TaskInserimentoNotaTappa extends AsyncTask<Void, Void, Void> {
+        if(!audioSelezionati.isEmpty()) {
 
-        InputStream is = null;
-        String result, stringaFinale = "";
-        int ordineAux;
-
-        public TaskInserimentoNotaTappa(int ordine) {
-            this.ordineAux = ordine;
-        }
+            String newAudioName;
+            String timeStamp;
 
 
-        @Override
-        protected Void doInBackground(Void... params) {
+            for(String pathAudio : audioSelezionati) {
 
+                timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
+                newAudioName = timeStamp + Constants.AUDIO_EXT;
 
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("ordine", ""+ordineAux));
-            dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
-            dataToSend.add(new BasicNameValuePair("emailProfilo", email));
+                new UploadFileS3Task(TappaActivity.this, Constants.BUCKET_TRAVELS_NAME,
+                        codiceViaggio, Constants.TRAVEL_AUDIO_LOCATION, email, pathAudio, newAudioName).execute();
 
-            Log.i(TAG, "ordine: " + ordineAux);
-            Log.i(TAG, "codiceViaggio: " + codiceViaggio);
-            Log.i(TAG, "emailProfilo: " + email);
+                String completePath = codiceViaggio + "/" + Constants.TRAVEL_AUDIO_LOCATION + "/" + email + "_" + newAudioName;
 
-            try {
-                if (InternetConnection.haveInternetConnection(TappaActivity.this)) {
-                    Log.i(TAG, "CONNESSIONE Internet Presente!");
-
-
-
-                    for (String nota : noteInserite) {
-
-                        dataToSend.add(new BasicNameValuePair("timestamp",
-                                new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date())));
-                        dataToSend.add(new BasicNameValuePair("nota", nota));
-                        Log.i(TAG, "nota: " + nota);
-
-                        HttpClient httpclient = new DefaultHttpClient();
-                        HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_NOTA);
-                        httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-
-                        HttpResponse response = httpclient.execute(httppost);
-
-                        HttpEntity entity = response.getEntity();
-
-                        is = entity.getContent();
-
-                        if (is != null) {
-                            //converto la risposta in stringa
-                            try {
-                                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                                StringBuilder sb = new StringBuilder();
-                                String line = null;
-                                while ((line = reader.readLine()) != null) {
-                                    sb.append(line + "\n");
-                                }
-                                is.close();
-
-                                result = sb.toString();
-                                Log.i(TAG, "result: " +result);
-
-                            } catch (Exception e) {
-                                Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                        else {
-                            Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
-                        }
-                    }
-
-                    noteInserite.clear();
-
-
-                } else
-                    Log.e(TAG, "CONNESSIONE Internet Assente!");
-            } catch (Exception e) {
-                Log.e(TAG, "Errore nella connessione http "+e.toString());
+                new InserimentoAudioTappaTask(TappaActivity.this, email,codiceViaggio,
+                        ordineTappa,null,completePath,livelloCondivisioneTappa).execute();
             }
 
-
-            return null;
         }
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-
-            if(!result.equals("OK\n")){
-                Log.e(TAG, "note non inserite");
-            }
-            else{
-                Log.i(TAG, "note inserite correttamente");
-
-            }
-            super.onPostExecute(aVoid);
-        }
+        //per evitare che un contenuto venga caricato due volte
+        audioSelezionati.clear();
     }
 
-
-
-    private class TaskAggiornamentoDataTappa extends AsyncTask<Void, Void, Void> {
-
-        InputStream is = null;
-        String result, stringaFinale = "", dataTappa;
-
-        public TaskAggiornamentoDataTappa(String dataTappa) {
-            this.dataTappa = dataTappa;
-        }
-
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("ordine", ""+ ordineTappa));
-            dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
-            dataToSend.add(new BasicNameValuePair("emailProfilo", email));
-            dataToSend.add(new BasicNameValuePair("data", dataTappa));
-
-
-            Log.i(TAG, "ordine: " + ordineTappa);
-            Log.i(TAG, "codiceViaggio: " + codiceViaggio);
-            Log.i(TAG, "emailProfilo: " + email);
-            Log.i(TAG, "dataTappa: " + dataTappa);
-
-            try {
-                if (InternetConnection.haveInternetConnection(TappaActivity.this)) {
-                    Log.i(TAG, "CONNESSIONE Internet Presente!");
-
-
-
-
-
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_AGGIORNAMENTO_TAPPA);
-                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-
-                    HttpResponse response = httpclient.execute(httppost);
-
-                    HttpEntity entity = response.getEntity();
-
-                    is = entity.getContent();
-
-                    if (is != null) {
-                        //converto la risposta in stringa
-                        try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                            StringBuilder sb = new StringBuilder();
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line + "\n");
-                            }
-                            is.close();
-
-                            result = sb.toString();
-                            Log.i(TAG, "result: " +result);
-
-                        } catch (Exception e) {
-                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    else {
-                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
-                    }
-
-
-
-
-                } else
-                    Log.e(TAG, "CONNESSIONE Internet Assente!");
-            } catch (Exception e) {
-                Log.e(TAG, "Errore nella connessione http "+e.toString());
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-
-            if(!result.equals("OK\n")){
-                Log.e(TAG, "data non aggiornata");
-            }
-            else{
-                Log.i(TAG, "data aggiornata");
-
-            }
-            super.onPostExecute(aVoid);
-        }
-    }
 
 
 

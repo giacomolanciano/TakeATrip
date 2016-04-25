@@ -2,7 +2,6 @@ package com.example.david.takeatrip.Utilities;
 
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
@@ -23,9 +22,8 @@ public class AudioRecord  {
     private static File fileAudio;
 
     public AudioRecord() {
-        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+        mFileName = DeviceStorageUtils.getAudioStoragePath();
         fileAudio = new File(mFileName);
-        //mFileName += Constants.PATH_AUDIO_FILES;
 
         Calendar calendar = Calendar.getInstance();
         int cDay = calendar.get(Calendar.DAY_OF_MONTH);
@@ -37,7 +35,7 @@ public class AudioRecord  {
         String data = String.format("%d%02d%02d",cYear,cMonth,cDay)
                 + "-" +  String.format("%02d-%02d-%02d", cHour, cMin, cSec);
 
-        mFileName += "/" + data +".3gp";
+        mFileName += "/" + data +Constants.AUDIO_EXT;
     }
 
     public void startPlaying() {
@@ -80,11 +78,11 @@ public class AudioRecord  {
         mRecorder = null;
     }
 
-    public static String getFileName() {
+    public String getFileName() {
         return mFileName;
     }
 
-    public static File getFileAudio(){
+    public File getFileAudio(){
         return fileAudio;
     }
 }

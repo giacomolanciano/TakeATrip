@@ -51,6 +51,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
+import com.example.david.takeatrip.AsyncTasks.InserimentoAudioTappaTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoFiltroTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoImmagineTappaTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoNotaTappaTask;
@@ -128,8 +129,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
     private static final String ADDRESS_PRELIEVO_TAPPE = "QueryTappe.php";
     private static final String ADDRESS_INSERIMENTO_TAPPA = "InserimentoTappa.php";
-    private static final String ADDRESS_INSERIMENTO_FILTRO = "InserimentoFiltro.php";
-    private static final String ADDRESS_INSERIMENTO_NOTA = "InserimentoNotaTappa.php";
+
     private static final int QUALITY_OF_IMAGE = Constants.QUALITY_PHOTO;
 
 
@@ -196,14 +196,16 @@ public class ListaTappeActivity extends AppCompatActivity
     private AudioRecord record;
 
     private DriveId idFolder;
-    private String imageFileName, mCurrentPhotoPath;
-    private String videoFileName, mCurrentVideoPath;
+    private String imageFileName;
+    private String videoFileName;
     private String livelloCondivisioneTappa;
 
     private List<Bitmap> immaginiSelezionate, videoSelezionati;
-    private Map<Bitmap,String> bitmap_nomeFile;
-    private Map<Bitmap, String> pathsImmaginiSelezionate;
+    private Map<Bitmap, String> bitmap_nomeFile;
+    private Map<Bitmap, String> pathsImmaginiVideoSelezionati;
 
+    private List<String> audioSelezionati;
+    private List<String> noteInserite;
 
 
     private LinearLayout layoutContents,rowHorizontal;
@@ -212,7 +214,6 @@ public class ListaTappeActivity extends AppCompatActivity
     private TextInputEditText textInputEditText;
     private RoundedImageView ViewImmagineViaggio;
 
-    private List<String> noteInserite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -232,7 +233,6 @@ public class ListaTappeActivity extends AppCompatActivity
         if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(this);
         } else {
-            //TODO capire perchè da eccezione sporadicamente
             Log.e(TAG, "navigationView is null");
         }
 
@@ -249,7 +249,6 @@ public class ListaTappeActivity extends AppCompatActivity
         if (buttonAddStop != null) {
             buttonAddStop.setVisibility(View.INVISIBLE);
         } else {
-            //TODO capire perchè da eccezione sporadicamente
             Log.e(TAG, "buttonAddStop is null");
         }
 
@@ -284,9 +283,10 @@ public class ListaTappeActivity extends AppCompatActivity
         immaginiSelezionate = new ArrayList<Bitmap>();
         videoSelezionati = new ArrayList<Bitmap>();
         bitmap_nomeFile = new HashMap<Bitmap,String>();
-        pathsImmaginiSelezionate = new HashMap<Bitmap, String>();
+        pathsImmaginiVideoSelezionati = new HashMap<Bitmap, String>();
 
         noteInserite = new ArrayList<String>();
+        audioSelezionati = new ArrayList<String>();
 
 
 
@@ -385,7 +385,7 @@ public class ListaTappeActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer != null && drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
@@ -449,6 +449,18 @@ public class ListaTappeActivity extends AppCompatActivity
         if (resultCode == RESULT_OK) {
 
             switch (requestCode) {
+
+                case Constants.REQUEST_PLACE_PICKER:
+
+                    Log.i(TAG, "REQUEST_PLACE_PICKER");
+
+                    Place place = PlacePicker.getPlace(this, data);
+                    Log.i(TAG, "Place: %s" + place.getName());
+
+                    startAddingStop(place);
+
+                    break;
+
                 case Constants.REQUEST_IMAGE_CAPTURE:
 
                     Log.i(TAG, "REQUEST_IMAGE_CAPTURE");
@@ -470,7 +482,7 @@ public class ListaTappeActivity extends AppCompatActivity
                         Log.i(TAG, "timeStamp image: " + nomeFile);
                         if(thumbnail != null){
 
-                            pathsImmaginiSelezionate.put(thumbnail, f.getAbsolutePath());
+                            pathsImmaginiVideoSelezionati.put(thumbnail, f.getAbsolutePath());
 
                             immaginiSelezionate.add(thumbnail);
                             bitmap_nomeFile.put(thumbnail,nomeFile);
@@ -543,7 +555,7 @@ public class ListaTappeActivity extends AppCompatActivity
                             if(thumbnail != null){
 
                                 //inserire file in una lista di file per caricamento in s3
-                                pathsImmaginiSelezionate.put(thumbnail, picturePath);
+                                pathsImmaginiVideoSelezionati.put(thumbnail, picturePath);
 
                                 immaginiSelezionate.add(thumbnail);
                                 bitmap_nomeFile.put(thumbnail, nomeFile);
@@ -551,7 +563,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
                             Log.i(TAG, "elenco immagini selezionate: " + immaginiSelezionate);
-                            Log.i(TAG, "elenco path risorse selezionate: " + pathsImmaginiSelezionate);
+                            Log.i(TAG, "elenco path risorse selezionate: " + pathsImmaginiVideoSelezionati);
                             Log.i(TAG, "elenco nomi risorse: " + bitmap_nomeFile.values());
 
 
@@ -570,17 +582,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
                     //TODO verifica caricamento su drive
 
-
-                    break;
-
-                case Constants.REQUEST_PLACE_PICKER:
-
-                    Log.i(TAG, "REQUEST_PLACE_PICKER");
-
-                    Place place = PlacePicker.getPlace(this, data);
-                    Log.i(TAG, "Place: %s" + place.getName());
-
-                    startAddingStop(place);
 
                     break;
 
@@ -610,7 +611,7 @@ public class ListaTappeActivity extends AppCompatActivity
                         Log.i(TAG, "timeStamp image: " + nomeFile);
                         if(bitmap != null){
 
-                            pathsImmaginiSelezionate.put(bitmap, fileVideo.getAbsolutePath());
+                            pathsImmaginiVideoSelezionati.put(bitmap, fileVideo.getAbsolutePath());
 
                             videoSelezionati.add(bitmap);
                             bitmap_nomeFile.put(bitmap,nomeFile);
@@ -683,7 +684,7 @@ public class ListaTappeActivity extends AppCompatActivity
                     if(thumbnail != null){
 
                         //inserire file in una lista di file per caricamento in s3
-                        pathsImmaginiSelezionate.put(thumbnail, videoPath);
+                        pathsImmaginiVideoSelezionati.put(thumbnail, videoPath);
 
                         videoSelezionati.add(thumbnail);
                         bitmap_nomeFile.put(thumbnail, nomeFile);
@@ -691,7 +692,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
                     Log.i(TAG, "elenco video selezionate: " + videoSelezionati);
-                    Log.i(TAG, "elenco path risorse selezionate: " + pathsImmaginiSelezionate);
+                    Log.i(TAG, "elenco path risorse selezionate: " + pathsImmaginiVideoSelezionati);
                     Log.i(TAG, "elenco nomi risorse: " + bitmap_nomeFile.values());
 
 
@@ -709,8 +710,7 @@ public class ListaTappeActivity extends AppCompatActivity
                     String audioFilePath = cursor.getString(columnIndexAudio);
                     cursor.close();
 
-//                    Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(audioFilePath,
-//                            MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+                    audioSelezionati.add(audioFilePath);
 
                     break;
 
@@ -744,7 +744,7 @@ public class ListaTappeActivity extends AppCompatActivity
     @Override
     public void onMapReady(GoogleMap map) {
 
-        //TODO il metodo sembra non venire chiamato, capire se problema emulatore
+        //TODO il metodo non viene chiamato se la versione è Android 6.0+, trovare workaround
 
         Log.i(TAG, "enter onMapReady");
 
@@ -841,13 +841,13 @@ public class ListaTappeActivity extends AppCompatActivity
         String data = cal.get(Calendar.YEAR) +"-"+(cal.get(Calendar.MONTH)+1)+"-"+cal.get(Calendar.DAY_OF_MONTH);
         i.putExtra("data", data);
 
-        //TODO sarà inutile una volta modificato il database
+        //TODO verificare utilità
         i.putExtra("codAccount", 0);
 
 //        Log.e(TAG, "#email  " + profiloUtente.getEmail());
 //        Log.e(TAG, "#nomedelviaggio  " + marker.getTitle() );
-        Log.e(TAG, "ordine tappa: " + ordineTappa);
-        Log.e(TAG, "data tappa: " + tappaSelezionata.getData().toString());
+//        Log.e(TAG, "ordine tappa: " + ordineTappa);
+//        Log.e(TAG, "data tappa: " + tappaSelezionata.getData().toString());
 
         startActivity(i);
 
@@ -869,12 +869,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
     public void onClickAddStop(View v){
-
-        pathsImmaginiSelezionate.clear();
-        immaginiSelezionate.clear();
-        videoSelezionati.clear();
-        bitmap_nomeFile.clear();
-
 
         try {
             PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
@@ -1393,7 +1387,7 @@ public class ListaTappeActivity extends AppCompatActivity
                                 File photoFile = null;
                                 try {
 
-                                    photoFile = MultimedialFile.createMediaFile(Constants.IMAGE_FILE, mCurrentPhotoPath, imageFileName);
+                                    photoFile = MultimedialFile.createImageFile();
                                     imageFileName = photoFile.getName();
 
 
@@ -1472,8 +1466,7 @@ public class ListaTappeActivity extends AppCompatActivity
                                 File videoFile = null;
                                 try {
 
-                                    videoFile = MultimedialFile.createMediaFile(Constants.VIDEO_FILE,
-                                            mCurrentVideoPath, videoFileName);
+                                    videoFile = MultimedialFile.createVideoFile();
                                     videoFileName = videoFile.getName();
 
                                 } catch (IOException ex) {
@@ -1530,7 +1523,9 @@ public class ListaTappeActivity extends AppCompatActivity
 
                         case 0: //pick audio from storage
 
-                            Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+                            Intent intentPick = new Intent(Intent.ACTION_PICK,
+                                    android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+
                             startActivityForResult(intentPick, Constants.REQUEST_RECORD_PICK);
 
                             //TODO per selezione multipla, non funzionante
@@ -1620,11 +1615,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
                                                     Log.i(TAG, "file audio generato: " + record.getFileName());
 
-                                                    File fileAudio = record.getFileAudio();
-
-                                                    Log.i(TAG, "file audio generato: " + fileAudio);
-
-                                                    //TODO implementare caricamento su db
+                                                    audioSelezionati.add(record.getFileName());
 
                                                 }
                                             });
@@ -1667,8 +1658,9 @@ public class ListaTappeActivity extends AppCompatActivity
 
                                                                     progressDialog.dismiss();
 
-                                                                    //TODO implementare caricamento su db
+                                                                    Log.i(TAG, "file audio generato: " + record.getFileName());
 
+                                                                    audioSelezionati.add(record.getFileName());
                                                                 }
                                                             }
                                                         });
@@ -1774,6 +1766,8 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
+
+    //TODO asyntasks & utilities da modularizzare
 
     private class GetTappeTask extends AsyncTask<Void, Void, Void> {
 
@@ -1929,7 +1923,6 @@ public class ListaTappeActivity extends AppCompatActivity
     }
 
 
-
     private class InserimentoTappaTask extends AsyncTask<Void, Void, Void> {
 
         //TODO da modularizzare, lasciato così per via di side-effect importanti su variabili della classe
@@ -1995,7 +1988,8 @@ public class ListaTappeActivity extends AppCompatActivity
                             Log.i(TAG, "result: " +result);
 
                         } catch (Exception e) {
-                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato",
+                                    Toast.LENGTH_LONG).show();
                         }
                     }
                     else {
@@ -2031,11 +2025,11 @@ public class ListaTappeActivity extends AppCompatActivity
                         noteInserite).execute();
             }
 
-            if(immaginiSelezionate.size() > 0){
+            if(!immaginiSelezionate.isEmpty()){
                 for(Bitmap bitmap : immaginiSelezionate) {
 
                     String nameImage = bitmap_nomeFile.get(bitmap);
-                    String pathImage = pathsImmaginiSelezionate.get(bitmap);
+                    String pathImage = pathsImmaginiVideoSelezionati.get(bitmap);
 
                     Log.i(TAG, "email: " + email);
                     Log.i(TAG, "codiceViaggio: " + codiceViaggio);
@@ -2061,11 +2055,11 @@ public class ListaTappeActivity extends AppCompatActivity
             }
 
 
-            if(videoSelezionati.size() > 0){
+            if(!videoSelezionati.isEmpty()){
                 for(Bitmap bitmap : videoSelezionati) {
 
                     String nameVideo = bitmap_nomeFile.get(bitmap);
-                    String pathVideo = pathsImmaginiSelezionate.get(bitmap);
+                    String pathVideo = pathsImmaginiVideoSelezionati.get(bitmap);
 
                     Log.i(TAG, "email: " + email);
                     Log.i(TAG, "codiceViaggio: " + codiceViaggio);
@@ -2077,10 +2071,6 @@ public class ListaTappeActivity extends AppCompatActivity
                     new UploadFileS3Task(ListaTappeActivity.this, Constants.BUCKET_TRAVELS_NAME,
                             codiceViaggio, Constants.TRAVEL_VIDEOS_LOCATION, email, pathVideo, nameVideo).execute();
 
-
-                    //TODO nella colonna urlImmagine si potrebbe salvare soltanto il nome del file
-                    //si può riscostruire il path a partire dalle altre info nella riga corrispondente
-
                     String completePath = codiceViaggio + "/" + Constants.TRAVEL_VIDEOS_LOCATION + "/" + email + "_" + nameVideo;
 
                     new InserimentoVideoTappaTask(ListaTappeActivity.this, email,codiceViaggio,
@@ -2089,6 +2079,35 @@ public class ListaTappeActivity extends AppCompatActivity
                 }
 
             }
+
+            if(!audioSelezionati.isEmpty()) {
+
+                String newAudioName;
+                String timeStamp;
+
+
+                for(String pathAudio : audioSelezionati) {
+
+                    timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
+                    newAudioName = timeStamp + Constants.AUDIO_EXT;
+
+                    new UploadFileS3Task(ListaTappeActivity.this, Constants.BUCKET_TRAVELS_NAME,
+                            codiceViaggio, Constants.TRAVEL_AUDIO_LOCATION, email, pathAudio, newAudioName).execute();
+
+                    String completePath = codiceViaggio + "/" + Constants.TRAVEL_AUDIO_LOCATION + "/" + email + "_" + newAudioName;
+
+                    new InserimentoAudioTappaTask(ListaTappeActivity.this, email,codiceViaggio,
+                            ordine,null,completePath,livelloCondivisioneTappa).execute();
+                }
+
+            }
+
+            pathsImmaginiVideoSelezionati.clear();
+            immaginiSelezionate.clear();
+            videoSelezionati.clear();
+            bitmap_nomeFile.clear();
+            audioSelezionati.clear();
+            noteInserite.clear();
 
 
             ordine += 1;

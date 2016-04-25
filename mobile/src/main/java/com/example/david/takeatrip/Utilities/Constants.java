@@ -119,4 +119,11 @@ public class Constants {
     public static final int BASE_DIMENSION_OF_SPACE = 20;
 
 
+    public static final String DEVICE_DIR_ROOT = "TakeATrip";
+    public static final String DEVICE_DIR_IMAGES = "TakeATrip Images";
+    public static final String DEVICE_DIR_VIDEOS = "TakeATrip Videos";
+    public static final String DEVICE_DIR_AUDIO = "TakeATrip Audio";
+
+
+
 }

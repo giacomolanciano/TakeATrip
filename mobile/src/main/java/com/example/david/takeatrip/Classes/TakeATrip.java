@@ -53,4 +53,5 @@ public class TakeATrip  extends Application {
     public CognitoCachingCredentialsProvider getCredentialsProvider() {
         return credentialsProvider;
     }
+
 }

@@ -30,7 +30,7 @@ public class InserimentoVideoTappaTask extends AsyncTask<Void, Void, Void> {
 
     private static final String TAG = "TEST InsVidTappaTask";
 
-    private final static String ADDRESS_INSERT_IMAGE_STOP = "InserimentoVideoTappa.php";
+    private final static String ADDRESS_INSERT_VIDEO_STOP = "InserimentoVideoTappa.php";
 
     private Context context;
 
@@ -67,7 +67,7 @@ public class InserimentoVideoTappaTask extends AsyncTask<Void, Void, Void> {
                 Log.i(TAG, "CONNESSIONE Internet Presente!");
 
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERT_IMAGE_STOP);
+                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERT_VIDEO_STOP);
                 httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                 HttpResponse response = httpclient.execute(httppost);
                 HttpEntity entity = response.getEntity();

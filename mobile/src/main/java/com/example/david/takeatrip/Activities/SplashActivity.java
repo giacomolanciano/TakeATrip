@@ -15,6 +15,7 @@ import com.example.david.takeatrip.Classes.TakeATrip;
 import com.example.david.takeatrip.Interfaces.AsyncResponseLogin;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
+import com.example.david.takeatrip.Utilities.DeviceStorageUtils;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.FacebookSdk;
@@ -51,8 +52,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         int timeout = 2000;
         super.onCreate(savedInstanceState);
 
@@ -88,6 +88,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
                 credentialsProvider);
 
 
+        DeviceStorageUtils.createExternalStorageDirectories();
 
 
         // If the access token is available already assign it.
@@ -103,7 +104,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
                     protected void onCurrentProfileChanged(Profile oldProfile, Profile profile2) {
                         profile = profile2;
                         // profile2 is the new profile
-                        Log.i("facebook - profile", profile.getName());
+                        Log.i(TAG, "facebook - profile: " + profile.getName());
                         profileTracker.stopTracking();
                     }
                 };
@@ -111,7 +112,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
             }
             else {
                 profile = Profile.getCurrentProfile();
-                Log.v("facebook - profile", profile.getFirstName());
+                Log.v(TAG, "facebook - profile: " + profile.getFirstName());
 
                 email = Constants.PREFIX_FACEBOOK  +profile.getId();
                 password = "pwdFb";
@@ -121,7 +122,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
                 data = "0000-00-00";
 
 
-                logins.put("graph.facebook.com", fbAccessToken.getToken());
+                logins.put(TAG, "graph.facebook.com: " + fbAccessToken.getToken());
 
                 Log.i(TAG, "token FB: " + fbAccessToken.getToken());
                 Log.i(TAG, "logins: " + logins);
@@ -161,7 +162,12 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
         else{
             openLoginActivity(timeout);
         }
+
+
+
     }
+
+
 
 
     public void openLoginActivity(int timeout){
@@ -265,4 +271,6 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
             // Signed out, show unauthenticated UI.
         }
     }
+
+
 }

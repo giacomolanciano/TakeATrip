@@ -19,21 +19,43 @@ public class MultimedialFile {
     private static final String TAG = "TEST MultimedialFile";
 
 
-    public static File createMediaFile(int tipoFile, String mCurrentMediaPath,
-                                       String mediaFileName) throws IOException {
+    public static File createImageFile() throws IOException {
 
+        String mCurrentMediaPath, mediaFileName;
 
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
 
-        if (tipoFile == Constants.IMAGE_FILE) {
-            mediaFileName = timeStamp + ".jpg";
-        } else {    //if (tipoFile == Constants.VIDEO_FILE) {
-            mediaFileName = timeStamp + ".3gp";
-        }
 
-        File mediaFile = new File(android.os.Environment.getExternalStorageDirectory(), mediaFileName);
+        mediaFileName = timeStamp + Constants.IMAGE_EXT;
+
+
+        File mediaFile = new File(DeviceStorageUtils.getImagesStoragePath(), mediaFileName);
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentMediaPath = mediaFile.getAbsolutePath();
+
+        Log.i(TAG, "path media file: " + mCurrentMediaPath);
+
+        return mediaFile;
+
+    }
+
+    public static File createVideoFile() throws IOException {
+
+
+        String mCurrentMediaPath, mediaFileName;
+
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+
+
+        mediaFileName = timeStamp + Constants.VIDEO_EXT;
+
+
+        File mediaFile = new File(DeviceStorageUtils.getVideosStoragePath(), mediaFileName);
 
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentMediaPath = mediaFile.getAbsolutePath();
