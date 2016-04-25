@@ -29,23 +29,14 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f12b5a04-1321-4fd8-82de-62c7ac20a4e7" name="Default" comment="&#10;">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/AggiornamentoDataTappaTask.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/InserimentoAudioTappaTask.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/DeviceStorageUtils.java" />
+    <list default="true" id="f12b5a04-1321-4fd8-82de-62c7ac20a4e7" name="Default" comment="implementato upload audio (selezionati/registrati) in listaTappe e tappa;&#10;modularizzati task per aggiornamento data tappa e ins nota tappa;&#10;nel dispositivo vengono ora create delle cartelle per organizzare i contenuti prodotti dall'app">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SplashActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SplashActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/InserimentoVideoTappaTask.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/InserimentoVideoTappaTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Classes/TakeATrip.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Classes/TakeATrip.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/AudioRecord.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/AudioRecord.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/Constants.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/Constants.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/MultimedialFile.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/MultimedialFile.java" />
     </list>
     <ignored path="TakeATrip.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -89,12 +80,12 @@
       <file leaf-file-name="ListaTappeActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="870" column="39" selection-start-line="870" selection-start-column="39" selection-end-line="870" selection-end-column="39" />
+            <state vertical-scroll-proportion="-259.58334">
+              <caret line="468" column="79" selection-start-line="468" selection-start-column="38" selection-end-line="468" selection-end-column="79" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#8482#8513#0" expanded="true" />
-                <element signature="e#8515#8547#0" expanded="true" />
+                <element signature="e#8547#8578#0" expanded="true" />
+                <element signature="e#8580#8612#0" expanded="true" />
                 <element signature="method#onNavigationItemSelected#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="method#getRealPathFromURI#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="method#PopolaPartecipanti#0;class#ListaTappeActivity#0" expanded="false" />
@@ -103,23 +94,22 @@
                 <element signature="method#findPlaceById#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="method#calcolaNumUltimaTappaUtenteCorrente#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="method#startAddingStop#0;class#ListaTappeActivity#0" expanded="false" />
-                <element signature="e#43157#43207#0" expanded="true" />
-                <element signature="method#onClickAddImage#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="e#43200#43250#0" expanded="true" />
                 <element signature="method#onClickAddVideo#0;class#ListaTappeActivity#0" expanded="false" />
-                <element signature="e#55015#63375#0" expanded="true" />
-                <element signature="e#56693#56736#0" expanded="true" />
-                <element signature="e#57306#57332#0" expanded="true" />
-                <element signature="e#58363#58388#0" expanded="true" />
-                <element signature="e#58464#63091#0" expanded="true" />
-                <element signature="e#58789#63025#0" expanded="true" />
-                <element signature="e#59325#59349#0" expanded="true" />
-                <element signature="e#63024#63025#0" expanded="true" />
-                <element signature="e#63090#63091#0" expanded="true" />
-                <element signature="e#63374#63375#0" expanded="true" />
+                <element signature="e#55058#63418#0" expanded="true" />
+                <element signature="e#56736#56779#0" expanded="true" />
+                <element signature="e#57349#57375#0" expanded="true" />
+                <element signature="e#58406#58431#0" expanded="true" />
+                <element signature="e#58507#63134#0" expanded="true" />
+                <element signature="e#58832#63068#0" expanded="true" />
+                <element signature="e#59368#59392#0" expanded="true" />
+                <element signature="e#63067#63068#0" expanded="true" />
+                <element signature="e#63133#63134#0" expanded="true" />
+                <element signature="e#63417#63418#0" expanded="true" />
                 <element signature="method#onClickAddNote#0;class#ListaTappeActivity#0" expanded="false" />
-                <element signature="e#64538#64564#0" expanded="true" />
-                <element signature="e#64947#64969#0" expanded="true" />
-                <element signature="e#65377#65406#0" expanded="true" />
+                <element signature="e#64581#64607#0" expanded="true" />
+                <element signature="e#64990#65012#0" expanded="true" />
+                <element signature="e#65420#65449#0" expanded="true" />
                 <element signature="class#GetTappeTask#0;class#ListaTappeActivity#0" expanded="false" />
                 <element signature="class#PrivacyLevelAdapter#0;class#ListaTappeActivity#0" expanded="false" />
               </folding>
@@ -130,22 +120,22 @@
       <file leaf-file-name="TappaActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.0129108">
-              <caret line="1135" column="8" selection-start-line="1135" selection-start-column="8" selection-end-line="1135" selection-end-column="8" />
+            <state vertical-scroll-proportion="6.8274646">
+              <caret line="354" column="28" selection-start-line="354" selection-start-column="28" selection-end-line="354" selection-end-column="28" />
               <folding>
-                <element signature="e#30371#39195#0" expanded="true" />
-                <element signature="e#32044#32087#0" expanded="true" />
-                <element signature="e#32657#32683#0" expanded="true" />
-                <element signature="e#33818#33843#0" expanded="true" />
-                <element signature="e#33919#38911#0" expanded="true" />
-                <element signature="e#34244#38845#0" expanded="true" />
-                <element signature="e#34780#34804#0" expanded="true" />
-                <element signature="e#38844#38845#0" expanded="true" />
-                <element signature="e#38910#38911#0" expanded="true" />
-                <element signature="e#39194#39195#0" expanded="true" />
-                <element signature="e#40358#40384#0" expanded="true" />
-                <element signature="e#40767#40789#0" expanded="true" />
-                <element signature="e#41371#41400#0" expanded="true" />
+                <element signature="e#29833#38657#0" expanded="true" />
+                <element signature="e#31506#31549#0" expanded="true" />
+                <element signature="e#32119#32145#0" expanded="true" />
+                <element signature="e#33280#33305#0" expanded="true" />
+                <element signature="e#33381#38373#0" expanded="true" />
+                <element signature="e#33706#38307#0" expanded="true" />
+                <element signature="e#34242#34266#0" expanded="true" />
+                <element signature="e#38306#38307#0" expanded="true" />
+                <element signature="e#38372#38373#0" expanded="true" />
+                <element signature="e#38656#38657#0" expanded="true" />
+                <element signature="e#39820#39846#0" expanded="true" />
+                <element signature="e#40229#40251#0" expanded="true" />
+                <element signature="e#40833#40862#0" expanded="true" />
                 <element signature="class#PrivacyLevelAdapter#0;class#TappaActivity#0" expanded="false" />
               </folding>
             </state>
@@ -176,10 +166,11 @@
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/AudioRecord.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="81" column="18" selection-start-line="81" selection-start-column="18" selection-end-line="81" selection-end-column="18" />
+              <caret line="80" column="18" selection-start-line="80" selection-start-column="18" selection-end-line="80" selection-end-column="18" />
               <folding>
-                <element signature="e#2382#2383#0" expanded="true" />
-                <element signature="e#2414#2415#0" expanded="true" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#2351#2352#0" expanded="true" />
+                <element signature="e#2383#2384#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -6205,7 +6196,13 @@
       <option name="project" value="LOCAL" />
       <updated>1461595790987</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="implementato upload audio (selezionati/registrati) in listaTappe e tappa;&#10;modularizzati task per aggiornamento data tappa e ins nota tappa;&#10;nel dispositivo vengono ora create delle cartelle per organizzare i contenuti prodotti dall'app">
+      <created>1461608300783</created>
+      <option name="number" value="00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1461608300783</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TodoView">
@@ -6297,7 +6294,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="revisionate tutte le classi del progetto che usano l'indirizzo del server; effettuata modularizzazione dell'indirizzo in tutte; mantenere questo pattern in futuro" />
     <MESSAGE value="implementato download immagine copertina viaggio da amazon s3 in ListaViaggiActivity" />
     <MESSAGE value="collegata selezione immagine copertina viaggio con colonna 'idFotoViaggio' della tabella Viaggio, fare in modo di aggiornare in quel campo il nome del file corrente" />
     <MESSAGE value="cambiato nome cartella immagini copertina per uniformarmi allo standard deciso con luca" />
@@ -6322,7 +6318,8 @@
     <MESSAGE value="modularizzato task inserimento nota tappa" />
     <MESSAGE value="modularizzato task inserimento filtro" />
     <MESSAGE value="inizio implementazione upload/download contenuti mancanti" />
-    <option name="LAST_COMMIT_MESSAGE" value="inizio implementazione upload/download contenuti mancanti" />
+    <MESSAGE value="implementato upload audio (selezionati/registrati) in listaTappe e tappa;&#10;modularizzati task per aggiornamento data tappa e ins nota tappa;&#10;nel dispositivo vengono ora create delle cartelle per organizzare i contenuti prodotti dall'app" />
+    <option name="LAST_COMMIT_MESSAGE" value="implementato upload audio (selezionati/registrati) in listaTappe e tappa;&#10;modularizzati task per aggiornamento data tappa e ins nota tappa;&#10;nel dispositivo vengono ora create delle cartelle per organizzare i contenuti prodotti dall'app" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -6719,10 +6716,11 @@
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/AudioRecord.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="81" column="18" selection-start-line="81" selection-start-column="18" selection-end-line="81" selection-end-column="18" />
+          <caret line="80" column="18" selection-start-line="80" selection-start-column="18" selection-end-line="80" selection-end-column="18" />
           <folding>
-            <element signature="e#2382#2383#0" expanded="true" />
-            <element signature="e#2414#2415#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#2351#2352#0" expanded="true" />
+            <element signature="e#2383#2384#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -6755,12 +6753,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="870" column="39" selection-start-line="870" selection-start-column="39" selection-end-line="870" selection-end-column="39" />
+        <state vertical-scroll-proportion="-259.58334">
+          <caret line="468" column="79" selection-start-line="468" selection-start-column="38" selection-end-line="468" selection-end-column="79" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#8482#8513#0" expanded="true" />
-            <element signature="e#8515#8547#0" expanded="true" />
+            <element signature="e#8547#8578#0" expanded="true" />
+            <element signature="e#8580#8612#0" expanded="true" />
             <element signature="method#onNavigationItemSelected#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="method#getRealPathFromURI#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="method#PopolaPartecipanti#0;class#ListaTappeActivity#0" expanded="false" />
@@ -6769,23 +6767,22 @@
             <element signature="method#findPlaceById#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="method#calcolaNumUltimaTappaUtenteCorrente#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="method#startAddingStop#0;class#ListaTappeActivity#0" expanded="false" />
-            <element signature="e#43157#43207#0" expanded="true" />
-            <element signature="method#onClickAddImage#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="e#43200#43250#0" expanded="true" />
             <element signature="method#onClickAddVideo#0;class#ListaTappeActivity#0" expanded="false" />
-            <element signature="e#55015#63375#0" expanded="true" />
-            <element signature="e#56693#56736#0" expanded="true" />
-            <element signature="e#57306#57332#0" expanded="true" />
-            <element signature="e#58363#58388#0" expanded="true" />
-            <element signature="e#58464#63091#0" expanded="true" />
-            <element signature="e#58789#63025#0" expanded="true" />
-            <element signature="e#59325#59349#0" expanded="true" />
-            <element signature="e#63024#63025#0" expanded="true" />
-            <element signature="e#63090#63091#0" expanded="true" />
-            <element signature="e#63374#63375#0" expanded="true" />
+            <element signature="e#55058#63418#0" expanded="true" />
+            <element signature="e#56736#56779#0" expanded="true" />
+            <element signature="e#57349#57375#0" expanded="true" />
+            <element signature="e#58406#58431#0" expanded="true" />
+            <element signature="e#58507#63134#0" expanded="true" />
+            <element signature="e#58832#63068#0" expanded="true" />
+            <element signature="e#59368#59392#0" expanded="true" />
+            <element signature="e#63067#63068#0" expanded="true" />
+            <element signature="e#63133#63134#0" expanded="true" />
+            <element signature="e#63417#63418#0" expanded="true" />
             <element signature="method#onClickAddNote#0;class#ListaTappeActivity#0" expanded="false" />
-            <element signature="e#64538#64564#0" expanded="true" />
-            <element signature="e#64947#64969#0" expanded="true" />
-            <element signature="e#65377#65406#0" expanded="true" />
+            <element signature="e#64581#64607#0" expanded="true" />
+            <element signature="e#64990#65012#0" expanded="true" />
+            <element signature="e#65420#65449#0" expanded="true" />
             <element signature="class#GetTappeTask#0;class#ListaTappeActivity#0" expanded="false" />
             <element signature="class#PrivacyLevelAdapter#0;class#ListaTappeActivity#0" expanded="false" />
           </folding>
@@ -6794,22 +6791,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.0129108">
-          <caret line="1135" column="8" selection-start-line="1135" selection-start-column="8" selection-end-line="1135" selection-end-column="8" />
+        <state vertical-scroll-proportion="6.8274646">
+          <caret line="354" column="28" selection-start-line="354" selection-start-column="28" selection-end-line="354" selection-end-column="28" />
           <folding>
-            <element signature="e#30371#39195#0" expanded="true" />
-            <element signature="e#32044#32087#0" expanded="true" />
-            <element signature="e#32657#32683#0" expanded="true" />
-            <element signature="e#33818#33843#0" expanded="true" />
-            <element signature="e#33919#38911#0" expanded="true" />
-            <element signature="e#34244#38845#0" expanded="true" />
-            <element signature="e#34780#34804#0" expanded="true" />
-            <element signature="e#38844#38845#0" expanded="true" />
-            <element signature="e#38910#38911#0" expanded="true" />
-            <element signature="e#39194#39195#0" expanded="true" />
-            <element signature="e#40358#40384#0" expanded="true" />
-            <element signature="e#40767#40789#0" expanded="true" />
-            <element signature="e#41371#41400#0" expanded="true" />
+            <element signature="e#29833#38657#0" expanded="true" />
+            <element signature="e#31506#31549#0" expanded="true" />
+            <element signature="e#32119#32145#0" expanded="true" />
+            <element signature="e#33280#33305#0" expanded="true" />
+            <element signature="e#33381#38373#0" expanded="true" />
+            <element signature="e#33706#38307#0" expanded="true" />
+            <element signature="e#34242#34266#0" expanded="true" />
+            <element signature="e#38306#38307#0" expanded="true" />
+            <element signature="e#38372#38373#0" expanded="true" />
+            <element signature="e#38656#38657#0" expanded="true" />
+            <element signature="e#39820#39846#0" expanded="true" />
+            <element signature="e#40229#40251#0" expanded="true" />
+            <element signature="e#40833#40862#0" expanded="true" />
             <element signature="class#PrivacyLevelAdapter#0;class#TappaActivity#0" expanded="false" />
           </folding>
         </state>

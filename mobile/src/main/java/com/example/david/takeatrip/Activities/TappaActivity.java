@@ -13,7 +13,6 @@ import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.design.widget.AppBarLayout;
@@ -52,6 +51,7 @@ import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.AudioRecord;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatesUtils;
+import com.example.david.takeatrip.Utilities.DeviceStorageUtils;
 import com.example.david.takeatrip.Utilities.MultimedialFile;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -399,7 +399,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                     Log.i(TAG, "REQUEST_IMAGE_CAPTURE");
 
-                    File f = new File(Environment.getExternalStorageDirectory().toString());
+                    File f = new File(DeviceStorageUtils.getImagesStoragePath());
                     for (File temp : f.listFiles()) {
                         if (temp.getName().equals(imageFileName)) {
                             f = temp;
@@ -524,7 +524,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                 case Constants.REQUEST_VIDEO_CAPTURE:
                     Log.i(TAG, "REQUEST_VIDEO_CAPTURE");
 
-                    File fileVideo = new File(Environment.getExternalStorageDirectory().toString());
+                    File fileVideo = new File(DeviceStorageUtils.getVideosStoragePath());
                     for (File temp : fileVideo.listFiles()) {
                         if (temp.getName().equals(videoFileName)) {
                             fileVideo = temp;

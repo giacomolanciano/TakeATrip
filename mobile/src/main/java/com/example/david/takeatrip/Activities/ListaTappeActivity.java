@@ -17,7 +17,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.MediaStore;
@@ -68,6 +67,7 @@ import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.AudioRecord;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatesUtils;
+import com.example.david.takeatrip.Utilities.DeviceStorageUtils;
 import com.example.david.takeatrip.Utilities.InternetConnection;
 import com.example.david.takeatrip.Utilities.MultimedialFile;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
@@ -465,7 +465,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
                     Log.i(TAG, "REQUEST_IMAGE_CAPTURE");
 
-                    File f = new File(Environment.getExternalStorageDirectory().toString());
+                    File f = new File(DeviceStorageUtils.getImagesStoragePath());
                     for (File temp : f.listFiles()) {
                         if (temp.getName().equals(imageFileName)) {
                             f = temp;
@@ -588,7 +588,7 @@ public class ListaTappeActivity extends AppCompatActivity
                 case Constants.REQUEST_VIDEO_CAPTURE:
                     Log.i(TAG, "REQUEST_VIDEO_CAPTURE");
 
-                    File fileVideo = new File(Environment.getExternalStorageDirectory().toString());
+                    File fileVideo = new File(DeviceStorageUtils.getVideosStoragePath());
                     for (File temp : fileVideo.listFiles()) {
                         if (temp.getName().equals(videoFileName)) {
                             fileVideo = temp;
