@@ -408,17 +408,22 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
 
     public void ClickOnFollow(View v){
+        int val;
         if (alreadyFollowing){
             MyTaskDeleteFollowing mTD = new MyTaskDeleteFollowing();
             mTD.execute();
             follow.setText("FOLLOW");
             alreadyFollowing=false;
+            val = Integer.parseInt(numFollowingsView.getText().toString());
+            numFollowingsView.setText("" + (val - 1));
             follow.setBackground(getDrawable(R.drawable.button_style));
         }else {
             MyTaskInsertFollowing mTF = new MyTaskInsertFollowing();
             mTF.execute();
             follow.setText("FOLLOWING");
             alreadyFollowing=true;
+            val = Integer.parseInt(numFollowingsView.getText().toString());
+            numFollowingsView.setText("" + (val + 1));
             follow.setBackground(getDrawable(R.drawable.button_follow_cliccato));
         }
 
