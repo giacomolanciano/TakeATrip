@@ -35,6 +35,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
 import com.example.david.takeatrip.AsyncTasks.GetPartecipantiViaggioTask;
 import com.example.david.takeatrip.AsyncTasks.InsertCoverImageTravelTask;
+import com.example.david.takeatrip.AsyncTasks.ItinerariesTask;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
 import com.example.david.takeatrip.R;
@@ -73,7 +74,6 @@ public class ViaggioActivity extends FragmentActivity {
     private static final String TAG = "TEST ViaggioActivity";
 
     private static final String ADDRESS = "QueryNomiUtenti.php";
-    private static final String ADDRESS_INSERIMENTO_ITINERARIO = "InserimentoItinerario.php";
     private static final String ADDRESS_QUERY_FOLDER = "QueryCartellaGenerica.php";
     private static final String ADDRESS_INSERT_FOLDER = "CreazioneCartellaViaggio.php";
 
@@ -106,7 +106,7 @@ public class ViaggioActivity extends FragmentActivity {
     private Bitmap bitmapImageTravel;
     private String nameImageTravel, urlImageTravel;
 
-    private String NameForUrl;
+    private String nameForUrl;
 
     // The TransferUtility is the primary class for managing transfer to S3
     private TransferUtility transferUtility;
@@ -172,7 +172,7 @@ public class ViaggioActivity extends FragmentActivity {
         profiles = new ArrayList<Profilo>();
 
 
-        NameForUrl = codiceViaggio.trim().replace(" ", "");
+        nameForUrl = codiceViaggio.trim().replace(" ", "");
 
 
         if(email == null){
@@ -180,7 +180,7 @@ public class ViaggioActivity extends FragmentActivity {
             email = TAT.getProfiloCorrente().getEmail();
         }
         if(email != null){
-            String url = email+"/"+NameForUrl;
+            String url = email+"/"+ nameForUrl;
         }
 
         Log.i(TAG, "email utente: " + email + " codiceViaggio: " + codiceViaggio + " nomeVaggio: " + nomeViaggio);
@@ -213,7 +213,7 @@ public class ViaggioActivity extends FragmentActivity {
 
 
 
-        //new MyTaskIDFolder(this,email,url,NameForUrl).execute();
+        //new MyTaskIDFolder(this,email,url,nameForUrl).execute();
 
     }
 
@@ -317,9 +317,9 @@ public class ViaggioActivity extends FragmentActivity {
 
 /*
                 if(email!= null && codiceViaggio != null){
-                    String NameForUrl = codiceViaggio.trim().replace(" ", "");
-                    String url = email+"/"+NameForUrl;
-                    new MyTaskIDFolder(this,email,url,NameForUrl).execute();
+                    String nameForUrl = codiceViaggio.trim().replace(" ", "");
+                    String url = email+"/"+nameForUrl;
+                    new MyTaskIDFolder(this,email,url,nameForUrl).execute();
                 }
                 else{
                     Toast.makeText(getBaseContext(), R.string.update_failed, Toast.LENGTH_LONG);
@@ -579,7 +579,7 @@ public class ViaggioActivity extends FragmentActivity {
                             //if(!listPartecipants.contains(p)) {
                             if(!giaPresente) {
                                 listPartecipants.add(p);
-                                new TaskForItineraries(p).execute();
+                                new ItinerariesTask(ViaggioActivity.this, p, codiceViaggio, nameForUrl).execute();
 
                                 final ImageView image = new RoundedImageView(ViaggioActivity.this, null);
                                 image.setContentDescription(p.getEmail());
@@ -704,6 +704,7 @@ public class ViaggioActivity extends FragmentActivity {
 
 
 
+    //TODO tasks da modularizzare
 
     private class MyTaskIDFolder extends AsyncTask<Void, Void, Void> {
 
@@ -894,61 +895,6 @@ public class ViaggioActivity extends FragmentActivity {
 
             super.onPostExecute(aVoid);
 
-        }
-    }
-
-
-
-    private class TaskForItineraries extends AsyncTask<Void, Void, Void> {
-
-        private static final String TAG = "TEST ItinerariesTask";
-
-        private Profilo profilo;
-        public TaskForItineraries(Profilo p){
-            profilo = p;
-        }
-
-        InputStream is = null;
-        String result, stringaFinale = "";
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
-            dataToSend.add(new BasicNameValuePair("email", profilo.getEmail()));
-
-            String url = profilo.getEmail()+"/"+NameForUrl;
-
-            Log.i(TAG, "url della cartella del nuovo partecipante: " + url);
-            dataToSend.add(new BasicNameValuePair("urlCartella",url));
-            dataToSend.add(new BasicNameValuePair("nomeCartella",NameForUrl));
-
-            try {
-                if (InternetConnection.haveInternetConnection(ViaggioActivity.this)) {
-                    Log.i(TAG, "CONNESSIONE Internet Presente!");
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_INSERIMENTO_ITINERARIO);
-                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                    HttpResponse response = httpclient.execute(httppost);
-
-                    HttpEntity entity = response.getEntity();
-
-                    is = entity.getContent();
-
-                }
-                else
-                    Log.e(TAG, "CONNESSIONE Internet Assente!");
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(TAG, e.toString()+ ": " + e.getMessage());
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
         }
     }
 
