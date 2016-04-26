@@ -4,17 +4,7 @@
     <style name="CustomDialog" parent="@android:style/Theme.NoTitleBar">
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="colorPrimary">@color/blue</item>
-        <item name="android:colorBackground">@color/sfondoBianco</item>
-        <item name="android:textColorPrimaryInverse">@color/blue</item>
-        <item name="android:colorPrimaryDark">@color/blue</item>
-        <item name="android:actionBarTheme">@color/blue</item>
-        <item name="android:actionBarWidgetTheme">@color/blue</item>
-        <item name="android:actionBarTabStyle">@color/blue</item>
-        <item name="android:actionBarItemBackground">@color/blue</item>
-        <item name="android:panelColorBackground">@color/blue</item>
-        <item name="android:solidColor">@color/blue</item>
-        <item name="android:statusBarColor">@color/blue</item>
+
     </style>
 
 

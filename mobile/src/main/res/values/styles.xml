@@ -2,13 +2,12 @@
 
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+    -    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:panelColorBackground">@color/blue</item>
         <item name="android:colorPrimaryDark">@color/blue</item>
         <item name="colorPrimary">@color/blue</item>
         <item name="android:colorBackground">@color/sfondoBianco</item>
-        <item name="colorPrimaryDark">@color/primary_dark_material_dark</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
+
 
         <!--  <item name="android:windowBackground">@color/blue</item> -->
 
@@ -54,16 +53,7 @@
 
     <style name="Theme.WithActionBar.Social" parent="android:Theme.WithActionBar" >
         <item name="colorPrimary">@color/blue</item>
-        <item name="android:colorBackground">@color/sfondoBianco</item>
         <item name="android:textColorPrimaryInverse">@color/blue</item>
-        <item name="android:colorPrimaryDark">@color/blue</item>
-        <item name="android:actionBarTheme">@color/blue</item>
-        <item name="android:actionBarWidgetTheme">@color/blue</item>
-        <item name="android:actionBarTabStyle">@color/blue</item>
-        <item name="android:actionBarItemBackground">@color/blue</item>
-        <item name="android:panelColorBackground">@color/blue</item>
-        <item name="android:solidColor">@color/blue</item>
-        <item name="android:statusBarColor">@color/blue</item>
 
     </style>
 
@@ -74,7 +64,7 @@
 
     </style>
 
-    <style name="Widget.AppTheme.ActionBar.Solid" parent="@style/Widget.AppCompat.ActionBar.Solid">
+    <style name="Widget.AppTheme.ActionBar.Solid" parent="Widget.AppCompat.ActionBar.Solid">
     <item name="colorPrimary">@color/blue</item>
     <item name="android:colorBackground">@color/sfondoBianco</item>
     <item name="android:textColorPrimaryInverse">@color/blue</item>
@@ -89,6 +79,7 @@
         <!--METTERE QUI COLORE BLUE DELLA BARRA SOPRA -->
 
     </style>
+    <style name="Widget.AppTheme.ActionBar.Social" parent="Widget.AppCompat.ActionBar.Solid" />
 
 
 
@@ -107,9 +98,6 @@
 
     </style>
 
-    <style name="Finale" parent="Theme.AppCompat.NoActionBar" >
-        <item name="android:colorBackground">@color/white</item>
-    </style>
 
 
 </resources>

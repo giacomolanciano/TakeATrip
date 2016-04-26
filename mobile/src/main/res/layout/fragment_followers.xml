@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="2dp"
         card_view:contentPadding="10dp"
-        android:background="@android:color/white"
+        android:background="#ffffff"
         >
         <!--card_view:cardBackgroundColor="@color/blue"-->
         <LinearLayout

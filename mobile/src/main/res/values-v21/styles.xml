@@ -12,9 +12,7 @@
         <item name="android:colorPrimaryDark">@color/blue</item>
         <item name="android:colorBackground">#ffffff</item>
         <item name="android:statusBarColor">@color/blue</item>
-        <item name="android:textColorPrimaryInverse">@color/blue</item>
-        <item name="android:textColorSecondaryInverse">@color/blue</item>
-        <item name="android:windowBackground">@color/blue</item>
+
     </style>
 
     <style name="Social" parent="Theme.AppCompat.Light.NoActionBar">
