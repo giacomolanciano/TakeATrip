@@ -34,7 +34,7 @@ import java.util.Map;
 
 public class SplashActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, AsyncResponseLogin{
 
-    private final String TAG = "TEST SplashActivity";
+    private static final String TAG = "TEST SplashActivity";
 
     AccessToken fbAccessToken;
     AccessTokenTracker tracker;

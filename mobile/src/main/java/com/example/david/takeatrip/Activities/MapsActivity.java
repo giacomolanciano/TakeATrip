@@ -79,7 +79,7 @@ import java.util.Map;
 public class MapsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnInfoWindowClickListener, OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,GoogleMap.OnMarkerClickListener {
 
-    private final String TAG = "TEST MapsActivity";
+    private static final String TAG = "TEST MapsActivity";
 
 
     private final int DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT;

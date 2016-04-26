@@ -43,7 +43,7 @@ import java.util.ArrayList;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class VisualizzazioneFollowActivity extends FragmentActivity implements ActionBar.TabListener {
 
-    private final String TAG = "TEST VisualFollowAct";
+    private static final String TAG = "TEST VisualFollowAct";
 
     private ViewPager viewPager;
     private TabsPagerAdapterVisualizzazioneFollow mAdapter;

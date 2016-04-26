@@ -53,7 +53,7 @@ import java.util.Map;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private final String TAG = "TEST SearchActivity";
+    private static final String TAG = "TEST SearchActivity";
 
     private final String ADDRESS = "QueryNomiUtenti.php";
     private final String ADDRESS_PER_VIAGGI_DA_UTENTE = "QueryViaggiDiUtente.php";

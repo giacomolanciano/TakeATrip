@@ -1,5 +1,580 @@
 [
     {
+        "outputFile": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\values-lv\\values-lv.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 105,
+                    "endColumn": 203,
+                    "endOffset": 304
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 493,
+                        "endColumn": 207,
+                        "endOffset": 696
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 309,
+                    "endColumn": 189,
+                    "endOffset": 494
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 2683,
+                        "endColumn": 193,
+                        "endOffset": 2872
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 499,
+                    "endColumn": 117,
+                    "endOffset": 612
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 2361,
+                        "endColumn": 117,
+                        "endOffset": 2474
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 617,
+                    "endColumn": 307,
+                    "endOffset": 920
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 30,
+                        "startColumn": 4,
+                        "startOffset": 4645,
+                        "endColumn": 311,
+                        "endOffset": 4952
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 925,
+                    "endColumn": 133,
+                    "endOffset": 1054
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 2090,
+                        "endColumn": 133,
+                        "endOffset": 2219
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 7,
+                    "startColumn": 4,
+                    "startOffset": 1059,
+                    "endColumn": 197,
+                    "endOffset": 1252
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 1888,
+                        "endColumn": 201,
+                        "endOffset": 2085
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 1257,
+                    "endColumn": 133,
+                    "endOffset": 1386
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 1754,
+                        "endColumn": 133,
+                        "endOffset": 1883
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 1391,
+                    "endColumn": 181,
+                    "endOffset": 1568
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 875,
+                        "endColumn": 185,
+                        "endOffset": 1056
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 1573,
+                    "endColumn": 131,
+                    "endOffset": 1700
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 1622,
+                        "endColumn": 131,
+                        "endOffset": 1749
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 1705,
+                    "endColumn": 207,
+                    "endOffset": 1908
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 1192,
+                        "endColumn": 211,
+                        "endOffset": 1399
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 1913,
+                    "endColumn": 213,
+                    "endOffset": 2122
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 1404,
+                        "endColumn": 217,
+                        "endOffset": 1617
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 13,
+                    "startColumn": 4,
+                    "startOffset": 2127,
+                    "endColumn": 130,
+                    "endOffset": 2253
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 1061,
+                        "endColumn": 130,
+                        "endOffset": 1187
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 2258,
+                    "endColumn": 176,
+                    "endOffset": 2430
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 24,
+                        "startColumn": 4,
+                        "startOffset": 3698,
+                        "endColumn": 176,
+                        "endOffset": 3870
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 15,
+                    "startColumn": 4,
+                    "startOffset": 2435,
+                    "endColumn": 122,
+                    "endOffset": 2553
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 23,
+                        "startColumn": 4,
+                        "startOffset": 3575,
+                        "endColumn": 122,
+                        "endOffset": 3693
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 16,
+                    "startColumn": 4,
+                    "startOffset": 2558,
+                    "endColumn": 173,
+                    "endOffset": 2727
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 701,
+                        "endColumn": 173,
+                        "endOffset": 870
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 17,
+                    "startColumn": 4,
+                    "startOffset": 2732,
+                    "endColumn": 194,
+                    "endOffset": 2922
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 22,
+                        "startColumn": 4,
+                        "startOffset": 3380,
+                        "endColumn": 194,
+                        "endOffset": 3570
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 18,
+                    "startColumn": 4,
+                    "startOffset": 2927,
+                    "endColumn": 117,
+                    "endOffset": 3040
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 21,
+                        "startColumn": 4,
+                        "startOffset": 3262,
+                        "endColumn": 117,
+                        "endOffset": 3375
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 19,
+                    "startColumn": 4,
+                    "startOffset": 3045,
+                    "endColumn": 186,
+                    "endOffset": 3227
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 306,
+                        "endColumn": 186,
+                        "endOffset": 488
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 20,
+                    "startColumn": 4,
+                    "startOffset": 3232,
+                    "endColumn": 135,
+                    "endOffset": 3363
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 170,
+                        "endColumn": 135,
+                        "endOffset": 301
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 21,
+                    "startColumn": 4,
+                    "startOffset": 3368,
+                    "endColumn": 181,
+                    "endOffset": 3545
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 32,
+                        "startColumn": 4,
+                        "startOffset": 5088,
+                        "endColumn": 181,
+                        "endOffset": 5265
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 22,
+                    "startColumn": 4,
+                    "startOffset": 3550,
+                    "endColumn": 130,
+                    "endOffset": 3676
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 31,
+                        "startColumn": 4,
+                        "startOffset": 4957,
+                        "endColumn": 130,
+                        "endOffset": 5083
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 3681,
+                    "endColumn": 147,
+                    "endOffset": 3824
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 25,
+                        "startColumn": 4,
+                        "startOffset": 3875,
+                        "endColumn": 147,
+                        "endOffset": 4018
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 24,
+                    "startColumn": 4,
+                    "startOffset": 3829,
+                    "endColumn": 285,
+                    "endOffset": 4110
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 27,
+                        "startColumn": 4,
+                        "startOffset": 4151,
+                        "endColumn": 289,
+                        "endOffset": 4436
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 25,
+                    "startColumn": 4,
+                    "startOffset": 4115,
+                    "endColumn": 127,
+                    "endOffset": 4238
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 26,
+                        "startColumn": 4,
+                        "startOffset": 4023,
+                        "endColumn": 127,
+                        "endOffset": 4146
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 26,
+                    "startColumn": 4,
+                    "startOffset": 4243,
+                    "endColumn": 110,
+                    "endOffset": 4349
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 28,
+                        "startColumn": 4,
+                        "startOffset": 4441,
+                        "endColumn": 110,
+                        "endOffset": 4547
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 27,
+                    "startColumn": 4,
+                    "startOffset": 4354,
+                    "endColumn": 199,
+                    "endOffset": 4549
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 17,
+                        "startColumn": 4,
+                        "startOffset": 2479,
+                        "endColumn": 203,
+                        "endOffset": 2678
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 28,
+                    "startColumn": 4,
+                    "startOffset": 4554,
+                    "endColumn": 136,
+                    "endOffset": 4686
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 2224,
+                        "endColumn": 136,
+                        "endOffset": 2356
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 29,
+                    "startColumn": 4,
+                    "startOffset": 4691,
+                    "endColumn": 227,
+                    "endOffset": 4914
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 3030,
+                        "endColumn": 231,
+                        "endOffset": 3257
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 30,
+                    "startColumn": 4,
+                    "startOffset": 4919,
+                    "endColumn": 152,
+                    "endOffset": 5067
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 2877,
+                        "endColumn": 152,
+                        "endOffset": 3025
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 31,
+                    "startColumn": 4,
+                    "startOffset": 5072,
+                    "endColumn": 92,
+                    "endOffset": 5160
+                },
+                "from": {
+                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "position": {
+                        "startLine": 29,
+                        "startColumn": 4,
+                        "startOffset": 4552,
+                        "endColumn": 92,
+                        "endOffset": 4640
+                    }
+                }
+            }
+        ]
+    },
+    {
         "outputFile": "C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\values-lv\\values-lv.xml",
         "map": [
             {
@@ -563,581 +1138,6 @@
                 },
                 "from": {
                     "file": "C:\\Users\\david\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 29,
-                        "startColumn": 4,
-                        "startOffset": 4552,
-                        "endColumn": 92,
-                        "endOffset": 4640
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\values-lv\\values-lv.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 105,
-                    "endColumn": 203,
-                    "endOffset": 304
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 5,
-                        "startColumn": 4,
-                        "startOffset": 493,
-                        "endColumn": 207,
-                        "endOffset": 696
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 3,
-                    "startColumn": 4,
-                    "startOffset": 309,
-                    "endColumn": 189,
-                    "endOffset": 494
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 18,
-                        "startColumn": 4,
-                        "startOffset": 2683,
-                        "endColumn": 193,
-                        "endOffset": 2872
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 4,
-                    "startColumn": 4,
-                    "startOffset": 499,
-                    "endColumn": 117,
-                    "endOffset": 612
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 16,
-                        "startColumn": 4,
-                        "startOffset": 2361,
-                        "endColumn": 117,
-                        "endOffset": 2474
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 5,
-                    "startColumn": 4,
-                    "startOffset": 617,
-                    "endColumn": 307,
-                    "endOffset": 920
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 30,
-                        "startColumn": 4,
-                        "startOffset": 4645,
-                        "endColumn": 311,
-                        "endOffset": 4952
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 6,
-                    "startColumn": 4,
-                    "startOffset": 925,
-                    "endColumn": 133,
-                    "endOffset": 1054
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 14,
-                        "startColumn": 4,
-                        "startOffset": 2090,
-                        "endColumn": 133,
-                        "endOffset": 2219
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 7,
-                    "startColumn": 4,
-                    "startOffset": 1059,
-                    "endColumn": 197,
-                    "endOffset": 1252
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 13,
-                        "startColumn": 4,
-                        "startOffset": 1888,
-                        "endColumn": 201,
-                        "endOffset": 2085
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 8,
-                    "startColumn": 4,
-                    "startOffset": 1257,
-                    "endColumn": 133,
-                    "endOffset": 1386
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 12,
-                        "startColumn": 4,
-                        "startOffset": 1754,
-                        "endColumn": 133,
-                        "endOffset": 1883
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 9,
-                    "startColumn": 4,
-                    "startOffset": 1391,
-                    "endColumn": 181,
-                    "endOffset": 1568
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 7,
-                        "startColumn": 4,
-                        "startOffset": 875,
-                        "endColumn": 185,
-                        "endOffset": 1056
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 10,
-                    "startColumn": 4,
-                    "startOffset": 1573,
-                    "endColumn": 131,
-                    "endOffset": 1700
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 11,
-                        "startColumn": 4,
-                        "startOffset": 1622,
-                        "endColumn": 131,
-                        "endOffset": 1749
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 11,
-                    "startColumn": 4,
-                    "startOffset": 1705,
-                    "endColumn": 207,
-                    "endOffset": 1908
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 9,
-                        "startColumn": 4,
-                        "startOffset": 1192,
-                        "endColumn": 211,
-                        "endOffset": 1399
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 12,
-                    "startColumn": 4,
-                    "startOffset": 1913,
-                    "endColumn": 213,
-                    "endOffset": 2122
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 10,
-                        "startColumn": 4,
-                        "startOffset": 1404,
-                        "endColumn": 217,
-                        "endOffset": 1617
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 13,
-                    "startColumn": 4,
-                    "startOffset": 2127,
-                    "endColumn": 130,
-                    "endOffset": 2253
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 8,
-                        "startColumn": 4,
-                        "startOffset": 1061,
-                        "endColumn": 130,
-                        "endOffset": 1187
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 14,
-                    "startColumn": 4,
-                    "startOffset": 2258,
-                    "endColumn": 176,
-                    "endOffset": 2430
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 24,
-                        "startColumn": 4,
-                        "startOffset": 3698,
-                        "endColumn": 176,
-                        "endOffset": 3870
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 15,
-                    "startColumn": 4,
-                    "startOffset": 2435,
-                    "endColumn": 122,
-                    "endOffset": 2553
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 23,
-                        "startColumn": 4,
-                        "startOffset": 3575,
-                        "endColumn": 122,
-                        "endOffset": 3693
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 16,
-                    "startColumn": 4,
-                    "startOffset": 2558,
-                    "endColumn": 173,
-                    "endOffset": 2727
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 6,
-                        "startColumn": 4,
-                        "startOffset": 701,
-                        "endColumn": 173,
-                        "endOffset": 870
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 17,
-                    "startColumn": 4,
-                    "startOffset": 2732,
-                    "endColumn": 194,
-                    "endOffset": 2922
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 22,
-                        "startColumn": 4,
-                        "startOffset": 3380,
-                        "endColumn": 194,
-                        "endOffset": 3570
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 18,
-                    "startColumn": 4,
-                    "startOffset": 2927,
-                    "endColumn": 117,
-                    "endOffset": 3040
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 21,
-                        "startColumn": 4,
-                        "startOffset": 3262,
-                        "endColumn": 117,
-                        "endOffset": 3375
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 19,
-                    "startColumn": 4,
-                    "startOffset": 3045,
-                    "endColumn": 186,
-                    "endOffset": 3227
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 4,
-                        "startOffset": 306,
-                        "endColumn": 186,
-                        "endOffset": 488
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 20,
-                    "startColumn": 4,
-                    "startOffset": 3232,
-                    "endColumn": 135,
-                    "endOffset": 3363
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 3,
-                        "startColumn": 4,
-                        "startOffset": 170,
-                        "endColumn": 135,
-                        "endOffset": 301
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 21,
-                    "startColumn": 4,
-                    "startOffset": 3368,
-                    "endColumn": 181,
-                    "endOffset": 3545
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 32,
-                        "startColumn": 4,
-                        "startOffset": 5088,
-                        "endColumn": 181,
-                        "endOffset": 5265
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 22,
-                    "startColumn": 4,
-                    "startOffset": 3550,
-                    "endColumn": 130,
-                    "endOffset": 3676
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 31,
-                        "startColumn": 4,
-                        "startOffset": 4957,
-                        "endColumn": 130,
-                        "endOffset": 5083
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 23,
-                    "startColumn": 4,
-                    "startOffset": 3681,
-                    "endColumn": 147,
-                    "endOffset": 3824
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 25,
-                        "startColumn": 4,
-                        "startOffset": 3875,
-                        "endColumn": 147,
-                        "endOffset": 4018
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 24,
-                    "startColumn": 4,
-                    "startOffset": 3829,
-                    "endColumn": 285,
-                    "endOffset": 4110
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 27,
-                        "startColumn": 4,
-                        "startOffset": 4151,
-                        "endColumn": 289,
-                        "endOffset": 4436
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 25,
-                    "startColumn": 4,
-                    "startOffset": 4115,
-                    "endColumn": 127,
-                    "endOffset": 4238
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 26,
-                        "startColumn": 4,
-                        "startOffset": 4023,
-                        "endColumn": 127,
-                        "endOffset": 4146
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 26,
-                    "startColumn": 4,
-                    "startOffset": 4243,
-                    "endColumn": 110,
-                    "endOffset": 4349
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 28,
-                        "startColumn": 4,
-                        "startOffset": 4441,
-                        "endColumn": 110,
-                        "endOffset": 4547
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 27,
-                    "startColumn": 4,
-                    "startOffset": 4354,
-                    "endColumn": 199,
-                    "endOffset": 4549
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 17,
-                        "startColumn": 4,
-                        "startOffset": 2479,
-                        "endColumn": 203,
-                        "endOffset": 2678
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 28,
-                    "startColumn": 4,
-                    "startOffset": 4554,
-                    "endColumn": 136,
-                    "endOffset": 4686
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 15,
-                        "startColumn": 4,
-                        "startOffset": 2224,
-                        "endColumn": 136,
-                        "endOffset": 2356
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 29,
-                    "startColumn": 4,
-                    "startOffset": 4691,
-                    "endColumn": 227,
-                    "endOffset": 4914
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 20,
-                        "startColumn": 4,
-                        "startOffset": 3030,
-                        "endColumn": 231,
-                        "endOffset": 3257
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 30,
-                    "startColumn": 4,
-                    "startOffset": 4919,
-                    "endColumn": 152,
-                    "endOffset": 5067
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
-                    "position": {
-                        "startLine": 19,
-                        "startColumn": 4,
-                        "startOffset": 2877,
-                        "endColumn": 152,
-                        "endOffset": 3025
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 31,
-                    "startColumn": 4,
-                    "startOffset": 5072,
-                    "endColumn": 92,
-                    "endOffset": 5160
-                },
-                "from": {
-                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 29,
                         "startColumn": 4,
@@ -1725,7 +1725,7 @@
         ]
     },
     {
-        "outputFile": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\values-lv\\values-lv.xml",
+        "outputFile": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\values-lv\\values-lv.xml",
         "map": [
             {
                 "to": {
@@ -1736,7 +1736,7 @@
                     "endOffset": 304
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
@@ -1755,7 +1755,7 @@
                     "endOffset": 494
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 18,
                         "startColumn": 4,
@@ -1774,7 +1774,7 @@
                     "endOffset": 612
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
@@ -1793,7 +1793,7 @@
                     "endOffset": 920
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 30,
                         "startColumn": 4,
@@ -1812,7 +1812,7 @@
                     "endOffset": 1054
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 4,
@@ -1831,7 +1831,7 @@
                     "endOffset": 1252
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
@@ -1850,7 +1850,7 @@
                     "endOffset": 1386
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
@@ -1869,7 +1869,7 @@
                     "endOffset": 1568
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
@@ -1888,7 +1888,7 @@
                     "endOffset": 1700
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
@@ -1907,7 +1907,7 @@
                     "endOffset": 1908
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
@@ -1926,7 +1926,7 @@
                     "endOffset": 2122
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
@@ -1945,7 +1945,7 @@
                     "endOffset": 2253
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
@@ -1964,7 +1964,7 @@
                     "endOffset": 2430
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 24,
                         "startColumn": 4,
@@ -1983,7 +1983,7 @@
                     "endOffset": 2553
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 23,
                         "startColumn": 4,
@@ -2002,7 +2002,7 @@
                     "endOffset": 2727
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -2021,7 +2021,7 @@
                     "endOffset": 2922
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 22,
                         "startColumn": 4,
@@ -2040,7 +2040,7 @@
                     "endOffset": 3040
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 21,
                         "startColumn": 4,
@@ -2059,7 +2059,7 @@
                     "endOffset": 3227
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -2078,7 +2078,7 @@
                     "endOffset": 3363
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -2097,7 +2097,7 @@
                     "endOffset": 3545
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 32,
                         "startColumn": 4,
@@ -2116,7 +2116,7 @@
                     "endOffset": 3676
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 31,
                         "startColumn": 4,
@@ -2135,7 +2135,7 @@
                     "endOffset": 3824
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 25,
                         "startColumn": 4,
@@ -2154,7 +2154,7 @@
                     "endOffset": 4110
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 27,
                         "startColumn": 4,
@@ -2173,7 +2173,7 @@
                     "endOffset": 4238
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 26,
                         "startColumn": 4,
@@ -2192,7 +2192,7 @@
                     "endOffset": 4349
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 28,
                         "startColumn": 4,
@@ -2211,7 +2211,7 @@
                     "endOffset": 4549
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 17,
                         "startColumn": 4,
@@ -2230,7 +2230,7 @@
                     "endOffset": 4686
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
@@ -2249,7 +2249,7 @@
                     "endOffset": 4914
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 4,
@@ -2268,7 +2268,7 @@
                     "endOffset": 5067
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 19,
                         "startColumn": 4,
@@ -2287,7 +2287,7 @@
                     "endOffset": 5160
                 },
                 "from": {
-                    "file": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
+                    "file": "C:\\Users\\lucagiacomelli\\Desktop\\TakeATrip\\C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-basement\\8.1.0\\res\\values-lv\\common_strings.xml",
                     "position": {
                         "startLine": 29,
                         "startColumn": 4,

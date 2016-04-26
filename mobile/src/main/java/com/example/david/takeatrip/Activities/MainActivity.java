@@ -73,7 +73,7 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private final String TAG = "TEST MainActivity";
+    private static final String TAG = "TEST MainActivity";
 
 
     private final String ADDRESS = "QueryNomiUtenti.php";

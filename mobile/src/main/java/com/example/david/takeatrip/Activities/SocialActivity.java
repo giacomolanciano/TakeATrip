@@ -43,7 +43,7 @@ import java.util.ArrayList;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class SocialActivity extends FragmentActivity implements ActionBar.TabListener {
 
-    private final String TAG = "TEST SocialActivity";
+    private static final String TAG = "TEST SocialActivity";
 
     private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;

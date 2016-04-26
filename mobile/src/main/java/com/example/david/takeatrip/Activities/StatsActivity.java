@@ -7,7 +7,7 @@ import com.example.david.takeatrip.R;
 
 public class StatsActivity extends AppCompatActivity {
 
-    private final String TAG = "TEST StatsActivity";
+    private static final String TAG = "TEST StatsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

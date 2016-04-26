@@ -84,7 +84,7 @@ import java.util.List;
 @SuppressWarnings("deprecation")
 public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId, AsyncResponseDriveIdCover{
 
-    private final String TAG = "TEST ProfiloActivity";
+    private static final String TAG = "TEST ProfiloActivity";
 
     private final int REQUEST_UPLOAD_PROFILE_IMAGE = 123;
     private final int REQUEST_UPLOAD_COVER_IMAGE = 124;

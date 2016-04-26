@@ -20,7 +20,7 @@ import static android.widget.ImageView.ScaleType.CENTER_CROP;
 
 public final class GridViewAdapter extends BaseAdapter {
 
-    private final String TAG = "TEST GridViewAdapter";
+    private static final String TAG = "TEST GridViewAdapter";
 
     private final Context context;
     private final List<String> urls = new ArrayList<String>();

@@ -48,7 +48,7 @@ import java.util.regex.Pattern;
 
 public class  RegistrazioneActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    private final String TAG = "TEST RegistrAct";
+    private static final String TAG = "TEST RegistrAct";
 
     private final String ADDRESS_INSERIMENTO_UTENTE = "InserimentoProfilo.php";
     private final String ADDRESS_UPDATE_UTENTE = "UpdateProfilo.php";
