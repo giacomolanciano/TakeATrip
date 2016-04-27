@@ -261,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(wrapper);
         LayoutInflater inflater = this.getLayoutInflater();
-        final View dialog = inflater.inflate(R.layout.activity_viaggio2, null);
+        final View dialog = inflater.inflate(R.layout.dialog_insert_viaggio, null);
         builder.setView(dialog);
         builder.setTitle(getString(R.string.NewTravel));
 

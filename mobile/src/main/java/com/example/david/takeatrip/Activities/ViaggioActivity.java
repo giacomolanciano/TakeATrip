@@ -129,7 +129,8 @@ public class ViaggioActivity extends FragmentActivity {
 
 
 
-    private GridView gridView;
+    private GridView gridViewPhotos;
+    private GridView gridViewVideos;
 
 
 
@@ -185,7 +186,8 @@ public class ViaggioActivity extends FragmentActivity {
 
         Log.i(TAG, "email utente: " + email + " codiceViaggio: " + codiceViaggio + " nomeVaggio: " + nomeViaggio);
 
-        gridView = (GridView) findViewById(R.id.grid_view);
+        gridViewPhotos = (GridView) findViewById(R.id.grid_view_photos);
+        gridViewVideos = (GridView) findViewById(R.id.grid_view_videos);
 
         layoutCopertinaViaggio = (LinearLayout) findViewById(R.id.layoutCoverImageTravel);
 
@@ -195,8 +197,8 @@ public class ViaggioActivity extends FragmentActivity {
 
         try {
             proprioViaggio = new GetPartecipantiViaggioTask(ViaggioActivity.this, contentView, s3,
-                    codiceViaggio, listPartecipants, nomeViaggio, email, gridView, urlImageTravel,
-                    layoutPartecipants, rowHorizontal).execute().get();
+                    codiceViaggio, listPartecipants, nomeViaggio, email, gridViewPhotos, urlImageTravel,
+                    layoutPartecipants, rowHorizontal, gridViewVideos).execute().get();
 
             popolaPartecipanti();
 
@@ -296,6 +298,8 @@ public class ViaggioActivity extends FragmentActivity {
 
 
     }
+
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_IMAGE_PICK) {
@@ -414,6 +418,7 @@ public class ViaggioActivity extends FragmentActivity {
 
     }
 
+
     public void onClickImagePartecipant(final View v){
         try {
             final Dialog dialog = new Dialog(this, R.style.CustomDialog);
@@ -525,7 +530,7 @@ public class ViaggioActivity extends FragmentActivity {
 
     public void onClickAddPartecipant(View v){
         final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.activity_viaggio2);
+        dialog.setContentView(R.layout.dialog_insert_viaggio);
         dialog.setTitle("Add a Partecipant");
 
         final AutoCompleteTextView text=(AutoCompleteTextView)dialog.findViewById(R.id.autoCompleteTextView1);
@@ -616,10 +621,11 @@ public class ViaggioActivity extends FragmentActivity {
 
 
 
-
     private class MyTaskPerUtenti extends AsyncTask<Void, Void, Void> {
 
-        private static final String TAG = "TEST UtentiTask";
+        //TODO task da modularizzare, side-effect importanti da gestire
+
+        //private static final String TAG = "TEST UtentiTask";
 
         InputStream is = null;
         String result, stringaFinale = "";
@@ -700,8 +706,6 @@ public class ViaggioActivity extends FragmentActivity {
 
         }
     }
-
-
 
 
     //TODO tasks da modularizzare

@@ -41,7 +41,7 @@
                     android:id="@+id/titoloViaggio"
                     android:textColor="@color/white"
                     android:textSize="38sp"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingStart="@dimen/activity_horizontal_margin"
                     android:layout_gravity="bottom"
                     android:background="#af3d3d3d"
                     android:textStyle="bold" />
@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                android:textSize="24dp"
+                android:textSize="24sp"
                 android:textColor="@color/black"
                 android:text="@string/Partecipants"
                 android:layout_gravity="left"/>
@@ -112,7 +112,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="28dp"
+                    android:textSize="28sp"
                     android:textColor="@color/black"
                     android:layout_gravity="center_vertical"
                     android:text="@string/Stops" />
@@ -127,14 +127,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                android:textSize="24dp"
+                android:textSize="24sp"
                 android:textColor="@color/black"
-                android:text="Photos"
-                android:layout_gravity="left"/>
+                android:text="@string/Photos"
+                android:layout_gravity="start"/>
 
             <GridView
                 xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/grid_view"
+                android:id="@+id/grid_view_photos"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="3"
+                android:scrollbarStyle="insideOverlay"
+                android:scrollbars="none"
+                android:listSelector="@null"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:textSize="24sp"
+                android:textColor="@color/black"
+                android:text="@string/Videos"
+                android:layout_gravity="start"/>
+
+            <GridView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/grid_view_videos"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -145,6 +166,7 @@
                 />
 
         </LinearLayout>
+
     </LinearLayout>
 
 
@@ -153,8 +175,8 @@
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_gravity="right|top"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_gravity="end|top"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:background="@drawable/ic_settings_black_24dp"
         android:onClick="onClickSettingsIcon"

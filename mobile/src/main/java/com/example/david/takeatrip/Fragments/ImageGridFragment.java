@@ -64,7 +64,7 @@ public class ImageGridFragment extends Fragment implements AdapterView.OnItemCli
 
         if(URLs != null && URLs.length>0){
 
-            GridView gv = (GridView) v.findViewById(R.id.grid_view);
+            GridView gv = (GridView) v.findViewById(R.id.grid_view_photos);
             gv.setAdapter(new GridViewAdapter(getActivity(), URLs));
             gv.setOnScrollListener(new ScrollListener(getActivity()));
 

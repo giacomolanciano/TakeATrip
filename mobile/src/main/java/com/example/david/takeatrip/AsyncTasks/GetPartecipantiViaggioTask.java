@@ -50,7 +50,7 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
     private List<Profilo> listPartecipants;
     private String nomeViaggio;
     private String email;
-    private GridView gridView;
+    private GridView gridViewPhotos;
     private String urlImageTravel;
     private LinearLayout layoutPartecipants;
     private LinearLayout rowHorizontal;
@@ -59,16 +59,18 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
     private String result;
     private TextView viewTitoloViaggio;
     private LinearLayout layoutCopertinaViaggio;
-
-    //variabili su cui fare side-effect in ViaggioActivity
     private boolean proprioViaggio;
+
+    //TODO cancellare dopo prova
+    private GridView gridViewVideos;
+
 
 
     public GetPartecipantiViaggioTask(Context context, View contentView, AmazonS3Client s3,
                                       String codiceViaggio, List<Profilo> listPartecipants,
-                                      String nomeViaggio, String email, GridView gridView,
+                                      String nomeViaggio, String email, GridView gridViewPhotos,
                                       String urlImageTravel, LinearLayout layoutPartecipants,
-                                      LinearLayout rowHorizontal) {
+                                      LinearLayout rowHorizontal, GridView gridViewVideos) {
 
         this.context = context;
         this.contentView = contentView;
@@ -77,10 +79,13 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
         this.listPartecipants = listPartecipants;
         this.nomeViaggio = nomeViaggio;
         this.email = email;
-        this.gridView = gridView;
+        this.gridViewPhotos = gridViewPhotos;
         this.urlImageTravel = urlImageTravel;
         this.layoutPartecipants = layoutPartecipants;
         this.rowHorizontal = rowHorizontal;
+
+        //TODO cancellare dopo prova
+        this.gridViewVideos = gridViewVideos;
     }
 
     @Override
@@ -173,7 +178,11 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
 
 
 
-        new UrlsImagesTask(context, codiceViaggio, gridView, ADDRESS_QUERY_URLS).execute();
+        new UrlsImagesTask(context, codiceViaggio, gridViewPhotos, ADDRESS_QUERY_URLS).execute();
+
+        //TODO cancellare dopo prova o modificare per ritornare i video
+        new UrlsImagesTask(context, codiceViaggio, gridViewVideos, ADDRESS_QUERY_URLS).execute();
+
 
         viewTitoloViaggio = (TextView) contentView.findViewById(R.id.titoloViaggio);
         layoutCopertinaViaggio = (LinearLayout) contentView.findViewById(R.id.layoutCoverImageTravel);
