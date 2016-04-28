@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -58,8 +59,9 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
     private InputStream is = null;
     private String result;
     private TextView viewTitoloViaggio;
-    private LinearLayout layoutCopertinaViaggio;
     private boolean proprioViaggio;
+    //private LinearLayout layoutCopertinaViaggio;
+    private ImageView layoutCopertinaViaggio;
 
     //TODO cancellare dopo prova
     private GridView gridViewVideos;
@@ -184,24 +186,32 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
         new UrlsImagesTask(context, codiceViaggio, gridViewVideos, ADDRESS_QUERY_URLS).execute();
 
 
-        viewTitoloViaggio = (TextView) contentView.findViewById(R.id.titoloViaggio);
-        layoutCopertinaViaggio = (LinearLayout) contentView.findViewById(R.id.layoutCoverImageTravel);
+        //viewTitoloViaggio = (TextView) contentView.findViewById(R.id.titoloViaggio);
+        //layoutCopertinaViaggio = (LinearLayout) contentView.findViewById(R.id.layoutCoverImageTravel);
+
+        layoutCopertinaViaggio = (ImageView) contentView.findViewById(R.id.imageTravel);
 
         if(urlImageTravel != null && !urlImageTravel.equals("null")){
 
-            new BitmapWorkerTask(null,layoutCopertinaViaggio).execute(urlImageTravel);
+            //new BitmapWorkerTask(null,layoutCopertinaViaggio).execute(urlImageTravel);
+
+            new BitmapWorkerTask(layoutCopertinaViaggio).execute(urlImageTravel);
         }
 
-        if (viewTitoloViaggio != null) {
-            viewTitoloViaggio.setText(nomeViaggio);
-        } else {
-            //TODO capire perchè da eccezione sporadicamente
-            Log.e(TAG, "viewTitoloViaggio is null");
-        }
+//        if (viewTitoloViaggio != null) {
+//            viewTitoloViaggio.setText(nomeViaggio);
+//        } else {
+//            //TODO capire perchè da eccezione sporadicamente
+//            Log.e(TAG, "viewTitoloViaggio is null");
+//        }
 
 
 
         super.onPostExecute(aVoid);
+
+
+        Log.i(TAG, "END onPostExecute()");
+
 
     }
 

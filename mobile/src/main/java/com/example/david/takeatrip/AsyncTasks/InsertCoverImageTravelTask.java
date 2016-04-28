@@ -6,7 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.InternetConnection;
@@ -40,7 +40,8 @@ public class InsertCoverImageTravelTask extends AsyncTask<Void, Void, Void> {
     DriveId idFile;
     Context context;
     private Bitmap bitmapImageTravel;
-    private LinearLayout layoutCopertinaViaggio;
+    //private LinearLayout layoutCopertinaViaggio;
+    private ImageView layoutCopertinaViaggio;
 
 
     public InsertCoverImageTravelTask(Context c, String emailUtente, DriveId id){
@@ -49,8 +50,19 @@ public class InsertCoverImageTravelTask extends AsyncTask<Void, Void, Void> {
         idFile = id;
     }
 
+//    public InsertCoverImageTravelTask(Context c, String emailUtente, String codiceViaggio, DriveId id,
+//                                      String url, Bitmap bitmapImageTravel, LinearLayout layoutCopertinaViaggio){
+//        context  = c;
+//        emailUser = emailUtente;
+//        this.codiceViaggio = codiceViaggio;
+//        idFile = id;
+//        urlImmagine = url;
+//        this.bitmapImageTravel = bitmapImageTravel;
+//        this.layoutCopertinaViaggio = layoutCopertinaViaggio;
+//    }
+
     public InsertCoverImageTravelTask(Context c, String emailUtente, String codiceViaggio, DriveId id,
-                                      String url, Bitmap bitmapImageTravel, LinearLayout layoutCopertinaViaggio){
+                                      String url, Bitmap bitmapImageTravel, ImageView layoutCopertinaViaggio){
         context  = c;
         emailUser = emailUtente;
         this.codiceViaggio = codiceViaggio;
@@ -118,6 +130,8 @@ public class InsertCoverImageTravelTask extends AsyncTask<Void, Void, Void> {
             //upload dell'immagine
             Drawable d = new BitmapDrawable(context.getResources(), bitmapImageTravel);
             layoutCopertinaViaggio.setBackground(d);
+
+            //layoutCopertinaViaggio.setImageDrawable(d);
         }
 
         super.onPostExecute(aVoid);

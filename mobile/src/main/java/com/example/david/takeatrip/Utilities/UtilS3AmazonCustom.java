@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3Client;
@@ -54,7 +54,8 @@ public class UtilS3AmazonCustom {
 
     public static void uploadTravelCoverPicture(Context context, String filePath, String codiceViaggio,
                                                 String email, Bitmap bitmapImageTravel,
-                                                LinearLayout layoutCopertinaViaggio) {
+                                                //LinearLayout layoutCopertinaViaggio) {
+                                                ImageView layoutCopertinaViaggio) {
 
         Log.i(TAG, "enter uploadTravelCoverPicture(...)");
 

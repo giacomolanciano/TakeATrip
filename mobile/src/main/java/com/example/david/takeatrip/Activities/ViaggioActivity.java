@@ -12,12 +12,17 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -26,6 +31,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +40,6 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
 import com.example.david.takeatrip.AsyncTasks.GetPartecipantiViaggioTask;
-import com.example.david.takeatrip.AsyncTasks.InsertCoverImageTravelTask;
 import com.example.david.takeatrip.AsyncTasks.ItinerariesTask;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
@@ -42,7 +47,6 @@ import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.InternetConnection;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
-import com.example.david.takeatrip.Utilities.UploadFilePHP;
 import com.example.david.takeatrip.Utilities.UtilS3Amazon;
 import com.example.david.takeatrip.Utilities.UtilS3AmazonCustom;
 import com.google.android.gms.drive.DriveId;
@@ -50,12 +54,9 @@ import com.squareup.picasso.Picasso;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -69,7 +70,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
-public class ViaggioActivity extends FragmentActivity {
+public class ViaggioActivity extends AppCompatActivity {
 
     private static final String TAG = "TEST ViaggioActivity";
 
@@ -85,7 +86,7 @@ public class ViaggioActivity extends FragmentActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
 
-    private final int LIMIT_IMAGES_VIEWS = 4;
+    private static final int LIMIT_IMAGES_VIEWS = 4;
 
 
     private String email, emailEsterno, codiceViaggio, nomeViaggio;
@@ -96,9 +97,9 @@ public class ViaggioActivity extends FragmentActivity {
 
     private TextView viewTitoloViaggio;
     private ImageView coverImageDialog;
-    private LinearLayout layoutCopertinaViaggio;
     private LinearLayout layoutPartecipants;
     private LinearLayout rowHorizontal;
+    //private LinearLayout layoutCopertinaViaggio;
 
     private ImageView imageTravel;
 
@@ -132,21 +133,17 @@ public class ViaggioActivity extends FragmentActivity {
     private GridView gridViewPhotos;
     private GridView gridViewVideos;
 
-
-
-
+    private String[] strings, subs;
+    private int[] arr_images;
+    private String livelloCondivisioneViaggio;
+    private AppBarLayout appBarLayout;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_viaggio);
-
-        //retreive the content view of the activity for GetPartecipantiViaggioTask to work
-        View contentView = findViewById(android.R.id.content);
-
-
-        imageTravel = (ImageView) findViewById(R.id.imageTravel);
+        //setContentView(R.layout.activity_viaggio);
+        setContentView(R.layout.activity_viaggio_new);
 
         Intent intent;
         if((intent = getIntent()) != null){
@@ -162,6 +159,58 @@ public class ViaggioActivity extends FragmentActivity {
 
 
         }
+
+
+        //retreive the content view of the activity for GetPartecipantiViaggioTask to work
+        View contentView = findViewById(android.R.id.content);
+
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.myToolbar);
+        setSupportActionBar(toolbar);
+
+        final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        if (collapsingToolbar != null) {
+            collapsingToolbar.setTitle(nomeViaggio);
+        } else {
+            Log.e(TAG, "collapsingToolbar is null");
+        }
+
+
+        imageTravel = (ImageView) findViewById(R.id.imageTravel);
+
+
+        strings = getResources().getStringArray(R.array.PrivacyLevel);
+        subs = getResources().getStringArray(R.array.PrivacyLevelDescription);
+        arr_images = Constants.privacy_images;
+
+
+        Spinner privacySpinner = (Spinner) findViewById(R.id.spinnerPrivacyLevel);
+        final PrivacyLevelAdapter adapter = new PrivacyLevelAdapter(ViaggioActivity.this, R.layout.entry_privacy_level, strings);
+        if (privacySpinner != null) {
+
+            privacySpinner.setAdapter(adapter);
+
+            privacySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    Log.i(TAG, "elemento selezionato: " + adapter.getItem(position));
+                    livelloCondivisioneViaggio = adapter.getItem(position);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+        } else {
+            Log.e(TAG, "privacySpinner is null");
+        }
+
+
+
+        appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
+
+
 
 
         transferUtility = UtilS3Amazon.getTransferUtility(this);
@@ -189,7 +238,7 @@ public class ViaggioActivity extends FragmentActivity {
         gridViewPhotos = (GridView) findViewById(R.id.grid_view_photos);
         gridViewVideos = (GridView) findViewById(R.id.grid_view_videos);
 
-        layoutCopertinaViaggio = (LinearLayout) findViewById(R.id.layoutCoverImageTravel);
+        //layoutCopertinaViaggio = (LinearLayout) findViewById(R.id.layoutCoverImageTravel);
 
         layoutPartecipants = (LinearLayout)findViewById(R.id.Partecipants);
         rowHorizontal = (LinearLayout) findViewById(R.id.layout_horizontal2);
@@ -315,8 +364,11 @@ public class ViaggioActivity extends FragmentActivity {
                 Log.i(TAG, "image from gallery: " + picturePath);
 
 
+//                UtilS3AmazonCustom.uploadTravelCoverPicture(ViaggioActivity.this, picturePath,
+//                        codiceViaggio, email, bitmapImageTravel, layoutCopertinaViaggio);
+
                 UtilS3AmazonCustom.uploadTravelCoverPicture(ViaggioActivity.this, picturePath,
-                        codiceViaggio, email, bitmapImageTravel, layoutCopertinaViaggio);
+                        codiceViaggio, email, bitmapImageTravel, imageTravel);
 
 
 /*
@@ -708,199 +760,247 @@ public class ViaggioActivity extends FragmentActivity {
     }
 
 
+
+    private class PrivacyLevelAdapter extends ArrayAdapter<String> {
+
+        //TODO inner class da rimuovere una volta sistemato l'adapter esterno
+
+
+        public PrivacyLevelAdapter(Context context, int textViewResourceId, String[] strings) {
+            super(context, textViewResourceId, strings);
+
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView, ViewGroup parent) {
+
+
+            LayoutInflater inflater=getLayoutInflater();
+            convertView=inflater.inflate(R.layout.entry_privacy_level, parent, false);
+            TextView label=(TextView)convertView.findViewById(R.id.privacyLevel);
+            label.setText(strings[position]);
+
+            TextView sub=(TextView)convertView.findViewById(R.id.description);
+            sub.setText(subs[position]);
+
+            ImageView icon=(ImageView)convertView.findViewById(R.id.image);
+            icon.setImageResource(arr_images[position]);
+
+            //Log.i(TAG, "string: " + strings[position]);
+            //Log.i(TAG, "sub: " + subs[position]);
+            //Log.i(TAG, "img: " + arr_images[position]);
+
+            return convertView;
+        }
+    }
+
+
     //TODO tasks da modularizzare
 
-    private class MyTaskIDFolder extends AsyncTask<Void, Void, Void> {
-
-
-        InputStream is = null;
-        String emailUser, nameFolder,result;
-        String urlFolder;
-        DriveId idFolder;
-        Context context;
-
-        public MyTaskIDFolder(Context c, String emailUtente, String urlFolder, String name){
-            context  = c;
-            emailUser = emailUtente;
-            this.urlFolder = urlFolder;
-            nameFolder = name;
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("email", emailUser));
-            dataToSend.add(new BasicNameValuePair("path", urlFolder));
-
-            try {
-                if (InternetConnection.haveInternetConnection(context)) {
-                    Log.i(TAG, "CONNESSIONE Internet Presente!");
-                    HttpClient httpclient = new DefaultHttpClient();
-
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_QUERY_FOLDER);
-                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                    HttpResponse response = httpclient.execute(httppost);
-                    HttpEntity entity = response.getEntity();
-                    is = entity.getContent();
-
-                    if (is != null) {
-                        //converto la risposta in stringa
-                        try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                            StringBuilder sb = new StringBuilder();
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line + "\n");
-                            }
-                            is.close();
-
-                            result = sb.toString();
-                        } catch (Exception e) {
-                            Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
-                        }
-                    }
-                    else {
-                        Log.i(TAG, "Input Stream uguale a null");
-                    }
-                }
-                else
-                    Log.e(TAG, "CONNESSIONE Internet Assente!");
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(TAG, e.toString()+ ": " + e.getMessage());
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            Log.i(TAG, "risultato della query: " + result);
-            if(result != null && !result.equals("null\n")){
-                Log.i(TAG, "Presente cartella di viaggio");
-
-                if(bitmapImageTravel != null){
-                    Log.i(TAG, "upload dell'immagine del viaggio");
-
-                    String pathImage = urlFolder+"/";
-                    nameImageTravel = String.valueOf(System.currentTimeMillis()) + ".jpg";
-
-                    Log.i(TAG, "nome immagine: " + nameImageTravel);
-                    new UploadFilePHP(ViaggioActivity.this,bitmapImageTravel,pathImage,
-                            Constants.NAME_IMAGES_TRAVEL_DEFAULT).execute();
-
-                    new InsertCoverImageTravelTask(ViaggioActivity.this,email,codiceViaggio, null,
-                            pathImage + Constants.NAME_IMAGES_TRAVEL_DEFAULT, bitmapImageTravel,
-                            layoutCopertinaViaggio).execute();
-                }
-                else{
-                    Log.i(TAG, "solo prelievo immagine copertina viaggio gia presente");
-                    new BitmapWorkerTask(null,layoutCopertinaViaggio).execute(Constants.ADDRESS_TAT
-                            + urlFolder + "/" + Constants.NAME_IMAGES_TRAVEL_DEFAULT);
-
-                }
-            }
-            else{
-                //se Non è presente la cartella in fase di upload la creo per poi aggiungere l'immagine del viaggio
-                if(bitmapImageTravel != null){
-                    new MyTaskFolder(ViaggioActivity.this, emailUser,codiceViaggio,null,urlFolder,
-                            nameFolder).execute();
-                }
-            }
-            super.onPostExecute(aVoid);
-
-        }
-    }
-
-
-
-    private class MyTaskFolder extends AsyncTask<Void, Void, Void> {
-
-        InputStream is = null;
-        String emailUser, idTravel,result, urlCartella;
-        String nomeCartella;
-        DriveId idFolder;
-        Context context;
-
-        public MyTaskFolder(Context c, String emailUtente, String idTravel, DriveId id, String url,String n){
-            context  = c;
-            emailUser = emailUtente;
-            this.idTravel = idTravel;
-            idFolder = id;
-            nomeCartella = n;
-            urlCartella = url;
-        }
-
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("emailUtente", emailUser));
-            dataToSend.add(new BasicNameValuePair("codiceViaggio", idTravel));
-            dataToSend.add(new BasicNameValuePair("codiceCartella", idFolder+""));
-            dataToSend.add(new BasicNameValuePair("nomeCartella", nomeCartella));
-            dataToSend.add(new BasicNameValuePair("urlCartella", urlCartella));
-
-            String urlImmagineViaggio = urlCartella + "/" + Constants.NAME_IMAGES_TRAVEL_DEFAULT;
-            dataToSend.add(new BasicNameValuePair("urlImmagine", urlImmagineViaggio));
-
-
-            try {
-                if (InternetConnection.haveInternetConnection(context)) {
-                    Log.i(TAG, "CONNESSIONE Internet Presente!");
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.ADDRESS_TAT+ADDRESS_INSERT_FOLDER);
-                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                    HttpResponse response = httpclient.execute(httppost);
-
-                    HttpEntity entity = response.getEntity();
-
-                    is = entity.getContent();
-
-                    if (is != null) {
-                        //converto la risposta in stringa
-                        try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                            StringBuilder sb = new StringBuilder();
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line).append("\n");
-                            }
-                            is.close();
-                            result = sb.toString();
-                        } catch (Exception e) {
-                            Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
-                        }
-                    }
-                    else {
-                        Log.i(TAG, "Input Stream uguale a null");
-                    }
-                }
-                else
-                    Log.e(TAG, "CONNESSIONE Internet Assente!");
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(TAG, e.toString()+ ": " + e.getMessage());
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-
-            String pathImage = urlCartella+"/";
-            new UploadFilePHP(ViaggioActivity.this,bitmapImageTravel,pathImage,
-                    Constants.NAME_IMAGES_TRAVEL_DEFAULT).execute();
-
-            new InsertCoverImageTravelTask(ViaggioActivity.this,email,codiceViaggio, null,
-                    pathImage + Constants.NAME_IMAGES_TRAVEL_DEFAULT, bitmapImageTravel,
-                    layoutCopertinaViaggio).execute();
-
-            super.onPostExecute(aVoid);
-
-        }
-    }
+//    private class MyTaskIDFolder extends AsyncTask<Void, Void, Void> {
+//
+//
+//        InputStream is = null;
+//        String emailUser, nameFolder,result;
+//        String urlFolder;
+//        DriveId idFolder;
+//        Context context;
+//
+//        public MyTaskIDFolder(Context c, String emailUtente, String urlFolder, String name){
+//            context  = c;
+//            emailUser = emailUtente;
+//            this.urlFolder = urlFolder;
+//            nameFolder = name;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+//            dataToSend.add(new BasicNameValuePair("email", emailUser));
+//            dataToSend.add(new BasicNameValuePair("path", urlFolder));
+//
+//            try {
+//                if (InternetConnection.haveInternetConnection(context)) {
+//                    Log.i(TAG, "CONNESSIONE Internet Presente!");
+//                    HttpClient httpclient = new DefaultHttpClient();
+//
+//                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_QUERY_FOLDER);
+//                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+//                    HttpResponse response = httpclient.execute(httppost);
+//                    HttpEntity entity = response.getEntity();
+//                    is = entity.getContent();
+//
+//                    if (is != null) {
+//                        //converto la risposta in stringa
+//                        try {
+//                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+//                            StringBuilder sb = new StringBuilder();
+//                            String line = null;
+//                            while ((line = reader.readLine()) != null) {
+//                                sb.append(line + "\n");
+//                            }
+//                            is.close();
+//
+//                            result = sb.toString();
+//                        } catch (Exception e) {
+//                            Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
+//                        }
+//                    }
+//                    else {
+//                        Log.i(TAG, "Input Stream uguale a null");
+//                    }
+//                }
+//                else
+//                    Log.e(TAG, "CONNESSIONE Internet Assente!");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                Log.e(TAG, e.toString()+ ": " + e.getMessage());
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            Log.i(TAG, "risultato della query: " + result);
+//            if(result != null && !result.equals("null\n")){
+//                Log.i(TAG, "Presente cartella di viaggio");
+//
+//                if(bitmapImageTravel != null){
+//                    Log.i(TAG, "upload dell'immagine del viaggio");
+//
+//                    String pathImage = urlFolder+"/";
+//                    nameImageTravel = String.valueOf(System.currentTimeMillis()) + ".jpg";
+//
+//                    Log.i(TAG, "nome immagine: " + nameImageTravel);
+//                    new UploadFilePHP(ViaggioActivity.this,bitmapImageTravel,pathImage,
+//                            Constants.NAME_IMAGES_TRAVEL_DEFAULT).execute();
+//
+//                    //TODO da correggere
+//                    new InsertCoverImageTravelTask(ViaggioActivity.this,email,codiceViaggio, null,
+//                            pathImage + Constants.NAME_IMAGES_TRAVEL_DEFAULT, bitmapImageTravel,
+//                            layoutCopertinaViaggio).execute();
+//                }
+//                else{
+//                    Log.i(TAG, "solo prelievo immagine copertina viaggio gia presente");
+//
+//                    //TODO da correggere
+//                    new BitmapWorkerTask(null,layoutCopertinaViaggio).execute(Constants.ADDRESS_TAT
+//                            + urlFolder + "/" + Constants.NAME_IMAGES_TRAVEL_DEFAULT);
+//
+//                }
+//            }
+//            else{
+//                //se Non è presente la cartella in fase di upload la creo per poi aggiungere l'immagine del viaggio
+//                if(bitmapImageTravel != null){
+//                    new MyTaskFolder(ViaggioActivity.this, emailUser,codiceViaggio,null,urlFolder,
+//                            nameFolder).execute();
+//                }
+//            }
+//            super.onPostExecute(aVoid);
+//
+//        }
+//    }
+//
+//
+//
+//    private class MyTaskFolder extends AsyncTask<Void, Void, Void> {
+//
+//        InputStream is = null;
+//        String emailUser, idTravel,result, urlCartella;
+//        String nomeCartella;
+//        DriveId idFolder;
+//        Context context;
+//
+//        public MyTaskFolder(Context c, String emailUtente, String idTravel, DriveId id, String url,String n){
+//            context  = c;
+//            emailUser = emailUtente;
+//            this.idTravel = idTravel;
+//            idFolder = id;
+//            nomeCartella = n;
+//            urlCartella = url;
+//        }
+//
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+//            dataToSend.add(new BasicNameValuePair("emailUtente", emailUser));
+//            dataToSend.add(new BasicNameValuePair("codiceViaggio", idTravel));
+//            dataToSend.add(new BasicNameValuePair("codiceCartella", idFolder+""));
+//            dataToSend.add(new BasicNameValuePair("nomeCartella", nomeCartella));
+//            dataToSend.add(new BasicNameValuePair("urlCartella", urlCartella));
+//
+//            String urlImmagineViaggio = urlCartella + "/" + Constants.NAME_IMAGES_TRAVEL_DEFAULT;
+//            dataToSend.add(new BasicNameValuePair("urlImmagine", urlImmagineViaggio));
+//
+//
+//            try {
+//                if (InternetConnection.haveInternetConnection(context)) {
+//                    Log.i(TAG, "CONNESSIONE Internet Presente!");
+//                    HttpClient httpclient = new DefaultHttpClient();
+//                    HttpPost httppost = new HttpPost(Constants.ADDRESS_TAT+ADDRESS_INSERT_FOLDER);
+//                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+//                    HttpResponse response = httpclient.execute(httppost);
+//
+//                    HttpEntity entity = response.getEntity();
+//
+//                    is = entity.getContent();
+//
+//                    if (is != null) {
+//                        //converto la risposta in stringa
+//                        try {
+//                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+//                            StringBuilder sb = new StringBuilder();
+//                            String line = null;
+//                            while ((line = reader.readLine()) != null) {
+//                                sb.append(line).append("\n");
+//                            }
+//                            is.close();
+//                            result = sb.toString();
+//                        } catch (Exception e) {
+//                            Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
+//                        }
+//                    }
+//                    else {
+//                        Log.i(TAG, "Input Stream uguale a null");
+//                    }
+//                }
+//                else
+//                    Log.e(TAG, "CONNESSIONE Internet Assente!");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                Log.e(TAG, e.toString()+ ": " + e.getMessage());
+//            }
+//
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//
+//            String pathImage = urlCartella+"/";
+//            new UploadFilePHP(ViaggioActivity.this,bitmapImageTravel,pathImage,
+//                    Constants.NAME_IMAGES_TRAVEL_DEFAULT).execute();
+//
+//            //TODO da correggere
+//            new InsertCoverImageTravelTask(ViaggioActivity.this,email,codiceViaggio, null,
+//                    pathImage + Constants.NAME_IMAGES_TRAVEL_DEFAULT, bitmapImageTravel,
+//                    layoutCopertinaViaggio).execute();
+//
+//            super.onPostExecute(aVoid);
+//
+//        }
+//    }
 
 
 

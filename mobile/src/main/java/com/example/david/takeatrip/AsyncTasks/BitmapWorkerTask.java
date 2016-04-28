@@ -20,7 +20,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 
     private static String TAG = "TEST BitmapWorkerTask";
 
-    //ImageView bmImage;
+    ImageView bmImage;
     LinearLayout layout;
     int width, height;
     private final WeakReference<ImageView> imageViewReference;
@@ -29,8 +29,9 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 
 
     public BitmapWorkerTask(ImageView bmImage) {
-        //this.bmImage = bmImage;
-        imageViewReference = new WeakReference<ImageView>(bmImage);
+        this.bmImage = bmImage;
+        //imageViewReference = new WeakReference<ImageView>(bmImage);
+        imageViewReference = null;
 
         width = bmImage.getWidth();
         height = bmImage.getHeight();
@@ -44,6 +45,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
         width = layout.getWidth();
         height = layout.getHeight();
     }
+
 
     protected Bitmap doInBackground(String... urls) {
         String urldisplay = urls[0];
