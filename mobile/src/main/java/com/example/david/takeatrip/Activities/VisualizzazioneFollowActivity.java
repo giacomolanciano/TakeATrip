@@ -204,9 +204,6 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
         }
         */
 
-        Log.i(TAG, "TAB SELEZIONATO: "+ tab.getPosition() );
-
-
     }
 
     @Override
@@ -319,6 +316,9 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
 
         Log.i(TAG, "seguiti di: "+ corrente + ": " + seguiti);
 
+        //if(seguiti.size()>0)
+            //Log.i(TAG, "immagine del primo seguito : " + seguiti.get(0).getIdImageProfile());
+
     }
 
 
@@ -355,7 +355,6 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
 
                         if (result.equals("null\n")) {
                             stringaFinale = "Non sono presenti followers";
-                            Log.i(TAG, "result da Followers: " + stringaFinale);
                             //mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(), seguiti);
                             //viewPager.setAdapter(mAdapter); //LASCIARE ASSOLUTAMENTE COSI!!!!!
 

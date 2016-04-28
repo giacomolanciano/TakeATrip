@@ -243,7 +243,11 @@
     <string name="no_travels">No travels</string>
     <string name="FOLLOWING">"FOLLOWING"</string>
     <string name="FOLLOWERS">"FOLLOWERS"</string>
-
+    <string name="following">FOLLOWING</string>
+    <string name="followers">FOLLOWERS</string>
+    <string name="search">SEARCH</string>
+    <string name="search_the_user">Search the user</string>
+    <string name="user">User</string>
 
 
 </resources>

@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Created by Giacomo Lanciano on 19/04/2016.
  */
-public class LoadTravelImageTask extends AsyncTask<Void, Void, URL>  {
+public class LoadGenericImageTask extends AsyncTask<Void, Void, URL>  {
 
     private static final String TAG = "TEST LoadTravImgTask";
 
@@ -54,7 +54,7 @@ public class LoadTravelImageTask extends AsyncTask<Void, Void, URL>  {
     // The S3 client
     private AmazonS3Client s3;
 
-    public LoadTravelImageTask(String urlImmagine, String codiceViaggio, Context context) {
+    public LoadGenericImageTask(String urlImmagine, String codiceViaggio, Context context) {
         this.urlImmagine = urlImmagine;
         this.codiceViaggio = codiceViaggio;
         this.context = context;
@@ -64,6 +64,17 @@ public class LoadTravelImageTask extends AsyncTask<Void, Void, URL>  {
         s3 = UtilS3Amazon.getS3Client(context);
 
     }
+
+    public LoadGenericImageTask(String urlImmagine, Context context) {
+        this.urlImmagine = urlImmagine;
+        this.context = context;
+
+        transferUtility = UtilS3Amazon.getTransferUtility(context);
+        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
+        s3 = UtilS3Amazon.getS3Client(context);
+
+    }
+
 
     @Override
     protected URL doInBackground(Void... params) {
@@ -80,19 +91,37 @@ public class LoadTravelImageTask extends AsyncTask<Void, Void, URL>  {
                 msec += Constants.ONE_HOUR_IN_MILLISEC;
                 expiration.setTime(msec);
 
-                GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                        new GeneratePresignedUrlRequest(Constants.BUCKET_TRAVELS_NAME,codiceViaggio
-                                + "/" +Constants.TRAVEL_COVER_IMAGE_LOCATION+"/"+urlImmagine);
-                generatePresignedUrlRequest.setMethod(HttpMethod.GET);
-                generatePresignedUrlRequest.setExpiration(expiration);
-
-                Log.i(TAG, "expiration date image: " + generatePresignedUrlRequest.getExpiration());
 
 
-                url = s3.generatePresignedUrl(generatePresignedUrlRequest);
+                if(codiceViaggio != null){
+                    GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                            new GeneratePresignedUrlRequest(Constants.BUCKET_TRAVELS_NAME,codiceViaggio
+                                    + "/" +Constants.TRAVEL_COVER_IMAGE_LOCATION+"/"+urlImmagine);
+                    generatePresignedUrlRequest.setMethod(HttpMethod.GET);
+                    generatePresignedUrlRequest.setExpiration(expiration);
+
+                    Log.i(TAG, "expiration date image: " + generatePresignedUrlRequest.getExpiration());
 
 
-                Log.i(TAG, "url file: " + url);
+                    url = s3.generatePresignedUrl(generatePresignedUrlRequest);
+
+                }
+                else{
+                    GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                            new GeneratePresignedUrlRequest(Constants.BUCKET_NAME, urlImmagine);
+                    generatePresignedUrlRequest.setMethod(HttpMethod.GET);
+                    generatePresignedUrlRequest.setExpiration(expiration);
+
+                    Log.i(TAG, "expiration date image: " + generatePresignedUrlRequest.getExpiration());
+
+
+                    url = s3.generatePresignedUrl(generatePresignedUrlRequest);
+
+
+                    Log.i(TAG, "url file: " + url);
+
+                }
+
 
 
 

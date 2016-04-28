@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.SquaredImageView;
 import com.squareup.picasso.Picasso;
 
@@ -34,9 +35,8 @@ public final class GridViewAdapter extends BaseAdapter {
         //Collections.shuffle(urls);
 
         // Triple up the list.
-        ArrayList<String> copy = new ArrayList<String>(urls);
-        urls.addAll(copy);
-        urls.addAll(copy);
+        //ArrayList<String> copy = new ArrayList<String>(urls);
+        //urls.addAll(copy);
     }
 
     @Override public View getView(int position, View convertView, ViewGroup parent) {
@@ -54,7 +54,8 @@ public final class GridViewAdapter extends BaseAdapter {
                 .load(url) //
                 //.placeholder(R.drawable.placeholder) //
                 //.error(R.drawable.error) //
-                .fit() //
+                .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*3, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*3)
+                .centerCrop() //
                 .tag(context) //
                 .into(view);
 

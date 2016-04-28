@@ -146,18 +146,22 @@ public class UrlsImagesTask extends AsyncTask<Void, Void, Void> {
                     Log.i(TAG, "Input Stream uguale a null");
                 }
 
-                JSONArray jArray = new JSONArray(result);
+                if(result != null && !result.equals("null\n")){
+                    JSONArray jArray = new JSONArray(result);
 
-                if (jArray != null && result != null) {
-                    for (int i = 0; i < jArray.length(); i++) {
-                        JSONObject json_data = jArray.getJSONObject(i);
-                        String urlImmagine = json_data.getString("urlImmagineViaggio");
-                        int orineTappa = json_data.getInt("ordineTappa");
-                        String livelloCondivisione = json_data.getString("livelloCondivisione");
-                        listImages.add(new Immagine(urlImmagine, livelloCondivisione));
+                    if (jArray != null) {
+                        for (int i = 0; i < jArray.length(); i++) {
+                            JSONObject json_data = jArray.getJSONObject(i);
+                            String urlImmagine = json_data.getString("urlImmagineViaggio");
+                            int orineTappa = json_data.getInt("ordineTappa");
+                            String livelloCondivisione = json_data.getString("livelloCondivisione");
+                            listImages.add(new Immagine(urlImmagine, livelloCondivisione));
 
+                        }
                     }
+
                 }
+
             } else
                 Log.e(TAG, "CONNESSIONE Internet Assente!");
         } catch (Exception e) {

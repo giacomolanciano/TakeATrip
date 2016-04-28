@@ -2,6 +2,7 @@ package com.example.david.takeatrip.Activities;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,6 +27,9 @@ import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DataObject;
 import com.example.david.takeatrip.Utilities.GoogleTranslate;
 import com.example.david.takeatrip.Utilities.InternetConnection;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -81,6 +85,11 @@ public class SearchActivity extends AppCompatActivity {
 
 
     private PlaceAutocompleteFragment autocompleteFragment;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -92,14 +101,14 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         Intent intent;
-        if((intent = getIntent()) != null){
+        if ((intent = getIntent()) != null) {
             emailUtente = intent.getStringExtra("email");
         }
 
         editTextUser = (AutoCompleteTextView) findViewById(R.id.editTextUser);
 
 
-       // lista = (ListView)findViewById(R.id.listTravelsBySearch);
+        // lista = (ListView)findViewById(R.id.listTravelsBySearch);
         mRecyclerView = (RecyclerView) findViewById(R.id.listTravelsBySearch);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -120,10 +129,9 @@ public class SearchActivity extends AppCompatActivity {
 
         users = new ArrayList<String>();
         destinations = new ArrayList<String>();
-        viaggi_profilo = new HashMap<Profilo,List<Viaggio>>();
+        viaggi_profilo = new HashMap<Profilo, List<Viaggio>>();
         dataTravels = new ArrayList<DataObject>();
         viaggi = new ArrayList<Viaggio>();
-
 
 
         autocompleteFragment = (PlaceAutocompleteFragment)
@@ -137,7 +145,7 @@ public class SearchActivity extends AppCompatActivity {
             public void onPlaceSelected(Place place) {
                 Log.i(TAG, "Place: " + place.getName());
 
-                if(viaggi_profilo.size() != 0 && editTextUser.getText().toString().equals("")){
+                if (viaggi_profilo.size() != 0 && editTextUser.getText().toString().equals("")) {
                     viaggi_profilo.clear();
                 }
 
@@ -156,20 +164,19 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         new MyTask().execute();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
 
-
-
-
-
-    private void PopolaLista(Map<Profilo, List<Viaggio>> p_v){
+    private void PopolaLista(Map<Profilo, List<Viaggio>> p_v) {
         ArrayList<DataObject> result = new ArrayList<DataObject>();
 
-        List<String> codiciViaggi= new ArrayList<String>();
-        for(Profilo p : p_v.keySet()){
-            for(Viaggio v: p_v.get(p)){
-                if(!codiciViaggi.contains(v.getCodice())){
+        List<String> codiciViaggi = new ArrayList<String>();
+        for (Profilo p : p_v.keySet()) {
+            for (Viaggio v : p_v.get(p)) {
+                if (!codiciViaggi.contains(v.getCodice())) {
                     ImageView image = new ImageView(SearchActivity.this);
                     result.add(new DataObject(v, p, image));
                     codiciViaggi.add(v.getCodice());
@@ -177,12 +184,11 @@ public class SearchActivity extends AppCompatActivity {
             }
         }
 
-        for(int i=0; i<result.size(); i++){
+        for (int i = 0; i < result.size(); i++) {
 
             Log.i(TAG, "result:" + result.get(i).getCodiceViaggio() + " " + result.get(i).getUrlImageTravel());
 
         }
-
 
 
         RecyclerViewViaggiAdapter adapter = new RecyclerViewViaggiAdapter(result, SearchActivity.this);
@@ -190,17 +196,56 @@ public class SearchActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(adapter);
 
 
-
     }
 
     public ArrayList<DataObject> getDataSet() {
         ArrayList results = new ArrayList<DataObject>();
         //for (int index = 0; index < 20; index++) {
-            //DataObject obj = new DataObject("Some Primary Text " + index,
-            //        "Secondary " + index);
-            //results.add(index, obj);
-       // }
+        //DataObject obj = new DataObject("Some Primary Text " + index,
+        //        "Secondary " + index);
+        //results.add(index, obj);
+        // }
         return results;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Search Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.example.david.takeatrip.Activities/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Search Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.example.david.takeatrip.Activities/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
     }
 
 
@@ -210,7 +255,7 @@ public class SearchActivity extends AppCompatActivity {
         String toTranslate;
         String translated;
 
-        public MyTaskTranslate(String word){
+        public MyTaskTranslate(String word) {
             toTranslate = word;
         }
 
@@ -222,7 +267,7 @@ public class SearchActivity extends AppCompatActivity {
                     Log.i(TAG, "placeNuovo: " + toTranslate);
 
                     String languageDevice = Locale.getDefault().getLanguage();
-                    if(!languageDevice.equals("it")){
+                    if (!languageDevice.equals("it")) {
                         GoogleTranslate translate = new GoogleTranslate(API_KEY);
                         translated = translate.translate(toTranslate, languageDevice, "it");
 
@@ -232,7 +277,6 @@ public class SearchActivity extends AppCompatActivity {
                         Log.i(TAG, "placeNuovo tradotto: " + translated);
 
                         destination = translated;
-
 
 
                     } else {
@@ -264,13 +308,10 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
-
-
     private class MyTask extends AsyncTask<Void, Void, Void> {
 
         InputStream is = null;
         String result, stringaFinale = "";
-
 
 
         @Override
@@ -279,7 +320,7 @@ public class SearchActivity extends AppCompatActivity {
                 if (InternetConnection.haveInternetConnection(SearchActivity.this)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS);
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS);
                     HttpResponse response = httpclient.execute(httppost);
 
                     HttpEntity entity = response.getEntity();
@@ -302,35 +343,32 @@ public class SearchActivity extends AppCompatActivity {
 
                             JSONArray jArray = new JSONArray(result);
 
-                            if(jArray != null && result != null){
-                                for(int i=0;i<jArray.length();i++){
+                            if (jArray != null && result != null) {
+                                for (int i = 0; i < jArray.length(); i++) {
                                     JSONObject json_data = jArray.getJSONObject(i);
                                     String nomeUtente = json_data.getString("nome").toString();
                                     String cognomeUtente = json_data.getString("cognome").toString();
                                     String emailUtente = json_data.getString("email").toString();
                                     String usernameUtente = json_data.getString("username").toString();
 
-                                    stringaFinale = nomeUtente + " " + cognomeUtente + "\n" + "("+usernameUtente+")";
+                                    stringaFinale = nomeUtente + " " + cognomeUtente + "\n" + "(" + usernameUtente + ")";
                                     users.add(stringaFinale);
                                 }
                             }
 
 
-
                         } catch (Exception e) {
                             Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
                         }
-                    }
-                    else {
+                    } else {
                         Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
                     }
 
-                }
-                else
+                } else
                     Log.e("CONNESSIONE Internet", "Assente!");
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
+                Log.e(e.toString(), e.getMessage());
             }
 
 
@@ -341,7 +379,7 @@ public class SearchActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            final ArrayAdapter adapter = new ArrayAdapter(SearchActivity.this,android.R.layout.simple_list_item_1,users);
+            final ArrayAdapter adapter = new ArrayAdapter(SearchActivity.this, android.R.layout.simple_list_item_1, users);
 
             editTextUser.setAdapter(adapter);
             editTextUser.setThreshold(1);
@@ -355,12 +393,11 @@ public class SearchActivity extends AppCompatActivity {
             });
 
 
-
         }
     }
 
     public void onClickSearchUser(View v, String utenteSelezionato) {
-        if(viaggi_profilo.size() != 0 && editTextUser.getText().toString().equals("")){
+        if (viaggi_profilo.size() != 0 && editTextUser.getText().toString().equals("")) {
             viaggi_profilo.clear();
         }
         String usernameUtenteSelezionato = utenteSelezionato.substring(utenteSelezionato.indexOf('(') + 1, utenteSelezionato.indexOf(')'));
@@ -384,8 +421,6 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
-
-
     private class myTaskSearchByUser extends AsyncTask<Void, Void, Void> {
 
         InputStream is = null;
@@ -393,7 +428,7 @@ public class SearchActivity extends AppCompatActivity {
         Map<Profilo, List<Viaggio>> mappaProvvisoria = new HashMap<Profilo, List<Viaggio>>();
         String username;
 
-        public myTaskSearchByUser(String username){
+        public myTaskSearchByUser(String username) {
             this.username = username;
         }
 
@@ -406,7 +441,7 @@ public class SearchActivity extends AppCompatActivity {
                 if (InternetConnection.haveInternetConnection(SearchActivity.this)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_PER_VIAGGI_DA_UTENTE);
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_PER_VIAGGI_DA_UTENTE);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
 
@@ -428,12 +463,12 @@ public class SearchActivity extends AppCompatActivity {
                             result = sb.toString();
 
 
-                            Log.i(TAG,"risultato dalla search: " + result);
+                            Log.i(TAG, "risultato dalla search: " + result);
 
                             JSONArray jArray = new JSONArray(result);
 
-                            if(jArray != null && result != null){
-                                for(int i=0;i<jArray.length();i++){
+                            if (jArray != null && result != null) {
+                                for (int i = 0; i < jArray.length(); i++) {
                                     JSONObject json_data = jArray.getJSONObject(i);
                                     String codice = json_data.getString("codice").toString();
                                     String nomeViaggio = json_data.getString("nomeViaggio").toString();
@@ -441,32 +476,29 @@ public class SearchActivity extends AppCompatActivity {
                                     String nomeUtente = json_data.getString("nome").toString();
                                     String cognomeUtente = json_data.getString("cognome").toString();
                                     String urlImmagineViaggio = json_data.getString("idFotoViaggio").toString();
-                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente,null, null, null, null, null, null, null);
+                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, null, null, null, null, null);
 
                                     List<Viaggio> viaggi = new ArrayList<Viaggio>();
                                     viaggi.add(new Viaggio(codice, nomeViaggio, urlImmagineViaggio));
 
                                     Log.i(TAG, "viaggi: " + viaggi);
-                                    mappaProvvisoria.put(p,viaggi);
+                                    mappaProvvisoria.put(p, viaggi);
                                 }
                             }
-
 
 
                         } catch (Exception e) {
                             Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
                         }
-                    }
-                    else {
+                    } else {
                         Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
                     }
 
-                }
-                else
+                } else
                     Log.e("CONNESSIONE Internet", "Assente!");
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
+                Log.e(e.toString(), e.getMessage());
             }
 
 
@@ -475,7 +507,7 @@ public class SearchActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Log.i(TAG, "mappaProvvisoria:" +mappaProvvisoria);
+            Log.i(TAG, "mappaProvvisoria:" + mappaProvvisoria);
 
             PopolaLista(mappaProvvisoria);
             autocompleteFragment.setText("");
@@ -504,7 +536,7 @@ public class SearchActivity extends AppCompatActivity {
                 if (InternetConnection.haveInternetConnection(SearchActivity.this)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_PER_VIAGGI_DA_DESTINAZIONE);
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_PER_VIAGGI_DA_DESTINAZIONE);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
 
@@ -528,8 +560,8 @@ public class SearchActivity extends AppCompatActivity {
 
                             JSONArray jArray = new JSONArray(result);
 
-                            if(jArray != null && result != null){
-                                for(int i=0;i<jArray.length();i++){
+                            if (jArray != null && result != null) {
+                                for (int i = 0; i < jArray.length(); i++) {
                                     JSONObject json_data = jArray.getJSONObject(i);
                                     String codice = json_data.getString("codice").toString();
                                     String nomeViaggio = json_data.getString("nomeViaggio").toString();
@@ -538,28 +570,26 @@ public class SearchActivity extends AppCompatActivity {
                                     String cognomeUtente = json_data.getString("cognome").toString();
                                     String urlImmagineViaggio = json_data.getString("idFotoViaggio").toString();
 
-                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente,null, null, null, null, null, null, null);
+                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, null, null, null, null, null);
 
                                     List<Viaggio> viaggi = new ArrayList<Viaggio>();
-                                    viaggi.add(new Viaggio(codice, nomeViaggio,urlImmagineViaggio));
+                                    viaggi.add(new Viaggio(codice, nomeViaggio, urlImmagineViaggio));
 
-                                    mappaProvvisoria.put(p,viaggi);
+                                    mappaProvvisoria.put(p, viaggi);
                                 }
                             }
                         } catch (Exception e) {
                             Log.e(TAG, "Errore nel risultato o nel convertire il risultato");
                         }
-                    }
-                    else {
+                    } else {
                         Log.e(TAG, "Input Stream uguale a null");
                     }
 
-                }
-                else
+                } else
                     Log.e("CONNESSIONE Internet", "Assente!");
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
+                Log.e(e.toString(), e.getMessage());
             }
 
 
@@ -568,7 +598,7 @@ public class SearchActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Log.i(TAG, "Mappa mappaProvvisoria:" +mappaProvvisoria);
+            Log.i(TAG, "Mappa mappaProvvisoria:" + mappaProvvisoria);
 
             PopolaLista(mappaProvvisoria);
             editTextUser.setText("");

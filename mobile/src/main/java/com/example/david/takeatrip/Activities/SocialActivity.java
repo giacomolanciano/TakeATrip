@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Adapters.TabsPagerAdapter;
+import com.example.david.takeatrip.AsyncTasks.PrelievoTotaleUtentiTask;
 import com.example.david.takeatrip.Classes.Following;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
@@ -39,6 +40,8 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class SocialActivity extends FragmentActivity implements ActionBar.TabListener {
@@ -74,9 +77,9 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
     private Fragment fragment;
 
     private Profilo corrente;
+    private Set<Profilo> profiles;
 
-    // TODO: Tab titles in other languages
-    private String[] tabs = {"FOLLOWING","FOLLOWERS","SEARCH"};
+    private String[] tabs = {"FOLLOWING","FOLLOWERS", "SEARCH"};
 
     private int[] icons = {
             //R.drawable.ic_people_black_36dp,
@@ -104,19 +107,23 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 
-      /*  // Adding Tabs Image
-        for (int tab_name : icons) {
-            actionBar.addTab(actionBar.newTab().setIcon(tab_name)
-                    .setTabListener(this));
+        try {
+            profiles = new PrelievoTotaleUtentiTask(this).execute().get();
+            Log.i(TAG, "all profiles: " + profiles.toString());
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
-*/
+
+
         // Adding Tabs
         for (String tab_name : tabs) {
             actionBar.addTab(actionBar.newTab().setText(tab_name)
                     .setTabListener(this));
         }
 
-        //TODO: cambiare in caso di visualizzazione esterna
 
         corrente = new Profilo(email);
 
@@ -322,7 +329,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
             seguiti.add(f.getSeguito());
         }
 
-        mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(),seguaci,seguiti);
+        mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(),seguaci,seguiti, profiles);
         viewPager.setAdapter(mAdapter);
 
         Log.i(TAG, "seguiti di: "+ corrente + ": " + seguiti);
@@ -426,9 +433,6 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
             seguaci.add(f.getSegue());
             Log.i(TAG, "email seguaci: " + f.getSegue().getEmail());
         }
-
-
-
 /*
         mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(), seguaci,seguiti);
         viewPager.setAdapter(mAdapter);
@@ -437,4 +441,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         Log.i(TAG, "seguaci di: "+ corrente + ": " + seguaci);
 
     }
+
+
+
 }

@@ -1,5 +1,6 @@
 package com.example.david.takeatrip.Adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,13 +8,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.david.takeatrip.AsyncTasks.LoadGenericImageTask;
 import com.example.david.takeatrip.R;
-import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DataObject;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by david on 08/03/2016.
@@ -27,6 +30,8 @@ public class MyRecyclerViewAdapterFollowing extends RecyclerView
 
     private ArrayList<DataObject> mDataset;
     private static MyClickListener myClickListener;
+
+    private Context context;
 
     public class DataObjectHolder extends RecyclerView.ViewHolder
             implements View
@@ -105,12 +110,11 @@ public class MyRecyclerViewAdapterFollowing extends RecyclerView
 
     public void setOnItemClickListener(MyClickListener myClickListener) {
         this.myClickListener = myClickListener;
-
-
     }
 
-    public MyRecyclerViewAdapterFollowing(ArrayList<DataObject> myDataset) {
+    public MyRecyclerViewAdapterFollowing(ArrayList<DataObject> myDataset, Context context) {
         mDataset = myDataset;
+        this.context = context;
     }
 
     @Override
@@ -151,8 +155,21 @@ public class MyRecyclerViewAdapterFollowing extends RecyclerView
         immagineProfilo.setContentDescription(urlImmagine);
 
         if(urlImmagine != null && !urlImmagine.equals("null")){
-            //new BitmapWorkerTask(immagineProfilo).execute(Constants.ADDRESS_TAT +urlImmagine);
-            Picasso.with(null).load(Constants.ADDRESS_TAT +urlImmagine).into(immagineProfilo);
+
+            URL completeUrl= null;
+
+            try {
+                completeUrl = new LoadGenericImageTask(urlImmagine, context).execute().get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+            if(completeUrl != null)
+                Picasso.with(null).load(completeUrl.toString()).into(immagineProfilo);
+
+
         }
         else{
             if(sesso.equals("M")){

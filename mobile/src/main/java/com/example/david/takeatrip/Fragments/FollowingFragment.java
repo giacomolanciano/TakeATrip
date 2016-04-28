@@ -92,7 +92,7 @@ public class FollowingFragment extends Fragment {
 
 
         Log.i(TAG, "data set: " + getDataSet());
-        MyRecyclerViewAdapterFollowing adapter = new MyRecyclerViewAdapterFollowing(getDataSet());
+        MyRecyclerViewAdapterFollowing adapter = new MyRecyclerViewAdapterFollowing(getDataSet(), getContext());
         adapter.onCreateViewHolder(group, 0);
         mRecyclerView.setAdapter(adapter);
 

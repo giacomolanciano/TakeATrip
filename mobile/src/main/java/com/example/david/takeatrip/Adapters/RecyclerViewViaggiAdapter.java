@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.david.takeatrip.Activities.ViaggioActivity;
-import com.example.david.takeatrip.AsyncTasks.LoadTravelImageTask;
+import com.example.david.takeatrip.AsyncTasks.LoadGenericImageTask;
 import com.example.david.takeatrip.Interfaces.AsyncResponseUrl;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
@@ -87,7 +87,7 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
                 //TODO verificare efficienza
                 //la recyclerView chiama asynctask ogni volta che l'immagine esce fuori dallo schermo
 
-                completeUrl = new LoadTravelImageTask(urlImmagine, codiceViaggio, context).execute().get();
+                completeUrl = new LoadGenericImageTask(urlImmagine, codiceViaggio, context).execute().get();
 
             } catch (InterruptedException e) {
                 e.printStackTrace();

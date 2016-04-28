@@ -242,9 +242,6 @@ public class ListaTappeActivity extends AppCompatActivity
         ViewImmagineViaggio = (RoundedImageView) layoutHeader.findViewById(R.id.imageView_round);
 
 
-
-        
-
         buttonAddStop = (FloatingActionButton) findViewById(R.id.fabAddStopInfoPoi);
         if (buttonAddStop != null) {
             buttonAddStop.setVisibility(View.INVISIBLE);
@@ -296,7 +293,12 @@ public class ListaTappeActivity extends AppCompatActivity
             codiceViaggio = intent.getStringExtra("codiceViaggio");
             nomeViaggio = intent.getStringExtra("nomeViaggio");
             urlImmagineViaggio = intent.getStringExtra("urlImmagineViaggio");
-            new BitmapWorkerTask(ViewImmagineViaggio).execute(Constants.ADDRESS_TAT + urlImmagineViaggio);
+
+            Log.i(TAG, "image travel: " + urlImmagineViaggio);
+
+            //new BitmapWorkerTask(ViewImmagineViaggio).execute(urlImmagineViaggio);
+
+
             CharSequence[] listPartecipants = intent.getCharSequenceArrayExtra("partecipanti");
             CharSequence[] urlImagePartecipants = intent.getCharSequenceArrayExtra("urlImagePartecipants");
             CharSequence[] sessoPartecipants = intent.getCharSequenceArrayExtra("sessoPartecipants");
@@ -973,7 +975,23 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
             if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
-                new BitmapWorkerTask(image).execute(Constants.ADDRESS_TAT + p.getIdImageProfile());
+
+                /*
+                URL completeUrl = null;
+                try {
+
+                    Log.i(TAG, "image profile: " + p.getIdImageProfile());
+
+                    completeUrl = new LoadGenericImageTask(p.getIdImageProfile(), this).get();
+                    //new BitmapWorkerTask(image).execute(completeUrl.toString());
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                */
+
             }
             else{
                 if(p.getSesso().equals("M")){
@@ -1773,9 +1791,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
         //TODO da modularizzare, lasciato così per via di side-effect importanti su variabili della classe
 
-        //TODO implementare meccanismo di selezione del profilo di cui prelevare tappe
         //TODO aggiornare variabile profiloVisCorr con il numero dell'ordine
-
 
         private final static int DEFAULT_INT = 0;
         private static final String DEFAULT_STRING = "default";
@@ -1867,10 +1883,6 @@ public class ListaTappeActivity extends AppCompatActivity
                 profiloTappe.put(p, tappe);
 
             }
-
-
-
-
             return null;
         }
 
