@@ -27,7 +27,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
@@ -43,6 +42,7 @@ import com.example.david.takeatrip.AsyncTasks.GetPartecipantiViaggioTask;
 import com.example.david.takeatrip.AsyncTasks.ItinerariesTask;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
+import com.example.david.takeatrip.GraphicalComponents.AdaptableGridView;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.InternetConnection;
@@ -130,10 +130,10 @@ public class ViaggioActivity extends AppCompatActivity {
 
 
 
-    private GridView gridViewPhotos;
-    private GridView gridViewVideos;
-    private GridView gridViewAudio;
-    private GridView gridViewNotes;
+    private AdaptableGridView gridViewPhotos;
+    private AdaptableGridView gridViewAudio;
+    private AdaptableGridView gridViewVideos;
+    private AdaptableGridView gridViewNotes;
 
     private String[] strings, subs;
     private int[] arr_images;
@@ -241,10 +241,11 @@ public class ViaggioActivity extends AppCompatActivity {
 
         Log.i(TAG, "email utente: " + email + " codiceViaggio: " + codiceViaggio + " nomeVaggio: " + nomeViaggio);
 
-        gridViewPhotos = (GridView) findViewById(R.id.grid_view_photos);
-        gridViewVideos = (GridView) findViewById(R.id.grid_view_videos);
-        gridViewAudio = (GridView) findViewById(R.id.grid_view_audio);
-        gridViewNotes = (GridView) findViewById(R.id.grid_view_notes);
+        gridViewPhotos = (AdaptableGridView) findViewById(R.id.grid_view_photos);
+
+        gridViewVideos = (AdaptableGridView) findViewById(R.id.grid_view_videos);
+        gridViewAudio = (AdaptableGridView) findViewById(R.id.grid_view_audio);
+        gridViewNotes = (AdaptableGridView) findViewById(R.id.grid_view_notes);
 
         //layoutCopertinaViaggio = (LinearLayout) findViewById(R.id.layoutCoverImageTravel);
 
