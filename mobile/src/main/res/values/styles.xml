@@ -77,8 +77,21 @@
         <item name="android:solidColor">@color/blue</item>
         <item name="android:statusBarColor">@color/blue</item>
         <!--METTERE QUI COLORE BLUE DELLA BARRA SOPRA -->
-
     </style>
+
+
+    <style name="ThemeSocial" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/blue</item>
+    </style>
+
+
+
+
+
     <style name="Widget.AppTheme.ActionBar.Social" parent="Widget.AppCompat.ActionBar.Solid" />
 
 
