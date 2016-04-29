@@ -176,7 +176,8 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
         Log.i(TAG, "array di url: ");
 
         if (listContents.size() > 0) {
-//            notes = new String[listContents.size()];
+            notes = new String[listContents.size()];
+
 //            int i = 0;
 //            for (String nota : listContents) {
 //
