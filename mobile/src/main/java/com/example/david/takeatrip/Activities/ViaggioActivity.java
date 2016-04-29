@@ -144,8 +144,8 @@ public class ViaggioActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_viaggio);
-        setContentView(R.layout.activity_viaggio_new);
+        //setContentView(R.layout.activity_viaggio_old);
+        setContentView(R.layout.activity_viaggio);
 
         Intent intent;
         if((intent = getIntent()) != null){

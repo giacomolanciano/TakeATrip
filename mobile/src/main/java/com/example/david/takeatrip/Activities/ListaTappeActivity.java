@@ -724,7 +724,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
         } else {
 
-            Log.e(TAG, "result: " + resultCode);
+            Log.e(TAG, "onActivityResult result: " + resultCode);
         }
     }
 
@@ -872,6 +872,13 @@ public class ListaTappeActivity extends AppCompatActivity
 
     public void onClickAddStop(View v){
 
+        pathsImmaginiVideoSelezionati.clear();
+        immaginiSelezionate.clear();
+        videoSelezionati.clear();
+        bitmap_nomeFile.clear();
+        audioSelezionati.clear();
+        noteInserite.clear();
+
         try {
             PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
             Intent intentPlacePicker = intentBuilder.build(ListaTappeActivity.this);
@@ -942,7 +949,7 @@ public class ListaTappeActivity extends AppCompatActivity
                         .getColumnIndex(proj[0]);
 
                 result = cursor.getString(columnIndex);
-                Log.i(TAG, "result: "+result);
+                Log.i(TAG, "getRealPathFrom Uri result: "+result);
             }
 
             return result;
@@ -1947,8 +1954,6 @@ public class ListaTappeActivity extends AppCompatActivity
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
 
             dataToSend.add(new BasicNameValuePair("emailProfilo", email));
-            //dataToSend.add(new BasicNameValuePair("emailProfilo", "pippo@gmail.com"));
-
             dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
             dataToSend.add(new BasicNameValuePair("ordine", ""+ordine));
             dataToSend.add(new BasicNameValuePair("POI", "" + placeId));
@@ -1995,7 +2000,7 @@ public class ListaTappeActivity extends AppCompatActivity
                             is.close();
 
                             result = sb.toString();
-                            Log.i(TAG, "result: " +result);
+                            Log.i(TAG, "InserimentoTappaTask result: " +result);
 
                         } catch (Exception e) {
                             Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato",
@@ -2032,7 +2037,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
             if(!noteInserite.isEmpty()) {
                 new InserimentoNotaTappaTask(ListaTappeActivity.this, ordine, codiceViaggio, email,
-                        noteInserite).execute();
+                        livelloCondivisioneTappa, noteInserite).execute();
             }
 
             if(!immaginiSelezionate.isEmpty()){
@@ -2112,12 +2117,15 @@ public class ListaTappeActivity extends AppCompatActivity
 
             }
 
+
+            //NB il clear() per le note viene chiamato alla fine del corrisposndente asyntask
+            //altrimenti la lista viene svuotata prima della sua esecuzione
+            //il problema non sussiste per queste altre, viene fatto partire un thread per ogni elemento
             pathsImmaginiVideoSelezionati.clear();
             immaginiSelezionate.clear();
             videoSelezionati.clear();
             bitmap_nomeFile.clear();
             audioSelezionati.clear();
-            noteInserite.clear();
 
 
             ordine += 1;

@@ -1104,7 +1104,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                             noteInserite.add(textInputEditText.getText().toString());
 
                             new InserimentoNotaTappaTask(TappaActivity.this, ordineTappa, codiceViaggio,
-                                    email, noteInserite).execute();
+                                    email, livelloCondivisioneTappa, noteInserite).execute();
                             Log.i(TAG, "edit text confirmed");
                         }
                     });
@@ -1119,7 +1119,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             Log.e(e.toString().toUpperCase(), e.getMessage());
         }
 
-        noteInserite.clear();
+
+        //NB il clear() per le note viene chiamato alla fine del corrisposndente asyntask
+        //altrimenti la lista viene svuotata prima della sua esecuzione
 
         Log.i(TAG, "END add note");
 

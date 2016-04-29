@@ -18,7 +18,7 @@
           <theme>@style/AppTheme</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/mobile/src/main/res/layout/activity_viaggio.xml">
+      <layout url="file://$PROJECT_DIR$/mobile/src/main/res/layout/activity_viaggio_old.xml">
         <config>
           <theme>@style/AppTheme</theme>
         </config>
@@ -29,15 +29,20 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f12b5a04-1321-4fd8-82de-62c7ac20a4e7" name="Default" comment="creato getNotesTask per note viaggio/tappa; modificato getUrlContentsTask per supportare audio/video; modificato gridViewAdapter e creata estensione classe per immagini">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/GraphicalComponents/AdaptableGridView.java" />
+    <list default="true" id="f12b5a04-1321-4fd8-82de-62c7ac20a4e7" name="Default" comment="creata AdaptableGridView per visualizzare interamente i contenuti in viaggio tappa (https://www.jayway.com/2012/10/04/how-to-make-the-height-of-a-gridview-wrap-its-content/)">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobile/src/main/res/layout/activity_viaggio_old.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/mobile/src/main/res/layout/activity_viaggio_new.xml" afterPath="$PROJECT_DIR$/mobile/src/main/res/layout/activity_viaggio.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/outputFileStates.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/res/layout/activity_viaggio_new.xml" afterPath="$PROJECT_DIR$/mobile/src/main/res/layout/activity_viaggio_new.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/InserimentoNotaTappaTask.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/InserimentoNotaTappaTask.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/GraphicalComponents/AdaptableGridView.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/GraphicalComponents/AdaptableGridView.java" />
     </list>
     <ignored path="TakeATrip.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -78,15 +83,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="ViaggioActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ViaggioActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.61619717">
-              <caret line="248" column="42" selection-start-line="248" selection-start-column="42" selection-end-line="248" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="247" column="42" selection-start-line="247" selection-start-column="42" selection-end-line="247" selection-end-column="42" />
               <folding>
                 <element signature="class#MyTaskPerUtenti#0;class#ViaggioActivity#0" expanded="false" />
                 <element signature="class#PrivacyLevelAdapter#0;class#ViaggioActivity#0" expanded="false" />
-                <element signature="e#31535#31564#0" expanded="false" />
+                <element signature="e#31503#31532#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -102,8 +107,50 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity_viaggio_new.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/activity_viaggio_new.xml">
+      <file leaf-file-name="ListaTappeActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-7.5">
+              <caret line="2123" column="75" selection-start-line="2122" selection-start-column="12" selection-end-line="2123" selection-end-column="75" />
+              <folding>
+                <element signature="method#onNavigationItemSelected#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="method#PopolaPartecipanti#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="method#CreaMenu#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="method#AggiungiMarkedPointsOnMap#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="method#findPlaceById#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="method#calcolaNumUltimaTappaUtenteCorrente#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="method#startAddingStop#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="method#onClickAddVideo#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="method#onClickAddNote#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="class#GetTappeTask#0;class#ListaTappeActivity#0" expanded="false" />
+                <element signature="class#PrivacyLevelAdapter#0;class#ListaTappeActivity#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TappaActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.26877934">
+              <caret line="1122" column="0" selection-start-line="1122" selection-start-column="0" selection-end-line="1122" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InserimentoNotaTappaTask.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/InserimentoNotaTappaTask.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="6.5">
+              <caret line="108" column="28" selection-start-line="108" selection-start-column="28" selection-end-line="108" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_viaggio.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/activity_viaggio.xml">
           <provider editor-type-id="android-designer">
             <state />
           </provider>
@@ -5197,7 +5244,6 @@
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/SocialHomeElement.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/SquaredImageView.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/UploadFilePHP.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/InserimentoNotaTappaTask.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/InserimentoFiltroTask.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/DatesUtils.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/InserimentoTappaTask.java" />
@@ -5209,8 +5255,6 @@
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/AudioRecord.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/AggiornamentoDataTappaTask.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Utilities/DeviceStorageUtils.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/VisualizzazioneFollowActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SocialActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/AndroidManifest.xml" />
@@ -5240,9 +5284,12 @@
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Adapters/GridViewAdapter.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Adapters/GridViewImageAdapter.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/GraphicalComponents/MyGridView.java" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/GraphicalComponents/AdaptableGridView.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/res/layout/activity_viaggio_new.xml" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/GraphicalComponents/AdaptableGridView.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/InserimentoNotaTappaTask.java" />
       </list>
     </option>
   </component>
@@ -5499,6 +5546,40 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="GraphicalComponents" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TakeATrip" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TakeATrip" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="takeatrip" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AsyncTasks" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -5975,12 +6056,6 @@
       <option name="number" value="Default" />
       <updated>1458038901214</updated>
     </task>
-    <task id="LOCAL-00004" summary="Gestione immagini nelle tappe">
-      <created>1458146587046</created>
-      <option name="number" value="00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1458146587046</updated>
-    </task>
     <task id="LOCAL-00005" summary="Gestione immagini nelle tappe">
       <created>1458146770530</created>
       <option name="number" value="00005" />
@@ -6269,7 +6344,13 @@
       <option name="project" value="LOCAL" />
       <updated>1461946027061</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="creata AdaptableGridView per visualizzare interamente i contenuti in viaggio tappa (https://www.jayway.com/2012/10/04/how-to-make-the-height-of-a-gridview-wrap-its-content/)">
+      <created>1461948194070</created>
+      <option name="number" value="00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1461948194070</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TodoView">
@@ -6361,7 +6442,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modificata struttura url da inserire nel db per video e immagini" />
     <MESSAGE value="inserito download immagine copertina viaggio in viaggioActivity" />
     <MESSAGE value="modularizzato task per caricamento immagini in gridView (viaggio e tappa)" />
     <MESSAGE value="caricamento immagini/video funzionante da tappaActivity" />
@@ -6386,7 +6466,8 @@
     <MESSAGE value="trovato bug: immagine copertina in viaggio viene inserita ma subito dopo scompare dallo schermo;&#10;inzio lavoro su gridview per download contenuti (query ok)" />
     <MESSAGE value="aggiunte grid view per tutti i contenuti in viaggioActivity; modificato getContentUrl task" />
     <MESSAGE value="creato getNotesTask per note viaggio/tappa; modificato getUrlContentsTask per supportare audio/video; modificato gridViewAdapter e creata estensione classe per immagini" />
-    <option name="LAST_COMMIT_MESSAGE" value="creato getNotesTask per note viaggio/tappa; modificato getUrlContentsTask per supportare audio/video; modificato gridViewAdapter e creata estensione classe per immagini" />
+    <MESSAGE value="creata AdaptableGridView per visualizzare interamente i contenuti in viaggio tappa (https://www.jayway.com/2012/10/04/how-to-make-the-height-of-a-gridview-wrap-its-content/)" />
+    <option name="LAST_COMMIT_MESSAGE" value="creata AdaptableGridView per visualizzare interamente i contenuti in viaggio tappa (https://www.jayway.com/2012/10/04/how-to-make-the-height-of-a-gridview-wrap-its-content/)" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -6400,13 +6481,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/InserimentoTappaTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17253521">
-          <caret line="7" column="27" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
         </state>
       </provider>
     </entry>
@@ -6464,28 +6538,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.29577464">
           <caret line="12" column="19" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-280.18518">
-          <caret line="468" column="53" selection-start-line="468" selection-start-column="38" selection-end-line="468" selection-end-column="53" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="method#onNavigationItemSelected#0;class#ListaTappeActivity#0" expanded="false" />
-            <element signature="method#getRealPathFromURI#0;class#ListaTappeActivity#0" expanded="false" />
-            <element signature="method#PopolaPartecipanti#0;class#ListaTappeActivity#0" expanded="false" />
-            <element signature="method#CreaMenu#0;class#ListaTappeActivity#0" expanded="false" />
-            <element signature="method#AggiungiMarkedPointsOnMap#0;class#ListaTappeActivity#0" expanded="false" />
-            <element signature="method#findPlaceById#0;class#ListaTappeActivity#0" expanded="false" />
-            <element signature="method#calcolaNumUltimaTappaUtenteCorrente#0;class#ListaTappeActivity#0" expanded="false" />
-            <element signature="method#startAddingStop#0;class#ListaTappeActivity#0" expanded="false" />
-            <element signature="method#onClickAddVideo#0;class#ListaTappeActivity#0" expanded="false" />
-            <element signature="method#onClickAddNote#0;class#ListaTappeActivity#0" expanded="false" />
-            <element signature="class#GetTappeTask#0;class#ListaTappeActivity#0" expanded="false" />
-            <element signature="class#PrivacyLevelAdapter#0;class#ListaTappeActivity#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -6647,7 +6699,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/activity_viaggio.xml">
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/activity_viaggio_old.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
@@ -6674,28 +6726,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="332" column="12" selection-start-line="332" selection-start-column="12" selection-end-line="332" selection-end-column="12" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/InsertCoverImageTravelTask.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6549296">
           <caret line="152" column="67" selection-start-line="152" selection-start-column="67" selection-end-line="152" selection-end-column="67" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/InserimentoNotaTappaTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3697183">
-          <caret line="38" column="12" selection-start-line="38" selection-start-column="12" selection-end-line="38" selection-end-column="12" />
           <folding />
         </state>
       </provider>
@@ -6812,29 +6846,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/GetNotesTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="195" column="0" selection-start-line="195" selection-start-column="0" selection-end-line="195" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/GraphicalComponents/AdaptableGridView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#308#309#0" expanded="true" />
-            <element signature="e#338#339#0" expanded="true" />
-            <element signature="e#407#408#0" expanded="true" />
-            <element signature="e#444#445#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/activity_viaggio_new.xml">
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/res/layout/activity_viaggio.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
@@ -6847,15 +6859,77 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/GraphicalComponents/AdaptableGridView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6056338">
+          <caret line="35" column="46" selection-start-line="35" selection-start-column="46" selection-end-line="35" selection-end-column="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/InserimentoTappaTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.17253521">
+          <caret line="7" column="27" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/GetNotesTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="195" column="0" selection-start-line="195" selection-start-column="0" selection-end-line="195" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ViaggioActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.61619717">
-          <caret line="248" column="42" selection-start-line="248" selection-start-column="42" selection-end-line="248" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="247" column="42" selection-start-line="247" selection-start-column="42" selection-end-line="247" selection-end-column="42" />
           <folding>
             <element signature="class#MyTaskPerUtenti#0;class#ViaggioActivity#0" expanded="false" />
             <element signature="class#PrivacyLevelAdapter#0;class#ViaggioActivity#0" expanded="false" />
-            <element signature="e#31535#31564#0" expanded="false" />
+            <element signature="e#31503#31532#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/ListaTappeActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.5">
+          <caret line="2123" column="75" selection-start-line="2122" selection-start-column="12" selection-end-line="2123" selection-end-column="75" />
+          <folding>
+            <element signature="method#onNavigationItemSelected#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="method#PopolaPartecipanti#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="method#CreaMenu#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="method#AggiungiMarkedPointsOnMap#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="method#findPlaceById#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="method#calcolaNumUltimaTappaUtenteCorrente#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="method#startAddingStop#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="method#onClickAddVideo#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="method#onClickAddNote#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="class#GetTappeTask#0;class#ListaTappeActivity#0" expanded="false" />
+            <element signature="class#PrivacyLevelAdapter#0;class#ListaTappeActivity#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/InserimentoNotaTappaTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="6.5">
+          <caret line="108" column="28" selection-start-line="108" selection-start-column="28" selection-end-line="108" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.26877934">
+          <caret line="1122" column="0" selection-start-line="1122" selection-start-column="0" selection-end-line="1122" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

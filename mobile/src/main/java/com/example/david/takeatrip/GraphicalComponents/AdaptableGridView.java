@@ -9,6 +9,9 @@ import android.widget.GridView;
  */
 
 public class AdaptableGridView extends GridView {
+
+    private static final int SHIFT = 2;
+
     public AdaptableGridView(Context context) {
         super(context);
     }
@@ -30,7 +33,7 @@ public class AdaptableGridView extends GridView {
             // The two leftmost bits in the height measure spec have
             // a special meaning, hence we can't use them to describe height.
             heightSpec = MeasureSpec.makeMeasureSpec(
-                    Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
+                    Integer.MAX_VALUE >> SHIFT, MeasureSpec.AT_MOST);
         }
         else {
             // Any other height should be respected as is.
