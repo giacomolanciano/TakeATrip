@@ -67,11 +67,7 @@
                 android:background="@drawable/scrim_bottom">
             </View>
 
-
-
-
         </android.support.design.widget.CollapsingToolbarLayout>
-
 
     </android.support.design.widget.AppBarLayout>
 
@@ -80,8 +76,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:paddingLeft="@dimen/activity_vertical_margin"
-        android:paddingRight="@dimen/activity_vertical_margin"
         >
 
 
@@ -91,6 +85,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_vertical_margin"
             >
 
 
@@ -375,89 +371,8 @@
                     />
             </LinearLayout>
 
-
-
-
-
-
-
         </LinearLayout>
 
-
-
     </android.support.v4.widget.NestedScrollView>
-
-
-
-    <!--<android.support.design.widget.FloatingActionButton-->
-    <!--android:id="@+id/fab"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="bottom|end"-->
-    <!--android:layout_margin="@dimen/fab_margin"-->
-    <!--app:backgroundTint="@color/blue"-->
-    <!--android:src="@drawable/ic_add_white_24dp" />-->
-
-
-
-
-    <!--<com.getbase.floatingactionbutton.FloatingActionsMenu-->
-        <!--android:id="@+id/menuInserimentoContenuti"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_marginRight="@dimen/floating_action_menu_margin_right"-->
-        <!--android:layout_marginBottom="@dimen/floating_action_menu_margin_bottom"-->
-        <!--app:fab_addButtonColorNormal="@color/blue"-->
-        <!--app:fab_addButtonColorPressed="@color/blue_semi_transparent_pressed"-->
-        <!--app:fab_addButtonPlusIconColor="@color/biancoPallido"-->
-        <!--app:fab_labelsPosition="left"-->
-        <!--app:fab_labelStyle="@style/menu_labels_style"-->
-        <!--&gt;-->
-
-
-
-        <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
-            <!--android:id="@+id/buttonAddNote"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:fab_colorNormal="@color/biancoPallido"-->
-            <!--app:fab_title="@string/addNote"-->
-            <!--app:fab_colorPressed="@color/white_pressed"-->
-            <!--app:fab_size="mini"-->
-            <!--/>-->
-
-        <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
-            <!--android:id="@+id/buttonAddRecord"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:fab_colorNormal="@color/biancoPallido"-->
-            <!--app:fab_size="mini"-->
-            <!--app:fab_title="@string/addRecord"-->
-            <!--app:fab_colorPressed="@color/white_pressed"-->
-            <!--/>-->
-
-        <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
-            <!--android:id="@+id/buttonAddVideo"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:fab_colorNormal="@color/biancoPallido"-->
-            <!--app:fab_size="mini"-->
-            <!--app:fab_title="@string/addVideo"-->
-            <!--app:fab_colorPressed="@color/white_pressed"-->
-            <!--/>-->
-
-        <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
-            <!--android:id="@+id/buttonAddPhoto"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:fab_colorNormal="@color/biancoPallido"-->
-            <!--app:fab_size="mini"-->
-            <!--app:fab_title="@string/addPhoto"-->
-            <!--app:fab_colorPressed="@color/white_pressed"-->
-            <!--/>-->
-
-    <!--</com.getbase.floatingactionbutton.FloatingActionsMenu>-->
-
 
 </android.support.design.widget.CoordinatorLayout>

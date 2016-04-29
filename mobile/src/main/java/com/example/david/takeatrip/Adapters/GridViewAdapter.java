@@ -5,10 +5,12 @@ package com.example.david.takeatrip.Adapters;
  */
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.SquaredImageView;
 import com.squareup.picasso.Picasso;
@@ -19,7 +21,7 @@ import java.util.List;
 
 import static android.widget.ImageView.ScaleType.CENTER_CROP;
 
-public final class GridViewAdapter extends BaseAdapter {
+public class GridViewAdapter extends BaseAdapter {
 
     private static final String TAG = "TEST GridViewAdapter";
 
@@ -49,15 +51,25 @@ public final class GridViewAdapter extends BaseAdapter {
         // Get the image URL for the current position.
         String url = getItem(position);
 
+        view.setContentDescription(url);
+
         // Trigger the download of the URL asynchronously into the image view.
-        Picasso.with(context) //
-                .load(url) //
-                //.placeholder(R.drawable.placeholder) //
-                //.error(R.drawable.error) //
+        Picasso.with(context)
+                .load(R.drawable.empty_image)
                 .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*3, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*3)
-                .centerCrop() //
-                .tag(context) //
+                .centerCrop()
+                .tag(context)
                 .into(view);
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO definire comportamento per streaming contenuto audio/video o visualizzazione nota
+
+                Log.i(TAG, "content: "+v.getContentDescription());
+
+            }
+        });
 
         return view;
     }
@@ -72,5 +84,13 @@ public final class GridViewAdapter extends BaseAdapter {
 
     @Override public long getItemId(int position) {
         return position;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public List<String> getUrls() {
+        return urls;
     }
 }

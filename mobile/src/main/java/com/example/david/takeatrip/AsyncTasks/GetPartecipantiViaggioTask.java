@@ -39,10 +39,7 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
     private static final String TAG = "TEST GetPartViaggioTask";
 
     private static final String ADDRESS_PARTECIPANTS = "QueryPartecipantiViaggio.php";
-    private static final String ADDRESS_QUERY_IMAGES = "QueryImagesOfTravel.php";
-    private static final String ADDRESS_QUERY_VIDEOS = "QueryVideosOfTravel.php";
-    private static final String ADDRESS_QUERY_AUDIO = "QueryAudioOfTravel.php";
-    private static final String ADDRESS_QUERY_NOTES = "QueryNotesOfTravel.php";
+
 
     private final int LIMIT_IMAGES_VIEWS = 4;
 
@@ -184,13 +181,13 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean aVoid) {
 
-        new GetUrlsContentsTask(context, codiceViaggio, gridViewPhotos, ADDRESS_QUERY_IMAGES).execute();
+        new GetUrlsContentsTask(context, codiceViaggio, gridViewPhotos, Constants.QUERY_TRAVEL_IMAGES).execute();
 
-        new GetUrlsContentsTask(context, codiceViaggio, gridViewVideos, ADDRESS_QUERY_VIDEOS).execute();
+        new GetUrlsContentsTask(context, codiceViaggio, gridViewVideos, Constants.QUERY_TRAVEL_VIDEOS).execute();
 
-        new GetUrlsContentsTask(context, codiceViaggio, gridViewAudio, ADDRESS_QUERY_AUDIO).execute();
+        new GetUrlsContentsTask(context, codiceViaggio, gridViewAudio, Constants.QUERY_TRAVEL_AUDIO).execute();
 
-        //TODO chiamare task per note
+        new GetNotesTask(context, codiceViaggio, gridViewNotes, Constants.QUERY_TRAVEL_NOTES).execute();
 
 
         //viewTitoloViaggio = (TextView) contentView.findViewById(R.id.titoloViaggio);

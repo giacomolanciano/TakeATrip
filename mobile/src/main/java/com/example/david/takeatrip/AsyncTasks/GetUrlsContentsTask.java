@@ -10,6 +10,7 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.example.david.takeatrip.Adapters.GridViewAdapter;
+import com.example.david.takeatrip.Adapters.GridViewImageAdapter;
 import com.example.david.takeatrip.Classes.ContenutoMultimediale;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.InternetConnection;
@@ -108,8 +109,8 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
         Log.i(TAG, "email: " + emailProfilo);
 
 
-        if (phpFile.equals(Constants.QUERY_STOP_IMAGE)
-                || phpFile.equals(Constants.QUERY_STOP_VIDEO)
+        if (phpFile.equals(Constants.QUERY_STOP_IMAGES)
+                || phpFile.equals(Constants.QUERY_STOP_VIDEOS)
                 || phpFile.equals(Constants.QUERY_STOP_AUDIO)) {
 
             dataToSend.add(new BasicNameValuePair("ordine", ordineTappa + ""));
@@ -147,16 +148,33 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
                     Log.i(TAG, "Input Stream uguale a null");
                 }
 
-                if(result != null && !result.equals("null\n")){
+                if (result != null && !result.equals("null\n")) {
                     JSONArray jArray = new JSONArray(result);
+                    String url, livelloCondivisione;
 
                     if (jArray != null) {
                         for (int i = 0; i < jArray.length(); i++) {
                             JSONObject json_data = jArray.getJSONObject(i);
-                            String urlImmagine = json_data.getString("urlImmagineViaggio");
-                            int orineTappa = json_data.getInt("ordineTappa");
-                            String livelloCondivisione = json_data.getString("livelloCondivisione");
-                            listContents.add(new ContenutoMultimediale(urlImmagine, livelloCondivisione));
+
+                            if (phpFile.equals(Constants.QUERY_TRAVEL_IMAGES)
+                                    || phpFile.equals(Constants.QUERY_STOP_IMAGES)) {
+
+                                url = json_data.getString("urlImmagineViaggio");
+
+                            } else if (phpFile.equals(Constants.QUERY_TRAVEL_VIDEOS)
+                                    || phpFile.equals(Constants.QUERY_STOP_VIDEOS)) {
+
+                                url = json_data.getString("urlVideo");
+
+                            } else {
+
+                                url = json_data.getString("urlAudio");
+
+                            }
+
+
+                            livelloCondivisione = json_data.getString("livelloCondivisione");
+                            listContents.add(new ContenutoMultimediale(url, livelloCondivisione));
 
                         }
                     }
@@ -177,19 +195,21 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
 
-        Log.i(TAG, "array di url: ");
+        GridView gv = gridView;
+        gv.setOnScrollListener(new ScrollListener(context));
 
 
-        //TODO: controllare i livelli di condivisione e mettere nell'array solo quelle giuste
         if (listContents.size() > 0) {
             URLs = new String[listContents.size()];
             int i = 0;
             for (ContenutoMultimediale image : listContents) {
+
+                //TODO la query restituisce già solamente i contenuti public/travel, valutare eliminazione controllo
                 if (image.getLivelloCondivisione().equalsIgnoreCase("public")
                         || image.getLivelloCondivisione().equalsIgnoreCase("travel")) {
 
-                    //URLs[i] = generateTravelContentUrl(image.getUrlContenuto());
-                    URLs[i] = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_TRAVELS_NAME,image.getUrlContenuto());
+                    URLs[i] = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_TRAVELS_NAME,
+                            image.getUrlContenuto());
 
                     //Log.i(TAG, "url ["+i+"]: "+ URLs[i]);
 
@@ -204,9 +224,17 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
         }
 
 
-        GridView gv = gridView;
-        gv.setAdapter(new GridViewAdapter(context, URLs));
-        gv.setOnScrollListener(new ScrollListener(context));
+        if (phpFile.equals(Constants.QUERY_TRAVEL_IMAGES)
+                || phpFile.equals(Constants.QUERY_STOP_IMAGES)) {
+
+            gv.setAdapter(new GridViewImageAdapter(context, URLs));
+
+        } else {
+
+            gv.setAdapter(new GridViewAdapter(context, URLs));
+
+        }
+
 
         Log.i(TAG, "settato l'adapter per il grid");
 
@@ -231,6 +259,3 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
 
 
 }
-
-
-

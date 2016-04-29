@@ -1,11 +1,11 @@
 [
     {
-        "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\common_signin_btn_text_pressed_light.9.png",
-        "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xxhdpi\\common_signin_btn_text_pressed_light.9.png"
-    },
-    {
         "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\common_signin_btn_text_disabled_light.9.png",
         "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xxhdpi\\common_signin_btn_text_disabled_light.9.png"
+    },
+    {
+        "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\common_signin_btn_text_pressed_light.9.png",
+        "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xxhdpi\\common_signin_btn_text_pressed_light.9.png"
     },
     {
         "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\common_signin_btn_icon_pressed_light.9.png",
@@ -28,12 +28,12 @@
         "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xxhdpi\\common_signin_btn_icon_disabled_light.9.png"
     },
     {
-        "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\common_signin_btn_text_normal_light.9.png",
-        "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xxhdpi\\common_signin_btn_text_normal_light.9.png"
-    },
-    {
         "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\common_signin_btn_icon_pressed_dark.9.png",
         "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xxhdpi\\common_signin_btn_icon_pressed_dark.9.png"
+    },
+    {
+        "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\common_signin_btn_text_normal_light.9.png",
+        "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xxhdpi\\common_signin_btn_text_normal_light.9.png"
     },
     {
         "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\common_signin_btn_icon_disabled_focus_light.9.png",
@@ -64,20 +64,20 @@
         "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xxhdpi\\common_signin_btn_icon_normal_light.9.png"
     },
     {
-        "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\common_signin_btn_text_disabled_focus_light.9.png",
-        "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xxhdpi\\common_signin_btn_text_disabled_focus_light.9.png"
-    },
-    {
         "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\common_signin_btn_icon_disabled_dark.9.png",
         "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xxhdpi\\common_signin_btn_icon_disabled_dark.9.png"
     },
     {
-        "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\common_signin_btn_icon_normal_dark.9.png",
-        "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xxhdpi\\common_signin_btn_icon_normal_dark.9.png"
+        "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\common_signin_btn_text_disabled_focus_light.9.png",
+        "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xxhdpi\\common_signin_btn_text_disabled_focus_light.9.png"
     },
     {
         "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\common_signin_btn_icon_focus_light.9.png",
         "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xxhdpi\\common_signin_btn_icon_focus_light.9.png"
+    },
+    {
+        "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\common_signin_btn_icon_normal_dark.9.png",
+        "source": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\8.1.0\\res\\drawable-xxhdpi\\common_signin_btn_icon_normal_dark.9.png"
     },
     {
         "merged": "C:\\Users\\Giacomo\\AndroidStudioProjects\\TakeATrip\\wear\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\common_signin_btn_icon_focus_dark.9.png",

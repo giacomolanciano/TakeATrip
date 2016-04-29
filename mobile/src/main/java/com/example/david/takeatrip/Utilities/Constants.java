@@ -112,8 +112,13 @@ public class Constants {
     public static final String AUDIO_EXT = ".3gp";
 
 
-    public static final String QUERY_STOP_IMAGE = "QueryImagesOfStop.php";
-    public static final String QUERY_STOP_VIDEO = "QueryVideosOfStop.php";
+    public static final String QUERY_TRAVEL_IMAGES = "QueryImagesOfTravel.php";
+    public static final String QUERY_TRAVEL_VIDEOS = "QueryVideosOfTravel.php";
+    public static final String QUERY_TRAVEL_AUDIO = "QueryAudioOfTravel.php";
+    public static final String QUERY_TRAVEL_NOTES = "QueryNotesOfTravel.php";
+
+    public static final String QUERY_STOP_IMAGES = "QueryImagesOfStop.php";
+    public static final String QUERY_STOP_VIDEOS = "QueryVideosOfStop.php";
     public static final String QUERY_STOP_AUDIO = "QueryAudioOfStop.php";
     public static final String QUERY_STOP_NOTES = "QueryNoteTappa.php";
 
