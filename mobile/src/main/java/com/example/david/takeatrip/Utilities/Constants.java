@@ -112,7 +112,9 @@ public class Constants {
     public static final String AUDIO_EXT = ".3gp";
 
 
-    public static final String QUERY_STOP_IMAGE = "QueryImagesOfStops.php";
+    public static final String QUERY_STOP_IMAGE = "QueryImagesOfStop.php";
+    public static final String QUERY_STOP_VIDEO = "QueryVideosOfStop.php";
+    public static final String QUERY_STOP_AUDIO = "QueryAudioOfStop.php";
 
 
     public static final int BASE_DIMENSION_OF_IMAGE_PARTECIPANT = 100;

@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.example.david.takeatrip.Classes.Profilo;
-import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.InternetConnection;
 
@@ -72,7 +71,8 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
                                       String codiceViaggio, List<Profilo> listPartecipants,
                                       String nomeViaggio, String email, GridView gridViewPhotos,
                                       String urlImageTravel, LinearLayout layoutPartecipants,
-                                      LinearLayout rowHorizontal, GridView gridViewVideos) {
+                                      LinearLayout rowHorizontal, GridView gridViewVideos,
+                                      ImageView layoutCopertinaViaggio) {
 
         this.context = context;
         this.contentView = contentView;
@@ -85,6 +85,7 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
         this.urlImageTravel = urlImageTravel;
         this.layoutPartecipants = layoutPartecipants;
         this.rowHorizontal = rowHorizontal;
+        this.layoutCopertinaViaggio = layoutCopertinaViaggio;
 
         //TODO cancellare dopo prova
         this.gridViewVideos = gridViewVideos;
@@ -178,20 +179,19 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean aVoid) {
 
-
-
-        new UrlsImagesTask(context, codiceViaggio, gridViewPhotos, ADDRESS_QUERY_URLS).execute();
+        new GetUrlsContentsTask(context, codiceViaggio, gridViewPhotos, ADDRESS_QUERY_URLS).execute();
 
         //TODO cancellare dopo prova o modificare per ritornare i video
-        new UrlsImagesTask(context, codiceViaggio, gridViewVideos, ADDRESS_QUERY_URLS).execute();
+        //new GetUrlsContentsTask(context, codiceViaggio, gridViewVideos, ADDRESS_QUERY_URLS).execute();
 
 
         //viewTitoloViaggio = (TextView) contentView.findViewById(R.id.titoloViaggio);
         //layoutCopertinaViaggio = (LinearLayout) contentView.findViewById(R.id.layoutCoverImageTravel);
 
-        layoutCopertinaViaggio = (ImageView) contentView.findViewById(R.id.imageTravel);
+        //layoutCopertinaViaggio = (ImageView) contentView.findViewById(R.id.imageTravel);
 
         if(urlImageTravel != null && !urlImageTravel.equals("null")){
+
 
             //new BitmapWorkerTask(null,layoutCopertinaViaggio).execute(urlImageTravel);
 

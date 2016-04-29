@@ -2,8 +2,7 @@ package com.example.david.takeatrip.AsyncTasks;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
@@ -35,13 +34,14 @@ public class InsertCoverImageTravelTask extends AsyncTask<Void, Void, Void> {
     private static final String ADDRESS_INSERT_IMAGE_COVER_TRAVEL = "InserimentoImmagineCopertinaViaggio.php";
 
 
-    InputStream is = null;
-    String emailUser,codiceViaggio, result, urlImmagine;
-    DriveId idFile;
-    Context context;
+    private InputStream is = null;
+    private String emailUser,codiceViaggio, result, urlImmagine;
+    private DriveId idFile;
+    private Context context;
     private Bitmap bitmapImageTravel;
     //private LinearLayout layoutCopertinaViaggio;
     private ImageView layoutCopertinaViaggio;
+    private Uri selectedImage;
 
 
     public InsertCoverImageTravelTask(Context c, String emailUtente, DriveId id){
@@ -70,6 +70,19 @@ public class InsertCoverImageTravelTask extends AsyncTask<Void, Void, Void> {
         urlImmagine = url;
         this.bitmapImageTravel = bitmapImageTravel;
         this.layoutCopertinaViaggio = layoutCopertinaViaggio;
+    }
+
+    public InsertCoverImageTravelTask(Context c, String emailUtente, String codiceViaggio, DriveId id,
+                                      String url, Bitmap bitmapImageTravel, ImageView layoutCopertinaViaggio,
+                                      Uri selectedImage){
+        context  = c;
+        emailUser = emailUtente;
+        this.codiceViaggio = codiceViaggio;
+        idFile = id;
+        urlImmagine = url;
+        this.bitmapImageTravel = bitmapImageTravel;
+        this.layoutCopertinaViaggio = layoutCopertinaViaggio;
+        this.selectedImage = selectedImage;
     }
 
 
@@ -128,10 +141,11 @@ public class InsertCoverImageTravelTask extends AsyncTask<Void, Void, Void> {
         Log.i(TAG, "risultato operazione di inserimento immagine viaggio nel DB:" + result);
         if(!result.equals("OK")){
             //upload dell'immagine
-            Drawable d = new BitmapDrawable(context.getResources(), bitmapImageTravel);
-            layoutCopertinaViaggio.setBackground(d);
+            //Drawable d = new BitmapDrawable(context.getResources(), bitmapImageTravel);
+            //layoutCopertinaViaggio.setBackground(d);
 
-            //layoutCopertinaViaggio.setImageDrawable(d);
+            layoutCopertinaViaggio.setImageBitmap(bitmapImageTravel);
+
         }
 
         super.onPostExecute(aVoid);

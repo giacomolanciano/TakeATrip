@@ -40,9 +40,9 @@ import java.util.List;
 /**
  * Created by Giacomo Lanciano on 20/04/2016.
  */
-public class UrlsImagesTask extends AsyncTask<Void, Void, Void> {
+public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
 
-    private static final String TAG = "TEST UrlsImagesTask";
+    private static final String TAG = "TEST GetUrlsContTask";
 
     private Context context;
     private GridView gridView;
@@ -77,7 +77,7 @@ public class UrlsImagesTask extends AsyncTask<Void, Void, Void> {
     private AmazonS3Client s3;
 
 
-    public UrlsImagesTask(Context context, String codiceViaggio, GridView gridView, String phpFile) {
+    public GetUrlsContentsTask(Context context, String codiceViaggio, GridView gridView, String phpFile) {
         this.codiceViaggio = codiceViaggio;
         this.context = context;
         this.gridView = gridView;
@@ -89,8 +89,8 @@ public class UrlsImagesTask extends AsyncTask<Void, Void, Void> {
         s3 = UtilS3Amazon.getS3Client(context);
     }
 
-    public UrlsImagesTask(Context context, String codiceViaggio, GridView gridView, String phpFile,
-                          String emailProfilo, int ordineTappa) {
+    public GetUrlsContentsTask(Context context, String codiceViaggio, GridView gridView, String phpFile,
+                               String emailProfilo, int ordineTappa) {
 
         this(context, codiceViaggio, gridView, phpFile);
 
@@ -108,7 +108,10 @@ public class UrlsImagesTask extends AsyncTask<Void, Void, Void> {
         Log.i(TAG, "codice: " + codiceViaggio);
 
 
-        if (phpFile.equals(Constants.QUERY_STOP_IMAGE)) {
+        if (phpFile.equals(Constants.QUERY_STOP_IMAGE)
+                || phpFile.equals(Constants.QUERY_STOP_VIDEO)
+                || phpFile.equals(Constants.QUERY_STOP_AUDIO)) {
+
             dataToSend.add(new BasicNameValuePair("ordine", ordineTappa + ""));
             dataToSend.add(new BasicNameValuePair("email", emailProfilo));
 

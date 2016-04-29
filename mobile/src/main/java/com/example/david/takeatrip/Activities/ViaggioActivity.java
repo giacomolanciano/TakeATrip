@@ -176,6 +176,10 @@ public class ViaggioActivity extends AppCompatActivity {
 
 
         imageTravel = (ImageView) findViewById(R.id.imageTravel);
+//        Picasso.with(ViaggioActivity.this)
+//                .load(urlImageTravel)
+//                .error(R.drawable.empty_image)
+//                .into(imageTravel);
 
 
         strings = getResources().getStringArray(R.array.PrivacyLevel);
@@ -247,7 +251,7 @@ public class ViaggioActivity extends AppCompatActivity {
         try {
             proprioViaggio = new GetPartecipantiViaggioTask(ViaggioActivity.this, contentView, s3,
                     codiceViaggio, listPartecipants, nomeViaggio, email, gridViewPhotos, urlImageTravel,
-                    layoutPartecipants, rowHorizontal, gridViewVideos).execute().get();
+                    layoutPartecipants, rowHorizontal, gridViewVideos, imageTravel).execute().get();
 
             popolaPartecipanti();
 
@@ -368,7 +372,7 @@ public class ViaggioActivity extends AppCompatActivity {
 //                        codiceViaggio, email, bitmapImageTravel, layoutCopertinaViaggio);
 
                 UtilS3AmazonCustom.uploadTravelCoverPicture(ViaggioActivity.this, picturePath,
-                        codiceViaggio, email, bitmapImageTravel, imageTravel);
+                        codiceViaggio, email, bitmapImageTravel, imageTravel, selectedImage);
 
 
 /*

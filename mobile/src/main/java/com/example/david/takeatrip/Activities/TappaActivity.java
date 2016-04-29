@@ -40,12 +40,12 @@ import android.widget.TextView;
 import com.example.david.takeatrip.Adapters.MyExpandableListItemAdapter;
 import com.example.david.takeatrip.AsyncTasks.AggiornamentoDataTappaTask;
 import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
+import com.example.david.takeatrip.AsyncTasks.GetUrlsContentsTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoAudioTappaTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoImmagineTappaTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoNotaTappaTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoVideoTappaTask;
 import com.example.david.takeatrip.AsyncTasks.UploadFileS3Task;
-import com.example.david.takeatrip.AsyncTasks.UrlsImagesTask;
 import com.example.david.takeatrip.Fragments.DatePickerFragment;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.AudioRecord;
@@ -332,7 +332,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         audioSelezionati = new ArrayList<String>();
 
 
-        new UrlsImagesTask(TappaActivity.this, codiceViaggio, gridView, ADDRESS_QUERY_URLS,
+        new GetUrlsContentsTask(TappaActivity.this, codiceViaggio, gridView, ADDRESS_QUERY_URLS,
                 email, ordineTappa).execute();
 
     }

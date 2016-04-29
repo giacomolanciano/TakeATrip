@@ -23,15 +23,14 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
     ImageView bmImage;
     LinearLayout layout;
     int width, height;
-    private final WeakReference<ImageView> imageViewReference;
+    private WeakReference<ImageView> imageViewReference;
     public String data = "null";
 
 
 
     public BitmapWorkerTask(ImageView bmImage) {
-        this.bmImage = bmImage;
-        //imageViewReference = new WeakReference<ImageView>(bmImage);
-        imageViewReference = null;
+        //this.bmImage = bmImage;
+        imageViewReference = new WeakReference<ImageView>(bmImage);
 
         width = bmImage.getWidth();
         height = bmImage.getHeight();

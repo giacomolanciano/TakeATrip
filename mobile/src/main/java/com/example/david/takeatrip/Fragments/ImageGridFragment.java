@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import com.example.david.takeatrip.Adapters.GridViewAdapter;
 import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
 import com.example.david.takeatrip.R;
-import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.ScrollListener;
 import com.example.david.takeatrip.Utilities.SquaredImageView;
 
@@ -155,17 +154,17 @@ public class ImageGridFragment extends Fragment implements AdapterView.OnItemCli
         }
     }
 
-    public void loadBitmap(String url, ImageView imageView) {
-        if (cancelPotentialWork(url, imageView)) {
-            if(url != null && !url.equals("null")){
-                Log.i(TAG, "ora carico le foto nella gridView...");
-                final BitmapWorkerTask task = new BitmapWorkerTask(imageView);
-                task.execute(Constants.ADDRESS_TAT +url);
-            }
-
-
-        }
-    }
+//    public void loadBitmap(String url, ImageView imageView) {
+//        if (cancelPotentialWork(url, imageView)) {
+//            if(url != null && !url.equals("null")){
+//                Log.i(TAG, "ora carico le foto nella gridView...");
+//                final BitmapWorkerTask task = new BitmapWorkerTask(imageView);
+//                task.execute(Constants.ADDRESS_TAT +url);
+//            }
+//
+//
+//        }
+//    }
 
 
     public static boolean cancelPotentialWork(String url, ImageView imageView) {
