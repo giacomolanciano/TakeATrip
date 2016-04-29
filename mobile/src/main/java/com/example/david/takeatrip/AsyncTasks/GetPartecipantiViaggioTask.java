@@ -39,7 +39,10 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
     private static final String TAG = "TEST GetPartViaggioTask";
 
     private static final String ADDRESS_PARTECIPANTS = "QueryPartecipantiViaggio.php";
-    private static final String ADDRESS_QUERY_URLS= "QueryImagesOfTravel.php";
+    private static final String ADDRESS_QUERY_IMAGES = "QueryImagesOfTravel.php";
+    private static final String ADDRESS_QUERY_VIDEOS = "QueryVideosOfTravel.php";
+    private static final String ADDRESS_QUERY_AUDIO = "QueryAudioOfTravel.php";
+    private static final String ADDRESS_QUERY_NOTES = "QueryNotesOfTravel.php";
 
     private final int LIMIT_IMAGES_VIEWS = 4;
 
@@ -51,6 +54,9 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
     private String nomeViaggio;
     private String email;
     private GridView gridViewPhotos;
+    private GridView gridViewVideos;
+    private GridView gridViewAudio;
+    private GridView gridViewNotes;
     private String urlImageTravel;
     private LinearLayout layoutPartecipants;
     private LinearLayout rowHorizontal;
@@ -62,17 +68,15 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
     //private LinearLayout layoutCopertinaViaggio;
     private ImageView layoutCopertinaViaggio;
 
-    //TODO cancellare dopo prova
-    private GridView gridViewVideos;
 
 
 
     public GetPartecipantiViaggioTask(Context context, View contentView, AmazonS3Client s3,
                                       String codiceViaggio, List<Profilo> listPartecipants,
-                                      String nomeViaggio, String email, GridView gridViewPhotos,
-                                      String urlImageTravel, LinearLayout layoutPartecipants,
-                                      LinearLayout rowHorizontal, GridView gridViewVideos,
-                                      ImageView layoutCopertinaViaggio) {
+                                      String nomeViaggio, String email, String urlImageTravel,
+                                      LinearLayout layoutPartecipants, LinearLayout rowHorizontal,
+                                      ImageView layoutCopertinaViaggio, GridView gridViewPhotos,
+                                      GridView gridViewVideos, GridView gridViewAudio, GridView gridViewNotes) {
 
         this.context = context;
         this.contentView = contentView;
@@ -81,14 +85,15 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
         this.listPartecipants = listPartecipants;
         this.nomeViaggio = nomeViaggio;
         this.email = email;
-        this.gridViewPhotos = gridViewPhotos;
         this.urlImageTravel = urlImageTravel;
         this.layoutPartecipants = layoutPartecipants;
         this.rowHorizontal = rowHorizontal;
         this.layoutCopertinaViaggio = layoutCopertinaViaggio;
 
-        //TODO cancellare dopo prova
+        this.gridViewPhotos = gridViewPhotos;
         this.gridViewVideos = gridViewVideos;
+        this.gridViewAudio = gridViewAudio;
+        this.gridViewNotes = gridViewNotes;
     }
 
     @Override
@@ -179,10 +184,13 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean aVoid) {
 
-        new GetUrlsContentsTask(context, codiceViaggio, gridViewPhotos, ADDRESS_QUERY_URLS).execute();
+        new GetUrlsContentsTask(context, codiceViaggio, gridViewPhotos, ADDRESS_QUERY_IMAGES).execute();
 
-        //TODO cancellare dopo prova o modificare per ritornare i video
-        //new GetUrlsContentsTask(context, codiceViaggio, gridViewVideos, ADDRESS_QUERY_URLS).execute();
+        new GetUrlsContentsTask(context, codiceViaggio, gridViewVideos, ADDRESS_QUERY_VIDEOS).execute();
+
+        new GetUrlsContentsTask(context, codiceViaggio, gridViewAudio, ADDRESS_QUERY_AUDIO).execute();
+
+        //TODO chiamare task per note
 
 
         //viewTitoloViaggio = (TextView) contentView.findViewById(R.id.titoloViaggio);

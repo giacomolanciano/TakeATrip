@@ -3,24 +3,24 @@ package com.example.david.takeatrip.Classes;
 /**
  * Created by lucagiacomelli on 17/03/16.
  */
-public class Immagine {
-    private String urlImmagine, livelloCondivisione, codiceViaggio, ordineTappa;
+public class ContenutoMultimediale {
+    private String urlContenuto, livelloCondivisione, codiceViaggio, ordineTappa;
 
-    public Immagine(String urlImmagine, String livelloCondivisione) {
-        this.urlImmagine = urlImmagine;
+    public ContenutoMultimediale(String urlContenuto, String livelloCondivisione) {
+        this.urlContenuto = urlContenuto;
         this.livelloCondivisione = livelloCondivisione;
     }
 
-    public Immagine(String urlImmagine, String codiceViaggio, String livelloCondivisione) {
+    public ContenutoMultimediale(String urlContenuto, String codiceViaggio, String livelloCondivisione) {
 
-        this.urlImmagine = urlImmagine;
+        this.urlContenuto = urlContenuto;
         this.codiceViaggio = codiceViaggio;
         this.livelloCondivisione = livelloCondivisione;
     }
 
-    public String getUrlImmagine() {
+    public String getUrlContenuto() {
 
-        return urlImmagine;
+        return urlContenuto;
     }
 
     public String getLivelloCondivisione() {

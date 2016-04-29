@@ -6,17 +6,16 @@ import android.util.Log;
 import android.widget.GridView;
 import android.widget.SimpleAdapter;
 
-import com.amazonaws.HttpMethod;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.example.david.takeatrip.Adapters.GridViewAdapter;
-import com.example.david.takeatrip.Classes.Immagine;
+import com.example.david.takeatrip.Classes.ContenutoMultimediale;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.InternetConnection;
 import com.example.david.takeatrip.Utilities.ScrollListener;
 import com.example.david.takeatrip.Utilities.UtilS3Amazon;
+import com.example.david.takeatrip.Utilities.UtilS3AmazonCustom;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -32,7 +31,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +50,7 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
     private String codiceViaggio;
     InputStream is = null;
     String result, stringaFinale = "";
-    private List<Immagine> listImages;
+    private List<ContenutoMultimediale> listContents;
     private String[] URLs;
 
 
@@ -82,7 +80,7 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
         this.context = context;
         this.gridView = gridView;
         this.phpFile = phpFile;
-        listImages = new ArrayList<Immagine>();
+        listContents = new ArrayList<ContenutoMultimediale>();
 
         transferUtility = UtilS3Amazon.getTransferUtility(context);
         transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
@@ -104,8 +102,10 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... params) {
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
         dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
+        dataToSend.add(new BasicNameValuePair("email", emailProfilo));
 
         Log.i(TAG, "codice: " + codiceViaggio);
+        Log.i(TAG, "email: " + emailProfilo);
 
 
         if (phpFile.equals(Constants.QUERY_STOP_IMAGE)
@@ -113,10 +113,8 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
                 || phpFile.equals(Constants.QUERY_STOP_AUDIO)) {
 
             dataToSend.add(new BasicNameValuePair("ordine", ordineTappa + ""));
-            dataToSend.add(new BasicNameValuePair("email", emailProfilo));
 
             Log.i(TAG, "ordine: " + ordineTappa);
-            Log.i(TAG, "email: " + emailProfilo);
         }
 
 
@@ -158,7 +156,7 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
                             String urlImmagine = json_data.getString("urlImmagineViaggio");
                             int orineTappa = json_data.getInt("ordineTappa");
                             String livelloCondivisione = json_data.getString("livelloCondivisione");
-                            listImages.add(new Immagine(urlImmagine, livelloCondivisione));
+                            listContents.add(new ContenutoMultimediale(urlImmagine, livelloCondivisione));
 
                         }
                     }
@@ -183,14 +181,15 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
 
 
         //TODO: controllare i livelli di condivisione e mettere nell'array solo quelle giuste
-        if (listImages.size() > 0) {
-            URLs = new String[listImages.size()];
+        if (listContents.size() > 0) {
+            URLs = new String[listContents.size()];
             int i = 0;
-            for (Immagine image : listImages) {
+            for (ContenutoMultimediale image : listContents) {
                 if (image.getLivelloCondivisione().equalsIgnoreCase("public")
                         || image.getLivelloCondivisione().equalsIgnoreCase("travel")) {
 
-                    URLs[i] = beginDownloadFile(image.getUrlImmagine());
+                    //URLs[i] = generateTravelContentUrl(image.getUrlContenuto());
+                    URLs[i] = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_TRAVELS_NAME,image.getUrlContenuto());
 
                     //Log.i(TAG, "url ["+i+"]: "+ URLs[i]);
 
@@ -227,41 +226,6 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
 //            transaction.addToBackStack(null);
 //            transaction.commit();
 
-
-    }
-
-
-    private String beginDownloadFile(String key) {
-        // Location to download files from S3 to. You can choose any accessible
-        // file.
-
-
-        java.util.Date expiration = new java.util.Date();
-        long msec = expiration.getTime();
-        msec += Constants.ONE_HOUR_IN_MILLISEC; // 1 hour.
-        expiration.setTime(msec);
-
-        GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                new GeneratePresignedUrlRequest(Constants.BUCKET_TRAVELS_NAME, key);
-        generatePresignedUrlRequest.setMethod(HttpMethod.GET);
-        generatePresignedUrlRequest.setExpiration(expiration);
-
-        Log.i(TAG, "expiration date image: " + generatePresignedUrlRequest.getExpiration());
-
-        URL url = s3.generatePresignedUrl(generatePresignedUrlRequest);
-
-
-        // Initiate the download
-        //TransferObserver observer = transferUtility.download(email, key, file);
-        //Log.i(TAG, "downloaded file: " + file);
-        //Log.i(TAG, "key file: " + key);
-
-        //Log.i(TAG, "url file: " + url);
-
-        //observer.setTransferListener(new DownloadListener());
-
-
-        return url.toString();
 
     }
 

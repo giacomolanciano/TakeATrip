@@ -132,6 +132,8 @@ public class ViaggioActivity extends AppCompatActivity {
 
     private GridView gridViewPhotos;
     private GridView gridViewVideos;
+    private GridView gridViewAudio;
+    private GridView gridViewNotes;
 
     private String[] strings, subs;
     private int[] arr_images;
@@ -241,6 +243,8 @@ public class ViaggioActivity extends AppCompatActivity {
 
         gridViewPhotos = (GridView) findViewById(R.id.grid_view_photos);
         gridViewVideos = (GridView) findViewById(R.id.grid_view_videos);
+        gridViewAudio = (GridView) findViewById(R.id.grid_view_audio);
+        gridViewNotes = (GridView) findViewById(R.id.grid_view_notes);
 
         //layoutCopertinaViaggio = (LinearLayout) findViewById(R.id.layoutCoverImageTravel);
 
@@ -250,8 +254,9 @@ public class ViaggioActivity extends AppCompatActivity {
 
         try {
             proprioViaggio = new GetPartecipantiViaggioTask(ViaggioActivity.this, contentView, s3,
-                    codiceViaggio, listPartecipants, nomeViaggio, email, gridViewPhotos, urlImageTravel,
-                    layoutPartecipants, rowHorizontal, gridViewVideos, imageTravel).execute().get();
+                    codiceViaggio, listPartecipants, nomeViaggio, email, urlImageTravel,
+                    layoutPartecipants, rowHorizontal, imageTravel, gridViewPhotos, gridViewVideos,
+                    gridViewAudio, gridViewNotes).execute().get();
 
             popolaPartecipanti();
 

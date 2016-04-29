@@ -199,7 +199,7 @@
 
 
             <LinearLayout
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:paddingTop="@dimen/activity_vertical_margin"
@@ -235,7 +235,7 @@
                     android:id="@+id/grid_view_photos"
                     android:paddingTop="@dimen/activity_vertical_margin"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:numColumns="3"
                     android:scrollbarStyle="insideOverlay"
                     android:scrollbars="none"
@@ -280,19 +280,12 @@
                     android:id="@+id/grid_view_videos"
                     android:paddingTop="@dimen/activity_vertical_margin"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:numColumns="3"
                     android:scrollbarStyle="insideOverlay"
                     android:scrollbars="none"
                     android:listSelector="@null"
                     />
-
-
-
-
-
-
-
             </LinearLayout>
 
 
@@ -301,36 +294,87 @@
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                android:visibility="invisible"
                 >
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="24dp"
-                    android:text="@string/Videos"
-                    android:layout_gravity="left" />
+                    android:orientation="horizontal"
+                    android:onClick="onClickImageTappa">
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_mic_black_36dp"
+                        android:layout_gravity="center_vertical"
+                        android:paddingEnd="10dp"
+                        android:clickable="true" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="24sp"
+                        android:textColor="@color/black"
+                        android:text="@string/Records"
+                        android:layout_gravity="start"/>
+                </LinearLayout>
 
+                <GridView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/grid_view_audio"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:numColumns="3"
+                    android:scrollbarStyle="insideOverlay"
+                    android:scrollbars="none"
+                    android:listSelector="@null"
+                    />
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:orientation="vertical"
-                android:visibility="invisible">
+                android:paddingTop="@dimen/activity_vertical_margin"
+                >
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/activity_vertical_margin"
-                    android:textSize="24dp"
-                    android:text="@string/Records"
-                    android:layout_gravity="left" />
+                    android:orientation="horizontal"
+                    android:onClick="onClickImageTappa">
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_mic_black_36dp"
+                        android:layout_gravity="center_vertical"
+                        android:paddingEnd="10dp"
+                        android:clickable="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="24sp"
+                        android:textColor="@color/black"
+                        android:text="@string/Records"
+                        android:layout_gravity="start"/>
+                </LinearLayout>
+
+                <GridView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/grid_view_notes"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:numColumns="3"
+                    android:scrollbarStyle="insideOverlay"
+                    android:scrollbars="none"
+                    android:listSelector="@null"
+                    />
             </LinearLayout>
+
 
 
 

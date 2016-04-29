@@ -63,7 +63,7 @@ public class SocialHomeElement {//implements Parcelable {
 //
 //    public String getUrlImageTravel() {
 //
-//        return viaggio.getUrlImmagine();
+//        return viaggio.getUrlContenuto();
 //    }
 //
 //
