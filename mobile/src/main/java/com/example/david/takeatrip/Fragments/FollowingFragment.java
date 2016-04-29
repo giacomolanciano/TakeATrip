@@ -102,7 +102,6 @@ public class FollowingFragment extends Fragment {
     }
 
 
-
     private ArrayList<DataObject> getDataSet() {
         return dataFollowing;
     }

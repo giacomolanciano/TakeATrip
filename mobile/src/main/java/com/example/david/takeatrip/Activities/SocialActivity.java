@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.david.takeatrip.Adapters.TabsPagerAdapter;
-import com.example.david.takeatrip.AsyncTasks.PrelievoTotaleUtentiTask;
 import com.example.david.takeatrip.Classes.Following;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
@@ -41,7 +40,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class SocialActivity extends FragmentActivity implements ActionBar.TabListener {
@@ -107,6 +105,9 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 
+
+        /*
+        non ci servono tutti gli utenti
         try {
             profiles = new PrelievoTotaleUtentiTask(this).execute().get();
             Log.i(TAG, "all profiles: " + profiles.toString());
@@ -116,7 +117,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-
+        */
 
         // Adding Tabs
         for (String tab_name : tabs) {

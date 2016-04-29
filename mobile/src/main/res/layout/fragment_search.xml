@@ -21,7 +21,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/listUsers"
             android:layout_width="wrap_content"
-            android:layout_height="400dp"
+            android:layout_height="375dp"
             android:scrollbars="vertical"
             android:layout_gravity="center_horizontal|top" />
     </FrameLayout>
@@ -43,27 +43,28 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="@dimen/activity_vertical_margin">
 
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:src="@android:drawable/ic_search_category_default"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="9dp"
-                    android:layout_weight="0.1"
-                    android:onClick="onClickSearchUser"/>
-
-                <AutoCompleteTextView
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/editAutoCompleteUser"
+                    android:id="@+id/editTextUserSearch"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:hint="@string/search_the_user"
                     android:textColorHint="@color/color_hint"
                     android:textSize="20sp"
                     android:layout_weight="0.9"
+                    android:textColor="@color/black"
                     android:background="@color/sfondoBase"
                     />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:id="@+id/imageSearchUser"
+                    android:src="@android:drawable/ic_search_category_default"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="9dp"
+                    android:layout_weight="0.1"
+                    android:onClick="onClickSearchUser"/>
 
             </LinearLayout>
 
