@@ -74,10 +74,6 @@ public class FollowersFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
 
-
-        Log.i(TAG, "context of the Followers Fragment: " + context);
-
-
         image_default = new ImageView(context);
         image_default.setImageResource((R.drawable.default_male));
         group = new ViewGroup(context) {

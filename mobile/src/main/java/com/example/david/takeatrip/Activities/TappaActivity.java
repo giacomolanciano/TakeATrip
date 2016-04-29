@@ -226,16 +226,18 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
 
-
-
         if (collapsingToolbar != null) {
             collapsingToolbar.setTitle(nomeTappa);
         }
         if (textDataTappa != null) {
-            String date;
-            date = DatesUtils.convertFormatStringDate(data, Constants.DATABASE_DATE_FORMAT, Constants.DISPLAYED_DATE_FORMAT);
+            String date = null;
 
-            textDataTappa.setText(date);
+            //if(data != null && !data.equals(""))
+                //TODO: il formato della data non consente questo metodo
+                //date = DatesUtils.convertFormatStringDate(data, Constants.DATABASE_DATE_FORMAT, Constants.DISPLAYED_DATE_FORMAT);
+
+            if(date != null)
+                textDataTappa.setText(date);
         }
 
 

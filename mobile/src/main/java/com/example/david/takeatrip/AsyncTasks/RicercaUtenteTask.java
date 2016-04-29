@@ -96,6 +96,11 @@ public class RicercaUtenteTask  extends AsyncTask<Void, Void, Set<Profilo>> {
                                 String emailUtente = json_data.getString("email");
                                 String username = json_data.getString("username");
                                 String sesso = json_data.getString("sesso");
+                                String dataNascita = json_data.getString("dataNascita");
+                                String lavoro = json_data.getString("lavoro");
+                                String nazionalita = json_data.getString("nazionalita");
+                                String descrizione = json_data.getString("descrizione");
+                                String tipo = json_data.getString("tipo");
                                 String urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
                                 String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
 
@@ -113,7 +118,7 @@ public class RicercaUtenteTask  extends AsyncTask<Void, Void, Set<Profilo>> {
                                     idCovers = urlImmagineCopertina;
                                 }
 
-                                Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, sesso, username, null, null, null,idProfiles,idCovers);
+                                Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, dataNascita, nazionalita, sesso, username, lavoro, descrizione, tipo,idProfiles,idCovers);
                                 profiliRisultanti.add(p);
                             }
                         }

@@ -183,8 +183,6 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
 
                 btnInvio=(Button)findViewById(R.id.Invio);
 
-
-
                 if(updateProfilo){
                     completeProfile.setText(R.string.edit_profile);
                     btnInvio.setText(R.string.SAVE);
@@ -228,7 +226,8 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
             if(updateProfilo){
                 btnInvio.setText("SAVE");
 
-                campoDataNascita.setText(DatesUtils.convertFormatStringDate(data,
+                if(data != null && !data.equals(""))
+                    campoDataNascita.setText(DatesUtils.convertFormatStringDate(data,
                         Constants.DATABASE_DATE_FORMAT, Constants.DISPLAYED_DATE_FORMAT));
             }
         }
@@ -237,8 +236,8 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
         btnInvio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-
-                data = DatesUtils.convertFormatStringDate(campoDataNascita.getText().toString(),
+                if(data != null && !data.equals(""))
+                    data = DatesUtils.convertFormatStringDate(campoDataNascita.getText().toString(),
                         Constants.DISPLAYED_DATE_FORMAT, Constants.DATABASE_DATE_FORMAT);
 
 

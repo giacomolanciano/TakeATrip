@@ -1041,8 +1041,6 @@ public class ListaTappeActivity extends AppCompatActivity
             int i=0;
             for(Tappa t : tappe){
 
-                Log.i(TAG, "tappa: " + t.getPoi().getCodicePOI());
-
                 if(nomiTappe.size() > 0){
                     Log.i(TAG, "nome tappa: " + nomiTappe.get(i));
                     menu.add(0, i, Menu.NONE, nomiTappe.get(i));
@@ -1053,8 +1051,8 @@ public class ListaTappeActivity extends AppCompatActivity
 
                 i++;
             }
-
         }
+
     }
 
 

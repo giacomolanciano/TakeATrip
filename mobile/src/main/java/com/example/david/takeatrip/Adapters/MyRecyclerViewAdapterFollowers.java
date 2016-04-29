@@ -1,6 +1,7 @@
 package com.example.david.takeatrip.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,7 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.david.takeatrip.Activities.ProfiloActivity;
 import com.example.david.takeatrip.AsyncTasks.LoadGenericImageTask;
+import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.DataObject;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
@@ -69,35 +72,36 @@ public class MyRecyclerViewAdapterFollowers extends RecyclerView
 
         @Override
         public void onClick(View v) {
-            /*
-            Log.i("TEST:", "Email di cui voglio vedere il profilo dalla lista following: " + emailUtente.getText().toString());
-            Intent openProfilo = new Intent(v.getContext(), ProfiloActivity.class);
+            String username =  usernameUtente.getText().toString().replace("(","").replace(")","");
 
-            openProfilo.putExtra("name", nomeUtente.getText().toString());
+            for(DataObject object : mDataset){
+                Profilo p = object.getProfilo();
 
-            openProfilo.putExtra("surname", cognomeUtente.getText().toString());
-            if(emailUtente!= null){
-            //    openProfilo.putExtra("email", emailUtente.getText().toString());
+                if(p.getUsername().equals(username)){
+
+                    Intent openProfilo = new Intent(v.getContext(), ProfiloActivity.class);
+
+
+                    //TODO: mancano gli altri dati: SELECT* nel php che prende i followers e i following
+
+
+                    //Here pass all the parameter and start the ProfiloActivity
+                    openProfilo.putExtra("emailEsterno", p.getEmail());
+                    openProfilo.putExtra("name", p.getName());
+                    openProfilo.putExtra("surname",p.getSurname());
+                    openProfilo.putExtra("sesso", p.getSesso());
+                    openProfilo.putExtra("username", username);
+                    openProfilo.putExtra("lavoro", p.getLavoro());
+                    openProfilo.putExtra("descrizione", p.getDescrizione());
+                    openProfilo.putExtra("tipo", p.getTipo());
+                    openProfilo.putExtra("urlImmagineProfilo", p.getIdImageProfile());
+                    openProfilo.putExtra("urlImmagineCopertina", p.getGetIdImageCover());
+
+                    v.getContext().startActivity(openProfilo);
+
+                    break;
+                }
             }
-            else{
-                Log.i("TEST: ", "EMAIL UTENTE: " + emailUtente.getText().toString());
-                //openProfilo.putExtra("emailEsterno", emailUtente.getText().toString());
-            }
-
-            openProfilo.putExtra("dateOfBirth",dataUtente.getText().toString());
-            openProfilo.putExtra("nazionalita", nazionalitaUtente.getText().toString());
-            openProfilo.putExtra("sesso", sessoUtente.getText().toString());
-            openProfilo.putExtra("username", usernameUtente.getText().toString());
-            openProfilo.putExtra("lavoro",lavoroUtente.getText().toString());
-            openProfilo.putExtra("descrizione", descrizioneUtente.getText().toString());
-            openProfilo.putExtra("tipo",tipoUtente.getText().toString());
-            //openProfilo.putExtra("urlImmagineProfilo", p.getIdImageProfile());
-           // openProfilo.putExtra("urlImmagineCopertina", p.getGetIdImageCover());
-
-            // passo all'attivazione dell'activity
-            v.getContext().startActivity(openProfilo);
-*/
-
         }
     }
 

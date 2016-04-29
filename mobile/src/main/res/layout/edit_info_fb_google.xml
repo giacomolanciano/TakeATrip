@@ -298,7 +298,9 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_below="@+id/linearLayout"
                 android:layout_centerHorizontal="true"
-                android:textColor="#000000"/>
+                android:textColor="#000000"
+                android:background="@drawable/button_style"
+                />
 
         </LinearLayout>
     </ScrollView>

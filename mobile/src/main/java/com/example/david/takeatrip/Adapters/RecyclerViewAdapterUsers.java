@@ -1,14 +1,18 @@
 package com.example.david.takeatrip.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.david.takeatrip.Activities.ProfiloActivity;
 import com.example.david.takeatrip.AsyncTasks.LoadGenericImageTask;
+import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.DataObject;
 import com.example.david.takeatrip.Utilities.RoundedImageView;
@@ -60,7 +64,6 @@ public class RecyclerViewAdapterUsers extends RecyclerView
             imageProfile = (RoundedImageView) itemView.findViewById(R.id.ImageProfile);
             sessoUtente = (TextView) itemView.findViewById(R.id.SessoUtenteFollowing);
 
-
             /*
             sessoUtente = (TextView) itemView.findViewById(R.id.SessoUtenteFollowing);
             dataUtente = (TextView) itemView.findViewById(R.id.DataUtenteFollowing);
@@ -70,41 +73,42 @@ public class RecyclerViewAdapterUsers extends RecyclerView
             tipoUtente = (TextView) itemView.findViewById(R.id.TipoUtenteFollowing);
 
             */
-            //TODO AGGIUNGERE LE DUE IMMAGINI DA PASSARE AL PROFILO
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            /*
-            Profilo p = new Profilo(emailUtente.getText().toString());
+            String username =  usernameUtente.getText().toString().replace("(","").replace(")","");
+            Log.d(TAG, "username utente cliccato: " + username);
 
-            Log.i("TEST:", "Email di cui voglio vedere il profilo dalla lista following: " + emailUtente.getText().toString());
-            Intent openProfilo = new Intent(v.getContext(), ProfiloActivity.class);
-            openProfilo.putExtra("name", nomeUtente.getText().toString());
-            Log.i("TEST:", "nome di cui voglio vedere il profilo dalla lista following: " + p.getName());
+            for(DataObject object : mDataset){
+                Profilo p = object.getProfilo();
 
-            openProfilo.putExtra("surname", cognomeUtente.getText().toString());
-            if(emailUtente!= null){
-                openProfilo.putExtra("email", emailUtente.getText().toString());
+                Log.i(TAG, "username utente nel dataset: " + p.getUsername());
+                if(p.getUsername().equals(username)){
+
+                    Log.i(TAG, "utente selezionato: " + p);
+
+                    Intent openProfilo = new Intent(v.getContext(), ProfiloActivity.class);
+
+                    //Here pass all the parameter and start the ProfiloActivity
+                    openProfilo.putExtra("emailEsterno", p.getEmail());
+                    openProfilo.putExtra("name", p.getName());
+                    openProfilo.putExtra("surname",p.getSurname());
+                    openProfilo.putExtra("sesso", p.getSesso());
+                    openProfilo.putExtra("username", username);
+                    openProfilo.putExtra("lavoro", p.getLavoro());
+                    openProfilo.putExtra("descrizione", p.getDescrizione());
+                    openProfilo.putExtra("tipo", p.getTipo());
+                    openProfilo.putExtra("urlImmagineProfilo", p.getIdImageProfile());
+                    openProfilo.putExtra("urlImmagineCopertina", p.getGetIdImageCover());
+
+                    v.getContext().startActivity(openProfilo);
+
+                    break;
+                }
             }
-            else{
-                openProfilo.putExtra("emailEsterno", emailUtente.getText().toString());
-            }
 
-            openProfilo.putExtra("dateOfBirth",dataUtente.getText().toString());
-            openProfilo.putExtra("nazionalita", nazionalitaUtente.getText().toString());
-            openProfilo.putExtra("sesso", sessoUtente.getText().toString());
-            openProfilo.putExtra("username", usernameUtente.getText().toString());
-            openProfilo.putExtra("lavoro",lavoroUtente.getText().toString());
-            openProfilo.putExtra("descrizione", descrizioneUtente.getText().toString());
-            openProfilo.putExtra("tipo",tipoUtente.getText().toString());
-            openProfilo.putExtra("urlImmagineProfilo", p.getIdImageProfile());
-            openProfilo.putExtra("urlImmagineCopertina", p.getGetIdImageCover());
-
-            // passo all'attivazione dell'activity
-            v.getContext().startActivity(openProfilo);
-            */
 
         }
     }
@@ -122,9 +126,7 @@ public class RecyclerViewAdapterUsers extends RecyclerView
     public DataObjectHolder onCreateViewHolder(ViewGroup parent,
                                                int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_search, parent, false);
-
-
+                .inflate(R.layout.fragment_following, parent, false);
 
         DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
         return dataObjectHolder;
@@ -168,11 +170,7 @@ public class RecyclerViewAdapterUsers extends RecyclerView
             }
 
             if(completeUrl != null)
-                Picasso.with(null).load(completeUrl.toString())
-                        .placeholder(R.drawable.default_female)
-                        .error(context.getDrawable(R.drawable.default_male))
-                        .into(immagineProfilo);
-
+                Picasso.with(null).load(completeUrl.toString()).into(immagineProfilo);
 
         }
         else{

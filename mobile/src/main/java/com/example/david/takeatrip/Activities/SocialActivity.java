@@ -285,8 +285,13 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
                                     String sesso = json_data.getString("sesso");
                                     String urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
                                     String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
+                                    String dataNascita = json_data.getString("dataNascita");
+                                    String lavoro = json_data.getString("lavoro");
+                                    String nazionalita = json_data.getString("nazionalita");
+                                    String descrizione = json_data.getString("descrizione");
+                                    String tipo = json_data.getString("tipo");
 
-                                    Profilo seguito = new Profilo(emailSeguace, nomeUtente,cognomeUtente, null, null,sesso,username,null,null,null,urlImmagineProfilo,urlImmagineCopertina);
+                                    Profilo seguito = new Profilo(emailSeguace, nomeUtente, cognomeUtente, dataNascita, nazionalita, sesso, username, lavoro, descrizione, tipo,urlImmagineProfilo,urlImmagineCopertina);
                                     Log.i(TAG, "seguito : " + seguito.getEmail());
                                     follow.add(new Following(corrente, seguito));
                                     //Corrente è il seguito
@@ -390,8 +395,12 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
                                     String urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
                                     String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
 
-                                    Profilo seguace = new Profilo(emailSeguito, nomeUtente,cognomeUtente, null, null,sesso,username,null,null,null,urlImmagineProfilo,urlImmagineCopertina);
-                                    Log.i(TAG, "seguace : " + seguace.getEmail());
+                                    String dataNascita = json_data.getString("dataNascita");
+                                    String lavoro = json_data.getString("lavoro");
+                                    String nazionalita = json_data.getString("nazionalita");
+                                    String descrizione = json_data.getString("descrizione");
+                                    String tipo = json_data.getString("tipo");
+                                    Profilo seguace = new Profilo(emailSeguito, nomeUtente, cognomeUtente, dataNascita, nazionalita, sesso, username, lavoro, descrizione, tipo,urlImmagineProfilo,urlImmagineCopertina);
                                     following.add(new Following(seguace,corrente));
                                    }
                             }

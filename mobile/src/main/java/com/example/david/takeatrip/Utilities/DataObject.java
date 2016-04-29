@@ -22,6 +22,7 @@ public class DataObject {
     }
 
     public DataObject(Profilo p){
+        profilo = p;
         follow = p;
     }
 
@@ -54,7 +55,6 @@ public class DataObject {
     }
 
 
-
     public String getNomeFollow() {
 
         return follow.getName();
@@ -73,7 +73,6 @@ public class DataObject {
         return follow.getEmail();
     }
     public String getSessoFollow() {
-
         return follow.getSesso();
     }
     public String getNazionalitaFollow() {
@@ -94,7 +93,7 @@ public class DataObject {
         return follow.getDescrizione();
     }
 
-public String getTipoFollow() {
+    public String getTipoFollow() {
 
         return follow.getTipo();
     }

@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.example.david.takeatrip.Adapters.MyRecyclerViewAdapterFollowing;
+import com.example.david.takeatrip.Adapters.RecyclerViewAdapterUsers;
 import com.example.david.takeatrip.AsyncTasks.RicercaUtenteTask;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
@@ -78,10 +78,11 @@ public class SearchUsersFragment extends Fragment {
 
 
                 try {
-                    profiles = new RicercaUtenteTask(context, editTextUser.getText().toString().trim()).execute().get();
 
-                    Log.i(TAG, "testo cercato: " +  editTextUser.getText().toString().trim());
+                    String testo_cercato = editTextUser.getText().toString().trim().replace(" ", "");
+                    profiles = new RicercaUtenteTask(context,testo_cercato).execute().get();
 
+                    Log.i(TAG, "testo cercato: " +  testo_cercato);
                     Log.i(TAG, "prelevati i seguenti profili nella search: " + profiles);
 
                     for(Profilo p : profiles){
@@ -111,7 +112,7 @@ public class SearchUsersFragment extends Fragment {
                 group.addView(image_default);
 
                 Log.i(TAG, "data set: " + getDataSet());
-                MyRecyclerViewAdapterFollowing adapter = new MyRecyclerViewAdapterFollowing(getDataSet(), getContext());
+                RecyclerViewAdapterUsers adapter = new RecyclerViewAdapterUsers(getDataSet(), getContext());
                 adapter.onCreateViewHolder(group, 0);
                 mRecyclerView.setAdapter(adapter);
 

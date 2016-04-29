@@ -338,6 +338,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/Register"
                 android:id="@+id/Invio"
+                android:background="@drawable/button_style"
                 android:layout_gravity="center_horizontal"
                 android:layout_below="@+id/linearLayout"
                 android:layout_centerHorizontal="true"

@@ -212,6 +212,9 @@ public class SearchActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
+        client.connect();
+
+        /*
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client.connect();
@@ -226,6 +229,7 @@ public class SearchActivity extends AppCompatActivity {
                 Uri.parse("android-app://com.example.david.takeatrip.Activities/http/host/path")
         );
         AppIndex.AppIndexApi.start(client, viewAction);
+        */
     }
 
     @Override
