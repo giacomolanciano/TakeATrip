@@ -238,13 +238,12 @@ public class ListaViaggiActivity extends ActionBarActivity {
                                     String codiceViaggio = json_data.getString("codiceViaggio");
                                     String nomeViaggio = json_data.getString("nomeViaggio");
                                     String urlImmagineViaggio = json_data.getString("idFotoViaggio");
+                                    String condivisioneDefault = json_data.getString("livelloCondivisione");
 
-                                    viaggi.add(new Viaggio(codiceViaggio, nomeViaggio, urlImmagineViaggio));
+                                    viaggi.add(new Viaggio(codiceViaggio, nomeViaggio, urlImmagineViaggio, condivisioneDefault));
                                     profili.add(new Profilo(email));
                                 }
                             }
-
-                            Log.i(TAG, "lista viaggi di " + email + ": " + viaggi);
                         }
 
 

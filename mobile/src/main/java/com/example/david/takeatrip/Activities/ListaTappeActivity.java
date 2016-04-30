@@ -168,7 +168,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
     private boolean proprioViaggio = false;
 
-    private int ordine, codAccount;
+    private int ordine, checkSelectionSpinner = 0;
 
     private String placeId, placeName, placeAddress, placeAttr;
     LatLng placeLatLng;
@@ -199,6 +199,7 @@ public class ListaTappeActivity extends AppCompatActivity
     private String imageFileName;
     private String videoFileName;
     private String livelloCondivisioneTappa;
+    private String livelloCondivisioneDefaultViaggio;
 
     private List<Bitmap> immaginiSelezionate, videoSelezionati;
     private Map<Bitmap, String> bitmap_nomeFile;
@@ -286,15 +287,20 @@ public class ListaTappeActivity extends AppCompatActivity
         audioSelezionati = new ArrayList<String>();
 
 
-
         Intent intent;
         if ((intent = getIntent()) != null) {
             email = intent.getStringExtra("email");
             codiceViaggio = intent.getStringExtra("codiceViaggio");
             nomeViaggio = intent.getStringExtra("nomeViaggio");
             urlImmagineViaggio = intent.getStringExtra("urlImmagineViaggio");
+            livelloCondivisioneDefaultViaggio = intent.getStringExtra("livelloCondivisione");
+
+            livelloCondivisioneTappa = livelloCondivisioneDefaultViaggio;
+
 
             Log.i(TAG, "image travel: " + urlImmagineViaggio);
+            Log.i(TAG, "livello condivisione travel: " + livelloCondivisioneDefaultViaggio);
+
 
             //new BitmapWorkerTask(ViewImmagineViaggio).execute(urlImmagineViaggio);
 
@@ -1236,25 +1242,22 @@ public class ListaTappeActivity extends AppCompatActivity
 
         Spinner mySpinner = (Spinner)dialog.findViewById(R.id.spinner);
         final PrivacyLevelAdapter adapter = new PrivacyLevelAdapter(ListaTappeActivity.this, R.layout.entry_privacy_level, strings);
+        String livelloMaiuscolo = livelloCondivisioneDefaultViaggio.substring(0,1).toUpperCase()
+                + livelloCondivisioneDefaultViaggio.substring(1,livelloCondivisioneDefaultViaggio.length());
 
-
-        layoutContents = (LinearLayout) dialog.findViewById(R.id.layoutContents);
-
-
+        final int spinnerPosition = adapter.getPosition(livelloMaiuscolo);
 
         mySpinner.setAdapter(adapter);
-
-        //TODO per utlizzare adapter in classe esterna, non funziona per via del dialog
-        //mySpinner.setAdapter(new PrivacyLevelAdapter(ListaTappeActivity.this, R.layout.entry_privacy_level, strings, subs, arr_images));
-
-
-        //TODO: prendere di default il livello predefinito del viaggio
+        mySpinner.setSelection(spinnerPosition);
 
         mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.i(TAG, "elemento selezionato: " + adapter.getItem(position).toString());
-                livelloCondivisioneTappa = adapter.getItem(position).toString();
+                if(checkSelectionSpinner > 0){
+                    Log.i(TAG, "elemento selezionato: " + adapter.getItem(position).toString());
+                    livelloCondivisioneTappa = adapter.getItem(position).toString();
+                }
+                checkSelectionSpinner++;
             }
 
             @Override
@@ -1262,6 +1265,9 @@ public class ListaTappeActivity extends AppCompatActivity
 
             }
         });
+
+
+        layoutContents = (LinearLayout) dialog.findViewById(R.id.layoutContents);
 
 
         //put dialog at bottom

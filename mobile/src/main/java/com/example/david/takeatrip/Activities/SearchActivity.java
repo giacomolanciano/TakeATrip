@@ -2,7 +2,6 @@ package com.example.david.takeatrip.Activities;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,7 +26,6 @@ import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DataObject;
 import com.example.david.takeatrip.Utilities.GoogleTranslate;
 import com.example.david.takeatrip.Utilities.InternetConnection;
-import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
@@ -236,6 +234,7 @@ public class SearchActivity extends AppCompatActivity {
     public void onStop() {
         super.onStop();
 
+        /*
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         Action viewAction = Action.newAction(
@@ -249,6 +248,7 @@ public class SearchActivity extends AppCompatActivity {
                 Uri.parse("android-app://com.example.david.takeatrip.Activities/http/host/path")
         );
         AppIndex.AppIndexApi.end(client, viewAction);
+        */
         client.disconnect();
     }
 
@@ -480,10 +480,11 @@ public class SearchActivity extends AppCompatActivity {
                                     String nomeUtente = json_data.getString("nome").toString();
                                     String cognomeUtente = json_data.getString("cognome").toString();
                                     String urlImmagineViaggio = json_data.getString("idFotoViaggio").toString();
+                                    String condivisioneDefault = json_data.getString("livelloCondivisione").toString();
                                     Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, null, null, null, null, null);
 
                                     List<Viaggio> viaggi = new ArrayList<Viaggio>();
-                                    viaggi.add(new Viaggio(codice, nomeViaggio, urlImmagineViaggio));
+                                    viaggi.add(new Viaggio(codice, nomeViaggio, urlImmagineViaggio, condivisioneDefault));
 
                                     Log.i(TAG, "viaggi: " + viaggi);
                                     mappaProvvisoria.put(p, viaggi);
@@ -573,11 +574,13 @@ public class SearchActivity extends AppCompatActivity {
                                     String nomeUtente = json_data.getString("nome").toString();
                                     String cognomeUtente = json_data.getString("cognome").toString();
                                     String urlImmagineViaggio = json_data.getString("idFotoViaggio").toString();
+                                    String condivisioneDefault = json_data.getString("livelloCondivisione").toString();
+
 
                                     Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, null, null, null, null, null);
 
                                     List<Viaggio> viaggi = new ArrayList<Viaggio>();
-                                    viaggi.add(new Viaggio(codice, nomeViaggio, urlImmagineViaggio));
+                                    viaggi.add(new Viaggio(codice, nomeViaggio, urlImmagineViaggio, condivisioneDefault));
 
                                     mappaProvvisoria.put(p, viaggi);
                                 }

@@ -6,17 +6,18 @@ package com.example.david.takeatrip.Classes;
 public class Viaggio {
 
 
-    private String codice, nome, urlImmagine;
+    private String codice, nome, urlImmagine, condivisioneDefault;
 
     public Viaggio(String codice, String nome) {
         this.codice = codice;
         this.nome = nome;
     }
 
-    public Viaggio(String codice, String nome, String urlImmagine) {
+    public Viaggio(String codice, String nome, String urlImmagine, String condivisioneDefault) {
         this.codice = codice;
         this.nome = nome;
         this.urlImmagine = urlImmagine;
+        this.condivisioneDefault = condivisioneDefault;
     }
 
     public Viaggio(String codice) {
@@ -42,4 +43,6 @@ public class Viaggio {
     public String getUrlImmagine(){
         return urlImmagine;
     }
+
+    public String getCondivisioneDefault(){ return condivisioneDefault;}
 }

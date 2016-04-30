@@ -232,14 +232,14 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
                 String urlImmagineViaggio = null;
                 for(Viaggio viaggio: combo.values()){
-                    if(viaggio.getCodice().equals(comboCodice.get(marker.getTitle()))){
+                    if(viaggio.getCodice().equals(comboCodice.get(marker.getTitle().split("@@@")[0]))){
                         urlImmagineViaggio = downloadUrlOfImage(viaggio.getCodice()+"/"+Constants.TRAVEL_COVER_IMAGE_LOCATION + "/"+viaggio.getUrlImmagine());
                         break;
                     }
                 }
 
                 TextView note = (TextView) v.findViewById(R.id.note);
-                note.setText(marker.getTitle());
+                note.setText(marker.getTitle().split("@@@")[0]);
                 if(urlImmagineViaggio!= null && !urlImmagineViaggio.equals("")){
                     currentUrlImageTravel = urlImmagineViaggio;
 
@@ -303,24 +303,19 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
             i.putExtra("email", emailEsterno);
         }
 
-        i.putExtra("codiceViaggio", comboCodice.get(marker.getTitle()));
-        i.putExtra("nomeViaggio", marker.getTitle());
+        i.putExtra("codiceViaggio", comboCodice.get(marker.getTitle().split("@@@")[0]));
+        i.putExtra("nomeViaggio", marker.getTitle().split("@@@")[0]);
+        i.putExtra("livelloCondivisione", marker.getTitle().split("@@@")[1]);
 
         if(currentUrlImageTravel != null){
             i.putExtra("urlImmagineViaggio", currentUrlImageTravel);
         }
-
-        Log.i(TAG, "#email  " + profiloUtente.getEmail());
-        Log.i(TAG, "#nomedelviaggio  " + marker.getTitle() );
-        Log.i(TAG, "#codicedelviaggio  " + comboCodice.get(marker.getTitle()));
-
         startActivity(i);
     }
 
     public boolean onMarkerClick(Marker arg0) {
         return false;
     }
-
 
     Profilo currentProfile;
     List<Place> nomiTappe = new ArrayList<Place>();
@@ -402,7 +397,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
 
                             googleMap.addMarker(new MarkerOptions()
-                                            .title(combo.get(place.getId()).getNome())
+                                            .title(combo.get(place.getId()).getNome()+"@@@"+combo.get(place.getId()).getCondivisioneDefault())
                                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                                                     //  .icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(mCustomMarkerView, R.drawable.default_male)))
                                             .position(place.getLatLng())
@@ -537,8 +532,10 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
                                     String codiceViaggio = json_data.getString("codiceViaggio");
                                     nomeViaggio = json_data.getString("nomeViaggio");
                                     urlImmagineViaggio = json_data.getString("idFotoViaggio");
+                                    String condivisioneDefault = json_data.getString("livelloCondivisione");
 
-                                    Viaggio viaggio = new Viaggio(codiceViaggio, nomeViaggio,urlImmagineViaggio);
+
+                                    Viaggio viaggio = new Viaggio(codiceViaggio, nomeViaggio,urlImmagineViaggio, condivisioneDefault);
 
                                     Itinerario itinerario = new Itinerario(new Profilo(email),viaggio);
 

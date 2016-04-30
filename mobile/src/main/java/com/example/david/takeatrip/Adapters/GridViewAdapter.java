@@ -33,7 +33,8 @@ public class GridViewAdapter extends BaseAdapter {
 
         // Ensure we get a different ordering of images on each run.
 
-        Collections.addAll(urls, URLs);
+        if(URLs != null)
+            Collections.addAll(urls, URLs);
         //Collections.shuffle(urls);
 
         // Triple up the list.

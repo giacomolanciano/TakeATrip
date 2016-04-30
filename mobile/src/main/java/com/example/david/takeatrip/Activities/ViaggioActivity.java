@@ -40,6 +40,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
 import com.example.david.takeatrip.AsyncTasks.GetPartecipantiViaggioTask;
 import com.example.david.takeatrip.AsyncTasks.ItinerariesTask;
+import com.example.david.takeatrip.AsyncTasks.UpdateCondivisioneViaggioTask;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
 import com.example.david.takeatrip.GraphicalComponents.AdaptableGridView;
@@ -95,8 +96,6 @@ public class ViaggioActivity extends AppCompatActivity {
     private List<Profilo> listPartecipants, profiles;
     private List<String> names;
 
-    private TextView viewTitoloViaggio;
-    private ImageView coverImageDialog;
     private LinearLayout layoutPartecipants;
     private LinearLayout rowHorizontal;
     //private LinearLayout layoutCopertinaViaggio;
@@ -140,6 +139,7 @@ public class ViaggioActivity extends AppCompatActivity {
     private String livelloCondivisioneViaggio;
     private AppBarLayout appBarLayout;
 
+    private int checkSelectionSpinner = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,10 +155,10 @@ public class ViaggioActivity extends AppCompatActivity {
             nomeViaggio = intent.getStringExtra("nomeViaggio");
             idFolder = intent.getParcelableExtra("idFolder");
             urlImageTravel = intent.getStringExtra("urlImmagineViaggio");
+            livelloCondivisioneViaggio = intent.getStringExtra("livelloCondivisione");
 
             Log.i(TAG, "urlImageTravel: " + urlImageTravel);
-            Log.i(TAG, "prova");
-
+            Log.i(TAG, "livello condivisione default: " + livelloCondivisioneViaggio);
 
         }
 
@@ -191,15 +191,30 @@ public class ViaggioActivity extends AppCompatActivity {
 
         Spinner privacySpinner = (Spinner) findViewById(R.id.spinnerPrivacyLevel);
         final PrivacyLevelAdapter adapter = new PrivacyLevelAdapter(ViaggioActivity.this, R.layout.entry_privacy_level, strings);
+        String livelloMaiuscolo = livelloCondivisioneViaggio.substring(0,1).toUpperCase()
+                + livelloCondivisioneViaggio.substring(1,livelloCondivisioneViaggio.length());
+
+        final int spinnerPosition = adapter.getPosition(livelloMaiuscolo);
+
+        Log.i(TAG, "posizione spinner default: "+ spinnerPosition);
+
         if (privacySpinner != null) {
 
             privacySpinner.setAdapter(adapter);
+            privacySpinner.setSelection(spinnerPosition);
+
 
             privacySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Log.i(TAG, "elemento selezionato: " + adapter.getItem(position));
-                    livelloCondivisioneViaggio = adapter.getItem(position);
+                    if(checkSelectionSpinner > 0){
+                        Log.i(TAG, "elemento selezionato spinner: "+ adapter.getItem(position));
+                        livelloCondivisioneViaggio = adapter.getItem(position);
+                        new UpdateCondivisioneViaggioTask(ViaggioActivity.this, codiceViaggio, livelloCondivisioneViaggio).execute();
+                    }
+
+                    checkSelectionSpinner++;
+
                 }
 
                 @Override
@@ -314,6 +329,8 @@ public class ViaggioActivity extends AppCompatActivity {
         intent.putExtra("partecipanti", emailPartecipants);
         intent.putExtra("urlImagePartecipants", urlImagePartecipants);
         intent.putExtra("sessoPartecipants", sessoPartecipants);
+        intent.putExtra("livelloCondivisione", livelloCondivisioneViaggio);
+
 
 
 

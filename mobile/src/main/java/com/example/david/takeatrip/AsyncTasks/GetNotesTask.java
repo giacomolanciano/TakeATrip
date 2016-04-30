@@ -187,12 +187,14 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
 //                i++;
 //
 //            }
+            if(listContents != null && notes != null){
+                notes = listContents.toArray(notes);
 
-            notes = listContents.toArray(notes);
-
-            if (notes[0] == null || notes[0].equals("null")) {
-                return;
+                if (notes[0] == null || notes[0].equals("null")) {
+                    return;
+                }
             }
+
 
 
         } else {

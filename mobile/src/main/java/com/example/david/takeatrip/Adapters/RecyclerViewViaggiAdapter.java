@@ -175,6 +175,7 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
         public void onClick(View v) {
 
 
+
             Intent intent = new Intent(v.getContext(), ViaggioActivity.class);
 
             intent.putExtra("emailEsterno",emailUser.getText().toString());
@@ -185,6 +186,15 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
             //NB deve essere usata la variabile imageTravel,
             //non immagineViaggio poichè viene continuamente sovrascritta
             intent.putExtra("urlImmagineViaggio", imageTravel.getContentDescription());
+
+            for(DataObject object : mDataset){
+                if(object.getViaggio().getCodice().equals(codiceViaggio.getText().toString())){
+                    intent.putExtra("livelloCondivisione", object.getViaggio().getCondivisioneDefault());
+                    break;
+                }
+            }
+
+
 
             v.getContext().startActivity(intent);
 
