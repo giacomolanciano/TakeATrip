@@ -98,7 +98,7 @@
 
         </activity>
         <activity android:name=".Activities.VisualizzazioneFollowActivity"
-            android:theme="@style/Widget.AppTheme.ActionBar.Solid" >
+            android:theme="@style/ThemeSocial" >
 
         </activity>
 
