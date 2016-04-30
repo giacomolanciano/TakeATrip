@@ -24,7 +24,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -37,6 +37,8 @@ public class RicercaUtenteTask  extends AsyncTask<Void, Void, Set<Profilo>> {
 
     private String testoRicerca;
     private Context context;
+    private Set<Profilo> profiliPrimi;
+    private Set<Profilo> profiliSecondi;
     private Set<Profilo> profiliRisultanti;
 
 
@@ -47,7 +49,9 @@ public class RicercaUtenteTask  extends AsyncTask<Void, Void, Set<Profilo>> {
     public RicercaUtenteTask(Context context, String testo){
         testoRicerca = testo;
         this.context = context;
-        profiliRisultanti = new HashSet<Profilo>();
+        profiliRisultanti = new LinkedHashSet<Profilo>();
+        profiliPrimi = new LinkedHashSet<Profilo>();
+        profiliSecondi = new LinkedHashSet<Profilo>();
     }
 
 
@@ -119,7 +123,12 @@ public class RicercaUtenteTask  extends AsyncTask<Void, Void, Set<Profilo>> {
                                 }
 
                                 Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, dataNascita, nazionalita, sesso, username, lavoro, descrizione, tipo,idProfiles,idCovers);
-                                profiliRisultanti.add(p);
+                                if(p.getName().equalsIgnoreCase(testoRicerca)||p.getSurname().equalsIgnoreCase(testoRicerca)|| p.getUsername().equalsIgnoreCase(testoRicerca)) {
+                                    profiliPrimi.add(p);
+                                } else{
+                                    profiliSecondi.add(p);
+
+                                }
                             }
                         }
 
@@ -139,7 +148,11 @@ public class RicercaUtenteTask  extends AsyncTask<Void, Void, Set<Profilo>> {
             e.printStackTrace();
             Log.e(e.toString(),e.getMessage());
         }
-        return profiliRisultanti;
+
+        //List<Profilo> list= asSortedList(profiliRisultanti);
+
+        profiliPrimi.addAll(profiliSecondi);
+        return profiliPrimi;
     }
 
 
