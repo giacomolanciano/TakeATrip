@@ -37,7 +37,7 @@ An installation guide for the beta application is avalaible on our [website](htt
 # Final submission
 On the 30-th of April we submitted our work to the staff.
 * [Server repository](https://github.com/giacomolanciano/TakeATripServer)
-* [Apk file]()
+* [Apk file](https://drive.google.com/file/d/0Bw4Oje2-94yNZER4QmpjeFROa0k/view?usp=sharing)
 * Usage Guide
  * [video 1](https://drive.google.com/file/d/0B0FHkIijDk2hZEZXcXNaSVFDbjA/view?usp=sharing)
  * [video 2](https://drive.google.com/file/d/0B0FHkIijDk2heFpIZUM5SHplX00/view?usp=sharing)
