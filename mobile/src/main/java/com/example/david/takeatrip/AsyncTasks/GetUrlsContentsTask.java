@@ -227,11 +227,16 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
         if (phpFile.equals(Constants.QUERY_TRAVEL_IMAGES)
                 || phpFile.equals(Constants.QUERY_STOP_IMAGES)) {
 
-            gv.setAdapter(new GridViewImageAdapter(context, URLs));
+            gv.setAdapter(new GridViewImageAdapter(context, URLs, Constants.IMAGE_FILE));
+
+        } else if (phpFile.equals(Constants.QUERY_TRAVEL_VIDEOS)
+                || phpFile.equals(Constants.QUERY_STOP_VIDEOS)) {
+
+            gv.setAdapter(new GridViewAdapter(context, URLs, Constants.VIDEO_FILE));
 
         } else {
 
-            gv.setAdapter(new GridViewAdapter(context, URLs));
+            gv.setAdapter(new GridViewAdapter(context, URLs, Constants.AUDIO_FILE));
 
         }
 

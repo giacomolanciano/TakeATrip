@@ -178,22 +178,10 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
         if (listContents.size() > 0) {
             notes = new String[listContents.size()];
 
-//            int i = 0;
-//            for (String nota : listContents) {
-//
-//                notes[i] = nota;
-//
-//                //Log.i(TAG, "url ["+i+"]: "+ notes[i]);
-//
-//                i++;
-//
-//            }
-            if(listContents != null && notes != null){
-                notes = listContents.toArray(notes);
+            notes = listContents.toArray(notes);
 
-                if (notes[0] == null || notes[0].equals("null")) {
-                    return;
-                }
+            if (notes[0] == null || notes[0].equals("null")) {
+                return;
             }
 
 
@@ -204,7 +192,7 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
 
 
         GridView gv = gridView;
-        gv.setAdapter(new GridViewAdapter(context, notes));
+        gv.setAdapter(new GridViewAdapter(context, notes, Constants.NOTE_FILE));
         gv.setOnScrollListener(new ScrollListener(context));
 
         Log.i(TAG, "settato l'adapter per il grid");

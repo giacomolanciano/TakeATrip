@@ -221,6 +221,7 @@
     <string name="incorrectUsername">Attention! \nIncorrect username!</string>
 
     <string name="labelNote">Insert note</string>
+    <string name="labelNoEditNote">Note</string>
 
     <string name="Videos">Videos</string>
     <string name="Records">Records</string>
@@ -248,6 +249,7 @@
     <string name="search">SEARCH</string>
     <string name="search_the_user">Search the user</string>
     <string name="user">User</string>
+    <string name="title_activity_streaming">StreamingActivity</string>
 
 
 </resources>

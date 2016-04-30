@@ -47,6 +47,8 @@ public class Constants {
     //TODO assicurarsi che tutti i codici tipoFile siano univoci
     public static final int IMAGE_FILE = 1;
     public static final int VIDEO_FILE = 2;
+    public static final int AUDIO_FILE = 3;
+    public static final int NOTE_FILE = 4;
 
 
     public static final int WIDTH_LAYOUT_PROPRIETARI_ITINERARI = 20;
@@ -84,7 +86,6 @@ public class Constants {
     //TODO verificare il valore corretto
     public static final int NOTE_MAX_LENGTH = 1000;
 
-    public static final String PATH_AUDIO_FILES = "/TakeATrip/audio";
 
     public static final int QUALITY_PHOTO = 60;
 

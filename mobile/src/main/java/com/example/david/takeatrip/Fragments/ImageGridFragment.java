@@ -12,9 +12,10 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import com.example.david.takeatrip.Adapters.GridViewAdapter;
+import com.example.david.takeatrip.Adapters.GridViewImageAdapter;
 import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
 import com.example.david.takeatrip.R;
+import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.ScrollListener;
 import com.example.david.takeatrip.Utilities.SquaredImageView;
 
@@ -64,7 +65,7 @@ public class ImageGridFragment extends Fragment implements AdapterView.OnItemCli
         if(URLs != null && URLs.length>0){
 
             GridView gv = (GridView) v.findViewById(R.id.grid_view_photos);
-            gv.setAdapter(new GridViewAdapter(getActivity(), URLs));
+            gv.setAdapter(new GridViewImageAdapter(getActivity(), URLs, Constants.IMAGE_FILE));
             gv.setOnScrollListener(new ScrollListener(getActivity()));
 
             Log.i(TAG, "settato l'adapter per il grid");
