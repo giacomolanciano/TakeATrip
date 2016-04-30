@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.SquaredImageView;
 import com.squareup.picasso.Picasso;
@@ -33,6 +34,7 @@ public class GridViewImageAdapter extends GridViewAdapter {
         // Trigger the download of the URL asynchronously into the image view.
         Picasso.with(context)
                 .load(url)
+                .placeholder(R.drawable.empty_image)
                 .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*TRIPLE, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*TRIPLE)
                 .centerCrop()
                 .tag(context)

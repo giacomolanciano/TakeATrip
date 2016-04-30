@@ -67,15 +67,18 @@ public class GridViewAdapter extends BaseAdapter {
         //è utile solamente nel caso delle immagini
         view.setContentDescription(url);
 
-        // Trigger the download of the URL asynchronously into the image view.
-        Picasso.with(context)
-                .load(R.drawable.empty_image)
-                .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*TRIPLE, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*TRIPLE)
-                .centerCrop()
-                .tag(context)
-                .into(view);
+
 
         if (tipoContenuti == Constants.VIDEO_FILE) {
+
+            // Trigger the download of the URL asynchronously into the image view.
+            Picasso.with(context)
+                    .load(R.drawable.empty_image)   //TODO sostituire con logo video
+                    .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*TRIPLE, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*TRIPLE)
+                    .centerCrop()
+                    .tag(context)
+                    .into(view);
+
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -91,6 +94,15 @@ public class GridViewAdapter extends BaseAdapter {
                 }
             });
         } else if (tipoContenuti == Constants.AUDIO_FILE) {
+
+            // Trigger the download of the URL asynchronously into the image view.
+            Picasso.with(context)
+                    .load(R.drawable.empty_image)   //TODO sostituire con logo audio
+                    .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*TRIPLE, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*TRIPLE)
+                    .centerCrop()
+                    .tag(context)
+                    .into(view);
+
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -106,10 +118,18 @@ public class GridViewAdapter extends BaseAdapter {
                 }
             });
         } else if (tipoContenuti == Constants.NOTE_FILE) {
+
+            // Trigger the download of the URL asynchronously into the image view.
+            Picasso.with(context)
+                    .load(R.drawable.empty_image)   //TODO sostituire con logo note
+                    .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*TRIPLE, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*TRIPLE)
+                    .centerCrop()
+                    .tag(context)
+                    .into(view);
+
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO definire comportamento per visualizzazione nota
 
                     Log.i(TAG, "content: "+v.getContentDescription());
 

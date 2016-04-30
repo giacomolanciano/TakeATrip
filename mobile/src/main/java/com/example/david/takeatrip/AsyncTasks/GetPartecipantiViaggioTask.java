@@ -179,13 +179,13 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean aVoid) {
 
-        new GetUrlsContentsTask(context, codiceViaggio, gridViewPhotos, Constants.QUERY_TRAVEL_IMAGES).execute();
+        new GetUrlsContentsTask(context, codiceViaggio, email, gridViewPhotos, Constants.QUERY_TRAVEL_IMAGES).execute();
 
-        new GetUrlsContentsTask(context, codiceViaggio, gridViewVideos, Constants.QUERY_TRAVEL_VIDEOS).execute();
+        new GetUrlsContentsTask(context, codiceViaggio, email, gridViewVideos, Constants.QUERY_TRAVEL_VIDEOS).execute();
 
-        new GetUrlsContentsTask(context, codiceViaggio, gridViewAudio, Constants.QUERY_TRAVEL_AUDIO).execute();
+        new GetUrlsContentsTask(context, codiceViaggio, email, gridViewAudio, Constants.QUERY_TRAVEL_AUDIO).execute();
 
-        new GetNotesTask(context, codiceViaggio, gridViewNotes, Constants.QUERY_TRAVEL_NOTES).execute();
+        new GetNotesTask(context, codiceViaggio, email, gridViewNotes, Constants.QUERY_TRAVEL_NOTES).execute();
 
 
         //viewTitoloViaggio = (TextView) contentView.findViewById(R.id.titoloViaggio);

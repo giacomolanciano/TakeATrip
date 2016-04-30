@@ -73,11 +73,13 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
     private AmazonS3Client s3;
 
 
-    public GetNotesTask(Context context, String codiceViaggio, GridView gridView, String phpFile) {
+    public GetNotesTask(Context context, String codiceViaggio, String emailProfilo,
+                        GridView gridView, String phpFile) {
         this.codiceViaggio = codiceViaggio;
         this.context = context;
         this.gridView = gridView;
         this.phpFile = phpFile;
+        this.emailProfilo = emailProfilo;
         listContents = new ArrayList<String>();
 
         transferUtility = UtilS3Amazon.getTransferUtility(context);
@@ -88,9 +90,8 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
     public GetNotesTask(Context context, String codiceViaggio, GridView gridView, String phpFile,
                                String emailProfilo, int ordineTappa) {
 
-        this(context, codiceViaggio, gridView, phpFile);
+        this(context, codiceViaggio, emailProfilo, gridView, phpFile);
 
-        this.emailProfilo = emailProfilo;
         this.ordineTappa = ordineTappa;
 
     }
@@ -137,10 +138,10 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
 
                         result = sb.toString();
                     } catch (Exception e) {
-                        Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
+                        Log.e(TAG, "Errore nel risultato o nel convertire il risultato");
                     }
                 } else {
-                    Log.i(TAG, "Input Stream uguale a null");
+                    Log.e(TAG, "Input Stream uguale a null");
                 }
 
                 if(result != null && !result.equals("null\n")){
@@ -173,7 +174,12 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
 
-        Log.i(TAG, "array di url: ");
+        Log.i(TAG, "BEGIN onPostExecute");
+
+        GridView gv = gridView;
+        gv.setOnScrollListener(new ScrollListener(context));
+
+        Log.i(TAG, "listContents.size() = " + listContents.size());
 
         if (listContents.size() > 0) {
             notes = new String[listContents.size()];
@@ -184,6 +190,11 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
                 return;
             }
 
+            String debug = "";
+            for (String s:notes)
+                debug += s + ", ";
+
+            Log.i(TAG, "notes: " + debug);
 
 
         } else {
@@ -191,9 +202,8 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
         }
 
 
-        GridView gv = gridView;
+
         gv.setAdapter(new GridViewAdapter(context, notes, Constants.NOTE_FILE));
-        gv.setOnScrollListener(new ScrollListener(context));
 
         Log.i(TAG, "settato l'adapter per il grid");
 

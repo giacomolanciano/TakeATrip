@@ -76,11 +76,13 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
     private AmazonS3Client s3;
 
 
-    public GetUrlsContentsTask(Context context, String codiceViaggio, GridView gridView, String phpFile) {
+    public GetUrlsContentsTask(Context context, String codiceViaggio, String emailProfilo,
+                               GridView gridView, String phpFile) {
         this.codiceViaggio = codiceViaggio;
         this.context = context;
         this.gridView = gridView;
         this.phpFile = phpFile;
+        this.emailProfilo = emailProfilo;
         listContents = new ArrayList<ContenutoMultimediale>();
 
         transferUtility = UtilS3Amazon.getTransferUtility(context);
@@ -91,9 +93,8 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
     public GetUrlsContentsTask(Context context, String codiceViaggio, GridView gridView, String phpFile,
                                String emailProfilo, int ordineTappa) {
 
-        this(context, codiceViaggio, gridView, phpFile);
+        this(context, codiceViaggio, emailProfilo, gridView, phpFile);
 
-        this.emailProfilo = emailProfilo;
         this.ordineTappa = ordineTappa;
 
     }
@@ -113,9 +114,9 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
                 || phpFile.equals(Constants.QUERY_STOP_VIDEOS)
                 || phpFile.equals(Constants.QUERY_STOP_AUDIO)) {
 
-            dataToSend.add(new BasicNameValuePair("ordine", ordineTappa + ""));
+            dataToSend.add(new BasicNameValuePair("ordineTappa", ordineTappa + ""));
 
-            Log.i(TAG, "ordine: " + ordineTappa);
+            Log.i(TAG, "ordineTappa: " + ordineTappa);
         }
 
 
@@ -141,11 +142,14 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
                         is.close();
 
                         result = sb.toString();
+
+                        Log.i(TAG, "result: " + result);
+
                     } catch (Exception e) {
-                        Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
+                        Log.e(TAG, "Errore nel risultato o nel convertire il risultato");
                     }
                 } else {
-                    Log.i(TAG, "Input Stream uguale a null");
+                    Log.e(TAG, "Input Stream uguale a null");
                 }
 
                 if (result != null && !result.equals("null\n")) {
@@ -195,9 +199,13 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
 
+        Log.i(TAG, "BEGIN onPostExecute");
+
+
         GridView gv = gridView;
         gv.setOnScrollListener(new ScrollListener(context));
 
+        Log.i(TAG, "listContents.size() = " + listContents.size());
 
         if (listContents.size() > 0) {
             URLs = new String[listContents.size()];
@@ -219,6 +227,13 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
             if (URLs[0] == null || URLs[0].equals("null")) {
                 return;
             }
+
+            String debug = "";
+            for (String s:URLs)
+                debug += s + ", ";
+
+            Log.i(TAG, "URLs: " + debug);
+
         } else {
             return;
         }

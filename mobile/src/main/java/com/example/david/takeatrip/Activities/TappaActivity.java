@@ -31,15 +31,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.david.takeatrip.Adapters.MyExpandableListItemAdapter;
 import com.example.david.takeatrip.AsyncTasks.AggiornamentoDataTappaTask;
 import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
+import com.example.david.takeatrip.AsyncTasks.GetNotesTask;
 import com.example.david.takeatrip.AsyncTasks.GetUrlsContentsTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoAudioTappaTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoImmagineTappaTask;
@@ -47,6 +46,7 @@ import com.example.david.takeatrip.AsyncTasks.InserimentoNotaTappaTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoVideoTappaTask;
 import com.example.david.takeatrip.AsyncTasks.UploadFileS3Task;
 import com.example.david.takeatrip.Fragments.DatePickerFragment;
+import com.example.david.takeatrip.GraphicalComponents.AdaptableGridView;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.AudioRecord;
 import com.example.david.takeatrip.Utilities.Constants;
@@ -103,7 +103,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
     private static final int INITIAL_DELAY_MILLIS = 500;
-    private MyExpandableListItemAdapter mExpandableListItemAdapter;
+    //private MyExpandableListItemAdapter mExpandableListItemAdapter;
     private ListView listView;
 
     private List<Bitmap> immaginiSelezionate, videoSelezionati;
@@ -113,7 +113,10 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
     private List<String> noteInserite;
 
-    private GridView gridView;
+    private AdaptableGridView gridViewPhotos;
+    private AdaptableGridView gridViewAudio;
+    private AdaptableGridView gridViewVideos;
+    private AdaptableGridView gridViewNotes;
 
 
 
@@ -123,6 +126,17 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tappa);
+
+        Intent i = getIntent();
+        if (i != null) {
+
+            email = i.getStringExtra("email");
+            codiceViaggio = i.getStringExtra("codiceViaggio");
+            ordineTappa = i.getIntExtra("ordine", 0);   //è l'ordine del db
+            nomeTappa = i.getStringExtra("nome");
+            data = i.getStringExtra("data");
+
+        }
 
 
 /*
@@ -154,20 +168,26 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
         final PrivacyLevelAdapter adapter = new PrivacyLevelAdapter(TappaActivity.this, R.layout.entry_privacy_level, strings);
 
-        privacySpinner.setAdapter(adapter);
+        if (privacySpinner != null) {
 
-        privacySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.i(TAG, "elemento selezionato: " + adapter.getItem(position));
-                livelloCondivisioneTappa = adapter.getItem(position);
-            }
+            privacySpinner.setAdapter(adapter);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            privacySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    Log.i(TAG, "elemento selezionato: " + adapter.getItem(position));
+                    livelloCondivisioneTappa = adapter.getItem(position);
+                }
 
-            }
-        });
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+        } else {
+            Log.e(TAG, "privacySpinner is null");
+        }
 
 
 
@@ -199,20 +219,13 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 //        });
 
 
-        gridView = (GridView) findViewById(R.id.grid_view_foto_tappa);
+        gridViewPhotos = (AdaptableGridView) findViewById(R.id.grid_view_photos);
+        gridViewVideos = (AdaptableGridView) findViewById(R.id.grid_view_videos);
+        gridViewAudio = (AdaptableGridView) findViewById(R.id.grid_view_audio);
+        gridViewNotes = (AdaptableGridView) findViewById(R.id.grid_view_notes);
 
 
 
-        Intent i = getIntent();
-        if (i != null) {
-
-            email = i.getStringExtra("email");
-            codiceViaggio = i.getStringExtra("codiceViaggio");
-            ordineTappa = i.getIntExtra("ordine", 0);   //è l'ordine del db
-            nomeTappa = i.getStringExtra("nome");
-            data = i.getStringExtra("data");
-
-        }
 
 
 
@@ -232,9 +245,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         if (textDataTappa != null) {
             String date = null;
 
-            //if(data != null && !data.equals(""))
-                //TODO: il formato della data non consente questo metodo
-                //date = DatesUtils.convertFormatStringDate(data, Constants.DATABASE_DATE_FORMAT, Constants.DISPLAYED_DATE_FORMAT);
+            //TODO: il formato della data non consente questo metodo
+            if(data != null && !data.equals(""))
+                date = DatesUtils.convertFormatStringDate(data, Constants.DATABASE_DATE_FORMAT, Constants.DISPLAYED_DATE_FORMAT);
 
             if(date != null)
                 textDataTappa.setText(date);
@@ -332,7 +345,16 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         audioSelezionati = new ArrayList<String>();
 
 
-        new GetUrlsContentsTask(TappaActivity.this, codiceViaggio, gridView, ADDRESS_QUERY_URLS,
+        new GetUrlsContentsTask(TappaActivity.this, codiceViaggio, gridViewPhotos, Constants.QUERY_STOP_IMAGES,
+                email, ordineTappa).execute();
+
+        new GetUrlsContentsTask(TappaActivity.this, codiceViaggio, gridViewVideos, Constants.QUERY_STOP_VIDEOS,
+                email, ordineTappa).execute();
+
+        new GetUrlsContentsTask(TappaActivity.this, codiceViaggio, gridViewAudio, Constants.QUERY_STOP_AUDIO,
+                email, ordineTappa).execute();
+
+        new GetNotesTask(TappaActivity.this, codiceViaggio, gridViewNotes, Constants.QUERY_STOP_NOTES,
                 email, ordineTappa).execute();
 
     }
@@ -411,7 +433,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                     try {
 
                         Bitmap thumbnail = BitmapWorkerTask.decodeSampledBitmapFromPath(f.getAbsolutePath(), 0, 0);
-                        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
+                        String timeStamp = new SimpleDateFormat(Constants.FILE_NAME_TIMESTAMP_FORMAT).format(new Date());
 
                         String nomeFile = timeStamp + Constants.IMAGE_EXT;
 
@@ -482,7 +504,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                             Log.i(TAG, "image from gallery: " + picturePath + "");
 
-                            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
+                            String timeStamp = new SimpleDateFormat(Constants.FILE_NAME_TIMESTAMP_FORMAT).format(new Date());
 
                             String nomeFile = timeStamp + Constants.IMAGE_EXT;
 
@@ -540,7 +562,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                         bitmap = ThumbnailUtils.createVideoThumbnail(fileVideo.getAbsolutePath(),
                                 MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
 
-                        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
+                        String timeStamp = new SimpleDateFormat(Constants.FILE_NAME_TIMESTAMP_FORMAT).format(new Date());
 
                         String nomeFile = timeStamp + Constants.VIDEO_EXT;
 
@@ -585,7 +607,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                     Log.i(TAG, "video from gallery: " + videoPath + "");
 
-                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
+                    String timeStamp = new SimpleDateFormat(Constants.FILE_NAME_TIMESTAMP_FORMAT).format(new Date());
 
                     String nomeFile = timeStamp + Constants.VIDEO_EXT;
 
@@ -1213,7 +1235,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
             for(String pathAudio : audioSelezionati) {
 
-                timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
+                timeStamp = new SimpleDateFormat(Constants.FILE_NAME_TIMESTAMP_FORMAT).format(new Date());
                 newAudioName = timeStamp + Constants.AUDIO_EXT;
 
                 new UploadFileS3Task(TappaActivity.this, Constants.BUCKET_TRAVELS_NAME,

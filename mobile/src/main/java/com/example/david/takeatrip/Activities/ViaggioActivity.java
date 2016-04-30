@@ -246,7 +246,6 @@ public class ViaggioActivity extends AppCompatActivity {
         Log.i(TAG, "email utente: " + email + " codiceViaggio: " + codiceViaggio + " nomeVaggio: " + nomeViaggio);
 
         gridViewPhotos = (AdaptableGridView) findViewById(R.id.grid_view_photos);
-
         gridViewVideos = (AdaptableGridView) findViewById(R.id.grid_view_videos);
         gridViewAudio = (AdaptableGridView) findViewById(R.id.grid_view_audio);
         gridViewNotes = (AdaptableGridView) findViewById(R.id.grid_view_notes);
