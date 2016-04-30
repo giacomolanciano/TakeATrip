@@ -7,9 +7,11 @@
         <item name="android:colorPrimaryDark">@color/blue</item>
         <item name="colorPrimary">@color/blue</item>
         <item name="android:colorBackground">@color/sfondoBianco</item>
+    <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/blue</item>
 
 
-        <!--  <item name="android:windowBackground">@color/blue</item> -->
+    <!--  <item name="android:windowBackground">@color/blue</item> -->
 
 
         <!-- Customize your theme here. -->
@@ -82,10 +84,13 @@
 
     <style name="ThemeSocial" parent="@android:style/Theme.Holo.Light">
         <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+
     </style>
 
     <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@color/blue</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
     </style>
 
 

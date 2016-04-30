@@ -77,7 +77,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
     private Profilo corrente;
     private Set<Profilo> profiles;
 
-    private String[] tabs = {"FOLLOWING","FOLLOWERS", "SEARCH"};
+    private String[] tabs = {"FOLLOWERS","FOLLOWING", "SEARCH"};
 
     private int[] icons = {
             //R.drawable.ic_people_black_36dp,
@@ -205,10 +205,10 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
 
         if(tab.getPosition()==0) {
-            tab.setText(" FOLLOWING");
+            tab.setText(" FOLLOWERS");
         }
         if(tab.getPosition()==1) {
-            tab.setText(" FOLLOWERS");
+            tab.setText(" FOLLOWING");
         }
         if(tab.getPosition()==2) {
             tab.setText(" SEARCH");

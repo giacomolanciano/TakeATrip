@@ -75,7 +75,7 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
 
     private Profilo corrente;
 
-    private String[] tabs = {"FOLLOWING","FOLLOWERS"};
+    private String[] tabs = {"FOLLOWERS","FOLLOWING"};
 
     private int[] icons = {
             R.drawable.ic_account_box_black_36dp,
@@ -191,10 +191,10 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
 
 
         if(tab.getPosition()==0) {
-            tab.setText("FOLLOWING");
+            tab.setText("FOLLOWERS");
         }
         if(tab.getPosition()==1) {
-            tab.setText("FOLLOWERS");
+            tab.setText("FOLLOWING");
         }
 
 
