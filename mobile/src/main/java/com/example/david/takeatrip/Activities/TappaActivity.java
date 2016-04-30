@@ -242,7 +242,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
             //TODO: il formato della data non consente questo metodo
             if(data != null && !data.equals(""))
-                date = DatesUtils.convertFormatStringDate(data, Constants.DATABASE_DATE_FORMAT, Constants.DISPLAYED_DATE_FORMAT);
+                //date = DatesUtils.convertFormatStringDate(data, Constants.DATABASE_DATE_FORMAT, Constants.DISPLAYED_DATE_FORMAT);
 
             if(date != null)
                 textDataTappa.setText(date);

@@ -31,9 +31,18 @@ On the 18-th of March we presented our work to the staff.
 * Usage Guide
  * [video 1](https://drive.google.com/file/d/0B0FHkIijDk2hZEZXcXNaSVFDbjA/view?usp=sharing)
  * [video 2](https://drive.google.com/file/d/0B0FHkIijDk2heFpIZUM5SHplX00/view?usp=sharing)
-* Server [repository](https://github.com/giacomolanciano/TakeATripServer)
 
 An installation guide for the beta application is avalaible on our [website](http://www.takeatrip.altervista.org).
+
+# Final submission
+On the 30-th of April we submitted our work to the staff.
+* [Server repository](https://github.com/giacomolanciano/TakeATripServer)
+* [Apk file]()
+* Usage Guide
+ * [video 1](https://drive.google.com/file/d/0B0FHkIijDk2hZEZXcXNaSVFDbjA/view?usp=sharing)
+ * [video 2](https://drive.google.com/file/d/0B0FHkIijDk2heFpIZUM5SHplX00/view?usp=sharing)
+
+An installation guide for the application is avalaible on our [website](http://www.takeatrip.altervista.org).
 
 # Possible extension after the semester
 * Crossing paths analysis
