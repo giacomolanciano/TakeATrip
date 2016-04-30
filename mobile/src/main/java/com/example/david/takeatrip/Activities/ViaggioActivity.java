@@ -157,8 +157,6 @@ public class ViaggioActivity extends AppCompatActivity {
             urlImageTravel = intent.getStringExtra("urlImmagineViaggio");
             livelloCondivisioneViaggio = intent.getStringExtra("livelloCondivisione");
 
-            Log.i(TAG, "urlImageTravel: " + urlImageTravel);
-            Log.i(TAG, "livello condivisione default: " + livelloCondivisioneViaggio);
 
         }
 
@@ -177,7 +175,7 @@ public class ViaggioActivity extends AppCompatActivity {
         }
 
 
-        imageTravel = (ImageView) findViewById(R.id.imageTravel);
+        imageTravel = (ImageView) findViewById(R.id.coverImageTravel);
 //        Picasso.with(ViaggioActivity.this)
 //                .load(urlImageTravel)
 //                .error(R.drawable.empty_image)
@@ -195,8 +193,6 @@ public class ViaggioActivity extends AppCompatActivity {
                 + livelloCondivisioneViaggio.substring(1,livelloCondivisioneViaggio.length());
 
         final int spinnerPosition = adapter.getPosition(livelloMaiuscolo);
-
-        Log.i(TAG, "posizione spinner default: "+ spinnerPosition);
 
         if (privacySpinner != null) {
 
@@ -226,14 +222,7 @@ public class ViaggioActivity extends AppCompatActivity {
         } else {
             Log.e(TAG, "privacySpinner is null");
         }
-
-
-
         appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
-
-
-
-
         transferUtility = UtilS3Amazon.getTransferUtility(this);
         transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
         s3 = UtilS3Amazon.getS3Client(ViaggioActivity.this);

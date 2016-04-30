@@ -17,14 +17,14 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:fitsSystemWindows="true"
             >
 
             <ImageView
-                android:id="@+id/imageTravel"
+                android:id="@+id/coverImageTravel"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,6 +32,7 @@
                 app:layout_collapseMode="parallax"
                 android:onClick="onClickImageTravel"
                 android:src="@drawable/empty_image"
+                android:minHeight="200dp"
                 />
 
 

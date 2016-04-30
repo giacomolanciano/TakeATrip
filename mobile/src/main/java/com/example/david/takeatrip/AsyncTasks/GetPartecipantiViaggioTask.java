@@ -1,6 +1,7 @@
 package com.example.david.takeatrip.AsyncTasks;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +31,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Giacomo Lanciano on 24/04/2016.
@@ -147,14 +149,10 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
                                 listPartecipants.add(new Profilo(emailProfilo, nomePartecipante,cognomePartecipante,
                                         data, nazionalita, sesso, username, lavoro, descrizione, tipo, urlImmagineProfilo, urlImmagineCopertina));
 
-
-                                Log.i(TAG, "lista partecipanti al viaggio " + nomeViaggio + ": " + listPartecipants.toString());
-
                                 //controllo se l'email dell'utente è tra quelle dei partecipanti al viaggio
                                 for(Profilo p : listPartecipants){
                                     if(email != null && email.equals(p.getEmail())){
                                         proprioViaggio = true;
-                                        Log.i(TAG, "sei compreso nel viaggio");
                                     }
                                 }
                             }
@@ -199,8 +197,21 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
 
 
             //new BitmapWorkerTask(null,layoutCopertinaViaggio).execute(urlImageTravel);
+            Log.i(TAG, "IMAGE VIEW : " +layoutCopertinaViaggio);
+            Log.i(TAG, "url immagine : " +urlImageTravel);
 
-            new BitmapWorkerTask(layoutCopertinaViaggio).execute(urlImageTravel);
+
+            try {
+                Bitmap bitmap  = new BitmapWorkerTask(layoutCopertinaViaggio).execute(urlImageTravel).get();
+                layoutCopertinaViaggio.setImageBitmap(bitmap);
+
+                Log.i(TAG, "bitmap immagine : " +bitmap);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
         }
 
 //        if (viewTitoloViaggio != null) {
@@ -213,11 +224,6 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
 
 
         super.onPostExecute(aVoid);
-
-
-        Log.i(TAG, "END onPostExecute()");
-
-
     }
 
 

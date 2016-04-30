@@ -88,15 +88,8 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
         if (imageView != null) {
             final Drawable drawable = imageView.getDrawable();
 
-            Log.i(TAG, "image view diversa da null");
-            Log.i(TAG, "drawable: " +drawable);
-
-
             if (drawable instanceof AsyncDrawable) {
                 final AsyncDrawable asyncDrawable = (AsyncDrawable) drawable;
-
-                Log.i(TAG, "result form getBitmapWorkerTask: " + asyncDrawable.getBitmapWorkerTask());
-
                 return asyncDrawable.getBitmapWorkerTask();
                 //return "OK";
             }
