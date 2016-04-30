@@ -118,6 +118,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     private AdaptableGridView gridViewVideos;
     private AdaptableGridView gridViewNotes;
 
+    private ImageView coverImageTappa;
+
 
 
 
@@ -137,6 +139,12 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             data = i.getStringExtra("data");
 
         }
+
+        Log.i(TAG, "email: "+email);
+        Log.i(TAG, "codice: "+codiceViaggio);
+        Log.i(TAG, "ordine: "+ordineTappa);
+        Log.i(TAG, "nome: "+nomeTappa);
+        Log.i(TAG, "data: "+data);
 
 
 /*
@@ -223,19 +231,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         gridViewVideos = (AdaptableGridView) findViewById(R.id.grid_view_videos);
         gridViewAudio = (AdaptableGridView) findViewById(R.id.grid_view_audio);
         gridViewNotes = (AdaptableGridView) findViewById(R.id.grid_view_notes);
-
-
-
-
-
-
-
-
-        Log.i(TAG, "email: "+email);
-        Log.i(TAG, "codice: "+codiceViaggio);
-        Log.i(TAG, "ordine: "+ordineTappa);
-        Log.i(TAG, "nome: "+nomeTappa);
-        Log.i(TAG, "data: "+data);
 
 
 
@@ -344,9 +339,10 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         noteInserite = new ArrayList<String>();
         audioSelezionati = new ArrayList<String>();
 
+        coverImageTappa = (ImageView) findViewById(R.id.coverImageTappa);
 
         new GetUrlsContentsTask(TappaActivity.this, codiceViaggio, gridViewPhotos, Constants.QUERY_STOP_IMAGES,
-                email, ordineTappa).execute();
+                email, ordineTappa, coverImageTappa).execute();
 
         new GetUrlsContentsTask(TappaActivity.this, codiceViaggio, gridViewVideos, Constants.QUERY_STOP_VIDEOS,
                 email, ordineTappa).execute();

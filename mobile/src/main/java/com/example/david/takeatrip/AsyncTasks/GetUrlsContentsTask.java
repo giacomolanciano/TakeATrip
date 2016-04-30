@@ -1,9 +1,11 @@
 package com.example.david.takeatrip.AsyncTasks;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
@@ -35,6 +37,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Giacomo Lanciano on 20/04/2016.
@@ -53,6 +56,8 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
     String result, stringaFinale = "";
     private List<ContenutoMultimediale> listContents;
     private String[] URLs;
+
+    private ImageView coverImageTappa;
 
 
     // The TransferUtility is the primary class for managing transfer to S3
@@ -96,6 +101,15 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
         this(context, codiceViaggio, emailProfilo, gridView, phpFile);
 
         this.ordineTappa = ordineTappa;
+
+    }
+
+    public GetUrlsContentsTask(Context context, String codiceViaggio, GridView gridView, String phpFile,
+                               String emailProfilo, int ordineTappa, ImageView coverImageTappa) {
+
+        this(context, codiceViaggio, gridView, phpFile, emailProfilo, ordineTappa);
+
+        this.coverImageTappa = coverImageTappa;
 
     }
 
@@ -243,6 +257,23 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
                 || phpFile.equals(Constants.QUERY_STOP_IMAGES)) {
 
             gv.setAdapter(new GridViewImageAdapter(context, URLs, Constants.IMAGE_FILE));
+
+            //nel caso di immagini della tappa, la prima viene impostata come copertina
+            if(phpFile.equals(Constants.QUERY_STOP_IMAGES) && coverImageTappa != null) {
+                Bitmap bitmap  = null;
+                try {
+
+                    bitmap = new BitmapWorkerTask(coverImageTappa).execute(URLs[0]).get();
+                    coverImageTappa.setImageBitmap(bitmap);
+
+                } catch (InterruptedException e) {
+                    Log.e(TAG, e.getMessage());
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    Log.e(TAG, e.getMessage());
+                    e.printStackTrace();
+                }
+            }
 
         } else if (phpFile.equals(Constants.QUERY_TRAVEL_VIDEOS)
                 || phpFile.equals(Constants.QUERY_STOP_VIDEOS)) {

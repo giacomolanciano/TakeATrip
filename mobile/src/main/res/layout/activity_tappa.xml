@@ -28,13 +28,14 @@
             >
 
             <ImageView
-                android:src="@drawable/empty_image"
                 android:id="@+id/coverImageTappa"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
+                android:src="@drawable/empty_image"
+                android:minHeight="200dp"
                 />
 
 
