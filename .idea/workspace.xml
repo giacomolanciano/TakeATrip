@@ -26,21 +26,12 @@
     </layouts>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f12b5a04-1321-4fd8-82de-62c7ac20a4e7" name="Default" comment="Ordine della ricerca dell'utente">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/outputFileStates.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" />
+    <list default="true" id="f12b5a04-1321-4fd8-82de-62c7ac20a4e7" name="Default" comment="Modifica tab Followers/Following e modifiche grafiche ai temi">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SocialActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SocialActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/VisualizzazioneFollowActivity.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/VisualizzazioneFollowActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/res/values/color.xml" afterPath="$PROJECT_DIR$/mobile/src/main/res/values/color.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/mobile/src/main/res/values/colors.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/mobile/src/main/res/values/styles.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/RicercaUtenteTask.java" afterPath="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/RicercaUtenteTask.java" />
     </list>
     <ignored path="TakeATrip.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -91,11 +82,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RicercaUtenteTask.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RicercaUtenteTask.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/RicercaUtenteTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-25.814816">
-              <caret line="125" column="174" selection-start-line="125" selection-start-column="174" selection-end-line="125" selection-end-column="174" />
+            <state vertical-scroll-proportion="0.76119405">
+              <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -121,10 +112,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="styles.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="styles.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mobile/src/main/res/values/styles.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.56160456">
+            <state vertical-scroll-proportion="-2.45">
               <caret line="92" column="74" selection-start-line="92" selection-start-column="74" selection-end-line="92" selection-end-column="74" />
               <folding />
             </state>
@@ -5381,11 +5372,11 @@
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/TappaActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/InserimentoNotaTappaTask.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/RicercaUtenteTask.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SocialActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/VisualizzazioneFollowActivity.java" />
         <option value="$PROJECT_DIR$/mobile/src/main/res/values/color.xml" />
         <option value="$PROJECT_DIR$/mobile/src/main/res/values/styles.xml" />
+        <option value="$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/RicercaUtenteTask.java" />
       </list>
     </option>
   </component>
@@ -6100,12 +6091,6 @@
       <option name="number" value="Default" />
       <updated>1458038901214</updated>
     </task>
-    <task id="LOCAL-00007" summary="correzione bug listatappe e maps">
-      <created>1458153295245</created>
-      <option name="number" value="00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1458153295245</updated>
-    </task>
     <task id="LOCAL-00008" summary="sistemato inserimento nota tappa in listatappeactivity">
       <created>1458173926934</created>
       <option name="number" value="00008" />
@@ -6394,7 +6379,13 @@
       <option name="project" value="LOCAL" />
       <updated>1462014029454</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="Modifica tab Followers/Following e modifiche grafiche ai temi">
+      <created>1462014936715</created>
+      <option name="number" value="00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1462014936715</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TodoView">
@@ -6486,7 +6477,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="caricamento immagini/video funzionante da tappaActivity" />
     <MESSAGE value="creato package dedicato agli adapter" />
     <MESSAGE value="implementato caricamento imagini della tappa" />
     <MESSAGE value="implementato caricamento imagini della tappa (da ottimizzare)" />
@@ -6511,7 +6501,8 @@
     <MESSAGE value="creata AdaptableGridView per visualizzare interamente i contenuti in viaggio tappa (https://www.jayway.com/2012/10/04/how-to-make-the-height-of-a-gridview-wrap-its-content/)" />
     <MESSAGE value="Aggiornamento a tema social da dentro il profilo" />
     <MESSAGE value="Ordine della ricerca dell'utente" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ordine della ricerca dell'utente" />
+    <MESSAGE value="Modifica tab Followers/Following e modifiche grafiche ai temi" />
+    <option name="LAST_COMMIT_MESSAGE" value="Modifica tab Followers/Following e modifiche grafiche ai temi" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -6903,14 +6894,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/RicercaUtenteTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-25.814816">
-          <caret line="125" column="174" selection-start-line="125" selection-start-column="174" selection-end-line="125" selection-end-column="174" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/Activities/SocialActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.3392856">
@@ -6958,8 +6941,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mobile/src/main/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.56160456">
+        <state vertical-scroll-proportion="-2.45">
           <caret line="92" column="74" selection-start-line="92" selection-start-column="74" selection-end-line="92" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mobile/src/main/java/com/example/david/takeatrip/AsyncTasks/RicercaUtenteTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.76119405">
+          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
           <folding />
         </state>
       </provider>

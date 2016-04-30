@@ -39,7 +39,6 @@ public class RicercaUtenteTask  extends AsyncTask<Void, Void, Set<Profilo>> {
     private Context context;
     private Set<Profilo> profiliPrimi;
     private Set<Profilo> profiliSecondi;
-    private Set<Profilo> profiliRisultanti;
 
 
     InputStream is = null;
@@ -49,7 +48,6 @@ public class RicercaUtenteTask  extends AsyncTask<Void, Void, Set<Profilo>> {
     public RicercaUtenteTask(Context context, String testo){
         testoRicerca = testo;
         this.context = context;
-        profiliRisultanti = new LinkedHashSet<Profilo>();
         profiliPrimi = new LinkedHashSet<Profilo>();
         profiliSecondi = new LinkedHashSet<Profilo>();
     }
