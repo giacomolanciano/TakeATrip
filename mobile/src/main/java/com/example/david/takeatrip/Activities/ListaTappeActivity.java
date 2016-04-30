@@ -55,6 +55,7 @@ import com.example.david.takeatrip.AsyncTasks.InserimentoFiltroTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoImmagineTappaTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoNotaTappaTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoVideoTappaTask;
+import com.example.david.takeatrip.AsyncTasks.LoadGenericImageTask;
 import com.example.david.takeatrip.AsyncTasks.UploadFileS3Task;
 import com.example.david.takeatrip.Classes.Itinerario;
 import com.example.david.takeatrip.Classes.POI;
@@ -93,6 +94,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -110,6 +112,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.text.CollationElementIterator;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -208,7 +211,7 @@ public class ListaTappeActivity extends AppCompatActivity
     private List<String> audioSelezionati;
     private List<String> noteInserite;
 
-
+    private LinearLayout linearLayoutHeader;
     private LinearLayout layoutContents,rowHorizontal;
 
     private TextInputLayout textInputLayout;
@@ -240,7 +243,7 @@ public class ListaTappeActivity extends AppCompatActivity
         View layoutHeader = navigationView.getHeaderView(0);
         
         ViewNomeViaggio = (TextView) layoutHeader.findViewById(R.id.textViewNameTravel);
-        ViewImmagineViaggio = (RoundedImageView) layoutHeader.findViewById(R.id.imageView_round);
+        linearLayoutHeader = (LinearLayout) layoutHeader.findViewById(R.id.layoutHeaderTravel);
 
 
         buttonAddStop = (FloatingActionButton) findViewById(R.id.fabAddStopInfoPoi);
@@ -297,12 +300,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
             livelloCondivisioneTappa = livelloCondivisioneDefaultViaggio;
 
-
-            Log.i(TAG, "image travel: " + urlImmagineViaggio);
-            Log.i(TAG, "livello condivisione travel: " + livelloCondivisioneDefaultViaggio);
-
-
-            //new BitmapWorkerTask(ViewImmagineViaggio).execute(urlImmagineViaggio);
+            new BitmapWorkerTask(ViewImmagineViaggio, linearLayoutHeader).execute(urlImmagineViaggio);
 
 
             CharSequence[] listPartecipants = intent.getCharSequenceArrayExtra("partecipanti");
@@ -326,8 +324,6 @@ public class ListaTappeActivity extends AppCompatActivity
                     //questo campo deve puntare allo STESSO oggetto inserito nella lista partecipants
                     //altrimenti c'è bisogno di ridefinire equals(), che sbrasa searchActivity
                     profiloUtenteLoggato = aux;
-
-                    Log.i(TAG, "sei compreso nel viaggio");
                 }
 
                 i++;
@@ -459,20 +455,12 @@ public class ListaTappeActivity extends AppCompatActivity
             switch (requestCode) {
 
                 case Constants.REQUEST_PLACE_PICKER:
-
-                    Log.i(TAG, "REQUEST_PLACE_PICKER");
-
                     Place place = PlacePicker.getPlace(this, data);
-                    Log.i(TAG, "Place: %s" + place.getName());
-
                     startAddingStop(place);
 
                     break;
 
                 case Constants.REQUEST_IMAGE_CAPTURE:
-
-                    Log.i(TAG, "REQUEST_IMAGE_CAPTURE");
-
                     File f = new File(DeviceStorageUtils.getImagesStoragePath());
                     for (File temp : f.listFiles()) {
                         if (temp.getName().equals(imageFileName)) {
@@ -486,8 +474,6 @@ public class ListaTappeActivity extends AppCompatActivity
                         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
 
                         String nomeFile = timeStamp + Constants.IMAGE_EXT;
-
-                        Log.i(TAG, "timeStamp image: " + nomeFile);
                         if(thumbnail != null){
 
                             pathsImmaginiVideoSelezionati.put(thumbnail, f.getAbsolutePath());
@@ -495,10 +481,6 @@ public class ListaTappeActivity extends AppCompatActivity
                             immaginiSelezionate.add(thumbnail);
                             bitmap_nomeFile.put(thumbnail,nomeFile);
                         }
-
-                        Log.i(TAG, "path file immagine: " + f.getAbsolutePath());
-                        Log.i(TAG, "bitmap file immagine: " + thumbnail);
-
                         PopolaContenuti();
 
                     } catch (Exception e) {
@@ -526,11 +508,7 @@ public class ListaTappeActivity extends AppCompatActivity
                                 Log.i(TAG, "image path: " + path);
                             }
                         } else {
-                            Log.i(TAG, "clipdata is null");
-
                             Uri selectedImage = data.getData();
-
-                            Log.i(TAG, "uri selected image: " + selectedImage);
 
                             String[] filePath = {MediaStore.Images.Media.DATA};
                             Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
@@ -551,14 +529,9 @@ public class ListaTappeActivity extends AppCompatActivity
                             Bitmap bitmap = (BitmapFactory.decodeFile(picturePath));
                             */
 
-                            Log.i(TAG, "image from gallery: " + picturePath + "");
-
                             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
 
                             String nomeFile = timeStamp + Constants.IMAGE_EXT;
-
-                            Log.i(TAG, "timeStamp image: " + nomeFile);
-
 
                             if(thumbnail != null){
 
@@ -569,14 +542,6 @@ public class ListaTappeActivity extends AppCompatActivity
                                 bitmap_nomeFile.put(thumbnail, nomeFile);
                             }
 
-
-                            Log.i(TAG, "elenco immagini selezionate: " + immaginiSelezionate);
-                            Log.i(TAG, "elenco path risorse selezionate: " + pathsImmaginiVideoSelezionati);
-                            Log.i(TAG, "elenco nomi risorse: " + bitmap_nomeFile.values());
-
-
-
-
                             PopolaContenuti();
 
                         }
@@ -585,16 +550,9 @@ public class ListaTappeActivity extends AppCompatActivity
                         Log.e(TAG, "data is null");
 
                     }
-
-
-
-                    //TODO verifica caricamento su drive
-
-
                     break;
 
                 case Constants.REQUEST_VIDEO_CAPTURE:
-                    Log.i(TAG, "REQUEST_VIDEO_CAPTURE");
 
                     File fileVideo = new File(DeviceStorageUtils.getVideosStoragePath());
                     for (File temp : fileVideo.listFiles()) {
@@ -753,8 +711,6 @@ public class ListaTappeActivity extends AppCompatActivity
     public void onMapReady(GoogleMap map) {
 
         //TODO il metodo non viene chiamato se la versione è Android 6.0+, trovare workaround
-
-        Log.i(TAG, "enter onMapReady");
 
         googleMap = map;
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -989,22 +945,15 @@ public class ListaTappeActivity extends AppCompatActivity
 
             if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
 
-                /*
                 URL completeUrl = null;
-                try {
+                    try {
+                        completeUrl = new LoadGenericImageTask(p.getIdImageProfile(), this).execute().get();
+                        //new BitmapWorkerTask(image).execute(completeUrl.toString());
+                        Picasso.with(this).load(completeUrl.toString()).into(image);
 
-                    Log.i(TAG, "image profile: " + p.getIdImageProfile());
-
-                    completeUrl = new LoadGenericImageTask(p.getIdImageProfile(), this).get();
-                    //new BitmapWorkerTask(image).execute(completeUrl.toString());
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-                */
-
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
             }
             else{
                 if(p.getSesso().equals("M")){
@@ -1027,8 +976,6 @@ public class ListaTappeActivity extends AppCompatActivity
                 }
             });
 
-
-
             layoutProprietariItinerari.addView(image, Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI,
                     Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI);
             layoutProprietariItinerari.addView(new TextView(this), Constants.WIDTH_LAYOUT_PROPRIETARI_ITINERARI,
@@ -1041,11 +988,20 @@ public class ListaTappeActivity extends AppCompatActivity
 
     private void ClickImagePartecipant(Profilo p){
         profiloVisualizzazioneCorrente = p;
+
+        Log.i(TAG,"PROFILO UTENTE CLICCATO: " + p);
+        Log.i(TAG,"PROFILO UTENTE LOGGATO: " + profiloUtenteLoggato);
+
+        if(!p.getEmail().equals(profiloUtenteLoggato.getEmail()))
+            buttonAddStop.setVisibility(View.INVISIBLE);
+        else
+            buttonAddStop.setVisibility(View.VISIBLE);
+
         AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
     }
 
 
-    private void CreaMenu(List<Tappa> tappe, List<String > nomiTappe){
+    private void CreaMenu(List<Tappa> tappe, String [] nomiTappe){
         Menu menu = navigationView.getMenu();
         menu.clear();
 
@@ -1054,9 +1010,12 @@ public class ListaTappeActivity extends AppCompatActivity
             int i=0;
             for(Tappa t : tappe){
 
-                if(nomiTappe.size() > 0){
-                    Log.i(TAG, "nome tappa: " + nomiTappe.get(i));
-                    menu.add(0, i, Menu.NONE, nomiTappe.get(i));
+                if(nomiTappe.length > 0){
+                    if(nomiTappe[i] != null){
+                        Log.i(TAG, "nome tappa: " + nomiTappe[i]);
+                        menu.add(0, i, Menu.NONE, nomiTappe[i]);
+                    }
+
                 }
                 else{
                     menu.add(0, i, Menu.NONE, t.getPoi().getCodicePOI());
@@ -1069,6 +1028,9 @@ public class ListaTappeActivity extends AppCompatActivity
     }
 
 
+    Place[] arrayPlace;
+    String[] arrayNamePlace;
+    LatLng[] latLngs;
     private void AggiungiMarkedPointsOnMap(Profilo p, List<Tappa> tappe) {
         mGoogleApiClient.connect();
 
@@ -1076,6 +1038,12 @@ public class ListaTappeActivity extends AppCompatActivity
         nomiTappe.clear();
         namesStops.clear();
         int i = 1;
+
+
+        Log.i(TAG, "lista tappe: " + tappe);
+        arrayPlace = new Place[tappe.size()];
+        arrayNamePlace = new String[tappe.size()];
+        latLngs = new LatLng[tappe.size()];
         for(Tappa t : tappe){
             findPlaceById(p, t, i);
             i++;
@@ -1085,15 +1053,10 @@ public class ListaTappeActivity extends AppCompatActivity
             nomiTappe.clear();
             profiloNomiTappe.put(p,nomiTappe);
         }
-
-
-        Log.i(TAG, "profiloNomiTappe: " + profiloNomiTappe);
-        Log.i(TAG, "ho aggiunto i markedPoints di " + p);
-
     }
 
 
-    private void findPlaceById(Profilo p, Tappa t, int i) {
+    private void findPlaceById(final Profilo p, final Tappa t, int i) {
         final int index = i;
 
         if( TextUtils.isEmpty(t.getPoi().getCodicePOI()) || mGoogleApiClient == null){
@@ -1130,49 +1093,56 @@ public class ListaTappeActivity extends AppCompatActivity
 
             //return;}
 
+        Log.i(TAG, "id place: " + t.getPoi().getCodicePOI());
 
         Places.GeoDataApi.getPlaceById( mGoogleApiClient, t.getPoi().getCodicePOI() )
                 .setResultCallback(new ResultCallback<PlaceBuffer>() {
 
                     @Override
                     public void onResult(PlaceBuffer places) {
-                        Log.i(TAG, "sono in onResult");
-                        Log.i(TAG, "PlaceBuffer: " + places.toString());
-                        Log.i(TAG, "Status PlaceBuffer: " + places.getStatus());
-                        Log.i(TAG, "Count PlaceBuffer: " + places.getCount());
 
                         if (places.getStatus().isSuccess()) {
                             Place place = places.get(0);
                             LatLng currentLatLng = place.getLatLng();
-                            Log.i(TAG, "nome place: " + place.getName());
 
-                            nomiTappe.add(place);
-                            namesStops.add(place.getName().toString());
-                            Log.i(TAG, "aggiunto ai places: " + nomiTappe);
-
+                            //serve per mantenere l'ordine nella lista
+                            int k=0;
+                            for(Tappa t : profiloTappe.get(p)){
+                                if(t.getPoi().getCodicePOI().equals(place.getId())){
+                                    arrayPlace[k] = place;
+                                    arrayNamePlace[k] = place.getName().toString();
+                                    latLngs[k] = place.getLatLng();
+                                    break;
+                                }
+                                    k++;
+                            }
 
                             //add Marker
                             googleMap.addMarker(new MarkerOptions()
-                                            .title(index + ". " + place.getName().toString())
-                                            .position(currentLatLng)
+                                    .title(index + ". " + place.getName().toString())
+                                    .position(currentLatLng)
                             );
                             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 5));
 
-                            polyline.add(currentLatLng);
 
-                            mapBoundsBuilder.include(currentLatLng);
+                            nomiTappe.add(place);
+
+                            if (nomiTappe.size() == profiloTappe.get(currentProfile).size()) {
+
+                                Log.i(TAG, "stampo i places ordinati");
+
+                                for(int i=0; i<arrayNamePlace.length; i++){
+                                    Log.i(TAG, "name place " + i + " : " + arrayNamePlace[i]);
+                                    if(arrayNamePlace[i] != null){
+                                        polyline.add(latLngs[i]);
+                                        mapBoundsBuilder.include(latLngs[i]);
+                                    }
+                                }
 
 
-                            if (nomiTappe.size() == profiloTappe.get(currentProfile).size()
-                                    && namesStops.size() == nomiTappe.size()) {
-
-                                Log.i(TAG, "nomi places: " + namesStops);
-                                CreaMenu(profiloTappe.get(currentProfile), namesStops);
+                                CreaMenu(profiloTappe.get(currentProfile), arrayNamePlace);
 
                                 profiloNomiTappe.put(currentProfile, nomiTappe);
-                                Log.i(TAG, "profiloNomiTappe: " + profiloNomiTappe);
-                                Log.i(TAG, "ho aggiunto i markedPoints di " + currentProfile);
-
 
                                 //traccia linea
                                 googleMap.addPolyline(polyline);
@@ -1303,12 +1273,12 @@ public class ListaTappeActivity extends AppCompatActivity
 
                 Calendar cal = DatesUtils.getDateFromString(DatesUtils.getCurrentDateString(), Constants.DATABASE_DATE_FORMAT);
 
-                Log.i(TAG, "cal.getTime: " + cal.getTime());
-
                 profiloTappe.get(profiloVisualizzazioneCorrente).add(new Tappa(itAux, stopOrder, cal.getTime()));
 
                 new InserimentoFiltroTask(ListaTappeActivity.this, codiceViaggio, placeName).execute();
 
+
+                //TODO: posso aggiungere le tappe solamente al mio itinerario
 
                 //add marker
                 googleMap.addMarker(new MarkerOptions()
@@ -1371,8 +1341,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
     private void onClickAddImage(View v) {
-
-        Log.i(TAG, "add image pressed");
 
         try {
             ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
@@ -1451,8 +1419,6 @@ public class ListaTappeActivity extends AppCompatActivity
         } catch (Exception e) {
             Log.e(e.toString().toUpperCase(), e.getMessage());
         }
-
-        Log.i(TAG, "END add image");
 
     }
 
@@ -1537,8 +1503,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
     private void onClickAddRecord(View v) {
-
-        Log.i(TAG, "add record pressed");
 
         try {
             final ContextThemeWrapper wrapper = new ContextThemeWrapper(this,
@@ -1704,8 +1668,6 @@ public class ListaTappeActivity extends AppCompatActivity
                                 }
                             });
 
-
-
                             progressDialog.show();
 
 
@@ -1713,24 +1675,15 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
                         default:
-                            Log.e(TAG, "azione non riconosciuta");
                             break;
                     }
                 }
             });
 
-
             builder.create().show();
-
-
         } catch (Exception e) {
             Log.e(e.toString().toUpperCase(), e.getMessage());
         }
-
-
-
-        Log.i(TAG, "END add record");
-
     }
 
 
@@ -1796,8 +1749,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-    //TODO asyntasks & utilities da modularizzare
-
     private class GetTappeTask extends AsyncTask<Void, Void, Void> {
 
         //TODO da modularizzare, lasciato così per via di side-effect importanti su variabili della classe
@@ -1860,8 +1811,6 @@ public class ListaTappeActivity extends AppCompatActivity
                                     stringaFinale = email + " " + codiceViaggio  +" "+ ordine;
                                     int ordineTappaPrecedente = json_data.optInt("ordineTappaPrecedente", DEFAULT_INT);
 
-                                    //Log.e(TAG, "ordinePrec:\n" + ordineTappaPrecedente);
-
                                     Tappa tappaPrecedente = new Tappa(itinerario, (ordineTappaPrecedente));
 
                                     String paginaDiario = json_data.getString("paginaDiario");
@@ -1904,11 +1853,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
             ViewCaricamentoInCorso.setVisibility(View.INVISIBLE);
 
-
             Log.i(TAG, "profiloTappe: " + profiloTappe);
-            Log.i(TAG, "numero profili: " + profiloTappe.size());
-            Log.i(TAG, "profili: " + profiloTappe.keySet());
-            Log.i(TAG, "tappe: " + profiloTappe.values());
 
             PopolaPartecipanti(profiloTappe.keySet());
 
@@ -1922,8 +1867,6 @@ public class ListaTappeActivity extends AppCompatActivity
                     List<Tappa> aux = profiloTappe.get(p);
                     AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
                     aggiuntiMarkedPoints = true;
-                    Log.i(TAG, "aggiunte tappe di " + p);
-
 
                     profiloVisualizzazioneCorrente = p;
                     break;
@@ -1933,7 +1876,6 @@ public class ListaTappeActivity extends AppCompatActivity
             if(!aggiuntiMarkedPoints){
                 for(Profilo p : profiloTappe.keySet()){
                     AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
-                    Log.i(TAG, "aggiunte tappe di " + p);
 
                     profiloVisualizzazioneCorrente =p;
                     break;
@@ -1969,14 +1911,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
             String paginaDiario = "";
             dataToSend.add(new BasicNameValuePair("paginaDiario", paginaDiario));
-
-            Log.i(TAG, "email: " + email);
-            Log.i(TAG, "codiceViaggio: " + codiceViaggio);
-            Log.i(TAG, "ordine: " + ordine);
-            Log.i(TAG, "placeId: " + placeId);
-            Log.i(TAG, "date: " + data);
-            Log.i(TAG, "paginaDiario: " + paginaDiario);
-
 
             try {
 
@@ -2030,8 +1964,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
-
             if(!result.equals("OK\n")){
                 Log.e(TAG, "tappa non inserita");
             }
@@ -2055,7 +1987,6 @@ public class ListaTappeActivity extends AppCompatActivity
                     Log.i(TAG, "email: " + email);
                     Log.i(TAG, "codiceViaggio: " + codiceViaggio);
                     Log.i(TAG, "name of the image: " + nameImage);
-                    Log.i(TAG, "livello Condivisione: " + livelloCondivisioneTappa);
 
 
 

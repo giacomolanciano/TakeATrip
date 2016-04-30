@@ -106,4 +106,8 @@ public class Tappa {
         result = 31 * result + getOrdine();
         return result;
     }
+
+    public String toString(){
+        return getPoi().codicePOI + " " +getNome();
+    }
 }
