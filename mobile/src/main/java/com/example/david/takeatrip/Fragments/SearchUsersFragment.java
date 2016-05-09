@@ -56,10 +56,6 @@ public class SearchUsersFragment extends Fragment {
 
     public SearchUsersFragment() {}
 
-    public SearchUsersFragment(Context context, Set<Profilo> profiles){
-
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,

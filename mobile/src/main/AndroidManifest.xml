@@ -26,10 +26,7 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
-    <provider
-        android:name="com.facebook.FacebookContentProvider"
-        android:authorities="com.facebook.app.FacebookContentProvider1024572710947061"
-        android:exported="true" />
+
 
     <application
         android:name=".Classes.TakeATrip"
@@ -37,6 +34,10 @@
         android:icon="@drawable/logodef"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider1024572710947061"
+            android:exported="true" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
