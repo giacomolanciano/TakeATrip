@@ -47,9 +47,14 @@ public class FollowingFragment extends Fragment {
 
     private ArrayList<Profilo> following;
 
-    public FollowingFragment(Context context, ArrayList<Profilo> listaSeguiti) {
-        this.context = context;
-        following = listaSeguiti;
+    public FollowingFragment() {}
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        this.context = getActivity();
+        following = (ArrayList<Profilo>) getArguments().getSerializable("following");
 
         dataFollowing = new ArrayList<DataObject>();
 
@@ -59,12 +64,6 @@ public class FollowingFragment extends Fragment {
         for(Profilo p : following){
             dataFollowing.add(new DataObject(p));
         }
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.activity_recyclerview_lista_viaggi, container, false);
 

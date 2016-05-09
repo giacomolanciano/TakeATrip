@@ -5,9 +5,11 @@ package com.example.david.takeatrip.Adapters;
  */
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Fragments.FollowersFragment;
@@ -15,7 +17,7 @@ import com.example.david.takeatrip.Fragments.FollowingFragment;
 import com.example.david.takeatrip.Fragments.SearchUsersFragment;
 
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.HashSet;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
 
@@ -23,10 +25,10 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 
     private ArrayList<Profilo> followers;
     private ArrayList<Profilo> following;
-    private Set<Profilo> profiles;
+    private HashSet<Profilo> profiles;
     private Context context;
 
-    public TabsPagerAdapter(FragmentManager fm, Context context, ArrayList<Profilo> followers, ArrayList<Profilo> following, Set<Profilo> profiles) {
+    public TabsPagerAdapter(FragmentManager fm, Context context, ArrayList<Profilo> followers, ArrayList<Profilo> following, HashSet<Profilo> profiles) {
         super(fm);
 
         if(followers == null){
@@ -52,6 +54,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int index) {
+        Bundle b;
 
         switch (index) {
 
@@ -69,14 +72,35 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 
             case 0:
                 // Movies fragment activity
-                return new FollowingFragment(context, following);
+
+                b = new Bundle();
+                b.putSerializable("following", following);
+                FollowingFragment followingFragment = new FollowingFragment();
+                followingFragment.setArguments(b);
+
+                return followingFragment;
+
 
             case 1:
                 // Movies fragment activity
-                return new FollowersFragment(context, followers);
+                b = new Bundle();
+                b.putSerializable("followers", followers);
+                FollowersFragment followersFragment = new FollowersFragment();
+                followersFragment.setArguments(b);
+
+                Log.i(TAG, "args: "+followersFragment.getArguments());
+                Log.i(TAG, "args followers: "+followersFragment.getArguments().getSerializable("followers"));
+
+                return followersFragment;
             case 2:
                 // Games fragment activity
-                return new SearchUsersFragment(context, profiles);
+                b = new Bundle();
+                b.putSerializable("profiles", profiles);
+                SearchUsersFragment searchFragment = new SearchUsersFragment();
+                searchFragment.setArguments(b);
+
+
+                return searchFragment;
 
             /*
             case 4:

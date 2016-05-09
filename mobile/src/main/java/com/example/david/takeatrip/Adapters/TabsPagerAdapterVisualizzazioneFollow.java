@@ -5,6 +5,7 @@ package com.example.david.takeatrip.Adapters;
  */
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -49,19 +50,29 @@ public class TabsPagerAdapterVisualizzazioneFollow extends FragmentPagerAdapter 
     @Override
     public Fragment getItem(int index) {
 
+        Bundle b;
+
         switch (index) {
             case 0:
                 // Movies fragment activity
                 Log.i(TAG, "seguiti in Adapter: " + following);
                 Log.i(TAG, "context in Adapter: " + context);
-                return new FollowingFragment(context, following);
+                b = new Bundle();
+                b.putSerializable("following", following);
+                FollowingFragment followingFragment = new FollowingFragment();
+                followingFragment.setArguments(b);
 
+                return followingFragment;
             case 1:
                 // Movies fragment activity
                 Log.i(TAG, "seguaci in Adapter: " + followers);
                 Log.i(TAG, "context in Adapter: " + context);
 
-                return new FollowersFragment(context, followers);
+                b = new Bundle();
+                b.putSerializable("followers", followers);
+                FollowersFragment followersFragment = new FollowersFragment();
+                followersFragment.setArguments(b);
+                return followersFragment;
         }
 
         return null;

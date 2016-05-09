@@ -90,7 +90,6 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".Activities.CreateDriveFolderActivity" />
-        <activity android:name=".AsyncTasks.RetrieveImageTask" />
         <activity
             android:name=".Activities.TappaActivity"
             android:label="@string/title_activity_tappa"

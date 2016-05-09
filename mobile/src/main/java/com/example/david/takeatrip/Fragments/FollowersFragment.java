@@ -47,9 +47,31 @@ public class FollowersFragment extends Fragment {
 
     private ArrayList<Profilo> followers;
 
-    public FollowersFragment(Context context, ArrayList<Profilo> listaSeguaci) {
-        this.context = context;
-        followers = listaSeguaci;
+    public FollowersFragment() {
+
+
+    }
+
+//    public FollowersFragment(Context context, ArrayList<Profilo> listaSeguaci) {
+//        //this.context = context;
+//        this.context = getActivity();
+//        followers = listaSeguaci;
+//
+//        dataFollowers = new ArrayList<DataObject>();
+//
+//
+//        for(Profilo p : followers){
+//            dataFollowers.add(new DataObject(p));
+//        }
+//
+//    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        this.context = getActivity();
+        followers = (ArrayList<Profilo>) (getArguments().getSerializable("followers"));
 
         dataFollowers = new ArrayList<DataObject>();
 
@@ -57,12 +79,6 @@ public class FollowersFragment extends Fragment {
         for(Profilo p : followers){
             dataFollowers.add(new DataObject(p));
         }
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.activity_recyclerview_lista_viaggi, container, false);
 

@@ -54,10 +54,10 @@ public class SearchUsersFragment extends Fragment {
     /*TODO: ci sono due modi: caricare tutti gli utenti in locale e poi visualizzare velocemente quelli che servono
     oppure caricare solo quelli che servono con query ripetute*/
 
+    public SearchUsersFragment() {}
+
     public SearchUsersFragment(Context context, Set<Profilo> profiles){
-        this.context = context;
-        this.profiles = profiles;
-        dataUsers = new ArrayList<DataObject>();
+
     }
 
 
@@ -65,11 +65,17 @@ public class SearchUsersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
 
+        this.context = getActivity();
+        this.profiles = (Set<Profilo>) getArguments().getSerializable("profiles");
+        dataUsers = new ArrayList<DataObject>();
+
         final View rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
         progressDialog = new ProgressDialog(context);
 
         editTextUser = (EditText) rootView.findViewById(R.id.editTextUserSearch);
+        Log.i(TAG, "editTextUser: " +  editTextUser);
+
         imageSearch = (ImageView) rootView.findViewById(R.id.imageSearchUser);
         imageSearch.setOnClickListener(new View.OnClickListener() {
             @Override

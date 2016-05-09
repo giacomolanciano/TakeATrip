@@ -39,7 +39,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.HashSet;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class SocialActivity extends FragmentActivity implements ActionBar.TabListener {
@@ -75,7 +75,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
     private Fragment fragment;
 
     private Profilo corrente;
-    private Set<Profilo> profiles;
+    private HashSet<Profilo> profiles;
 
     private String[] tabs = {"FOLLOWERS","FOLLOWING", "SEARCH"};
 
@@ -321,9 +321,17 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
                 PopolaListaFollowing(follow);
             } else {
                 Toast.makeText(getBaseContext(), stringaFinale, Toast.LENGTH_LONG).show();
+                settaAdapter();
             }
+            
+            
             super.onPostExecute(aVoid);
         }
+    }
+
+    private void settaAdapter() {
+        mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(),seguaci,seguiti, profiles);
+        viewPager.setAdapter(mAdapter);
     }
 
     //era un popolalista
@@ -432,6 +440,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
                 PopolaListaFollowers(following);
             } else {
                 Toast.makeText(getBaseContext(), stringaFinale, Toast.LENGTH_LONG).show();
+                settaAdapter();
             }
             super.onPostExecute(aVoid);
         }
