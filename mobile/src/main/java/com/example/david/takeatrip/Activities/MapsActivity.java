@@ -24,12 +24,11 @@ import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.amazonaws.HttpMethod;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
+import com.example.david.takeatrip.AsyncTasks.LoadGenericImageTask;
 import com.example.david.takeatrip.Classes.Itinerario;
 import com.example.david.takeatrip.Classes.POI;
 import com.example.david.takeatrip.Classes.Profilo;
@@ -74,6 +73,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 
 public class MapsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GoogleMap.OnInfoWindowClickListener, OnMapReadyCallback,
@@ -233,7 +233,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
                 String urlImmagineViaggio = null;
                 for(Viaggio viaggio: combo.values()){
                     if(viaggio.getCodice().equals(comboCodice.get(marker.getTitle().split("@@@")[0]))){
-                        urlImmagineViaggio = downloadUrlOfImage(viaggio.getCodice()+"/"+Constants.TRAVEL_COVER_IMAGE_LOCATION + "/"+viaggio.getUrlImmagine());
+                        urlImmagineViaggio = downloadUrlOfImage(viaggio.getCodice(), viaggio.getUrlImmagine());
                         break;
                     }
                 }
@@ -264,26 +264,17 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-    private String downloadUrlOfImage(String key){
+    private String downloadUrlOfImage(String codiceViaggio, String key){
         URL url = null;
+
         try {
-
-            java.util.Date expiration = new java.util.Date();
-            long msec = expiration.getTime();
-            msec += 1000 * 60 * 60; // 1 hour.
-            expiration.setTime(msec);
-
-            GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                    new GeneratePresignedUrlRequest(Constants.BUCKET_TRAVELS_NAME,key);
-            generatePresignedUrlRequest.setMethod(HttpMethod.GET);
-            generatePresignedUrlRequest.setExpiration(expiration);
-
-            url = s3.generatePresignedUrl(generatePresignedUrlRequest);
-
-            Log.i(TAG, "url file: " + url);
-        }
-        catch(Exception exception){
-            exception.printStackTrace();
+            url = new LoadGenericImageTask(key, codiceViaggio, MapsActivity.this).execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
         }
 
         return  url.toString();

@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class LoadGenericImageTask extends AsyncTask<Void, Void, URL>  {
 
-    private static final String TAG = "TEST LoadTravImgTask";
+    private static final String TAG = "TEST LoadGenImgTask";
 
     //private ImageView immagineViaggio;
     private String urlImmagine, codiceViaggio;
