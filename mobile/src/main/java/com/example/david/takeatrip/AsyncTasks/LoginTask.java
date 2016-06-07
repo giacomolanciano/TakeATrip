@@ -82,23 +82,26 @@ public class LoginTask extends AsyncTask<Void, Void, Profilo> {
                         is.close();
 
                         result = sb.toString();
-                        JSONArray jArray = new JSONArray(result);
-                        for(int i=0;i<jArray.length();i++) {
-                            JSONObject json_data = jArray.getJSONObject(i);
-                            if(json_data != null){
-                                stringaFinale = json_data.getString("email").toString() + " " + json_data.getString("password").toString();
-                                email = json_data.getString("email").toString();
-                                nome =  json_data.getString("nome").toString();
-                                cognome = json_data.getString("cognome").toString();
-                                data = json_data.getString("dataNascita").toString();
-                                nazionalita = json_data.getString("nazionalita").toString();
-                                sesso = json_data.getString("sesso").toString();
-                                username = json_data.getString("username").toString();
-                                lavoro = json_data.getString("lavoro").toString();
-                                descrizione = json_data.getString("descrizione").toString();
-                                tipo = json_data.getString("tipo").toString();
+                        if(result!= null && !result.equals("null\n")){
+                            JSONArray jArray = new JSONArray(result);
+                            for(int i=0;i<jArray.length();i++) {
+                                JSONObject json_data = jArray.getJSONObject(i);
+                                if(json_data != null){
+                                    stringaFinale = json_data.getString("email").toString() + " " + json_data.getString("password").toString();
+                                    email = json_data.getString("email").toString();
+                                    nome =  json_data.getString("nome").toString();
+                                    cognome = json_data.getString("cognome").toString();
+                                    data = json_data.getString("dataNascita").toString();
+                                    nazionalita = json_data.getString("nazionalita").toString();
+                                    sesso = json_data.getString("sesso").toString();
+                                    username = json_data.getString("username").toString();
+                                    lavoro = json_data.getString("lavoro").toString();
+                                    descrizione = json_data.getString("descrizione").toString();
+                                    tipo = json_data.getString("tipo").toString();
 
-                                profilo = new Profilo(email,nome,cognome,data,nazionalita,sesso,username,lavoro,descrizione,tipo);
+                                    profilo = new Profilo(email,nome,cognome,data,nazionalita,sesso,username,lavoro,descrizione,tipo);
+
+                                }
 
                             }
                         }
@@ -124,7 +127,6 @@ public class LoginTask extends AsyncTask<Void, Void, Profilo> {
     @Override
     protected void onPostExecute(Profilo profilo) {
         delegate.processFinish(profilo);
-
         super.onPostExecute(profilo);
 
     }

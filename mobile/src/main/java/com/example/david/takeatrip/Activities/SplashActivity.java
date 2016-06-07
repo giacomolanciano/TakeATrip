@@ -192,6 +192,29 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
                     output.getDescrizione(), output.getTipo());
 
         }
+
+    }
+
+    private void openMainActivity(String e, String name, String surname, String date, String pwd, String n, String sex, String username,
+                                  String job, String description, String type){
+
+        Intent openAccedi = new Intent(SplashActivity.this, RegistrazioneActivity.class);
+        openAccedi.putExtra("email", e);
+        openAccedi.putExtra("name", name);
+        openAccedi.putExtra("surname", surname);
+        openAccedi.putExtra("dateOfBirth", date);
+        openAccedi.putExtra("password", pwd);
+        openAccedi.putExtra("nazionalita", n);
+        openAccedi.putExtra("sesso", sex);
+        openAccedi.putExtra("username", username);
+        openAccedi.putExtra("lavoro", job);
+        openAccedi.putExtra("descrizione", description);
+        openAccedi.putExtra("tipo", type);
+        openAccedi.putExtra("profile", profile);
+
+        startActivity(openAccedi);
+
+        finish();
     }
 
     private void openMainActivity2(String e, String name, String surname, String date, String pwd, String n, String sex, String username,

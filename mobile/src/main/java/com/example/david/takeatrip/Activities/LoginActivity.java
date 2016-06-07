@@ -431,12 +431,16 @@ public class LoginActivity extends AppCompatActivity implements
             openMainActivity2(output.getEmail(), output.getName(), output.getSurname(), output.getDataNascita(),
                     output.getPassword(), output.getNazionalita(), output.getSesso(), output.getUsername(),output.getLavoro(),
                     output.getDescrizione(), output.getTipo());
-
         }
         else{
-            openMainActivity(email, nome, cognome, output.getDataNascita(),
-                    output.getPassword(), output.getNazionalita(), output.getSesso(), output.getUsername(),output.getLavoro(),
-                    output.getDescrizione(), output.getTipo());
+            if(email.contains("google")){
+                openMainActivity(email, nome, cognome, null,"pwdGoogle", null, null, null,null,
+                        null, null);
+            }  else {
+                openMainActivity(email, nome, cognome, null,"pwdFb", null, null, null,null,
+                        null, null);
+            }
+
 
         }
 

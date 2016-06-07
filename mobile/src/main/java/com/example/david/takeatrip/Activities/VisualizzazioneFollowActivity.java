@@ -247,7 +247,7 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
                         String result = sb.toString();
 
                         if (result.equals("null\n")) {
-                            stringaFinale = "Non sono presenti following";
+                            stringaFinale = "Non sono presenti followers";
                             Log.i(TAG, "result da Followers: " + stringaFinale);
                             Log.i(TAG, "NO FOLLOWING " + seguaci);
                             //mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(), seguaci,null);
@@ -354,7 +354,7 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
                         String result = sb.toString();
 
                         if (result.equals("null\n")) {
-                            stringaFinale = "Non sono presenti followers";
+                            stringaFinale = "Non sono presenti following";
                             //mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(), seguiti);
                             //viewPager.setAdapter(mAdapter); //LASCIARE ASSOLUTAMENTE COSI!!!!!
 

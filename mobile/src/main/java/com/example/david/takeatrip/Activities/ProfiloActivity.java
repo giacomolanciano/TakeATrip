@@ -889,7 +889,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                         if (result.contains("null")) {
 
-                            Log.i(TAG, "Non sono presenti following");
 
                             alreadyFollowing = false;
                         }else {

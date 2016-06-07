@@ -193,7 +193,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         mCustomMarkerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.view_custom_marker, null);
         mMarkerImageView = (ImageView) mCustomMarkerView.findViewById(R.id.imageTravelOnMap);
 
-      SupportMapFragment mapFragment =
+        SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
@@ -388,10 +388,10 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
 
                             googleMap.addMarker(new MarkerOptions()
-                                            .title(combo.get(place.getId()).getNome()+"@@@"+combo.get(place.getId()).getCondivisioneDefault())
-                                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                                                    //  .icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(mCustomMarkerView, R.drawable.default_male)))
-                                            .position(place.getLatLng())
+                                    .title(combo.get(place.getId()).getNome()+"@@@"+combo.get(place.getId()).getCondivisioneDefault())
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                    //  .icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(mCustomMarkerView, R.drawable.default_male)))
+                                    .position(place.getLatLng())
                             );
 
 
