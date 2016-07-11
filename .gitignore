@@ -64,8 +64,8 @@ out/
 # Gradle files
 .gradle/
 build/
-#mobile/build/
-#wear/build/
+mobile/build/
+wear/build/
 
 # Local configuration file (sdk path, etc)
 local.properties
