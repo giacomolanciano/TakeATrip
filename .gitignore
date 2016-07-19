@@ -33,6 +33,8 @@
 # IntelliJ
 /out/
 *.iml
+mobile/*.iml
+wear/*.iml
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
