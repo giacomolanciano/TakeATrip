@@ -74,7 +74,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "TEST MainActivity";
 
@@ -84,13 +84,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final String ADDRESS_INSERIMENTO_ITINERARIO = "InserimentoItinerario.php";
     private final String ADDRESS_INSERIMENTO_FILTRO = "InserimentoFiltro.php";
 
-    private static final int SIZE_IMAGE_PARTECIPANT = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT-40;
+    private static final int SIZE_IMAGE_PARTECIPANT = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT - 40;
 
 
     private static final int REQUEST_FOLDER = 123;
     private static final int REQUEST_IMAGE_PROFILE = 124;
     private static final int REQUEST_COVER_IMAGE = 125;
-
 
 
     private final int LIMIT_IMAGES_VIEWS = 5;
@@ -146,13 +145,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean doubleBackToExitPressedOnce = false;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(getIntent() != null) {
+        if (getIntent() != null) {
             Intent intent = getIntent();
             name = intent.getStringExtra("name");
             surname = intent.getStringExtra("surname");
@@ -166,12 +164,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             descrizione = intent.getStringExtra("descrizione");
             tipo = intent.getStringExtra("tipo");
             profile = intent.getParcelableExtra("profile");
-        }
-        else{
+        } else {
             //Prendi i dati dal database perche è gia presente l'utente
         }
 
-        imageViewProfileRound = (ImageView)findViewById(R.id.imageView_round);
+        imageViewProfileRound = (ImageView) findViewById(R.id.imageView_round);
 
         transferUtility = UtilS3Amazon.getTransferUtility(this);
         transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
@@ -180,14 +177,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         new MyTask().execute();
 
-        new MyTaskIDProfileImage(this,email).execute();
-        new MyTaskIDCoverImage(this,email).execute();
+        new MyTaskIDProfileImage(this, email).execute();
+        new MyTaskIDCoverImage(this, email).execute();
 
 
-        if(sesso != null && sesso.equals("M")){
+        if (sesso != null && sesso.equals("M")) {
             imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_male));
-        }
-        else if (sesso != null && sesso.equals("F")){
+        } else if (sesso != null && sesso.equals("F")) {
             imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_female));
         }
 
@@ -195,8 +191,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         namesPartecipants = new ArrayList<String>();
         partecipants = new HashSet<Profilo>();
         profiles = new HashSet<Profilo>();
-        myProfile = new Profilo(email, name, surname,date, password, nazionalità, sesso, username, lavoro, descrizione);
-        TakeATrip TAT = (TakeATrip)getApplicationContext();
+        myProfile = new Profilo(email, name, surname, date, password, nazionalità, sesso, username, lavoro, descrizione);
+        TakeATrip TAT = (TakeATrip) getApplicationContext();
         TAT.setProfiloCorrente(myProfile);
     }
 
@@ -207,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TakeATrip TAT = ((TakeATrip) getApplicationContext());
         googleApiClient = TAT.getGoogleApiClient();
-        if(googleApiClient != null){
+        if (googleApiClient != null) {
             googleApiClient.connect();
         }
         AppEventsLogger.activateApp(this);
@@ -219,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AppEventsLogger.deactivateApp(this);
     }
 
-    public void ClickImageProfile(View v){
+    public void ClickImageProfile(View v) {
         Intent openProfilo = new Intent(MainActivity.this, ProfiloActivity.class);
         openProfilo.putExtra("name", name);
         openProfilo.putExtra("surname", surname);
@@ -234,22 +230,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         openProfilo.putExtra("descrizione", descrizione);
         openProfilo.putExtra("tipo", tipo);
         openProfilo.putExtra("profile", profile);
-        openProfilo.putExtra("urlImmagineProfilo",urlImmagineProfilo);
-        openProfilo.putExtra("urlImmagineCopertina",urlImmagineCopertina);
+        openProfilo.putExtra("urlImmagineProfilo", urlImmagineProfilo);
+        openProfilo.putExtra("urlImmagineCopertina", urlImmagineCopertina);
 
         // passo all'attivazione dell'activity
         startActivity(openProfilo);
     }
 
 
-    public void onClickSearchTravels(View v){
+    public void onClickSearchTravels(View v) {
         Intent intent = new Intent(MainActivity.this, SearchActivity.class);
         intent.putExtra("email", email);
         startActivity(intent);
     }
 
 
-    public void ClickTravels(View v){
+    public void ClickTravels(View v) {
         Intent openListaViaggi = new Intent(MainActivity.this, ListaViaggiActivity.class);
         openListaViaggi.putExtra("email", email);
         // passo all'attivazione dell'activity
@@ -258,7 +254,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     LinearLayout rowHorizontal;
-    public void ClickNewTravel(View v){
+
+    public void ClickNewTravel(final View v) {
         nomeViaggio = "";
         namesPartecipants.clear();
         partecipants.clear();
@@ -273,37 +270,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         builder.setTitle(getString(R.string.NewTravel));
 
 
-        final AutoCompleteTextView text=(AutoCompleteTextView)dialog.findViewById(R.id.autoCompleteTextView1);
-        ArrayAdapter adapter = new ArrayAdapter(MainActivity.this,android.R.layout.simple_list_item_1,names);
+        final AutoCompleteTextView text = (AutoCompleteTextView) dialog.findViewById(R.id.autoCompleteTextView1);
+        ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, names);
         text.setHint("Add partecipant");
         text.setAdapter(adapter);
         text.setThreshold(1);
 
 
         //layoutNewPartecipants = (TableLayout)dialog.findViewById(R.id.layoutPartecipants);
-        layoutNewPartecipants = (LinearLayout)dialog.findViewById(R.id.layoutPartecipants);
-        rowHorizontal = (LinearLayout)dialog.findViewById(R.id.layout_horizontal);
-
+        layoutNewPartecipants = (LinearLayout) dialog.findViewById(R.id.layoutPartecipants);
+        rowHorizontal = (LinearLayout) dialog.findViewById(R.id.layout_horizontal);
 
 
         TextView travel = (TextView) dialog.findViewById(R.id.titoloViaggio);
         editTextNameTravel = (EditText) dialog.findViewById(R.id.editTextNameTravel);
 
+        //  builder.setCancelable(false);//potrebbe essere una soluzione per evitare il backPressed
 
-
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                allertDialog(v);
+            }
+        });
 
         builder.setNegativeButton(getString(R.string.cancel),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        namesPartecipants.clear();
-                        partecipants.clear();
-                        layoutNewPartecipants.removeAllViews();
-                        editTextNameTravel.setText("");
-
-                        Log.i(TAG, "lista nomi partecipanti:" + namesPartecipants);
-                        Log.i(TAG, "lista partecipanti:" + partecipants);
-
+                        allertDialog(v);
                     }
                 });
 
@@ -311,19 +306,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(editTextNameTravel.getText().toString().equals("")){
+                        if (editTextNameTravel.getText().toString().equals("")) {
                             Toast.makeText(getBaseContext(), "Name Travel omitted", Toast.LENGTH_LONG).show();
-                        }
-                        else {
+                            ClickNewTravel(v);
+                        } else {
 
-                            if(!partecipants.contains(myProfile)){
+                            if (!partecipants.contains(myProfile)) {
                                 partecipants.add(myProfile);
                             }
                             nomeViaggio = editTextNameTravel.getText().toString();
-                            for(String s : namesPartecipants){
-                                for(Profilo p : profiles){
-                                    if(p.getUsername().equals(s)){
-                                        if(!partecipants.contains(p)){
+                            for (String s : namesPartecipants) {
+                                for (Profilo p : profiles) {
+                                    if (p.getUsername().equals(s)) {
+                                        if (!partecipants.contains(p)) {
                                             partecipants.add(p);
                                         }
                                     }
@@ -339,7 +334,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
 
 
-
         final FloatingActionButton buttonAdd = (FloatingActionButton) dialog.findViewById(R.id.floatingButtonAdd);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -352,14 +346,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Log.i(TAG, "partecipante selezionato: " + s);
 
 
-                    String usernameUtenteSelezionato = s.substring(s.indexOf('(')+1, s.indexOf(')'));
+                    String usernameUtenteSelezionato = s.substring(s.indexOf('(') + 1, s.indexOf(')'));
                     Log.i(TAG, "username selezionato: " + usernameUtenteSelezionato);
-                    for(Profilo p : profiles){
+                    for (Profilo p : profiles) {
 
-                        if(p.getUsername().equals(usernameUtenteSelezionato)){
-                            if(!partecipants.contains(p)){
+                        if (p.getUsername().equals(usernameUtenteSelezionato)) {
+                            if (!partecipants.contains(p)) {
 
-                                if(partecipants.size()%LIMIT_IMAGES_VIEWS == 0){
+                                if (partecipants.size() % LIMIT_IMAGES_VIEWS == 0) {
                                     rowHorizontal = new LinearLayout(MainActivity.this);
                                     rowHorizontal.setOrientation(LinearLayout.HORIZONTAL);
 
@@ -370,18 +364,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 final ImageView image = new RoundedImageView(MainActivity.this, null);
                                 image.setContentDescription(p.getEmail());
 
-                                if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
+                                if (p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")) {
                                     String signedUrl = beginDownloadProfilePicture(p.getIdImageProfile());
                                     Picasso.with(MainActivity.this).
                                             load(signedUrl).
-                                            resize(SIZE_IMAGE_PARTECIPANT,SIZE_IMAGE_PARTECIPANT).
+                                            resize(SIZE_IMAGE_PARTECIPANT, SIZE_IMAGE_PARTECIPANT).
                                             into(image);
 
-                                }else {
-                                    if(p.getSesso().equals("M")){
+                                } else {
+                                    if (p.getSesso().equals("M")) {
                                         image.setImageResource(R.drawable.default_male);
-                                    }
-                                    else{
+                                    } else {
                                         image.setImageResource(R.drawable.default_female);
                                     }
                                 }
@@ -392,8 +385,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 partecipants.add(p);
                                 namesPartecipants.add(p.getUsername());
 
-                            }
-                            else{
+                            } else {
                                 Toast.makeText(getBaseContext(), "User already present in travel", Toast.LENGTH_LONG).show();
                             }
                         }
@@ -412,17 +404,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-    public void onClickSocialButton(View v){
+    public void onClickSocialButton(View v) {
         Intent openSocial = new Intent(MainActivity.this, SocialActivity.class);
         openSocial.putExtra("email", myProfile.getEmail());
-        Log.i("TEST: ", "EMAIL PER SOCIAL "+ myProfile.getEmail() );
+        Log.i("TEST: ", "EMAIL PER SOCIAL " + myProfile.getEmail());
         startActivity(openSocial);
     }
 
-    public void onClickSettings(View v){
+    public void onClickTutorial(View v) {
+        Intent openTutorial = new Intent(MainActivity.this, TutorialActivity.class);
+        startActivity(openTutorial);
+    }
 
-        try{
+    public void onClickSettings(View v) {
+
+        try {
             ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
@@ -432,36 +428,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which) {
                         case 0: //logout profile
-                            if(email.contains("@")){
+                            if (email.contains("@")) {
                                 DatabaseHandler db = new DatabaseHandler(MainActivity.this);
                                 // Inserting Users
                                 Log.d(TAG, "Drop the user...");
                                 db.deleteContact(myProfile);
-                            }
-                            else{
+                            } else {
 
-                                if(profile!= null && LoginManager.getInstance() != null){
+                                if (profile != null && LoginManager.getInstance() != null) {
                                     Log.d(TAG, "Log out from facebook: ..");
 
                                     LoginManager.getInstance().logOut();
-                                    startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
                                     finish();
-                                }else{
+                                } else {
                                     Log.d(TAG, "Log out from google con apiClient: " + googleApiClient);
 
-                                    if(!googleApiClient.isConnected()) {
+                                    if (!googleApiClient.isConnected()) {
                                         googleApiClient.connect();
                                         Toast.makeText(getBaseContext(), getString(R.string.LogOutFailed), Toast.LENGTH_LONG).show();
 
-                                    }
-                                    else {
+                                    } else {
                                         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
                                                 new ResultCallback<Status>() {
                                                     @Override
                                                     public void onResult(Status status) {
                                                         Log.d(TAG, "Status: " + status);
-                                                        if(status.isSuccess()){
-                                                            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                                                        if (status.isSuccess()) {
+                                                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
                                                         }
                                                     }
                                                 });
@@ -490,7 +484,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     private class MyTask extends AsyncTask<Void, Void, Void> {
 
         InputStream is = null;
@@ -503,7 +496,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (InternetConnection.haveInternetConnection(MainActivity.this)) {
                     Log.i(TAG, "CONNESSIONE Internet Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS);
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS);
                     HttpResponse response = httpclient.execute(httppost);
 
                     HttpEntity entity = response.getEntity();
@@ -526,8 +519,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             JSONArray jArray = new JSONArray(result);
 
-                            if(jArray != null && result != null){
-                                for(int i=0;i<jArray.length();i++){
+                            if (jArray != null && result != null) {
+                                for (int i = 0; i < jArray.length(); i++) {
                                     JSONObject json_data = jArray.getJSONObject(i);
                                     String nomeUtente = json_data.getString("nome");
                                     String cognomeUtente = json_data.getString("cognome");
@@ -537,23 +530,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     String urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
                                     String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
 
-                                    if(urlImmagineProfilo.equals("null")){
+                                    if (urlImmagineProfilo.equals("null")) {
                                         idProfiles = null;
-                                    }
-                                    else {
+                                    } else {
                                         idProfiles = urlImmagineProfilo;
                                     }
 
-                                    if (urlImmagineCopertina.equals("null")){
+                                    if (urlImmagineCopertina.equals("null")) {
                                         idCovers = null;
-                                    }
-                                    else{
+                                    } else {
                                         idCovers = urlImmagineCopertina;
                                     }
 
-                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, sesso, username, null, null, null,idProfiles,idCovers);
+                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, sesso, username, null, null, null, idProfiles, idCovers);
                                     profiles.add(p);
-                                    stringaFinale = nomeUtente + " " + cognomeUtente + "\n" + "("+username+")";
+                                    stringaFinale = nomeUtente + " " + cognomeUtente + "\n" + "(" + username + ")";
                                     names.add(stringaFinale);
                                 }
                             }
@@ -562,17 +553,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         } catch (Exception e) {
                             Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
                         }
-                    }
-                    else {
+                    } else {
                         Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
                     }
 
-                }
-                else
+                } else
                     Log.e(TAG, "CONNESSIONE Internet Assente!");
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
+                Log.e(e.toString(), e.getMessage());
             }
             return null;
         }
@@ -597,13 +586,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             expiration.setTime(msec);
 
             GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                    new GeneratePresignedUrlRequest(Constants.BUCKET_NAME,key);
+                    new GeneratePresignedUrlRequest(Constants.BUCKET_NAME, key);
             generatePresignedUrlRequest.setMethod(HttpMethod.GET);
             generatePresignedUrlRequest.setExpiration(expiration);
 
             Log.i(TAG, "expiration date image: " + generatePresignedUrlRequest.getExpiration());
             Log.i(TAG, "amazon client: " + s3);
-
 
 
             url = s3.generatePresignedUrl(generatePresignedUrlRequest);
@@ -617,8 +605,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             //observer.setTransferListener(new DownloadListener());
-        }
-        catch(Exception exception){
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
         return url.toString();
@@ -643,7 +630,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (InternetConnection.haveInternetConnection(MainActivity.this)) {
                     Log.i(TAG, "CONNESSIONE Internet Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_INSERIMENTO_VIAGGIO);
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_VIAGGIO);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                     HttpResponse response = httpclient.execute(httppost);
 
@@ -667,22 +654,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             UUIDViaggio = result;
 
-                            Log.i(TAG, "UUID viaggio " +UUIDViaggio);
+                            Log.i(TAG, "UUID viaggio " + UUIDViaggio);
 
                         } catch (Exception e) {
                             Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
                         }
-                    }
-                    else {
+                    } else {
                         Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
                     }
 
-                }
-                else
+                } else
                     Log.e(TAG, "CONNESSIONE Internet Assente!");
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
+                Log.e(e.toString(), e.getMessage());
             }
             return null;
         }
@@ -690,11 +675,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            if(result.contains("Duplicate")){
+            if (result.contains("Duplicate")) {
                 Log.e(TAG, "devo generare un nuovo UUID");
                 new TaskForUUID().execute();
-            }
-            else{
+            } else {
                 Log.i(TAG, "UUID corretto, ora aggiungo gli itinerari");
                 new TaskForItineraries().execute();
             }
@@ -714,7 +698,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             Log.i(TAG, "lista partecipanti:" + partecipants);
 
-            for(Profilo p : partecipants){
+            for (Profilo p : partecipants) {
 
                 ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
                 dataToSend.add(new BasicNameValuePair("codice", UUIDViaggio));
@@ -725,7 +709,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (InternetConnection.haveInternetConnection(MainActivity.this)) {
                         Log.i(TAG, "CONNESSIONE Internet Presente!");
                         HttpClient httpclient = new DefaultHttpClient();
-                        HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_INSERIMENTO_ITINERARIO);
+                        HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_ITINERARIO);
                         httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                         HttpResponse response = httpclient.execute(httppost);
 
@@ -733,12 +717,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         is = entity.getContent();
 
-                    }
-                    else
+                    } else
                         Log.e(TAG, "CONNESSIONE Internet Assente!");
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Log.e(e.toString(),e.getMessage());
+                    Log.e(e.toString(), e.getMessage());
                 }
             }
             return null;
@@ -746,7 +729,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            String stringaFiltro = nomeViaggio.replace(" ","_");
+            String stringaFiltro = nomeViaggio.replace(" ", "_");
             filtro = stringaFiltro.toLowerCase();
 
             Log.i(TAG, "filtro: " + filtro);
@@ -767,7 +750,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected Void doInBackground(Void... params) {
 
-            for(Profilo p : partecipants){
+            for (Profilo p : partecipants) {
                 ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
                 dataToSend.add(new BasicNameValuePair("codiceViaggio", UUIDViaggio));
                 dataToSend.add(new BasicNameValuePair("filtro", filtro));
@@ -777,16 +760,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (InternetConnection.haveInternetConnection(MainActivity.this)) {
                         Log.i(TAG, "CONNESSIONE Internet Presente!");
                         HttpClient httpclient = new DefaultHttpClient();
-                        HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_INSERIMENTO_FILTRO);
+                        HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_FILTRO);
                         httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                         HttpResponse response = httpclient.execute(httppost);
 
-                    }
-                    else
+                    } else
                         Log.e(TAG, "CONNESSIONE Internet Assente!");
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Log.e(e.toString(),e.getMessage());
+                    Log.e(e.toString(), e.getMessage());
                 }
             }
             return null;
@@ -811,16 +793,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         private final String ADDRESS_QUERY_PROFILE_IMAGE = "QueryImmagineProfilo.php";
 
         InputStream is = null;
-        String emailUser, idTravel,result;
+        String emailUser, idTravel, result;
         String nomeCartella;
         DriveId idFolder;
         Context context;
         String signedUrl;
 
-        public MyTaskIDProfileImage(Context c, String emailUtente){
-            context  = c;
+        public MyTaskIDProfileImage(Context c, String emailUtente) {
+            context = c;
             emailUser = emailUtente;
         }
+
         @Override
         protected Void doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
@@ -852,8 +835,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             JSONArray jArray = new JSONArray(result);
 
-                            if(jArray != null && result != null){
-                                for(int i=0;i<jArray.length();i++){
+                            if (jArray != null && result != null) {
+                                for (int i = 0; i < jArray.length(); i++) {
                                     JSONObject json_data = jArray.getJSONObject(i);
 
                                     //idImageProfile = DriveId.decodeFromString(json_data.getString("idImmagineProfilo"));
@@ -863,7 +846,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
 
 
-                            if(!result.equals("NULL") && !urlImmagineProfilo.equals("null")){
+                            if (!result.equals("NULL") && !urlImmagineProfilo.equals("null")) {
                                 signedUrl = beginDownloadProfilePicture(urlImmagineProfilo);
                             }
 
@@ -872,16 +855,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             result = "NULL";
                             //Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
                         }
-                    }
-                    else {
+                    } else {
                         Log.i(TAG, "Input Stream uguale a null");
                     }
-                }
-                else
+                } else
                     Log.e(TAG, "CONNESSIONE Internet Assente!");
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
+                Log.e(e.toString(), e.getMessage());
             }
             return null;
         }
@@ -889,17 +870,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(Void aVoid) {
             Log.i(TAG, "risultato dal prelievo dell'id imm profilo: " + result);
-            if(signedUrl != null ){
+            if (signedUrl != null) {
                 Picasso.with(MainActivity.this).
                         load(signedUrl.toString()).
-                        resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*2, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*2).
+                        resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT * 2, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT * 2).
                         into(imageViewProfileRound);
-            }
-            else{
+            } else {
                 //L'utente è loggato con facebook
-                if(profile != null){
-                    Log.i(TAG, profile.getProfilePictureUri(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT+50, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT+50).toString());
-                    final Uri image_uri = profile.getProfilePictureUri(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT+50, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT+50);
+                if (profile != null) {
+                    Log.i(TAG, profile.getProfilePictureUri(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT + 50, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT + 50).toString());
+                    final Uri image_uri = profile.getProfilePictureUri(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT + 50, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT + 50);
 
                     try {
                         final URI image_URI = new URI(image_uri.toString());
@@ -924,15 +904,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         private final String ADDRESS_QUERY_COVER_IMAGE = "QueryImmagineCopertina.php";
 
         InputStream is = null;
-        String emailUser, idTravel,result;
+        String emailUser, idTravel, result;
         String nomeCartella;
         DriveId idFolder;
         Context context;
 
-        public MyTaskIDCoverImage(Context c, String emailUtente){
-            context  = c;
+        public MyTaskIDCoverImage(Context c, String emailUtente) {
+            context = c;
             emailUser = emailUtente;
         }
+
         @Override
         protected Void doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
@@ -963,8 +944,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             JSONArray jArray = new JSONArray(result);
 
-                            if(jArray != null && result != null){
-                                for(int i=0;i<jArray.length();i++){
+                            if (jArray != null && result != null) {
+                                for (int i = 0; i < jArray.length(); i++) {
                                     JSONObject json_data = jArray.getJSONObject(i);
                                     //idImmagineCopertina = DriveId.decodeFromString(json_data.getString("idImmagine"));
                                     urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
@@ -974,16 +955,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             result = "ERRORE";
                             Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
                         }
-                    }
-                    else {
+                    } else {
                         Log.i(TAG, "Input Stream uguale a null");
                     }
-                }
-                else
+                } else
                     Log.e(TAG, "CONNESSIONE Internet Assente!");
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
+                Log.e(e.toString(), e.getMessage());
             }
             return null;
         }
@@ -996,6 +975,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    //Dialog per backPressed in home
     private void prepareSignOut() {
 
         new AlertDialog.Builder(MainActivity.this)
@@ -1012,12 +992,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         // do nothing
                     }
                 })
-                .setIcon(ContextCompat.getDrawable(MainActivity.this,R.drawable.logodefbordo))
+                .setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.logodefbordo))
                 .show();
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             return;
@@ -1027,10 +1007,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         deleteIdOnShared(MainActivity.this);
 
     }
-    public static void deleteIdOnShared(Context c){
+
+    public static void deleteIdOnShared(Context c) {
         SharedPreferences prefs = c.getSharedPreferences("com.example.david.takeatrip", Context.MODE_PRIVATE);
         prefs.edit().clear().commit();
     }
 
 
+    //Dialog per cancel o backPressed su creazione viaggio
+    private void allertDialog(final View v) {
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle(getString(R.string.back))
+                .setMessage(getString(R.string.allert_message))
+                .setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        namesPartecipants.clear();
+                        partecipants.clear();
+                        layoutNewPartecipants.removeAllViews();
+                        editTextNameTravel.setText("");
+
+                        Log.i(TAG, "lista nomi partecipanti:" + namesPartecipants);
+                        Log.i(TAG, "lista partecipanti:" + partecipants);
+                    }
+                })
+                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ClickNewTravel(v);  //senza questo ritorna alla home
+                        //TODO cercare di far mantenere le info già inserite
+
+                    }
+                })
+                .setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.logodefbordo))
+                .show();
+
+    }
 }
