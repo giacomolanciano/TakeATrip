@@ -241,7 +241,7 @@ public class ListaTappeActivity extends AppCompatActivity
         }
 
         View layoutHeader = navigationView.getHeaderView(0);
-        
+
         ViewNomeViaggio = (TextView) layoutHeader.findViewById(R.id.textViewNameTravel);
         linearLayoutHeader = (LinearLayout) layoutHeader.findViewById(R.id.layoutHeaderTravel);
 
@@ -312,7 +312,7 @@ public class ListaTappeActivity extends AppCompatActivity
             for (CharSequence cs : listPartecipants) {
 
                 Profilo aux = new Profilo(cs.toString(), null, null, null, null, sessoPartecipants[i].toString(),
-                                                        null, null, null,null, urlImagePartecipants[i].toString(), null);
+                        null, null, null,null, urlImagePartecipants[i].toString(), null);
                 partecipants.add(aux);
 
                 if (email.equals(cs.toString())) {
@@ -366,6 +366,8 @@ public class ListaTappeActivity extends AppCompatActivity
         isRecordFileCreated = false;
         progressStatus = 0;
         handler = new Handler();
+
+        setTitle(nomeViaggio);
     }
 
     @Override
@@ -946,14 +948,14 @@ public class ListaTappeActivity extends AppCompatActivity
             if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
 
                 URL completeUrl = null;
-                    try {
-                        completeUrl = new LoadGenericImageTask(p.getIdImageProfile(), this).execute().get();
-                        //new BitmapWorkerTask(image).execute(completeUrl.toString());
-                        Picasso.with(this).load(completeUrl.toString()).into(image);
+                try {
+                    completeUrl = new LoadGenericImageTask(p.getIdImageProfile(), this).execute().get();
+                    //new BitmapWorkerTask(image).execute(completeUrl.toString());
+                    Picasso.with(this).load(completeUrl.toString()).into(image);
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             else{
                 if(p.getSesso().equals("M")){
@@ -963,7 +965,7 @@ public class ListaTappeActivity extends AppCompatActivity
                     image.setImageResource(R.drawable.default_female);
                 }
             }
-            
+
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1091,7 +1093,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
             */
 
-            //return;}
+        //return;}
 
         Log.i(TAG, "id place: " + t.getPoi().getCodicePOI());
 
@@ -1114,7 +1116,7 @@ public class ListaTappeActivity extends AppCompatActivity
                                     latLngs[k] = place.getLatLng();
                                     break;
                                 }
-                                    k++;
+                                k++;
                             }
 
                             //add Marker
@@ -1555,23 +1557,23 @@ public class ListaTappeActivity extends AppCompatActivity
 
                             progressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel),
                                     new DialogInterface.OnClickListener() {
-                                // Set a click listener for progress dialog cancel button
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // dismiss the progress dialog
-                                    progressDialog.dismiss();
-                                    // Tell the system about cancellation
-                                    isCanceled = true;
+                                        // Set a click listener for progress dialog cancel button
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // dismiss the progress dialog
+                                            progressDialog.dismiss();
+                                            // Tell the system about cancellation
+                                            isCanceled = true;
 
-                                    if(isRecordFileCreated) {
+                                            if(isRecordFileCreated) {
 
-                                        //TODO cancellare file
+                                                //TODO cancellare file
 
-                                    }
+                                            }
 
-                                    Log.i(TAG, "progress dialog canceled");
-                                }
-                            });
+                                            Log.i(TAG, "progress dialog canceled");
+                                        }
+                                    });
 
 
                             DialogInterface.OnClickListener listener = null;
