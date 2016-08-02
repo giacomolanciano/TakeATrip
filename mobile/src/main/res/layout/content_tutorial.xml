@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,10 +8,205 @@
     tools:context="com.example.david.takeatrip.Activities.TutorialActivity"
     tools:showIn="@layout/activity_tutorial">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_tutorial"
+            android:layout_gravity="center_horizontal"
+            android:textSize="30dp"
+            android:textAlignment="center"
+            android:gravity="top|center_vertical|center_horizontal"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/textView2"
+            android:padding="20dp"
+            android:textColor="#000000"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/travel_text"
+            android:layout_gravity="left|center_horizontal"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:id="@+id/textView"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:padding="10dp"
+            android:layout_alignTop="@+id/imageView3"
+            android:layout_toEndOf="@+id/imageView3" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/travel"
+            android:layout_gravity="right"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentStart="true"
+            android:id="@+id/imageView3" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/social"
+            android:layout_gravity="right"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentStart="false"
+            android:id="@+id/iconaSocial"
+            android:layout_alignParentEnd="false"
+            android:layout_marginTop="80dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/social_text"
+            android:layout_gravity="left|center_horizontal"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:id="@+id/testoIconaSocial"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:padding="10dp"
+            android:layout_alignTop="@+id/imageView3"
+            android:layout_toEndOf="@+id/imageView3"
+            android:layout_marginTop="80dp" />
+
+  <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/aggiungi"
+            android:layout_gravity="right"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentStart="false"
+            android:id="@+id/iconaAggiungi"
+            android:layout_alignParentEnd="false"
+            android:layout_marginTop="160dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_text"
+            android:layout_gravity="left|center_horizontal"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:id="@+id/testoIconaAggiungi"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:padding="10dp"
+            android:layout_alignTop="@+id/imageView3"
+            android:layout_toEndOf="@+id/imageView3"
+            android:layout_marginTop="160dp" />
+
+<ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/search"
+            android:layout_gravity="right"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentStart="false"
+            android:id="@+id/iconaSearch"
+            android:layout_alignParentEnd="false"
+            android:layout_marginTop="240dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_text"
+            android:layout_gravity="left|center_horizontal"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:id="@+id/testoIconaSearch"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:padding="10dp"
+            android:layout_alignTop="@+id/imageView3"
+            android:layout_toEndOf="@+id/imageView3"
+            android:layout_marginTop="240dp" />
+
+
+<ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/default_male_circle"
+            android:layout_gravity="right"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentStart="false"
+            android:id="@+id/iconaProfile"
+            android:layout_alignParentEnd="false"
+            android:layout_marginTop="320dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_text"
+            android:layout_gravity="left|center_horizontal"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:id="@+id/testoIconaProfile"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:padding="10dp"
+            android:layout_alignTop="@+id/imageView3"
+            android:layout_toEndOf="@+id/imageView3"
+            android:layout_marginTop="310dp" />
+
+
+<ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/plus"
+            android:layout_gravity="right"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentStart="false"
+            android:id="@+id/iconaPlus"
+            android:layout_alignParentEnd="false"
+            android:layout_marginTop="400dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/plus_text"
+            android:layout_gravity="left|center_horizontal"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:id="@+id/testoPlus"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:padding="10dp"
+            android:layout_alignTop="@+id/imageView3"
+            android:layout_toEndOf="@+id/imageView3"
+            android:layout_marginTop="400dp" />
+
+
+
+
+    </RelativeLayout>
 
 </android.support.v4.widget.NestedScrollView>
