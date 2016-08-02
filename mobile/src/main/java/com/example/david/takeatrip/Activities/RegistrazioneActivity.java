@@ -3,9 +3,14 @@ package com.example.david.takeatrip.Activities;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -112,7 +117,8 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
 
     private Profile profile;
 
-
+    //per allert
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -473,6 +479,45 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
 
         Log.i(TAG, "date changed");
     }
+
+    //allert di avviso per uscita senza salvataggio
+    private void prepareSignOut() {
+
+        new AlertDialog.Builder(RegistrazioneActivity.this)
+                .setTitle(getString(R.string.back))
+                .setMessage(getString(R.string.allert_message_info_user))
+                .setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        doubleBackToExitPressedOnce = true;
+                        onBackPressed();
+                    }
+                })
+                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(ContextCompat.getDrawable(RegistrazioneActivity.this,R.drawable.logodefbordo))
+                .show();
+    }
+
+    @Override
+    public void onBackPressed(){
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        prepareSignOut();
+        deleteIdOnShared(RegistrazioneActivity.this);
+
+    }
+    public static void deleteIdOnShared(Context c){
+        SharedPreferences prefs = c.getSharedPreferences("com.example.david.takeatrip", Context.MODE_PRIVATE);
+        prefs.edit().clear().commit();
+    }
+
+
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
 

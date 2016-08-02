@@ -251,7 +251,9 @@
     <string name="user">User</string>
     <string name="title_activity_streaming">StreamingActivity</string>
     <string name="exit">Exit</string>
+    <string name="back">Go Back</string>
     <string name="allert_message">Are you sure?</string>
+    <string name="allert_message_info_user">Exit without saving?</string>
     <string name="si">Yes</string>
     <string name="no">No</string>
 
