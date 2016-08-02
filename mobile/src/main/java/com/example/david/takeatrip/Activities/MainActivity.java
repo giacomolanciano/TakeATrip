@@ -781,7 +781,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            Toast.makeText(getBaseContext(), R.string.created_travel, Toast.LENGTH_LONG).show();
+         //   Toast.makeText(getBaseContext(), R.string.created_travel, Toast.LENGTH_LONG).show();
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle(getString(R.string.travelCreate))
+                    .setMessage(getString(R.string.created_travel))
+                    .setPositiveButton(getString(R.string.viewListTravel), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent openListaViaggi = new Intent(MainActivity.this, ListaViaggiActivity.class);
+                            openListaViaggi.putExtra("email", email);
+                            // passo all'attivazione dell'activity
+                            startActivity(openListaViaggi);                        }
+                    })
+                    .setNegativeButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.logodefbordo))
+                    .show();
             super.onPostExecute(aVoid);
 
         }

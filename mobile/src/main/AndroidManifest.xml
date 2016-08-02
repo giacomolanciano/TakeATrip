@@ -26,8 +26,6 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
-
-
     <application
         android:name=".Classes.TakeATrip"
         android:allowBackup="true"
@@ -38,6 +36,7 @@
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider1024572710947061"
             android:exported="true" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -62,8 +61,7 @@
             android:label="@string/title_activity_lista_viaggi" />
         <activity
             android:name=".Activities.ViaggioActivity"
-            android:label="@string/title_activity_viaggio"
-           />
+            android:label="@string/title_activity_viaggio" />
         <activity
             android:name=".Activities.SplashActivity"
             android:label="@string/app_name">
@@ -94,18 +92,19 @@
         <activity
             android:name=".Activities.TappaActivity"
             android:label="@string/title_activity_tappa"
-            android:theme="@style/AppTheme">
-
-        </activity>
-        <activity android:name=".Activities.VisualizzazioneFollowActivity"
-            android:theme="@style/ThemeSocial" >
-
-        </activity>
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".Activities.VisualizzazioneFollowActivity"
+            android:theme="@style/ThemeSocial"></activity>
 
         <service
             android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
             android:enabled="true" />
 
+        <activity
+            android:name=".Activities.TutorialActivity"
+            android:label="@string/title_activity_tutorial"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

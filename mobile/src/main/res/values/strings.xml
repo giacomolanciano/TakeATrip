@@ -206,7 +206,7 @@
     <string name="SAVE">SAVE</string>
     <string name="edit_profile">Edit your profile</string>
     <string name="Eta">Age</string>
-    <string name="created_travel">Trip created successfully</string>
+    <string name="created_travel">Travel created successfully</string>
 
 
     <string name="labelBeforeCaptureAudio">Register</string>
@@ -256,6 +256,8 @@
     <string name="allert_message_info_user">Exit without saving?</string>
     <string name="si">Yes</string>
     <string name="no">No</string>
+    <string name="travelCreate">Create Travel</string>
+    <string name="viewListTravel">View travels list</string>
     <string name="title_activity_tutorial">Tutorial TakeATrip</string>
     <string name="large_text">
        "In this section you can discover \nhow to use the application: let's go!.\n\n"
