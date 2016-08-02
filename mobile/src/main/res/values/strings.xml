@@ -250,6 +250,12 @@
     <string name="search_the_user">Search the user</string>
     <string name="user">User</string>
     <string name="title_activity_streaming">StreamingActivity</string>
+    <string name="exit">Exit</string>
+    <string name="allert_message">Are you sure?</string>
+    <string name="si">Yes</string>
+    <string name="no">No</string>
+
+
 
 
 </resources>

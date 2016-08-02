@@ -4,12 +4,15 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -138,6 +141,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // The S3 client
     private AmazonS3Client s3;
+
+    //per allert
+    private boolean doubleBackToExitPressedOnce = false;
+
 
 
     @Override
@@ -987,6 +994,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             super.onPostExecute(aVoid);
         }
+    }
+
+    private void prepareSignOut() {
+
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle(getString(R.string.exit))
+                .setMessage(getString(R.string.allert_message))
+                .setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        doubleBackToExitPressedOnce = true;
+                        onBackPressed();
+                    }
+                })
+                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(ContextCompat.getDrawable(MainActivity.this,R.drawable.logodefbordo))
+                .show();
+    }
+
+    @Override
+    public void onBackPressed(){
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        prepareSignOut();
+        deleteIdOnShared(MainActivity.this);
+
+    }
+    public static void deleteIdOnShared(Context c){
+        SharedPreferences prefs = c.getSharedPreferences("com.example.david.takeatrip", Context.MODE_PRIVATE);
+        prefs.edit().clear().commit();
     }
 
 
