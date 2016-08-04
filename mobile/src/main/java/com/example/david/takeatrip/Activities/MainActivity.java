@@ -1051,6 +1051,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onClick(DialogInterface dialog, int which) {
                         ClickNewTravel(v);  //senza questo ritorna alla home
                         //TODO cercare di far mantenere le info già inserite
+                        nomeViaggio = editTextNameTravel.getText().toString();
+
 
                     }
                 })

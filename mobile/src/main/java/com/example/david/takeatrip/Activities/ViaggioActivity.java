@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -43,6 +44,7 @@ import com.example.david.takeatrip.AsyncTasks.ItinerariesTask;
 import com.example.david.takeatrip.AsyncTasks.UpdateCondivisioneViaggioTask;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
+import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.GraphicalComponents.AdaptableGridView;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
@@ -140,6 +142,7 @@ public class ViaggioActivity extends AppCompatActivity {
     private AppBarLayout appBarLayout;
 
     private int checkSelectionSpinner = 0;
+    private EditText TextNameTravel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -595,26 +598,30 @@ public class ViaggioActivity extends AppCompatActivity {
     }
 
 
-    public void onClickAddPartecipant(View v){
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.dialog_insert_viaggio);
-        dialog.setTitle("Add a Partecipant");
+    public void onClickAddPartecipant(final View v){
+        ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
 
-        final AutoCompleteTextView text=(AutoCompleteTextView)dialog.findViewById(R.id.autoCompleteTextView1);
-        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,names);
+        android.support.v7.app.AlertDialog.Builder dialog = new android.support.v7.app.AlertDialog.Builder(wrapper);
+        //dialog.setContentView(R.layout.dialog_insert_viaggio);
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View view = inflater.inflate(R.layout.dialog_add_partecipant_viaggio, null);
+        dialog.setTitle("Add Partecipant");
+        dialog.setView(view);
+
+
+        final AutoCompleteTextView text = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView1);
+        ArrayAdapter adapter = new ArrayAdapter(ViaggioActivity.this, android.R.layout.simple_list_item_1, names);
         text.setHint("Add partecipant");
-
+        text.setAdapter(adapter);
+        text.setThreshold(1);
         text.setAdapter(adapter);
         text.setThreshold(1);
 
-        TextView travel = (TextView) dialog.findViewById(R.id.titoloViaggio);
+
+        TextView travel = (TextView) view.findViewById(R.id.titoloViaggio);
         travel.setText(nomeViaggio);
-
-
-        EditText nameTravel = (EditText) dialog.findViewById(R.id.editTextNameTravel);
-        nameTravel.setText(nomeViaggio);
-        nameTravel.setEnabled(false);
-
+        travel.setEnabled(false);
 
         /*
         Button buttonCreate = (Button) dialog.findViewById(R.id.buttonCreateTravel);
@@ -623,7 +630,24 @@ public class ViaggioActivity extends AppCompatActivity {
         buttonCancella.setVisibility(View.INVISIBLE);
         */
 
-        final FloatingActionButton buttonAdd = (FloatingActionButton) dialog.findViewById(R.id.floatingButtonAdd);
+        final FloatingActionButton buttonAdd = (FloatingActionButton) view.findViewById(R.id.floatingButtonAdd);
+
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+
+            public void onCancel(DialogInterface dialog) {
+                   allertDialog(v);
+                }
+        });
+
+        dialog.setPositiveButton(getString(R.string.finish),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    allertDialog(v);
+                    }
+                });
+
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -675,7 +699,6 @@ public class ViaggioActivity extends AppCompatActivity {
 
                     Log.i(TAG, "lista Partecipanti al viaggio: " + listPartecipants);
 
-                    dialog.dismiss();
 
                 }
 
@@ -683,6 +706,29 @@ public class ViaggioActivity extends AppCompatActivity {
         });
 
         dialog.show();
+
+
+
+
+    }
+    //Dialog per cancel o backPressed su aggiunta partecipanti
+    private void allertDialog(final View v){
+        new android.support.v7.app.AlertDialog.Builder(ViaggioActivity.this)
+                .setTitle(getString(R.string.back))
+                .setMessage(getString(R.string.allert_message))
+                .setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        onClickAddPartecipant(v);
+                    }
+                })
+                .setIcon(ContextCompat.getDrawable(ViaggioActivity.this, R.drawable.logodefbordo))
+                .show();
+
     }
 
 
@@ -816,6 +862,7 @@ public class ViaggioActivity extends AppCompatActivity {
 
             return convertView;
         }
+
     }
 
 

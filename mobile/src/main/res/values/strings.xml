@@ -268,6 +268,8 @@
     <string name="search_text">"Here you can search any travels"</string>
     <string name="profile_text">"Here you can see your profile\nThis can be replaced with a custom image profile"</string>
     <string name="plus_text">"You can find it in stops List\nWith this you can add a new stop"</string>
+    <string name="finish">Finish</string>
+    <string name="info_add_partecipant_travel">Chooses the participant and click on the button to add directly to the trip</string>
 
 
 </resources>
