@@ -8,6 +8,7 @@
 .idea/tasks.xml
 .idea/dictionaries
 .idea/vcs.xml
+.idea/misc.xml
 .idea/jsLibraryMappings.xml
 
 # Sensitive or high-churn files:
@@ -35,6 +36,7 @@
 *.iml
 mobile/*.iml
 wear/*.iml
+backend/*.iml
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
