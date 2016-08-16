@@ -71,7 +71,6 @@ dependencies {
     compile 'com.android.support:cardview-v7:23.3.0'
     compile 'com.android.support:recyclerview-v7:23.3.0'
     compile 'com.google.code.gson:gson:2.3'
-    compile 'com.getbase:floatingactionbutton:1.10.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.nhaarman.listviewanimations:lib-core:3.1.0@aar'
     compile 'com.nhaarman.listviewanimations:lib-manipulation:3.1.0@aar'
@@ -83,6 +82,8 @@ dependencies {
     compile 'com.google.android.gms:play-services-ads:8.4.0'
     compile 'com.google.android.gms:play-services-auth:8.4.0'
     compile 'com.google.android.gms:play-services-gcm:8.4.0'
+    compile 'com.getbase:floatingactionbutton:1.10.1'
+    compile 'com.github.toanvc:floatingactionmenu:0.8.9'
 }
 
 apply plugin: 'com.google.gms.google-services'

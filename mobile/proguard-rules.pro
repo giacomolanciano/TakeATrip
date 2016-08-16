@@ -15,3 +15,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-keepclassmembers class toan.android.floatingactionmenu.FloatingActionsMenu$RotatingDrawable {
+   void set*(***);
+   *** get*();
+}
