@@ -272,7 +272,6 @@
     <string name="info_add_partecipant_travel">Chooses the participant and click on the button to add directly to the trip</string>
     <string name="stopsList">Stops List</string>
     <string name="addPartecipant">Add partecipant</string>
-    <string name="set_starting_date">Set starting date</string>
     <string name="help">Help</string>
     <string name="dateFormat">date format: dd/mm/aaaa</string>
     <string name="set_date">Set date</string>
