@@ -166,6 +166,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
         textDataTappa = (TextView) findViewById(R.id.textDataTappa);
+        textDataTappa.setText(data);
 
 
         strings = getResources().getStringArray(R.array.PrivacyLevel);

@@ -433,7 +433,7 @@ public class ListaTappeActivity extends AppCompatActivity
         i.putExtra("codiceViaggio", codiceViaggio);
         i.putExtra("ordine", tappa.getOrdine());
         i.putExtra("nome", item.getTitle());
-        i.putExtra("data", tappa.getData().toString());
+        i.putExtra("data", DatesUtils.getStringFromDate(tappa.getData(), Constants.DISPLAYED_DATE_FORMAT));
 
         //TODO sarà inutile una volta modificato il database
         i.putExtra("codAccount", 0);
