@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -44,7 +43,6 @@ import com.example.david.takeatrip.AsyncTasks.ItinerariesTask;
 import com.example.david.takeatrip.AsyncTasks.UpdateCondivisioneViaggioTask;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
-import com.example.david.takeatrip.Classes.Viaggio;
 import com.example.david.takeatrip.GraphicalComponents.AdaptableGridView;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
@@ -71,6 +69,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import toan.android.floatingactionmenu.FloatingActionButton;
+import toan.android.floatingactionmenu.FloatingActionsMenu;
 
 
 public class ViaggioActivity extends AppCompatActivity {
@@ -143,6 +144,10 @@ public class ViaggioActivity extends AppCompatActivity {
 
     private int checkSelectionSpinner = 0;
     private EditText TextNameTravel;
+
+    private FloatingActionsMenu fabMenu;
+    private FloatingActionButton buttonStopsList;
+    private FloatingActionButton buttonAddPartecipant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -258,6 +263,25 @@ public class ViaggioActivity extends AppCompatActivity {
         layoutPartecipants = (LinearLayout)findViewById(R.id.Partecipants);
         rowHorizontal = (LinearLayout) findViewById(R.id.layout_horizontal2);
 
+        //action buttons
+        fabMenu = (FloatingActionsMenu) findViewById(R.id.menu);
+        buttonStopsList = (FloatingActionButton) findViewById(R.id.buttonStopsList);
+        if (buttonStopsList != null) {
+            buttonStopsList.setIcon(R.drawable.ic_place_black_36dp);
+
+            buttonStopsList.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Log.i(TAG, "stops list pressed");
+
+                    fabMenu.collapse();
+
+                    onClickStopsList(view);
+
+                }
+            });
+        }
 
         try {
             proprioViaggio = new GetPartecipantiViaggioTask(ViaggioActivity.this, contentView, s3,
@@ -276,6 +300,7 @@ public class ViaggioActivity extends AppCompatActivity {
         }
 
 
+
         new MyTaskPerUtenti().execute();
 
 
@@ -289,7 +314,7 @@ public class ViaggioActivity extends AppCompatActivity {
     }
 
 
-    public void onClickImageTappa(View v){
+    public void onClickStopsList(View v){
         CharSequence[] emailPartecipants = new CharSequence[listPartecipants.size()];
         CharSequence[] urlImagePartecipants = new CharSequence[listPartecipants.size()];
         CharSequence[] sessoPartecipants = new CharSequence[listPartecipants.size()];
@@ -468,21 +493,43 @@ public class ViaggioActivity extends AppCompatActivity {
 
         if(proprioViaggio){
 
-            FloatingActionButton buttonAddPartecipant = new FloatingActionButton(this);
+//            android.support.design.widget.FloatingActionButton buttonAddPartecipant = new android.support.design.widget.FloatingActionButton(this);
+//
+//
+//            buttonAddPartecipant.setRippleColor(getResources().getColor(R.color.blue));
+//            buttonAddPartecipant.setImageResource(R.drawable.ic_add_white_24dp);
+//            buttonAddPartecipant.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    onClickAddPartecipant(v);
+//                }
+//            });
+//
+//            rowHorizontal.addView(buttonAddPartecipant, DIMENSION_OF_IMAGE_PARTECIPANT, DIMENSION_OF_IMAGE_PARTECIPANT);
 
-            //TODO capire perchè il bottone non viene modificato (no colore)
+            buttonAddPartecipant = new FloatingActionButton(this);
+            buttonAddPartecipant.setIcon(R.drawable.ic_person_add_black_36dp);
+            buttonAddPartecipant.setMinimumWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+            buttonAddPartecipant.setMinimumHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+            buttonAddPartecipant.setSize(FloatingActionButton.SIZE_MINI);
+            buttonAddPartecipant.setTitle(getResources().getString(R.string.addPartecipant));
+            buttonAddPartecipant.setColorPressed(R.color.white_pressed);
+            buttonAddPartecipant.setColorNormalResId(R.color.biancoPallido);
 
-            buttonAddPartecipant.setRippleColor(getResources().getColor(R.color.blue));
-            buttonAddPartecipant.setImageResource(R.drawable.ic_add_white_24dp);
             buttonAddPartecipant.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    onClickAddPartecipant(v);
+                public void onClick(View view) {
+
+                    Log.i(TAG, "stops list pressed");
+
+                    fabMenu.collapse();
+
+                    onClickAddPartecipant(view);
+
                 }
             });
 
-            rowHorizontal.addView(buttonAddPartecipant, DIMENSION_OF_IMAGE_PARTECIPANT, DIMENSION_OF_IMAGE_PARTECIPANT);
-
+            fabMenu.addButton(buttonAddPartecipant);
         }
 
 
@@ -490,6 +537,9 @@ public class ViaggioActivity extends AppCompatActivity {
 
 
     public void onClickImagePartecipant(final View v){
+
+        //TODO implementare delete partecipant
+
         try {
             final Dialog dialog = new Dialog(this, R.style.CustomDialog);
             dialog.setContentView(R.layout.layout_dialog_profiles);
@@ -630,7 +680,8 @@ public class ViaggioActivity extends AppCompatActivity {
         buttonCancella.setVisibility(View.INVISIBLE);
         */
 
-        final FloatingActionButton buttonAdd = (FloatingActionButton) view.findViewById(R.id.floatingButtonAdd);
+        final android.support.design.widget.FloatingActionButton buttonAdd
+                = (android.support.design.widget.FloatingActionButton) view.findViewById(R.id.floatingButtonAdd);
 
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
