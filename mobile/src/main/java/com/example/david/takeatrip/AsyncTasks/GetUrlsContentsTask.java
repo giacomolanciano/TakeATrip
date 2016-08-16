@@ -4,8 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
@@ -249,6 +251,9 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
             Log.i(TAG, "URLs: " + debug);
 
         } else {
+            //se la lista di elementi da caricare è vuota, il linear layout parent viene nascosto
+            LinearLayout parent = (LinearLayout) gv.getParent();
+            parent.setVisibility(View.GONE);
             return;
         }
 

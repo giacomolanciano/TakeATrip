@@ -140,7 +140,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/textDataTappa"
                     android:textSize="24sp"
-                    android:text="data"
+                    android:text="@string/set_starting_date"
                     android:layout_gravity="left"
                     android:textAlignment="center"
                     android:onClick="onClickChangeDate"
@@ -320,7 +320,7 @@
 
                 <com.example.david.takeatrip.GraphicalComponents.AdaptableGridView
                     xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/grid_view_audio"
+                    android:id="@+id/grid_view_records"
                     android:paddingTop="@dimen/activity_vertical_margin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

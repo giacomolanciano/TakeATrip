@@ -101,7 +101,6 @@ public class ViaggioActivity extends AppCompatActivity {
 
     private LinearLayout layoutPartecipants;
     private LinearLayout rowHorizontal;
-    //private LinearLayout layoutCopertinaViaggio;
 
     private ImageView imageTravel;
 
@@ -133,7 +132,7 @@ public class ViaggioActivity extends AppCompatActivity {
 
 
     private AdaptableGridView gridViewPhotos;
-    private AdaptableGridView gridViewAudio;
+    private AdaptableGridView gridViewRecords;
     private AdaptableGridView gridViewVideos;
     private AdaptableGridView gridViewNotes;
 
@@ -255,7 +254,7 @@ public class ViaggioActivity extends AppCompatActivity {
 
         gridViewPhotos = (AdaptableGridView) findViewById(R.id.grid_view_photos);
         gridViewVideos = (AdaptableGridView) findViewById(R.id.grid_view_videos);
-        gridViewAudio = (AdaptableGridView) findViewById(R.id.grid_view_audio);
+        gridViewRecords = (AdaptableGridView) findViewById(R.id.grid_view_records);
         gridViewNotes = (AdaptableGridView) findViewById(R.id.grid_view_notes);
 
         //layoutCopertinaViaggio = (LinearLayout) findViewById(R.id.layoutCoverImageTravel);
@@ -287,7 +286,7 @@ public class ViaggioActivity extends AppCompatActivity {
             proprioViaggio = new GetPartecipantiViaggioTask(ViaggioActivity.this, contentView, s3,
                     codiceViaggio, listPartecipants, nomeViaggio, email, urlImageTravel,
                     layoutPartecipants, rowHorizontal, imageTravel, gridViewPhotos, gridViewVideos,
-                    gridViewAudio, gridViewNotes).execute().get();
+                    gridViewRecords, gridViewNotes).execute().get();
 
             popolaPartecipanti();
 
@@ -687,7 +686,7 @@ public class ViaggioActivity extends AppCompatActivity {
             @Override
 
             public void onCancel(DialogInterface dialog) {
-                   allertDialog(v);
+                   alertDialog(v);
                 }
         });
 
@@ -695,7 +694,7 @@ public class ViaggioActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                    allertDialog(v);
+                    alertDialog(v);
                     }
                 });
 
@@ -763,7 +762,7 @@ public class ViaggioActivity extends AppCompatActivity {
 
     }
     //Dialog per cancel o backPressed su aggiunta partecipanti
-    private void allertDialog(final View v){
+    private void alertDialog(final View v){
         new android.support.v7.app.AlertDialog.Builder(ViaggioActivity.this)
                 .setTitle(getString(R.string.back))
                 .setMessage(getString(R.string.allert_message))

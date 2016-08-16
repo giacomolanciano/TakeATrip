@@ -114,7 +114,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     private List<String> noteInserite;
 
     private AdaptableGridView gridViewPhotos;
-    private AdaptableGridView gridViewAudio;
+    private AdaptableGridView gridViewRecords;
     private AdaptableGridView gridViewVideos;
     private AdaptableGridView gridViewNotes;
 
@@ -229,7 +229,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
         gridViewPhotos = (AdaptableGridView) findViewById(R.id.grid_view_photos);
         gridViewVideos = (AdaptableGridView) findViewById(R.id.grid_view_videos);
-        gridViewAudio = (AdaptableGridView) findViewById(R.id.grid_view_audio);
+        gridViewRecords = (AdaptableGridView) findViewById(R.id.grid_view_records);
         gridViewNotes = (AdaptableGridView) findViewById(R.id.grid_view_notes);
 
 
@@ -347,7 +347,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         new GetUrlsContentsTask(TappaActivity.this, codiceViaggio, gridViewVideos, Constants.QUERY_STOP_VIDEOS,
                 email, ordineTappa).execute();
 
-        new GetUrlsContentsTask(TappaActivity.this, codiceViaggio, gridViewAudio, Constants.QUERY_STOP_AUDIO,
+        new GetUrlsContentsTask(TappaActivity.this, codiceViaggio, gridViewRecords, Constants.QUERY_STOP_AUDIO,
                 email, ordineTappa).execute();
 
         new GetNotesTask(TappaActivity.this, codiceViaggio, gridViewNotes, Constants.QUERY_STOP_NOTES,
