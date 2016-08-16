@@ -781,8 +781,18 @@ public class ViaggioActivity extends AppCompatActivity {
 
     }
 
+    public void onClickDateHelp(View v) {
+        new android.support.v7.app.AlertDialog.Builder(ViaggioActivity.this)
+                .setTitle(getString(R.string.help))
+                .setMessage(getString(R.string.dateFormat))
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
 
-
+                    }
+                })
+                .setIcon(ContextCompat.getDrawable(ViaggioActivity.this, R.drawable.logodefbordo))
+                .show();
+    }
 
     private class MyTaskPerUtenti extends AsyncTask<Void, Void, Void> {
 

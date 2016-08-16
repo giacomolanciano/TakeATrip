@@ -19,6 +19,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -1145,6 +1146,19 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
     }
 
+
+    public void onClickDateHelp(View v) {
+        new android.support.v7.app.AlertDialog.Builder(TappaActivity.this)
+                .setTitle(getString(R.string.help))
+                .setMessage(getString(R.string.dateFormat))
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setIcon(ContextCompat.getDrawable(TappaActivity.this, R.drawable.logodefbordo))
+                .show();
+    }
 
 
     private void uploadPhotos() {

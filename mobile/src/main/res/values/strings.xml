@@ -273,6 +273,9 @@
     <string name="stopsList">Stops List</string>
     <string name="addPartecipant">Add partecipant</string>
     <string name="set_starting_date">Set starting date</string>
+    <string name="help">Help</string>
+    <string name="dateFormat">date format: dd/mm/aaaa</string>
+    <string name="set_date">Set date</string>
 
 
 </resources>
