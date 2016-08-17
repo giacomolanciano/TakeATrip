@@ -1,0 +1,146 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/titoloViaggio"
+                    android:textSize="25sp"
+                    android:text="@string/YourTravel"
+                    android:layout_gravity="center"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editTextNameTravel"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:textSize="15sp"
+                    android:hint="@string/InsertNameTravel"
+                    android:layout_gravity="left"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+                    >
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.20"
+                        >
+
+                        <AutoCompleteTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/autoCompleteTextView1"
+                            android:paddingTop="@dimen/activity_vertical_margin"
+                            android:textSize="15dp"
+                            android:hint="@string/Partecipants"
+                            android:layout_gravity="left"
+                            android:dropDownHeight="200dp"
+
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.80"
+                        >
+
+
+                        <android.support.design.widget.FloatingActionButton
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:id="@+id/floatingButtonAdd"
+                            android:layout_gravity="center_vertical"
+                            app:backgroundTint="@color/blue"
+                            android:src="@drawable/ic_add_white_24dp"
+                            android:onClick="ClickNewPartecipant"
+                            >
+                        </android.support.design.widget.FloatingActionButton>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:id="@+id/layoutPartecipants">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/layout_horizontal">
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </FrameLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:weightSum="1">
+
+        <!--Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:id="@+id/buttonCreateTravel"
+            android:layout_weight="0.5"
+            android:text="@string/Create"
+            android:onClick="onClickCreateTravel" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonCancellaDialog"
+            android:layout_weight="0.5"
+            android:layout_gravity="bottom"
+            android:text="@string/Cancel"
+            android:onClick="onClickCancelButton"/-->
+
+
+    </LinearLayout>
+
+
+</FrameLayout>
