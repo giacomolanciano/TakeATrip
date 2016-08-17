@@ -224,6 +224,10 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
         Log.i(TAG, "listContents.size() = " + listContents.size());
 
         if (listContents.size() > 0) {
+            //se la lista di elementi da caricare è non vuota, il linear layout parent viene visualizzato
+            LinearLayout parent = (LinearLayout) gv.getParent();
+            parent.setVisibility(View.VISIBLE);
+
             URLs = new String[listContents.size()];
             int i = 0;
             for (ContenutoMultimediale image : listContents) {
@@ -251,9 +255,6 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
             Log.i(TAG, "URLs: " + debug);
 
         } else {
-            //se la lista di elementi da caricare è vuota, il linear layout parent viene nascosto
-            LinearLayout parent = (LinearLayout) gv.getParent();
-            parent.setVisibility(View.GONE);
             return;
         }
 

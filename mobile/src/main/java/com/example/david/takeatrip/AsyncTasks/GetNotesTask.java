@@ -184,6 +184,10 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
         Log.i(TAG, "listContents.size() = " + listContents.size());
 
         if (listContents.size() > 0) {
+            //se la lista di elementi da caricare è non vuota, il linear layout parent viene visualizzato
+            LinearLayout parent = (LinearLayout) gv.getParent();
+            parent.setVisibility(View.VISIBLE);
+
             notes = new String[listContents.size()];
 
             notes = listContents.toArray(notes);
@@ -200,9 +204,6 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
 
 
         } else {
-            //se la lista di elementi da caricare è vuota, il linear layout parent viene nascosto
-            LinearLayout parent = (LinearLayout) gv.getParent();
-            parent.setVisibility(View.GONE);
             return;
         }
 

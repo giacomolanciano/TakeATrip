@@ -208,6 +208,7 @@
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:paddingTop="@dimen/activity_vertical_margin"
+                android:visibility="gone"
                 >
 
 
@@ -256,6 +257,7 @@
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:paddingTop="@dimen/activity_vertical_margin"
+                android:visibility="gone"
                 >
 
                 <LinearLayout
@@ -301,6 +303,7 @@
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:paddingTop="@dimen/activity_vertical_margin"
+                android:visibility="gone"
                 >
 
                 <LinearLayout
@@ -345,6 +348,7 @@
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:paddingTop="@dimen/activity_vertical_margin"
+                android:visibility="gone"
                 >
 
                 <LinearLayout
