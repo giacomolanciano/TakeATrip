@@ -63,7 +63,9 @@
                             android:paddingTop="@dimen/activity_vertical_margin"
                             android:textSize="15dp"
                             android:hint="@string/Partecipants"
-                            android:layout_gravity="left"/>
+                            android:layout_gravity="left"
+                            android:dropDownHeight="92dp"
+                            />
                     </LinearLayout>
 
                     <LinearLayout

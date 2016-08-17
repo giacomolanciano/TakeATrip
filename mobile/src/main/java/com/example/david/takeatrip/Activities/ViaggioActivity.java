@@ -163,8 +163,6 @@ public class ViaggioActivity extends AppCompatActivity {
             idFolder = intent.getParcelableExtra("idFolder");
             urlImageTravel = intent.getStringExtra("urlImmagineViaggio");
             livelloCondivisioneViaggio = intent.getStringExtra("livelloCondivisione");
-
-
         }
 
 
@@ -660,7 +658,7 @@ public class ViaggioActivity extends AppCompatActivity {
 
 
         final AutoCompleteTextView text = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView1);
-        ArrayAdapter adapter = new ArrayAdapter(ViaggioActivity.this, android.R.layout.simple_list_item_1, names);
+        ArrayAdapter adapter = new ArrayAdapter(ViaggioActivity.this, android.R.layout.test_list_item, names);
         text.setHint("Add partecipant");
         text.setAdapter(adapter);
         text.setThreshold(1);
