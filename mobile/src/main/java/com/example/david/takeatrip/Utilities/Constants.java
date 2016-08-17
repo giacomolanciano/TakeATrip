@@ -123,6 +123,10 @@ public class Constants {
     public static final String QUERY_STOP_AUDIO = "QueryAudioOfStop.php";
     public static final String QUERY_STOP_NOTES = "QueryNoteTappa.php";
 
+    public static final String QUERY_DEL_IMAGE = "DeleteStopImage.php";
+    public static final String QUERY_DEL_VIDEO = "DeleteStopVideo.php";
+    public static final String QUERY_DEL_AUDIO = "DeleteStopAudio.php";
+    public static final String QUERY_DEL_NOTE = "DeleteStopNote.php";
 
     public static final int BASE_DIMENSION_OF_IMAGE_PARTECIPANT = 100;
     public static final int BASE_DIMENSION_OF_SPACE = 20;
