@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -83,6 +84,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final String ADDRESS_INSERIMENTO_VIAGGIO = "InserimentoViaggio.php";
     private final String ADDRESS_INSERIMENTO_ITINERARIO = "InserimentoItinerario.php";
     private final String ADDRESS_INSERIMENTO_FILTRO = "InserimentoFiltro.php";
+    private final String ADDRESS_OPEN_VIAGGIO = "QueryLastInsertedTrip.php";
+
+
+    private CharSequence[] emailPartecipants ;
+    private CharSequence[] urlImagePartecipants;
+    private CharSequence[] sessoPartecipants;
 
     private static final int SIZE_IMAGE_PARTECIPANT = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT - 40;
 
@@ -143,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //per allert
     private boolean doubleBackToExitPressedOnce = false;
+
 
 
     @Override
@@ -271,10 +279,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         final AutoCompleteTextView text = (AutoCompleteTextView) dialog.findViewById(R.id.autoCompleteTextView1);
-        ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, names);
+        ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.test_list_item, names);
         text.setHint("Add partecipant");
         text.setAdapter(adapter);
         text.setThreshold(1);
+
 
 
         //layoutNewPartecipants = (TableLayout)dialog.findViewById(R.id.layoutPartecipants);
@@ -327,11 +336,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Log.i(TAG, "lista partecipanti:" + partecipants);
                             Log.i(TAG, "nome Viaggio:" + nomeViaggio);
 
+                            showProgressDialog();
                             new TaskForUUID().execute();
 
                         }
                     }
                 });
+
+
 
 
         final FloatingActionButton buttonAdd = (FloatingActionButton) dialog.findViewById(R.id.floatingButtonAdd);
@@ -484,7 +496,111 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    public void openViaggio() {
+
+        Intent openViaggio = new Intent(MainActivity.this, ViaggioActivity.class);
+        openViaggio.putExtra("email", myProfile.getEmail());
+        openViaggio.putExtra("emailEsterno", myProfile.getEmail());
+        openViaggio.putExtra("codiceViaggio",UUIDViaggio);
+        openViaggio.putExtra("nomeViaggio", nomeViaggio);
+        openViaggio.putExtra("idFolder", "");
+        openViaggio.putExtra("urlImmagineViaggio", "");
+        openViaggio.putExtra("livelloCondivisione", "public");
+        openViaggio.putExtra("partecipanti", emailPartecipants);
+        openViaggio.putExtra("urlImagePartecipants", urlImagePartecipants);
+        openViaggio.putExtra("sessoPartecipants", sessoPartecipants);
+        startActivity(openViaggio);
+    }
+
     private class MyTask extends AsyncTask<Void, Void, Void> {
+
+        InputStream is = null;
+        String result, stringaFinale = "";
+        String idProfiles, idCovers;
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                if (InternetConnection.haveInternetConnection(MainActivity.this)) {
+                    Log.i(TAG, "CONNESSIONE Internet Presente!");
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS);
+                    HttpResponse response = httpclient.execute(httppost);
+
+                    HttpEntity entity = response.getEntity();
+
+                    is = entity.getContent();
+
+                    if (is != null) {
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
+
+                            result = sb.toString();
+
+
+                            JSONArray jArray = new JSONArray(result);
+
+                            if (jArray != null && result != null) {
+                                for (int i = 0; i < jArray.length(); i++) {
+                                    JSONObject json_data = jArray.getJSONObject(i);
+                                    String nomeUtente = json_data.getString("nome");
+                                    String cognomeUtente = json_data.getString("cognome");
+                                    String emailUtente = json_data.getString("email");
+                                    String username = json_data.getString("username");
+                                    String sesso = json_data.getString("sesso");
+                                    String urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
+                                    String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
+
+                                    if (urlImmagineProfilo.equals("null")) {
+                                        idProfiles = null;
+                                    } else {
+                                        idProfiles = urlImmagineProfilo;
+                                    }
+
+                                    if (urlImmagineCopertina.equals("null")) {
+                                        idCovers = null;
+                                    } else {
+                                        idCovers = urlImmagineCopertina;
+                                    }
+
+                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, sesso, username, null, null, null, idProfiles, idCovers);
+                                    profiles.add(p);
+                                    stringaFinale = nomeUtente + " " + cognomeUtente + "\n" + "(" + username + ")";
+                                    names.add(stringaFinale);
+                                }
+                            }
+
+
+                        } catch (Exception e) {
+                            Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
+                        }
+                    } else {
+                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    }
+
+                } else
+                    Log.e(TAG, "CONNESSIONE Internet Assente!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(e.toString(), e.getMessage());
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+    }
+
+    private class ViaggioTask extends AsyncTask<Void, Void, Void> {
 
         InputStream is = null;
         String result, stringaFinale = "";
@@ -722,6 +838,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.e(e.toString(), e.getMessage());
+
+                    emailPartecipants = new CharSequence[partecipants.size()];
+                    urlImagePartecipants = new CharSequence[partecipants.size()];
+                    sessoPartecipants = new CharSequence[partecipants.size()];
+
+                    int i= 0;
+                    for(Profilo profilo: partecipants){
+                        emailPartecipants[i] = profilo.getEmail();
+                        urlImagePartecipants[i] = profilo.getIdImageProfile();
+                        sessoPartecipants[i] = profilo.getSesso();
+                        i++;
+                    }
                 }
             }
             return null;
@@ -781,8 +909,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            //apro viaggio appena creato
+            openViaggio();
          //   Toast.makeText(getBaseContext(), R.string.created_travel, Toast.LENGTH_LONG).show();
-            new AlertDialog.Builder(MainActivity.this)
+            /*new AlertDialog.Builder(MainActivity.this)
                     .setTitle(getString(R.string.travelCreate))
                     .setMessage(getString(R.string.created_travel))
                     .setPositiveButton(getString(R.string.viewListTravel), new DialogInterface.OnClickListener() {
@@ -800,6 +930,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.logodefbordo))
                     .show();
             super.onPostExecute(aVoid);
+*/
 
         }
     }
@@ -1019,7 +1150,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             super.onBackPressed();
             return;
         }
-
         prepareSignOut();
         deleteIdOnShared(MainActivity.this);
 
@@ -1060,4 +1190,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .show();
 
     }
+
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+
 }
