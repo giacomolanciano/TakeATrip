@@ -6,16 +6,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.SimpleAdapter;
 
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.example.david.takeatrip.Adapters.GridViewAdapter;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.InternetConnection;
 import com.example.david.takeatrip.Utilities.ScrollListener;
-import com.example.david.takeatrip.Utilities.UtilS3Amazon;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -32,7 +27,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -53,28 +47,6 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
     private List<String> listContents;
     private String[] notes;
 
-
-    // The TransferUtility is the primary class for managing transfer to S3
-    private TransferUtility transferUtility;
-
-    // The SimpleAdapter adapts the data about transfers to rows in the UI
-    private SimpleAdapter simpleAdapter;
-
-    // A List of all transfers
-    private List<TransferObserver> observers;
-
-    /**
-     * This map is used to provide data to the SimpleAdapter above. See the
-     * fillMap() function for how it relates observers to rows in the displayed
-     * activity.
-     */
-    private ArrayList<HashMap<String, List<Object>>> transferRecordMaps;
-
-
-    // The S3 client
-    private AmazonS3Client s3;
-
-
     public GetNotesTask(Context context, String codiceViaggio, String emailProfilo,
                         GridView gridView, String phpFile) {
         this.codiceViaggio = codiceViaggio;
@@ -84,9 +56,6 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
         this.emailProfilo = emailProfilo;
         listContents = new ArrayList<String>();
 
-        transferUtility = UtilS3Amazon.getTransferUtility(context);
-        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
-        s3 = UtilS3Amazon.getS3Client(context);
     }
 
     public GetNotesTask(Context context, String codiceViaggio, GridView gridView, String phpFile,
@@ -209,7 +178,7 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
 
 
 
-        gv.setAdapter(new GridViewAdapter(context, notes, Constants.NOTE_FILE));
+        gv.setAdapter(new GridViewAdapter(context, notes, Constants.NOTE_FILE, codiceViaggio));
 
         Log.i(TAG, "settato l'adapter per il grid");
 

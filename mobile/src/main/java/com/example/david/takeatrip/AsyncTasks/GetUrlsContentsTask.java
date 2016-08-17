@@ -8,19 +8,13 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SimpleAdapter;
 
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.example.david.takeatrip.Adapters.GridViewAdapter;
 import com.example.david.takeatrip.Adapters.GridViewImageAdapter;
 import com.example.david.takeatrip.Classes.ContenutoMultimediale;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.InternetConnection;
 import com.example.david.takeatrip.Utilities.ScrollListener;
-import com.example.david.takeatrip.Utilities.UtilS3Amazon;
-import com.example.david.takeatrip.Utilities.UtilS3AmazonCustom;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -37,7 +31,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -62,27 +55,6 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
     private ImageView coverImageTappa;
 
 
-    // The TransferUtility is the primary class for managing transfer to S3
-    private TransferUtility transferUtility;
-
-    // The SimpleAdapter adapts the data about transfers to rows in the UI
-    private SimpleAdapter simpleAdapter;
-
-    // A List of all transfers
-    private List<TransferObserver> observers;
-
-    /**
-     * This map is used to provide data to the SimpleAdapter above. See the
-     * fillMap() function for how it relates observers to rows in the displayed
-     * activity.
-     */
-    private ArrayList<HashMap<String, List<Object>>> transferRecordMaps;
-
-
-    // The S3 client
-    private AmazonS3Client s3;
-
-
     public GetUrlsContentsTask(Context context, String codiceViaggio, String emailProfilo,
                                GridView gridView, String phpFile) {
         this.codiceViaggio = codiceViaggio;
@@ -92,9 +64,6 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
         this.emailProfilo = emailProfilo;
         listContents = new ArrayList<ContenutoMultimediale>();
 
-        transferUtility = UtilS3Amazon.getTransferUtility(context);
-        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
-        s3 = UtilS3Amazon.getS3Client(context);
     }
 
     public GetUrlsContentsTask(Context context, String codiceViaggio, GridView gridView, String phpFile,
@@ -236,8 +205,10 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
                 if (image.getLivelloCondivisione().equalsIgnoreCase("public")
                         || image.getLivelloCondivisione().equalsIgnoreCase("travel")) {
 
-                    URLs[i] = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_TRAVELS_NAME,
-                            image.getUrlContenuto());
+                    //NOTA: la traduzione dell'id del contenuto in url viene delegata al GridViewAdapter,
+                    //per facilitare l'eliminazione del contenuto
+
+                    URLs[i] = image.getUrlContenuto();
 
                     //Log.i(TAG, "url ["+i+"]: "+ URLs[i]);
 
@@ -262,7 +233,7 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
         if (phpFile.equals(Constants.QUERY_TRAVEL_IMAGES)
                 || phpFile.equals(Constants.QUERY_STOP_IMAGES)) {
 
-            gv.setAdapter(new GridViewImageAdapter(context, URLs, Constants.IMAGE_FILE));
+            gv.setAdapter(new GridViewImageAdapter(context, URLs, Constants.IMAGE_FILE, codiceViaggio));
 
             //nel caso di immagini della tappa, la prima viene impostata come copertina
             if(phpFile.equals(Constants.QUERY_STOP_IMAGES) && coverImageTappa != null) {
@@ -284,11 +255,11 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
         } else if (phpFile.equals(Constants.QUERY_TRAVEL_VIDEOS)
                 || phpFile.equals(Constants.QUERY_STOP_VIDEOS)) {
 
-            gv.setAdapter(new GridViewAdapter(context, URLs, Constants.VIDEO_FILE));
+            gv.setAdapter(new GridViewAdapter(context, URLs, Constants.VIDEO_FILE, codiceViaggio));
 
         } else {
 
-            gv.setAdapter(new GridViewAdapter(context, URLs, Constants.AUDIO_FILE));
+            gv.setAdapter(new GridViewAdapter(context, URLs, Constants.AUDIO_FILE, codiceViaggio));
 
         }
 
