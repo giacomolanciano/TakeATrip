@@ -122,6 +122,9 @@ public class DeleteStopContentTask extends AsyncTask<Void, Void, Void> {
                         result = sb.toString();
                         Log.i(TAG, "result: " +result);
 
+                        //elimina contenuto da amazon s3
+                        s3.deleteObject(Constants.BUCKET_TRAVELS_NAME, id);
+
                     } catch (Exception e) {
                         Toast.makeText(context, "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
                     }
@@ -148,6 +151,5 @@ public class DeleteStopContentTask extends AsyncTask<Void, Void, Void> {
 
         super.onPostExecute(aVoid);
 
-        s3.deleteObject(Constants.BUCKET_TRAVELS_NAME, id);
     }
 }

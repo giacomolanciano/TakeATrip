@@ -112,6 +112,9 @@ public class DeleteTravelTask extends AsyncTask<Void, Void, Void> {
                         result = sb.toString();
                         Log.i(TAG, "result: " +result);
 
+                        UtilS3AmazonCustom.deleteObjectsInFolder(s3, Constants.BUCKET_TRAVELS_NAME, codiceViaggio+"/");
+                        s3.deleteObject(Constants.BUCKET_TRAVELS_NAME, codiceViaggio+"/");
+
                     } catch (Exception e) {
                         Toast.makeText(context, "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
                     }
@@ -138,7 +141,5 @@ public class DeleteTravelTask extends AsyncTask<Void, Void, Void> {
 
         super.onPostExecute(aVoid);
 
-        UtilS3AmazonCustom.deleteObjectsInFolder(s3, Constants.BUCKET_TRAVELS_NAME, codiceViaggio+"/");
-        s3.deleteObject(Constants.BUCKET_TRAVELS_NAME, codiceViaggio+"/");
     }
 }
