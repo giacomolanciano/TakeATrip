@@ -275,6 +275,8 @@
     <string name="help">Help</string>
     <string name="dateFormat">date format: dd/mm/aaaa</string>
     <string name="set_date">Set date</string>
+    <string name="confirm">Confirm</string>
+    <string name="delete_content_alert">Proceed removing the file from this travel?</string>
 
 
 </resources>

@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.Log;
@@ -18,14 +20,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.SimpleAdapter;
 
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.example.david.takeatrip.AsyncTasks.DeleteStopContentTask;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.SquaredImageView;
+import com.example.david.takeatrip.Utilities.UtilS3Amazon;
+import com.example.david.takeatrip.Utilities.UtilS3AmazonCustom;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import static android.widget.ImageView.ScaleType.CENTER_CROP;
@@ -38,20 +48,52 @@ public class GridViewAdapter extends BaseAdapter {
     private final Context context;
     private final List<String> urls = new ArrayList<String>();
     private final int tipoContenuti;
+    private final String codiceViaggio;
+
+    // The TransferUtility is the primary class for managing transfer to S3
+    private TransferUtility transferUtility;
+
+    // The SimpleAdapter adapts the data about transfers to rows in the UI
+    private SimpleAdapter simpleAdapter;
+
+    // A List of all transfers
+    private List<TransferObserver> observers;
+
+    /**
+     * This map is used to provide data to the SimpleAdapter above. See the
+     * fillMap() function for how it relates observers to rows in the displayed
+     * activity.
+     */
+    private ArrayList<HashMap<String, List<Object>>> transferRecordMaps;
+
+
+    // The S3 client
+    private AmazonS3Client s3;
 
     public GridViewAdapter(Context context, String[] URLs, int tipoContenuti) {
         this.context = context;
         this.tipoContenuti = tipoContenuti;
-
-        // Ensure we get a different ordering of images on each run.
+        this.codiceViaggio = null;
 
         if(URLs != null)
             Collections.addAll(urls, URLs);
-        //Collections.shuffle(urls);
 
-        // Triple up the list.
-        //ArrayList<String> copy = new ArrayList<String>(urls);
-        //urls.addAll(copy);
+        transferUtility = UtilS3Amazon.getTransferUtility(context);
+        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
+        s3 = UtilS3Amazon.getS3Client(context);
+    }
+
+    public GridViewAdapter(Context context, String[] URLs, int tipoContenuti, String codiceViaggio) {
+        this.context = context;
+        this.tipoContenuti = tipoContenuti;
+        this.codiceViaggio = codiceViaggio;
+
+        if(URLs != null)
+            Collections.addAll(urls, URLs);
+
+        transferUtility = UtilS3Amazon.getTransferUtility(context);
+        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
+        s3 = UtilS3Amazon.getS3Client(context);
     }
 
     @Override public View getView(int position, View convertView, ViewGroup parent) {
@@ -85,7 +127,7 @@ public class GridViewAdapter extends BaseAdapter {
 
                     Log.i(TAG, "content: "+v.getContentDescription());
 
-                    Uri uri = Uri.parse(url);
+                    Uri uri = Uri.parse(UtilS3AmazonCustom.getS3FileURL(getS3(), Constants.BUCKET_TRAVELS_NAME,url));
 
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     intent.setDataAndType(uri, "video/*");
@@ -93,6 +135,18 @@ public class GridViewAdapter extends BaseAdapter {
 
                 }
             });
+
+            if (codiceViaggio != null) {
+                view.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        Log.i(TAG, "file da eliminare: " + v.getContentDescription());
+                        confirmFileDeletion(v, Constants.QUERY_DEL_VIDEO);
+
+                        return false;
+                    }
+                });
+            }
         } else if (tipoContenuti == Constants.AUDIO_FILE) {
 
             // Trigger the download of the URL asynchronously into the image view.
@@ -109,7 +163,7 @@ public class GridViewAdapter extends BaseAdapter {
 
                     Log.i(TAG, "content: "+v.getContentDescription());
 
-                    Uri uri = Uri.parse(url);
+                    Uri uri = Uri.parse(UtilS3AmazonCustom.getS3FileURL(getS3(), Constants.BUCKET_TRAVELS_NAME,url));
 
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     intent.setDataAndType(uri, "audio/*");
@@ -117,6 +171,18 @@ public class GridViewAdapter extends BaseAdapter {
 
                 }
             });
+
+            if (codiceViaggio != null) {
+                view.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        Log.i(TAG, "file da eliminare: " + v.getContentDescription());
+                        confirmFileDeletion(v, Constants.QUERY_DEL_AUDIO);
+
+                        return false;
+                    }
+                });
+            }
         } else if (tipoContenuti == Constants.NOTE_FILE) {
 
             // Trigger the download of the URL asynchronously into the image view.
@@ -192,6 +258,18 @@ public class GridViewAdapter extends BaseAdapter {
 
                 }
             });
+
+            if (codiceViaggio != null) {
+                view.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        Log.i(TAG, "file da eliminare: " + v.getContentDescription());
+                        confirmFileDeletion(v, Constants.QUERY_DEL_NOTE);
+
+                        return false;
+                    }
+                });
+            }
         }
 
         return view;
@@ -219,5 +297,36 @@ public class GridViewAdapter extends BaseAdapter {
 
     public int getTipoContenuti() {
         return tipoContenuti;
+    }
+
+    public String getCodiceViaggio() {
+        return codiceViaggio;
+    }
+
+    public AmazonS3Client getS3() {
+        return s3;
+    }
+
+    private void confirmFileDeletion(View v, String q) {
+        final View view = v;
+        final String query = q;
+
+        new AlertDialog.Builder(context)
+                .setTitle(context.getString(R.string.confirm))
+                .setMessage(context.getString(R.string.delete_content_alert))
+                .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        view.setVisibility(View.GONE);
+                        new DeleteStopContentTask(context, query, codiceViaggio,
+                                view.getContentDescription().toString()).execute();
+                    }
+                })
+                .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(ContextCompat.getDrawable(context, R.drawable.logodefbordo))
+                .show();
     }
 }
