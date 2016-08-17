@@ -3,10 +3,16 @@ package com.example.david.takeatrip.AsyncTasks;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.InternetConnection;
+import com.example.david.takeatrip.Utilities.UtilS3Amazon;
+import com.example.david.takeatrip.Utilities.UtilS3AmazonCustom;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -21,6 +27,8 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Giacomo Lanciano on 17/08/2016.
@@ -37,9 +45,33 @@ public class DeleteTravelTask extends AsyncTask<Void, Void, Void> {
     private Context context;
     private String codiceViaggio;
 
+    // The TransferUtility is the primary class for managing transfer to S3
+    private TransferUtility transferUtility;
+
+    // The SimpleAdapter adapts the data about transfers to rows in the UI
+    private SimpleAdapter simpleAdapter;
+
+    // A List of all transfers
+    private List<TransferObserver> observers;
+
+    /**
+     * This map is used to provide data to the SimpleAdapter above. See the
+     * fillMap() function for how it relates observers to rows in the displayed
+     * activity.
+     */
+    private ArrayList<HashMap<String, List<Object>>> transferRecordMaps;
+
+
+    // The S3 client
+    private AmazonS3Client s3;
+
     public DeleteTravelTask(Context context, String codiceViaggio) {
         this.context = context;
         this.codiceViaggio = codiceViaggio;
+
+        transferUtility = UtilS3Amazon.getTransferUtility(context);
+        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
+        s3 = UtilS3Amazon.getS3Client(context);
     }
 
     @Override
@@ -104,13 +136,9 @@ public class DeleteTravelTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
 
-        if(!result.equals("OK\n")){
-            Log.e(TAG, "eliminazione viaggio fallita");
-        }
-        else{
-            Log.i(TAG, "eliminazione viaggio completata");
-
-        }
         super.onPostExecute(aVoid);
+
+        UtilS3AmazonCustom.deleteObjectsInFolder(s3, Constants.BUCKET_TRAVELS_NAME, codiceViaggio+"/");
+        s3.deleteObject(Constants.BUCKET_TRAVELS_NAME, codiceViaggio+"/");
     }
 }

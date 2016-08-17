@@ -108,13 +108,7 @@ public class DeleteStopTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
 
-        if(!result.equals("OK\n")){
-            Log.e(TAG, "eliminazione tappa fallita");
-        }
-        else{
-            Log.i(TAG, "eliminazione tappa completata");
-
-        }
         super.onPostExecute(aVoid);
+
     }
 }
