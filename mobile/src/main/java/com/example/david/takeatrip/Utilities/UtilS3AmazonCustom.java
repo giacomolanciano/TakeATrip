@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.example.david.takeatrip.AsyncTasks.InsertCoverImageTravelTask;
 import com.example.david.takeatrip.AsyncTasks.UploadFileS3Task;
 
@@ -72,6 +73,11 @@ public class UtilS3AmazonCustom {
     }
 
 
+    public static void deleteObjectsInFolder(AmazonS3Client s3, String bucketName, String folderPath) {
+        for (S3ObjectSummary file : s3.listObjects(bucketName, folderPath).getObjectSummaries()){
+            s3.deleteObject(bucketName, file.getKey());
+        }
+    }
 
 
 }
