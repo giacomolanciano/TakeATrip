@@ -179,9 +179,9 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
             Intent intent = new Intent(v.getContext(), ViaggioActivity.class);
 
             intent.putExtra("emailEsterno",emailUser.getText().toString());
-            // Log.e(TAG, "email card viaggi: "+ emailUser.getText().toString());
             intent.putExtra("nomeViaggio", nomeViaggio.getText().toString());
             intent.putExtra("codiceViaggio", codiceViaggio.getText().toString());
+
 
             //NB deve essere usata la variabile imageTravel,
             //non immagineViaggio poichè viene continuamente sovrascritta

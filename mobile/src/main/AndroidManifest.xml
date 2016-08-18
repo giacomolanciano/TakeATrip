@@ -92,10 +92,10 @@
         <activity
             android:name=".Activities.TappaActivity"
             android:label="@string/title_activity_tappa"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Activities.VisualizzazioneFollowActivity"
-            android:theme="@style/ThemeSocial"></activity>
+            android:theme="@style/ThemeSocial" />
 
         <service
             android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
@@ -104,7 +104,8 @@
         <activity
             android:name=".Activities.TutorialActivity"
             android:label="@string/title_activity_tutorial"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".Activities.NuovoViaggioActivity"></activity>
     </application>
 
 </manifest>
