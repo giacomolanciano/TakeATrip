@@ -277,6 +277,8 @@
     <string name="set_date">Set date</string>
     <string name="confirm">Confirm</string>
     <string name="delete_content_alert">Proceed removing the file from this travel?</string>
+    <string name="delete_travel">Delete this travel</string>
+    <string name="delete_travel_alert">Proceed deleting this travel?</string>
 
 
 </resources>
