@@ -157,12 +157,20 @@ public class ViaggioActivity extends AppCompatActivity {
         Intent intent;
         if((intent = getIntent()) != null){
             email = intent.getStringExtra("email");
+            Log.i(TAG, "email: "+ email);
             emailEsterno = intent.getStringExtra("emailEsterno");
+            Log.i(TAG, "emailEsterno: "+ emailEsterno);
             codiceViaggio = intent.getStringExtra("codiceViaggio");
+            Log.i(TAG, "codiceViaggio da Viaggio: "+ codiceViaggio);
             nomeViaggio = intent.getStringExtra("nomeViaggio");
+            Log.i(TAG, "nomeViaggio: "+ nomeViaggio);
             idFolder = intent.getParcelableExtra("idFolder");
+            Log.i(TAG, "idFolder: "+ idFolder);
             urlImageTravel = intent.getStringExtra("urlImmagineViaggio");
+            Log.i(TAG, "urlImmagineViaggio1: "+ urlImageTravel);
             livelloCondivisioneViaggio = intent.getStringExtra("livelloCondivisione");
+            Log.i(TAG, "livelloCondivisione : "+ livelloCondivisioneViaggio);
+
         }
 
 
@@ -281,6 +289,7 @@ public class ViaggioActivity extends AppCompatActivity {
         }
 
         try {
+            Log.i(TAG, "codiceViaggio prima di Get " + codiceViaggio);
             proprioViaggio = new GetPartecipantiViaggioTask(ViaggioActivity.this, contentView, s3,
                     codiceViaggio, listPartecipants, nomeViaggio, email, urlImageTravel,
                     layoutPartecipants, rowHorizontal, imageTravel, gridViewPhotos, gridViewVideos,

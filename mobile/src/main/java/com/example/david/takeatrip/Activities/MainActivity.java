@@ -10,8 +10,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,14 +17,11 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amazonaws.HttpMethod;
@@ -40,7 +35,6 @@ import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatabaseHandler;
 import com.example.david.takeatrip.Utilities.InternetConnection;
-import com.example.david.takeatrip.Utilities.RoundedImageView;
 import com.example.david.takeatrip.Utilities.UtilS3Amazon;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
@@ -81,25 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private final String ADDRESS = "QueryNomiUtenti.php";
-    private final String ADDRESS_INSERIMENTO_VIAGGIO = "InserimentoViaggio.php";
-    private final String ADDRESS_INSERIMENTO_ITINERARIO = "InserimentoItinerario.php";
-    private final String ADDRESS_INSERIMENTO_FILTRO = "InserimentoFiltro.php";
-    private final String ADDRESS_OPEN_VIAGGIO = "QueryLastInsertedTrip.php";
 
-
-    private CharSequence[] emailPartecipants ;
-    private CharSequence[] urlImagePartecipants;
-    private CharSequence[] sessoPartecipants;
-
-    private static final int SIZE_IMAGE_PARTECIPANT = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT - 40;
-
-
-    private static final int REQUEST_FOLDER = 123;
-    private static final int REQUEST_IMAGE_PROFILE = 124;
-    private static final int REQUEST_COVER_IMAGE = 125;
-
-
-    private final int LIMIT_IMAGES_VIEWS = 5;
 
     private String name, surname, email, nazionalità, sesso, username, lavoro, descrizione, tipo;
     private String date, password, urlImmagineProfilo, urlImmagineCopertina;
@@ -107,10 +83,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ImageView imageViewProfileRound;
 
-    private LinearLayout layoutNewPartecipants;
-
-    String nomeViaggio, UUIDViaggio, filtro;
-    AutoCompleteTextView text;
     List<String> names, namesPartecipants;
     Set<Profilo> profiles, partecipants;
     Profilo myProfile;
@@ -281,157 +253,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         openNewTravel.putExtra("urlImmagineCopertina", urlImmagineCopertina);
         // passo all'attivazione dell'activity
         startActivity(openNewTravel);
-      /*
-        nomeViaggio = "";
-        namesPartecipants.clear();
-        partecipants.clear();
 
-
-        ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
-
-        final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(wrapper);
-        LayoutInflater inflater = this.getLayoutInflater();
-        final View dialog = inflater.inflate(R.layout.dialog_insert_viaggio, null);
-        builder.setView(dialog);
-        builder.setTitle(getString(R.string.NewTravel));
-
-
-        final AutoCompleteTextView text = (AutoCompleteTextView) dialog.findViewById(R.id.autoCompleteTextView1);
-        ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.test_list_item, names);
-        text.setHint("Add partecipant");
-        text.setAdapter(adapter);
-        text.setThreshold(1);
-
-
-
-        //layoutNewPartecipants = (TableLayout)dialog.findViewById(R.id.layoutPartecipants);
-        layoutNewPartecipants = (LinearLayout) dialog.findViewById(R.id.layoutPartecipants);
-        rowHorizontal = (LinearLayout) dialog.findViewById(R.id.layout_horizontal);
-
-
-        TextView travel = (TextView) dialog.findViewById(R.id.titoloViaggio);
-        editTextNameTravel = (EditText) dialog.findViewById(R.id.editTextNameTravel);
-
-        //  builder.setCancelable(false);//potrebbe essere una soluzione per evitare il backPressed
-
-        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                allertDialog(v);
-            }
-        });
-
-        builder.setNegativeButton(getString(R.string.cancel),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        allertDialog(v);
-                    }
-                });
-
-        builder.setPositiveButton(getString(R.string.Create),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (editTextNameTravel.getText().toString().equals("")) {
-                            Toast.makeText(getBaseContext(), "Name Travel omitted", Toast.LENGTH_LONG).show();
-                            ClickNewTravel(v);
-                        } else {
-
-                            if (!partecipants.contains(myProfile)) {
-                                partecipants.add(myProfile);
-                            }
-                            nomeViaggio = editTextNameTravel.getText().toString();
-                            for (String s : namesPartecipants) {
-                                for (Profilo p : profiles) {
-                                    if (p.getUsername().equals(s)) {
-                                        if (!partecipants.contains(p)) {
-                                            partecipants.add(p);
-                                        }
-                                    }
-                                }
-                            }
-                            Log.i(TAG, "lista partecipanti:" + partecipants);
-                            Log.i(TAG, "nome Viaggio:" + nomeViaggio);
-
-                            showProgressDialog();
-                            new TaskForUUID().execute();
-
-                        }
-                    }
-                });
-
-
-
-
-        final FloatingActionButton buttonAdd = (FloatingActionButton) dialog.findViewById(R.id.floatingButtonAdd);
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!text.getText().toString().equals("")) {
-                    TextView tv = new TextView(MainActivity.this);
-                    tv.setText(text.getText().toString());
-
-                    String s = text.getText().toString();
-                    Log.i(TAG, "partecipante selezionato: " + s);
-
-
-                    String usernameUtenteSelezionato = s.substring(s.indexOf('(') + 1, s.indexOf(')'));
-                    Log.i(TAG, "username selezionato: " + usernameUtenteSelezionato);
-                    for (Profilo p : profiles) {
-
-                        if (p.getUsername().equals(usernameUtenteSelezionato)) {
-                            if (!partecipants.contains(p)) {
-
-                                if (partecipants.size() % LIMIT_IMAGES_VIEWS == 0) {
-                                    rowHorizontal = new LinearLayout(MainActivity.this);
-                                    rowHorizontal.setOrientation(LinearLayout.HORIZONTAL);
-
-                                    layoutNewPartecipants.addView(rowHorizontal);
-                                    layoutNewPartecipants.addView(new TextView(MainActivity.this), Constants.BASE_DIMENSION_OF_SPACE, Constants.BASE_DIMENSION_OF_SPACE);
-                                }
-
-                                final ImageView image = new RoundedImageView(MainActivity.this, null);
-                                image.setContentDescription(p.getEmail());
-
-                                if (p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")) {
-                                    String signedUrl = beginDownloadProfilePicture(p.getIdImageProfile());
-                                    Picasso.with(MainActivity.this).
-                                            load(signedUrl).
-                                            resize(SIZE_IMAGE_PARTECIPANT, SIZE_IMAGE_PARTECIPANT).
-                                            into(image);
-
-                                } else {
-                                    if (p.getSesso().equals("M")) {
-                                        image.setImageResource(R.drawable.default_male);
-                                    } else {
-                                        image.setImageResource(R.drawable.default_female);
-                                    }
-                                }
-
-                                rowHorizontal.addView(image, SIZE_IMAGE_PARTECIPANT, SIZE_IMAGE_PARTECIPANT);
-                                rowHorizontal.addView(new TextView(MainActivity.this), Constants.BASE_DIMENSION_OF_SPACE, SIZE_IMAGE_PARTECIPANT);
-                                Log.i(TAG, "aggiungo la view nel layout orizzonale");
-                                partecipants.add(p);
-                                namesPartecipants.add(p.getUsername());
-
-                            } else {
-                                Toast.makeText(getBaseContext(), "User already present in travel", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    }
-
-                    text.setText("");
-
-                }
-
-            }
-        });
-
-
-        android.support.v7.app.AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-        */
     }
 
 
@@ -514,112 +336,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
-    public void openViaggio() {
-
-        Intent openViaggio = new Intent(MainActivity.this, ViaggioActivity.class);
-        openViaggio.putExtra("email", myProfile.getEmail());
-        openViaggio.putExtra("emailEsterno", myProfile.getEmail());
-        openViaggio.putExtra("codiceViaggio",UUIDViaggio);
-        openViaggio.putExtra("nomeViaggio", nomeViaggio);
-        openViaggio.putExtra("idFolder", "");
-        openViaggio.putExtra("urlImmagineViaggio", "");
-        openViaggio.putExtra("livelloCondivisione", "public");
-        openViaggio.putExtra("partecipanti", emailPartecipants);
-        openViaggio.putExtra("urlImagePartecipants", urlImagePartecipants);
-        openViaggio.putExtra("sessoPartecipants", sessoPartecipants);
-        startActivity(openViaggio);
-    }
-
     private class MyTask extends AsyncTask<Void, Void, Void> {
-
-        InputStream is = null;
-        String result, stringaFinale = "";
-        String idProfiles, idCovers;
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                if (InternetConnection.haveInternetConnection(MainActivity.this)) {
-                    Log.i(TAG, "CONNESSIONE Internet Presente!");
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS);
-                    HttpResponse response = httpclient.execute(httppost);
-
-                    HttpEntity entity = response.getEntity();
-
-                    is = entity.getContent();
-
-                    if (is != null) {
-                        //converto la risposta in stringa
-                        try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                            StringBuilder sb = new StringBuilder();
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line + "\n");
-                            }
-                            is.close();
-
-                            result = sb.toString();
-
-
-                            JSONArray jArray = new JSONArray(result);
-
-                            if (jArray != null && result != null) {
-                                for (int i = 0; i < jArray.length(); i++) {
-                                    JSONObject json_data = jArray.getJSONObject(i);
-                                    String nomeUtente = json_data.getString("nome");
-                                    String cognomeUtente = json_data.getString("cognome");
-                                    String emailUtente = json_data.getString("email");
-                                    String username = json_data.getString("username");
-                                    String sesso = json_data.getString("sesso");
-                                    String urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
-                                    String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
-
-                                    if (urlImmagineProfilo.equals("null")) {
-                                        idProfiles = null;
-                                    } else {
-                                        idProfiles = urlImmagineProfilo;
-                                    }
-
-                                    if (urlImmagineCopertina.equals("null")) {
-                                        idCovers = null;
-                                    } else {
-                                        idCovers = urlImmagineCopertina;
-                                    }
-
-                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, sesso, username, null, null, null, idProfiles, idCovers);
-                                    profiles.add(p);
-                                    stringaFinale = nomeUtente + " " + cognomeUtente + "\n" + "(" + username + ")";
-                                    names.add(stringaFinale);
-                                }
-                            }
-
-
-                        } catch (Exception e) {
-                            Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
-                        }
-                    } else {
-                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
-                    }
-
-                } else
-                    Log.e(TAG, "CONNESSIONE Internet Assente!");
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(e.toString(), e.getMessage());
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-        }
-    }
-
-    private class ViaggioTask extends AsyncTask<Void, Void, Void> {
 
         InputStream is = null;
         String result, stringaFinale = "";
@@ -746,214 +463,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return url.toString();
 
     }
-
-
-    private class TaskForUUID extends AsyncTask<Void, Void, Void> {
-
-        InputStream is = null;
-        String result, stringaFinale = "";
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("viaggio", nomeViaggio));
-
-            Log.i(TAG, "nomeViaggio: " + nomeViaggio);
-
-            try {
-                if (InternetConnection.haveInternetConnection(MainActivity.this)) {
-                    Log.i(TAG, "CONNESSIONE Internet Presente!");
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_VIAGGIO);
-                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                    HttpResponse response = httpclient.execute(httppost);
-
-                    HttpEntity entity = response.getEntity();
-
-                    is = entity.getContent();
-
-                    if (is != null) {
-                        //converto la risposta in stringa
-                        try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                            StringBuilder sb = new StringBuilder();
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line + "\n");
-                            }
-                            is.close();
-
-                            result = sb.toString();
-                            //Log.i(TAG, "result" +result);
-
-                            UUIDViaggio = result;
-
-                            Log.i(TAG, "UUID viaggio " + UUIDViaggio);
-
-                        } catch (Exception e) {
-                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
-                        }
-                    } else {
-                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
-                    }
-
-                } else
-                    Log.e(TAG, "CONNESSIONE Internet Assente!");
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(e.toString(), e.getMessage());
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-
-            if (result.contains("Duplicate")) {
-                Log.e(TAG, "devo generare un nuovo UUID");
-                new TaskForUUID().execute();
-            } else {
-                Log.i(TAG, "UUID corretto, ora aggiungo gli itinerari");
-                new TaskForItineraries().execute();
-            }
-            super.onPostExecute(aVoid);
-
-        }
-    }
-
-
-    private class TaskForItineraries extends AsyncTask<Void, Void, Void> {
-
-        InputStream is = null;
-        String result, stringaFinale = "";
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-            Log.i(TAG, "lista partecipanti:" + partecipants);
-
-            for (Profilo p : partecipants) {
-
-                ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-                dataToSend.add(new BasicNameValuePair("codice", UUIDViaggio));
-                dataToSend.add(new BasicNameValuePair("email", p.getEmail()));
-
-
-                try {
-                    if (InternetConnection.haveInternetConnection(MainActivity.this)) {
-                        Log.i(TAG, "CONNESSIONE Internet Presente!");
-                        HttpClient httpclient = new DefaultHttpClient();
-                        HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_ITINERARIO);
-                        httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                        HttpResponse response = httpclient.execute(httppost);
-
-                        HttpEntity entity = response.getEntity();
-
-                        is = entity.getContent();
-
-                    } else
-                        Log.e(TAG, "CONNESSIONE Internet Assente!");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.e(e.toString(), e.getMessage());
-
-                    emailPartecipants = new CharSequence[partecipants.size()];
-                    urlImagePartecipants = new CharSequence[partecipants.size()];
-                    sessoPartecipants = new CharSequence[partecipants.size()];
-
-                    int i= 0;
-                    for(Profilo profilo: partecipants){
-                        emailPartecipants[i] = profilo.getEmail();
-                        urlImagePartecipants[i] = profilo.getIdImageProfile();
-                        sessoPartecipants[i] = profilo.getSesso();
-                        i++;
-                    }
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            String stringaFiltro = nomeViaggio.replace(" ", "_");
-            filtro = stringaFiltro.toLowerCase();
-
-            Log.i(TAG, "filtro: " + filtro);
-
-            new TaskForFilter().execute();
-
-            super.onPostExecute(aVoid);
-
-        }
-    }
-
-
-    private class TaskForFilter extends AsyncTask<Void, Void, Void> {
-
-        InputStream is = null;
-        String result, stringaFinale = "";
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-            for (Profilo p : partecipants) {
-                ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-                dataToSend.add(new BasicNameValuePair("codiceViaggio", UUIDViaggio));
-                dataToSend.add(new BasicNameValuePair("filtro", filtro));
-
-
-                try {
-                    if (InternetConnection.haveInternetConnection(MainActivity.this)) {
-                        Log.i(TAG, "CONNESSIONE Internet Presente!");
-                        HttpClient httpclient = new DefaultHttpClient();
-                        HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_FILTRO);
-                        httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                        HttpResponse response = httpclient.execute(httppost);
-
-                    } else
-                        Log.e(TAG, "CONNESSIONE Internet Assente!");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.e(e.toString(), e.getMessage());
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            try {
-                Thread.currentThread().sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            //apro viaggio appena creato
-            openViaggio();
-         //   Toast.makeText(getBaseContext(), R.string.created_travel, Toast.LENGTH_LONG).show();
-            /*new AlertDialog.Builder(MainActivity.this)
-                    .setTitle(getString(R.string.travelCreate))
-                    .setMessage(getString(R.string.created_travel))
-                    .setPositiveButton(getString(R.string.viewListTravel), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent openListaViaggi = new Intent(MainActivity.this, ListaViaggiActivity.class);
-                            openListaViaggi.putExtra("email", email);
-                            // passo all'attivazione dell'activity
-                            startActivity(openListaViaggi);                        }
-                    })
-                    .setNegativeButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    })
-                    .setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.logodefbordo))
-                    .show();
-            super.onPostExecute(aVoid);
-*/
-
-        }
-    }
-
 
     private class MyTaskIDProfileImage extends AsyncTask<Void, Void, Void> {
 
@@ -1179,46 +688,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefs.edit().clear().commit();
     }
 
-
-    //Dialog per cancel o backPressed su creazione viaggio
-    private void allertDialog(final View v) {
-        new AlertDialog.Builder(MainActivity.this)
-                .setTitle(getString(R.string.back))
-                .setMessage(getString(R.string.allert_message))
-                .setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        namesPartecipants.clear();
-                        partecipants.clear();
-                        layoutNewPartecipants.removeAllViews();
-                        editTextNameTravel.setText("");
-
-                        Log.i(TAG, "lista nomi partecipanti:" + namesPartecipants);
-                        Log.i(TAG, "lista partecipanti:" + partecipants);
-                    }
-                })
-                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        ClickNewTravel(v);  //senza questo ritorna alla home
-                        //TODO cercare di far mantenere le info già inserite
-                        nomeViaggio = editTextNameTravel.getText().toString();
-
-
-                    }
-                })
-                .setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.logodefbordo))
-                .show();
-
-    }
-
-    private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
-            mProgressDialog.setIndeterminate(true);
-        }
-
-        mProgressDialog.show();
-    }
 
 
 }

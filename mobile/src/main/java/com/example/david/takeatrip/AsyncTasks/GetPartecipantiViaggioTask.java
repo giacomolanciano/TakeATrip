@@ -98,7 +98,12 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+        Log.i(TAG, "codiceViaggio Get: "+ codiceViaggio);
+       // codiceViaggio="8f09454f-2fd7-48c0-8b7d-41aa1fc005aa";
+        //Log.i(TAG, "codiceViaggio Get dopo modifica: "+ codiceViaggio);
         dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
+
+
 
 
         try {
@@ -115,6 +120,7 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
 
                 is = entity.getContent();
 
+
                 if (is != null) {
                     //converto la risposta in stringa
                     try {
@@ -127,6 +133,8 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
                         is.close();
 
                         result = sb.toString();
+                        Log.i(TAG, "result: " + result);
+
 
                         JSONArray jArray = new JSONArray(result);
 
