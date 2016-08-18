@@ -39,6 +39,7 @@ import android.widget.TextView;
 
 import com.example.david.takeatrip.AsyncTasks.AggiornamentoDataTappaTask;
 import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
+import com.example.david.takeatrip.AsyncTasks.DeleteStopTask;
 import com.example.david.takeatrip.AsyncTasks.GetNotesTask;
 import com.example.david.takeatrip.AsyncTasks.GetUrlsContentsTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoAudioTappaTask;
@@ -54,8 +55,6 @@ import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatesUtils;
 import com.example.david.takeatrip.Utilities.DeviceStorageUtils;
 import com.example.david.takeatrip.Utilities.MultimedialFile;
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import java.io.File;
 import java.io.IOException;
@@ -66,6 +65,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import toan.android.floatingactionmenu.FloatingActionButton;
+import toan.android.floatingactionmenu.FloatingActionsMenu;
 
 public class TappaActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
@@ -82,7 +84,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     private int[] arr_images;
 
     private FloatingActionsMenu fabMenu;
-    private FloatingActionButton buttonAddNote, buttonAddRecord, buttonAddVideo, buttonAddPhoto;
+    private FloatingActionButton buttonAddNote, buttonAddRecord, buttonAddVideo, buttonAddPhoto, buttonDelete;
 
     private String imageFileName;
     private String videoFileName;
@@ -322,6 +324,24 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                     fabMenu.collapse();
 
                     onClickAddImage(view);
+                }
+            });
+        }
+
+        buttonDelete = (FloatingActionButton) findViewById(R.id.buttonDelete);
+        if (buttonDelete != null) {
+            buttonDelete.setIcon(R.drawable.ic_delete_black_36dp);
+
+            buttonDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Log.i(TAG, "delete travel pressed");
+
+                    fabMenu.collapse();
+
+                    onClickDeleteStop(view);
+
                 }
             });
         }
@@ -1161,6 +1181,25 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                 .show();
     }
 
+    private void onClickDeleteStop(View view) {
+        final View v = view;
+        new android.support.v7.app.AlertDialog.Builder(TappaActivity.this)
+                .setTitle(getString(R.string.confirm))
+                .setMessage(getString(R.string.delete_stop_alert))
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        new DeleteStopTask(TappaActivity.this, codiceViaggio, ordineTappa).execute();
+                        finish();
+                    }
+                })
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(ContextCompat.getDrawable(TappaActivity.this, R.drawable.logodefbordo))
+                .show();
+    }
 
     private void uploadPhotos() {
 
