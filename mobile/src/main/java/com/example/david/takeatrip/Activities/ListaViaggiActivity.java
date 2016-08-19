@@ -294,6 +294,11 @@ public class ListaViaggiActivity extends ActionBarActivity {
         });
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        recreate();
+    }
 
     private void showProgressDialog() {
         if (mProgressDialog == null) {

@@ -18,9 +18,25 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/blue"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            >
 
-    </android.support.design.widget.AppBarLayout>
+            <Button
+                android:id="@+id/home"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:drawSelectorOnTop="true"
+                android:layout_gravity="end|top"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:theme="@style/Theme.Design.Light"
+                android:onClick="onClickHome"
+                android:background="@drawable/ic_home_black_36dp" />
+
+
+        </android.support.v7.widget.Toolbar>
+
+
+</android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_lista_tappe2" />
 
