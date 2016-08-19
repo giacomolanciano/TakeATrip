@@ -9,13 +9,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -199,22 +197,10 @@ public class GridViewAdapter extends BaseAdapter {
 
                     Log.i(TAG, "content: "+v.getContentDescription());
 
-                    ContextThemeWrapper wrapper = new ContextThemeWrapper(context, android.R.style.Theme_Material_Light_Dialog);
-
-                    final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(wrapper);
                     LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
                     final View dialogView = inflater.inflate(R.layout.material_edit_text, null);
-                    builder.setView(dialogView);
-
-                    TextInputLayout textInputLayout = (TextInputLayout) dialogView.findViewById(R.id.textInputLayout);
-//                    if (textInputLayout != null) {
-//                        textInputLayout.setCounterEnabled(true);
-//                        textInputLayout.setCounterMaxLength(Constants.NOTE_MAX_LENGTH);
-//                    }
-
-                    TextInputEditText textInputEditText = (TextInputEditText) dialogView.findViewById(R.id.editText);
+                    final TextInputEditText textInputEditText= (TextInputEditText) dialogView.findViewById(R.id.editText);
                     textInputEditText.setText(url);
-
 
                     //TODO per ora neghiamo la possibilità di editare, valutare aggiunta feature in seguito
                     textInputEditText.setEnabled(false);
@@ -228,34 +214,24 @@ public class GridViewAdapter extends BaseAdapter {
                             }
                     });
 
-
-                    builder.setNegativeButton(context.getString(R.string.cancel),
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-
-
-                                    Log.i(TAG, "edit text dialog canceled");
-                                }
-                            });
-
-//                    builder.setPositiveButton(context.getString(R.string.ok),
-//                            new DialogInterface.OnClickListener() {
-//                                @Override
+                    new android.support.v7.app.AlertDialog.Builder(context)
+                            .setView(dialogView)
+                            .setTitle(context.getString(R.string.labelNoEditNote))
+//                            .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
 //                                public void onClick(DialogInterface dialog, int which) {
 //
 //                                    noteInserite.add(textInputEditText.getText().toString());
-//                                    Log.i(TAG, "edit text confirmed");
+//                                    Log.i(TAG, "edit text dialog confirmed");
 //                                }
-//                            });
-
-
-                    builder.setTitle(context.getString(R.string.labelNoEditNote));
-
-                    android.support.v7.app.AlertDialog dialog = builder.create();
-                    dialog.show();
-
+//                            })
+                            .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    Log.i(TAG, "edit text dialog canceled");
+                                }
+                            })
+                            .setIcon(ContextCompat.getDrawable(context, R.drawable.logodefbordo))
+                            .show();
                 }
             });
 
