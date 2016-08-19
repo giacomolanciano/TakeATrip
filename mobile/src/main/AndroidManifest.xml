@@ -84,7 +84,8 @@
         <activity
             android:name=".Activities.ListaTappeActivity"
             android:label="@string/title_activity_lista_tappe2"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:parentActivityName="com.example.david.takeatrip.Activities.MainActivity"/>
         <activity android:name=".Activities.SearchActivity" />
         <activity
             android:name=".Activities.SocialActivity"
