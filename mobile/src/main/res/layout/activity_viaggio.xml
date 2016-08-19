@@ -416,11 +416,19 @@
         app:fab_addButtonPlusIconColor="@color/biancoPallido"
         app:fab_labelsPosition="left"
         app:fab_labelStyle="@style/menu_labels_style"
-        app:fab_menuIcon="@drawable/ic_menu_black_36dp"
+        app:fab_menuIcon="@drawable/ic_menu_white_36dp"
         >
-        <!--TODO cambiare ic_menu_black con icona bianca, fondo trasparente-->
-        <!--app:fab_menuIcon="@drawable/ic_menu_white_36dp"-->
 
+
+        <toan.android.floatingactionmenu.FloatingActionButton
+            android:id="@+id/buttonDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/biancoPallido"
+            app:fab_size="mini"
+            app:fab_title="@string/delete_travel"
+            app:fab_colorPressed="@color/white_pressed"
+            />
 
         <toan.android.floatingactionmenu.FloatingActionButton
             android:id="@+id/buttonStopsList"

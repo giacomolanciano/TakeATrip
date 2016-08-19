@@ -39,6 +39,7 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
+import com.example.david.takeatrip.AsyncTasks.DeleteTravelTask;
 import com.example.david.takeatrip.AsyncTasks.GetPartecipantiViaggioTask;
 import com.example.david.takeatrip.AsyncTasks.ItinerariesTask;
 import com.example.david.takeatrip.AsyncTasks.UpdateCondivisioneViaggioTask;
@@ -148,6 +149,7 @@ public class ViaggioActivity extends AppCompatActivity {
     private FloatingActionsMenu fabMenu;
     private FloatingActionButton buttonStopsList;
     private FloatingActionButton buttonAddPartecipant;
+    private FloatingActionButton buttonDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -284,6 +286,24 @@ public class ViaggioActivity extends AppCompatActivity {
                     fabMenu.collapse();
 
                     onClickStopsList(view);
+
+                }
+            });
+        }
+
+        buttonDelete = (FloatingActionButton) findViewById(R.id.buttonDelete);
+        if (buttonDelete != null) {
+            buttonDelete.setIcon(R.drawable.ic_delete_black_36dp);
+
+            buttonDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Log.i(TAG, "delete travel pressed");
+
+                    fabMenu.collapse();
+
+                    onClickDeleteTravel(view);
 
                 }
             });
@@ -800,6 +820,27 @@ public class ViaggioActivity extends AppCompatActivity {
                 })
                 .setIcon(ContextCompat.getDrawable(ViaggioActivity.this, R.drawable.logodefbordo))
                 .show();
+    }
+
+    private void onClickDeleteTravel(View view) {
+        final View v = view;
+        new android.support.v7.app.AlertDialog.Builder(ViaggioActivity.this)
+                .setTitle(getString(R.string.confirm))
+                .setMessage(getString(R.string.delete_travel_alert))
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        new DeleteTravelTask(ViaggioActivity.this, codiceViaggio).execute();
+                        finish();
+                    }
+                })
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(ContextCompat.getDrawable(ViaggioActivity.this, R.drawable.logodefbordo))
+                .show();
+
     }
 
     private class MyTaskPerUtenti extends AsyncTask<Void, Void, Void> {

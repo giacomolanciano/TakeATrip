@@ -278,7 +278,11 @@
     <string name="set_date">Set date</string>
     <string name="newTravel">Parecipants:\nWrite the name, surname or username of the other participants and then press the "plus button"</string>
     <string name="confirm">Confirm</string>
-    <string name="delete_content_alert">Proceed removing the file from this travel?</string>
+    <string name="delete_content_alert">Proceed removing the content from this travel?</string>
+    <string name="delete_travel">Delete this travel</string>
+    <string name="delete_travel_alert">Proceed deleting this travel?</string>
+    <string name="delete_stop">Delete this stop</string>
+    <string name="delete_stop_alert">Proceed removing the stop and all related contents from this travel?</string>
 
 
 </resources>

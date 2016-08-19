@@ -406,7 +406,7 @@
 
 
 
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
+    <toan.android.floatingactionmenu.FloatingActionsMenu
         android:id="@+id/menuInserimentoContenuti"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -418,11 +418,21 @@
         app:fab_addButtonPlusIconColor="@color/biancoPallido"
         app:fab_labelsPosition="left"
         app:fab_labelStyle="@style/menu_labels_style"
+        app:fab_menuIcon="@drawable/ic_menu_white_36dp"
         >
 
 
+        <toan.android.floatingactionmenu.FloatingActionButton
+            android:id="@+id/buttonDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@color/biancoPallido"
+            app:fab_size="mini"
+            app:fab_title="@string/delete_stop"
+            app:fab_colorPressed="@color/white_pressed"
+            />
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
+        <toan.android.floatingactionmenu.FloatingActionButton
             android:id="@+id/buttonAddNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -432,7 +442,7 @@
             app:fab_size="mini"
             />
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
+        <toan.android.floatingactionmenu.FloatingActionButton
             android:id="@+id/buttonAddRecord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -442,7 +452,7 @@
             app:fab_colorPressed="@color/white_pressed"
             />
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
+        <toan.android.floatingactionmenu.FloatingActionButton
             android:id="@+id/buttonAddVideo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -452,7 +462,7 @@
             app:fab_colorPressed="@color/white_pressed"
             />
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
+        <toan.android.floatingactionmenu.FloatingActionButton
             android:id="@+id/buttonAddPhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -462,7 +472,7 @@
             app:fab_colorPressed="@color/white_pressed"
             />
 
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    </toan.android.floatingactionmenu.FloatingActionsMenu>
 
 
 </android.support.design.widget.CoordinatorLayout>

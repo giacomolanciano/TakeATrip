@@ -32,6 +32,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -39,6 +40,7 @@ import android.widget.TextView;
 
 import com.example.david.takeatrip.AsyncTasks.AggiornamentoDataTappaTask;
 import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
+import com.example.david.takeatrip.AsyncTasks.DeleteStopTask;
 import com.example.david.takeatrip.AsyncTasks.GetNotesTask;
 import com.example.david.takeatrip.AsyncTasks.GetUrlsContentsTask;
 import com.example.david.takeatrip.AsyncTasks.InserimentoAudioTappaTask;
@@ -54,8 +56,6 @@ import com.example.david.takeatrip.Utilities.Constants;
 import com.example.david.takeatrip.Utilities.DatesUtils;
 import com.example.david.takeatrip.Utilities.DeviceStorageUtils;
 import com.example.david.takeatrip.Utilities.MultimedialFile;
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,23 +67,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import toan.android.floatingactionmenu.FloatingActionButton;
+import toan.android.floatingactionmenu.FloatingActionsMenu;
+
 public class TappaActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = "TEST TappaActivity";
-
     private static final String ADDRESS_QUERY_URLS= "QueryImagesOfStops.php";
-
 
     private String email, codiceViaggio, nomeTappa, data;
     private int ordineTappa;
-
     private TextView textDataTappa;
     private String[] strings, subs;
     private int[] arr_images;
-
     private FloatingActionsMenu fabMenu;
-    private FloatingActionButton buttonAddNote, buttonAddRecord, buttonAddVideo, buttonAddPhoto;
-
+    private FloatingActionButton buttonAddNote, buttonAddRecord, buttonAddVideo, buttonAddPhoto, buttonDelete;
     private String imageFileName;
     private String videoFileName;
     private boolean isCanceled;
@@ -91,38 +89,24 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     private int progressStatus;
     private AudioRecord record;
     private Handler handler;
-
     private TextInputLayout textInputLayout;
     private TextInputEditText textInputEditText;
-
     private AppBarLayout appBarLayout;
-
     private String livelloCondivisioneTappa;
-
-
-
-
-
     private static final int INITIAL_DELAY_MILLIS = 500;
     //private MyExpandableListItemAdapter mExpandableListItemAdapter;
     private ListView listView;
-
     private List<Bitmap> immaginiSelezionate, videoSelezionati;
     private Map<Bitmap,String> bitmap_nomeFile;
     private Map<Bitmap, String> pathsImmaginiSelezionate;
     private List<String> audioSelezionati;
-
     private List<String> noteInserite;
-
     private AdaptableGridView gridViewPhotos;
     private AdaptableGridView gridViewRecords;
     private AdaptableGridView gridViewVideos;
     private AdaptableGridView gridViewNotes;
-
     private ImageView coverImageTappa;
-
-
-
+    private List<String> contentsToDelete;
 
 
     @Override
@@ -326,6 +310,24 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             });
         }
 
+        buttonDelete = (FloatingActionButton) findViewById(R.id.buttonDelete);
+        if (buttonDelete != null) {
+            buttonDelete.setIcon(R.drawable.ic_delete_black_36dp);
+
+            buttonDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Log.i(TAG, "delete travel pressed");
+
+                    fabMenu.collapse();
+
+                    onClickDeleteStop(view);
+
+                }
+            });
+        }
+
 
         isCanceled = false;
         isRecordFileCreated = false;
@@ -340,6 +342,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
         noteInserite = new ArrayList<String>();
         audioSelezionati = new ArrayList<String>();
+        contentsToDelete = new ArrayList<String>();
 
         coverImageTappa = (ImageView) findViewById(R.id.coverImageTappa);
 
@@ -1161,6 +1164,30 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                 .show();
     }
 
+    private void onClickDeleteStop(View view) {
+        new android.support.v7.app.AlertDialog.Builder(TappaActivity.this)
+                .setTitle(getString(R.string.confirm))
+                .setMessage(getString(R.string.delete_stop_alert))
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        getContentsToDelete(gridViewPhotos);
+                        getContentsToDelete(gridViewVideos);
+                        getContentsToDelete(gridViewRecords);
+
+                        new DeleteStopTask(TappaActivity.this, codiceViaggio, ordineTappa,
+                                contentsToDelete).execute();
+                        finish();
+                    }
+                })
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(ContextCompat.getDrawable(TappaActivity.this, R.drawable.logodefbordo))
+                .show();
+    }
 
     private void uploadPhotos() {
 
@@ -1265,6 +1292,16 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     }
 
 
+    private void getContentsToDelete(GridView gridView) {
+        View elem;
+        int count = gridView.getChildCount();
+        for(int i = 0; i < count; i++) {
+            elem = gridView.getChildAt(i);
+            contentsToDelete.add(elem.getContentDescription().toString());
+
+            Log.i(TAG, "content "+i+": "+elem.getContentDescription().toString());
+        }
+    }
 
 
     private class PrivacyLevelAdapter extends ArrayAdapter<String> {
