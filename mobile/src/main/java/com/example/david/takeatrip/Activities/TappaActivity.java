@@ -452,6 +452,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                         uploadPhotos();
 
+                        //refresh activity
+                        recreate();
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -533,6 +535,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                         uploadPhotos();
 
 
+                        //refresh activity
+                        recreate();
 
 
                     } else {
@@ -581,6 +585,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
                         uploadVideos();
+
+                        //refresh activity
+                        recreate();
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -632,6 +639,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                     uploadVideos();
 
+                    //refresh activity
+                    recreate();
 
                     break;
 
@@ -651,6 +660,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                     audioSelezionati.add(audioFilePath);
 
                     uploadAudio();
+
+                    //refresh activity
+                    recreate();
 
 
                     break;
@@ -1129,6 +1141,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                             new InserimentoNotaTappaTask(TappaActivity.this, ordineTappa, codiceViaggio,
                                     email, livelloCondivisioneTappa, noteInserite).execute();
                             Log.i(TAG, "edit text confirmed");
+
+                            //refresh activity
+                            recreate();
                         }
                     });
 
@@ -1207,9 +1222,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                 new UploadFileS3Task(TappaActivity.this, Constants.BUCKET_TRAVELS_NAME,
                         codiceViaggio, Constants.TRAVEL_IMAGES_LOCATION, email, pathImage, nameImage).execute();
 
-
-                //TODO nella colonna urlImmagine si potrebbe salvare soltanto il nome del file
-                //si può riscostruire il path a partire dalle altre info nella riga corrispondente
 
                 String completePath = codiceViaggio + "/" + Constants.TRAVEL_IMAGES_LOCATION + "/" + email + "_" + nameImage;
 

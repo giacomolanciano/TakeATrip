@@ -352,6 +352,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
     @Override
     protected void onRestart() {
+        //TODO find workaround to reload properly the map
         super.onRestart();
         if(mGoogleApiClient.isConnected()){
             Log.i(TAG, "google api client is connected, disconnecting...");
