@@ -129,91 +129,62 @@ public class ListaTappeActivity extends AppCompatActivity
         AsyncResponseDriveId, AsyncResponseDriveIdCover, GoogleMap.OnInfoWindowClickListener {
 
     private static final String TAG = "TEST ListaTappeAct";
-
     private static final String ADDRESS_PRELIEVO_TAPPE = "QueryTappe.php";
     private static final String ADDRESS_INSERIMENTO_TAPPA = "InserimentoTappa.php";
-
     private static final int QUALITY_OF_IMAGE = Constants.QUALITY_PHOTO;
-
-
     private static final int LIMIT_IMAGES_VIEWS = 10;
-
-
-
     private static final int GOOGLE_API_CLIENT_ID = 0;
 
     private GoogleMap googleMap;
     private GoogleApiClient mGoogleApiClient;
-
     private Profilo profiloUtenteLoggato;
-
     //il profilo dell'utilizzatore è sempre il primo
     private Map<Profilo,List<Tappa>> profiloTappe;
     private int itinerarioVisualizzato;
     private Profilo profiloVisualizzazioneCorrente;
     private boolean visualizzazioneEsterna = false;
-
-
     private Map<Profilo, List<Place>> profiloNomiTappe;
-
     private List<Profilo> partecipants;
     private List<Tappa> stops;
-
-
     private String email, codiceViaggio, nomeViaggio, urlImmagineViaggio;
-
     private NavigationView navigationView;
     private TextView ViewCaricamentoInCorso;
     private TextView ViewNomeViaggio;
     private FloatingActionButton buttonAddStop;
     private LinearLayout layoutProprietariItinerari;
-
-
     private boolean proprioViaggio = false;
-
     private int ordine, checkSelectionSpinner = 0;
-
     private String placeId, placeName, placeAddress, placeAttr;
     LatLng placeLatLng;
-
     private String[] strings;
     private String[] subs;
     private int[] arr_images;
-
     private Dialog dialog;
     private TextView nameText;
     private TextView addressText;
-
     private Profilo currentProfile;
     private List<Place> nomiTappe;
     private List<String> namesStops;
     private PolylineOptions polyline;
-
     private LatLngBounds.Builder mapBoundsBuilder;
     private LatLngBounds mapBounds;
-
     private boolean isCanceled, isRecordFileCreated;
     private int progressStatus;
     private Handler handler;
     private CollationElementIterator tv;
     private AudioRecord record;
-
     private DriveId idFolder;
     private String imageFileName;
     private String videoFileName;
     private String livelloCondivisioneTappa;
     private String livelloCondivisioneDefaultViaggio;
-
     private List<Bitmap> immaginiSelezionate, videoSelezionati;
     private Map<Bitmap, String> bitmap_nomeFile;
     private Map<Bitmap, String> pathsImmaginiVideoSelezionati;
-
     private List<String> audioSelezionati;
     private List<String> noteInserite;
-
     private LinearLayout linearLayoutHeader;
     private LinearLayout layoutContents,rowHorizontal;
-
     private TextInputLayout textInputLayout;
     private TextInputEditText textInputEditText;
     private RoundedImageView ViewImmagineViaggio;
@@ -379,6 +350,16 @@ public class ListaTappeActivity extends AppCompatActivity
 
     }
 
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        if(mGoogleApiClient.isConnected()){
+//            Log.i(TAG, "google api client is connected, disconnecting...");
+//            mGoogleApiClient.disconnect();
+//        }
+//        recreate();
+//    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -420,7 +401,6 @@ public class ListaTappeActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
