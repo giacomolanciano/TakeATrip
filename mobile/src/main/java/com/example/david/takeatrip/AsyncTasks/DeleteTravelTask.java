@@ -35,7 +35,7 @@ import java.util.List;
  */
 public class DeleteTravelTask extends AsyncTask<Void, Void, Void> {
 
-    private static final String TAG = "TEST DelStopContTask";
+    private static final String TAG = "TEST DelTravelTask";
 
     private static final String QUERY_DEL_TRAVEL = "DeleteTravel.php";
 
