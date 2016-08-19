@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -121,6 +122,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     private String idFolder, idImageProfile, idCoverImage, numFollowers, numFollowings;
 
     private boolean alreadyFollowing = false;
+
 
 
     // The TransferUtility is the primary class for managing transfer to S3
@@ -459,6 +461,14 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     startActivity(intentFollowers);
 
     }
+
+    public void ClickHomeProfile(View v) {
+        // metodo per tornare alla home mantenendo i dati
+        Intent intent = NavUtils.getParentActivityIntent(this);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        NavUtils.navigateUpTo(this, intent);
+    }
+
 
 //    public void ClickFollowing(View v) {
 //        Intent intentFollowers = new Intent(this, VisualizzazioneFollowActivity.class);

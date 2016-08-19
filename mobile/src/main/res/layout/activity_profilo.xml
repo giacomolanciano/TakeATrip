@@ -198,12 +198,25 @@
                                     android:layout_gravity="center_vertical"
                                     android:textSize="14sp"/>
 
+
                             </LinearLayout>
 
 
                         </LinearLayout>
 
                     </LinearLayout>
+
+
+                    <Button
+                        android:id="@+id/home"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:drawSelectorOnTop="true"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/ic_home_black_36dp"
+                        android:layout_marginLeft="10dp"
+                        android:nestedScrollingEnabled="false"
+                        android:onClick="ClickHomeProfile" />
 
                 </FrameLayout>
             </LinearLayout>
@@ -223,9 +236,6 @@
                     android:layout_gravity="bottom"
                     android:background="@color/blue"
                     android:onClick="ClickFollowers">
-
-
-
 
 
                 </LinearLayout>

@@ -55,7 +55,8 @@
             android:label="@string/title_activity_registrazione" />
         <activity
             android:name=".Activities.ProfiloActivity"
-            android:label="@string/title_activity_profilo" />
+            android:label="@string/title_activity_profilo"
+            android:parentActivityName="com.example.david.takeatrip.Activities.MainActivity" />
         <activity
             android:name=".Activities.ListaViaggiActivity"
             android:label="@string/title_activity_lista_viaggi" />
@@ -84,7 +85,8 @@
         <activity
             android:name=".Activities.ListaTappeActivity"
             android:label="@string/title_activity_lista_tappe2"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:parentActivityName="com.example.david.takeatrip.Activities.MainActivity" />
         <activity android:name=".Activities.SearchActivity" />
         <activity
             android:name=".Activities.SocialActivity"
@@ -98,7 +100,8 @@
         <activity
             android:name=".Activities.TappaActivity"
             android:label="@string/title_activity_tappa"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:parentActivityName="com.example.david.takeatrip.Activities.MainActivity" />
         <activity
             android:name=".Activities.VisualizzazioneFollowActivity"
             android:theme="@style/ThemeSocial" />

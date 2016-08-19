@@ -62,6 +62,17 @@
                     android:theme="@style/Theme.Design.Light"
                 />
 
+                <Button
+                    android:id="@+id/home"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:drawSelectorOnTop="true"
+                    android:layout_gravity="start|top"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:theme="@style/Theme.Design.Light"
+                    android:onClick="onClickHome"
+                    android:background="@drawable/ic_home_black_36dp" />
+
             </android.support.v7.widget.Toolbar>
 
 
