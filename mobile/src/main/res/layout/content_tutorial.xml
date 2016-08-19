@@ -204,6 +204,97 @@
             android:layout_toEndOf="@+id/imageView3"
             android:layout_marginTop="400dp" />
 
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/menu"
+            android:layout_gravity="right"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentStart="false"
+            android:id="@+id/iconaMenu"
+            android:layout_alignParentEnd="false"
+            android:layout_marginTop="480dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/menu_text"
+            android:layout_gravity="left|center_horizontal"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:id="@+id/testoMenu"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:padding="10dp"
+            android:layout_alignTop="@+id/imageView3"
+            android:layout_toEndOf="@+id/imageView3"
+            android:layout_marginTop="480dp" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_home_black_36dp"
+            android:layout_gravity="right"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentStart="false"
+            android:id="@+id/iconaHome"
+            android:layout_alignParentEnd="false"
+            android:layout_marginTop="560dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_text"
+            android:layout_gravity="left|center_horizontal"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:id="@+id/testoHome"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:padding="10dp"
+            android:layout_alignTop="@+id/imageView3"
+            android:layout_toEndOf="@+id/imageView3"
+            android:layout_marginTop="570dp" />
+
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_help_black_36dp"
+            android:layout_gravity="right"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentStart="false"
+            android:id="@+id/iconaHelp"
+            android:layout_alignParentEnd="false"
+            android:layout_marginTop="640dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_text"
+            android:layout_gravity="left|center_horizontal"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:id="@+id/testoHelp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:padding="10dp"
+            android:layout_alignTop="@+id/imageView3"
+            android:layout_toEndOf="@+id/imageView3"
+            android:layout_marginTop="645dp" />
+
 
 
 
