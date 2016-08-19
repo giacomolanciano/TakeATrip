@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -42,6 +43,7 @@ import com.example.david.takeatrip.AsyncTasks.DeleteTravelTask;
 import com.example.david.takeatrip.AsyncTasks.GetPartecipantiViaggioTask;
 import com.example.david.takeatrip.AsyncTasks.ItinerariesTask;
 import com.example.david.takeatrip.AsyncTasks.UpdateCondivisioneViaggioTask;
+import com.example.david.takeatrip.AsyncTasks.UpdateTravelNameTask;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.Classes.TakeATrip;
 import com.example.david.takeatrip.GraphicalComponents.AdaptableGridView;
@@ -78,38 +80,42 @@ import toan.android.floatingactionmenu.FloatingActionsMenu;
 public class ViaggioActivity extends AppCompatActivity {
 
     private static final String TAG = "TEST ViaggioActivity";
-
     private static final String ADDRESS = "QueryNomiUtenti.php";
     private static final String ADDRESS_QUERY_FOLDER = "QueryCartellaGenerica.php";
     private static final String ADDRESS_INSERT_FOLDER = "CreazioneCartellaViaggio.php";
-
-
     private static final int DIMENSION_OF_IMAGE_PARTECIPANT = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT;
     private static final int DIMENSION_OF_SPACE = Constants.BASE_DIMENSION_OF_SPACE;
-
-
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
-
     private static final int LIMIT_IMAGES_VIEWS = 4;
 
-
     private String email, emailEsterno, codiceViaggio, nomeViaggio;
-
     private boolean proprioViaggio = false;
     private List<Profilo> listPartecipants, profiles;
     private List<String> names;
-
     private LinearLayout layoutPartecipants;
     private LinearLayout rowHorizontal;
-
     private ImageView imageTravel;
-
     private DriveId idFolder;
     private Bitmap bitmapImageTravel;
     private String nameImageTravel, urlImageTravel;
-
+    private AdaptableGridView gridViewPhotos;
+    private AdaptableGridView gridViewRecords;
+    private AdaptableGridView gridViewVideos;
+    private AdaptableGridView gridViewNotes;
+    private String[] strings, subs;
+    private int[] arr_images;
+    private String livelloCondivisioneViaggio;
+    private AppBarLayout appBarLayout;
+    private int checkSelectionSpinner = 0;
+    private EditText TextNameTravel;
+    private FloatingActionsMenu fabMenu;
+    private FloatingActionButton buttonStopsList;
+    private FloatingActionButton buttonAddPartecipant;
+    private FloatingActionButton buttonDelete;
     private String nameForUrl;
+    private Toolbar toolbar;
+    private CollapsingToolbarLayout collapsingToolbar;
 
     // The TransferUtility is the primary class for managing transfer to S3
     private TransferUtility transferUtility;
@@ -129,26 +135,6 @@ public class ViaggioActivity extends AppCompatActivity {
      * activity.
      */
     private ArrayList<HashMap<String, List<Object>>> transferRecordMaps;
-
-
-
-    private AdaptableGridView gridViewPhotos;
-    private AdaptableGridView gridViewRecords;
-    private AdaptableGridView gridViewVideos;
-    private AdaptableGridView gridViewNotes;
-
-    private String[] strings, subs;
-    private int[] arr_images;
-    private String livelloCondivisioneViaggio;
-    private AppBarLayout appBarLayout;
-
-    private int checkSelectionSpinner = 0;
-    private EditText TextNameTravel;
-
-    private FloatingActionsMenu fabMenu;
-    private FloatingActionButton buttonStopsList;
-    private FloatingActionButton buttonAddPartecipant;
-    private FloatingActionButton buttonDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,10 +165,11 @@ public class ViaggioActivity extends AppCompatActivity {
         //retreive the content view of the activity for GetPartecipantiViaggioTask to work
         View contentView = findViewById(android.R.id.content);
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.myToolbar);
+
+        toolbar = (Toolbar) findViewById(R.id.myToolbar);
         setSupportActionBar(toolbar);
 
-        final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         if (collapsingToolbar != null) {
             collapsingToolbar.setTitle(nomeViaggio);
         } else {
@@ -391,16 +378,44 @@ public class ViaggioActivity extends AppCompatActivity {
 
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
-                            case 0: //view image profile
+                            case 0: //view cover image
 
                                 break;
-                            case 1: //change image profile
+                            case 1: //change cover image
                                 Intent intentPick = new Intent(Intent.ACTION_PICK,
                                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
                                 startActivityForResult(intentPick, REQUEST_IMAGE_PICK);
                                 break;
+                            case 2: //modify travel name
+                                LayoutInflater inflater = (LayoutInflater) getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+                                final View dialogView = inflater.inflate(R.layout.material_edit_text, null);
+                                final TextInputEditText textInputEditText= (TextInputEditText) dialogView.findViewById(R.id.editText);
+                                textInputEditText.setText(collapsingToolbar.getTitle());
 
+                                new android.support.v7.app.AlertDialog.Builder(ViaggioActivity.this)
+                                        .setView(dialogView)
+                                        .setTitle(getString(R.string.edit_travel_name))
+                                        .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                String nuovoNome = textInputEditText.getText().toString();
+                                                new UpdateTravelNameTask(ViaggioActivity.this, codiceViaggio, nuovoNome)
+                                                        .execute();
+                                                collapsingToolbar.setTitle(nuovoNome);
+
+                                                Log.i(TAG, "edit text dialog confirmed");
+                                            }
+                                        })
+                                        .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                                Log.i(TAG, "edit text dialog canceled");
+                                            }
+                                        })
+                                        .setIcon(ContextCompat.getDrawable(ViaggioActivity.this, R.drawable.logodefbordo))
+                                        .show();
+
+                                break;
                             case 3: //exit
                                 break;
                         }
@@ -518,20 +533,6 @@ public class ViaggioActivity extends AppCompatActivity {
         }
 
         if(proprioViaggio){
-
-//            android.support.design.widget.FloatingActionButton buttonAddPartecipant = new android.support.design.widget.FloatingActionButton(this);
-//
-//
-//            buttonAddPartecipant.setRippleColor(getResources().getColor(R.color.blue));
-//            buttonAddPartecipant.setImageResource(R.drawable.ic_add_white_24dp);
-//            buttonAddPartecipant.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    onClickAddPartecipant(v);
-//                }
-//            });
-//
-//            rowHorizontal.addView(buttonAddPartecipant, DIMENSION_OF_IMAGE_PARTECIPANT, DIMENSION_OF_IMAGE_PARTECIPANT);
 
             buttonAddPartecipant = new FloatingActionButton(this);
             buttonAddPartecipant.setIcon(R.drawable.ic_person_add_black_36dp);
@@ -788,11 +789,12 @@ public class ViaggioActivity extends AppCompatActivity {
 
 
     }
-    //Dialog per cancel o backPressed su aggiunta partecipanti
+
     private void alertDialog(final View v){
+        //Dialog per cancel o backPressed su aggiunta partecipanti
         new android.support.v7.app.AlertDialog.Builder(ViaggioActivity.this)
                 .setTitle(getString(R.string.back))
-                .setMessage(getString(R.string.allert_message))
+                .setMessage(getString(R.string.alert_message))
                 .setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -822,7 +824,6 @@ public class ViaggioActivity extends AppCompatActivity {
     }
 
     private void onClickDeleteTravel(View view) {
-        final View v = view;
         new android.support.v7.app.AlertDialog.Builder(ViaggioActivity.this)
                 .setTitle(getString(R.string.confirm))
                 .setMessage(getString(R.string.delete_travel_alert))
