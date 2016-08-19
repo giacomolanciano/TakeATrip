@@ -280,7 +280,7 @@
     <string name="help">Help</string>
     <string name="dateFormat">date format: dd/mm/aaaa</string>
     <string name="set_date">Set date</string>
-    <string name="newTravel">Parecipants:\nWrite the name, surname or username of the other participants and then press the "plus button"</string>
+    <string name="newTravel">Partecipants:\nWrite the name, surname or username of the other participants and then press the "plus button"</string>
     <string name="confirm">Confirm</string>
     <string name="delete_content_alert">Proceed removing the content from this travel?</string>
     <string name="delete_travel">Delete this travel</string>

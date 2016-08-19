@@ -340,6 +340,8 @@ public class ListaTappeActivity extends AppCompatActivity
         handler = new Handler();
 
         setTitle(nomeViaggio);
+
+
     }
 
     @Override
