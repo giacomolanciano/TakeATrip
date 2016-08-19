@@ -109,23 +109,24 @@
 
 
     <string-array name="CommandsImageProfile">
-        <item>view image profile</item>
-        <item>change image profile</item>
-        <item>take a photo</item>
-        <item>exit</item>
+        <item>View profile image</item>
+        <item>Modify profile image</item>
+        <item>Take a photo</item>
+        <item>Cancel</item>
     </string-array>
 
     <string-array name="CommandsCoverImage">
-        <item>view cover image</item>
-        <item>change cover image</item>
-        <item>take a photo</item>
-        <item>exit</item>
+        <item>View cover image</item>
+        <item>Modify cover image</item>
+        <item>Take a photo</item>
+        <item>Cancel</item>
     </string-array>
 
     <string-array name="CommandsTravelImage">
-        <item>view travel image</item>
-        <item>change travel image</item>
-        <item>exit</item>
+        <item>View travel image</item>
+        <item>Modify travel image</item>
+        <item>Modify travel name</item>
+        <item>Cancel</item>
     </string-array>
 
 
@@ -253,8 +254,8 @@
     <string name="title_activity_streaming">StreamingActivity</string>
     <string name="exit">Exit</string>
     <string name="back">Go Back</string>
-    <string name="allert_message">Are you sure?</string>
-    <string name="allert_message_info_user">Exit without saving?</string>
+    <string name="alert_message">Are you sure?</string>
+    <string name="alert_message_info_user">Exit without saving?</string>
     <string name="si">Yes</string>
     <string name="no">No</string>
     <string name="travelCreate">Create Travel</string>
