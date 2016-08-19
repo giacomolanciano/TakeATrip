@@ -485,7 +485,7 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
 
         new AlertDialog.Builder(RegistrazioneActivity.this)
                 .setTitle(getString(R.string.back))
-                .setMessage(getString(R.string.allert_message_info_user))
+                .setMessage(getString(R.string.alert_message_info_user))
                 .setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         doubleBackToExitPressedOnce = true;

@@ -6,12 +6,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -644,7 +644,7 @@ public class NuovoViaggioActivity extends AppCompatActivity {
 
         new AlertDialog.Builder(NuovoViaggioActivity.this)
                 .setTitle(getString(R.string.back))
-                .setMessage(getString(R.string.allert_message))
+                .setMessage(getString(R.string.alert_message))
                 .setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         doubleBackToExitPressedOnce = true;

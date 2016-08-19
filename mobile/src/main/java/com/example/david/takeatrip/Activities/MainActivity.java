@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -656,7 +655,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         new AlertDialog.Builder(MainActivity.this)
                 .setTitle(getString(R.string.exit))
-                .setMessage(getString(R.string.allert_message))
+                .setMessage(getString(R.string.alert_message))
                 .setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         doubleBackToExitPressedOnce = true;
