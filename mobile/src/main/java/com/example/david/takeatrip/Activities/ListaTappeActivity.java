@@ -350,15 +350,15 @@ public class ListaTappeActivity extends AppCompatActivity
 
     }
 
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-//        if(mGoogleApiClient.isConnected()){
-//            Log.i(TAG, "google api client is connected, disconnecting...");
-//            mGoogleApiClient.disconnect();
-//        }
-//        recreate();
-//    }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(mGoogleApiClient.isConnected()){
+            Log.i(TAG, "google api client is connected, disconnecting...");
+            mGoogleApiClient.disconnect();
+        }
+        recreate();
+    }
 
     @Override
     protected void onDestroy() {
