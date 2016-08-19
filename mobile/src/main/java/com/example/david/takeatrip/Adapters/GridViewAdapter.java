@@ -307,7 +307,7 @@ public class GridViewAdapter extends BaseAdapter {
         return s3;
     }
 
-    private void confirmFileDeletion(View v, String q) {
+    protected void confirmFileDeletion(View v, String q) {
         final View view = v;
         final String query = q;
 
