@@ -32,6 +32,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -72,20 +73,15 @@ import toan.android.floatingactionmenu.FloatingActionsMenu;
 public class TappaActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = "TEST TappaActivity";
-
     private static final String ADDRESS_QUERY_URLS= "QueryImagesOfStops.php";
-
 
     private String email, codiceViaggio, nomeTappa, data;
     private int ordineTappa;
-
     private TextView textDataTappa;
     private String[] strings, subs;
     private int[] arr_images;
-
     private FloatingActionsMenu fabMenu;
     private FloatingActionButton buttonAddNote, buttonAddRecord, buttonAddVideo, buttonAddPhoto, buttonDelete;
-
     private String imageFileName;
     private String videoFileName;
     private boolean isCanceled;
@@ -93,38 +89,24 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     private int progressStatus;
     private AudioRecord record;
     private Handler handler;
-
     private TextInputLayout textInputLayout;
     private TextInputEditText textInputEditText;
-
     private AppBarLayout appBarLayout;
-
     private String livelloCondivisioneTappa;
-
-
-
-
-
     private static final int INITIAL_DELAY_MILLIS = 500;
     //private MyExpandableListItemAdapter mExpandableListItemAdapter;
     private ListView listView;
-
     private List<Bitmap> immaginiSelezionate, videoSelezionati;
     private Map<Bitmap,String> bitmap_nomeFile;
     private Map<Bitmap, String> pathsImmaginiSelezionate;
     private List<String> audioSelezionati;
-
     private List<String> noteInserite;
-
     private AdaptableGridView gridViewPhotos;
     private AdaptableGridView gridViewRecords;
     private AdaptableGridView gridViewVideos;
     private AdaptableGridView gridViewNotes;
-
     private ImageView coverImageTappa;
-
-
-
+    private List<String> contentsToDelete;
 
 
     @Override
@@ -360,6 +342,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
         noteInserite = new ArrayList<String>();
         audioSelezionati = new ArrayList<String>();
+        contentsToDelete = new ArrayList<String>();
 
         coverImageTappa = (ImageView) findViewById(R.id.coverImageTappa);
 
@@ -1182,13 +1165,18 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     }
 
     private void onClickDeleteStop(View view) {
-        final View v = view;
         new android.support.v7.app.AlertDialog.Builder(TappaActivity.this)
                 .setTitle(getString(R.string.confirm))
                 .setMessage(getString(R.string.delete_stop_alert))
                 .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        new DeleteStopTask(TappaActivity.this, codiceViaggio, ordineTappa).execute();
+
+                        getContentsToDelete(gridViewPhotos);
+                        getContentsToDelete(gridViewVideos);
+                        getContentsToDelete(gridViewRecords);
+
+                        new DeleteStopTask(TappaActivity.this, codiceViaggio, ordineTappa,
+                                contentsToDelete).execute();
                         finish();
                     }
                 })
@@ -1304,6 +1292,16 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     }
 
 
+    private void getContentsToDelete(GridView gridView) {
+        View elem;
+        int count = gridView.getChildCount();
+        for(int i = 0; i < count; i++) {
+            elem = gridView.getChildAt(i);
+            contentsToDelete.add(elem.getContentDescription().toString());
+
+            Log.i(TAG, "content "+i+": "+elem.getContentDescription().toString());
+        }
+    }
 
 
     private class PrivacyLevelAdapter extends ArrayAdapter<String> {
