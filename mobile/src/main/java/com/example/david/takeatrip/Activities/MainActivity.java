@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -123,6 +122,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //per allert
     private boolean doubleBackToExitPressedOnce = false;
 
+    //per salvare i dati
+    static final String EMAIL = "email";
+
+
 
 
     @Override
@@ -130,51 +133,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.i(TAG, "SALVATO BUNDLE: " + savedInstanceState);
+
+        if (savedInstanceState != null) {
+            // Restore value of members from saved state
+            email = savedInstanceState.getString(email);
+            Log.i(TAG, "EMAIL SALVATA: " + email);
+        }
+
         if (getIntent() != null) {
-            Intent intent = getIntent();
-            name = intent.getStringExtra("name");
-            surname = intent.getStringExtra("surname");
-            email = intent.getStringExtra("email");
-            date = intent.getStringExtra("dateOfBirth");
-            password = intent.getStringExtra("pwd");
-            nazionalità = intent.getStringExtra("nazionalita");
-            sesso = intent.getStringExtra("sesso");
-            username = intent.getStringExtra("username");
-            lavoro = intent.getStringExtra("lavoro");
-            descrizione = intent.getStringExtra("descrizione");
-            tipo = intent.getStringExtra("tipo");
-            profile = intent.getParcelableExtra("profile");
-        } else {
-            //Prendi i dati dal database perche è gia presente l'utente
+                Intent intent = getIntent();
+                name = intent.getStringExtra("name");
+                surname = intent.getStringExtra("surname");
+                email = intent.getStringExtra("email");
+                date = intent.getStringExtra("dateOfBirth");
+                password = intent.getStringExtra("pwd");
+                nazionalità = intent.getStringExtra("nazionalita");
+                sesso = intent.getStringExtra("sesso");
+                username = intent.getStringExtra("username");
+                lavoro = intent.getStringExtra("lavoro");
+                descrizione = intent.getStringExtra("descrizione");
+                tipo = intent.getStringExtra("tipo");
+                profile = intent.getParcelableExtra("profile");
+            } else {
+                //Prendi i dati dal database perche è gia presente l'utente
+            }
+
+            imageViewProfileRound = (ImageView) findViewById(R.id.imageView_round);
+
+            transferUtility = UtilS3Amazon.getTransferUtility(this);
+            transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
+            s3 = UtilS3Amazon.getS3Client(MainActivity.this);
+
+
+            new MyTask().execute();
+
+            new MyTaskIDProfileImage(this, email).execute();
+            new MyTaskIDCoverImage(this, email).execute();
+
+
+            if (sesso != null && sesso.equals("M")) {
+                imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_male));
+            } else if (sesso != null && sesso.equals("F")) {
+                imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_female));
+            }
+
+            names = new ArrayList<String>();
+            namesPartecipants = new ArrayList<String>();
+            partecipants = new HashSet<Profilo>();
+            profiles = new HashSet<Profilo>();
+            myProfile = new Profilo(email, name, surname, date, password, nazionalità, sesso, username, lavoro, descrizione);
+            TakeATrip TAT = (TakeATrip) getApplicationContext();
+            TAT.setProfiloCorrente(myProfile);
         }
-
-        imageViewProfileRound = (ImageView) findViewById(R.id.imageView_round);
-
-        transferUtility = UtilS3Amazon.getTransferUtility(this);
-        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
-        s3 = UtilS3Amazon.getS3Client(MainActivity.this);
-
-
-        new MyTask().execute();
-
-        new MyTaskIDProfileImage(this, email).execute();
-        new MyTaskIDCoverImage(this, email).execute();
-
-
-        if (sesso != null && sesso.equals("M")) {
-            imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_male));
-        } else if (sesso != null && sesso.equals("F")) {
-            imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_female));
-        }
-
-        names = new ArrayList<String>();
-        namesPartecipants = new ArrayList<String>();
-        partecipants = new HashSet<Profilo>();
-        profiles = new HashSet<Profilo>();
-        myProfile = new Profilo(email, name, surname, date, password, nazionalità, sesso, username, lavoro, descrizione);
-        TakeATrip TAT = (TakeATrip) getApplicationContext();
-        TAT.setProfiloCorrente(myProfile);
-    }
 
 
     @Override
@@ -187,6 +198,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             googleApiClient.connect();
         }
         AppEventsLogger.activateApp(this);
+
     }
 
     protected void onPause() {
@@ -194,6 +206,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(this);
     }
+
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+        Log.i(TAG, "SALVO BUNDLE: " + savedInstanceState);
+        // Save the user's current game state
+        savedInstanceState.putString(EMAIL, email);
+        Log.i(TAG, "SALVO EMAIL: " + email);
+
+    }
+/*
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        // Always call the superclass so it can restore the view hierarchy
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // Restore state members from saved instance
+        email = savedInstanceState.getString(email);
+        Log.i(TAG, "EMAIL SALVATA: " + email);
+    }
+    */
 
     public void ClickImageProfile(View v) {
         Intent openProfilo = new Intent(MainActivity.this, ProfiloActivity.class);
@@ -687,6 +719,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferences prefs = c.getSharedPreferences("com.example.david.takeatrip", Context.MODE_PRIVATE);
         prefs.edit().clear().commit();
     }
+
 
 
 

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -887,7 +888,12 @@ public class ViaggioActivity extends AppCompatActivity {
         }
     }
 
-
+    public void onClickHome(View v) {
+       // NavUtils.navigateUpFromSameTask(ViaggioActivity.this);
+        Intent intent = NavUtils.getParentActivityIntent(this);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        NavUtils.navigateUpTo(this, intent);
+    }
 
     private class PrivacyLevelAdapter extends ArrayAdapter<String> {
 
@@ -929,6 +935,7 @@ public class ViaggioActivity extends AppCompatActivity {
 
             return convertView;
         }
+
 
     }
 
