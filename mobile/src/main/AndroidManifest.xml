@@ -77,7 +77,8 @@
         <activity android:name=".Activities.MapsActivity" />
         <activity android:name=".Activities.MainActivity"
             android:launchMode="singleTop"
-/>
+/> <!--  usato per tornare alla mainActivity se usiamo onSavedInstanceState-->
+
         <activity android:name=".Activities.InfoActivity" />
         <activity android:name=".Activities.StatsActivity" />
         <activity

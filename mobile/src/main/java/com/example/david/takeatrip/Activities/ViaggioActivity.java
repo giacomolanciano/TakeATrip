@@ -930,7 +930,7 @@ public class ViaggioActivity extends AppCompatActivity {
     }
 
     public void onClickHome(View v) {
-       // NavUtils.navigateUpFromSameTask(ViaggioActivity.this);
+       // metodo per tornare alla home mantenendo i dati
         Intent intent = NavUtils.getParentActivityIntent(this);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
         NavUtils.navigateUpTo(this, intent);

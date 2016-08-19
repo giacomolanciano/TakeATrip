@@ -133,14 +133,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.i(TAG, "SALVATO BUNDLE: " + savedInstanceState);
-
+/*      usato solo con onSavedInstanceState
         if (savedInstanceState != null) {
             // Restore value of members from saved state
             email = savedInstanceState.getString(email);
-            Log.i(TAG, "EMAIL SALVATA: " + email);
         }
-
+*/
         if (getIntent() != null) {
                 Intent intent = getIntent();
                 name = intent.getStringExtra("name");
@@ -207,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AppEventsLogger.deactivateApp(this);
     }
 
+    /* usato solo quando viene distrutta l'activity
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
@@ -216,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.i(TAG, "SALVO EMAIL: " + email);
 
     }
+    */
 /*
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         // Always call the superclass so it can restore the view hierarchy
