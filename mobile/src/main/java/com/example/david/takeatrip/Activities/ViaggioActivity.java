@@ -14,8 +14,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.NavUtils;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -323,10 +323,16 @@ public class ViaggioActivity extends AppCompatActivity {
 
     }
 
-    public void onClickSettingsIcon(View v){
-
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        recreate();
+    }
 
     public void onClickStopsList(View v){
         CharSequence[] emailPartecipants = new CharSequence[listPartecipants.size()];
