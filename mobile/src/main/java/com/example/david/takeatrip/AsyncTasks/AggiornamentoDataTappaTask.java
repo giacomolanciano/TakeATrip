@@ -1,5 +1,6 @@
 package com.example.david.takeatrip.AsyncTasks;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -40,6 +41,9 @@ public class AggiornamentoDataTappaTask extends AsyncTask<Void, Void, Void> {
     private String codiceViaggio;
     private String email;
     private String dataTappa;
+
+    private ProgressDialog mProgressDialog;
+
 
     public AggiornamentoDataTappaTask(Context context, int ordineTappa, String codiceViaggio,
                                       String email, String dataTappa) {
@@ -129,6 +133,14 @@ public class AggiornamentoDataTappaTask extends AsyncTask<Void, Void, Void> {
             Log.i(TAG, "data aggiornata");
 
         }
+        hideProgressDialog();
         super.onPostExecute(aVoid);
+    }
+
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
     }
 }

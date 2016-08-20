@@ -1,5 +1,6 @@
 package com.example.david.takeatrip.AsyncTasks;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -46,6 +47,8 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
     String result, stringaFinale = "";
     private List<String> listContents;
     private String[] notes;
+
+    private ProgressDialog mProgressDialog;
 
     public GetNotesTask(Context context, String codiceViaggio, String emailProfilo,
                         GridView gridView, String phpFile) {
@@ -143,6 +146,8 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void aVoid) {
+        hideProgressDialog();
+
         super.onPostExecute(aVoid);
 
         Log.i(TAG, "BEGIN onPostExecute");
@@ -172,6 +177,7 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
             Log.i(TAG, "notes: " + debug);
 
 
+
         } else {
             return;
         }
@@ -179,9 +185,15 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
 
 
         gv.setAdapter(new GridViewAdapter(context, notes, Constants.NOTE_FILE, codiceViaggio));
-
         Log.i(TAG, "settato l'adapter per il grid");
 
+    }
+
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
     }
 
 }

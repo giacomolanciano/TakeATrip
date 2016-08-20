@@ -1,6 +1,7 @@
 package com.example.david.takeatrip.Activities;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.app.TabActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -123,7 +124,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
     private boolean alreadyFollowing = false;
 
-
+    private ProgressDialog mProgressDialog;
 
     // The TransferUtility is the primary class for managing transfer to S3
     private TransferUtility transferUtility;
@@ -277,6 +278,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             }
         }
 
+        showProgressDialog();
         //per aggiornamento numero follow...
         new MyTaskQueryNumFollowers().execute();
         new MyTaskQueryNumFollowings().execute();
@@ -1110,6 +1112,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             super.onPostExecute(aVoid);
             numFollowingsView.setText(numFollowings);
             numFollowersView.setText(numFollowers);
+            super.onPostExecute(aVoid);
+
         }
     }
 
@@ -1182,10 +1186,9 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
             numFollowingsView.setText(numFollowings);
             numFollowersView.setText(numFollowers);
+            hideProgressDialog();
         }
     }
-
-
     /*
      * A TransferListener class that can listen to a download task and be
      * notified when the status changes.
@@ -1207,5 +1210,23 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             Log.i(TAG, "onStateChanged: " + id + ", " + state);
         }
     }
+
+
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
+    }
+
 
 }

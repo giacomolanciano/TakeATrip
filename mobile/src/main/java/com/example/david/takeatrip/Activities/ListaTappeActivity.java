@@ -191,6 +191,9 @@ public class ListaTappeActivity extends AppCompatActivity
     private RoundedImageView ViewImmagineViaggio;
 
 
+    private ProgressDialog mProgressDialog;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -315,6 +318,7 @@ public class ListaTappeActivity extends AppCompatActivity
             Log.e(TAG, "viewNomeViaggio is null");
         }
 
+        showProgressDialog();
         GetTappeTask mT = new GetTappeTask();
         mT.execute();
 
@@ -1869,6 +1873,7 @@ public class ListaTappeActivity extends AppCompatActivity
             }
 
             ordine = calcolaNumUltimaTappaUtenteCorrente()+1;
+            hideProgressDialog();
         }
     }
 
@@ -2105,5 +2110,20 @@ public class ListaTappeActivity extends AppCompatActivity
         }
     }
 
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
+    }
 
 }

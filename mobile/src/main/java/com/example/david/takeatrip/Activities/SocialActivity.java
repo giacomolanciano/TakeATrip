@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -78,6 +79,8 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
     private HashSet<Profilo> profiles;
 
     private String[] tabs = {"FOLLOWERS","FOLLOWING", "SEARCH"};
+
+    private ProgressDialog mProgressDialog;
 
     private int[] icons = {
             //R.drawable.ic_people_black_36dp,
@@ -181,6 +184,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         }
 
 
+        showProgressDialog();
         MyTaskFollowing mTF = new MyTaskFollowing();
         mTF.execute();
 
@@ -323,8 +327,9 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
                 Toast.makeText(getBaseContext(), stringaFinale, Toast.LENGTH_LONG).show();
                 settaAdapter();
             }
-            
-            
+
+
+            hideProgressDialog();
             super.onPostExecute(aVoid);
         }
     }
@@ -461,6 +466,21 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
     }
 
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
+    }
 
 
 }

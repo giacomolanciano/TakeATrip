@@ -2,6 +2,7 @@ package com.example.david.takeatrip.Activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -136,6 +137,9 @@ public class ViaggioActivity extends AppCompatActivity {
      * activity.
      */
     private ArrayList<HashMap<String, List<Object>>> transferRecordMaps;
+
+
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -314,7 +318,7 @@ public class ViaggioActivity extends AppCompatActivity {
         }
 
 
-
+        showProgressDialog();
         new MyTaskPerUtenti().execute();
 
 
@@ -931,6 +935,7 @@ public class ViaggioActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            hideProgressDialog();
             super.onPostExecute(aVoid);
 
         }
@@ -941,6 +946,22 @@ public class ViaggioActivity extends AppCompatActivity {
         Intent intent = NavUtils.getParentActivityIntent(this);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
         NavUtils.navigateUpTo(this, intent);
+    }
+
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
     }
 
     private class PrivacyLevelAdapter extends ArrayAdapter<String> {
@@ -983,6 +1004,7 @@ public class ViaggioActivity extends AppCompatActivity {
 
             return convertView;
         }
+
 
 
     }

@@ -110,6 +110,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     private List<String> contentsToDelete;
 
 
+    private ProgressDialog mProgressDialog;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -399,6 +402,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
         textDataTappa.setText(DatesUtils.getStringFromDate(newDate, Constants.DISPLAYED_DATE_FORMAT));
 
+        showProgressDialog();
         new AggiornamentoDataTappaTask(TappaActivity.this, ordineTappa, codiceViaggio, email,
                 DatesUtils.getStringFromDate(newDate, Constants.DATABASE_DATE_FORMAT)).execute();
 
@@ -1366,6 +1370,22 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         }
     }
 
+
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
+    }
 
 
 

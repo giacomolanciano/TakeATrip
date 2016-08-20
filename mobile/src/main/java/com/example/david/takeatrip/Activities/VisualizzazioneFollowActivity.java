@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -59,6 +60,8 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
 
     ArrayList<Profilo> seguiti = new ArrayList<Profilo>();
     ArrayList<Profilo> seguaci = new ArrayList<Profilo>();
+
+    private ProgressDialog mProgressDialog;
 
 
     private String email;
@@ -166,7 +169,7 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
             e.printStackTrace();
         }
 
-
+        showProgressDialog();
         MyTaskFollowing mTF = new MyTaskFollowing();
         mTF.execute();
 
@@ -299,6 +302,7 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
                 Toast.makeText(getBaseContext(), stringaFinale, Toast.LENGTH_LONG).show();
             }
             super.onPostExecute(aVoid);
+            hideProgressDialog();
         }
     }
 
@@ -427,5 +431,21 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
 
         Log.i(TAG, "seguaci di: "+ corrente + ": " + seguaci);
 
+    }
+
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
     }
 }

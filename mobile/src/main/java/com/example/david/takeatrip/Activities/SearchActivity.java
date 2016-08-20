@@ -1,6 +1,7 @@
 package com.example.david.takeatrip.Activities;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -89,6 +90,8 @@ public class SearchActivity extends AppCompatActivity {
      */
     private GoogleApiClient client;
 
+    private ProgressDialog mProgressDialog;
+
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -160,7 +163,6 @@ public class SearchActivity extends AppCompatActivity {
 
 
         });
-
         new MyTask().execute();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -305,7 +307,7 @@ public class SearchActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
+            showProgressDialog();
             new myTaskSearchByDestination().execute();
 
         }
@@ -396,7 +398,6 @@ public class SearchActivity extends AppCompatActivity {
                 }
             });
 
-
         }
     }
 
@@ -405,6 +406,7 @@ public class SearchActivity extends AppCompatActivity {
             viaggi_profilo.clear();
         }
         String usernameUtenteSelezionato = utenteSelezionato.substring(utenteSelezionato.indexOf('(') + 1, utenteSelezionato.indexOf(')'));
+        showProgressDialog();
         new myTaskSearchByUser(usernameUtenteSelezionato).execute();
     }
 
@@ -517,6 +519,7 @@ public class SearchActivity extends AppCompatActivity {
             PopolaLista(mappaProvvisoria);
             autocompleteFragment.setText("");
 
+            hideProgressDialog();
             super.onPostExecute(aVoid);
 
         }
@@ -611,9 +614,26 @@ public class SearchActivity extends AppCompatActivity {
             editTextUser.setText("");
             //PopolaLista();
 
-
+            hideProgressDialog();
             super.onPostExecute(aVoid);
 
+        }
+    }
+
+
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
         }
     }
 }

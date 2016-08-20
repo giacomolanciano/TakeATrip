@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             new MyTask().execute();
-
+            showProgressDialog();
             new MyTaskIDProfileImage(this, email).execute();
             new MyTaskIDCoverImage(this, email).execute();
 
@@ -603,6 +603,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
             }
+
         }
     }
 
@@ -680,6 +681,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.i(TAG, "risultato dal prelievo dell'id imm copertina: " + urlImmagineCopertina);
 
             super.onPostExecute(aVoid);
+            hideProgressDialog();
         }
     }
 
@@ -720,7 +722,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefs.edit().clear().commit();
     }
 
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
+            mProgressDialog.setIndeterminate(true);
+        }
 
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
+    }
 
 
 }
