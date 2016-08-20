@@ -31,13 +31,10 @@ import java.util.List;
 public class InserimentoNotaTappaTask extends AsyncTask<Void, Void, Void> {
 
     private static final String TAG = "TEST InsNotaTappaTask";
-
-    private static final String ADDRESS_INSERIMENTO_NOTA = "InserimentoNotaTappa.php";
-
+    private static final String ADDRESS_INSERIMENTO_NOTA = "InsertStopNote.php";
 
     private InputStream is = null;
     private String result, stringaFinale = "";
-
     private Context context;
     private int ordineAux;
     private String codiceViaggio, livelloCondivisione;
@@ -54,13 +51,12 @@ public class InserimentoNotaTappaTask extends AsyncTask<Void, Void, Void> {
         this.noteInserite = noteInserite;
     }
 
-
     @Override
     protected Void doInBackground(Void... params) {
 
 
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-        dataToSend.add(new BasicNameValuePair("ordine", "" + ordineAux));
+        dataToSend.add(new BasicNameValuePair("ordine", ordineAux+""));
         dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
         dataToSend.add(new BasicNameValuePair("emailProfilo", email));
         dataToSend.add(new BasicNameValuePair("livelloCondivisione", livelloCondivisione));
@@ -86,9 +82,11 @@ public class InserimentoNotaTappaTask extends AsyncTask<Void, Void, Void> {
 
                 for (String nota : noteInserite) {
 
-                    dataToSend.add(new BasicNameValuePair("timestamp",
-                            new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date())));
+                    String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
+                    dataToSend.add(new BasicNameValuePair("timestamp", timestamp));
                     dataToSend.add(new BasicNameValuePair("nota", nota));
+
+                    Log.i(TAG, "timestamp: " + timestamp);
                     Log.i(TAG, "nota: " + nota);
 
                     httpclient = new DefaultHttpClient();
