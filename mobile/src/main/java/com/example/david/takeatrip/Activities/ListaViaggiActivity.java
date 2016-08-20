@@ -57,8 +57,6 @@ public class ListaViaggiActivity extends ActionBarActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private static String LOG_TAG = "CardViewActivity";
-
 
     private ViewGroup group;
     private ImageView image_default;
@@ -289,7 +287,7 @@ public class ListaViaggiActivity extends ActionBarActivity {
                 .MyClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-                Log.i(LOG_TAG, " Clicked on Item " + position);
+                Log.i(TAG, " Clicked on Item " + position);
             }
         });
     }
