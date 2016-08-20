@@ -788,8 +788,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(tappaSelezionata.getData());
-        String data = cal.get(Calendar.YEAR) +"-"+(cal.get(Calendar.MONTH)+1)+"-"+cal.get(Calendar.DAY_OF_MONTH);
-        i.putExtra("data", data);
+        i.putExtra("data", DatesUtils.getStringFromDate(tappaSelezionata.getData(), Constants.DISPLAYED_DATE_FORMAT));
 
         //TODO verificare utilità
         i.putExtra("codAccount", 0);
