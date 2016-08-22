@@ -13,7 +13,7 @@ import com.example.david.takeatrip.R;
 public class StartActivityWithIndetProgressTask extends AsyncTask<Void, Void, Void> {
 
     private static final String TAG = "TEST StartActivityProgr";
-    private static final int DELAY = 2000;
+    private static final int DELAY = 1000;
 
     private Context context;
     private Intent intent;

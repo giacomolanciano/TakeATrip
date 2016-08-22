@@ -44,6 +44,7 @@ import com.example.david.takeatrip.AsyncTasks.BitmapWorkerTask;
 import com.example.david.takeatrip.AsyncTasks.DeleteTravelTask;
 import com.example.david.takeatrip.AsyncTasks.GetPartecipantiViaggioTask;
 import com.example.david.takeatrip.AsyncTasks.ItinerariesTask;
+import com.example.david.takeatrip.AsyncTasks.StartActivityWithIndetProgressTask;
 import com.example.david.takeatrip.AsyncTasks.UpdateCondivisioneViaggioTask;
 import com.example.david.takeatrip.AsyncTasks.UpdateTravelNameTask;
 import com.example.david.takeatrip.Classes.Profilo;
@@ -371,10 +372,8 @@ public class ViaggioActivity extends AppCompatActivity {
         intent.putExtra("sessoPartecipants", sessoPartecipants);
         intent.putExtra("livelloCondivisione", livelloCondivisioneViaggio);
 
-
-
-
-        startActivity(intent);
+        //startActivity(intent);
+        new StartActivityWithIndetProgressTask(ViaggioActivity.this, intent).execute();
     }
 
 
