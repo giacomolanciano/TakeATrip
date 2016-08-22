@@ -415,7 +415,7 @@
         app:fab_addButtonPlusIconColor="@color/biancoPallido"
         app:fab_labelsPosition="left"
         app:fab_labelStyle="@style/menu_labels_style"
-        app:fab_menuIcon="@drawable/ic_menu_white_36dp"
+        app:fab_menuIcon="@drawable/ic_add_white_24dp"
         >
 
 
