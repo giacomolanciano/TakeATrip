@@ -71,7 +71,7 @@
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:theme="@style/Theme.Design.Light"
                     android:onClick="onClickHome"
-                    android:background="@drawable/ic_home_black_36dp" />
+                    android:background="@drawable/ic_arrow_back_black_36dp" />
 
             </android.support.v7.widget.Toolbar>
 

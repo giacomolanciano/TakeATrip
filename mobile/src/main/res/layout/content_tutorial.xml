@@ -46,7 +46,7 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/travel"
+            android:src="@drawable/pergamena"
             android:layout_gravity="right"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
@@ -58,7 +58,7 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/social"
+            android:src="@drawable/nuovosocial"
             android:layout_gravity="right"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
@@ -87,7 +87,7 @@
   <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/aggiungi"
+            android:src="@drawable/matita"
             android:layout_gravity="right"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
@@ -116,7 +116,7 @@
 <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/search"
+            android:src="@drawable/mappamondo"
             android:layout_gravity="right"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
@@ -203,7 +203,7 @@
             android:layout_alignTop="@+id/imageView3"
             android:layout_toEndOf="@+id/imageView3"
             android:layout_marginTop="400dp" />
-
+<!--
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -234,10 +234,12 @@
             android:layout_toEndOf="@+id/imageView3"
             android:layout_marginTop="480dp" />
 
+            -->
+
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_home_black_36dp"
+            android:src="@drawable/ic_arrow_back_black_36dp"
             android:layout_gravity="right"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
@@ -246,7 +248,7 @@
             android:layout_alignParentStart="false"
             android:id="@+id/iconaHome"
             android:layout_alignParentEnd="false"
-            android:layout_marginTop="560dp"
+            android:layout_marginTop="480dp"
             />
 
         <TextView
@@ -262,7 +264,7 @@
             android:padding="10dp"
             android:layout_alignTop="@+id/imageView3"
             android:layout_toEndOf="@+id/imageView3"
-            android:layout_marginTop="570dp" />
+            android:layout_marginTop="480dp" />
 
 
         <ImageView
@@ -277,7 +279,7 @@
             android:layout_alignParentStart="false"
             android:id="@+id/iconaHelp"
             android:layout_alignParentEnd="false"
-            android:layout_marginTop="640dp"
+            android:layout_marginTop="560dp"
             />
 
         <TextView
@@ -293,7 +295,7 @@
             android:padding="10dp"
             android:layout_alignTop="@+id/imageView3"
             android:layout_toEndOf="@+id/imageView3"
-            android:layout_marginTop="645dp" />
+            android:layout_marginTop="555dp" />
 
 
 

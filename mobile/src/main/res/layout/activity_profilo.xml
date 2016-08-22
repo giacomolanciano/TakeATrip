@@ -213,7 +213,7 @@
                         android:layout_height="35dp"
                         android:drawSelectorOnTop="true"
                         android:layout_marginTop="10dp"
-                        android:background="@drawable/ic_home_black_36dp"
+                        android:background="@drawable/ic_arrow_back_black_36dp"
                         android:layout_marginLeft="10dp"
                         android:nestedScrollingEnabled="false"
                         android:onClick="ClickHomeProfile" />
