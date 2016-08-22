@@ -581,13 +581,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (signedUrl != null) {
                 Picasso.with(MainActivity.this).
                         load(signedUrl.toString()).
-                        resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT * 2, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT * 2).
+                        resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT * 2, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT * 2).
                         into(imageViewProfileRound);
             } else {
                 //L'utente è loggato con facebook
                 if (profile != null) {
-                    Log.i(TAG, profile.getProfilePictureUri(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT + 50, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT + 50).toString());
-                    final Uri image_uri = profile.getProfilePictureUri(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT + 50, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT + 50);
+                    Log.i(TAG, profile.getProfilePictureUri(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT + 50, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT + 50).toString());
+                    final Uri image_uri = profile.getProfilePictureUri(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT + 50, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT + 50);
 
                     try {
                         final URI image_URI = new URI(image_uri.toString());

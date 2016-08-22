@@ -30,8 +30,8 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
 
     private static final String TAG = "TEST RecViewViaggiAdapt";
 
-    private static final int HEIGHT_DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*10;
-    private static final int WIDTH_DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*15;
+    private static final int HEIGHT_DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *10;
+    private static final int WIDTH_DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *15;
 
     private ArrayList<DataObject> mDataset;
     private Context context;

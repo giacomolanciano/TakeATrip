@@ -69,7 +69,7 @@ public class NuovoViaggioActivity extends AppCompatActivity {
     private final String ADDRESS_INSERIMENTO_FILTRO = "InserimentoFiltro.php";
 
 
-    private static final int SIZE_IMAGE_PARTECIPANT = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT;
+    private static final int SIZE_IMAGE_PARTECIPANT = Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT;
 
 
     private final int LIMIT_IMAGES_VIEWS = 30;

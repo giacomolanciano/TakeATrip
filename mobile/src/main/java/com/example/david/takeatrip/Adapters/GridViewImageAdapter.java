@@ -40,7 +40,7 @@ public class GridViewImageAdapter extends GridViewAdapter {
         Picasso.with(context)
                 .load(url)
                 .placeholder(R.drawable.empty_image)
-                .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*TRIPLE, Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT*TRIPLE)
+                .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *TRIPLE, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *TRIPLE)
                 .centerCrop()
                 .tag(context)
                 .into(result);

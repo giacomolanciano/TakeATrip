@@ -95,7 +95,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     private AppBarLayout appBarLayout;
     private String livelloCondivisioneTappa;
     private static final int INITIAL_DELAY_MILLIS = 500;
-    //private MyExpandableListItemAdapter mExpandableListItemAdapter;
+    //private ExpandableListItemAdapter mExpandableListItemAdapter;
     private ListView listView;
     private List<Bitmap> immaginiSelezionate, videoSelezionati;
     private Map<Bitmap,String> bitmap_nomeFile;
@@ -137,7 +137,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
 /*
-        mExpandableListItemAdapter = new MyExpandableListItemAdapter(this);
+        mExpandableListItemAdapter = new ExpandableListItemAdapter(this);
         AlphaInAnimationAdapter alphaInAnimationAdapter = new AlphaInAnimationAdapter(mExpandableListItemAdapter);
         alphaInAnimationAdapter.setAbsListView(lista);
 

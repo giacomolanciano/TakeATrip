@@ -73,7 +73,7 @@
                             android:id="@+id/autoCompleteTextView1"
                             android:paddingTop="@dimen/activity_vertical_margin"
                             android:textSize="15dp"
-                            android:hint="@string/Partecipants"
+                            android:hint="@string/Participants"
                             android:layout_gravity="left"
                             android:dropDownHeight="160dp"
 

@@ -82,7 +82,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
     private static final String TAG = "TEST MapsActivity";
 
 
-    private final int DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT;
+    private final int DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT;
     private String email, emailEsterno, nomeViaggio, urlImmagineViaggio, codiceViaggio, currentUrlImageTravel;
     ;
     private final String ADDRESS_PRELIEVO = "QueryDest.php";

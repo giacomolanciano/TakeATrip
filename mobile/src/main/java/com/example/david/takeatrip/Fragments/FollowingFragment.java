@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.david.takeatrip.Adapters.MyRecyclerViewAdapterFollowing;
+import com.example.david.takeatrip.Adapters.RecyclerViewAdapterFollowing;
 import com.example.david.takeatrip.Adapters.RecyclerViewViaggiAdapter;
 import com.example.david.takeatrip.Classes.Profilo;
 import com.example.david.takeatrip.R;
@@ -91,7 +91,7 @@ public class FollowingFragment extends Fragment {
 
 
         Log.i(TAG, "data set: " + getDataSet());
-        MyRecyclerViewAdapterFollowing adapter = new MyRecyclerViewAdapterFollowing(getDataSet(), getContext());
+        RecyclerViewAdapterFollowing adapter = new RecyclerViewAdapterFollowing(getDataSet(), getContext());
         adapter.onCreateViewHolder(group, 0);
         mRecyclerView.setAdapter(adapter);
 

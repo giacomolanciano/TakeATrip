@@ -26,23 +26,23 @@ import java.util.concurrent.ExecutionException;
  * Created by david on 08/03/2016.
  */
 
-public class MyRecyclerViewAdapterFollowing extends RecyclerView
-        .Adapter<MyRecyclerViewAdapterFollowing
+public class RecyclerViewAdapterFollowers extends RecyclerView
+        .Adapter<RecyclerViewAdapterFollowers
         .DataObjectHolder> {
 
-    private static String TAG = "TEST RecViewAdaptFollowing";
+    private static String TAG = "TEST RecViewAdaptFollowers";
 
     private ArrayList<DataObject> mDataset;
     private static MyClickListener myClickListener;
-
     private Context context;
 
     public class DataObjectHolder extends RecyclerView.ViewHolder
             implements View
             .OnClickListener {
         TextView nomeUtente;
-        TextView emailUtente;
         TextView cognomeUtente;
+        TextView emailUtente;
+        TextView emailEsterno;
         TextView usernameUtente;
         TextView dataUtente;
         TextView sessoUtente;
@@ -52,35 +52,38 @@ public class MyRecyclerViewAdapterFollowing extends RecyclerView
         TextView nazionalitaUtente;
         ImageView imageProfile;
 
-
         public DataObjectHolder(View itemView) {
             super(itemView);
 
-            nomeUtente = (TextView) itemView.findViewById(R.id.NomeUtenteFollowing);
-            //emailUtente = (TextView) itemView.findViewById(R.id.EmailUserFollowing);
-            cognomeUtente = (TextView) itemView.findViewById(R.id.CognomeUtenteFollowing);
-            usernameUtente = (TextView) itemView.findViewById(R.id.UsernameUtenteFollowing);
+            nomeUtente = (TextView) itemView.findViewById(R.id.NomeUtenteFollowers);
+           //emailUtente = (TextView) itemView.findViewById(R.id.EmailUserFollowing);
+            cognomeUtente = (TextView) itemView.findViewById(R.id.CognomeUtenteFollowers);
+            usernameUtente = (TextView) itemView.findViewById(R.id.UsernameUtenteFollowers);
+            sessoUtente = (TextView) itemView.findViewById(R.id.SessoUtenteFollowers);
+            dataUtente = (TextView) itemView.findViewById(R.id.DataUtenteFollowers);
+            nazionalitaUtente = (TextView) itemView.findViewById(R.id.NazionalitaUtenteFollowers);
+            lavoroUtente = (TextView) itemView.findViewById(R.id.LavoroUtenteFollowers);
+            descrizioneUtente = (TextView) itemView.findViewById(R.id.DescrizioneUtenteFollowers);
+            tipoUtente = (TextView) itemView.findViewById(R.id.TipoUtenteFollowers);
             imageProfile = (RoundedImageView) itemView.findViewById(R.id.ImageProfile);
-            sessoUtente = (TextView) itemView.findViewById(R.id.SessoUtenteFollowing);
 
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-
             String username =  usernameUtente.getText().toString().replace("(","").replace(")","");
-            Log.d(TAG, "username utente cliccato: " + username);
 
             for(DataObject object : mDataset){
                 Profilo p = object.getProfilo();
 
-                Log.i(TAG, "username utente nel dataset: " + p.getUsername());
                 if(p.getUsername().equals(username)){
 
-                    Log.i(TAG, "utente selezionato: " + p);
-
                     Intent openProfilo = new Intent(v.getContext(), ProfiloActivity.class);
+
+
+                    //TODO: mancano gli altri dati: SELECT* nel php che prende i followers e i following
+
 
                     //Here pass all the parameter and start the ProfiloActivity
                     openProfilo.putExtra("emailEsterno", p.getEmail());
@@ -99,15 +102,16 @@ public class MyRecyclerViewAdapterFollowing extends RecyclerView
                     break;
                 }
             }
-
         }
     }
 
     public void setOnItemClickListener(MyClickListener myClickListener) {
         this.myClickListener = myClickListener;
+
+
     }
 
-    public MyRecyclerViewAdapterFollowing(ArrayList<DataObject> myDataset, Context context) {
+    public RecyclerViewAdapterFollowers(ArrayList<DataObject> myDataset, Context context) {
         mDataset = myDataset;
         this.context = context;
     }
@@ -116,7 +120,9 @@ public class MyRecyclerViewAdapterFollowing extends RecyclerView
     public DataObjectHolder onCreateViewHolder(ViewGroup parent,
                                                int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_following, parent, false);
+                .inflate(R.layout.fragment_followers, parent, false);
+
+
 
         DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
         return dataObjectHolder;
@@ -127,20 +133,22 @@ public class MyRecyclerViewAdapterFollowing extends RecyclerView
         holder.nomeUtente.setText(mDataset.get(position).getNomeFollow());
         holder.cognomeUtente.setText(mDataset.get(position).getCognomeFollow());
         holder.usernameUtente.setText("(" +  mDataset.get(position).getUsernameFollow() +")");
+        //holder.emailUtente.setText(mDataset.get(position).getEmailFollow());
+        //Log.i("TEST: ", "USERNAME UTENTE LISTA FOLLOWERS: " + mDataset.get(position).getEmailFollow());
+
+        holder.dataUtente.setText(mDataset.get(position).getDataNascitaFollow());
 
         String sesso = mDataset.get(position).getSessoFollow();
+        holder.sessoUtente.setText(sesso);
 
-        //holder.sessoUtente.setText(mDataset.get(position).getSessoFollow());
+        holder.lavoroUtente.setText(mDataset.get(position).getLavoroFollow());
 
-        /*
-        holder.emailUtente.setText(mDataset.get(position).getEmailFollow());
-       holder.dataUtente.setText(mDataset.get(position).getDataNascitaFollow());
-       holder.sessoUtente.setText(mDataset.get(position).getSessoFollow());
-       holder.lavoroUtente.setText(mDataset.get(position).getLavoroFollow());
-       holder.descrizioneUtente.setText(mDataset.get(position).getDescrizioneFollow());
-       holder.tipoUtente.setText(mDataset.get(position).getTipoFollow());
-       holder.nazionalitaUtente.setText(mDataset.get(position).getNazionalitaFollow());
-       */
+        holder.descrizioneUtente.setText(mDataset.get(position).getDescrizioneFollow());
+
+        holder.tipoUtente.setText(mDataset.get(position).getTipoFollow());
+
+        holder.nazionalitaUtente.setText(mDataset.get(position).getNazionalitaFollow());
+
 
         String urlImmagine = mDataset.get(position).getUrlImmagineProfilo();
 
@@ -148,9 +156,11 @@ public class MyRecyclerViewAdapterFollowing extends RecyclerView
         immagineProfilo.setContentDescription(urlImmagine);
 
         if(urlImmagine != null && !urlImmagine.equals("null")){
+            //new BitmapWorkerTask(immagineProfilo).execute(Constants.ADDRESS_TAT +urlImmagine);
 
-            URL completeUrl= null;
+            Log.i(TAG, "immagine profilo: " + urlImmagine);
 
+            URL completeUrl = null;
             try {
                 completeUrl = new LoadGenericImageTask(urlImmagine, context).execute().get();
             } catch (InterruptedException e) {
@@ -159,9 +169,9 @@ public class MyRecyclerViewAdapterFollowing extends RecyclerView
                 e.printStackTrace();
             }
 
+
             if(completeUrl != null)
                 Picasso.with(null).load(completeUrl.toString()).into(immagineProfilo);
-
 
         }
         else{
@@ -173,11 +183,8 @@ public class MyRecyclerViewAdapterFollowing extends RecyclerView
             }
         }
 
-
-
-
-
-
+        //holder.nome.equals(mDataset.get(position).getNomeViaggio());
+        //      holder.dateTime.setText(mDataset.get(position).getmText2());
     }
 
     public void addItem(DataObject dataObj, int index) {

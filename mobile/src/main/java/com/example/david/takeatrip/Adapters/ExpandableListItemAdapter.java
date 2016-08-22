@@ -4,7 +4,7 @@ package com.example.david.takeatrip.Adapters;
  * Created by lucagiacomelli on 18/03/16.
  */
 
-public class MyExpandableListItemAdapter { //extends ExpandableListItemAdapter<Integer> {
+public class ExpandableListItemAdapter { //extends ExpandableListItemAdapter<Integer> {
 
 //    private static final String TAG = "TEST ExpListItemAdapt";
 //
@@ -15,7 +15,7 @@ public class MyExpandableListItemAdapter { //extends ExpandableListItemAdapter<I
 //     * Creates a new ExpandableListItemAdapter with the specified list, or an empty list if
 //     * items == null.
 //     */
-//    public MyExpandableListItemAdapter(final Context context) {
+//    public ExpandableListItemAdapter(final Context context) {
 //        super(context, R.layout.activity_tappa, R.id.activity_expandablelistitem_card_title, R.id.activity_expandablelistitem_card_content);
 //        mContext = context;
 //        mMemoryCache = new BitmapCache();

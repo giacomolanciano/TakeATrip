@@ -85,7 +85,7 @@ public class ViaggioActivity extends AppCompatActivity {
     private static final String ADDRESS = "QueryNomiUtenti.php";
     private static final String ADDRESS_QUERY_FOLDER = "QueryCartellaGenerica.php";
     private static final String ADDRESS_INSERT_FOLDER = "CreazioneCartellaViaggio.php";
-    private static final int DIMENSION_OF_IMAGE_PARTECIPANT = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT;
+    private static final int DIMENSION_OF_IMAGE_PARTICIPANT = Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT;
     private static final int DIMENSION_OF_SPACE = Constants.BASE_DIMENSION_OF_SPACE;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
@@ -515,7 +515,7 @@ public class ViaggioActivity extends AppCompatActivity {
 
                 Picasso.with(ViaggioActivity.this).
                         load(signedUrl).
-                        resize(DIMENSION_OF_IMAGE_PARTECIPANT, DIMENSION_OF_IMAGE_PARTECIPANT).
+                        resize(DIMENSION_OF_IMAGE_PARTICIPANT, DIMENSION_OF_IMAGE_PARTICIPANT).
                         into(image);
 
 
@@ -535,8 +535,8 @@ public class ViaggioActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             //image.setImageResource(R.drawable.logodef);
-            rowHorizontal.addView(image, DIMENSION_OF_IMAGE_PARTECIPANT, DIMENSION_OF_IMAGE_PARTECIPANT);
-            rowHorizontal.addView(new TextView(this), DIMENSION_OF_SPACE, DIMENSION_OF_IMAGE_PARTECIPANT);
+            rowHorizontal.addView(image, DIMENSION_OF_IMAGE_PARTICIPANT, DIMENSION_OF_IMAGE_PARTICIPANT);
+            rowHorizontal.addView(new TextView(this), DIMENSION_OF_SPACE, DIMENSION_OF_IMAGE_PARTICIPANT);
 
 
             i++;
@@ -597,7 +597,7 @@ public class ViaggioActivity extends AppCompatActivity {
 
                         Picasso.with(ViaggioActivity.this).
                                 load(signedUrl).
-                                resize(DIMENSION_OF_IMAGE_PARTECIPANT*2, DIMENSION_OF_IMAGE_PARTECIPANT*2).
+                                resize(DIMENSION_OF_IMAGE_PARTICIPANT *2, DIMENSION_OF_IMAGE_PARTICIPANT *2).
                                 into(imageProfile);
 
 

@@ -91,7 +91,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     private final int REQUEST_UPLOAD_PROFILE_IMAGE = 123;
     private final int REQUEST_UPLOAD_COVER_IMAGE = 124;
     private final int QUALITY_OF_IMAGE = Constants.QUALITY_PHOTO;
-    private final int DIMENSION_PROFILE_IMAGE = Constants.BASE_DIMENSION_OF_IMAGE_PARTECIPANT - 30;
+    private final int DIMENSION_PROFILE_IMAGE = Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT - 30;
 
 
     private final String ADDRESS_INSERIMENTO = "InserimentoFollow.php";
