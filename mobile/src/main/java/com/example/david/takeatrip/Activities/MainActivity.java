@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,10 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
@@ -71,33 +67,18 @@ import java.util.Set;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "TEST MainActivity";
-
-
     private final String ADDRESS = "QueryNomiUtenti.php";
-
 
     private String name, surname, email, nazionalità, sesso, username, lavoro, descrizione, tipo;
     private String date, password, urlImmagineProfilo, urlImmagineCopertina;
     private String emailEsterno;
-
     private ImageView imageViewProfileRound;
-
-    List<String> names, namesPartecipants;
-    Set<Profilo> profiles, partecipants;
-    Profilo myProfile;
-
-    EditText editTextNameTravel;
-    Bitmap imageProfile = null;
-    Bitmap coverImage = null;
-    Profile profile;
-    private DriveId idFolderTAT, idImmagineCopertina, idImageProfile;
-    private String urlFolderTAT;
-
-    private ProgressDialog mProgressDialog;
+    private List<String> names, namesPartecipants;
+    private Set<Profilo> profiles, partecipants;
+    private Profilo myProfile;
+    private Profile profile;
+    private ProgressDialog progressDialog;
     private GoogleApiClient googleApiClient;
-
-    private TakeATrip TAT;
-
 
     // The TransferUtility is the primary class for managing transfer to S3
     private TransferUtility transferUtility;
@@ -119,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // The S3 client
     private AmazonS3Client s3;
 
-    //per allert
+    //per alert
     private boolean doubleBackToExitPressedOnce = false;
 
     //per salvare i dati
@@ -301,18 +282,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(openTutorial);
     }
 
-    public void onClickSettings(View v) {
+    public void onClickLogout(View v) {
 
         try {
-            ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog);
+            if (!googleApiClient.isConnected()) {
+                googleApiClient.connect();
+            }
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
-            LayoutInflater inflater = this.getLayoutInflater();
-            builder.setItems(R.array.CommandsSettingsMain, new DialogInterface.OnClickListener() {
-
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-                        case 0: //logout profile
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle(getString(R.string.confirm))
+                    .setMessage(getString(R.string.logout_alert))
+                    .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
                             if (email.contains("@")) {
                                 DatabaseHandler db = new DatabaseHandler(MainActivity.this);
                                 // Inserting Users
@@ -329,35 +310,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 } else {
                                     Log.d(TAG, "Log out from google con apiClient: " + googleApiClient);
 
-                                    if (!googleApiClient.isConnected()) {
-                                        googleApiClient.connect();
-                                        Toast.makeText(getBaseContext(), getString(R.string.LogOutFailed), Toast.LENGTH_LONG).show();
-
-                                    } else {
-                                        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
-                                                new ResultCallback<Status>() {
-                                                    @Override
-                                                    public void onResult(Status status) {
-                                                        Log.d(TAG, "Status: " + status);
-                                                        if (status.isSuccess()) {
-                                                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                                                        }
+                                    Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
+                                            new ResultCallback<Status>() {
+                                                @Override
+                                                public void onResult(Status status) {
+                                                    Log.d(TAG, "Status: " + status);
+                                                    if (status.isSuccess()) {
+                                                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
                                                     }
-                                                });
-                                    }
-
-
+                                                }
+                                            });
                                 }
 
                             }
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (googleApiClient.isConnected()) {
+                                googleApiClient.disconnect();
+                            }
+                            dialog.dismiss();
+                        }
+                    })
+                    .setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.logodefbordo))
+                    .show();
 
-                            break;
-                    }
-                }
-            });
-
-            // Create the AlertDialog object and return it
-            builder.create().show();
         } catch (Exception e) {
             Log.e(e.toString().toUpperCase(), e.getMessage());
         }
@@ -723,18 +701,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
-            mProgressDialog.setIndeterminate(true);
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage(getString(R.string.CaricamentoInCorso));
+            progressDialog.setIndeterminate(true);
         }
 
-        mProgressDialog.show();
+        progressDialog.show();
     }
 
     private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.hide();
         }
     }
 

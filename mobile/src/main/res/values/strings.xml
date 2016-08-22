@@ -288,6 +288,7 @@
     <string name="delete_stop">Delete this stop</string>
     <string name="delete_stop_alert">Proceed removing the stop and all related contents from this travel?</string>
     <string name="edit_travel_name">Edit travel name</string>
+    <string name="logout_alert">Are you sure you want to logout?</string>
 
 
 </resources>
