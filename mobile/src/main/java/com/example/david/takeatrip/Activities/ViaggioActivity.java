@@ -118,6 +118,7 @@ public class ViaggioActivity extends AppCompatActivity {
     private String nameForUrl;
     private Toolbar toolbar;
     private CollapsingToolbarLayout collapsingToolbar;
+    private ProgressDialog progressDialog;
 
     // The TransferUtility is the primary class for managing transfer to S3
     private TransferUtility transferUtility;
@@ -139,7 +140,6 @@ public class ViaggioActivity extends AppCompatActivity {
     private ArrayList<HashMap<String, List<Object>>> transferRecordMaps;
 
 
-    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -949,18 +949,18 @@ public class ViaggioActivity extends AppCompatActivity {
     }
 
     private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
-            mProgressDialog.setIndeterminate(true);
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage(getString(R.string.CaricamentoInCorso));
+            progressDialog.setIndeterminate(true);
         }
 
-        mProgressDialog.show();
+        progressDialog.show();
     }
 
     private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.hide();
         }
     }
 

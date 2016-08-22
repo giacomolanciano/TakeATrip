@@ -1,6 +1,5 @@
 package com.example.david.takeatrip.Adapters;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.david.takeatrip.Activities.ViaggioActivity;
 import com.example.david.takeatrip.AsyncTasks.LoadGenericImageTask;
+import com.example.david.takeatrip.AsyncTasks.StartActivityWithIndetProgressTask;
 import com.example.david.takeatrip.Interfaces.AsyncResponseUrl;
 import com.example.david.takeatrip.R;
 import com.example.david.takeatrip.Utilities.Constants;
@@ -25,59 +25,52 @@ import java.util.concurrent.ExecutionException;
 
 
 public class RecyclerViewViaggiAdapter extends RecyclerView
-        .Adapter<RecyclerViewViaggiAdapter
-        .DataObjectHolder> implements AsyncResponseUrl {
+        .Adapter<RecyclerViewViaggiAdapter.TravelViewHolder> implements AsyncResponseUrl {
 
     private static final String TAG = "TEST RecViewViaggiAdapt";
-
     private static final int HEIGHT_DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *10;
     private static final int WIDTH_DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *15;
 
-    private ArrayList<DataObject> mDataset;
+    private ArrayList<DataObject> dataset;
     private Context context;
-    private static MyClickListener myClickListener;
-
+    private static ClickListener clickListener;
     private ImageView immagineViaggio;
     private String urlImmagine, codiceViaggio;
     private URL completeUrl;
 
-    private ProgressDialog mProgressDialog;
-
-
-    public void setOnItemClickListener(MyClickListener myClickListener) {
-        this.myClickListener = myClickListener;
+    public RecyclerViewViaggiAdapter(ArrayList<DataObject> myDataset, Context context) {
+        this.dataset = myDataset;
+        this.context = context;
+        this.completeUrl = null;
     }
 
-    public RecyclerViewViaggiAdapter(ArrayList<DataObject> myDataset, Context context) {
-        mDataset = myDataset;
-        this.context = context;
-        completeUrl = null;
-
+    public void setOnItemClickListener(ClickListener clickListener) {
+        this.clickListener = clickListener;
     }
 
     @Override
-    public DataObjectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TravelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_lista_viaggi, parent, false);
 
-        DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
-        return dataObjectHolder;
+        TravelViewHolder travelViewHolder = new TravelViewHolder(view);
+        return travelViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(DataObjectHolder holder, int position) {
+    public void onBindViewHolder(TravelViewHolder holder, int position) {
 
 
-        codiceViaggio = mDataset.get(position).getCodiceViaggio();
+        codiceViaggio = dataset.get(position).getCodiceViaggio();
 
-        holder.nomeViaggio.setText(mDataset.get(position).getNomeViaggio());
+        holder.nomeViaggio.setText(dataset.get(position).getNomeViaggio());
         holder.codiceViaggio.setText(codiceViaggio);
-        holder.emailUser.setText(mDataset.get(position).getEmail());
+        holder.emailUser.setText(dataset.get(position).getEmail());
 
 
-        urlImmagine = mDataset.get(position).getUrlImageTravel();
-        //ImageView immagineViaggio = mDataset.get(position).getImmagineViaggio();
+        urlImmagine = dataset.get(position).getUrlImageTravel();
+        //ImageView immagineViaggio = dataset.get(position).getImmagineViaggio();
 
 
 
@@ -111,43 +104,40 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
             immagineViaggio.setImageResource(R.drawable.empty_image);
         }
 
-        Log.i(TAG, "email: " + mDataset.get(position).getEmail());
-        Log.i(TAG, "immagine del viaggio: " + mDataset.get(position).getNomeViaggio()+": " +
+        Log.i(TAG, "email: " + dataset.get(position).getEmail());
+        Log.i(TAG, "immagine del viaggio: " + dataset.get(position).getNomeViaggio()+": " +
                 holder.imageTravel.getContentDescription() + " "+
-                mDataset.get(position).getUrlImageTravel());
+                dataset.get(position).getUrlImageTravel());
 
-        //holder.nome.equals(mDataset.get(position).getNomeViaggio());
-        //      holder.dateTime.setText(mDataset.get(position).getmText2());
+        //holder.nome.equals(dataset.get(position).getNomeViaggio());
+        //      holder.dateTime.setText(dataset.get(position).getmText2());
     }
 
     public void addItem(DataObject dataObj, int index) {
-        mDataset.add(index, dataObj);
+        dataset.add(index, dataObj);
         notifyItemInserted(index);
     }
 
     public void deleteItem(int index) {
-        mDataset.remove(index);
+        dataset.remove(index);
         notifyItemRemoved(index);
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.size();
+        return dataset.size();
     }
 
-    public interface MyClickListener {
+    public interface ClickListener {
         public void onItemClick(int position, View v);
     }
-
 
     @Override
     public void processFinish(URL url) {
         this.completeUrl = url;
     }
 
-
-
-    public class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class TravelViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView nomeViaggio;
         TextView codiceViaggio;
@@ -155,7 +145,7 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
         TextView dateTime;
         ImageView imageTravel;
 
-        public DataObjectHolder(View itemView) {
+        public TravelViewHolder(View itemView) {
             super(itemView);
 
             nomeViaggio = (TextView) itemView.findViewById(R.id.NameTravel);
@@ -177,8 +167,6 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
         @Override
         public void onClick(View v) {
 
-
-
             Intent intent = new Intent(v.getContext(), ViaggioActivity.class);
 
             intent.putExtra("emailEsterno",emailUser.getText().toString());
@@ -190,40 +178,20 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
             //non immagineViaggio poichè viene continuamente sovrascritta
             intent.putExtra("urlImmagineViaggio", imageTravel.getContentDescription());
 
-            for(DataObject object : mDataset){
+            for(DataObject object : dataset){
                 if(object.getViaggio().getCodice().equals(codiceViaggio.getText().toString())){
                     intent.putExtra("livelloCondivisione", object.getViaggio().getCondivisioneDefault());
                     break;
                 }
             }
 
-
-
-            v.getContext().startActivity(intent);
+            //v.getContext().startActivity(intent);
+            new StartActivityWithIndetProgressTask(context, intent).execute();
 
             Log.i(TAG, "urlImmagineViaggio: " + v.getContentDescription());
-;
 
         }
 
-        private void showProgressDialog() {
-            if (mProgressDialog == null) {
-                mProgressDialog = new ProgressDialog(context);
-                mProgressDialog.setMessage("Loading... ");
-                mProgressDialog.setIndeterminate(true);
-            }
-
-            mProgressDialog.show();
-        }
-
-        private void hideProgressDialog() {
-            if (mProgressDialog != null && mProgressDialog.isShowing()) {
-                mProgressDialog.hide();
-            }
-        }
     }
-
-
-
 
 }

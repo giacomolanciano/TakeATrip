@@ -46,22 +46,16 @@ public class ListaViaggiActivity extends ActionBarActivity {
 
     private static final String TAG = "TEST ListaViaggiAct";
 
-    private static final String ADDRESS_PRELIEVO = "QueryViaggi.php";
-
-
     private ArrayList<Viaggio> viaggi;
     private ArrayList<Profilo> profili;
     private ArrayList<DataObject> dataTravels;
     private String email;
-
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
     private ViewGroup group;
     private ImageView image_default;
-    private ProgressDialog mProgressDialog;
-
+    private ProgressDialog progressDialog;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -69,12 +63,12 @@ public class ListaViaggiActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview_lista_viaggi);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new RecyclerViewViaggiAdapter(getDataSet(), ListaViaggiActivity.this);
-        mRecyclerView.setAdapter(mAdapter);
+        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new RecyclerViewViaggiAdapter(getDataSet(), ListaViaggiActivity.this);
+        recyclerView.setAdapter(adapter);
 
 /*      lista = (ListView)findViewById(R.id.listViewTravels);
         setContentView(R.layout.activity_cards);
@@ -109,12 +103,8 @@ public class ListaViaggiActivity extends ActionBarActivity {
 
         }
 
-
-//        ViewCaricamentoInCorso.setVisibility(View.VISIBLE);
-
         showProgressDialog();
-        MyTask mT = new MyTask();
-        mT.execute();
+        new GetViaggiTask().execute();
 
     }
 
@@ -133,12 +123,12 @@ public class ListaViaggiActivity extends ActionBarActivity {
 
         RecyclerViewViaggiAdapter adapter = new RecyclerViewViaggiAdapter(dataTravels, ListaViaggiActivity.this);
         adapter.onCreateViewHolder(group, 0);
-        mRecyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
         hideProgressDialog();
 
 
         /*
-        mRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adattatore, final View componente, int pos, long id) {
 
@@ -185,7 +175,43 @@ public class ListaViaggiActivity extends ActionBarActivity {
     }
 
 
-    private class MyTask extends AsyncTask<Void, Void, Void> {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ((RecyclerViewViaggiAdapter) adapter).setOnItemClickListener(new RecyclerViewViaggiAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                Log.i(TAG, " Clicked on Item " + position);
+            }
+        });
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        recreate();
+    }
+
+    private void showProgressDialog() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage(getString(R.string.CaricamentoInCorso));
+            progressDialog.setIndeterminate(true);
+        }
+        progressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.hide();
+        }
+    }
+
+    private class GetViaggiTask extends AsyncTask<Void, Void, Void> {
+
+        //private static final String TAG = "TEST GetViaggiTask";
+        private static final String ADDRESS_PRELIEVO = "QueryViaggi.php";
+
         InputStream is = null;
         String stringaFinale = "";
 
@@ -279,39 +305,6 @@ public class ListaViaggiActivity extends ActionBarActivity {
 
         }
 
-    }
-
-    protected void onResume() {
-        super.onResume();
-        ((RecyclerViewViaggiAdapter) mAdapter).setOnItemClickListener(new RecyclerViewViaggiAdapter
-                .MyClickListener() {
-            @Override
-            public void onItemClick(int position, View v) {
-                Log.i(TAG, " Clicked on Item " + position);
-            }
-        });
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        recreate();
-    }
-
-    private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
-            mProgressDialog.setIndeterminate(true);
-        }
-
-        mProgressDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
-        }
     }
 
 }
