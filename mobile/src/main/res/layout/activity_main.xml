@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="center"
-            android:onClick="onClickSearchTravels">
+            android:onClick="onClickSocialButton">
 
 
             <TextView
