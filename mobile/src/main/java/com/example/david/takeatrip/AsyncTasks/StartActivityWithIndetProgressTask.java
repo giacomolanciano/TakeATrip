@@ -32,6 +32,12 @@ public class StartActivityWithIndetProgressTask extends AsyncTask<Void, Void, Vo
         progressDialog.setMessage(context.getString(R.string.CaricamentoInCorso));
         progressDialog.setIndeterminate(true);
         progressDialog.show();
+
+        /*
+        * start the activity from here (not from onPostExecute) to avoid that the screen keeps being
+        * freezed after progress dialog dismissing
+        * */
+        context.startActivity(intent);
     }
 
     @Override
@@ -51,7 +57,6 @@ public class StartActivityWithIndetProgressTask extends AsyncTask<Void, Void, Vo
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
 
-        context.startActivity(intent);
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.hide();
         }
