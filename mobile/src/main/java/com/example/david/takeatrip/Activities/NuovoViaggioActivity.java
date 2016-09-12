@@ -12,6 +12,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -71,11 +73,11 @@ public class NuovoViaggioActivity extends AppCompatActivity {
 
     private LinearLayout layoutNewPartecipants;
     private String nomeViaggio, UUIDViaggio, filtro;
-    private AutoCompleteTextView text;
+    private AutoCompleteTextView autoCompleteTextView;
     private List<String> names, namesPartecipants;
     private Set<Profilo> profiles, partecipants;
     private Profilo profilo;
-    private LinearLayout rowHorizontal;
+    private LinearLayout rowHorizontal, layoutFAB;
     private ProgressDialog progressDialog;
     private EditText editTextNameTravel;
     private String name, surname, email, tipo;
@@ -138,109 +140,113 @@ public class NuovoViaggioActivity extends AppCompatActivity {
         profilo = new Profilo(email, name, surname, date, password, nazionalita, sesso, username, lavoro, descrizione);
         TakeATrip TAT = (TakeATrip) getApplicationContext();
         TAT.setProfiloCorrente(profilo);
-        nuovoViaggio();
 
-    }
-
-    private void nuovoViaggio() {
         nomeViaggio="";
         namesPartecipants.clear();
         partecipants.clear();
 
+        layoutFAB = (LinearLayout) findViewById(R.id.layoutFloatingButtonAdd);
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, names);
-        text = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView1);
-        text.setAdapter(adapter);
-        text.setThreshold(1);
+        autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView1);
+        autoCompleteTextView.setAdapter(adapter);
+        autoCompleteTextView.setThreshold(1);
+        autoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //no op
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() == 0)
+                    layoutFAB.setVisibility(View.GONE);
+                else if (layoutFAB.getVisibility() != View.VISIBLE) {
+                    layoutFAB.setVisibility(View.VISIBLE);
+                    autoCompleteTextView.showDropDown();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                //no op
+            }
+        });
 
 
         //layoutNewPartecipants = (TableLayout)dialog.findViewById(R.id.layoutPartecipants);
-        layoutNewPartecipants=(LinearLayout)
-
-        findViewById(R.id.layoutPartecipants);
-
-        rowHorizontal=(LinearLayout)
-
-        findViewById(R.id.layout_horizontal);
-
-
+        layoutNewPartecipants = (LinearLayout) findViewById(R.id.layoutPartecipants);
+        rowHorizontal = (LinearLayout) findViewById(R.id.layout_horizontal);
         TextView travel = (TextView) findViewById(R.id.titoloViaggio);
-        editTextNameTravel=(EditText)
-
-        findViewById(R.id.editTextNameTravel);
-
+        editTextNameTravel = (EditText) findViewById(R.id.editTextNameTravel);
 
 
         final FloatingActionButton buttonAdd = (FloatingActionButton) findViewById(R.id.floatingButtonAdd);
         if (buttonAdd != null) {
-            buttonAdd.setOnClickListener(new View.OnClickListener()
-
-            {
+            buttonAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick (View v){
-                if (!NuovoViaggioActivity.this.text.getText().toString().equals("")) {
-                    TextView tv = new TextView(NuovoViaggioActivity.this);
-                    tv.setText(NuovoViaggioActivity.this.text.getText().toString());
+                    if (!NuovoViaggioActivity.this.autoCompleteTextView.getText().toString().equals("")) {
+                        TextView tv = new TextView(NuovoViaggioActivity.this);
+                        tv.setText(NuovoViaggioActivity.this.autoCompleteTextView.getText().toString());
 
-                    String s = NuovoViaggioActivity.this.text.getText().toString();
-                    Log.i(TAG, "partecipante selezionato: " + s);
+                        String s = NuovoViaggioActivity.this.autoCompleteTextView.getText().toString();
+                        Log.i(TAG, "partecipante selezionato: " + s);
 
 
-                    String usernameUtenteSelezionato = s.substring(s.indexOf('(') + 1, s.indexOf(')'));
-                    Log.i(TAG, "username selezionato: " + usernameUtenteSelezionato);
-                    for (Profilo p : profiles) {
+                        String usernameUtenteSelezionato = s.substring(s.indexOf('(') + 1, s.indexOf(')'));
+                        Log.i(TAG, "username selezionato: " + usernameUtenteSelezionato);
+                        for (Profilo p : profiles) {
 
-                        if (p.getUsername().equals(usernameUtenteSelezionato)) {
-                            if (!partecipants.contains(p)) {
+                            if (p.getUsername().equals(usernameUtenteSelezionato)) {
+                                if (!partecipants.contains(p)) {
 
-                                if (partecipants.size() % LIMIT_IMAGES_VIEWS == 0) {
-                                    rowHorizontal = new LinearLayout(NuovoViaggioActivity.this);
-                                    rowHorizontal.setOrientation(LinearLayout.HORIZONTAL);
+                                    if (partecipants.size() % LIMIT_IMAGES_VIEWS == 0) {
+                                        rowHorizontal = new LinearLayout(NuovoViaggioActivity.this);
+                                        rowHorizontal.setOrientation(LinearLayout.HORIZONTAL);
 
-                                    layoutNewPartecipants.addView(rowHorizontal);
-                                    layoutNewPartecipants.addView(new TextView(NuovoViaggioActivity.this), Constants.BASE_DIMENSION_OF_SPACE, Constants.BASE_DIMENSION_OF_SPACE);
-                                }
+                                        layoutNewPartecipants.addView(rowHorizontal);
+                                        layoutNewPartecipants.addView(new TextView(NuovoViaggioActivity.this), Constants.BASE_DIMENSION_OF_SPACE, Constants.BASE_DIMENSION_OF_SPACE);
+                                    }
 
-                                final ImageView image = new RoundedImageView(NuovoViaggioActivity.this, null);
-                                image.setContentDescription(p.getEmail());
+                                    final ImageView image = new RoundedImageView(NuovoViaggioActivity.this, null);
+                                    image.setContentDescription(p.getEmail());
 
-                                if (p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")) {
-                                    String signedUrl = beginDownloadProfilePicture(p.getIdImageProfile());
-                                    Picasso.with(NuovoViaggioActivity.this).
-                                            load(signedUrl).
-                                            resize(SIZE_IMAGE_PARTECIPANT, SIZE_IMAGE_PARTECIPANT).
-                                            into(image);
+                                    if (p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")) {
+                                        String signedUrl = beginDownloadProfilePicture(p.getIdImageProfile());
+                                        Picasso.with(NuovoViaggioActivity.this).
+                                                load(signedUrl).
+                                                resize(SIZE_IMAGE_PARTECIPANT, SIZE_IMAGE_PARTECIPANT).
+                                                into(image);
+
+                                    } else {
+                                        if (p.getSesso().equals("M")) {
+                                            image.setImageResource(R.drawable.default_male);
+                                        } else {
+                                            image.setImageResource(R.drawable.default_female);
+                                        }
+                                    }
+
+                                    rowHorizontal.addView(image, SIZE_IMAGE_PARTECIPANT, SIZE_IMAGE_PARTECIPANT);
+                                    rowHorizontal.addView(new TextView(NuovoViaggioActivity.this), Constants.BASE_DIMENSION_OF_SPACE, SIZE_IMAGE_PARTECIPANT);
+                                    Log.i(TAG, "aggiungo la view nel layout orizzonale");
+                                    partecipants.add(p);
+                                    namesPartecipants.add(p.getUsername());
 
                                 } else {
-                                    if (p.getSesso().equals("M")) {
-                                        image.setImageResource(R.drawable.default_male);
-                                    } else {
-                                        image.setImageResource(R.drawable.default_female);
-                                    }
+                                    Toast.makeText(getBaseContext(), "User already present in travel", Toast.LENGTH_LONG).show();
                                 }
-
-                                rowHorizontal.addView(image, SIZE_IMAGE_PARTECIPANT, SIZE_IMAGE_PARTECIPANT);
-                                rowHorizontal.addView(new TextView(NuovoViaggioActivity.this), Constants.BASE_DIMENSION_OF_SPACE, SIZE_IMAGE_PARTECIPANT);
-                                Log.i(TAG, "aggiungo la view nel layout orizzonale");
-                                partecipants.add(p);
-                                namesPartecipants.add(p.getUsername());
-
-                            } else {
-                                Toast.makeText(getBaseContext(), "User already present in travel", Toast.LENGTH_LONG).show();
                             }
                         }
+
+                        NuovoViaggioActivity.this.autoCompleteTextView.setText("");
+
                     }
 
-                    NuovoViaggioActivity.this.text.setText("");
-
                 }
-
-            }
-            }
-
-            );
+            });
         }
-
     }
 
 
@@ -685,4 +691,5 @@ public class NuovoViaggioActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
         }
     }
+
 }
