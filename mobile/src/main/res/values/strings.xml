@@ -275,7 +275,7 @@
     <string name="help_text">"Here you can find tips for use"</string>
     <string name="finish">Finish</string>
     <string name="info_add_partecipant_travel">Chooses the participant and click on the button to add directly to the trip</string>
-    <string name="stopsList">Stops List</string>
+    <string name="stopsList">Manage stops</string>
     <string name="addPartecipant">Add partecipant</string>
     <string name="help">Help</string>
     <string name="dateFormat">date format: dd/mm/aaaa</string>
