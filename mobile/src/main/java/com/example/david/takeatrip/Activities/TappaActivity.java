@@ -108,9 +108,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     private AdaptableGridView gridViewNotes;
     private ImageView coverImageTappa;
     private List<String> contentsToDelete;
-
-
-    private ProgressDialog mProgressDialog;
+    private ProgressDialog progressDialog;
 
 
     @Override
@@ -1372,18 +1370,18 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
     private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
-            mProgressDialog.setIndeterminate(true);
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage(getString(R.string.CaricamentoInCorso));
+            progressDialog.setIndeterminate(true);
         }
 
-        mProgressDialog.show();
+        progressDialog.show();
     }
 
     private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.hide();
         }
     }
 

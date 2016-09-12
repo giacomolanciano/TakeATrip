@@ -69,16 +69,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "TEST MainActivity";
     private final String ADDRESS = "QueryNomiUtenti.php";
 
+    //per salvare i dati
+    private static final String EMAIL = "email";
+
     private String name, surname, email, nazionalità, sesso, username, lavoro, descrizione, tipo;
     private String date, password, urlImmagineProfilo, urlImmagineCopertina;
     private String emailEsterno;
     private ImageView imageViewProfileRound;
     private List<String> names, namesPartecipants;
     private Set<Profilo> profiles, partecipants;
-    private Profilo myProfile;
-    private Profile profile;
+    private Profilo profilo;
+    private Profile fbProfile;
     private ProgressDialog progressDialog;
     private GoogleApiClient googleApiClient;
+
+    //per alert
+    private boolean doubleBackToExitPressedOnce = false;
 
     // The TransferUtility is the primary class for managing transfer to S3
     private TransferUtility transferUtility;
@@ -99,14 +105,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // The S3 client
     private AmazonS3Client s3;
-
-    //per alert
-    private boolean doubleBackToExitPressedOnce = false;
-
-    //per salvare i dati
-    static final String EMAIL = "email";
-
-
 
 
     @Override
@@ -133,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 lavoro = intent.getStringExtra("lavoro");
                 descrizione = intent.getStringExtra("descrizione");
                 tipo = intent.getStringExtra("tipo");
-                profile = intent.getParcelableExtra("profile");
+                fbProfile = intent.getParcelableExtra("fbProfile");
             } else {
                 //Prendi i dati dal database perche è gia presente l'utente
             }
@@ -161,9 +159,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             namesPartecipants = new ArrayList<String>();
             partecipants = new HashSet<Profilo>();
             profiles = new HashSet<Profilo>();
-            myProfile = new Profilo(email, name, surname, date, password, nazionalità, sesso, username, lavoro, descrizione);
+            profilo = new Profilo(email, name, surname, date, password, nazionalità, sesso, username, lavoro, descrizione);
             TakeATrip TAT = (TakeATrip) getApplicationContext();
-            TAT.setProfiloCorrente(myProfile);
+            TAT.setProfiloCorrente(profilo);
         }
 
 
@@ -222,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         openProfilo.putExtra("lavoro", lavoro);
         openProfilo.putExtra("descrizione", descrizione);
         openProfilo.putExtra("tipo", tipo);
-        openProfilo.putExtra("profile", profile);
+        openProfilo.putExtra("profile", fbProfile);
         openProfilo.putExtra("urlImmagineProfilo", urlImmagineProfilo);
         openProfilo.putExtra("urlImmagineCopertina", urlImmagineCopertina);
 
@@ -272,8 +270,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void onClickSocialButton(View v) {
         Intent openSocial = new Intent(MainActivity.this, SocialActivity.class);
-        openSocial.putExtra("email", myProfile.getEmail());
-        Log.i("TEST: ", "EMAIL PER SOCIAL " + myProfile.getEmail());
+        openSocial.putExtra("email", profilo.getEmail());
+        Log.i("TEST: ", "EMAIL PER SOCIAL " + profilo.getEmail());
         startActivity(openSocial);
     }
 
@@ -298,10 +296,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 DatabaseHandler db = new DatabaseHandler(MainActivity.this);
                                 // Inserting Users
                                 Log.d(TAG, "Drop the user...");
-                                db.deleteContact(myProfile);
+                                db.deleteContact(profilo);
                             } else {
 
-                                if (profile != null && LoginManager.getInstance() != null) {
+                                if (fbProfile != null && LoginManager.getInstance() != null) {
                                     Log.d(TAG, "Log out from facebook: ..");
 
                                     LoginManager.getInstance().logOut();
@@ -563,9 +561,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         into(imageViewProfileRound);
             } else {
                 //L'utente è loggato con facebook
-                if (profile != null) {
-                    Log.i(TAG, profile.getProfilePictureUri(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT + 50, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT + 50).toString());
-                    final Uri image_uri = profile.getProfilePictureUri(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT + 50, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT + 50);
+                if (fbProfile != null) {
+                    Log.i(TAG, fbProfile.getProfilePictureUri(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT + 50, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT + 50).toString());
+                    final Uri image_uri = fbProfile.getProfilePictureUri(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT + 50, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT + 50);
 
                     try {
                         final URI image_URI = new URI(image_uri.toString());
