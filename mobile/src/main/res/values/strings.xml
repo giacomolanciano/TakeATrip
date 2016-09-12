@@ -230,9 +230,6 @@
     <string name="Notes">Notes</string>
     <string name="title_activity_multi_image_chooser">MultiImageChooserActivity</string>
     <string name="title_activity_tappa">TappaActivity</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="NoTravels">No travels found</string>
 
     <string name="addNote">Add new note</string>
@@ -264,21 +261,21 @@
     <string name="title_tutorial">"HOW TO USE TAT"</string>
 
 
-    <string name="travel_text">"Here you can access to your travels list"</string>
-    <string name="social_text">"Here you can access to the social area"</string>
-    <string name="add_text">"Here you can add a new travel"</string>
-    <string name="search_text">"Here you can search any travels"</string>
-    <string name="profile_text">"Here you can see your profile\nThis can be replaced with a custom image profile"</string>
-    <string name="plus_text">"You can find it in stops List\nWith this you can add a new stop"</string>
-    <string name="menu_text">"Here you can find a sub-menu with various choices"</string>
-    <string name="home_text">"Here you can return to the home"</string>
-    <string name="help_text">"Here you can find tips for use"</string>
+    <string name="travel_text">"Go to your travels list"</string>
+    <string name="social_text">"Go to the social area"</string>
+    <string name="add_text">"Create a new travel"</string>
+    <string name="search_text">"Search a travel in TAT community"</string>
+    <string name="profile_text">"Go to your public profile\nYou will see here your custom image profile"</string>
+    <string name="plus_text">"Add a new stop to a travel"</string>
+    <string name="menu_text">"Sub-menu with multiple choices"</string>
+    <string name="home_text">"Go to the homepage"</string>
+    <string name="help_text">"Go to tips for use"</string>
     <string name="finish">Finish</string>
-    <string name="info_add_partecipant_travel">Chooses the participant and click on the button to add directly to the trip</string>
+    <string name="info_add_partecipant_travel">Choose a participant and click on the plus to add it to travel</string>
     <string name="stopsList">Manage stops</string>
     <string name="addPartecipant">Add partecipant</string>
     <string name="help">Help</string>
-    <string name="dateFormat">date format: dd/mm/aaaa</string>
+    <string name="dateFormat">Date format: dd/mm/aaaa</string>
     <string name="set_date">Set date</string>
     <string name="newTravel">Partecipants:\nWrite the name, surname or username of the other participants and then press the "plus button"</string>
     <string name="confirm">Confirm</string>
