@@ -20,6 +20,8 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -97,7 +99,7 @@ public class ViaggioActivity extends AppCompatActivity {
     private List<Profilo> listPartecipants, profiles;
     private List<String> names;
     private LinearLayout layoutPartecipants;
-    private LinearLayout rowHorizontal;
+    private LinearLayout rowHorizontal, layoutFAB;
     private ImageView imageTravel;
     private DriveId idFolder;
     private Bitmap bitmapImageTravel;
@@ -320,7 +322,7 @@ public class ViaggioActivity extends AppCompatActivity {
 
 
         showProgressDialog();
-        new MyTaskPerUtenti().execute();
+        new UtentiTask().execute();
 
 
 
@@ -696,14 +698,34 @@ public class ViaggioActivity extends AppCompatActivity {
         dialog.setTitle("Add Partecipant");
         dialog.setView(view);
 
+        layoutFAB = (LinearLayout) view.findViewById(R.id.layoutFloatingButtonAdd);
 
         final AutoCompleteTextView text = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView1);
         ArrayAdapter adapter = new ArrayAdapter(ViaggioActivity.this, android.R.layout.test_list_item, names);
         text.setHint("Add partecipant");
         text.setAdapter(adapter);
         text.setThreshold(1);
-        text.setAdapter(adapter);
-        text.setThreshold(1);
+        text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //no op
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() == 0)
+                    layoutFAB.setVisibility(View.GONE);
+                else if (layoutFAB.getVisibility() != View.VISIBLE) {
+                    layoutFAB.setVisibility(View.VISIBLE);
+                    text.showDropDown();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                //no op
+            }
+        });
 
 
         TextView travel = (TextView) view.findViewById(R.id.titoloViaggio);
@@ -724,7 +746,7 @@ public class ViaggioActivity extends AppCompatActivity {
             @Override
 
             public void onCancel(DialogInterface dialog) {
-                   alertDialog(v);
+                   showAlertDialog(v);
                 }
         });
 
@@ -732,7 +754,7 @@ public class ViaggioActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                    alertDialog(v);
+                    showAlertDialog(v);
                     }
                 });
 
@@ -777,15 +799,18 @@ public class ViaggioActivity extends AppCompatActivity {
 
                                 layoutPartecipants.removeAllViews();
                                 popolaPartecipanti();
+                                text.setText("");
+                                Toast.makeText(getBaseContext(), R.string.success_add_participant, Toast.LENGTH_LONG).show();
                             }
                             else{
-                                Toast.makeText(getBaseContext(),"Already partecipant", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(), R.string.fail_add_participant, Toast.LENGTH_LONG).show();
                             }
                             break;
                         }
                     }
 
                     Log.i(TAG, "lista Partecipanti al viaggio: " + listPartecipants);
+
 
 
                 }
@@ -800,7 +825,7 @@ public class ViaggioActivity extends AppCompatActivity {
 
     }
 
-    private void alertDialog(final View v){
+    private void showAlertDialog(final View v){
         //Dialog per cancel o backPressed su aggiunta partecipanti
         new android.support.v7.app.AlertDialog.Builder(ViaggioActivity.this)
                 .setTitle(getString(R.string.back))
@@ -853,7 +878,7 @@ public class ViaggioActivity extends AppCompatActivity {
 
     }
 
-    private class MyTaskPerUtenti extends AsyncTask<Void, Void, Void> {
+    private class UtentiTask extends AsyncTask<Void, Void, Void> {
 
         //TODO task da modularizzare, side-effect importanti da gestire
 
