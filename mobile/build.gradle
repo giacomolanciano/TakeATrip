@@ -51,15 +51,13 @@ android {
     }
 }
 
-
+repositories {
+    mavenCentral()
+}
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     wearApp project(':wear')
-
-    //per il google translate
-
-
 
     compile 'com.android.support:multidex:1.0.0'
     compile 'com.android.support:appcompat-v7:23.3.0'
@@ -83,6 +81,8 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:8.4.0'
     compile 'com.google.android.gms:play-services-gcm:8.4.0'
     compile 'com.github.toanvc:floatingactionmenu:0.8.9'
+    compile 'com.github.paolorotolo:appintro:4.0.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
