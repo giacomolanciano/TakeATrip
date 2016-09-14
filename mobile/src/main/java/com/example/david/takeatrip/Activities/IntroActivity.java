@@ -9,7 +9,7 @@ import com.example.david.takeatrip.R;
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
-public class TATIntro extends AppIntro2 {
+public class IntroActivity extends AppIntro2 {
 
     private static final int VIBRATE_INTENSITY = 30;
 

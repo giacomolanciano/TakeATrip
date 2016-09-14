@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (isFirstStart) {
 
                     //  Launch app intro
-                    Intent i = new Intent(MainActivity.this, TATIntro.class);
+                    Intent i = new Intent(MainActivity.this, IntroActivity.class);
                     startActivity(i);
 
                     //  Make a new preferences editor

@@ -145,7 +145,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/Crea"
+            android:text="@string/Create"
             android:id="@+id/Crea"
             android:layout_below="@+id/linearLayout"
             android:layout_centerHorizontal="true"

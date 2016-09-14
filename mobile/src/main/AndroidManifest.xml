@@ -115,7 +115,7 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".Activities.NuovoViaggioActivity" />
         <activity
-            android:name=".Activities.TATIntro"
+            android:name=".Activities.IntroActivity"
             android:label="@string/title_activity_tatintro"
             android:theme="@style/AppTheme"></activity>
     </application>

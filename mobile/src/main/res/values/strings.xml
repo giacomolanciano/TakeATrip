@@ -3,17 +3,30 @@
     <string name="facebook_app_id">1024572710947061</string>
     <!--string name="google_app_id">854482298731</string-->
 
-
+    <!-- Activities titles -->
     <string name="action_settings">Settings</string>
     <string name="title_activity_registrazione">Registration</string>
     <string name="title_activity_profilo">Profile</string>
     <string name="title_activity_lista_viaggi">ListTravels</string>
+    <string name="title_activity_categoria">CategoriaActivity</string>
+    <string name="title_activity_viaggio">ViaggioActivity</string>
+    <string name="title_activity_lista_tappe">ListaTappeActivity</string>
+    <string name="title_activity_lista_tappe2">Lista Tappe</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_destination_selection">DestinationSelectionActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_login2">Sign in</string>
+    <string name="title_activity_audio_record_test">AudioRecordTest</string>
+    <string name="title_activity_multi_image_chooser">MultiImageChooserActivity</string>
+    <string name="title_activity_tappa">TappaActivity</string>
+    <string name="title_activity_streaming">StreamingActivity</string>
+    <string name="title_activity_tutorial">Short Tutorial</string>
+    <string name="title_tutorial">"HOW TO USE TAT"</string>
+    <string name="title_activity_tatintro">Intro</string>
 
 
     <string name="Login">Login</string>
     <string name="Registration">Registration</string>
-
-
     <string name="Name">Name</string>
     <string name="Surname">Surname</string>
     <string name="Email">Email</string>
@@ -23,39 +36,23 @@
     <string name="Followers"> Followers</string>
     <string name="numberFollowing"># </string>
     <string name="Following"> Following</string>
-
-
     <string name="Register">Register</string>
-    <string name="Crea">Create</string>
     <string name="LoginWithFb">Sign up with Facebook</string>
     <string name="LoginWithGoogle">Sign up with Google</string>
     <string name="Logout">Logout</string>
-
-
-    <string name="Categoria">Categoria</string>
-
-
+    <string name="Category">Category</string>
     <string name="LoginError">Incorrect Data</string>
 
 
-    <string name="title_activity_categoria">CategoriaActivity</string>
-    <string name="title_activity_viaggio">ViaggioActivity</string>
-    <string name="title_activity_lista_tappe">ListaTappeActivity</string>
 
-    <string name="title_activity_lista_tappe2">Lista Tappe</string>
-
-
-    <string name="title_activity_main2">Main2Activity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="Splash">Take a Trip</string>
-
-
     <string name="Viaggi">Travels</string>
 
     <string name="DestinationSelection">Search destination</string>
-    <string name="title_activity_destination_selection">DestinationSelectionActivity</string>
+
 
     <string name="SceltaMeta">Choose your parameters</string>
     <string name="Altitudine">Altitude</string>
@@ -139,10 +136,6 @@
     </string-array>
 
 
-    <string name="title_activity_main">MainActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-
     <string name="VecchiaPassword">Insert old password</string>
     <string name="NuovaPassword">Insert new password</string>
     <string name="ConfermaNuovaPassword">Confirm new password</string>
@@ -153,7 +146,6 @@
     <string name="InserisciNuovoLavoro">Job</string>
     <string name="InserisciNuovaDescrizione">Description</string>
     <string name="InserisciNuovoTipo">Type of traveller</string>
-    <string name="title_activity_login2">Sign in</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -201,7 +193,7 @@
         <item>Choose existing records</item>
         <item>Take a record</item>
     </string-array>
-    <string name="title_activity_audio_record_test">AudioRecordTest</string>
+
 
 
     <string name="completeProfile">Complete your profile</string>
@@ -228,8 +220,6 @@
     <string name="Videos">Videos</string>
     <string name="Records">Records</string>
     <string name="Notes">Notes</string>
-    <string name="title_activity_multi_image_chooser">MultiImageChooserActivity</string>
-    <string name="title_activity_tappa">TappaActivity</string>
     <string name="NoTravels">No travels found</string>
 
     <string name="addNote">Add new note</string>
@@ -248,7 +238,6 @@
     <string name="search">SEARCH</string>
     <string name="search_the_user">Search the user</string>
     <string name="user">User</string>
-    <string name="title_activity_streaming">StreamingActivity</string>
     <string name="exit">Exit</string>
     <string name="back">Go Back</string>
     <string name="alert_message">Are you sure?</string>
@@ -257,8 +246,6 @@
     <string name="no">No</string>
     <string name="travelCreate">Create Travel</string>
     <string name="viewListTravel">View travels list</string>
-    <string name="title_activity_tutorial">Short Tutorial</string>
-    <string name="title_tutorial">"HOW TO USE TAT"</string>
 
 
     <string name="travel_text">"Go to your travels list"</string>
@@ -288,6 +275,7 @@
     <string name="logout_alert">Are you sure you want to logout?</string>
     <string name="fail_add_participant">Already a participant</string>
     <string name="success_add_participant">Participant added</string>
+
 
 
 </resources>
