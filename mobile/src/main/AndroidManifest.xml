@@ -56,16 +56,14 @@
         <activity
             android:name=".Activities.ProfiloActivity"
             android:label="@string/title_activity_profilo"
-            android:parentActivityName="com.example.david.takeatrip.Activities.MainActivity" />
+            android:parentActivityName=".Activities.MainActivity" />
         <activity
             android:name=".Activities.ListaViaggiActivity"
             android:label="@string/title_activity_lista_viaggi" />
         <activity
             android:name=".Activities.ViaggioActivity"
             android:label="@string/title_activity_viaggio"
-            android:parentActivityName="com.example.david.takeatrip.Activities.MainActivity" />
-
-
+            android:parentActivityName=".Activities.MainActivity" />
         <activity
             android:name=".Activities.SplashActivity"
             android:label="@string/app_name">
@@ -76,16 +74,18 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.MapsActivity" />
-        <activity android:name=".Activities.MainActivity"
-            android:launchMode="singleTop" /> <!--  usato per tornare alla mainActivity senza perdere i dati-->
+        <activity
+            android:name=".Activities.MainActivity"
+            android:launchMode="singleTop" />
+        <!-- usato per tornare alla mainActivity senza perdere i dati -->
 
         <activity android:name=".Activities.InfoActivity" />
         <activity android:name=".Activities.StatsActivity" />
         <activity
             android:name=".Activities.ListaTappeActivity"
             android:label="@string/title_activity_lista_tappe2"
-            android:theme="@style/AppTheme"
-            android:parentActivityName="com.example.david.takeatrip.Activities.MainActivity"/>
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme" />
         <activity android:name=".Activities.SearchActivity" />
         <activity
             android:name=".Activities.SocialActivity"
@@ -99,8 +99,8 @@
         <activity
             android:name=".Activities.TappaActivity"
             android:label="@string/title_activity_tappa"
-            android:theme="@style/AppTheme"
-            android:parentActivityName="com.example.david.takeatrip.Activities.MainActivity" />
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Activities.VisualizzazioneFollowActivity"
             android:theme="@style/ThemeSocial" />
@@ -113,7 +113,11 @@
             android:name=".Activities.TutorialActivity"
             android:label="@string/title_activity_tutorial"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Activities.NuovoViaggioActivity"></activity>
+        <activity android:name=".Activities.NuovoViaggioActivity" />
+        <activity
+            android:name=".Activities.TATIntro"
+            android:label="@string/title_activity_tatintro"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

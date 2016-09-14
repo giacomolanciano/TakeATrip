@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -110,6 +111,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Declare a new thread to do a preference check before starting APP INTRO
+        Thread appIntroThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //  Initialize SharedPreferences
+                SharedPreferences getPrefs = PreferenceManager
+                        .getDefaultSharedPreferences(getBaseContext());
+
+                //  Create a new boolean and preference and set it to true
+                boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
+
+                // Forces flag equals to true, only for debugging
+                // TODO comment this line for release
+                isFirstStart = true;
+
+                //  If the activity has never started before...
+                if (isFirstStart) {
+
+                    //  Launch app intro
+                    Intent i = new Intent(MainActivity.this, TATIntro.class);
+                    startActivity(i);
+
+                    //  Make a new preferences editor
+                    SharedPreferences.Editor e = getPrefs.edit();
+
+                    //  Edit preference to make it false because we don't want this to run again
+                    e.putBoolean("firstStart", false);
+
+                    //  Apply changes
+                    e.apply();
+                }
+            }
+        });
+
+        // Start the app intro thread
+        appIntroThread.start();
+
         setContentView(R.layout.activity_main);
 
 /*      usato solo con onSavedInstanceState
@@ -119,50 +158,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 */
         if (getIntent() != null) {
-                Intent intent = getIntent();
-                name = intent.getStringExtra("name");
-                surname = intent.getStringExtra("surname");
-                email = intent.getStringExtra("email");
-                date = intent.getStringExtra("dateOfBirth");
-                password = intent.getStringExtra("pwd");
-                nazionalità = intent.getStringExtra("nazionalita");
-                sesso = intent.getStringExtra("sesso");
-                username = intent.getStringExtra("username");
-                lavoro = intent.getStringExtra("lavoro");
-                descrizione = intent.getStringExtra("descrizione");
-                tipo = intent.getStringExtra("tipo");
-                fbProfile = intent.getParcelableExtra("fbProfile");
-            } else {
-                //Prendi i dati dal database perche è gia presente l'utente
-            }
-
-            imageViewProfileRound = (ImageView) findViewById(R.id.imageView_round);
-
-            transferUtility = UtilS3Amazon.getTransferUtility(this);
-            transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
-            s3 = UtilS3Amazon.getS3Client(MainActivity.this);
-
-
-            new MyTask().execute();
-            showProgressDialog();
-            new MyTaskIDProfileImage(this, email).execute();
-            new MyTaskIDCoverImage(this, email).execute();
-
-
-            if (sesso != null && sesso.equals("M")) {
-                imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_male));
-            } else if (sesso != null && sesso.equals("F")) {
-                imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_female));
-            }
-
-            names = new ArrayList<String>();
-            namesPartecipants = new ArrayList<String>();
-            partecipants = new HashSet<Profilo>();
-            profiles = new HashSet<Profilo>();
-            profilo = new Profilo(email, name, surname, date, password, nazionalità, sesso, username, lavoro, descrizione);
-            TakeATrip TAT = (TakeATrip) getApplicationContext();
-            TAT.setProfiloCorrente(profilo);
+            Intent intent = getIntent();
+            name = intent.getStringExtra("name");
+            surname = intent.getStringExtra("surname");
+            email = intent.getStringExtra("email");
+            date = intent.getStringExtra("dateOfBirth");
+            password = intent.getStringExtra("pwd");
+            nazionalità = intent.getStringExtra("nazionalita");
+            sesso = intent.getStringExtra("sesso");
+            username = intent.getStringExtra("username");
+            lavoro = intent.getStringExtra("lavoro");
+            descrizione = intent.getStringExtra("descrizione");
+            tipo = intent.getStringExtra("tipo");
+            fbProfile = intent.getParcelableExtra("fbProfile");
+        } else {
+            //Prendi i dati dal database perche è gia presente l'utente
         }
+
+        imageViewProfileRound = (ImageView) findViewById(R.id.imageView_round);
+
+        transferUtility = UtilS3Amazon.getTransferUtility(this);
+        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
+        s3 = UtilS3Amazon.getS3Client(MainActivity.this);
+
+
+        new MyTask().execute();
+        showProgressDialog();
+        new MyTaskIDProfileImage(this, email).execute();
+        new MyTaskIDCoverImage(this, email).execute();
+
+
+        if (sesso != null && sesso.equals("M")) {
+            imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_male));
+        } else if (sesso != null && sesso.equals("F")) {
+            imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_female));
+        }
+
+        names = new ArrayList<String>();
+        namesPartecipants = new ArrayList<String>();
+        partecipants = new HashSet<Profilo>();
+        profiles = new HashSet<Profilo>();
+        profilo = new Profilo(email, name, surname, date, password, nazionalità, sesso, username, lavoro, descrizione);
+        TakeATrip TAT = (TakeATrip) getApplicationContext();
+        TAT.setProfiloCorrente(profilo);
+    }
 
 
     @Override
