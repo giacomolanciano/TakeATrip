@@ -264,7 +264,8 @@
     <string name="help">Help</string>
     <string name="dateFormat">Date format: dd/mm/aaaa</string>
     <string name="set_date">Set date</string>
-    <string name="newTravel">Partecipants:\nWrite the name, surname or username of the other participants and then press the "plus button"</string>
+    <string name="newTravel">Partecipants:\nWrite the name, surname or username of the other
+        participants and then press the "plus button"</string>
     <string name="confirm">Confirm</string>
     <string name="delete_content_alert">Proceed removing the content from this travel?</string>
     <string name="delete_travel">Delete this travel</string>
@@ -275,7 +276,9 @@
     <string name="logout_alert">Are you sure you want to logout?</string>
     <string name="fail_add_participant">Already a participant</string>
     <string name="success_add_participant">Participant added</string>
-
+    <string name="permissions_slide_title">Permissions</string>
+    <string name="permissions_slide_description">We need access to some resources of your phone
+        to offer a better experience. Please move forward and grant us permissions.</string>
 
 
 </resources>

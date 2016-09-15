@@ -1,6 +1,8 @@
 package com.example.david.takeatrip.Activities;
 
+import android.Manifest;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +14,8 @@ import com.github.paolorotolo.appintro.AppIntroFragment;
 public class IntroActivity extends AppIntro2 {
 
     private static final int VIBRATE_INTENSITY = 30;
+    private static final int LAST_SLIDE = 3;
+    private static final int PERMISSIONS_SLIDE = LAST_SLIDE - 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +23,7 @@ public class IntroActivity extends AppIntro2 {
 
 //        // Add your slide's fragments here.
 //        // AppIntro will automatically generate the dots indicator and buttons.
-//        // (NOTE: non cancellare questo commento, può essere utile in futuro)
+//        // NOTE: Do not delete this comment, it could be useful
 //        addSlide(IntroSampleSlideFragment.newInstance(R.layout.first_slide_here));
 //        addSlide(IntroSampleSlideFragment.newInstance(R.layout.second_slide_here));
 
@@ -30,7 +34,19 @@ public class IntroActivity extends AppIntro2 {
                 "loooooooooooooooooooooooooooooooooooong description", R.drawable.empty_image, Color.parseColor("#6F51B5")));
         addSlide(AppIntroFragment.newInstance("second slide",
                 "loooooooooooooooooooooooooooooooooooong description", R.drawable.empty_image, Color.parseColor("#8F51B5")));
-        addSlide(AppIntroFragment.newInstance("third slide",
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            addSlide(AppIntroFragment.newInstance(getString(R.string.permissions_slide_title),
+                    getString(R.string.permissions_slide_description), R.drawable.empty_image, Color.parseColor("#8F51B5")));
+
+            // Ask user for permissions (all in one slide, when it is passed by).
+            // NOTE: Do not place them in last slide. Slides numbers start from 1.
+            askForPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_CONTACTS}, PERMISSIONS_SLIDE);
+        }
+
+        addSlide(AppIntroFragment.newInstance("last slide",
                 "loooooooooooooooooooooooooooooooooooong description", R.drawable.empty_image, Color.parseColor("#8F51B5")));
 
         // OPTIONAL METHODS
@@ -39,7 +55,8 @@ public class IntroActivity extends AppIntro2 {
         //setSeparatorColor(Color.parseColor("#2196F3"));
 
         // Hide Skip/Done button.
-        //showSkipButton(true);     //(not available for AppIntro2)
+        //showSkipButton(false);     //(not available for AppIntro2)
+        setSkipButtonEnabled(false);
         setProgressButtonEnabled(true);
 
         // Turn vibration on and set intensity.
@@ -53,6 +70,7 @@ public class IntroActivity extends AppIntro2 {
         //setFlowAnimation();
         //setSlideOverAnimation();
         //setDepthAnimation();
+
     }
 
     @Override
@@ -71,5 +89,9 @@ public class IntroActivity extends AppIntro2 {
     public void onSlideChanged(@Nullable Fragment oldFragment, @Nullable Fragment newFragment) {
         super.onSlideChanged(oldFragment, newFragment);
         // no op
+    }
+
+    private void setSkipButtonEnabled(boolean skipButtonEnabled) {
+        this.skipButtonEnabled = skipButtonEnabled;
     }
 }
