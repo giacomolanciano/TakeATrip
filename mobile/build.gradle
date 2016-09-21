@@ -55,7 +55,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    wearApp project(':wear')
+    //wearApp project(':wear')
 
     //per il google translate
 
