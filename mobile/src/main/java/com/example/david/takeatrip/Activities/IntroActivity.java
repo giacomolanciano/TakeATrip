@@ -14,7 +14,7 @@ import com.github.paolorotolo.appintro.AppIntroFragment;
 public class IntroActivity extends AppIntro2 {
 
     private static final int VIBRATE_INTENSITY = 30;
-    private static final int LAST_SLIDE = 3;
+    private static final int LAST_SLIDE = 4;
     private static final int PERMISSIONS_SLIDE = LAST_SLIDE - 1;
 
     @Override
