@@ -12,6 +12,7 @@
     <color name="pink_pressed">#ec407a</color>
     <color name="blue_semi_transparent">#805677fc</color>
     <color name="blue_semi_transparent_pressed">#80738ffe</color>
+
     <color name="primary_material_dark_1">#03a9f4</color>
     <color name="legacy_primary">#90caf9</color>
     <color name="primary_material_dark_2">#90caf9</color>
@@ -21,5 +22,34 @@
     <color name="primary_text_material_light">#ffffff</color>
     <color name="primary_material_light">#90caf9</color>
     <color name="primary_material_dark_3">#90caf9</color>
+
+    <color name="blue">#90CAF9</color>
+    <color name="bluePiuScuro">#7db8e8</color>
+    <color name="black">#000000</color>
+
+
+    <color name="white">#FFFFFF</color>
+    <color name="blu_scuro">#1976D2</color>
+    <color name="verde_follow">#9CCC65</color>
+
+    <color name="red">#FF0000 </color>
+    <color name="green">#00FF00</color>
+    <color name="greenScuro">#4CAF50</color>
+    <color name="biancoPallido">#FAFAFA</color>
+    <color name="color_hint">#BDBDBD</color>
+    <color name="sfondoBase">#FFF3F3F5</color>
+    <color name="sfondoBianco">#FFFFFF</color>
+
+
+    <color name="translucent_scrim_top">#26000000</color>
+    <color name="translucent_scrim_top_center">#0C000000</color>
+
+    <!--<color name="translucent_scrim_bottom">#2A000000</color>-->
+    <!--<color name="translucent_scrim_bottom_center">#0D000000</color>-->
+
+    <color name="translucent_scrim_bottom">#2A000000</color>
+    <color name="translucent_scrim_bottom_center">#40000000</color>
+    <color name="translucent_scrim_bottom_profilo">#2A000000</color>
+    <color name="translucent_scrim_bottom_center_profilo">#66000000</color>
 
 </resources>
