@@ -113,7 +113,7 @@ public class GridViewAdapter extends BaseAdapter {
 
             // Trigger the download of the URL asynchronously into the image view.
             Picasso.with(context)
-                    .load(R.drawable.empty_image)   //TODO sostituire con logo video
+                    .load(R.drawable.video_content)
                     .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *TRIPLE, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *TRIPLE)
                     .centerCrop()
                     .tag(context)
@@ -149,7 +149,7 @@ public class GridViewAdapter extends BaseAdapter {
 
             // Trigger the download of the URL asynchronously into the image view.
             Picasso.with(context)
-                    .load(R.drawable.empty_image)   //TODO sostituire con logo audio
+                    .load(R.drawable.audio_content)
                     .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *TRIPLE, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *TRIPLE)
                     .centerCrop()
                     .tag(context)
@@ -185,7 +185,7 @@ public class GridViewAdapter extends BaseAdapter {
 
             // Trigger the download of the URL asynchronously into the image view.
             Picasso.with(context)
-                    .load(R.drawable.empty_image)   //TODO sostituire con logo note
+                    .load(R.drawable.note_content)
                     .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *TRIPLE, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *TRIPLE)
                     .centerCrop()
                     .tag(context)
