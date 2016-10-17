@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 // Forces flag equals to true, only for debugging
                 // TODO comment this line for release
-                isFirstStart = true;
+                //isFirstStart = true;
 
                 //  If the activity has never started before...
                 if (isFirstStart) {
