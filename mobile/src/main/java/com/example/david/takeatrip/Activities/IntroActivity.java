@@ -1,11 +1,11 @@
 package com.example.david.takeatrip.Activities;
 
 import android.Manifest;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.res.ResourcesCompat;
 
 import com.example.david.takeatrip.R;
 import com.github.paolorotolo.appintro.AppIntro2;
@@ -14,7 +14,7 @@ import com.github.paolorotolo.appintro.AppIntroFragment;
 public class IntroActivity extends AppIntro2 {
 
     private static final int VIBRATE_INTENSITY = 30;
-    private static final int LAST_SLIDE = 4;
+    private static final int LAST_SLIDE = 5;
     private static final int PERMISSIONS_SLIDE = LAST_SLIDE - 1;
 
     @Override
@@ -29,15 +29,22 @@ public class IntroActivity extends AppIntro2 {
 
         // Instead of fragments, you can also use our default slide
         // Just set a title, description, background and image. AppIntro will do the rest.
-        //TODO inserire immagini, descrizioni e background appropriati
-        addSlide(AppIntroFragment.newInstance("first slide",
-                "loooooooooooooooooooooooooooooooooooong description", R.drawable.empty_image, Color.parseColor("#6F51B5")));
-        addSlide(AppIntroFragment.newInstance("second slide",
-                "loooooooooooooooooooooooooooooooooooong description", R.drawable.empty_image, Color.parseColor("#8F51B5")));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.home_slide_title),
+                getString(R.string.home_slide_description), R.drawable.home_slide,
+                ResourcesCompat.getColor(getResources(), R.color.blue, null)));
+
+        addSlide(AppIntroFragment.newInstance(getString(R.string.memories_slide_title),
+                getString(R.string.memories_slide_description), R.drawable.memories_slide,
+                ResourcesCompat.getColor(getResources(), R.color.blue, null)));
+
+        addSlide(AppIntroFragment.newInstance(getString(R.string.help_slide_title),
+                getString(R.string.help_slide_description), R.drawable.help_slide,
+                ResourcesCompat.getColor(getResources(), R.color.blue, null)));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             addSlide(AppIntroFragment.newInstance(getString(R.string.permissions_slide_title),
-                    getString(R.string.permissions_slide_description), R.drawable.empty_image, Color.parseColor("#8F51B5")));
+                    getString(R.string.permissions_slide_description), R.drawable.permissions_slide,
+                    ResourcesCompat.getColor(getResources(), R.color.blue, null)));
 
             // Ask user for permissions (all in one slide, when it is passed by).
             // NOTE: Do not place them in last slide. Slides numbers start from 1.
@@ -46,8 +53,9 @@ public class IntroActivity extends AppIntro2 {
                     Manifest.permission.READ_CONTACTS}, PERMISSIONS_SLIDE);
         }
 
-        addSlide(AppIntroFragment.newInstance("last slide",
-                "loooooooooooooooooooooooooooooooooooong description", R.drawable.empty_image, Color.parseColor("#8F51B5")));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.last_slide_title),
+                getString(R.string.last_slide_description), R.drawable.last_slide,
+                ResourcesCompat.getColor(getResources(), R.color.blue, null)));
 
         // OPTIONAL METHODS
         // Override bar/separator color (not available for AppIntro2).

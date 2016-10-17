@@ -276,9 +276,22 @@
     <string name="logout_alert">Are you sure you want to logout?</string>
     <string name="fail_add_participant">Already a participant</string>
     <string name="success_add_participant">Participant added</string>
+
+    <!--app intro slides-->
     <string name="permissions_slide_title">Permissions</string>
     <string name="permissions_slide_description">We need access to some resources of your phone
         to offer a better experience. Please move forward and grant us permissions.</string>
+    <string name="last_slide_title">Let\'s start!</string>
+    <string name="last_slide_description">Don\'t miss anything you love in your journey… TakeATrip!</string>
+    <string name="help_slide_title">Help!</string>
+    <string name="help_slide_description">Whenever you will find yourself in troubles, go to the Home
+        page and tap on this icon to view a Tutorial page.</string>
+    <string name="home_slide_description">This is your TakeATrip home page. From year, you can acces
+        all the main features like creating a new travel or searching for someone else\'s one.</string>
+    <string name="home_slide_title">Home page</string>
+    <string name="memories_slide_description">You can upload into TakeATrip your travel memories,
+        like photos and videos. You will always have them with you to revive your special moments.</string>
+    <string name="memories_slide_title">Memories</string>
 
 
 </resources>
