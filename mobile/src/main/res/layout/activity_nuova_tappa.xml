@@ -97,7 +97,7 @@
 
             <!--fragment
                 android:id="@+id/placePicker"
-                android:name="com.example.david.takeatrip.Fragments.PlacePickerFragment"
+                android:name="com.takeatrip.Fragments.PlacePickerFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"/-->

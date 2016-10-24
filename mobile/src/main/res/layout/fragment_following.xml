@@ -28,7 +28,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.8">
 
-                <com.example.david.takeatrip.Utilities.RoundedImageView
+                <com.takeatrip.Utilities.RoundedImageView
                     android:layout_width="match_parent"
                     android:layout_height="85dp"
                     android:id="@+id/ImageProfile"

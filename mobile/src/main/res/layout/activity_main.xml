@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.david.takeatrip.Activities.MainActivity"
+    tools:context="com.takeatrip.Activities.MainActivity"
     android:background="@drawable/sfondo">
 
     <FrameLayout
@@ -155,7 +155,7 @@
 
 
 
-    <com.example.david.takeatrip.Utilities.RoundedImageView
+    <com.takeatrip.Utilities.RoundedImageView
         android:id="@+id/imageView_round"
         android:layout_width="150dp"
         android:layout_height="150dp"

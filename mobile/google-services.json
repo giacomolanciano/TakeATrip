@@ -8,10 +8,10 @@
     {
       "client_info": {
         "mobilesdk_app_id": "1:854482298731:android:36c7cba02e592ed8",
-        "client_id": "android:com.example.david.takeatrip",
+        "client_id": "android:com.takeatrip",
         "client_type": 1,
         "android_client_info": {
-          "package_name": "com.example.david.takeatrip",
+          "package_name": "com.takeatrip",
           "certificate_hash": []
         }
       },
@@ -20,16 +20,12 @@
           "client_id": "854482298731-ra6q4hbh7qf4o7o5vlv1iceq3nfkuik2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.david.takeatrip",
+            "package_name": "com.takeatrip",
             "certificate_hash": "E71EBD320ECA18DFDCD694116922E8C784A42128"
           }
         },
         {
           "client_id": "854482298731-9maeevj20buep03pjefnvvdq4ch0q19j.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "854482298731-n43an8bdaebtteh6hrmg43rejuiebuaj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

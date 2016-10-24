@@ -1,0 +1,460 @@
+package com.takeatrip.Activities;
+
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.mobileconnectors.cognito.CognitoSyncManager;
+import com.amazonaws.regions.Regions;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.takeatrip.AsyncTasks.LoginTask;
+import com.takeatrip.Classes.Profilo;
+import com.takeatrip.Classes.TakeATrip;
+import com.takeatrip.Interfaces.AsyncResponseLogin;
+import com.takeatrip.R;
+import com.takeatrip.Utilities.Constants;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
+public class LoginActivity extends AppCompatActivity implements
+        GoogleApiClient.OnConnectionFailedListener,View.OnClickListener,AsyncResponseLogin {
+
+    private static final String TAG = "TEST LoginActivity";
+    private static final int RC_SIGN_IN = 9001;
+
+    private GoogleApiClient mGoogleApiClient;
+    private ProgressDialog mProgressDialog;
+    private SignInButton signInButton;
+
+    private String email, password, nome, cognome, data, nazionalita, sesso, username, lavoro, descrizione, tipo;
+
+
+    LoginButton blogin;
+    AccessToken fbAccessToken;
+    AccessTokenTracker tracker;
+    ProfileTracker profileTracker;
+    Profile profile;
+
+    private CognitoCachingCredentialsProvider credentialsProvider;
+    private CognitoSyncManager syncClient;
+    private Map<String, String> logins;
+
+    private CallbackManager callbackManager;
+
+    private FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
+        @Override
+        public void onSuccess(LoginResult loginResult) {
+
+            logins.put("graph.facebook.com", AccessToken.getCurrentAccessToken().getToken());
+
+            Log.i(TAG, "token: " + AccessToken.getCurrentAccessToken().getToken());
+            Log.i(TAG, "logins: " + logins);
+
+            credentialsProvider.setLogins(logins);
+
+            TakeATrip TAT = ((TakeATrip) getApplicationContext());
+            TAT.setCredentialsProvider(credentialsProvider);
+
+
+            if(Profile.getCurrentProfile() == null) {
+                profileTracker = new ProfileTracker() {
+                    @Override
+                    protected void onCurrentProfileChanged(Profile oldProfile, Profile profile2) {
+                        // profile2 is the new profile
+                        profile = profile2;
+
+                        Log.v("TEST profileFB: ", profile.getFirstName());
+                        Log.v("TEST id profile: ", profile.getId());
+
+                        email = Constants.PREFIX_FACEBOOK + profile.getId();
+                        password = "pwdFb";
+                        nome = profile.getFirstName();
+                        cognome = profile.getLastName();
+                        data = "0000-00-00";
+
+                        profileTracker.stopTracking();
+
+                        //new MyTask().execute();
+                        LoginTask task = new LoginTask(LoginActivity.this,email,password);
+                        task.delegate = LoginActivity.this;
+                        task.execute();
+                        //new MyTaskInsert().execute();
+                    }
+                };
+                profileTracker.startTracking();
+            }
+            else {
+                profile = Profile.getCurrentProfile();
+                nome = profile.getFirstName();
+                cognome = profile.getLastName();
+                Log.v("TEST profileFB: ", profile.getFirstName());
+                Log.v("TEST id profile: ", profile.getId());
+
+            }
+        }
+
+        @Override
+        public void onCancel() {
+        }
+
+        @Override
+        public void onError(FacebookException e) {
+            Log.e(e.toString().toUpperCase(), e.getMessage());
+        }
+    };
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+
+        setContentView(R.layout.activity_login);
+        logins = new HashMap<String, String>();
+
+
+        // Initialize the Amazon Cognito credentials provider
+        credentialsProvider = new CognitoCachingCredentialsProvider(
+                getApplicationContext(),
+                Constants.AMAZON_POOL_ID, // Identity Pool ID
+                Regions.EU_WEST_1 // Region
+        );
+
+        // Initialize the Cognito Sync client
+        syncClient = new CognitoSyncManager(
+                getApplicationContext(),
+                Regions.EU_WEST_1, // Region
+                credentialsProvider);
+
+
+
+        //TODO: cambiare in fase di release il WEBAPP_ID
+        GoogleSignInOptions.Builder builder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN);
+        builder.requestIdToken(Constants.WEBAPP_ID);
+
+        GoogleSignInOptions gso = builder.build();
+
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        signInButton.setScopes(gso.getScopeArray());
+        signInButton.setOnClickListener(this);
+
+    }
+
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        blogin = (LoginButton) findViewById(R.id.LoginButtonFb);
+        blogin.registerCallback(callbackManager, callback);
+
+    }
+
+
+
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            if (!mGoogleApiClient.isConnecting() &&
+                    !mGoogleApiClient.isConnected()) {
+                mGoogleApiClient.connect();
+            }
+
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            Log.i(TAG, "result: " + result.toString());
+            handleSignInResult(result);
+        }
+        else {
+
+        }
+
+    }
+
+
+    protected void handleSignInResult(GoogleSignInResult result) {
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            Log.i(TAG, "result success!!!");
+
+            TakeATrip TAT = ((TakeATrip) getApplicationContext());
+            TAT.setmGoogleApiClient(mGoogleApiClient);
+
+            GoogleSignInAccount acct = result.getSignInAccount();
+
+            email = acct.getEmail();
+            email = Constants.PREFIX_GOOGLE  + acct.getId();
+
+            int describeContents = acct.describeContents();
+            String displayName = acct.getDisplayName();
+            String idUser = acct.getId();
+            String tokenId = acct.getIdToken();
+
+            Log.i(TAG, "email: " + email + " describeContents: " + describeContents + " dispplayName: " + displayName
+                    + " idUser: " + idUser + " tokenId: " + tokenId);
+            password = "pwdGoogle";
+
+            if(displayName != null){
+                String [] nameSplitted = displayName.split(" ");
+                if(nameSplitted.length==2){
+                    nome = nameSplitted[0];
+                    cognome = nameSplitted[1];
+                }
+                else{
+                    nome = displayName;
+                }
+            }
+
+
+            logins.put("accounts.google.com", tokenId);
+            credentialsProvider.setLogins(logins);
+
+            TAT.setCredentialsProvider(credentialsProvider);
+
+            LoginTask task = new LoginTask(LoginActivity.this,email,password);
+            task.delegate = LoginActivity.this;
+            task.execute();
+            //new MyTask().execute();
+
+        } else {
+            // Signed out, show unauthenticated UI.
+        }
+    }
+
+    private void signIn() {
+        if (!mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.connect();
+        }
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public static boolean isEmailValida(String email) {
+        boolean isValid = false;
+
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        CharSequence inputStr = email;
+
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+        if (matcher.matches()) {
+            isValid = true;
+        }
+        return isValid;
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Log.d(TAG, "onConnectionFailed:" + connectionResult);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.sign_in_button:
+                signIn();
+                break;
+
+        }
+    }
+
+    public void onClickSignUpFacebook(View view) {
+        blogin.performClick();
+    }
+
+    public void onClickSignUpGoogle(View view) {
+        this.onClick(signInButton);
+    }
+
+    @Override
+    public void processFinish(Profilo output) {
+        Log.i(TAG, "login finished with profile: " + output);
+
+        if(output != null){
+            Log.i(TAG, "non primo accesso a TakeATrip");
+            openMainActivity2(output.getEmail(), output.getName(), output.getSurname(), output.getDataNascita(),
+                    output.getPassword(), output.getNazionalita(), output.getSesso(), output.getUsername(),output.getLavoro(),
+                    output.getDescrizione(), output.getTipo());
+        }
+        else{
+            if(email.contains("google")){
+                openMainActivity(email, nome, cognome, null,"pwdGoogle", null, null, null,null,
+                        null, null);
+            }  else {
+                openMainActivity(email, nome, cognome, null,"pwdFb", null, null, null,null,
+                        null, null);
+            }
+
+
+        }
+
+
+    }
+
+
+//serve solo quando si ha un login indipendente
+
+//    private class MyTaskInsert extends AsyncTask<Void, Void, Void> {
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+//            dataToSend.add(new BasicNameValuePair("nome", nome));
+//            dataToSend.add(new BasicNameValuePair("cognome", cognome));
+//            dataToSend.add(new BasicNameValuePair("dataNascita",data));
+//            dataToSend.add(new BasicNameValuePair("email", email));
+//            dataToSend.add(new BasicNameValuePair("password", password));
+//            dataToSend.add(new BasicNameValuePair("nazionalita", nazionalita));
+//            dataToSend.add(new BasicNameValuePair("sesso", sesso));
+//            dataToSend.add(new BasicNameValuePair("username", username));
+//            dataToSend.add(new BasicNameValuePair("lavoro", lavoro));
+//            dataToSend.add(new BasicNameValuePair("descrizione", descrizione));
+//            dataToSend.add(new BasicNameValuePair("tipo", tipo));
+//
+//
+//            Log.i(TAG, "dati: " + nome + " " + cognome + " " + data + " " + email + " " + password);
+//
+//            try {
+//                if (InternetConnection.haveInternetConnection(LoginActivity.this)) {
+//                    Log.i("CONNESSIONE Internet", "Presente!");
+//                    HttpClient httpclient = new DefaultHttpClient();
+//                    HttpPost httppost;
+//                    httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_UTENTE);
+//                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+//                    httpclient.execute(httppost);
+//                }
+//                else
+//                    Log.e("CONNESSIONE Internet", "Assente!");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                Log.e(e.toString(),e.getMessage());
+//            }
+//
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//            openMainActivity(email, nome,cognome,data,password,nazionalita,sesso,username,lavoro,descrizione,tipo);
+//
+//        }
+//    }
+
+
+    private void openMainActivity(String e, String name, String surname, String date, String pwd, String n, String sex, String username,
+                                  String job, String description, String type){
+
+        Intent openAccedi = new Intent(LoginActivity.this, RegistrazioneActivity.class);
+        openAccedi.putExtra("email", e);
+        openAccedi.putExtra("name", name);
+        openAccedi.putExtra("surname", surname);
+        openAccedi.putExtra("dateOfBirth", date);
+        openAccedi.putExtra("password", pwd);
+        openAccedi.putExtra("nazionalita", n);
+        openAccedi.putExtra("sesso", sex);
+        openAccedi.putExtra("username", username);
+        openAccedi.putExtra("lavoro", job);
+        openAccedi.putExtra("descrizione", description);
+        openAccedi.putExtra("tipo", type);
+        openAccedi.putExtra("profile", profile);
+
+        startActivity(openAccedi);
+
+        finish();
+    }
+
+    private void openMainActivity2(String e, String name, String surname, String date, String pwd, String n, String sex, String username,
+                                   String job, String description, String type){
+
+        Intent openAccedi = new Intent(LoginActivity.this, MainActivity.class);
+        openAccedi.putExtra("email", e);
+        openAccedi.putExtra("name", name);
+        openAccedi.putExtra("surname", surname);
+        openAccedi.putExtra("dateOfBirth", date);
+        openAccedi.putExtra("pwd", pwd);
+        openAccedi.putExtra("nazionalita", n);
+        openAccedi.putExtra("sesso", sex);
+        openAccedi.putExtra("username", username);
+        openAccedi.putExtra("lavoro", job);
+        openAccedi.putExtra("descrizione", description);
+        openAccedi.putExtra("tipo", type);
+        openAccedi.putExtra("profile", profile);
+
+        startActivity(openAccedi);
+
+        finish();
+    }
+
+
+}
+
+

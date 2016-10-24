@@ -102,7 +102,7 @@
 
 
 
-                            <com.example.david.takeatrip.Utilities.RoundedImageView
+                            <com.takeatrip.Utilities.RoundedImageView
                                 android:id="@+id/imageView_round_Profile"
                                 android:layout_width="75dp"
                                 android:layout_height="75dp"

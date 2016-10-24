@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion '23.0.2'
 
     useLibrary 'org.apache.http.legacy'
 
     productFlavors {
         dev {
-            applicationId "com.example.david.takeatrip"
+            applicationId "com.takeatrip"
             minSdkVersion 21
             targetSdkVersion 23
             versionCode 1
@@ -19,7 +19,7 @@ android {
         }
 
         prod {
-            applicationId "com.example.david.takeatrip"
+            applicationId "com.takeatrip"
             minSdkVersion 16
             targetSdkVersion 23
             versionCode 1
@@ -31,7 +31,7 @@ android {
     }
 
 //    defaultConfig {
-//        applicationId "com.example.david.takeatrip"
+//        applicationId "com.takeatrip"
 //        minSdkVersion 16
 //        targetSdkVersion 23
 //        versionCode 1
