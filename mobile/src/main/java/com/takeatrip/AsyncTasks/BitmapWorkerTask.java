@@ -146,15 +146,11 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
                 options.inSampleSize = 4;
             }
 
-
             if(reqWidth != 0 && reqHeight != 0){
                 options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
             }
 
-            Log.i(TAG, "inSampleSize: " + options.inSampleSize);
-
             options.inJustDecodeBounds = false;
-
             in.close();
             in = new java.net.URL(url).openStream();
 
@@ -162,7 +158,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
             Log.i(TAG, "bitmap decoded: " + mIcon11);
             in.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.d(TAG, "Thrown exception "+ e);
         }
 
 

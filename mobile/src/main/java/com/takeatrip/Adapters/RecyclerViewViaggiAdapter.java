@@ -28,8 +28,8 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
         .Adapter<RecyclerViewViaggiAdapter.TravelViewHolder> implements AsyncResponseUrl {
 
     private static final String TAG = "TEST RecViewViaggiAdapt";
-    private static final int HEIGHT_DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *10;
-    private static final int WIDTH_DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *15;
+    private static final int HEIGHT_DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *6;
+    private static final int WIDTH_DIMENSION_IMAGE_TRAVEL = Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *10;
 
     private ArrayList<DataObject> dataset;
     private Context context;
@@ -79,10 +79,6 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
         if(urlImmagine != null && !urlImmagine.equals("null")){
 
             try {
-
-                //TODO verificare efficienza
-                //la recyclerView chiama asynctask ogni volta che l'immagine esce fuori dallo schermo
-
                 completeUrl = new LoadGenericImageTask(urlImmagine, codiceViaggio, context).execute().get();
 
             } catch (InterruptedException e) {

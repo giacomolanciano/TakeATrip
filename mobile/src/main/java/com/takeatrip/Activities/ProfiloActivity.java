@@ -112,7 +112,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     private ImageView coverImage;
     private LinearLayout layoutCoverImage;
 
-    private String name, surname, email, emailEsterno, emailProfiloVisitato, emailFollowing;
+    private String name, surname, email, emailEsterno, emailProfilo, emailFollowing;
     private String date, password, nazionalita, sesso, username, lavoro, descrizione, tipo;
 
     private Profile profile;
@@ -162,8 +162,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         numFollowersView = (TextView) findViewById(R.id.numberFollowers);
         numFollowingsView = (TextView) findViewById(R.id.numberFollowings);
 
-
-
         transferUtility = UtilS3Amazon.getTransferUtility(this);
         transferRecordMaps = new ArrayList<HashMap<String, Object>>();
         s3 = UtilS3Amazon.getS3Client(ProfiloActivity.this);
@@ -188,9 +186,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             idCoverImage = intent.getStringExtra("urlImmagineCopertina");
 
 
-
-
-
+            //download of profile and cover images
             if(idImageProfile == null || idImageProfile.equals("null")){
                 if(profile!= null){
                     final Uri image_uri = profile.getProfilePictureUri(DIMENSION_PROFILE_IMAGE, DIMENSION_PROFILE_IMAGE);
@@ -217,45 +213,47 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 beginDownloadProfilePicture(idImageProfile);
             }
 
-
             if(idCoverImage != null && !idCoverImage.equals("null")){
                 beginDownloadCoverPicture(idCoverImage);
             }
 
-                if(password != null) {
+
+            //verify if the visualized user is the logged user
+            TakeATrip TAT = (TakeATrip)getApplicationContext();
+            if(TAT != null)
+                emailProfilo = TAT.getProfiloCorrente().getEmail();
+
+            Log.i(TAG, "email : " + email);
+            Log.i(TAG, "email profilo loggato: " + emailProfilo);
+            Log.i(TAG, "emailEsterno: " + emailEsterno);
+
+            if(email == null){
+                if(TAT != null)
+                    email = TAT.getProfiloCorrente().getEmail();
+            }
+
+            if(email.equals(emailProfilo)){
                 corrente = new Profilo(email);
-                    Log.i(TAG, "Password: "+ password);
+                follow.setVisibility(View.INVISIBLE);
+            }
+            else if(emailEsterno != null && emailEsterno.equals(emailProfilo)){
+                email = emailEsterno;
                 follow.setVisibility(View.INVISIBLE);
             }
             else {
-                MyTaskVerificaFollowing mTF = new MyTaskVerificaFollowing();
-                mTF.execute();
-
                 externalView = true;
                 corrente = new Profilo(emailEsterno);
-                if(email == null){
-                    TakeATrip TAT = (TakeATrip)getApplicationContext();
-                    if(TAT != null)
-                        email = TAT.getProfiloCorrente().getEmail();
-                }
 
-                if(email.equals(emailEsterno)){
-                    externalView = false;
-                    follow.setVisibility(View.INVISIBLE);
-                    Log.i(TAG, "email: " + email);
-                    Log.i(TAG, "email esterno: " + emailEsterno);
-                }
-                else{
-                    follow.setVisibility(View.VISIBLE);
-                    Log.i(TAG, "settato visibile: ");
-
-                }
+                MyTaskVerificaFollowing mTF = new MyTaskVerificaFollowing();
+                mTF.execute();
             }
+
+
+
 
             if(externalView){
                 Log.i(TAG, "visualizzazione esterna del profilo");
-                Log.i(TAG, "email: "+ email);
-                Log.i(TAG, "emailEsterno: " + emailEsterno);
+                follow.setVisibility(View.VISIBLE);
             }
 
             if(name.length() > Constants.LIMIT_NAMES_PROFILE){
@@ -303,14 +301,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         Intent intentInfo = new Intent(this, InfoActivity.class);
         intentInfo.putExtra("name", name);
         intentInfo.putExtra("surname", surname);
-        if(password != null){
-            intentInfo.putExtra("email", email);
-            intentInfo.putExtra("emailEsterno", emailFollowing);
-        }
-        else{
-            TakeATrip TAT = (TakeATrip)getApplicationContext();
-            email = TAT.getProfiloCorrente().getEmail();
-        }
+        intentInfo.putExtra("email", email);
         intentInfo.putExtra("emailEsterno", emailEsterno);
         intentInfo.putExtra("dateOfBirth", date);
         intentInfo.putExtra("pwd", password);
@@ -468,6 +459,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         Intent intent = NavUtils.getParentActivityIntent(this);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
         NavUtils.navigateUpTo(this, intent);
+        finish();
     }
 
 
@@ -757,8 +749,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         generatePresignedUrlRequest.setMethod(HttpMethod.GET);
         generatePresignedUrlRequest.setExpiration(expiration);
 
-        Log.i(TAG, "expiration date image: " + generatePresignedUrlRequest.getExpiration());
-
         URL url = s3.generatePresignedUrl(generatePresignedUrlRequest);
 
         Picasso.with(this).
@@ -770,9 +760,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         //TransferObserver observer = transferUtility.download(email, key, file);
         //Log.i(TAG, "downloaded file: " + file);
         //Log.i(TAG, "key file: " + key);
-
-        Log.i(TAG, "url file: " + url);
-
         //observer.setTransferListener(new DownloadListener());
 
     }
@@ -785,21 +772,17 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         msec += 1000 * 60 * 60; // 1 hour.
         expiration.setTime(msec);
 
-        GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                new GeneratePresignedUrlRequest(Constants.BUCKET_NAME,key);
-        generatePresignedUrlRequest.setMethod(HttpMethod.GET);
-
         try{
+            GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                    new GeneratePresignedUrlRequest(Constants.BUCKET_NAME,key);
+            generatePresignedUrlRequest.setMethod(HttpMethod.GET);
+
             URL url = s3.generatePresignedUrl(generatePresignedUrlRequest);
             new BitmapWorkerTask(coverImage,layoutCoverImage).execute(url.toString());
-
-            Log.i(TAG, "url file: " + url);
 
         }catch(Exception e){
             Log.e(TAG, "thrown exception "+ e);
         }
-
-
 
         //observer.setTransferListener(new DownloadListener());
 
@@ -1221,8 +1204,9 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
             mProgressDialog.setIndeterminate(true);
         }
-
-        mProgressDialog.show();
+        if (mProgressDialog != null) {
+            mProgressDialog.show();
+        }
     }
 
     private void hideProgressDialog() {

@@ -199,6 +199,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         partecipants = new HashSet<Profilo>();
         profiles = new HashSet<Profilo>();
         profilo = new Profilo(email, name, surname, date, password, nazionalità, sesso, username, lavoro, descrizione);
+
+
+
         TakeATrip TAT = (TakeATrip) getApplicationContext();
         TAT.setProfiloCorrente(profilo);
     }
