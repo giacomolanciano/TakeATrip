@@ -57,7 +57,6 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
@@ -86,8 +85,6 @@ import com.takeatrip.Classes.POI;
 import com.takeatrip.Classes.Profilo;
 import com.takeatrip.Classes.Tappa;
 import com.takeatrip.Classes.Viaggio;
-import com.takeatrip.Interfaces.AsyncResponseDriveId;
-import com.takeatrip.Interfaces.AsyncResponseDriveIdCover;
 import com.takeatrip.R;
 import com.takeatrip.Utilities.AudioRecord;
 import com.takeatrip.Utilities.Constants;
@@ -114,7 +111,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.text.CollationElementIterator;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -127,33 +123,29 @@ import java.util.Set;
 public class ListaTappeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        AsyncResponseDriveId, AsyncResponseDriveIdCover, GoogleMap.OnInfoWindowClickListener {
+        GoogleMap.OnInfoWindowClickListener {
 
     private static final String TAG = "TEST ListaTappeAct";
     private static final String ADDRESS_PRELIEVO_TAPPE = "QueryTappe.php";
     private static final String ADDRESS_INSERIMENTO_TAPPA = "InserimentoTappa.php";
-    private static final int QUALITY_OF_IMAGE = Constants.QUALITY_PHOTO;
     private static final int LIMIT_IMAGES_VIEWS = 10;
-    private static final int GOOGLE_API_CLIENT_ID = 0;
 
     private GoogleMap googleMap;
     private GoogleApiClient mGoogleApiClient;
     private Profilo profiloUtenteLoggato;
+
     //il profilo dell'utilizzatore è sempre il primo
     private Map<Profilo,List<Tappa>> profiloTappe;
-    private int itinerarioVisualizzato;
     private Profilo profiloVisualizzazioneCorrente;
     private boolean visualizzazioneEsterna = false;
     private Map<Profilo, List<Place>> profiloNomiTappe;
     private List<Profilo> partecipants;
-    private List<Tappa> stops;
     private String email, codiceViaggio, nomeViaggio, urlImmagineViaggio;
     private NavigationView navigationView;
     private TextView ViewCaricamentoInCorso;
     private TextView ViewNomeViaggio;
     private FloatingActionButton buttonAddStop;
     private LinearLayout layoutProprietariItinerari;
-    private boolean proprioViaggio = false;
     private int ordine, checkSelectionSpinner = 0;
     private String placeId, placeName, placeAddress, placeAttr;
     LatLng placeLatLng;
@@ -172,9 +164,7 @@ public class ListaTappeActivity extends AppCompatActivity
     private boolean isCanceled, isRecordFileCreated;
     private int progressStatus;
     private Handler handler;
-    private CollationElementIterator tv;
     private AudioRecord record;
-    private DriveId idFolder;
     private String imageFileName;
     private String videoFileName;
     private String livelloCondivisioneTappa;
@@ -224,8 +214,6 @@ public class ListaTappeActivity extends AppCompatActivity
         buttonAddStop = (FloatingActionButton) findViewById(R.id.fabAddStopInfoPoi);
         if (buttonAddStop != null) {
             buttonAddStop.setVisibility(View.INVISIBLE);
-        } else {
-            Log.e(TAG, "buttonAddStop is null");
         }
 
         layoutProprietariItinerari = (LinearLayout) findViewById(R.id.layoutProprietariItinerari);
@@ -250,9 +238,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
         mapBoundsBuilder = new LatLngBounds.Builder();
 
-
-        List<Tappa> listaTappe = new ArrayList<Tappa>();
-        List<String> listaNomiTappe = new ArrayList<String>();
         partecipants = new ArrayList<Profilo>();
         profiloTappe = new HashMap<Profilo, List<Tappa>>();
         profiloNomiTappe = new HashMap<Profilo, List<Place>>();
@@ -260,7 +245,6 @@ public class ListaTappeActivity extends AppCompatActivity
         videoSelezionati = new ArrayList<Bitmap>();
         bitmap_nomeFile = new HashMap<Bitmap,String>();
         pathsImmaginiVideoSelezionati = new HashMap<Bitmap, String>();
-
         noteInserite = new ArrayList<String>();
         audioSelezionati = new ArrayList<String>();
 
@@ -283,6 +267,7 @@ public class ListaTappeActivity extends AppCompatActivity
             CharSequence[] sessoPartecipants = intent.getCharSequenceArrayExtra("sessoPartecipants");
 
 
+            //popolo i partecipanti al viaggio
             int i = 0;
             for (CharSequence cs : listPartecipants) {
 
@@ -292,12 +277,8 @@ public class ListaTappeActivity extends AppCompatActivity
                 partecipants.add(aux);
 
                 if (email.equals(cs.toString())) {
-                    proprioViaggio = true;
                     profiloVisualizzazioneCorrente = aux;
                     buttonAddStop.setVisibility(View.VISIBLE);
-
-                    //questo campo deve puntare allo STESSO oggetto inserito nella lista partecipants
-                    //altrimenti c'è bisogno di ridefinire equals(), che sbrasa searchActivity
                     profiloUtenteLoggato = aux;
                 }
 
@@ -314,8 +295,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
         if (ViewNomeViaggio != null) {
             ViewNomeViaggio.setText(nomeViaggio);
-        } else {
-            Log.e(TAG, "viewNomeViaggio is null");
         }
 
         showProgressDialog();
@@ -409,6 +388,8 @@ public class ListaTappeActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
+    //When click on item in the menu, open  TappaActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -422,13 +403,9 @@ public class ListaTappeActivity extends AppCompatActivity
         i.putExtra("ordine", tappa.getOrdine());
         i.putExtra("nome", item.getTitle());
         i.putExtra("data", DatesUtils.getStringFromDate(tappa.getData(), Constants.DISPLAYED_DATE_FORMAT));
-
-        //TODO sarà inutile una volta modificato il database
         i.putExtra("codAccount", 0);
 
-
         startActivity(i);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -447,7 +424,6 @@ public class ListaTappeActivity extends AppCompatActivity
                 case Constants.REQUEST_PLACE_PICKER:
                     Place place = PlacePicker.getPlace(this, data);
                     startAddingStop(place);
-
                     break;
 
                 case Constants.REQUEST_IMAGE_CAPTURE:
@@ -480,8 +456,6 @@ public class ListaTappeActivity extends AppCompatActivity
                     break;
 
                 case Constants.REQUEST_IMAGE_PICK:
-
-
                     if (data != null) {
                         ClipData clipData = data.getClipData();
                         if (clipData != null) {
@@ -507,24 +481,12 @@ public class ListaTappeActivity extends AppCompatActivity
                             String picturePath = c.getString(columnIndex);
                             c.close();
 
-
                             //TODO creazione bitmap per ora necessaria per far apparire miniature durante aggiunta tappa
                             //rivedere meccanismo usando Picasso
-
                             Bitmap thumbnail = BitmapWorkerTask.decodeSampledBitmapFromPath(picturePath, 0, 0);
-
-                            /*
-                            BitmapFactory.Options options = new BitmapFactory.Options();
-                            options.inSampleSize = 16;
-                            Bitmap bitmap = (BitmapFactory.decodeFile(picturePath));
-                            */
-
                             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
-
                             String nomeFile = timeStamp + Constants.IMAGE_EXT;
-
                             if(thumbnail != null){
-
                                 //inserire file in una lista di file per caricamento in s3
                                 pathsImmaginiVideoSelezionati.put(thumbnail, picturePath);
 
@@ -553,22 +515,13 @@ public class ListaTappeActivity extends AppCompatActivity
                     }
                     try {
                         Bitmap bitmap;
-//                        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-//                        bitmap = BitmapFactory.decodeFile(fileVideo.getAbsolutePath(),
-//                                bitmapOptions);
-
                         bitmap = ThumbnailUtils.createVideoThumbnail(fileVideo.getAbsolutePath(),
                                 MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
 
                         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
-
                         String nomeFile = timeStamp + Constants.VIDEO_EXT;
-
-                        Log.i(TAG, "timeStamp image: " + nomeFile);
                         if(bitmap != null){
-
                             pathsImmaginiVideoSelezionati.put(bitmap, fileVideo.getAbsolutePath());
-
                             videoSelezionati.add(bitmap);
                             bitmap_nomeFile.put(bitmap,nomeFile);
                         }
@@ -576,39 +529,9 @@ public class ListaTappeActivity extends AppCompatActivity
                         Log.i(TAG, "path file video: " + fileVideo.getAbsolutePath());
                         Log.i(TAG, "bitmap file immagine: " + bitmap);
 
-
-//                        UploadImageTask task = new UploadImageTask(this, bitmap,
-//                                Constants.NAME_IMAGES_PROFILE_DEFAULT, idFolder, "profile");
-//                        task.delegate = this;
-//                        task.execute();
-
-
-                        //TODO verifica caricamento su drive
-
-//                        String path = Environment.getExternalStorageDirectory().toString();
-//                        fileVideo.delete();
-//
-//                        OutputStream outFile = null;
-//                        File file = new File(path, String.valueOf(System.currentTimeMillis()) + Constants.VIDEO_EXT);
-//                        try {
-//                            outFile = new FileOutputStream(file);
-//                            //bitmap.compress(Bitmap.CompressFormat.JPEG, QUALITY_OF_IMAGE, outFile);
-//                            outFile.flush();
-//                            outFile.close();
-//
-//                        } catch (FileNotFoundException e) {
-//                            e.printStackTrace();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Log.e(TAG,"thrown exception " + e);
                     }
-
-
 
                     break;
 
@@ -726,9 +649,6 @@ public class ListaTappeActivity extends AppCompatActivity
             public void onMapLongClick(LatLng latLng) {
 
                 if (profiloVisualizzazioneCorrente.equals(profiloUtenteLoggato)) {
-
-                    //permette inserimento tappa solo per l'itinerario dell'utilizzatore
-
                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     v.vibrate(Constants.VIBRATION_MILLISEC);
 
@@ -763,7 +683,6 @@ public class ListaTappeActivity extends AppCompatActivity
             }
         });
 
-
         googleMap.setOnInfoWindowClickListener(this);
     }
 
@@ -794,31 +713,11 @@ public class ListaTappeActivity extends AppCompatActivity
         cal.setTime(tappaSelezionata.getData());
         i.putExtra("data", DatesUtils.getStringFromDate(tappaSelezionata.getData(), Constants.DISPLAYED_DATE_FORMAT));
 
-        //TODO verificare utilità
-        i.putExtra("codAccount", 0);
-
-//        Log.e(TAG, "#email  " + profiloUtente.getEmail());
-//        Log.e(TAG, "#nomedelviaggio  " + marker.getTitle() );
-//        Log.e(TAG, "ordine tappa: " + ordineTappa);
-//        Log.e(TAG, "data tappa: " + tappaSelezionata.getData().toString());
 
         startActivity(i);
 
     }
 
-    @Override
-    public void processFinish(DriveId output) {
-        //TODO
-    }
-
-    @Override
-    public void processFinish2(DriveId output) {
-        //TODO
-    }
-
-
-
-    //metodi ausiliari
 
 
     public void onClickAddStop(View v){
@@ -922,7 +821,6 @@ public class ListaTappeActivity extends AppCompatActivity
         layoutProprietariItinerari.addView(new TextView(this), Constants.WIDTH_LAYOUT_PROPRIETARI_ITINERARI,
                 Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI);
 
-
         Log.i(TAG, "partecipants: " + partecipants);
 
         for(Profilo p : partecipants){
@@ -933,12 +831,13 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
             if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
-
                 URL completeUrl = null;
                 try {
                     completeUrl = new LoadGenericImageTask(p.getIdImageProfile(), this).execute().get();
-                    //new BitmapWorkerTask(image).execute(completeUrl.toString());
-                    Picasso.with(this).load(completeUrl.toString()).into(image);
+                    Picasso.with(this)
+                            .load(completeUrl.toString())
+                            .resize(Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI, Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI)
+                            .into(image);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -999,7 +898,6 @@ public class ListaTappeActivity extends AppCompatActivity
         if(menu != null){
             int i=0;
             for(Tappa t : tappe){
-
                 if(nomiTappe.length > 0){
                     if(nomiTappe[i] != null){
                         Log.i(TAG, "nome tappa: " + nomiTappe[i]);
@@ -1027,7 +925,6 @@ public class ListaTappeActivity extends AppCompatActivity
         nomiTappe.clear();
         namesStops.clear();
         int i = 1;
-
 
         Log.i(TAG, "lista tappe: " + tappe);
         arrayPlace = new Place[tappe.size()];
@@ -1094,7 +991,6 @@ public class ListaTappeActivity extends AppCompatActivity
                             );
                             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 5));
 
-
                             nomiTappe.add(place);
 
                             if (nomiTappe.size() == profiloTappe.get(currentProfile).size()) {
@@ -1138,27 +1034,17 @@ public class ListaTappeActivity extends AppCompatActivity
     private int calcolaNumUltimaTappaUtenteCorrente() {
 
         int result = 0;
-
-        Log.i(TAG, "profilo: " + profiloUtenteLoggato);
-        Log.i(TAG, "mappa profiloTappe: " + profiloTappe);
-
-
         ArrayList<Tappa> listaTappe = (ArrayList<Tappa>) profiloTappe.get(profiloUtenteLoggato);
-
         Log.i(TAG, "lista tappe di " + profiloUtenteLoggato + ": " + listaTappe);
-
         if(listaTappe != null)
             result = listaTappe.size();
 
         Log.i(TAG, "result ordine tappa: " + result);
-
         return result;
-
     }
 
 
     private void startAddingStop(Place place) {
-
         final Place addedPlace = place;
 
         //prendere info poi
@@ -1249,6 +1135,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
                 //TODO: posso aggiungere le tappe solamente al mio itinerario
+
 
                 //add marker
                 googleMap.addMarker(new MarkerOptions()
@@ -1658,12 +1545,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
     private void onClickAddNote(View v) {
-
-
-
-        Log.i(TAG, "add note pressed");
-
-
         try {
 
             ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
@@ -1711,19 +1592,12 @@ public class ListaTappeActivity extends AppCompatActivity
             Log.e(e.toString().toUpperCase(), e.getMessage());
         }
 
-
-        Log.i(TAG, "END add note");
-
     }
 
 
 
 
     private class GetTappeTask extends AsyncTask<Void, Void, Void> {
-
-        //TODO da modularizzare, lasciato così per via di side-effect importanti su variabili della classe
-
-        //TODO aggiornare variabile profiloVisCorr con il numero dell'ordine
 
         private final static int DEFAULT_INT = 0;
         private static final String DEFAULT_STRING = "default";
@@ -1762,10 +1636,7 @@ public class ListaTappeActivity extends AppCompatActivity
                                 sb.append(line + "\n");
                             }
                             is.close();
-
                             String result = sb.toString();
-
-                            //Log.e(TAG, "json ricevuto:\n" + result);
 
                             JSONArray jArray = new JSONArray(result);
 
@@ -1800,10 +1671,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
                         } catch (Exception e) {
-                            //Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
                         }
-                    } else {
-                        //Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
                     }
                 } catch (Exception e) {
                     Log.e(TAG, "Errore nella connessione http "+e.toString());
@@ -1818,7 +1686,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
             super.onPostExecute(aVoid);
 
             ViewCaricamentoInCorso.setVisibility(View.INVISIBLE);
@@ -2056,7 +1923,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
         public PrivacyLevelAdapter(Context context, int textViewResourceId, String[] strings) {
             super(context, textViewResourceId, strings);
-
         }
 
         @Override
@@ -2070,8 +1936,6 @@ public class ListaTappeActivity extends AppCompatActivity
         }
 
         public View getCustomView(int position, View convertView, ViewGroup parent) {
-
-
             LayoutInflater inflater=getLayoutInflater();
             convertView=inflater.inflate(R.layout.entry_privacy_level, parent, false);
             TextView label=(TextView)convertView.findViewById(R.id.privacyLevel);
@@ -2082,11 +1946,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
             ImageView icon=(ImageView)convertView.findViewById(R.id.image);
             icon.setImageResource(arr_images[position]);
-
-            //Log.i(TAG, "string: " + strings[position]);
-            //Log.i(TAG, "sub: " + subs[position]);
-            //Log.i(TAG, "img: " + arr_images[position]);
-
             return convertView;
         }
     }
