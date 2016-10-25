@@ -68,8 +68,6 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
     private ImageView layoutCopertinaViaggio;
 
 
-
-
     public GetPartecipantiViaggioTask(Context context, View contentView, AmazonS3Client s3,
                                       String codiceViaggio, List<Profilo> listPartecipants,
                                       String nomeViaggio, String email, String urlImageTravel,
@@ -99,11 +97,9 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
     protected Boolean doInBackground(Void... params) {
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
         Log.i(TAG, "codiceViaggio Get: "+ codiceViaggio);
-       // codiceViaggio="8f09454f-2fd7-48c0-8b7d-41aa1fc005aa";
+        // codiceViaggio="8f09454f-2fd7-48c0-8b7d-41aa1fc005aa";
         //Log.i(TAG, "codiceViaggio Get dopo modifica: "+ codiceViaggio);
         dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
-
-
 
 
         try {
@@ -173,7 +169,6 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
                 else {
                     Log.e(TAG, "Input Stream uguale a null");
                 }
-
             }
             else
                 Log.e(TAG, "CONNESSIONE Internet Assente!");
@@ -202,12 +197,9 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
         //layoutCopertinaViaggio = (ImageView) contentView.findViewById(R.id.imageTravel);
 
         if(urlImageTravel != null && !urlImageTravel.equals("null")){
-
-
             //new BitmapWorkerTask(null,layoutCopertinaViaggio).execute(urlImageTravel);
             Log.i(TAG, "IMAGE VIEW : " +layoutCopertinaViaggio);
             Log.i(TAG, "url immagine : " +urlImageTravel);
-
 
             try {
                 Bitmap bitmap  = new BitmapWorkerTask(layoutCopertinaViaggio).execute(urlImageTravel).get();

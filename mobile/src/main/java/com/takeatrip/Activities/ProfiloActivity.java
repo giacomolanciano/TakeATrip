@@ -227,12 +227,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             Log.i(TAG, "email profilo loggato: " + emailProfilo);
             Log.i(TAG, "emailEsterno: " + emailEsterno);
 
-            if(email == null){
-                if(TAT != null)
-                    email = TAT.getProfiloCorrente().getEmail();
-            }
 
-            if(email.equals(emailProfilo)){
+            if(email != null && email.equals(emailProfilo)){
                 corrente = new Profilo(email);
                 follow.setVisibility(View.INVISIBLE);
             }
@@ -881,18 +877,10 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                         is.close();
 
                         String result = sb.toString();
-
-                        Log.i(TAG, "result VERIFICA FOLLOWING " + result);
-
-
                         if (result.contains("null")) {
-
-
                             alreadyFollowing = false;
                         }else {
-
                             alreadyFollowing = true;
-
                         }
 
 

@@ -24,212 +24,268 @@
             android:layout_marginLeft="0dp"
             android:id="@+id/linearLayout">
 
-            <TextView
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/InserisciNuovoUsername"
+                    android:textSize="16dp"
+                    android:id="@+id/Username1"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignRight="@+id/Nome"
+                    android:layout_alignEnd="@+id/Nome" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:textSize="20dp"
+                    android:text="Username"
+                    android:id="@+id/Username"
+                    android:textColor="#000000" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/InserisciNuovoSesso"
+                    android:textSize="16dp"
+                    android:id="@+id/Sesso1"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/Nome"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignRight="@+id/Nome"
+                    android:layout_alignEnd="@+id/Nome"
+                    android:paddingTop="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:textSize="20dp"
+                    android:text="Sesso"
+                    android:id="@+id/Sesso"
+                    android:textColor="#000000" />
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Eta"
+                    android:textSize="16dp"
+                    android:id="@+id/Eta1"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/Nome"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignRight="@+id/Nome"
+                    android:layout_alignEnd="@+id/Nome"
+                    android:paddingTop="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:textSize="20dp"
+                    android:text="Età"
+                    android:id="@+id/Eta"
+                    android:textColor="#000000" />
+
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/InserisciNuovaNazionalita"
+                    android:textSize="16dp"
+                    android:id="@+id/Nazionalita1"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/Nome"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignRight="@+id/Nome"
+                    android:layout_alignEnd="@+id/Nome"
+                    android:paddingTop="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:textSize="20dp"
+                    android:text="Nazionalità"
+                    android:id="@+id/Nazionalita"
+                    android:textColor="#000000" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/InserisciNuovoTipo"
+                    android:textSize="16dp"
+                    android:id="@+id/Tipo1"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/Nome"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignRight="@+id/Nome"
+                    android:layout_alignEnd="@+id/Nome"
+                    android:paddingTop="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:textSize="20dp"
+                    android:text="Tipo"
+                    android:id="@+id/Tipo"
+                    android:textColor="#000000" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/InserisciNuovoLavoro"
+                    android:textSize="16dp"
+                    android:id="@+id/Lavoro1"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/Nome"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignRight="@+id/Nome"
+                    android:layout_alignEnd="@+id/Nome"
+                    android:paddingTop="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:textSize="20dp"
+                    android:text="Lavoro"
+                    android:id="@+id/Lavoro"
+                    android:textColor="#000000" />
+
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/InserisciNuovoUsername"
-                android:textSize="22dp"
-                android:id="@+id/Username1"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignRight="@+id/Nome"
-                android:layout_alignEnd="@+id/Nome" />
+                android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:textSize="20dp"
-            android:text="Username"
-            android:id="@+id/Username"
-            android:textColor="#000000" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/InserisciNuovaDescrizione"
+                    android:textSize="16dp"
+                    android:id="@+id/Descrizione1"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/Nome"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignRight="@+id/Nome"
+                    android:layout_alignEnd="@+id/Nome"
+                    android:paddingTop="12dp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:paddingTop="10dp"
+                    android:textSize="20dp"
+                    android:text="Descrizione"
+                    android:id="@+id/Descrizione"
+                    android:textColor="#000000" />
 
+            </LinearLayout>
 
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/InserisciNuovoSesso"
-                android:textSize="22dp"
-                android:id="@+id/Sesso1"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:layout_below="@+id/Nome"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignRight="@+id/Nome"
-                android:layout_alignEnd="@+id/Nome"
-                android:paddingTop="12dp" />
+                android:orientation="vertical"
+                android:paddingTop="15dp">
 
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:id="@+id/buttonEditProfile"
+                    android:background="@drawable/button_style"
+                    android:text="@string/Edit"
+                    android:onClick="onClickEditButton"
+                    />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:paddingTop="10dp"
-            android:textSize="20dp"
-            android:text="Sesso"
-            android:id="@+id/Sesso"
-            android:textColor="#000000" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/Eta"
-                android:textSize="22dp"
-                android:id="@+id/Eta1"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:layout_below="@+id/Nome"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignRight="@+id/Nome"
-                android:layout_alignEnd="@+id/Nome"
-                android:paddingTop="12dp" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:paddingTop="10dp"
-            android:textSize="20dp"
-            android:text="Età"
-            android:id="@+id/Eta"
-            android:textColor="#000000" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/InserisciNuovaNazionalita"
-                android:textSize="22dp"
-                android:id="@+id/Nazionalita1"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:layout_below="@+id/Nome"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignRight="@+id/Nome"
-                android:layout_alignEnd="@+id/Nome"
-                android:paddingTop="12dp" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:paddingTop="10dp"
-            android:textSize="20dp"
-            android:text="Nazionalità"
-            android:id="@+id/Nazionalita"
-            android:textColor="#000000" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/InserisciNuovoTipo"
-                android:textSize="22dp"
-                android:id="@+id/Tipo1"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:layout_below="@+id/Nome"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignRight="@+id/Nome"
-                android:layout_alignEnd="@+id/Nome"
-                android:paddingTop="12dp" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:paddingTop="10dp"
-            android:textSize="20dp"
-            android:text="Tipo"
-            android:id="@+id/Tipo"
-            android:textColor="#000000" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/InserisciNuovoLavoro"
-                android:textSize="22dp"
-                android:id="@+id/Lavoro1"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:layout_below="@+id/Nome"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignRight="@+id/Nome"
-                android:layout_alignEnd="@+id/Nome"
-                android:paddingTop="12dp" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:paddingTop="10dp"
-            android:textSize="20dp"
-            android:text="Lavoro"
-            android:id="@+id/Lavoro"
-            android:textColor="#000000" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/InserisciNuovaDescrizione"
-                android:textSize="22dp"
-                android:id="@+id/Descrizione1"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:layout_below="@+id/Nome"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignRight="@+id/Nome"
-                android:layout_alignEnd="@+id/Nome"
-                android:paddingTop="12dp" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:paddingTop="10dp"
-            android:textSize="20dp"
-            android:text="Descrizione"
-            android:id="@+id/Descrizione"
-            android:textColor="#000000" />
+            </LinearLayout>
 
 
 
-
-
-
-
-
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:id="@+id/buttonEditProfile"
-        android:background="@drawable/button_style"
-        android:text="@string/Edit"
-        android:onClick="onClickEditButton"
-        />
 
         </LinearLayout>
     </ScrollView>

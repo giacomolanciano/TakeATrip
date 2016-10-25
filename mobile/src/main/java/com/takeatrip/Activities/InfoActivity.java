@@ -24,6 +24,7 @@ public class InfoActivity extends AppCompatActivity {
     private String name, surname, email, date, password, nazionalità, dataToday, sesso, username, lavoro, descrizione, tipo,emailEsterno;
     private int  yearToday, monthToday, dayToday, etaFinale;
     private TextView viewEmail, viewNazionalità, viewEta, viewSesso, viewUsername, viewLavoro, viewDescrizione, viewTipo;
+    private TextView textUsername, textEta, textSesso, textNationality, textType, textJob, textDescription;
 
     private Profile profile;
 
@@ -36,6 +37,15 @@ public class InfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
+
+        textUsername = (TextView) findViewById(R.id.Username1);
+        textSesso = (TextView) findViewById(R.id.Sesso1);
+        textNationality = (TextView) findViewById(R.id.Nazionalita1);
+        textEta = (TextView) findViewById(R.id.Eta1);
+        textType = (TextView) findViewById(R.id.Tipo1);
+        textJob = (TextView) findViewById(R.id.Lavoro1);
+        textDescription = (TextView) findViewById(R.id.Descrizione1);
+
         viewEta = (TextView) findViewById(R.id.Eta);
         viewEmail = (TextView) findViewById(R.id.Email);
         viewNazionalità = (TextView) findViewById(R.id.Nazionalita);
@@ -92,13 +102,39 @@ public class InfoActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        viewNazionalità.setText(nazionalità);
-        viewEta.setText(etaFinale + "");
-        viewSesso.setText(sesso);
+
         viewUsername.setText(username);
-        viewLavoro.setText(lavoro);
-        viewDescrizione.setText(descrizione);
+
+        viewSesso.setText(sesso);
+        if(sesso.equals("")){
+
+        }
+
+        viewEta.setText(etaFinale + "");
+        if(date.equals("")){
+
+        }
+
+        viewNazionalità.setText(nazionalità);
+        if(nazionalità.equals("")){
+
+        }
+
         viewTipo.setText(tipo);
+        if(tipo.equals("")){
+
+        }
+
+        viewLavoro.setText(lavoro);
+        if(lavoro.equals("")){
+
+        }
+
+        viewDescrizione.setText(descrizione);
+        if(descrizione.equals("")){
+
+        }
+
     }
 
 
