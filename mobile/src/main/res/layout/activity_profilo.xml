@@ -40,13 +40,6 @@
                         android:onClick="ClickOnCoverImage"
                         />
 
-                    <RatingBar
-                        android:layout_width="77dp"
-                        android:layout_height="wrap_content"
-                        android:visibility="invisible"
-                        android:id="@+id/ratingBar"
-                        android:layout_gravity="bottom|right"
-                        android:scrollIndicators="right" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -101,7 +94,6 @@
                             android:weightSum="1">
 
 
-
                             <com.takeatrip.Utilities.RoundedImageView
                                 android:id="@+id/imageView_round_Profile"
                                 android:layout_width="75dp"
@@ -124,84 +116,93 @@
                                 android:layout_gravity="center" />
                         </LinearLayout>
 
+
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:paddingTop="8dp"
+                            android:paddingTop="4dp"
                             android:layout_weight="0.75"
                             android:orientation="vertical"
                             android:onClick="ClickFollowers">
 
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="8dp"
-                                android:orientation="horizontal">
+                            <ScrollView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceLarge"
-                                    android:text="@string/numberFollowers"
-                                    android:textColor="#ffffff"
-                                    android:id="@+id/numberFollowers"
-                                    android:textStyle="bold"
-                                    android:layout_gravity="center_vertical"
-                                    android:paddingRight="5dp"
-                                    android:textSize="14sp"
-                                    />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:onClick="ClickFollowers">
 
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:paddingLeft="8dp"
+                                        android:orientation="horizontal">
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceLarge"
-                                    android:text="@string/Followers"
-                                    android:id="@+id/Followers"
-                                    android:textColor="#ffffff"
-                                    android:layout_gravity="center_vertical"
-                                    android:textStyle="bold"
-                                    android:textSize="14sp"
-                                    />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="8dp"
-                                android:layout_marginTop="5dp"
-                                android:orientation="horizontal">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textAppearance="?android:attr/textAppearanceLarge"
+                                            android:text="@string/numberFollowers"
+                                            android:textColor="#ffffff"
+                                            android:id="@+id/numberFollowers"
+                                            android:textStyle="bold"
+                                            android:layout_gravity="center_vertical"
+                                            android:paddingRight="5dp"
+                                            android:textSize="14sp"
+                                            />
 
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceLarge"
-                                    android:text="@string/numberFollowing"
-                                    android:textColor="#ffffff"
-                                    android:id="@+id/numberFollowings"
-                                    android:textStyle="bold"
-                                    android:layout_gravity="center_vertical"
-                                    android:paddingRight="5dp"
-                                    android:textSize="14sp"/>
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textAppearance="?android:attr/textAppearanceLarge"
+                                            android:text="@string/Followers"
+                                            android:id="@+id/Followers"
+                                            android:textColor="#ffffff"
+                                            android:layout_gravity="center_vertical"
+                                            android:textStyle="bold"
+                                            android:textSize="14sp"
+                                            />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:paddingLeft="8dp"
+                                        android:layout_marginTop="5dp"
+                                        android:orientation="horizontal">
 
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceLarge"
-                                    android:text="@string/Following"
-                                    android:id="@+id/Following"
-                                    android:textColor="#ffffff"
-                                    android:textStyle="bold"
-                                    android:layout_gravity="center_vertical"
-                                    android:textSize="14sp"/>
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textAppearance="?android:attr/textAppearanceLarge"
+                                            android:text="@string/numberFollowing"
+                                            android:textColor="#ffffff"
+                                            android:id="@+id/numberFollowings"
+                                            android:textStyle="bold"
+                                            android:layout_gravity="center_vertical"
+                                            android:paddingRight="5dp"
+                                            android:textSize="14sp"/>
 
 
-                            </LinearLayout>
-
-
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textAppearance="?android:attr/textAppearanceLarge"
+                                            android:text="@string/Following"
+                                            android:id="@+id/Following"
+                                            android:textColor="#ffffff"
+                                            android:textStyle="bold"
+                                            android:layout_gravity="center_vertical"
+                                            android:textSize="14sp"/>
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </ScrollView>
                         </LinearLayout>
 
                     </LinearLayout>

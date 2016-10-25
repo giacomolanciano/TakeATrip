@@ -146,6 +146,10 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
                 options.inSampleSize = 4;
             }
 
+            if(options.outHeight > 600 && options.outWidth > 1200){
+                options.inSampleSize = 5;
+            }
+
             if(reqWidth != 0 && reqHeight != 0){
                 options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
             }

@@ -16,9 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.amazonaws.HttpMethod;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
@@ -32,7 +30,6 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.drive.DriveId;
 import com.squareup.picasso.Picasso;
 import com.takeatrip.Classes.Profilo;
 import com.takeatrip.Classes.TakeATrip;
@@ -182,8 +179,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         s3 = UtilS3Amazon.getS3Client(MainActivity.this);
 
 
-        new MyTask().execute();
+        //Task for retrieving all the users of the app for adding a new travel and allow the autocomplete
+        //new MyTask().execute();
+
         showProgressDialog();
+
+        //Task for retrieving the profile and cover image of the user
         new MyTaskIDProfileImage(this, email).execute();
         new MyTaskIDCoverImage(this, email).execute();
 
@@ -281,12 +282,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void ClickTravels(View v) {
         Intent openListaViaggi = new Intent(MainActivity.this, ListaViaggiActivity.class);
         openListaViaggi.putExtra("email", email);
-        // passo all'attivazione dell'activity
         startActivity(openListaViaggi);
     }
 
-
-    LinearLayout rowHorizontal;
 
     public void ClickNewTravel(final View v) {
         Intent openNewTravel = new Intent(MainActivity.this, NuovoViaggioActivity.class);
@@ -386,6 +384,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /*
     private class MyTask extends AsyncTask<Void, Void, Void> {
 
         InputStream is = null;
@@ -417,8 +416,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             is.close();
 
                             result = sb.toString();
-
-
                             JSONArray jArray = new JSONArray(result);
 
                             if (jArray != null && result != null) {
@@ -474,6 +471,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    */
+
+
+
+
 
     private String beginDownloadProfilePicture(String key) {
         // Location to download files from S3 to. You can choose any accessible
@@ -492,14 +494,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             generatePresignedUrlRequest.setMethod(HttpMethod.GET);
             generatePresignedUrlRequest.setExpiration(expiration);
 
-            Log.i(TAG, "expiration date image: " + generatePresignedUrlRequest.getExpiration());
             Log.i(TAG, "amazon client: " + s3);
-
-
             url = s3.generatePresignedUrl(generatePresignedUrlRequest);
-
-            Log.i(TAG, "url file: " + url);
-
 
             // Initiate the download
             //TransferObserver observer = transferUtility.download(Constants.BUCKET_NAME, key, file);
@@ -519,9 +515,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         private final String ADDRESS_QUERY_PROFILE_IMAGE = "QueryImmagineProfilo.php";
 
         InputStream is = null;
-        String emailUser, idTravel, result;
-        String nomeCartella;
-        DriveId idFolder;
+        String emailUser, result;
         Context context;
         String signedUrl;
 
@@ -564,9 +558,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if (jArray != null && result != null) {
                                 for (int i = 0; i < jArray.length(); i++) {
                                     JSONObject json_data = jArray.getJSONObject(i);
-
                                     urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
-
                                 }
                             }
 
@@ -594,7 +586,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Log.i(TAG, "risultato dal prelievo dell'id imm profilo: " + result);
+            Log.i(TAG, "risultato dal prelievo dell'url imm profilo: " + signedUrl);
             if (signedUrl != null) {
                 Picasso.with(MainActivity.this).
                         load(signedUrl.toString()).
@@ -608,13 +600,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     try {
                         final URI image_URI = new URI(image_uri.toString());
-
                         Log.i(TAG, "url_image: " + image_URI.toURL().toString());
-
-
                         Picasso.with(MainActivity.this).load(image_URI.toURL().toString()).into(imageViewProfileRound);
-
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -630,9 +617,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         private final String ADDRESS_QUERY_COVER_IMAGE = "QueryImmagineCopertina.php";
 
         InputStream is = null;
-        String emailUser, idTravel, result;
-        String nomeCartella;
-        DriveId idFolder;
+        String emailUser, result;
         Context context;
 
         public MyTaskIDCoverImage(Context c, String emailUtente) {
@@ -673,7 +658,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if (jArray != null && result != null) {
                                 for (int i = 0; i < jArray.length(); i++) {
                                     JSONObject json_data = jArray.getJSONObject(i);
-                                    //idImmagineCopertina = DriveId.decodeFromString(json_data.getString("idImmagine"));
                                     urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
                                 }
                             }
@@ -696,7 +680,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(Void aVoid) {
             Log.i(TAG, "risultato dal prelievo dell'id imm copertina: " + urlImmagineCopertina);
-
             super.onPostExecute(aVoid);
             hideProgressDialog();
         }

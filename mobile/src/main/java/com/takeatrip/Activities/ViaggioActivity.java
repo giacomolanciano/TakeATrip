@@ -304,7 +304,6 @@ public class ViaggioActivity extends AppCompatActivity {
         }
 
         try {
-            Log.i(TAG, "codiceViaggio prima di Get " + codiceViaggio);
             proprioViaggio = new GetPartecipantiViaggioTask(ViaggioActivity.this, contentView, s3,
                     codiceViaggio, listPartecipants, nomeViaggio, email, urlImageTravel,
                     layoutPartecipants, rowHorizontal, imageTravel, gridViewPhotos, gridViewVideos,
@@ -323,16 +322,15 @@ public class ViaggioActivity extends AppCompatActivity {
 
         showProgressDialog();
         new UtentiTask().execute();
-
-
-
-        //new MyTaskIDFolder(this,email,url,nameForUrl).execute();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    protected void onStop(){
+        super.onStop();
     }
 
     @Override
@@ -342,12 +340,14 @@ public class ViaggioActivity extends AppCompatActivity {
     }
 
     public void onClickStopsList(View v){
+        CharSequence[] namePartecipants = new CharSequence[listPartecipants.size()];
         CharSequence[] emailPartecipants = new CharSequence[listPartecipants.size()];
         CharSequence[] urlImagePartecipants = new CharSequence[listPartecipants.size()];
         CharSequence[] sessoPartecipants = new CharSequence[listPartecipants.size()];
 
         int i= 0;
         for(Profilo p: listPartecipants){
+            namePartecipants[i] = p.getName();
             emailPartecipants[i] = p.getEmail();
             urlImagePartecipants[i] = p.getIdImageProfile();
             sessoPartecipants[i] = p.getSesso();
@@ -369,6 +369,7 @@ public class ViaggioActivity extends AppCompatActivity {
         intent.putExtra("codiceViaggio", codiceViaggio);
         intent.putExtra("nomeViaggio", nomeViaggio);
         intent.putExtra("urlImmagineViaggio", urlImageTravel);
+        intent.putExtra("namesPartecipants", namePartecipants);
         intent.putExtra("partecipanti", emailPartecipants);
         intent.putExtra("urlImagePartecipants", urlImagePartecipants);
         intent.putExtra("sessoPartecipants", sessoPartecipants);
@@ -970,6 +971,7 @@ public class ViaggioActivity extends AppCompatActivity {
         Intent intent = NavUtils.getParentActivityIntent(this);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
         NavUtils.navigateUpTo(this, intent);
+
     }
 
     private void showProgressDialog() {

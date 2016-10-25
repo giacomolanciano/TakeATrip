@@ -72,8 +72,6 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
         urlImmagine = dataset.get(position).getUrlImageTravel();
         //ImageView immagineViaggio = dataset.get(position).getImmagineViaggio();
 
-
-
         immagineViaggio = holder.imageTravel;
 
         if(urlImmagine != null && !urlImmagine.equals("null")){
@@ -93,6 +91,7 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
                     load(completeUrl.toString()).
                     resize(WIDTH_DIMENSION_IMAGE_TRAVEL, HEIGHT_DIMENSION_IMAGE_TRAVEL).
                     into(immagineViaggio);
+
 
         }
         else{
@@ -168,10 +167,6 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
             intent.putExtra("emailEsterno",emailUser.getText().toString());
             intent.putExtra("nomeViaggio", nomeViaggio.getText().toString());
             intent.putExtra("codiceViaggio", codiceViaggio.getText().toString());
-
-
-            //NB deve essere usata la variabile imageTravel,
-            //non immagineViaggio poichè viene continuamente sovrascritta
             intent.putExtra("urlImmagineViaggio", imageTravel.getContentDescription());
 
             for(DataObject object : dataset){
@@ -183,11 +178,12 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
 
             //v.getContext().startActivity(intent);
             new StartActivityWithIndetProgressTask(context, intent).execute();
-
             Log.i(TAG, "urlImmagineViaggio: " + v.getContentDescription());
 
         }
 
     }
+
+
 
 }

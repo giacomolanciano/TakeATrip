@@ -277,7 +277,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
             new BitmapWorkerTask(ViewImmagineViaggio, linearLayoutHeader).execute(urlImmagineViaggio);
 
-
+            CharSequence[] namesPartecipants = intent.getCharSequenceArrayExtra("namesPartecipants");
             CharSequence[] listPartecipants = intent.getCharSequenceArrayExtra("partecipanti");
             CharSequence[] urlImagePartecipants = intent.getCharSequenceArrayExtra("urlImagePartecipants");
             CharSequence[] sessoPartecipants = intent.getCharSequenceArrayExtra("sessoPartecipants");
@@ -286,13 +286,13 @@ public class ListaTappeActivity extends AppCompatActivity
             int i = 0;
             for (CharSequence cs : listPartecipants) {
 
-                Profilo aux = new Profilo(cs.toString(), null, null, null, null, sessoPartecipants[i].toString(),
+                Profilo aux = new Profilo(cs.toString(), namesPartecipants[i].toString(), null, null, null,
+                        sessoPartecipants[i].toString(),
                         null, null, null,null, urlImagePartecipants[i].toString(), null);
                 partecipants.add(aux);
 
                 if (email.equals(cs.toString())) {
                     proprioViaggio = true;
-                    //itinerarioVisualizzato = 0;
                     profiloVisualizzazioneCorrente = aux;
                     buttonAddStop.setVisibility(View.VISIBLE);
 
@@ -990,10 +990,11 @@ public class ListaTappeActivity extends AppCompatActivity
     }
 
 
-    private void CreaMenu(List<Tappa> tappe, String [] nomiTappe){
+    private void CreaMenu(Profilo p, List<Tappa> tappe, String [] nomiTappe){
         Menu menu = navigationView.getMenu();
         menu.clear();
 
+        menu.add(0, 0, Menu.NONE, p.getName()+"'s stops:");
 
         if(menu != null){
             int i=0;
@@ -1002,12 +1003,11 @@ public class ListaTappeActivity extends AppCompatActivity
                 if(nomiTappe.length > 0){
                     if(nomiTappe[i] != null){
                         Log.i(TAG, "nome tappa: " + nomiTappe[i]);
-                        menu.add(0, i, Menu.NONE, nomiTappe[i]);
+                        menu.add(0, i+1, Menu.NONE, nomiTappe[i]);
                     }
-
                 }
                 else{
-                    menu.add(0, i, Menu.NONE, t.getPoi().getCodicePOI());
+                    menu.add(0, i+1, Menu.NONE, t.getPoi().getCodicePOI());
                 }
 
                 i++;
@@ -1038,9 +1038,11 @@ public class ListaTappeActivity extends AppCompatActivity
             i++;
         }
 
+        //Svuota anche il menu
         if(tappe.size()==0){
             nomiTappe.clear();
             profiloNomiTappe.put(p,nomiTappe);
+            CreaMenu(p,tappe, arrayNamePlace);
         }
     }
 
@@ -1060,27 +1062,6 @@ public class ListaTappeActivity extends AppCompatActivity
         }
 
         currentProfile = p;
-
-        /*
-        //Se sono presenti gia i nomi delle tappe non devo riprenderli
-        if(profiloNomiTappe.get(p) != null){
-
-            //TODO: aggiungere la classe Place che memorizza Nome e LatLong in modo da non richiamare sempre le API
-
-            /*
-            googleMap.clear();
-
-
-            for(Place place : profiloNomiTappe.get(p)){
-                googleMap.addMarker(new MarkerOptions()
-                        .title(place.getName().toString())
-                        .position(place.getLatLng()));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 5));
-            }
-
-            */
-
-        //return;}
 
         Log.i(TAG, "id place: " + t.getPoi().getCodicePOI());
 
@@ -1129,7 +1110,7 @@ public class ListaTappeActivity extends AppCompatActivity
                                 }
 
 
-                                CreaMenu(profiloTappe.get(currentProfile), arrayNamePlace);
+                                CreaMenu(currentProfile,profiloTappe.get(currentProfile), arrayNamePlace);
 
                                 profiloNomiTappe.put(currentProfile, nomiTappe);
 

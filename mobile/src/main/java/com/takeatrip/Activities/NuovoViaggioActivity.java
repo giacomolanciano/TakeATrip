@@ -194,7 +194,6 @@ public class NuovoViaggioActivity extends AppCompatActivity {
                         String s = NuovoViaggioActivity.this.autoCompleteTextView.getText().toString();
                         Log.i(TAG, "partecipante selezionato: " + s);
 
-
                         String usernameUtenteSelezionato = s.substring(s.indexOf('(') + 1, s.indexOf(')'));
                         Log.i(TAG, "username selezionato: " + usernameUtenteSelezionato);
                         for (Profilo p : profiles) {
@@ -266,10 +265,6 @@ public class NuovoViaggioActivity extends AppCompatActivity {
                     new GeneratePresignedUrlRequest(Constants.BUCKET_NAME, key);
             generatePresignedUrlRequest.setMethod(HttpMethod.GET);
             generatePresignedUrlRequest.setExpiration(expiration);
-
-            Log.i(TAG, "expiration date image: " + generatePresignedUrlRequest.getExpiration());
-            Log.i(TAG, "amazon client: " + s3);
-
 
             url = s3.generatePresignedUrl(generatePresignedUrlRequest);
 
@@ -523,11 +518,8 @@ public class NuovoViaggioActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("viaggio", nomeViaggio));
-
-            Log.i(TAG, "nomeViaggio: " + nomeViaggio);
 
             try {
                 if (InternetConnection.haveInternetConnection(NuovoViaggioActivity.this)) {
@@ -553,10 +545,8 @@ public class NuovoViaggioActivity extends AppCompatActivity {
                             is.close();
 
                             result = sb.toString();
-                            //Log.i(TAG, "result" +result);
 
                             UUIDViaggio = result;
-
                             Log.i(TAG, "UUID viaggio " + UUIDViaggio);
 
                         } catch (Exception e) {
@@ -630,26 +620,12 @@ public class NuovoViaggioActivity extends AppCompatActivity {
                                 for (int i = 0; i < jArray.length(); i++) {
                                     JSONObject json_data = jArray.getJSONObject(i);
                                     String nomeUtente = json_data.getString("nome");
-                                    Log.i(TAG, "nome "+nomeUtente);
                                     String cognomeUtente = json_data.getString("cognome");
-                                    Log.i(TAG, "cognome" + cognomeUtente);
-
                                     String emailUtente = json_data.getString("email");
-                                    Log.i(TAG, "email" + emailUtente);
-
                                     String username = json_data.getString("username");
-                                    Log.i(TAG, "username " + username);
-
                                     String sesso = json_data.getString("sesso");
-                                    Log.i(TAG, "sesso" + sesso);
-
                                     String urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
-                                    Log.i(TAG, urlImmagineProfilo);
-
                                     String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
-                                    Log.i(TAG, urlImmagineCopertina);
-
-
                                     if (urlImmagineProfilo.equals("null")) {
                                         idProfiles = null;
                                     } else {
@@ -663,13 +639,12 @@ public class NuovoViaggioActivity extends AppCompatActivity {
                                     }
 
                                     Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, sesso, username, null, null, null, idProfiles, idCovers);
+                                    Log.i(TAG,"profilo prelevato: "+p);
                                     profiles.add(p);
                                     stringaFinale = nomeUtente + " " + cognomeUtente + "\n" + "(" + username + ")";
                                     names.add(stringaFinale);
                                 }
                             }
-
-
                         } catch (Exception e) {
                             Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
                         }

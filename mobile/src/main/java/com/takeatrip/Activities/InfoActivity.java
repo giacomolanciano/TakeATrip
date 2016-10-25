@@ -22,8 +22,8 @@ public class InfoActivity extends AppCompatActivity {
 
 
     private String name, surname, email, date, password, nazionalità, dataToday, sesso, username, lavoro, descrizione, tipo,emailEsterno;
-    private int year, month, day, yearToday, monthToday, dayToday, eta, etaFinale;
-    private TextView viewDate, viewEmail, viewNazionalità, viewEta, viewSesso, viewUsername, viewLavoro, viewDescrizione, viewTipo;
+    private int  yearToday, monthToday, dayToday, etaFinale;
+    private TextView viewEmail, viewNazionalità, viewEta, viewSesso, viewUsername, viewLavoro, viewDescrizione, viewTipo;
 
     private Profile profile;
 
@@ -69,8 +69,6 @@ public class InfoActivity extends AppCompatActivity {
             tipo = intent.getStringExtra("tipo");
             profile = intent.getParcelableExtra("profile");
 
-            Log.i(TAG, "profilo facebook: " + profile);
-
 
             visualizzazioneEsterna = true;
             if(email == null){
@@ -79,10 +77,10 @@ public class InfoActivity extends AppCompatActivity {
                     email = TAT.getProfiloCorrente().getEmail();
             }
 
-            if((email != null && emailEsterno == null) || email != null && email.equals(emailEsterno)){
+            if((email != null && emailEsterno == null) || (email != null && email.equals(emailEsterno))){
                 visualizzazioneEsterna = false;
-
             }
+
             if(visualizzazioneEsterna){
                 buttonEdit.setVisibility(View.INVISIBLE);
                 Log.i(TAG, "visualizzazione esterna del profilo");
@@ -105,8 +103,6 @@ public class InfoActivity extends AppCompatActivity {
 
 
     public void onClickEditButton(View v){
-
-
         Intent intent = new Intent(InfoActivity.this, RegistrazioneActivity.class);
         intent.putExtra("name", name);
         intent.putExtra("surname",surname);
