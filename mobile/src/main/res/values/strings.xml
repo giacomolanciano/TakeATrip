@@ -292,6 +292,8 @@
     <string name="memories_slide_description">You can upload into TakeATrip your travel memories,
         like photos and videos. You will always have them with you to revive your special moments.</string>
     <string name="memories_slide_title">Memories</string>
+    <string name="adviseNoTravel">Travels no foud</string>
+    <string name="adviseNewTravel">Would you like to add a new Travel?</string>
 
 
 </resources>

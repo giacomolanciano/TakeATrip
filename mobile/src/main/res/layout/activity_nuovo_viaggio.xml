@@ -41,7 +41,8 @@
                     android:id="@+id/titoloViaggio"
                     android:textSize="25sp"
                     android:text="@string/YourTravel"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:textColor="#000000"/>
 
                 <EditText
                     android:layout_width="match_parent"

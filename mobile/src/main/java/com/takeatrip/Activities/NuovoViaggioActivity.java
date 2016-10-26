@@ -69,7 +69,7 @@ public class NuovoViaggioActivity extends AppCompatActivity {
     private static final String ADDRESS_INSERIMENTO_VIAGGIO = "InserimentoViaggio.php";
     private static final String ADDRESS_INSERIMENTO_ITINERARIO = "InserimentoItinerario.php";
     private static final String ADDRESS_INSERIMENTO_FILTRO = "InserimentoFiltro.php";
-    private static final int LIMIT_IMAGES_VIEWS = 30;
+    private static final int LIMIT_IMAGES_VIEWS = 4;
 
     private LinearLayout layoutNewPartecipants;
     private String nomeViaggio, UUIDViaggio, filtro;
@@ -98,11 +98,6 @@ public class NuovoViaggioActivity extends AppCompatActivity {
     // A List of all transfers
     private List<TransferObserver> observers;
 
-    /**
-     * This map is used to provide data to the SimpleAdapter above. See the
-     * fillMap() function for how it relates observers to rows in the displayed
-     * activity.
-     */
     private ArrayList<HashMap<String, List<Object>>> transferRecordMaps;
 
 
@@ -113,17 +108,7 @@ public class NuovoViaggioActivity extends AppCompatActivity {
 
         if (getIntent() != null) {
             Intent intent = getIntent();
-            name = intent.getStringExtra("name");
-            surname = intent.getStringExtra("surname");
             email = intent.getStringExtra("email");
-            date = intent.getStringExtra("dateOfBirth");
-            password = intent.getStringExtra("pwd");
-            nazionalita = intent.getStringExtra("nazionalita");
-            sesso = intent.getStringExtra("sesso");
-            username = intent.getStringExtra("username");
-            lavoro = intent.getStringExtra("lavoro");
-            descrizione = intent.getStringExtra("descrizione");
-            tipo = intent.getStringExtra("tipo");
         }
 
         transferUtility = UtilS3Amazon.getTransferUtility(this);
@@ -137,7 +122,8 @@ public class NuovoViaggioActivity extends AppCompatActivity {
         namesPartecipants = new ArrayList<String>();
         partecipants = new HashSet<Profilo>();
         profiles = new HashSet<Profilo>();
-        profilo = new Profilo(email, name, surname, date, password, nazionalita, sesso, username, lavoro, descrizione);
+
+        profilo = new Profilo(email);
         TakeATrip TAT = (TakeATrip) getApplicationContext();
         TAT.setProfiloCorrente(profilo);
 
@@ -639,7 +625,6 @@ public class NuovoViaggioActivity extends AppCompatActivity {
                                     }
 
                                     Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, sesso, username, null, null, null, idProfiles, idCovers);
-                                    Log.i(TAG,"profilo prelevato: "+p);
                                     profiles.add(p);
                                     stringaFinale = nomeUtente + " " + cognomeUtente + "\n" + "(" + username + ")";
                                     names.add(stringaFinale);

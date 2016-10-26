@@ -279,21 +279,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void ClickNewTravel(final View v) {
         Intent openNewTravel = new Intent(MainActivity.this, NuovoViaggioActivity.class);
-        openNewTravel.putExtra("name", name);
-        openNewTravel.putExtra("surname", surname);
         openNewTravel.putExtra("email", email);
         openNewTravel.putExtra("emailEsterno", emailEsterno);
-        openNewTravel.putExtra("dateOfBirth", date);
-        openNewTravel.putExtra("pwd", password);
-        openNewTravel.putExtra("nazionalita", nazionalità);
-        openNewTravel.putExtra("sesso", sesso);
-        openNewTravel.putExtra("username", username);
-        openNewTravel.putExtra("lavoro", lavoro);
-        openNewTravel.putExtra("descrizione", descrizione);
-        openNewTravel.putExtra("tipo", tipo);
-        openNewTravel.putExtra("urlImmagineProfilo", urlImmagineProfilo);
-        openNewTravel.putExtra("urlImmagineCopertina", urlImmagineCopertina);
-        // passo all'attivazione dell'activity
         startActivity(openNewTravel);
 
     }

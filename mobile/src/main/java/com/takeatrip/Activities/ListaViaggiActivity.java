@@ -2,11 +2,14 @@ package com.takeatrip.Activities;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.takeatrip.Adapters.RecyclerViewViaggiAdapter;
 import com.takeatrip.Classes.Profilo;
@@ -103,7 +105,6 @@ public class ListaViaggiActivity extends ActionBarActivity {
 
         }
 
-        showProgressDialog();
         new GetViaggiTask().execute();
 
     }
@@ -125,7 +126,6 @@ public class ListaViaggiActivity extends ActionBarActivity {
         adapter.onCreateViewHolder(group, 0);
         recyclerView.setAdapter(adapter);
         hideProgressDialog();
-
 
         /*
         recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -204,6 +204,7 @@ public class ListaViaggiActivity extends ActionBarActivity {
     private void hideProgressDialog() {
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.hide();
+            progressDialog.dismiss();
         }
     }
 
@@ -215,6 +216,11 @@ public class ListaViaggiActivity extends ActionBarActivity {
         InputStream is = null;
         String stringaFinale = "";
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog();
+        }
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -292,17 +298,42 @@ public class ListaViaggiActivity extends ActionBarActivity {
                 for(Viaggio v : viaggi) {
                     ImageView image = new ImageView(ListaViaggiActivity.this);
                     dataTravels.add(new DataObject(v, p, image));
-                    Log.i("TEST: ", "PROFILO: " + p);
                 }
+
                 PopolaLista();
             } else {
-                //TODO: creare un dialog più carino, con la possibiltà di aggiungere da qui un nuovo viaggio
-                Toast.makeText(getBaseContext(), stringaFinale, Toast.LENGTH_LONG).show();
+                hideProgressDialog();
+                adviseNewTravel();
+
             }
-
-
             super.onPostExecute(aVoid);
 
+        }
+
+
+        //allert di avviso per uscita senza salvataggio
+        private void adviseNewTravel() {
+
+            new AlertDialog.Builder(ListaViaggiActivity.this)
+                    .setTitle(getString(R.string.adviseNoTravel))
+                    .setMessage(getString(R.string.adviseNewTravel))
+                    .setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent openNewTravel = new Intent(ListaViaggiActivity.this, NuovoViaggioActivity.class);
+                            openNewTravel.putExtra("email", email);
+                            startActivity(openNewTravel);
+                            finish();
+                        }
+                    })
+
+                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            ListaViaggiActivity.this.onBackPressed();
+                            return;
+                        }
+                    })
+                    .setIcon(ContextCompat.getDrawable(ListaViaggiActivity.this,R.drawable.logodefbordo))
+                    .show();
         }
 
     }
