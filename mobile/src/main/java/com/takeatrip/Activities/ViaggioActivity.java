@@ -481,27 +481,22 @@ public class ViaggioActivity extends AppCompatActivity {
         fabMenu = (FloatingActionsMenu) findViewById(R.id.menu);
         buttonStopsList = (FloatingActionButton) findViewById(R.id.buttonStopsList);
         buttonDelete = (FloatingActionButton) findViewById(R.id.buttonDelete);
+        buttonAddPartecipant = (FloatingActionButton) findViewById(R.id.addPartecipant);
+
+        boolean firstTime = true;
 
         if(proprioViaggio){
-            buttonAddPartecipant = new FloatingActionButton(this);
-            buttonAddPartecipant.setIcon(R.drawable.ic_person_add_black_36dp);
-            buttonAddPartecipant.setMinimumWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-            buttonAddPartecipant.setMinimumHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-            buttonAddPartecipant.setSize(FloatingActionButton.SIZE_MINI);
-            buttonAddPartecipant.setTitle(getResources().getString(R.string.addPartecipant));
-            buttonAddPartecipant.setColorPressed(R.color.white_pressed);
-            buttonAddPartecipant.setColorNormalResId(R.color.biancoPallido);
-
-            buttonAddPartecipant.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.i(TAG, "stops list pressed");
-                    fabMenu.collapse();
-                    onClickAddPartecipant(view);
-                }
-            });
-
-            fabMenu.addButton(buttonAddPartecipant);
+            if(buttonAddPartecipant != null){
+                buttonAddPartecipant.setIcon(R.drawable.ic_person_add_black_36dp);
+                buttonAddPartecipant.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.i(TAG, "stops list pressed");
+                        fabMenu.collapse();
+                        onClickAddPartecipant(view);
+                    }
+                });
+            };
 
             if (buttonDelete != null) {
                 buttonDelete.setIcon(R.drawable.ic_delete_black_36dp);
@@ -536,6 +531,7 @@ public class ViaggioActivity extends AppCompatActivity {
         }
         else{
             fabMenu.removeButton(buttonDelete);
+            fabMenu.removeButton(buttonAddPartecipant);
         }
 
         if (buttonStopsList != null) {

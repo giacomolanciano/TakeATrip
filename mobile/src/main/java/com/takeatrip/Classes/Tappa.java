@@ -13,6 +13,7 @@ public class Tappa {
     private Date data;
     private String paginaDiario;
     private POI poi;
+    private String nome;
 
     public Tappa(Itinerario itinerario, int ordine) {
         this.itinerario = itinerario;
@@ -82,6 +83,14 @@ public class Tappa {
         this.poi = poi;
     }
 
+    public String getName(){
+        return nome;
+    }
+
+    public void setName(String name){
+        this.nome = name;
+    }
+
     public String getNome() {
         //TODO
         //return this.poi.getNome();
@@ -108,6 +117,6 @@ public class Tappa {
     }
 
     public String toString(){
-        return getPoi().codicePOI + " " +getNome();
+        return getPoi() + " " +getName();
     }
 }

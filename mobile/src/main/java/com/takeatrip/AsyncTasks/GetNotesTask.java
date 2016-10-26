@@ -172,10 +172,6 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
             for (String s:notes)
                 debug += s + ", ";
 
-            Log.i(TAG, "notes: " + debug);
-
-
-
         } else {
             return;
         }
@@ -191,6 +187,7 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
     private void hideProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.hide();
+            mProgressDialog.dismiss();
         }
     }
 

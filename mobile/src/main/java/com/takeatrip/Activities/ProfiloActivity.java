@@ -493,31 +493,40 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
                                 break;
                             case 1: //change image profile
+
                                 Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                                 startActivityForResult(intentPick, Constants.REQUEST_IMAGE_PICK);
 
                                 break;
 
                             case 2:  //take a photo
-                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                if (intent.resolveActivity(getPackageManager()) != null) {
+                                try{
 
-                                    File photoFile = null;
-                                    try {
+                                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                    if (intent.resolveActivity(getPackageManager()) != null) {
 
-                                        photoFile = createImageFile();
+                                        File photoFile = null;
+                                        try {
 
-                                    } catch (IOException ex) {
-                                        Log.e(TAG, "eccezione nella creazione di file immagine");
+                                            photoFile = createImageFile();
+
+                                        } catch (IOException ex) {
+                                            Log.e(TAG, "eccezione nella creazione di file immagine");
+                                        }
+
+
+                                        // Continue only if the File was successfully created
+                                        if (photoFile != null) {
+                                            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                                            startActivityForResult(intent, Constants.REQUEST_IMAGE_CAPTURE);
+                                        }
                                     }
 
-
-                                    // Continue only if the File was successfully created
-                                    if (photoFile != null) {
-                                        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-                                        startActivityForResult(intent, Constants.REQUEST_IMAGE_CAPTURE);
-                                    }
                                 }
+                                catch(Exception e){
+                                    Log.e(TAG, "thrown exception: " + e);
+                                }
+
                                 break;
 
                             case 3: //exit

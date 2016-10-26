@@ -30,7 +30,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
@@ -375,16 +374,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        /*
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        */
         return super.onOptionsItemSelected(item);
     }
 
@@ -416,11 +405,8 @@ public class ListaTappeActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (resultCode == RESULT_OK) {
-
             switch (requestCode) {
-
                 case Constants.REQUEST_PLACE_PICKER:
                     Place place = PlacePicker.getPlace(this, data);
                     startAddingStop(place);
@@ -605,20 +591,7 @@ public class ListaTappeActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public void onConnected(Bundle bundle) {
 
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
-    }
 
     @Override
     public void onMapReady(GoogleMap map) {
@@ -817,19 +790,13 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
     private void PopolaPartecipanti(final Set<Profilo> partecipants){
-
         layoutProprietariItinerari.addView(new TextView(this), Constants.WIDTH_LAYOUT_PROPRIETARI_ITINERARI,
                 Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI);
 
-        Log.i(TAG, "partecipants: " + partecipants);
-
         for(Profilo p : partecipants){
-
             ImageView image = new RoundedImageView(this, null);
             image.setContentDescription(p.getEmail());
             currentProfile = p;
-
-
             if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
                 URL completeUrl = null;
                 try {
@@ -888,7 +855,7 @@ public class ListaTappeActivity extends AppCompatActivity
         AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
     }
 
-
+/*
     private void CreaMenu(Profilo p, List<Tappa> tappe, String [] nomiTappe){
         Menu menu = navigationView.getMenu();
         menu.clear();
@@ -898,6 +865,7 @@ public class ListaTappeActivity extends AppCompatActivity
         if(menu != null){
             int i=0;
             for(Tappa t : tappe){
+
                 if(nomiTappe.length > 0){
                     if(nomiTappe[i] != null){
                         Log.i(TAG, "nome tappa: " + nomiTappe[i]);
@@ -912,8 +880,25 @@ public class ListaTappeActivity extends AppCompatActivity
             }
         }
 
-    }
+    }*/
 
+
+    private void CreaMenu(Profilo p, List<Tappa> tappe){
+        Menu menu = navigationView.getMenu();
+        menu.clear();
+
+        menu.add(0, 0, Menu.NONE, p.getName()+"'s stops:");
+
+        if(menu != null){
+            int i=0;
+            for(Tappa t : tappe){
+                Log.i(TAG, "nome tappa: " + t.getName());
+                menu.add(0, i+1, Menu.NONE, t.getName());
+
+            }
+        }
+
+    }
 
     Place[] arrayPlace;
     String[] arrayNamePlace;
@@ -922,14 +907,18 @@ public class ListaTappeActivity extends AppCompatActivity
         mGoogleApiClient.connect();
 
         googleMap.clear();
+        polyline = new PolylineOptions()
+                .visible(true)
+                .color(Color.parseColor(Constants.GOOGLE_MAPS_BLUE))
+                .width(Constants.MAP_POLYLINE_THICKNESS)
+                .geodesic(true);
         nomiTappe.clear();
-        namesStops.clear();
-        int i = 1;
 
-        Log.i(TAG, "lista tappe: " + tappe);
+        int i = 1;
         arrayPlace = new Place[tappe.size()];
         arrayNamePlace = new String[tappe.size()];
         latLngs = new LatLng[tappe.size()];
+
         for(Tappa t : tappe){
             findPlaceById(p, t, i);
             i++;
@@ -939,7 +928,7 @@ public class ListaTappeActivity extends AppCompatActivity
         if(tappe.size()==0){
             nomiTappe.clear();
             profiloNomiTappe.put(p,nomiTappe);
-            CreaMenu(p,tappe, arrayNamePlace);
+            CreaMenu(p,tappe);
         }
     }
 
@@ -947,20 +936,15 @@ public class ListaTappeActivity extends AppCompatActivity
     private void findPlaceById(final Profilo p, final Tappa t, int i) {
         final int index = i;
 
-        if( TextUtils.isEmpty(t.getPoi().getCodicePOI()) || mGoogleApiClient == null){
-            Log.i(TAG, "codice tappa: " + t.getPoi().getCodicePOI());
-            Log.i(TAG, "return");
+        if(mGoogleApiClient == null){
             return;
         }
-
 
         if(!mGoogleApiClient.isConnected()){
             mGoogleApiClient.connect();
         }
 
         currentProfile = p;
-
-        Log.i(TAG, "id place: " + t.getPoi().getCodicePOI());
 
         Places.GeoDataApi.getPlaceById( mGoogleApiClient, t.getPoi().getCodicePOI() )
                 .setResultCallback(new ResultCallback<PlaceBuffer>() {
@@ -979,6 +963,9 @@ public class ListaTappeActivity extends AppCompatActivity
                                     arrayPlace[k] = place;
                                     arrayNamePlace[k] = place.getName().toString();
                                     latLngs[k] = place.getLatLng();
+
+                                    t.setName(arrayNamePlace[k]);
+
                                     break;
                                 }
                                 k++;
@@ -995,8 +982,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
                             if (nomiTappe.size() == profiloTappe.get(currentProfile).size()) {
 
-                                Log.i(TAG, "stampo i places ordinati");
-
                                 for(int i=0; i<arrayNamePlace.length; i++){
                                     Log.i(TAG, "name place " + i + " : " + arrayNamePlace[i]);
                                     if(arrayNamePlace[i] != null){
@@ -1006,8 +991,7 @@ public class ListaTappeActivity extends AppCompatActivity
                                 }
 
 
-                                CreaMenu(currentProfile,profiloTappe.get(currentProfile), arrayNamePlace);
-
+                                CreaMenu(currentProfile,profiloTappe.get(currentProfile));
                                 profiloNomiTappe.put(currentProfile, nomiTappe);
 
                                 //traccia linea
@@ -1018,8 +1002,6 @@ public class ListaTappeActivity extends AppCompatActivity
                                 CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(mapBounds,
                                         Constants.LATLNG_BOUNDS_PADDING);
                                 googleMap.moveCamera(cu);
-
-
                             }
 
                         }
@@ -1027,20 +1009,6 @@ public class ListaTappeActivity extends AppCompatActivity
                         places.release();
                     }
                 });
-    }
-
-
-
-    private int calcolaNumUltimaTappaUtenteCorrente() {
-
-        int result = 0;
-        ArrayList<Tappa> listaTappe = (ArrayList<Tappa>) profiloTappe.get(profiloUtenteLoggato);
-        Log.i(TAG, "lista tappe di " + profiloUtenteLoggato + ": " + listaTappe);
-        if(listaTappe != null)
-            result = listaTappe.size();
-
-        Log.i(TAG, "result ordine tappa: " + result);
-        return result;
     }
 
 
@@ -1057,7 +1025,6 @@ public class ListaTappeActivity extends AppCompatActivity
         CharSequence aux = place.getAttributions();
         if(aux != null)
             placeAttr += aux;
-
 
         Log.i(TAG, "name: " + placeName);
         Log.i(TAG, "addr: " + placeAddress);
@@ -1080,7 +1047,6 @@ public class ListaTappeActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(checkSelectionSpinner > 0){
-                    Log.i(TAG, "elemento selezionato: " + adapter.getItem(position).toString());
                     livelloCondivisioneTappa = adapter.getItem(position).toString();
                 }
                 checkSelectionSpinner++;
@@ -1134,19 +1100,16 @@ public class ListaTappeActivity extends AppCompatActivity
                 new InserimentoFiltroTask(ListaTappeActivity.this, codiceViaggio, placeName).execute();
 
 
-                //TODO: posso aggiungere le tappe solamente al mio itinerario
-
-
                 //add marker
                 googleMap.addMarker(new MarkerOptions()
                         .title(stopOrder + ". " + placeName)
                         .position(placeLatLng));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(addedPlace.getLatLng(), Constants.DEFAULT_ZOOM_MAP));
 
-
                 //update polyline
                 polyline.add(addedPlace.getLatLng());
                 googleMap.addPolyline(polyline);
+
 
                 //update zoom
                 mapBoundsBuilder.include(addedPlace.getLatLng());
@@ -1154,8 +1117,10 @@ public class ListaTappeActivity extends AppCompatActivity
                 CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(mapBounds, Constants.LATLNG_BOUNDS_PADDING);
                 googleMap.moveCamera(cu);
 
-
                 dialog.dismiss();
+
+                Log.i(TAG, "profilo tappe: " + profiloTappe);
+
             }
         });
 
@@ -1676,10 +1641,7 @@ public class ListaTappeActivity extends AppCompatActivity
                 } catch (Exception e) {
                     Log.e(TAG, "Errore nella connessione http "+e.toString());
                 }
-
-
                 profiloTappe.put(p, tappe);
-
             }
             return null;
         }
@@ -1690,11 +1652,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
             ViewCaricamentoInCorso.setVisibility(View.INVISIBLE);
 
-            Log.i(TAG, "profiloTappe: " + profiloTappe);
-
             PopolaPartecipanti(profiloTappe.keySet());
-
-
             boolean aggiuntiMarkedPoints = false;
 
             //aggiungo sulla mappa solamente le tappe del profilo corrente, se partecipante al viaggio,
@@ -1919,8 +1877,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
     private class PrivacyLevelAdapter extends ArrayAdapter<String> {
-
-
         public PrivacyLevelAdapter(Context context, int textViewResourceId, String[] strings) {
             super(context, textViewResourceId, strings);
         }
@@ -1963,7 +1919,32 @@ public class ListaTappeActivity extends AppCompatActivity
     private void hideProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.hide();
+            mProgressDialog.dismiss();
         }
     }
 
+    @Override
+    public void onConnected(Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
+
+    private int calcolaNumUltimaTappaUtenteCorrente() {
+        int result = 0;
+        ArrayList<Tappa> listaTappe = (ArrayList<Tappa>) profiloTappe.get(profiloUtenteLoggato);
+        Log.i(TAG, "lista tappe di " + profiloUtenteLoggato + ": " + listaTappe);
+        if(listaTappe != null)
+            result = listaTappe.size();
+
+        return result;
+    }
 }

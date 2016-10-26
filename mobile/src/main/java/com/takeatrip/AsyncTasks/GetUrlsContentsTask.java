@@ -152,13 +152,9 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
 
                             } else if (phpFile.equals(Constants.QUERY_TRAVEL_VIDEOS)
                                     || phpFile.equals(Constants.QUERY_STOP_VIDEOS)) {
-
                                 url = json_data.getString("urlVideo");
-
                             } else {
-
                                 url = json_data.getString("urlAudio");
-
                             }
 
 

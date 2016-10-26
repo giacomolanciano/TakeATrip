@@ -83,9 +83,6 @@ public class LoadGenericImageTask extends AsyncTask<Void, Void, URL>  {
         try {
 
             if (InternetConnection.haveInternetConnection(context)) {
-                Log.i("CONNESSIONE Internet", "Presente!");
-
-
                 java.util.Date expiration = new java.util.Date();
                 long msec = expiration.getTime();
                 msec += Constants.ONE_HOUR_IN_MILLISEC;
@@ -100,9 +97,6 @@ public class LoadGenericImageTask extends AsyncTask<Void, Void, URL>  {
                     generatePresignedUrlRequest.setMethod(HttpMethod.GET);
                     generatePresignedUrlRequest.setExpiration(expiration);
 
-                    Log.i(TAG, "expiration date image: " + generatePresignedUrlRequest.getExpiration());
-
-
                     url = s3.generatePresignedUrl(generatePresignedUrlRequest);
 
                 }
@@ -111,15 +105,7 @@ public class LoadGenericImageTask extends AsyncTask<Void, Void, URL>  {
                             new GeneratePresignedUrlRequest(Constants.BUCKET_NAME, urlImmagine);
                     generatePresignedUrlRequest.setMethod(HttpMethod.GET);
                     generatePresignedUrlRequest.setExpiration(expiration);
-
-                    Log.i(TAG, "expiration date image: " + generatePresignedUrlRequest.getExpiration());
-
-
                     url = s3.generatePresignedUrl(generatePresignedUrlRequest);
-
-
-                    Log.i(TAG, "url file: " + url);
-
                 }
 
 
@@ -138,10 +124,7 @@ public class LoadGenericImageTask extends AsyncTask<Void, Void, URL>  {
 
     @Override
     protected void onPostExecute(URL url) {
-
         //delegate.processFinish(url);
-
-
         super.onPostExecute(url);
 
     }
