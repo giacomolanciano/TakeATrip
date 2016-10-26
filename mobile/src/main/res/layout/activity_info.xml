@@ -25,12 +25,13 @@
             android:id="@+id/linearLayout">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/InserisciNuovoUsername"
@@ -45,7 +46,8 @@
                     android:layout_alignEnd="@+id/Nome" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1.5"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingLeft="10dp"
@@ -58,12 +60,13 @@
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/InserisciNuovoSesso"
                     android:textSize="16dp"
@@ -78,7 +81,8 @@
                     android:paddingTop="12dp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1.5"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:paddingTop="10dp"
@@ -93,13 +97,14 @@
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/Eta"
                     android:textSize="16dp"
@@ -114,7 +119,8 @@
                     android:paddingTop="12dp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1.5"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:paddingTop="10dp"
@@ -130,14 +136,15 @@
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
 
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/InserisciNuovaNazionalita"
                     android:textSize="16dp"
@@ -152,7 +159,8 @@
                     android:paddingTop="12dp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1.5"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:paddingTop="10dp"
@@ -166,12 +174,13 @@
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/InserisciNuovoTipo"
                     android:textSize="16dp"
@@ -186,7 +195,8 @@
                     android:paddingTop="12dp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1.5"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:paddingTop="10dp"
@@ -199,12 +209,13 @@
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/InserisciNuovoLavoro"
                     android:textSize="16dp"
@@ -219,7 +230,8 @@
                     android:paddingTop="12dp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1.5"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:paddingTop="10dp"
