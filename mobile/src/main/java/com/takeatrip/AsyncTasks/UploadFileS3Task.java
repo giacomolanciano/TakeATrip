@@ -73,8 +73,6 @@ public class UploadFileS3Task extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-
-
         try {
 
             if (InternetConnection.haveInternetConnection(context)) {
@@ -92,8 +90,6 @@ public class UploadFileS3Task extends AsyncTask<Void, Void, Void> {
                 File file = new File(filePath);
 
                 //ObjectMetadata myObjectMetadata = new ObjectMetadata();
-
-
 
                 String key = idViaggio +"/" + tipoFile + "/" + idUtente + "_" + newFileName;
 
@@ -125,11 +121,7 @@ public class UploadFileS3Task extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void aVoid) {
-
-
-
         super.onPostExecute(aVoid);
-
     }
 
 

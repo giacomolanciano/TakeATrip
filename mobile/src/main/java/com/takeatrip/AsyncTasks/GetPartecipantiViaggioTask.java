@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.takeatrip.Classes.Profilo;
+import com.takeatrip.Classes.TakeATrip;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.InternetConnection;
 
@@ -32,6 +33,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by Giacomo Lanciano on 24/04/2016.
@@ -201,11 +204,27 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
             Log.i(TAG, "IMAGE VIEW : " +layoutCopertinaViaggio);
             Log.i(TAG, "url immagine : " +urlImageTravel);
 
-            try {
-                Bitmap bitmap  = new BitmapWorkerTask(layoutCopertinaViaggio).execute(urlImageTravel).get();
-                layoutCopertinaViaggio.setImageBitmap(bitmap);
 
-                Log.i(TAG, "bitmap immagine : " +bitmap);
+            TakeATrip TAT = (TakeATrip)getApplicationContext();
+
+            Log.i(TAG, "TAT : " +TAT);
+            Log.i(TAG, "TAT : " +TAT.getCurrentImage());
+
+
+            try {
+                if(TAT != null && TAT.getCurrentImage() != null){
+
+                    Bitmap resizedBitmap = getResizedBitmap(TAT.getCurrentImage(),layoutCopertinaViaggio);
+                    layoutCopertinaViaggio.setImageBitmap(resizedBitmap);
+                    Log.i(TAG, "impostata immagine: " + TAT.getCurrentImage());
+                }
+                else{
+                    Bitmap bitmap  = new BitmapWorkerTask(layoutCopertinaViaggio).execute(urlImageTravel).get();
+                    layoutCopertinaViaggio.setImageBitmap(bitmap);
+                    Log.i(TAG, "bitmap immagine : " +bitmap);
+
+                }
+
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -227,5 +246,21 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
     }
 
 
+
+    public Bitmap getResizedBitmap(Bitmap image, ImageView bmImage) {
+        int width = bmImage.getWidth();
+        int height = bmImage.getHeight();
+
+        float bitmapRatio = (float) width / (float) height;
+        if (bitmapRatio > 1) {
+            width = bmImage.getWidth();
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = bmImage.getHeight();
+            width = (int) (height * bitmapRatio);
+        }
+
+        return Bitmap.createScaledBitmap(image, width, height, true);
+    }
 
 }

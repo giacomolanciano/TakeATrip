@@ -339,6 +339,7 @@ public class NuovoViaggioActivity extends AppCompatActivity {
     private void hideProgressDialog() {
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.hide();
+            progressDialog.dismiss();
         }
     }
 
@@ -489,6 +490,7 @@ public class NuovoViaggioActivity extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            hideProgressDialog();
             //apro lista viaggi
             openListaViaggi();
 

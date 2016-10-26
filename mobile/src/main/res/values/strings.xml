@@ -294,6 +294,7 @@
     <string name="memories_slide_title">Memories</string>
     <string name="adviseNoTravel">Travels no foud</string>
     <string name="adviseNewTravel">Would you like to add a new Travel?</string>
+    <string name="exit_travel_alert">are you sure to exit from this travel?</string>
 
 
 </resources>

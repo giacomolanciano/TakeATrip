@@ -46,6 +46,7 @@ import com.google.android.gms.drive.DriveId;
 import com.squareup.picasso.Picasso;
 import com.takeatrip.AsyncTasks.BitmapWorkerTask;
 import com.takeatrip.AsyncTasks.DeleteTravelTask;
+import com.takeatrip.AsyncTasks.ExitTravelTask;
 import com.takeatrip.AsyncTasks.GetPartecipantiViaggioTask;
 import com.takeatrip.AsyncTasks.ItinerariesTask;
 import com.takeatrip.AsyncTasks.StartActivityWithIndetProgressTask;
@@ -86,8 +87,6 @@ public class ViaggioActivity extends AppCompatActivity {
 
     private static final String TAG = "TEST ViaggioActivity";
     private static final String ADDRESS = "QueryNomiUtenti.php";
-    private static final String ADDRESS_QUERY_FOLDER = "QueryCartellaGenerica.php";
-    private static final String ADDRESS_INSERT_FOLDER = "CreazioneCartellaViaggio.php";
     private static final int DIMENSION_OF_IMAGE_PARTICIPANT = Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT;
     private static final int DIMENSION_OF_SPACE = Constants.BASE_DIMENSION_OF_SPACE;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -153,21 +152,15 @@ public class ViaggioActivity extends AppCompatActivity {
         Intent intent;
         if((intent = getIntent()) != null){
             email = intent.getStringExtra("email");
-            Log.i(TAG, "email: "+ email);
             emailEsterno = intent.getStringExtra("emailEsterno");
-            Log.i(TAG, "emailEsterno: "+ emailEsterno);
             codiceViaggio = intent.getStringExtra("codiceViaggio");
-            Log.i(TAG, "codiceViaggio da Viaggio: "+ codiceViaggio);
             nomeViaggio = intent.getStringExtra("nomeViaggio");
-            Log.i(TAG, "nomeViaggio: "+ nomeViaggio);
             idFolder = intent.getParcelableExtra("idFolder");
-            Log.i(TAG, "idFolder: "+ idFolder);
             urlImageTravel = intent.getStringExtra("urlImmagineViaggio");
-            Log.i(TAG, "urlImmagineViaggio1: "+ urlImageTravel);
             livelloCondivisioneViaggio = intent.getStringExtra("livelloCondivisione");
-            Log.i(TAG, "livelloCondivisione : "+ livelloCondivisioneViaggio);
-
         }
+
+
 
 
         //retreive the content view of the activity for GetPartecipantiViaggioTask to work
@@ -186,11 +179,6 @@ public class ViaggioActivity extends AppCompatActivity {
 
 
         imageTravel = (ImageView) findViewById(R.id.coverImageTravel);
-//        Picasso.with(ViaggioActivity.this)
-//                .load(urlImageTravel)
-//                .error(R.drawable.empty_image)
-//                .into(imageTravel);
-
 
         strings = getResources().getStringArray(R.array.PrivacyLevel);
         subs = getResources().getStringArray(R.array.PrivacyLevelDescription);
@@ -247,9 +235,6 @@ public class ViaggioActivity extends AppCompatActivity {
             TakeATrip TAT = (TakeATrip)getApplicationContext();
             email = TAT.getProfiloCorrente().getEmail();
         }
-        if(email != null){
-            String url = email+"/"+ nameForUrl;
-        }
 
         Log.i(TAG, "email utente: " + email + " codiceViaggio: " + codiceViaggio + " nomeVaggio: " + nomeViaggio);
 
@@ -270,6 +255,7 @@ public class ViaggioActivity extends AppCompatActivity {
                     gridViewRecords, gridViewNotes).execute().get();
 
             popolaPartecipanti();
+
 
         } catch (InterruptedException e) {
             Log.e(TAG, "GetPartecipantiViaggioTask interrupted!");
@@ -357,7 +343,6 @@ public class ViaggioActivity extends AppCompatActivity {
                             case 1: //change cover image
                                 Intent intentPick = new Intent(Intent.ACTION_PICK,
                                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
                                 startActivityForResult(intentPick, REQUEST_IMAGE_PICK);
                                 break;
                             case 2: //modify travel name
@@ -420,24 +405,16 @@ public class ViaggioActivity extends AppCompatActivity {
                 bitmapImageTravel = (BitmapFactory.decodeFile(picturePath));
                 Log.i(TAG, "image from gallery: " + picturePath);
 
-
-//                UtilS3AmazonCustom.uploadTravelCoverPicture(ViaggioActivity.this, picturePath,
-//                        codiceViaggio, email, bitmapImageTravel, layoutCopertinaViaggio);
-
                 UtilS3AmazonCustom.uploadTravelCoverPicture(ViaggioActivity.this, picturePath,
                         codiceViaggio, email, bitmapImageTravel, imageTravel, selectedImage);
 
+                TakeATrip TAT = (TakeATrip)getApplicationContext();
+                if(TAT != null)
+                    TAT.setCurrentImage(bitmapImageTravel);
 
-/*
-                if(email!= null && codiceViaggio != null){
-                    String nameForUrl = codiceViaggio.trim().replace(" ", "");
-                    String url = email+"/"+nameForUrl;
-                    new MyTaskIDFolder(this,email,url,nameForUrl).execute();
-                }
-                else{
-                    Toast.makeText(getBaseContext(), R.string.update_failed, Toast.LENGTH_LONG);
-                }
-                */
+                imageTravel = (ImageView) findViewById(R.id.coverImageTravel);
+                imageTravel.setImageBitmap(bitmapImageTravel);
+
             }
         }
     }
@@ -528,15 +505,32 @@ public class ViaggioActivity extends AppCompatActivity {
 
             if (buttonDelete != null) {
                 buttonDelete.setIcon(R.drawable.ic_delete_black_36dp);
-                buttonDelete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.i(TAG, "delete travel pressed");
-                        fabMenu.collapse();
-                        onClickDeleteTravel(view);
 
-                    }
-                });
+                if(listPartecipants.size()>1){
+                    buttonDelete.setTitle("Exit travel");
+                    buttonDelete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Log.i(TAG, "exit travel pressed");
+                            fabMenu.collapse();
+                            onClickExitTravel(view);
+
+                        }
+                    });
+                }
+                else{
+                    buttonDelete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Log.i(TAG, "delete travel pressed");
+                            fabMenu.collapse();
+                            onClickDeleteTravel(view);
+
+                        }
+                    });
+                }
+
+
             }
 
         }
@@ -564,9 +558,6 @@ public class ViaggioActivity extends AppCompatActivity {
 
 
     public void onClickImagePartecipant(final View v){
-
-        //TODO implementare delete partecipant
-
         try {
             final Dialog dialog = new Dialog(this, R.style.CustomDialog);
             dialog.setContentView(R.layout.layout_dialog_profiles);
@@ -847,7 +838,33 @@ public class ViaggioActivity extends AppCompatActivity {
                 .setMessage(getString(R.string.delete_travel_alert))
                 .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+
+                        Log.i(TAG, "partecipanti al viaggio: " + listPartecipants.size());
+
                         new DeleteTravelTask(ViaggioActivity.this, codiceViaggio).execute();
+                        finish();
+
+                    }
+                })
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(ContextCompat.getDrawable(ViaggioActivity.this, R.drawable.logodefbordo))
+                .show();
+    }
+
+
+
+    private void onClickExitTravel(View view) {
+        new android.support.v7.app.AlertDialog.Builder(ViaggioActivity.this)
+                .setTitle(getString(R.string.confirm))
+                .setMessage(getString(R.string.exit_travel_alert))
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        new ExitTravelTask(ViaggioActivity.this, codiceViaggio, email).execute();
                         finish();
                     }
                 })
@@ -858,8 +875,12 @@ public class ViaggioActivity extends AppCompatActivity {
                 })
                 .setIcon(ContextCompat.getDrawable(ViaggioActivity.this, R.drawable.logodefbordo))
                 .show();
-
     }
+
+
+
+
+
 
     private class UtentiTask extends AsyncTask<Void, Void, Void> {
 
@@ -968,6 +989,7 @@ public class ViaggioActivity extends AppCompatActivity {
     private void hideProgressDialog() {
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.hide();
+            progressDialog.dismiss();
         }
     }
 

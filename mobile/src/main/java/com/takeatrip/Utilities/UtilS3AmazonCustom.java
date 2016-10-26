@@ -70,6 +70,7 @@ public class UtilS3AmazonCustom {
 
         new InsertCoverImageTravelTask(context,email,codiceViaggio, null, newFileName,
                 bitmapImageTravel, layoutCopertinaViaggio, selectedImage).execute();
+
     }
 
 

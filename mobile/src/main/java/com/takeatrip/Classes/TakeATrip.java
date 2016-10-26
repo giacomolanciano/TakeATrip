@@ -1,6 +1,7 @@
 package com.takeatrip.Classes;
 
 import android.app.Application;
+import android.graphics.Bitmap;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -19,6 +20,7 @@ public class TakeATrip  extends Application {
 
     private CognitoCachingCredentialsProvider credentialsProvider;
 
+    private Bitmap currentImage;
 
 
     public GoogleApiClient getGoogleApiClient() {
@@ -52,6 +54,14 @@ public class TakeATrip  extends Application {
 
     public CognitoCachingCredentialsProvider getCredentialsProvider() {
         return credentialsProvider;
+    }
+
+    public void setCurrentImage(Bitmap bitmap){
+        currentImage = bitmap;
+    }
+
+    public Bitmap getCurrentImage(){
+        return currentImage;
     }
 
 }

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.gms.drive.DriveId;
 import com.takeatrip.Utilities.Constants;
@@ -44,34 +45,6 @@ public class InsertCoverImageTravelTask extends AsyncTask<Void, Void, Void> {
     private Uri selectedImage;
 
 
-    public InsertCoverImageTravelTask(Context c, String emailUtente, DriveId id){
-        context  = c;
-        emailUser = emailUtente;
-        idFile = id;
-    }
-
-//    public InsertCoverImageTravelTask(Context c, String emailUtente, String codiceViaggio, DriveId id,
-//                                      String url, Bitmap bitmapImageTravel, LinearLayout layoutCopertinaViaggio){
-//        context  = c;
-//        emailUser = emailUtente;
-//        this.codiceViaggio = codiceViaggio;
-//        idFile = id;
-//        urlImmagine = url;
-//        this.bitmapImageTravel = bitmapImageTravel;
-//        this.layoutCopertinaViaggio = layoutCopertinaViaggio;
-//    }
-
-    public InsertCoverImageTravelTask(Context c, String emailUtente, String codiceViaggio, DriveId id,
-                                      String url, Bitmap bitmapImageTravel, ImageView layoutCopertinaViaggio){
-        context  = c;
-        emailUser = emailUtente;
-        this.codiceViaggio = codiceViaggio;
-        idFile = id;
-        urlImmagine = url;
-        this.bitmapImageTravel = bitmapImageTravel;
-        this.layoutCopertinaViaggio = layoutCopertinaViaggio;
-    }
-
     public InsertCoverImageTravelTask(Context c, String emailUtente, String codiceViaggio, DriveId id,
                                       String url, Bitmap bitmapImageTravel, ImageView layoutCopertinaViaggio,
                                       Uri selectedImage){
@@ -92,17 +65,16 @@ public class InsertCoverImageTravelTask extends AsyncTask<Void, Void, Void> {
         dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
         dataToSend.add(new BasicNameValuePair("id", emailUser + "_" + urlImmagine));
 
-
         try {
+
+
             if (InternetConnection.haveInternetConnection(context)) {
                 Log.i(TAG, "CONNESSIONE Internet Presente!");
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERT_IMAGE_COVER_TRAVEL);
                 httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
                 HttpResponse response = httpclient.execute(httppost);
-
                 HttpEntity entity = response.getEntity();
-
                 is = entity.getContent();
 
                 if (is != null) {
@@ -139,13 +111,11 @@ public class InsertCoverImageTravelTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         Log.i(TAG, "risultato operazione di inserimento immagine viaggio nel DB:" + result);
-        if(!result.equals("OK")){
-            //upload dell'immagine
-            //Drawable d = new BitmapDrawable(context.getResources(), bitmapImageTravel);
-            //layoutCopertinaViaggio.setBackground(d);
-
+        if(result.equals("OK")){
+            Toast.makeText(context, "Error in the upload of the image", Toast.LENGTH_SHORT).show();
+        }
+        else{
             layoutCopertinaViaggio.setImageBitmap(bitmapImageTravel);
-
         }
 
         super.onPostExecute(aVoid);

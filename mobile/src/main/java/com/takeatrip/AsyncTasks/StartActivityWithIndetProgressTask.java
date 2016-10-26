@@ -59,6 +59,7 @@ public class StartActivityWithIndetProgressTask extends AsyncTask<Void, Void, Vo
 
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.hide();
+            progressDialog.dismiss();
         }
     }
 

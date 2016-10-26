@@ -301,10 +301,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClickLogout(View v) {
 
         try {
-            if (!googleApiClient.isConnected()) {
+            if (googleApiClient != null && !googleApiClient.isConnected()) {
                 googleApiClient.connect();
             }
-
             new AlertDialog.Builder(MainActivity.this)
                     .setTitle(getString(R.string.confirm))
                     .setMessage(getString(R.string.logout_alert))
@@ -317,7 +316,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 db.deleteContact(profilo);
                             } else {
 
-                                if (fbProfile != null && LoginManager.getInstance() != null) {
+                                if (LoginManager.getInstance() != null) {
                                     Log.d(TAG, "Log out from facebook: ..");
 
                                     LoginManager.getInstance().logOut();
@@ -326,16 +325,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 } else {
                                     Log.d(TAG, "Log out from google con apiClient: " + googleApiClient);
 
-                                    Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
-                                            new ResultCallback<Status>() {
-                                                @Override
-                                                public void onResult(Status status) {
-                                                    Log.d(TAG, "Status: " + status);
-                                                    if (status.isSuccess()) {
-                                                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                                    if(googleApiClient != null){
+                                        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
+                                                new ResultCallback<Status>() {
+                                                    @Override
+                                                    public void onResult(Status status) {
+                                                        Log.d(TAG, "Status: " + status);
+                                                        if (status.isSuccess()) {
+                                                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                                                        }
                                                     }
-                                                }
-                                            });
+                                                });
+                                    }
+
                                 }
 
                             }
@@ -713,6 +715,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void hideProgressDialog() {
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.hide();
+            progressDialog.dismiss();
         }
     }
 

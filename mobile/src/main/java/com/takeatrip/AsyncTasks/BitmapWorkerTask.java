@@ -25,6 +25,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
     int width, height;
     private WeakReference<ImageView> imageViewReference;
     public String data = "null";
+    private Bitmap bitmap;
 
 
 
@@ -44,6 +45,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
         width = layout.getWidth();
         height = layout.getHeight();
     }
+
 
 
     protected Bitmap doInBackground(String... urls) {
@@ -215,6 +217,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 
         return mIcon11;
     }
+
 
 
     public static int calculateInSampleSize(
