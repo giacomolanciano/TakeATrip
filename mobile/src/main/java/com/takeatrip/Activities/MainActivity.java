@@ -58,9 +58,7 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -74,8 +72,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String date, password, urlImmagineProfilo, urlImmagineCopertina;
     private String emailEsterno;
     private ImageView imageViewProfileRound;
-    private List<String> names, namesPartecipants;
-    private Set<Profilo> profiles, partecipants;
     private Profilo profilo;
     private Profile fbProfile;
     private ProgressDialog progressDialog;
@@ -184,24 +180,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         showProgressDialog();
 
-        //Task for retrieving the profile and cover image of the user
-        new MyTaskIDProfileImage(this, email).execute();
-        new MyTaskIDCoverImage(this, email).execute();
 
-
-        if (sesso != null && sesso.equals("M")) {
-            imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_male));
-        } else if (sesso != null && sesso.equals("F")) {
-            imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_female));
-        }
-
-        names = new ArrayList<String>();
-        namesPartecipants = new ArrayList<String>();
-        partecipants = new HashSet<Profilo>();
-        profiles = new HashSet<Profilo>();
         profilo = new Profilo(email, name, surname, date, password, nazionalità, sesso, username, lavoro, descrizione);
-
-
 
         TakeATrip TAT = (TakeATrip) getApplicationContext();
         TAT.setProfiloCorrente(profilo);
@@ -212,7 +192,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
 
+        //Task for retrieving the profile and cover image of the user
+        new MyTaskIDProfileImage(this, email).execute();
+        new MyTaskIDCoverImage(this, email).execute();
+
+        if (sesso != null && sesso.equals("M")) {
+            imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_male));
+        } else if (sesso != null && sesso.equals("F")) {
+            imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_female));
+        }
         TakeATrip TAT = ((TakeATrip) getApplicationContext());
+
+
         googleApiClient = TAT.getGoogleApiClient();
         if (googleApiClient != null) {
             googleApiClient.connect();

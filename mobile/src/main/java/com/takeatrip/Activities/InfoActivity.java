@@ -106,32 +106,32 @@ public class InfoActivity extends AppCompatActivity {
         viewUsername.setText(username);
 
         viewSesso.setText(sesso);
-        if(sesso.equals("")){
+        if(sesso != null && sesso.equals("")){
 
         }
 
         viewEta.setText(etaFinale + "");
-        if(date.equals("")){
+        if(date != null && date.equals("")){
 
         }
 
         viewNazionalità.setText(nazionalità);
-        if(nazionalità.equals("")){
+        if(nazionalità != null && nazionalità.equals("")){
 
         }
 
         viewTipo.setText(tipo);
-        if(tipo.equals("")){
+        if(tipo != null && tipo.equals("")){
 
         }
 
         viewLavoro.setText(lavoro);
-        if(lavoro.equals("")){
+        if(lavoro != null && lavoro.equals("")){
 
         }
 
         viewDescrizione.setText(descrizione);
-        if(descrizione.equals("")){
+        if(descrizione != null && descrizione.equals("")){
 
         }
 

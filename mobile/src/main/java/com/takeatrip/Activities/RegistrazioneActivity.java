@@ -90,10 +90,6 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
     private EditText campoCognome;
     private EditText campoEmail;
     private EditText campoPassword;
-    private EditText campoConfermaPassword;
-    private EditText campoVecchiaPassword;
-    private EditText campoNuovaPassword;
-    private EditText campoConfermaNuovaPassword;
     private EditText campoNuovoUsername;
     private EditText campoNuovoSesso;
     private EditText campoNuovaNazionalita;
@@ -158,13 +154,8 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
                     loginGoogle = true;
                 }
 
-
                 setContentView(R.layout.edit_info_fb_google);
 
-
-                //campoVecchiaPassword = (EditText) findViewById(R.id.VecchiaPassword);
-                //campoNuovaPassword = (EditText) findViewById(R.id.NuovaPassword);
-                //campoConfermaNuovaPassword = (EditText) findViewById(R.id.ConfermaNuovaPassword);
                 campoNuovoUsername = (EditText) findViewById(R.id.InserisciNuovoUsername);
                 campoMale = (CheckBox) findViewById(R.id.checkBoxMale);
                 campoFemale = (CheckBox) findViewById(R.id.checkBoxFemale);
@@ -175,7 +166,6 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
 
                 campoDataNascita = (EditText) findViewById(R.id.campoDataNascita);
                 if (campoDataNascita != null) {
-
                     campoDataNascita.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                         @Override
                         public void onFocusChange(View v, boolean hasFocus) {
@@ -186,17 +176,12 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
                 }
 
                 completeProfile = (TextView)findViewById(R.id.completeProfile);
-
                 btnInvio=(Button)findViewById(R.id.Invio);
-
                 if(updateProfilo){
                     completeProfile.setText(R.string.edit_profile);
                     btnInvio.setText(R.string.SAVE);
                     previousEmail = email;
-
                 }
-
-
             } else {
                 setContentView(R.layout.activity_registrazione);
             }
@@ -242,124 +227,43 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
         btnInvio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                if(data != null && !data.equals(""))
+
+
+                Log.i(TAG, "data nascita: " + campoDataNascita.getText().toString());
+
+                if(campoDataNascita.getText() != null && !campoDataNascita.getText().toString().equals("")){
                     data = DatesUtils.convertFormatStringDate(campoDataNascita.getText().toString(),
-                        Constants.DISPLAYED_DATE_FORMAT, Constants.DATABASE_DATE_FORMAT);
-
-
-
-                //si verifica solamente con login indipendente
-                if (!update) {
-                    nome = campoNome.getText().toString();
-                    cognome = campoCognome.getText().toString();
-                    email = campoEmail.getText().toString();
-                    password = campoPassword.getText().toString();
-                    confermaPassword = campoConfermaPassword.getText().toString();
-
-                    if(confermaCredenziali(password, confermaPassword)){
-
-                        //password = PasswordHashing.sha1Hash(campoPassword.getText().toString());
-
-                        new MyTask().execute();
-
-
-                    }
-                } else {
-
-                    nome = campoNome.getText().toString();
-                    cognome = campoCognome.getText().toString();
-                    username = campoNuovoUsername.getText().toString();
-                    nazionalita = campoNuovaNazionalita.getText().toString();
-                    lavoro = campoNuovoLavoro.getText().toString();
-                    descrizione = campoNuovaDescrizione.getText().toString();
-                    tipo = campoNuovoTipo.getText().toString();
-
-
-
-                    //caso di login indipendente
-                    /*
-                    vecchiaPassword = PasswordHashing.sha1Hash(campoVecchiaPassword.getText().toString());
-                    nuovaPassword = campoNuovaPassword.getText().toString();
-                    confermaNuovaPassword = campoConfermaNuovaPassword.getText().toString();
-                    */
-
-
-                    if(nuovaPassword == null || nuovaPassword.equals("")){
-                        passwordModificata = false;
-
-                        Log.i(TAG, "dati modificati: " + nome + " " + cognome + " " + username + " " + data + " " + email + "vpwd " + password);
-
-
-                        if(username == null || username.equals("")){
-                            Toast.makeText(getBaseContext(), R.string.incorrectUsername, Toast.LENGTH_LONG).show();
-                        }
-                        else if(campoMale.isChecked() && campoFemale.isChecked() ||
-                                (!campoMale.isChecked() && !campoFemale.isChecked())){
-                            Toast.makeText(getBaseContext(), R.string.sexIncorrect, Toast.LENGTH_LONG).show();
-                        }
-                        else{
-                            if(campoMale.isChecked()){
-                                sesso = campoMale.getText().toString();
-                            }
-                            else{
-                                sesso = campoFemale.getText().toString();
-                            }
-
-
-                            new MyTask().execute();
-
-                            Intent openProfilo = new Intent(RegistrazioneActivity.this, MainActivity.class);
-                            openProfilo.putExtra("name", nome);
-                            openProfilo.putExtra("surname", cognome);
-                            openProfilo.putExtra("email", email);
-                            openProfilo.putExtra("dateOfBirth", data);
-                            openProfilo.putExtra("pwd", password);
-                            openProfilo.putExtra("nazionalita", nazionalita);
-                            openProfilo.putExtra("sesso", sesso);
-                            openProfilo.putExtra("username", username);
-                            openProfilo.putExtra("lavoro", lavoro);
-                            openProfilo.putExtra("descrizione", descrizione);
-                            openProfilo.putExtra("tipo", tipo);
-                            openProfilo.putExtra("profile", profile);
-
-                            startActivity(openProfilo);
-                            finish();
-
-                        }
-                    }
-
-                    finish();
-
-/*
-                    // questo nel caso di login indipendente
-                    else{
-                        passwordModificata = true;
-                        if(confermaCredenziali(nuovaPassword, confermaNuovaPassword)) {
-
-                            nuovaPassword = PasswordHashing.sha1Hash(campoNuovaPassword.getText().toString());
-
-                            new MyTaskUpdate().execute();
-
-                            Intent openProfilo = new Intent(RegistrazioneActivity.this, MainActivity.class);
-                            openProfilo.putExtra("name", nome);
-                            openProfilo.putExtra("surname", cognome);
-                            openProfilo.putExtra("email", email);
-                            openProfilo.putExtra("dateOfBirth", data);
-                            openProfilo.putExtra("pwd", nuovaPassword);
-                            openProfilo.putExtra("nazionalita", nazionalita);
-                            openProfilo.putExtra("sesso", sesso);
-                            openProfilo.putExtra("username", username);
-                            openProfilo.putExtra("lavoro", lavoro);
-                            openProfilo.putExtra("descrizione", descrizione);
-                            openProfilo.putExtra("tipo", tipo);
-
-                            // passo all'attivazione dell'activity
-                            startActivity(openProfilo);
-                        }
-                    }
-                    */
-
+                            Constants.DISPLAYED_DATE_FORMAT, Constants.DATABASE_DATE_FORMAT);
                 }
+
+                nome = campoNome.getText().toString();
+                cognome = campoCognome.getText().toString();
+                username = campoNuovoUsername.getText().toString();
+                nazionalita = campoNuovaNazionalita.getText().toString();
+                lavoro = campoNuovoLavoro.getText().toString();
+                descrizione = campoNuovaDescrizione.getText().toString();
+                tipo = campoNuovoTipo.getText().toString();
+
+                Log.i(TAG, "dati inseriti: " + nome + " " + cognome + " " + username + " " + data + " " + email + "vpwd " + password);
+
+                if(username == null || username.equals("")){
+                    Toast.makeText(getBaseContext(), R.string.incorrectUsername, Toast.LENGTH_LONG).show();
+                }
+                else if(campoMale.isChecked() && campoFemale.isChecked() ||
+                        (!campoMale.isChecked() && !campoFemale.isChecked())){
+                    Toast.makeText(getBaseContext(), R.string.sexIncorrect, Toast.LENGTH_LONG).show();
+                }
+                else{
+                    if(campoMale.isChecked()){
+                        sesso = campoMale.getText().toString();
+                    }
+                    else{
+                        sesso = campoFemale.getText().toString();
+                    }
+
+                    new MyTask().execute();
+                }
+
             }
         });
     }
@@ -540,14 +444,6 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
             dataToSend.add(new BasicNameValuePair("tipo", tipo));
 
 
-            if (update && passwordModificata)
-                dataToSend.add(new BasicNameValuePair("password", nuovaPassword));
-            else
-                dataToSend.add(new BasicNameValuePair("password", password));
-
-
-            Log.i(TAG, "dati modificati: " + nome + " " + cognome + " " + data + " " + email + " " + password + " " + nuovaPassword);
-
             try {
                 if (InternetConnection.haveInternetConnection(RegistrazioneActivity.this)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
@@ -610,254 +506,24 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
                 Toast.makeText(getBaseContext(), "Username already used", Toast.LENGTH_LONG).show();
             }
             else{
-                if(!updateProfilo){
+                Intent openProfilo = new Intent(RegistrazioneActivity.this, MainActivity.class);
+                openProfilo.putExtra("name", nome);
+                openProfilo.putExtra("surname", cognome);
+                openProfilo.putExtra("email", email);
+                openProfilo.putExtra("dateOfBirth", data);
+                openProfilo.putExtra("pwd", password);
+                openProfilo.putExtra("nazionalita", nazionalita);
+                openProfilo.putExtra("sesso", sesso);
+                openProfilo.putExtra("username", username);
+                openProfilo.putExtra("lavoro", lavoro);
+                openProfilo.putExtra("descrizione", descrizione);
+                openProfilo.putExtra("tipo", tipo);
+                openProfilo.putExtra("profile", profile);
 
+                startActivity(openProfilo);
+                finish();
 
-                }
             }
-
-
-
-
-            //Registro il profilo in locale per il futuro
-            //solo nel caso di login indipendente
-            /*
-            if(!update){
-                DatabaseHandler db = new DatabaseHandler(RegistrazioneActivity.this);
-                // Inserting Users
-                Log.d("Insert: ", "Inserting ..");
-
-                // Reading all contacts
-                Log.d("Reading: ", "Reading all contacts..");
-                List<Profilo> contacts = db.getAllContacts();
-
-                for (Profilo cn : contacts) {
-                    String log = "Email: "+cn.getEmail()+" ,Name: " + cn.getName() + " ,Surname: " + cn.getSurname() + " ,Date: "+ cn.getDataNascita()
-                            + " ,HashPassword: " + cn.getPassword();
-                    // Writing Contacts to log
-                    Log.i("LOG: ", log);
-                }
-            }
-            else{
-                DatabaseHandler db = new DatabaseHandler(RegistrazioneActivity.this);
-                // Inserting Users
-                Log.d("Update: ", "Updating ..");
-                db.addUser(new Profilo(email, nome, cognome, data, nazionalita, sesso, username, lavoro, descrizione, tipo), password);
-                /*
-                if(passwordModificata)
-                    db.updateContact(new Profilo(email, nome, cognome, data, nazionalita, sesso, username, lavoro, descrizione, tipo), nuovaPassword);
-                else
-                    db.updateContact(new Profilo(email, nome, cognome, data, nazionalita, sesso, username, lavoro, descrizione, tipo), password);
-*/
-                /*
-                // Reading all contacts
-                Log.d("Reading: ", "Reading all contacts..");
-                List<Profilo> contacts = db.getAllContacts();
-
-                for (Profilo cn : contacts) {
-                    String log = "Email: "+cn.getEmail()+" ,Name: " + cn.getName() + " ,Surname: " + cn.getSurname() + " ,Date: "+ cn.getDataNascita()
-                            + " ,HashPassword: " + cn.getPassword();
-                    // Writing Contacts to log
-                    Log.i("LOG: ", log);
-                }
-            }
-
-           */
-
         }
     }
-
-
-    /*
-
-    private class MyTaskFolder extends AsyncTask<Void, Void, Void> {
-
-        private final String ADDRESS_INSERT_FOLDER = "CreazioneCartellaViaggio.php";
-        InputStream is = null;
-        String emailUser, idTravel,result;
-        String nomeCartella;
-        DriveId idFolder;
-        Context context;
-
-        public MyTaskFolder(Context c, String emailUtente, String idT, DriveId id, String n){
-            context  = c;
-            emailUser = emailUtente;
-            idTravel = idT;
-            idFolder = id;
-            nomeCartella = n;
-        }
-
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("emailUtente", emailUser));
-            dataToSend.add(new BasicNameValuePair("codiceViaggio", idTravel));
-            dataToSend.add(new BasicNameValuePair("codiceCartella", idFolder+""));
-            dataToSend.add(new BasicNameValuePair("nomeCartella", nomeCartella));
-            dataToSend.add(new BasicNameValuePair("urlCartella", emailUser));
-
-
-            try {
-                if (InternetConnection.haveInternetConnection(context)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_INSERT_FOLDER);
-                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                    HttpResponse response = httpclient.execute(httppost);
-
-                    HttpEntity entity = response.getEntity();
-
-                    is = entity.getContent();
-
-                    if (is != null) {
-                        //converto la risposta in stringa
-                        try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                            StringBuilder sb = new StringBuilder();
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line + "\n");
-                            }
-                            is.close();
-                            result = sb.toString();
-                        } catch (Exception e) {
-                            Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
-                        }
-                    }
-                    else {
-                        Log.i(TAG, "Input Stream uguale a null");
-                    }
-                }
-                else
-                    Log.e("CONNESSIONE Internet", "Assente!");
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(e.toString(),e.getMessage());
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-
-
-            Log.i(TAG, "risultato operazione di inserimento cartella nel DB:" + result);
-            if(!result.equals("OK")){
-                //Non è stata creata una cartella per ospitare il viaggio
-                //new MyTaskFolder().execute();
-            }
-
-            Intent openProfilo = new Intent(RegistrazioneActivity.this, MainActivity.class);
-            openProfilo.putExtra("name", nome);
-            openProfilo.putExtra("surname", cognome);
-            openProfilo.putExtra("email", email);
-            openProfilo.putExtra("dateOfBirth", data);
-            openProfilo.putExtra("pwd", password);
-            openProfilo.putExtra("nazionalita", nazionalita);
-            openProfilo.putExtra("sesso", sesso);
-            openProfilo.putExtra("username", username);
-            openProfilo.putExtra("lavoro", lavoro);
-            openProfilo.putExtra("descrizione", descrizione);
-            openProfilo.putExtra("tipo", tipo);
-            openProfilo.putExtra("profile", profile);
-
-            startActivity(openProfilo);
-            finish();
-
-            super.onPostExecute(aVoid);
-
-        }
-    }
-
-*/
-
-    //eseguito solo nel caso di login indipendente
-
-//    private class MyTaskUpdate extends AsyncTask<Void, Void, Void> {
-//
-//        InputStream is = null;
-//        String result, stringaFinale = "";
-//
-//
-//
-//        @Override
-//        protected Void doInBackground(Void... params) {
-//            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-//            dataToSend.add(new BasicNameValuePair("email", email));
-//            dataToSend.add(new BasicNameValuePair("password", vecchiaPassword));
-//
-//
-//            try {
-//                if (InternetConnection.haveInternetConnection(RegistrazioneActivity.this)) {
-//                    Log.i("CONNESSIONE Internet", "Presente!");
-//                    HttpClient httpclient = new DefaultHttpClient();
-//                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_VERIFICA_LOGIN);
-//                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-//                    HttpResponse response = httpclient.execute(httppost);
-//
-//                    HttpEntity entity = response.getEntity();
-//
-//                    is = entity.getContent();
-//
-//                    if (is != null) {
-//                        //converto la risposta in stringa
-//                        try {
-//                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-//                            StringBuilder sb = new StringBuilder();
-//                            String line = null;
-//                            while ((line = reader.readLine()) != null) {
-//                                sb.append(line + "\n");
-//                            }
-//                            is.close();
-//
-//                            result = sb.toString();
-//
-//
-//                            JSONArray jArray = new JSONArray(result);
-//                            //for(int i=0;i<jArray.length();i++){
-//                            JSONObject json_data = jArray.getJSONObject(0);
-//
-//                            if(json_data != null){
-//                                stringaFinale = json_data.getString("email").toString() + " " + json_data.getString("password").toString();
-//                            }
-//
-//
-//
-//                        } catch (Exception e) {
-//                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
-//                        }
-//                    }
-//                    else {
-//                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
-//                    }
-//                }
-//                else
-//                    Log.e("CONNESSIONE Internet", "Assente!");
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                Log.e(e.toString(),e.getMessage());
-//            }
-//
-//
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            if(stringaFinale == ""){
-//                Toast.makeText(getBaseContext(), getResources().getString(R.string.LoginError), Toast.LENGTH_LONG).show();
-//            }
-//            else{
-//                new MyTask().execute();
-//
-//            }
-//            super.onPostExecute(aVoid);
-//
-//        }
-//    }
-
-
 }

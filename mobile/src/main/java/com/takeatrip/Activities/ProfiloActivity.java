@@ -271,7 +271,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             }
         }
 
-        showProgressDialog();
         //per aggiornamento numero follow...
         new MyTaskQueryNumFollowers().execute();
         new MyTaskQueryNumFollowings().execute();
@@ -1160,7 +1159,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
             numFollowingsView.setText(numFollowings);
             numFollowersView.setText(numFollowers);
-            hideProgressDialog();
         }
     }
     /*
@@ -1182,24 +1180,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         @Override
         public void onStateChanged(int id, TransferState state) {
             Log.i(TAG, "onStateChanged: " + id + ", " + state);
-        }
-    }
-
-
-    private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(getString(R.string.CaricamentoInCorso));
-            mProgressDialog.setIndeterminate(true);
-        }
-        if (mProgressDialog != null) {
-            mProgressDialog.show();
-        }
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
         }
     }
 

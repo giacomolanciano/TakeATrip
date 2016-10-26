@@ -61,6 +61,9 @@ public class LoginTask extends AsyncTask<Void, Void, Profilo> {
         try {
             if (InternetConnection.haveInternetConnection(context)) {
                 Log.i(TAG, "CONNESSIONE Internet Presente!");
+                Log.i(TAG, "verifico se è presente l'utente: " + email + " " + password);
+
+
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_VERIFICA_LOGIN);
                 httppost.setEntity(new UrlEncodedFormEntity(dataToSend));

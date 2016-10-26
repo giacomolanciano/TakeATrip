@@ -116,12 +116,10 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
                 Log.v(TAG, "facebook - profile: " + profile.getFirstName());
 
                 email = Constants.PREFIX_FACEBOOK  +profile.getId();
-                password = "pwdFb";
-
+                password = "";
                 nome = profile.getFirstName();
                 cognome = profile.getLastName();
                 data = "0000-00-00";
-
 
                 logins.put(TAG, "graph.facebook.com: " + fbAccessToken.getToken());
 
@@ -189,7 +187,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
 
             Log.i(TAG, "email: " + email + " describeContents: " + describeContents + " dispplayName: " + displayName
                     + " idUser: " + idUser + " tokenId: " + tokenId);
-            password = "pwdGoogle";
+            password = "";
 
             if(displayName != null){
                 String [] nameSplitted = displayName.split(" ");
@@ -242,6 +240,9 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
                     password, output.getNazionalita(), output.getSesso(), output.getUsername(),output.getLavoro(),
                     output.getDescrizione(), output.getTipo());
 
+        }
+        else{
+            openMainActivity(email, nome, cognome,null,null,null,null,null,null,null,null);
         }
 
     }

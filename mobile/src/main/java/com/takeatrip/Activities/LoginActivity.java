@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity implements
                         Log.v("TEST id profile: ", profile.getId());
 
                         email = Constants.PREFIX_FACEBOOK + profile.getId();
-                        password = "pwdFb";
+                        password = "";
                         nome = profile.getFirstName();
                         cognome = profile.getLastName();
                         data = "0000-00-00";
@@ -222,9 +222,9 @@ public class LoginActivity extends AppCompatActivity implements
             String idUser = acct.getId();
             String tokenId = acct.getIdToken();
 
-            Log.i(TAG, "email: " + email + " describeContents: " + describeContents + " dispplayName: " + displayName
+            Log.i(TAG, "email: " + email + " describeContents: " + describeContents + " displayName: " + displayName
                     + " idUser: " + idUser + " tokenId: " + tokenId);
-            password = "pwdGoogle";
+            password = "";
 
             if(displayName != null){
                 String [] nameSplitted = displayName.split(" ");
@@ -344,70 +344,12 @@ public class LoginActivity extends AppCompatActivity implements
                     output.getDescrizione(), output.getTipo());
         }
         else{
-            if(email.contains("google")){
-                openMainActivity(email, nome, cognome, null,"pwdGoogle", null, null, null,null,
-                        null, null);
-            }  else {
-                openMainActivity(email, nome, cognome, null,"pwdFb", null, null, null,null,
-                        null, null);
-            }
-
+            openMainActivity(email, nome, cognome, null,"", null, null, null,null, null, null);
 
         }
 
 
     }
-
-
-//serve solo quando si ha un login indipendente
-
-//    private class MyTaskInsert extends AsyncTask<Void, Void, Void> {
-//
-//        @Override
-//        protected Void doInBackground(Void... params) {
-//            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-//            dataToSend.add(new BasicNameValuePair("nome", nome));
-//            dataToSend.add(new BasicNameValuePair("cognome", cognome));
-//            dataToSend.add(new BasicNameValuePair("dataNascita",data));
-//            dataToSend.add(new BasicNameValuePair("email", email));
-//            dataToSend.add(new BasicNameValuePair("password", password));
-//            dataToSend.add(new BasicNameValuePair("nazionalita", nazionalita));
-//            dataToSend.add(new BasicNameValuePair("sesso", sesso));
-//            dataToSend.add(new BasicNameValuePair("username", username));
-//            dataToSend.add(new BasicNameValuePair("lavoro", lavoro));
-//            dataToSend.add(new BasicNameValuePair("descrizione", descrizione));
-//            dataToSend.add(new BasicNameValuePair("tipo", tipo));
-//
-//
-//            Log.i(TAG, "dati: " + nome + " " + cognome + " " + data + " " + email + " " + password);
-//
-//            try {
-//                if (InternetConnection.haveInternetConnection(LoginActivity.this)) {
-//                    Log.i("CONNESSIONE Internet", "Presente!");
-//                    HttpClient httpclient = new DefaultHttpClient();
-//                    HttpPost httppost;
-//                    httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_UTENTE);
-//                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-//                    httpclient.execute(httppost);
-//                }
-//                else
-//                    Log.e("CONNESSIONE Internet", "Assente!");
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                Log.e(e.toString(),e.getMessage());
-//            }
-//
-//
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            super.onPostExecute(aVoid);
-//            openMainActivity(email, nome,cognome,data,password,nazionalita,sesso,username,lavoro,descrizione,tipo);
-//
-//        }
-//    }
 
 
     private void openMainActivity(String e, String name, String surname, String date, String pwd, String n, String sex, String username,
