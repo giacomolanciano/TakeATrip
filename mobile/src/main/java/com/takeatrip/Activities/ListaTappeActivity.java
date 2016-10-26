@@ -72,6 +72,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.squareup.picasso.Picasso;
 import com.takeatrip.AsyncTasks.BitmapWorkerTask;
+import com.takeatrip.AsyncTasks.GetStopsTask;
 import com.takeatrip.AsyncTasks.InserimentoAudioTappaTask;
 import com.takeatrip.AsyncTasks.InserimentoFiltroTask;
 import com.takeatrip.AsyncTasks.InserimentoImmagineTappaTask;
@@ -84,6 +85,7 @@ import com.takeatrip.Classes.POI;
 import com.takeatrip.Classes.Profilo;
 import com.takeatrip.Classes.Tappa;
 import com.takeatrip.Classes.Viaggio;
+import com.takeatrip.Interfaces.AsyncResponseStops;
 import com.takeatrip.R;
 import com.takeatrip.Utilities.AudioRecord;
 import com.takeatrip.Utilities.Constants;
@@ -101,8 +103,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -122,10 +122,9 @@ import java.util.Set;
 public class ListaTappeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        GoogleMap.OnInfoWindowClickListener {
+        GoogleMap.OnInfoWindowClickListener, AsyncResponseStops {
 
     private static final String TAG = "TEST ListaTappeAct";
-    private static final String ADDRESS_PRELIEVO_TAPPE = "QueryTappe.php";
     private static final String ADDRESS_INSERIMENTO_TAPPA = "InserimentoTappa.php";
     private static final int LIMIT_IMAGES_VIEWS = 10;
 
@@ -135,34 +134,52 @@ public class ListaTappeActivity extends AppCompatActivity
 
     //il profilo dell'utilizzatore è sempre il primo
     private Map<Profilo,List<Tappa>> profiloTappe;
+    private Map<Profilo, List<Place>> profiloNomiTappe;
+
+    private List<Profilo> partecipants;
+    private List<Place> nomiTappe;
+
+    private String email, codiceViaggio, nomeViaggio, urlImmagineViaggio;
+    private String placeId, placeName, placeAddress, placeAttr;
+
+
     private Profilo profiloVisualizzazioneCorrente;
     private boolean visualizzazioneEsterna = false;
-    private Map<Profilo, List<Place>> profiloNomiTappe;
-    private List<Profilo> partecipants;
-    private String email, codiceViaggio, nomeViaggio, urlImmagineViaggio;
     private NavigationView navigationView;
     private TextView ViewCaricamentoInCorso;
     private TextView ViewNomeViaggio;
     private FloatingActionButton buttonAddStop;
     private LinearLayout layoutProprietariItinerari;
     private int ordine, checkSelectionSpinner = 0;
-    private String placeId, placeName, placeAddress, placeAttr;
     LatLng placeLatLng;
-    private String[] strings;
-    private String[] subs;
+
     private int[] arr_images;
     private Dialog dialog;
     private TextView nameText;
     private TextView addressText;
     private Profilo currentProfile;
-    private List<Place> nomiTappe;
-    private List<String> namesStops;
     private PolylineOptions polyline;
     private LatLngBounds.Builder mapBoundsBuilder;
     private LatLngBounds mapBounds;
     private boolean isCanceled, isRecordFileCreated;
     private int progressStatus;
     private Handler handler;
+
+    private LinearLayout linearLayoutHeader;
+    private LinearLayout layoutContents,rowHorizontal;
+    private TextInputLayout textInputLayout;
+    private TextInputEditText textInputEditText;
+    private RoundedImageView ViewImmagineViaggio;
+
+    private ProgressDialog mProgressDialog;
+
+    private String[] strings;
+    private String[] subs;
+    private Place[] arrayPlace;
+    private String[] arrayNamePlace;
+    private LatLng[] latLngs;
+
+    //contents
     private AudioRecord record;
     private String imageFileName;
     private String videoFileName;
@@ -173,15 +190,6 @@ public class ListaTappeActivity extends AppCompatActivity
     private Map<Bitmap, String> pathsImmaginiVideoSelezionati;
     private List<String> audioSelezionati;
     private List<String> noteInserite;
-    private LinearLayout linearLayoutHeader;
-    private LinearLayout layoutContents,rowHorizontal;
-    private TextInputLayout textInputLayout;
-    private TextInputEditText textInputEditText;
-    private RoundedImageView ViewImmagineViaggio;
-
-
-    private ProgressDialog mProgressDialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,25 +206,21 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-        if (navigationView != null) {
+        if (navigationView != null)
             navigationView.setNavigationItemSelectedListener(this);
-        } else {
-            Log.e(TAG, "navigationView is null");
-        }
-
         View layoutHeader = navigationView.getHeaderView(0);
 
+        layoutProprietariItinerari = (LinearLayout) findViewById(R.id.layoutProprietariItinerari);
+        ViewCaricamentoInCorso = (TextView) findViewById(R.id.TextViewCaricamentoInCorso);
         ViewNomeViaggio = (TextView) layoutHeader.findViewById(R.id.textViewNameTravel);
         linearLayoutHeader = (LinearLayout) layoutHeader.findViewById(R.id.layoutHeaderTravel);
 
 
         buttonAddStop = (FloatingActionButton) findViewById(R.id.fabAddStopInfoPoi);
-        if (buttonAddStop != null) {
+        if (buttonAddStop != null)
             buttonAddStop.setVisibility(View.INVISIBLE);
-        }
 
-        layoutProprietariItinerari = (LinearLayout) findViewById(R.id.layoutProprietariItinerari);
-        ViewCaricamentoInCorso = (TextView) findViewById(R.id.TextViewCaricamentoInCorso);
+
 
 
         // ATTENTION: This "addApi(AppIndex.API)"was auto-generated to implement the App Indexing API.
@@ -237,8 +241,9 @@ public class ListaTappeActivity extends AppCompatActivity
 
         mapBoundsBuilder = new LatLngBounds.Builder();
 
+
+        //Refer to contents of the stop
         partecipants = new ArrayList<Profilo>();
-        profiloTappe = new HashMap<Profilo, List<Tappa>>();
         profiloNomiTappe = new HashMap<Profilo, List<Place>>();
         immaginiSelezionate = new ArrayList<Bitmap>();
         videoSelezionati = new ArrayList<Bitmap>();
@@ -255,24 +260,25 @@ public class ListaTappeActivity extends AppCompatActivity
             nomeViaggio = intent.getStringExtra("nomeViaggio");
             urlImmagineViaggio = intent.getStringExtra("urlImmagineViaggio");
             livelloCondivisioneDefaultViaggio = intent.getStringExtra("livelloCondivisione");
-
             livelloCondivisioneTappa = livelloCondivisioneDefaultViaggio;
-
-            new BitmapWorkerTask(ViewImmagineViaggio, linearLayoutHeader).execute(urlImmagineViaggio);
-
             CharSequence[] namesPartecipants = intent.getCharSequenceArrayExtra("namesPartecipants");
             CharSequence[] listPartecipants = intent.getCharSequenceArrayExtra("partecipanti");
             CharSequence[] urlImagePartecipants = intent.getCharSequenceArrayExtra("urlImagePartecipants");
             CharSequence[] sessoPartecipants = intent.getCharSequenceArrayExtra("sessoPartecipants");
 
 
+            //insert the travel image in the menu
+            new BitmapWorkerTask(ViewImmagineViaggio, linearLayoutHeader).execute(urlImmagineViaggio);
+
+            if (ViewNomeViaggio != null)
+                ViewNomeViaggio.setText(nomeViaggio);
+
+
             //popolo i partecipanti al viaggio
             int i = 0;
             for (CharSequence cs : listPartecipants) {
-
                 Profilo aux = new Profilo(cs.toString(), namesPartecipants[i].toString(), null, null, null,
-                        sessoPartecipants[i].toString(),
-                        null, null, null,null, urlImagePartecipants[i].toString(), null);
+                        sessoPartecipants[i].toString(), null, null, null,null, urlImagePartecipants[i].toString(), null);
                 partecipants.add(aux);
 
                 if (email.equals(cs.toString())) {
@@ -289,15 +295,13 @@ public class ListaTappeActivity extends AppCompatActivity
                 buttonAddStop.setVisibility(View.INVISIBLE);
                 profiloVisualizzazioneCorrente = partecipants.get(0);
             }
-
         }
 
-        if (ViewNomeViaggio != null) {
-            ViewNomeViaggio.setText(nomeViaggio);
-        }
 
+        // This task build the map that associates each profile to the list of stops
         showProgressDialog();
-        GetTappeTask mT = new GetTappeTask();
+        GetStopsTask mT = new GetStopsTask(ListaTappeActivity.this, partecipants, codiceViaggio);
+        mT.delegate = ListaTappeActivity.this;
         mT.execute();
 
 
@@ -306,9 +310,7 @@ public class ListaTappeActivity extends AppCompatActivity
         subs = getResources().getStringArray(R.array.PrivacyLevelDescription);
         arr_images = Constants.privacy_images;
 
-
         nomiTappe = new ArrayList<Place>();
-        namesStops = new ArrayList<String>();
         polyline = new PolylineOptions()
                 .visible(true)
                 .color(Color.parseColor(Constants.GOOGLE_MAPS_BLUE))
@@ -322,8 +324,40 @@ public class ListaTappeActivity extends AppCompatActivity
         handler = new Handler();
 
         setTitle(nomeViaggio);
+    }
 
 
+    @Override
+    public void processFinishForStops(Map<Profilo, List<Tappa>> profilo_tappe) {
+        ViewCaricamentoInCorso.setVisibility(View.INVISIBLE);
+
+        profiloTappe = profilo_tappe;
+        PopolaPartecipanti(profiloTappe.keySet());
+        boolean aggiuntiMarkedPoints = false;
+
+        //aggiungo sulla mappa solamente le tappe del profilo corrente, se partecipante al viaggio,
+        //altrimenti aggiungo le tappe di un profilo casuale
+        for(Profilo p : profiloTappe.keySet()){
+            if(p.getEmail().equals(email)){
+                List<Tappa> aux = profiloTappe.get(p);
+                AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
+                aggiuntiMarkedPoints = true;
+
+                profiloVisualizzazioneCorrente = p;
+                break;
+            }
+        }
+
+        if(!aggiuntiMarkedPoints){
+            for(Profilo p : profiloTappe.keySet()){
+                AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
+                profiloVisualizzazioneCorrente =p;
+                break;
+            }
+        }
+
+        ordine = calcolaNumUltimaTappaUtenteCorrente()+1;
+        hideProgressDialog();
     }
 
     @Override
@@ -399,6 +433,341 @@ public class ListaTappeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+
+        //TODO il metodo non viene chiamato se la versione è Android 6.0+, trovare workaround
+
+        googleMap = map;
+        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                // TODO: Consider calling
+                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for Activity#requestPermissions for more details.
+                return;
+            }
+        }
+
+        googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+
+                if (profiloVisualizzazioneCorrente.equals(profiloUtenteLoggato)) {
+                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    v.vibrate(Constants.VIBRATION_MILLISEC);
+
+                    try {
+                        PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
+
+                        //TODO gestire zoom con LatLngBounds
+                        LatLngBounds bounds = new LatLngBounds(latLng, latLng);
+
+                        intentBuilder.setLatLngBounds(bounds);
+                        Intent intentPlacePicker = intentBuilder.build(ListaTappeActivity.this);
+                        // Start the Intent by requesting a result, identified by a request code.
+                        startActivityForResult(intentPlacePicker, Constants.REQUEST_PLACE_PICKER);
+
+
+                    } catch (GooglePlayServicesRepairableException e) {
+                        GooglePlayServicesUtil.getErrorDialog(e.getConnectionStatusCode(), ListaTappeActivity.this, 0);
+                        Log.e(TAG, e.toString());
+                    } catch (GooglePlayServicesNotAvailableException e) {
+                        Log.e(TAG, e.toString());
+                    }
+                }
+
+            }
+        });
+
+        googleMap.setOnInfoWindowClickListener(this);
+    }
+
+
+    public void onInfoWindowClick(Marker marker) {
+        String nomeTappa = marker.getTitle();
+        String labelTappa = nomeTappa.split("\\.")[0];
+        int numeroTappa = Integer.parseInt(labelTappa)-1;
+
+        Tappa tappaSelezionata = profiloTappe.get(profiloVisualizzazioneCorrente).get(numeroTappa);
+        int ordineTappa = tappaSelezionata.getOrdine();
+
+        Intent i = new Intent(this, TappaActivity.class);
+
+        i.putExtra("email", email);
+        i.putExtra("codiceViaggio", codiceViaggio);
+        i.putExtra("ordine", ordineTappa);
+        i.putExtra("nome", nomeTappa);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(tappaSelezionata.getData());
+        i.putExtra("data", DatesUtils.getStringFromDate(tappaSelezionata.getData(), Constants.DISPLAYED_DATE_FORMAT));
+        startActivity(i);
+    }
+
+
+
+
+
+
+
+
+
+    private void PopolaPartecipanti(final Set<Profilo> partecipants){
+        layoutProprietariItinerari.addView(new TextView(this), Constants.WIDTH_LAYOUT_PROPRIETARI_ITINERARI,
+                Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI);
+
+        for(Profilo p : partecipants){
+            ImageView image = new RoundedImageView(this, null);
+            image.setContentDescription(p.getEmail());
+            currentProfile = p;
+            if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
+                URL completeUrl = null;
+                try {
+                    completeUrl = new LoadGenericImageTask(p.getIdImageProfile(), this).execute().get();
+                    Picasso.with(this)
+                            .load(completeUrl.toString())
+                            .resize(Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI, Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI)
+                            .into(image);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else{
+                if(p.getSesso().equals("M"))
+                    image.setImageResource(R.drawable.default_male);
+                else
+                    image.setImageResource(R.drawable.default_female);
+            }
+
+            image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for (Profilo p : partecipants) {
+                        if (p.getEmail().equals(v.getContentDescription())) {
+                            ClickImagePartecipant(p);
+                            break;
+                        }
+                    }
+                }
+            });
+
+            layoutProprietariItinerari.addView(image, Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI,
+                    Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI);
+            layoutProprietariItinerari.addView(new TextView(this), Constants.WIDTH_LAYOUT_PROPRIETARI_ITINERARI,
+                    Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI);
+
+        }
+    }
+
+
+    private void ClickImagePartecipant(Profilo p){
+        profiloVisualizzazioneCorrente = p;
+
+        Log.i(TAG,"PROFILO UTENTE CLICCATO: " + p);
+        Log.i(TAG,"PROFILO UTENTE LOGGATO: " + profiloUtenteLoggato);
+
+        if(!p.getEmail().equals(profiloUtenteLoggato.getEmail()))
+            buttonAddStop.setVisibility(View.INVISIBLE);
+        else
+            buttonAddStop.setVisibility(View.VISIBLE);
+
+        AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
+    }
+
+
+    private void AggiungiMarkedPointsOnMap(Profilo p, List<Tappa> tappe) {
+        mGoogleApiClient.connect();
+
+        googleMap.clear();
+        polyline = new PolylineOptions()
+                .visible(true)
+                .color(Color.parseColor(Constants.GOOGLE_MAPS_BLUE))
+                .width(Constants.MAP_POLYLINE_THICKNESS)
+                .geodesic(true);
+        nomiTappe.clear();
+
+        int i = 1;
+        arrayPlace = new Place[tappe.size()];
+        arrayNamePlace = new String[tappe.size()];
+        latLngs = new LatLng[tappe.size()];
+
+        for(Tappa t : tappe){
+            findPlaceById(p, t, i);
+            i++;
+        }
+
+        //Svuota anche il menu
+        if(tappe.size()==0){
+            nomiTappe.clear();
+            profiloNomiTappe.put(p,nomiTappe);
+            CreaMenu(p,tappe);
+        }
+    }
+
+    private void findPlaceById(final Profilo p, final Tappa t, int i) {
+        final int index = i;
+
+        if(mGoogleApiClient == null)
+            return;
+
+        if(!mGoogleApiClient.isConnected()){
+            mGoogleApiClient.connect();
+        }
+
+        currentProfile = p;
+
+        Places.GeoDataApi.getPlaceById( mGoogleApiClient, t.getPoi().getCodicePOI() )
+                .setResultCallback(new ResultCallback<PlaceBuffer>() {
+
+                    @Override
+                    public void onResult(PlaceBuffer places) {
+
+                        if (places.getStatus().isSuccess()) {
+                            Place place = places.get(0);
+                            LatLng currentLatLng = place.getLatLng();
+
+                            //serve per mantenere l'ordine nella lista
+                            int k=0;
+                            for(Tappa t : profiloTappe.get(p)){
+                                if(t.getPoi().getCodicePOI().equals(place.getId())){
+                                    arrayPlace[k] = place;
+                                    arrayNamePlace[k] = place.getName().toString();
+                                    latLngs[k] = place.getLatLng();
+
+                                    t.setName(arrayNamePlace[k]);
+
+                                    break;
+                                }
+                                k++;
+                            }
+
+                            //add Marker
+                            googleMap.addMarker(new MarkerOptions()
+                                    .title(index + ". " + place.getName().toString())
+                                    .position(currentLatLng)
+                            );
+                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 5));
+
+                            nomiTappe.add(place);
+                            if (nomiTappe.size() == profiloTappe.get(currentProfile).size()) {
+                                for(int i=0; i<arrayNamePlace.length; i++){
+                                    if(arrayNamePlace[i] != null){
+                                        polyline.add(latLngs[i]);
+                                        mapBoundsBuilder.include(latLngs[i]);
+                                    }
+                                }
+
+                                CreaMenu(currentProfile,profiloTappe.get(currentProfile));
+                                profiloNomiTappe.put(currentProfile, nomiTappe);
+
+                                //traccia linea
+                                googleMap.addPolyline(polyline);
+
+                                //update zoom
+                                mapBounds = mapBoundsBuilder.build();
+                                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(mapBounds,
+                                        Constants.LATLNG_BOUNDS_PADDING);
+                                googleMap.moveCamera(cu);
+                            }
+
+                        }
+                        //Release the PlaceBuffer to prevent a memory leak
+                        places.release();
+                    }
+                });
+    }
+
+    private void CreaMenu(Profilo p, List<Tappa> tappe){
+        Menu menu = navigationView.getMenu();
+        menu.clear();
+        menu.add(0, 0, Menu.NONE, p.getName()+"'s stops:");
+
+        if(menu != null) {
+            int i = 0;
+            for (Tappa t : tappe) {
+                menu.add(0, i + 1, Menu.NONE, t.getName());
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+    private static String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        String result = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri, proj, null,
+                    null, null);
+
+            if (cursor != null) {
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(proj[0]);
+                result = cursor.getString(columnIndex);
+            }
+
+            return result;
+
+        } catch (Exception e) {
+            Log.e(TAG, "eccezione nel restituire il path: "+e.toString());
+            return null;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+
+
+
+
+
+    private void PopolaContenuti(){
+        layoutContents.removeAllViews();
+
+        int i=0;
+        for(Bitmap bitmap : immaginiSelezionate){
+            if(i%LIMIT_IMAGES_VIEWS == 0){
+                rowHorizontal = new LinearLayout(ListaTappeActivity.this);
+                rowHorizontal.setOrientation(LinearLayout.HORIZONTAL);
+
+                //Log.i(TAG, "creato nuovo layout");
+                layoutContents.addView(rowHorizontal);
+                layoutContents.addView(new TextView(ListaTappeActivity.this), 10, 10);
+            }
+
+
+            final ImageView image = new ImageView(this, null);
+
+            Bitmap myBitmap = Bitmap.createScaledBitmap(bitmap, 60, 30, true);
+            image.setImageBitmap(myBitmap);
+
+            //TODO: sistemare in funzione dello schermo e migliorare allocazione memoria usando thread
+            rowHorizontal.addView(image, 60, 30);
+
+            i++;
+        }
     }
 
 
@@ -522,8 +891,6 @@ public class ListaTappeActivity extends AppCompatActivity
                     break;
 
                 case Constants.REQUEST_VIDEO_PICK:
-                    Log.i(TAG, "REQUEST_VIDEO_PICK");
-
                     Uri selectedVideo = data.getData();
 
                     String[] filePath = {MediaStore.Video.Media.DATA};
@@ -535,31 +902,15 @@ public class ListaTappeActivity extends AppCompatActivity
 
                     Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(videoPath,
                             MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
-
-
-                    Log.i(TAG, "video from gallery: " + videoPath + "");
-
                     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
 
                     String nomeFile = timeStamp + Constants.VIDEO_EXT;
-
-                    Log.i(TAG, "timeStamp video: " + nomeFile);
-
-
                     if(thumbnail != null){
-
                         //inserire file in una lista di file per caricamento in s3
                         pathsImmaginiVideoSelezionati.put(thumbnail, videoPath);
-
                         videoSelezionati.add(thumbnail);
                         bitmap_nomeFile.put(thumbnail, nomeFile);
                     }
-
-
-                    Log.i(TAG, "elenco video selezionate: " + videoSelezionati);
-                    Log.i(TAG, "elenco path risorse selezionate: " + pathsImmaginiVideoSelezionati);
-                    Log.i(TAG, "elenco nomi risorse: " + bitmap_nomeFile.values());
-
 
                     break;
 
@@ -586,112 +937,16 @@ public class ListaTappeActivity extends AppCompatActivity
             }
 
         } else {
-
             Log.e(TAG, "onActivityResult result: " + resultCode);
         }
     }
 
 
 
-    @Override
-    public void onMapReady(GoogleMap map) {
-
-        //TODO il metodo non viene chiamato se la versione è Android 6.0+, trovare workaround
-
-        googleMap = map;
-        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                // TODO: Consider calling
-                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for Activity#requestPermissions for more details.
-                return;
-            }
-        }
-
-        googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-            @Override
-            public void onMapLongClick(LatLng latLng) {
-
-                if (profiloVisualizzazioneCorrente.equals(profiloUtenteLoggato)) {
-                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    v.vibrate(Constants.VIBRATION_MILLISEC);
-
-                    try {
-                        PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
-
-                        //TODO gestire zoom con LatLngBounds
-                        LatLngBounds bounds = new LatLngBounds(latLng, latLng);
-
-
-                        intentBuilder.setLatLngBounds(bounds);
-                        Intent intentPlacePicker = intentBuilder.build(ListaTappeActivity.this);
-                        // Start the Intent by requesting a result, identified by a request code.
-                        startActivityForResult(intentPlacePicker, Constants.REQUEST_PLACE_PICKER);
-
-
-                    } catch (GooglePlayServicesRepairableException e) {
-                        GooglePlayServicesUtil
-                                .getErrorDialog(e.getConnectionStatusCode(), ListaTappeActivity.this, 0);
-
-                        Log.e(TAG, e.toString());
-
-                    } catch (GooglePlayServicesNotAvailableException e) {
-                        Toast.makeText(ListaTappeActivity.this, "Google Play Services is not available.",
-                                Toast.LENGTH_LONG)
-                                .show();
-
-                        Log.e(TAG, e.toString());
-                    }
-                }
-
-            }
-        });
-
-        googleMap.setOnInfoWindowClickListener(this);
-    }
-
-
-    public void onInfoWindowClick(Marker marker) {
-
-        Log.i(TAG, "click info");
-
-        String nomeTappa = marker.getTitle();
-        String labelTappa = nomeTappa.split("\\.")[0];
-        int numeroTappa = Integer.parseInt(labelTappa)-1;
-
-        Log.i(TAG, "tappa numero " + numeroTappa);
-
-
-        Tappa tappaSelezionata = profiloTappe.get(profiloVisualizzazioneCorrente).get(numeroTappa);
-        int ordineTappa = tappaSelezionata.getOrdine();
-
-
-        Intent i = new Intent(this, TappaActivity.class);
-
-        i.putExtra("email", email);
-        i.putExtra("codiceViaggio", codiceViaggio);
-        i.putExtra("ordine", ordineTappa);
-        i.putExtra("nome", nomeTappa);
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(tappaSelezionata.getData());
-        i.putExtra("data", DatesUtils.getStringFromDate(tappaSelezionata.getData(), Constants.DISPLAYED_DATE_FORMAT));
-
-
-        startActivity(i);
-
-    }
-
-
+    /*
+    * Da qui la gestione di una nuova tappa con i relativi contenuti
+    *
+    * */
 
     public void onClickAddStop(View v){
 
@@ -708,309 +963,13 @@ public class ListaTappeActivity extends AppCompatActivity
             // Start the Intent by requesting a result, identified by a request code.
             startActivityForResult(intentPlacePicker, Constants.REQUEST_PLACE_PICKER);
 
-
         } catch (GooglePlayServicesRepairableException e) {
-            GooglePlayServicesUtil
-                    .getErrorDialog(e.getConnectionStatusCode(), ListaTappeActivity.this, 0);
-
+            GooglePlayServicesUtil.getErrorDialog(e.getConnectionStatusCode(), ListaTappeActivity.this, 0);
             Log.e(TAG, e.toString());
-
         } catch (GooglePlayServicesNotAvailableException e) {
-            Toast.makeText(ListaTappeActivity.this, "Google Play Services is not available.",
-                    Toast.LENGTH_LONG)
-                    .show();
-
             Log.e(TAG, e.toString());
         }
     }
-
-
-
-
-    private void PopolaContenuti(){
-        layoutContents.removeAllViews();
-
-        int i=0;
-        for(Bitmap bitmap : immaginiSelezionate){
-            if(i%LIMIT_IMAGES_VIEWS == 0){
-                rowHorizontal = new LinearLayout(ListaTappeActivity.this);
-                rowHorizontal.setOrientation(LinearLayout.HORIZONTAL);
-
-                //Log.i(TAG, "creato nuovo layout");
-                layoutContents.addView(rowHorizontal);
-                layoutContents.addView(new TextView(ListaTappeActivity.this), 10, 10);
-            }
-
-
-            final ImageView image = new ImageView(this, null);
-
-            Bitmap myBitmap = Bitmap.createScaledBitmap(bitmap, 60, 30, true);
-            image.setImageBitmap(myBitmap);
-
-            //TODO: sistemare in funzione dello schermo e migliorare allocazione memoria usando thread
-            rowHorizontal.addView(image, 60, 30);
-
-            i++;
-        }
-    }
-
-    private static String getRealPathFromURI(Context context, Uri contentUri) {
-
-        Log.i(TAG, "entro in getRealPathFromURI(...)");
-
-        Cursor cursor = null;
-        String result = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri, proj, null,
-                    null, null);
-
-            if (cursor != null) {
-                cursor.moveToFirst();
-
-                int columnIndex = cursor
-                        .getColumnIndex(proj[0]);
-
-                result = cursor.getString(columnIndex);
-                Log.i(TAG, "getRealPathFrom Uri result: "+result);
-            }
-
-            return result;
-
-        } catch (Exception e) {
-            Log.e(TAG, "eccezione nel restituire il path: "+e.toString());
-            return null;
-
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
-
-
-    private void PopolaPartecipanti(final Set<Profilo> partecipants){
-        layoutProprietariItinerari.addView(new TextView(this), Constants.WIDTH_LAYOUT_PROPRIETARI_ITINERARI,
-                Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI);
-
-        for(Profilo p : partecipants){
-            ImageView image = new RoundedImageView(this, null);
-            image.setContentDescription(p.getEmail());
-            currentProfile = p;
-            if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
-                URL completeUrl = null;
-                try {
-                    completeUrl = new LoadGenericImageTask(p.getIdImageProfile(), this).execute().get();
-                    Picasso.with(this)
-                            .load(completeUrl.toString())
-                            .resize(Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI, Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI)
-                            .into(image);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            else{
-                if(p.getSesso().equals("M")){
-                    image.setImageResource(R.drawable.default_male);
-                }
-                else{
-                    image.setImageResource(R.drawable.default_female);
-                }
-            }
-
-            image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    for (Profilo p : partecipants) {
-                        if (p.getEmail().equals(v.getContentDescription())) {
-                            ClickImagePartecipant(p);
-                            break;
-                        }
-                    }
-                }
-            });
-
-            layoutProprietariItinerari.addView(image, Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI,
-                    Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI);
-            layoutProprietariItinerari.addView(new TextView(this), Constants.WIDTH_LAYOUT_PROPRIETARI_ITINERARI,
-                    Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI);
-
-        }
-
-    }
-
-
-    private void ClickImagePartecipant(Profilo p){
-        profiloVisualizzazioneCorrente = p;
-
-        Log.i(TAG,"PROFILO UTENTE CLICCATO: " + p);
-        Log.i(TAG,"PROFILO UTENTE LOGGATO: " + profiloUtenteLoggato);
-
-        if(!p.getEmail().equals(profiloUtenteLoggato.getEmail()))
-            buttonAddStop.setVisibility(View.INVISIBLE);
-        else
-            buttonAddStop.setVisibility(View.VISIBLE);
-
-        AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
-    }
-
-/*
-    private void CreaMenu(Profilo p, List<Tappa> tappe, String [] nomiTappe){
-        Menu menu = navigationView.getMenu();
-        menu.clear();
-
-        menu.add(0, 0, Menu.NONE, p.getName()+"'s stops:");
-
-        if(menu != null){
-            int i=0;
-            for(Tappa t : tappe){
-
-                if(nomiTappe.length > 0){
-                    if(nomiTappe[i] != null){
-                        Log.i(TAG, "nome tappa: " + nomiTappe[i]);
-                        menu.add(0, i+1, Menu.NONE, nomiTappe[i]);
-                    }
-                }
-                else{
-                    menu.add(0, i+1, Menu.NONE, t.getPoi().getCodicePOI());
-                }
-
-                i++;
-            }
-        }
-
-    }*/
-
-
-    private void CreaMenu(Profilo p, List<Tappa> tappe){
-        Menu menu = navigationView.getMenu();
-        menu.clear();
-
-        menu.add(0, 0, Menu.NONE, p.getName()+"'s stops:");
-
-        if(menu != null){
-            int i=0;
-            for(Tappa t : tappe){
-                Log.i(TAG, "nome tappa: " + t.getName());
-                menu.add(0, i+1, Menu.NONE, t.getName());
-
-            }
-        }
-
-    }
-
-    Place[] arrayPlace;
-    String[] arrayNamePlace;
-    LatLng[] latLngs;
-    private void AggiungiMarkedPointsOnMap(Profilo p, List<Tappa> tappe) {
-        mGoogleApiClient.connect();
-
-        googleMap.clear();
-        polyline = new PolylineOptions()
-                .visible(true)
-                .color(Color.parseColor(Constants.GOOGLE_MAPS_BLUE))
-                .width(Constants.MAP_POLYLINE_THICKNESS)
-                .geodesic(true);
-        nomiTappe.clear();
-
-        int i = 1;
-        arrayPlace = new Place[tappe.size()];
-        arrayNamePlace = new String[tappe.size()];
-        latLngs = new LatLng[tappe.size()];
-
-        for(Tappa t : tappe){
-            findPlaceById(p, t, i);
-            i++;
-        }
-
-        //Svuota anche il menu
-        if(tappe.size()==0){
-            nomiTappe.clear();
-            profiloNomiTappe.put(p,nomiTappe);
-            CreaMenu(p,tappe);
-        }
-    }
-
-
-    private void findPlaceById(final Profilo p, final Tappa t, int i) {
-        final int index = i;
-
-        if(mGoogleApiClient == null){
-            return;
-        }
-
-        if(!mGoogleApiClient.isConnected()){
-            mGoogleApiClient.connect();
-        }
-
-        currentProfile = p;
-
-        Places.GeoDataApi.getPlaceById( mGoogleApiClient, t.getPoi().getCodicePOI() )
-                .setResultCallback(new ResultCallback<PlaceBuffer>() {
-
-                    @Override
-                    public void onResult(PlaceBuffer places) {
-
-                        if (places.getStatus().isSuccess()) {
-                            Place place = places.get(0);
-                            LatLng currentLatLng = place.getLatLng();
-
-                            //serve per mantenere l'ordine nella lista
-                            int k=0;
-                            for(Tappa t : profiloTappe.get(p)){
-                                if(t.getPoi().getCodicePOI().equals(place.getId())){
-                                    arrayPlace[k] = place;
-                                    arrayNamePlace[k] = place.getName().toString();
-                                    latLngs[k] = place.getLatLng();
-
-                                    t.setName(arrayNamePlace[k]);
-
-                                    break;
-                                }
-                                k++;
-                            }
-
-                            //add Marker
-                            googleMap.addMarker(new MarkerOptions()
-                                    .title(index + ". " + place.getName().toString())
-                                    .position(currentLatLng)
-                            );
-                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 5));
-
-                            nomiTappe.add(place);
-
-                            if (nomiTappe.size() == profiloTappe.get(currentProfile).size()) {
-
-                                for(int i=0; i<arrayNamePlace.length; i++){
-                                    Log.i(TAG, "name place " + i + " : " + arrayNamePlace[i]);
-                                    if(arrayNamePlace[i] != null){
-                                        polyline.add(latLngs[i]);
-                                        mapBoundsBuilder.include(latLngs[i]);
-                                    }
-                                }
-
-
-                                CreaMenu(currentProfile,profiloTappe.get(currentProfile));
-                                profiloNomiTappe.put(currentProfile, nomiTappe);
-
-                                //traccia linea
-                                googleMap.addPolyline(polyline);
-
-                                //update zoom
-                                mapBounds = mapBoundsBuilder.build();
-                                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(mapBounds,
-                                        Constants.LATLNG_BOUNDS_PADDING);
-                                googleMap.moveCamera(cu);
-                            }
-
-                        }
-                        //Release the PlaceBuffer to prevent a memory leak
-                        places.release();
-                    }
-                });
-    }
-
 
     private void startAddingStop(Place place) {
         final Place addedPlace = place;
@@ -1067,12 +1026,7 @@ public class ListaTappeActivity extends AppCompatActivity
         WindowManager.LayoutParams wlp = window.getAttributes();
         wlp.gravity = Gravity.BOTTOM;
         wlp.width = ViewGroup.LayoutParams.MATCH_PARENT;
-
-        //per non far diventare scuro lo sfondo
-        //wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-
         window.setAttributes(wlp);
-
 
         nameText = (TextView) dialog.findViewById(R.id.POIName);
         addressText = (TextView) dialog.findViewById(R.id.POIAddress);
@@ -1088,6 +1042,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
                 int stopOrder = calcolaNumUltimaTappaUtenteCorrente()+1;
 
+                //Insert all the content of the stop
                 new InserimentoTappaTask().execute();
 
                 //per prevenire crash se si clicca sul marker appena aggiunto
@@ -1095,10 +1050,15 @@ public class ListaTappeActivity extends AppCompatActivity
 
                 Calendar cal = DatesUtils.getDateFromString(DatesUtils.getCurrentDateString(), Constants.DATABASE_DATE_FORMAT);
 
-                profiloTappe.get(profiloVisualizzazioneCorrente).add(new Tappa(itAux, stopOrder, cal.getTime()));
+                POI poiAdded = new POI(placeId, "google");
+
+                Tappa stopAdded = new Tappa(itAux, stopOrder, cal.getTime());
+                stopAdded.setName(placeName);
+                stopAdded.setPoi(poiAdded);
+
+                profiloTappe.get(profiloVisualizzazioneCorrente).add(stopAdded);
 
                 new InserimentoFiltroTask(ListaTappeActivity.this, codiceViaggio, placeName).execute();
-
 
                 //add marker
                 googleMap.addMarker(new MarkerOptions()
@@ -1117,10 +1077,9 @@ public class ListaTappeActivity extends AppCompatActivity
                 CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(mapBounds, Constants.LATLNG_BOUNDS_PADDING);
                 googleMap.moveCamera(cu);
 
+                CreaMenu(profiloVisualizzazioneCorrente,profiloTappe.get(profiloVisualizzazioneCorrente));
+
                 dialog.dismiss();
-
-                Log.i(TAG, "profilo tappe: " + profiloTappe);
-
             }
         });
 
@@ -1562,135 +1521,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-    private class GetTappeTask extends AsyncTask<Void, Void, Void> {
-
-        private final static int DEFAULT_INT = 0;
-        private static final String DEFAULT_STRING = "default";
-        private static final String DEFAULT_DATE = "2010-01-11";
-        InputStream is = null;
-        String stringaFinale = "";
-
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            for(Profilo p : partecipants){
-
-                List<Tappa> tappe = new ArrayList<Tappa>();
-
-                ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-                dataToSend.add(new BasicNameValuePair("email", p.getEmail()));
-                dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
-
-
-                try {
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_PRELIEVO_TAPPE);
-                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                    HttpResponse response = httpclient.execute(httppost);
-
-                    HttpEntity entity = response.getEntity();
-                    is = entity.getContent();
-
-                    if (is != null) {
-                        //converto la risposta in stringa
-                        try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                            StringBuilder sb = new StringBuilder();
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line + "\n");
-                            }
-                            is.close();
-                            String result = sb.toString();
-
-                            JSONArray jArray = new JSONArray(result);
-
-                            if(jArray != null && result != null){
-                                for(int i=0;i<jArray.length();i++){
-                                    JSONObject json_data = jArray.getJSONObject(i);
-
-                                    String email = json_data.getString("emailProfilo");
-                                    String codiceViaggio = json_data.getString("codiceViaggio");
-
-                                    Itinerario itinerario = new Itinerario(new Profilo(email), new Viaggio(codiceViaggio));
-                                    int ordine = json_data.getInt("ordine");
-                                    stringaFinale = email + " " + codiceViaggio  +" "+ ordine;
-                                    int ordineTappaPrecedente = json_data.optInt("ordineTappaPrecedente", DEFAULT_INT);
-
-                                    Tappa tappaPrecedente = new Tappa(itinerario, (ordineTappaPrecedente));
-
-                                    String paginaDiario = json_data.getString("paginaDiario");
-                                    String codicePOI = json_data.getString("codicePOI");
-                                    String fontePOI = json_data.getString("fontePOI");
-
-                                    POI poi = new POI(codicePOI, fontePOI);
-
-                                    String dataString = json_data.optString("data", DEFAULT_DATE);
-                                    Calendar cal = DatesUtils.getDateFromString(dataString, Constants.DATABASE_DATE_FORMAT);
-                                    Date data = cal.getTime();
-
-                                    tappe.add(new Tappa(itinerario, ordine, tappaPrecedente, data, paginaDiario, poi));
-                                }
-                            }
-
-
-
-                        } catch (Exception e) {
-                        }
-                    }
-                } catch (Exception e) {
-                    Log.e(TAG, "Errore nella connessione http "+e.toString());
-                }
-                profiloTappe.put(p, tappe);
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
-            ViewCaricamentoInCorso.setVisibility(View.INVISIBLE);
-
-            PopolaPartecipanti(profiloTappe.keySet());
-            boolean aggiuntiMarkedPoints = false;
-
-            //aggiungo sulla mappa solamente le tappe del profilo corrente, se partecipante al viaggio,
-            //altrimenti aggiungo le tappe di un profilo casuale
-            for(Profilo p : profiloTappe.keySet()){
-                if(p.getEmail().equals(email)){
-                    List<Tappa> aux = profiloTappe.get(p);
-                    AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
-                    aggiuntiMarkedPoints = true;
-
-                    profiloVisualizzazioneCorrente = p;
-                    break;
-                }
-            }
-
-            if(!aggiuntiMarkedPoints){
-                for(Profilo p : profiloTappe.keySet()){
-                    AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
-
-                    profiloVisualizzazioneCorrente =p;
-                    break;
-                }
-
-            }
-
-            ordine = calcolaNumUltimaTappaUtenteCorrente()+1;
-            hideProgressDialog();
-        }
-    }
-
-    public void onClickHome(View v) {
-        // metodo per tornare alla home mantenendo i dati
-        Intent intent = NavUtils.getParentActivityIntent(this);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        NavUtils.navigateUpTo(this, intent);
-    }
-
-
     private class InserimentoTappaTask extends AsyncTask<Void, Void, Void> {
 
         //TODO da modularizzare, lasciato così per via di side-effect importanti su variabili della classe
@@ -1723,9 +1553,7 @@ public class ListaTappeActivity extends AppCompatActivity
                     HttpClient httpclient = new DefaultHttpClient();
                     HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_TAPPA);
                     httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-
                     HttpResponse response = httpclient.execute(httppost);
-
                     HttpEntity entity = response.getEntity();
 
                     is = entity.getContent();
@@ -1767,13 +1595,8 @@ public class ListaTappeActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if(!result.equals("OK\n")){
-                Log.e(TAG, "tappa non inserita");
-            }
-            else{
-                Log.i(TAG, "tappa inserita correttamente");
-                Toast.makeText(getBaseContext(), "tappa inserita correttamente", Toast.LENGTH_LONG).show();
-            }
+            Log.i(TAG, "tappa inserita correttamente");
+            Toast.makeText(getBaseContext(), "tappa inserita correttamente", Toast.LENGTH_LONG).show();
 
 
             if(!noteInserite.isEmpty()) {
@@ -1869,7 +1692,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
             ordine += 1;
-
             super.onPostExecute(aVoid);
 
         }
@@ -1937,6 +1759,14 @@ public class ListaTappeActivity extends AppCompatActivity
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
+
+    public void onClickHome(View v) {
+        // metodo per tornare alla home mantenendo i dati
+        Intent intent = NavUtils.getParentActivityIntent(this);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        NavUtils.navigateUpTo(this, intent);
+    }
+
 
     private int calcolaNumUltimaTappaUtenteCorrente() {
         int result = 0;
