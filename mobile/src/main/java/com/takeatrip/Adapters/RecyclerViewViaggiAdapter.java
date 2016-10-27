@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.takeatrip.Activities.ViaggioActivity;
+import com.takeatrip.Activities.ViaggioActivityConFragment;
 import com.takeatrip.AsyncTasks.LoadGenericImageTask;
 import com.takeatrip.AsyncTasks.StartActivityWithIndetProgressTask;
 import com.takeatrip.Interfaces.AsyncResponseUrl;
@@ -162,7 +162,7 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
         @Override
         public void onClick(View v) {
 
-            Intent intent = new Intent(v.getContext(), ViaggioActivity.class);
+            Intent intent = new Intent(v.getContext(), ViaggioActivityConFragment.class);
 
             intent.putExtra("emailEsterno",emailUser.getText().toString());
             intent.putExtra("nomeViaggio", nomeViaggio.getText().toString());

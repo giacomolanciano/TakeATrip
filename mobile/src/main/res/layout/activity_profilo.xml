@@ -297,9 +297,8 @@
                         <TabWidget
                             android:id="@android:id/tabs"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:baselineAligned="false"
-                            android:background="@color/blue">
+                            android:layout_height="45dp"
+                            android:baselineAligned="false">
 
                         </TabWidget>
 

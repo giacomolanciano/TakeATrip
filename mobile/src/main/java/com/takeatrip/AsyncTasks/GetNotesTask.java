@@ -4,9 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 
 import com.takeatrip.Adapters.GridViewAdapter;
 import com.takeatrip.Utilities.Constants;
@@ -156,9 +154,11 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
         Log.i(TAG, "listContents.size() = " + listContents.size());
 
         if (listContents.size() > 0) {
+
             //se la lista di elementi da caricare è non vuota, il linear layout parent viene visualizzato
-            LinearLayout parent = (LinearLayout) gv.getParent();
-            parent.setVisibility(View.VISIBLE);
+            //LinearLayout parent = (LinearLayout) gv.getParent();
+            //parent.setVisibility(View.VISIBLE);
+
 
             notes = new String[listContents.size()];
 
@@ -175,8 +175,6 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
         } else {
             return;
         }
-
-
 
         gv.setAdapter(new GridViewAdapter(context, notes, Constants.NOTE_FILE, codiceViaggio));
         Log.i(TAG, "settato l'adapter per il grid");
