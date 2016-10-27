@@ -918,10 +918,6 @@ public class ViaggioActivityConFragment extends TabActivity {
     }
 
 
-
-
-
-
     private class UtentiTask extends AsyncTask<Void, Void, Void> {
 
         //TODO task da modularizzare, side-effect importanti da gestire
@@ -1008,7 +1004,7 @@ public class ViaggioActivityConFragment extends TabActivity {
         }
     }
 
-    public void onClickHome(View v) {
+    public void onClickHomeButton(View v) {
        // metodo per tornare alla home mantenendo i dati
         Intent intent = NavUtils.getParentActivityIntent(this);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
