@@ -14,7 +14,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,7 +46,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.ConnectionResult;
@@ -77,38 +75,28 @@ import com.takeatrip.AsyncTasks.InserimentoAudioTappaTask;
 import com.takeatrip.AsyncTasks.InserimentoFiltroTask;
 import com.takeatrip.AsyncTasks.InserimentoImmagineTappaTask;
 import com.takeatrip.AsyncTasks.InserimentoNotaTappaTask;
+import com.takeatrip.AsyncTasks.InserimentoTappaTask;
 import com.takeatrip.AsyncTasks.InserimentoVideoTappaTask;
 import com.takeatrip.AsyncTasks.LoadGenericImageTask;
 import com.takeatrip.AsyncTasks.UploadFileS3Task;
 import com.takeatrip.Classes.Itinerario;
 import com.takeatrip.Classes.POI;
 import com.takeatrip.Classes.Profilo;
+import com.takeatrip.Classes.TakeATrip;
 import com.takeatrip.Classes.Tappa;
 import com.takeatrip.Classes.Viaggio;
+import com.takeatrip.Interfaces.AsyncResponseInsertStop;
 import com.takeatrip.Interfaces.AsyncResponseStops;
 import com.takeatrip.R;
 import com.takeatrip.Utilities.AudioRecord;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.DatesUtils;
 import com.takeatrip.Utilities.DeviceStorageUtils;
-import com.takeatrip.Utilities.InternetConnection;
 import com.takeatrip.Utilities.MultimedialFile;
 import com.takeatrip.Utilities.RoundedImageView;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -122,14 +110,17 @@ import java.util.Set;
 public class ListaTappeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        GoogleMap.OnInfoWindowClickListener, AsyncResponseStops {
+        GoogleMap.OnInfoWindowClickListener, AsyncResponseStops, AsyncResponseInsertStop {
 
     private static final String TAG = "TEST ListaTappeAct";
-    private static final String ADDRESS_INSERIMENTO_TAPPA = "InserimentoTappa.php";
     private static final int LIMIT_IMAGES_VIEWS = 10;
 
     private GoogleMap googleMap;
     private GoogleApiClient mGoogleApiClient;
+    private MapFragment mapFragment;
+
+
+
     private Profilo profiloUtenteLoggato;
 
     //il profilo dell'utilizzatore è sempre il primo
@@ -191,6 +182,9 @@ public class ListaTappeActivity extends AppCompatActivity
     private List<String> audioSelezionati;
     private List<String> noteInserite;
 
+    // They depend on the screen density
+    private int highContent = 30, widthContent = 60;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -222,7 +216,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-
         // ATTENTION: This "addApi(AppIndex.API)"was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         mGoogleApiClient = new GoogleApiClient
@@ -234,11 +227,9 @@ public class ListaTappeActivity extends AppCompatActivity
                 .enableAutoManage(this, this)
                 .addApi(AppIndex.API).build();
 
-        MapFragment mapFragment = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.map);
+
+        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-
         mapBoundsBuilder = new LatLngBounds.Builder();
 
 
@@ -444,6 +435,8 @@ public class ListaTappeActivity extends AppCompatActivity
         googleMap = map;
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
+        TakeATrip TAT = (TakeATrip) getApplicationContext();
+        TAT.setMap(googleMap);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -743,34 +736,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-    private void PopolaContenuti(){
-        layoutContents.removeAllViews();
-
-        int i=0;
-        for(Bitmap bitmap : immaginiSelezionate){
-            if(i%LIMIT_IMAGES_VIEWS == 0){
-                rowHorizontal = new LinearLayout(ListaTappeActivity.this);
-                rowHorizontal.setOrientation(LinearLayout.HORIZONTAL);
-
-                //Log.i(TAG, "creato nuovo layout");
-                layoutContents.addView(rowHorizontal);
-                layoutContents.addView(new TextView(ListaTappeActivity.this), 10, 10);
-            }
-
-
-            final ImageView image = new ImageView(this, null);
-
-            Bitmap myBitmap = Bitmap.createScaledBitmap(bitmap, 60, 30, true);
-            image.setImageBitmap(myBitmap);
-
-            //TODO: sistemare in funzione dello schermo e migliorare allocazione memoria usando thread
-            rowHorizontal.addView(image, 60, 30);
-
-            i++;
-        }
-    }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -827,6 +792,8 @@ public class ListaTappeActivity extends AppCompatActivity
                                 Log.i(TAG, "image path: " + path);
                             }
                         } else {
+
+                            layoutContents = data.getParcelableExtra("layoutContent");
                             Uri selectedImage = data.getData();
 
                             String[] filePath = {MediaStore.Images.Media.DATA};
@@ -943,6 +910,48 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
+
+    private void PopolaContenuti(){
+        layoutContents = (LinearLayout) dialog.findViewById(R.id.layoutContents);
+
+        layoutContents.removeAllViews();
+
+        int i=0;
+        for(Bitmap bitmap : immaginiSelezionate){
+            if(i%LIMIT_IMAGES_VIEWS == 0){
+                rowHorizontal = new LinearLayout(ListaTappeActivity.this);
+                rowHorizontal.setOrientation(LinearLayout.HORIZONTAL);
+
+                //Log.i(TAG, "creato nuovo layout");
+                layoutContents.addView(rowHorizontal);
+                layoutContents.addView(new TextView(ListaTappeActivity.this), 10, 10);
+            }
+
+
+            final ImageView image = new ImageView(this, null);
+            float density = getResources().getDisplayMetrics().density;
+            Log.i(TAG, "density of the screen: " + density);
+
+            if(density == 2.0){
+                widthContent = 80;
+                highContent = 40;
+            }
+
+            if(density == 3.0 || density == 4.0){
+                widthContent = 100;
+                highContent = 50;
+            }
+
+            Bitmap myBitmap = Bitmap.createScaledBitmap(bitmap, widthContent, highContent, true);
+            image.setImageBitmap(myBitmap);
+
+            rowHorizontal.addView(image, widthContent, highContent);
+            i++;
+        }
+    }
+
+
+
     /*
     * Da qui la gestione di una nuova tappa con i relativi contenuti
     *
@@ -1043,7 +1052,9 @@ public class ListaTappeActivity extends AppCompatActivity
                 int stopOrder = calcolaNumUltimaTappaUtenteCorrente()+1;
 
                 //Insert all the content of the stop
-                new InserimentoTappaTask().execute();
+                InserimentoTappaTask ITT = new InserimentoTappaTask(ListaTappeActivity.this, email, codiceViaggio, ordine, placeId);
+                ITT.delegate = ListaTappeActivity.this;
+                ITT.execute();
 
                 //per prevenire crash se si clicca sul marker appena aggiunto
                 Itinerario itAux = new Itinerario(profiloUtenteLoggato, new Viaggio(codiceViaggio));
@@ -1051,7 +1062,6 @@ public class ListaTappeActivity extends AppCompatActivity
                 Calendar cal = DatesUtils.getDateFromString(DatesUtils.getCurrentDateString(), Constants.DATABASE_DATE_FORMAT);
 
                 POI poiAdded = new POI(placeId, "google");
-
                 Tappa stopAdded = new Tappa(itAux, stopOrder, cal.getTime());
                 stopAdded.setName(placeName);
                 stopAdded.setPoi(poiAdded);
@@ -1134,23 +1144,13 @@ public class ListaTappeActivity extends AppCompatActivity
 
                         case 0: //pick images from gallery
 
+
                             Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                             startActivityForResult(intentPick, Constants.REQUEST_IMAGE_PICK);
 
 
-                            //TODO per selezione multipla, non funzionante con galleria, si con google photo
-//                            Intent intentPick = new Intent();
-//                            intentPick.setType("image/*");
-//                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-//                            intentPick.setAction(Intent.ACTION_GET_CONTENT);
-//                            startActivityForResult(Intent.createChooser(intentPick, "Select Picture"), Constants.REQUEST_IMAGE_PICK);
 
 
-//                            ######### ALTERNATIVA #########
-//                            Intent intentPick = new Intent(Intent.ACTION_PICK);
-//                            intentPick.setType("image/*");
-//                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-//                            startActivityForResult(intentPick, Constants.REQUEST_IMAGE_PICK);
 
 
 
@@ -1520,182 +1520,105 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-
-    private class InserimentoTappaTask extends AsyncTask<Void, Void, Void> {
-
-        //TODO da modularizzare, lasciato così per via di side-effect importanti su variabili della classe
-
-        InputStream is = null;
-        String result, stringaFinale = "";
-
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-
-            dataToSend.add(new BasicNameValuePair("emailProfilo", email));
-            dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
-            dataToSend.add(new BasicNameValuePair("ordine", ""+ordine));
-            dataToSend.add(new BasicNameValuePair("POI", "" + placeId));
-
-            String data = DatesUtils.getCurrentDateString();
-            dataToSend.add(new BasicNameValuePair("data", ""+data));
-
-            String paginaDiario = "";
-            dataToSend.add(new BasicNameValuePair("paginaDiario", paginaDiario));
-
-            try {
-
-                if (InternetConnection.haveInternetConnection(ListaTappeActivity.this)) {
-                    Log.i("CONNESSIONE Internet", "Presente!");
-
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_TAPPA);
-                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                    HttpResponse response = httpclient.execute(httppost);
-                    HttpEntity entity = response.getEntity();
-
-                    is = entity.getContent();
-
-                    if (is != null) {
-
-                        //converto la risposta in stringa
-                        try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                            StringBuilder sb = new StringBuilder();
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line + "\n");
-                            }
-                            is.close();
-
-                            result = sb.toString();
-                            Log.i(TAG, "InserimentoTappaTask result: " +result);
-
-                        } catch (Exception e) {
-                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    else {
-                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
-                    }
-
-
-                } else
-                    Log.e("CONNESSIONE Internet", "Assente!");
-            } catch (Exception e) {
-                Log.e(TAG, "Errore nella connessione http "+e.toString());
-            }
-
-
-            return null;
+    @Override
+    public void processFinishForInsertStop() {
+        if(!noteInserite.isEmpty()) {
+            new InserimentoNotaTappaTask(ListaTappeActivity.this, ordine, codiceViaggio, email,
+                    livelloCondivisioneTappa, noteInserite).execute();
         }
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            Log.i(TAG, "tappa inserita correttamente");
-            Toast.makeText(getBaseContext(), "tappa inserita correttamente", Toast.LENGTH_LONG).show();
+        if(!immaginiSelezionate.isEmpty()){
+            for(Bitmap bitmap : immaginiSelezionate) {
 
+                String nameImage = bitmap_nomeFile.get(bitmap);
+                String pathImage = pathsImmaginiVideoSelezionati.get(bitmap);
 
-            if(!noteInserite.isEmpty()) {
-                new InserimentoNotaTappaTask(ListaTappeActivity.this, ordine, codiceViaggio, email,
-                        livelloCondivisioneTappa, noteInserite).execute();
-            }
-
-            if(!immaginiSelezionate.isEmpty()){
-                for(Bitmap bitmap : immaginiSelezionate) {
-
-                    String nameImage = bitmap_nomeFile.get(bitmap);
-                    String pathImage = pathsImmaginiVideoSelezionati.get(bitmap);
-
-                    Log.i(TAG, "email: " + email);
-                    Log.i(TAG, "codiceViaggio: " + codiceViaggio);
-                    Log.i(TAG, "name of the image: " + nameImage);
+                Log.i(TAG, "email: " + email);
+                Log.i(TAG, "codiceViaggio: " + codiceViaggio);
+                Log.i(TAG, "name of the image: " + nameImage);
 
 
 
-                    new UploadFileS3Task(ListaTappeActivity.this, Constants.BUCKET_TRAVELS_NAME,
-                            codiceViaggio, Constants.TRAVEL_IMAGES_LOCATION, email, pathImage, nameImage).execute();
+                new UploadFileS3Task(ListaTappeActivity.this, Constants.BUCKET_TRAVELS_NAME,
+                        codiceViaggio, Constants.TRAVEL_IMAGES_LOCATION, email, pathImage, nameImage).execute();
 
 
-                    //TODO nella colonna urlImmagine si potrebbe salvare soltanto il nome del file
-                    //si può riscostruire il path a partire dalle altre info nella riga corrispondente
+                //TODO nella colonna urlImmagine si potrebbe salvare soltanto il nome del file
+                //si può riscostruire il path a partire dalle altre info nella riga corrispondente
 
-                    String completePath = codiceViaggio + "/" + Constants.TRAVEL_IMAGES_LOCATION + "/" + email + "_" + nameImage;
+                String completePath = codiceViaggio + "/" + Constants.TRAVEL_IMAGES_LOCATION + "/" + email + "_" + nameImage;
 
-                    new InserimentoImmagineTappaTask(ListaTappeActivity.this, email,codiceViaggio,
-                            ordine,null,completePath,livelloCondivisioneTappa).execute();
-
-                }
+                new InserimentoImmagineTappaTask(ListaTappeActivity.this, email,codiceViaggio,
+                        ordine,null,completePath,livelloCondivisioneTappa).execute();
 
             }
-
-
-            if(!videoSelezionati.isEmpty()){
-                for(Bitmap bitmap : videoSelezionati) {
-
-                    String nameVideo = bitmap_nomeFile.get(bitmap);
-                    String pathVideo = pathsImmaginiVideoSelezionati.get(bitmap);
-
-                    Log.i(TAG, "email: " + email);
-                    Log.i(TAG, "codiceViaggio: " + codiceViaggio);
-                    Log.i(TAG, "name of the video: " + nameVideo);
-                    Log.i(TAG, "livello Condivisione: " + livelloCondivisioneTappa);
-
-
-
-                    new UploadFileS3Task(ListaTappeActivity.this, Constants.BUCKET_TRAVELS_NAME,
-                            codiceViaggio, Constants.TRAVEL_VIDEOS_LOCATION, email, pathVideo, nameVideo).execute();
-
-                    String completePath = codiceViaggio + "/" + Constants.TRAVEL_VIDEOS_LOCATION + "/" + email + "_" + nameVideo;
-
-                    new InserimentoVideoTappaTask(ListaTappeActivity.this, email,codiceViaggio,
-                            ordine,null,completePath,livelloCondivisioneTappa).execute();
-
-                }
-
-            }
-
-            if(!audioSelezionati.isEmpty()) {
-
-                String newAudioName;
-                String timeStamp;
-
-
-                for(String pathAudio : audioSelezionati) {
-
-                    timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
-                    newAudioName = timeStamp + Constants.AUDIO_EXT;
-
-                    new UploadFileS3Task(ListaTappeActivity.this, Constants.BUCKET_TRAVELS_NAME,
-                            codiceViaggio, Constants.TRAVEL_AUDIO_LOCATION, email, pathAudio, newAudioName).execute();
-
-                    String completePath = codiceViaggio + "/" + Constants.TRAVEL_AUDIO_LOCATION + "/" + email + "_" + newAudioName;
-
-                    new InserimentoAudioTappaTask(ListaTappeActivity.this, email,codiceViaggio,
-                            ordine,null,completePath,livelloCondivisioneTappa).execute();
-                }
-
-            }
-
-
-            //NB il clear() per le note viene chiamato alla fine del corrisposndente asyntask
-            //altrimenti la lista viene svuotata prima della sua esecuzione
-            //il problema non sussiste per queste altre, viene fatto partire un thread per ogni elemento
-            pathsImmaginiVideoSelezionati.clear();
-            immaginiSelezionate.clear();
-            videoSelezionati.clear();
-            bitmap_nomeFile.clear();
-            audioSelezionati.clear();
-
-
-            ordine += 1;
-            super.onPostExecute(aVoid);
 
         }
+
+
+        if(!videoSelezionati.isEmpty()){
+            for(Bitmap bitmap : videoSelezionati) {
+
+                String nameVideo = bitmap_nomeFile.get(bitmap);
+                String pathVideo = pathsImmaginiVideoSelezionati.get(bitmap);
+
+                Log.i(TAG, "email: " + email);
+                Log.i(TAG, "codiceViaggio: " + codiceViaggio);
+                Log.i(TAG, "name of the video: " + nameVideo);
+                Log.i(TAG, "livello Condivisione: " + livelloCondivisioneTappa);
+
+
+
+                new UploadFileS3Task(ListaTappeActivity.this, Constants.BUCKET_TRAVELS_NAME,
+                        codiceViaggio, Constants.TRAVEL_VIDEOS_LOCATION, email, pathVideo, nameVideo).execute();
+
+                String completePath = codiceViaggio + "/" + Constants.TRAVEL_VIDEOS_LOCATION + "/" + email + "_" + nameVideo;
+
+                new InserimentoVideoTappaTask(ListaTappeActivity.this, email,codiceViaggio,
+                        ordine,null,completePath,livelloCondivisioneTappa).execute();
+
+            }
+
+        }
+
+        if(!audioSelezionati.isEmpty()) {
+
+            String newAudioName;
+            String timeStamp;
+
+
+            for(String pathAudio : audioSelezionati) {
+
+                timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
+                newAudioName = timeStamp + Constants.AUDIO_EXT;
+
+                new UploadFileS3Task(ListaTappeActivity.this, Constants.BUCKET_TRAVELS_NAME,
+                        codiceViaggio, Constants.TRAVEL_AUDIO_LOCATION, email, pathAudio, newAudioName).execute();
+
+                String completePath = codiceViaggio + "/" + Constants.TRAVEL_AUDIO_LOCATION + "/" + email + "_" + newAudioName;
+
+                new InserimentoAudioTappaTask(ListaTappeActivity.this, email,codiceViaggio,
+                        ordine,null,completePath,livelloCondivisioneTappa).execute();
+            }
+
+        }
+
+
+        //NB il clear() per le note viene chiamato alla fine del corrisposndente asyntask
+        //altrimenti la lista viene svuotata prima della sua esecuzione
+        //il problema non sussiste per queste altre, viene fatto partire un thread per ogni elemento
+        pathsImmaginiVideoSelezionati.clear();
+        immaginiSelezionate.clear();
+        videoSelezionati.clear();
+        bitmap_nomeFile.clear();
+        audioSelezionati.clear();
+
+
+        ordine += 1;
     }
+
+
+
 
 
     private class PrivacyLevelAdapter extends ArrayAdapter<String> {

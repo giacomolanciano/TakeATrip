@@ -749,7 +749,6 @@ public class ViaggioActivity extends AppCompatActivity {
                     for(Profilo p : profiles){
                         if(p.getUsername().equals(usernameUtenteSelezionato)){
 
-                            //TODO: migliorare con override di equals in Profilo
                             boolean giaPresente = false;
                             for(Profilo partecipant : listPartecipants){
                                 if(partecipant.getEmail().equals(p.getEmail())){

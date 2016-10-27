@@ -184,6 +184,7 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(Boolean aVoid) {
+        super.onPostExecute(aVoid);
 
         new GetUrlsContentsTask(context, codiceViaggio, email, gridViewPhotos, Constants.QUERY_TRAVEL_IMAGES).execute();
 
@@ -232,35 +233,12 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
                 e.printStackTrace();
             }
         }
-
-//        if (viewTitoloViaggio != null) {
-//            viewTitoloViaggio.setText(nomeViaggio);
-//        } else {
-//            //TODO capire perchè da eccezione sporadicamente
-//            Log.e(TAG, "viewTitoloViaggio is null");
-//        }
-
-
-
-        super.onPostExecute(aVoid);
     }
 
 
 
     public Bitmap getResizedBitmap(Bitmap image, ImageView bmImage) {
-        int width = bmImage.getWidth();
-        int height = bmImage.getHeight();
-
-        float bitmapRatio = (float) width / (float) height;
-        if (bitmapRatio > 1) {
-            width = bmImage.getWidth();
-            height = (int) (width / bitmapRatio);
-        } else {
-            height = bmImage.getHeight();
-            width = (int) (height * bitmapRatio);
-        }
-
-        return Bitmap.createScaledBitmap(image, width, height, true);
+        return Bitmap.createScaledBitmap(image, bmImage.getWidth(), bmImage.getHeight(), true);
     }
 
 }
