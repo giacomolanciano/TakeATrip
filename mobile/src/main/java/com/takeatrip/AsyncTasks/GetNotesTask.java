@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.GridView;
 
 import com.takeatrip.Adapters.GridViewAdapter;
+import com.takeatrip.Interfaces.AsyncResponseNotes;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.InternetConnection;
 import com.takeatrip.Utilities.ScrollListener;
@@ -34,6 +35,7 @@ import java.util.List;
 public class GetNotesTask extends AsyncTask<Void, Void, Void> {
 
     private static final String TAG = "TEST GetNotesTask";
+    public AsyncResponseNotes delegate = null;
 
     private Context context;
     private GridView gridView;
@@ -165,6 +167,9 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
             notes = listContents.toArray(notes);
 
             if (notes[0] == null || notes[0].equals("null")) {
+                if (!phpFile.equals(Constants.QUERY_STOP_NOTES)) {
+                    delegate.processFinishForNotes();
+                }
                 return;
             }
 
@@ -173,12 +178,17 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
                 debug += s + ", ";
 
         } else {
+            if (!phpFile.equals(Constants.QUERY_STOP_NOTES)) {
+                delegate.processFinishForNotes();
+            }
             return;
         }
 
         gv.setAdapter(new GridViewAdapter(context, notes, Constants.NOTE_FILE, codiceViaggio));
         Log.i(TAG, "settato l'adapter per il grid");
-
+        if (!phpFile.equals(Constants.QUERY_STOP_NOTES)) {
+            delegate.processFinishForNotes();
+        }
     }
 
 

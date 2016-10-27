@@ -55,7 +55,7 @@
                     android:theme="@style/Theme.Design.Light" />
 
                 <Button
-                    android:id="@+id/home"
+                    android:id="@+id/homeButton"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:drawSelectorOnTop="true"
@@ -63,7 +63,6 @@
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:paddingEnd="4dp"
                     android:theme="@style/Theme.Design.Light"
-                    android:onClick="onClickHomeButton"
                     android:background="@drawable/ic_home_black_36dp" />
             </android.support.v7.widget.Toolbar>
 
@@ -84,6 +83,7 @@
         android:id="@+id/tripScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/biancoPallido"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
@@ -98,7 +98,6 @@
                 android:layout_height="match_parent"
                 android:id="@android:id/tabhost"
                 android:layout_gravity="center_horizontal"
-
                 >
 
                 <LinearLayout
@@ -117,20 +116,19 @@
 
                     </TabWidget>
 
-
-
                     <FrameLayout
                         android:id="@android:id/tabcontent"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:paddingTop="15dp"
-                        android:background="#ffffff">
+                        android:paddingTop="10dp">
+
 
                         <include layout="@layout/fragment_partecipants"/>
                         <include layout="@layout/fragment_notes"/>
                         <include layout="@layout/fragment_photos"/>
                         <include layout="@layout/fragment_videos"/>
                         <include layout="@layout/fragment_records"/>
+
 
                     </FrameLayout>
 

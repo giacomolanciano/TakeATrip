@@ -48,7 +48,9 @@ import com.squareup.picasso.Picasso;
 import com.takeatrip.AsyncTasks.BitmapWorkerTask;
 import com.takeatrip.AsyncTasks.DeleteTravelTask;
 import com.takeatrip.AsyncTasks.ExitTravelTask;
+import com.takeatrip.AsyncTasks.GetNotesTask;
 import com.takeatrip.AsyncTasks.GetPartecipantiViaggioTask;
+import com.takeatrip.AsyncTasks.GetUrlsContentsTask;
 import com.takeatrip.AsyncTasks.ItinerariesTask;
 import com.takeatrip.AsyncTasks.StartActivityWithIndetProgressTask;
 import com.takeatrip.AsyncTasks.UpdateCondivisioneViaggioTask;
@@ -56,6 +58,7 @@ import com.takeatrip.AsyncTasks.UpdateTravelNameTask;
 import com.takeatrip.Classes.Profilo;
 import com.takeatrip.Classes.TakeATrip;
 import com.takeatrip.GraphicalComponents.AdaptableGridView;
+import com.takeatrip.Interfaces.AsyncResponseNotes;
 import com.takeatrip.R;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.InternetConnection;
@@ -84,7 +87,7 @@ import toan.android.floatingactionmenu.FloatingActionButton;
 import toan.android.floatingactionmenu.FloatingActionsMenu;
 
 
-public class ViaggioActivityConFragment extends TabActivity {
+public class ViaggioActivityConFragment extends TabActivity implements AsyncResponseNotes{
 
     private static final String TAG = "TEST ViaggioActivity";
     private static final String ADDRESS = "QueryNomiUtenti.php";
@@ -94,8 +97,15 @@ public class ViaggioActivityConFragment extends TabActivity {
     private static final int REQUEST_IMAGE_PICK = 2;
     private static final int LIMIT_IMAGES_VIEWS = 4;
 
-    private String email, emailEsterno, codiceViaggio, nomeViaggio;
+
     private boolean proprioViaggio = false;
+
+    private boolean fineImageTask = false;
+    private boolean fineNoteTask = false;
+
+
+
+    private String email, emailEsterno, codiceViaggio, nomeViaggio;
     private List<Profilo> listPartecipants, profiles;
     private List<String> names;
     private LinearLayout layoutPartecipants;
@@ -141,7 +151,14 @@ public class ViaggioActivityConFragment extends TabActivity {
      * activity.
      */
     private ArrayList<HashMap<String, List<Object>>> transferRecordMaps;
+
+
     private TabHost TabHost;
+    private TabHost.TabSpec tab1;
+    private TabHost.TabSpec tab2;
+    private TabHost.TabSpec tab3;
+    private TabHost.TabSpec tab4;
+    private TabHost.TabSpec tab5;
 
 
     @Override
@@ -161,49 +178,6 @@ public class ViaggioActivityConFragment extends TabActivity {
             livelloCondivisioneViaggio = intent.getStringExtra("livelloCondivisione");
         }
 
-        TabHost = (TabHost) findViewById(android.R.id.tabhost);
-
-
-        ImageView image1 = new ImageView(this);
-        image1.setImageResource(R.drawable.ic_person_black_18dp);
-
-        ImageView image2 = new ImageView(this);
-        image2.setImageResource(R.drawable.ic_edit_black_36dp);
-
-        ImageView image3 = new ImageView(this);
-        image3.setImageResource(R.drawable.ic_photo_camera_black_36dp);
-
-        ImageView image4 = new ImageView(this);
-        image4.setImageResource(R.drawable.ic_videocam_black_36dp);
-
-        ImageView image5 = new ImageView(this);
-        image5.setImageResource(R.drawable.ic_mic_black_36dp);
-
-
-
-        TabHost.TabSpec tab1 = TabHost.newTabSpec("PARTECIPANTS").setIndicator(image1);;
-        TabHost.TabSpec tab2 = TabHost.newTabSpec("NOTES").setIndicator(image2);
-        TabHost.TabSpec tab3 = TabHost.newTabSpec("PHOTOS").setIndicator(image3);
-        TabHost.TabSpec tab4 = TabHost.newTabSpec("VIDEOS").setIndicator(image4);
-        TabHost.TabSpec tab5 = TabHost.newTabSpec("AUDIOS").setIndicator(image5);
-
-        tab1.setContent(R.id.Partecipants);
-        tab2.setContent(R.id.Notes);
-        tab3.setContent(R.id.Photos);
-        tab4.setContent(R.id.Videos);
-        tab5.setContent(R.id.Records);
-
-
-        //TabHost.setup();
-        TabHost.addTab(tab1);
-        TabHost.addTab(tab2);
-        TabHost.addTab(tab3);
-        TabHost.addTab(tab4);
-        TabHost.addTab(tab5);
-
-        TabHost.setCurrentTab(0);
-
-
 
         //retreive the content view of the activity for GetPartecipantiViaggioTask to work
         View contentView = findViewById(android.R.id.content);
@@ -218,6 +192,17 @@ public class ViaggioActivityConFragment extends TabActivity {
         } else {
             Log.e(TAG, "collapsingToolbar is null");
         }
+
+        Button homeButton = (Button)findViewById(R.id.homeButton);
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickHomeButton(v);
+            }
+        });
+
+
+
 
 
         imageTravel = (ImageView) findViewById(R.id.coverImageTravel);
@@ -235,10 +220,8 @@ public class ViaggioActivityConFragment extends TabActivity {
         final int spinnerPosition = adapter.getPosition(livelloMaiuscolo);
 
         if (privacySpinner != null) {
-
             privacySpinner.setAdapter(adapter);
             privacySpinner.setSelection(spinnerPosition);
-
             privacySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -297,9 +280,20 @@ public class ViaggioActivityConFragment extends TabActivity {
                     layoutPartecipants, rowHorizontal, imageTravel, gridViewPhotos, gridViewVideos,
                     gridViewRecords, gridViewNotes).execute().get();
 
+            GetUrlsContentsTask GUCT = new GetUrlsContentsTask(ViaggioActivityConFragment.this, codiceViaggio, email, gridViewPhotos, Constants.QUERY_TRAVEL_IMAGES);
+            GUCT.execute();
+
+
+            new GetUrlsContentsTask(ViaggioActivityConFragment.this, codiceViaggio, email, gridViewVideos, Constants.QUERY_TRAVEL_VIDEOS).execute();
+
+            new GetUrlsContentsTask(ViaggioActivityConFragment.this, codiceViaggio, email, gridViewRecords, Constants.QUERY_TRAVEL_AUDIO).execute();
+
+            GetNotesTask GNT = new GetNotesTask(ViaggioActivityConFragment.this, codiceViaggio, email, gridViewNotes, Constants.QUERY_TRAVEL_NOTES);
+            GNT.delegate = this;
+            GNT.execute();
+
+
             popolaPartecipanti();
-
-
         } catch (InterruptedException e) {
             Log.e(TAG, "GetPartecipantiViaggioTask interrupted!");
             e.printStackTrace();
@@ -329,6 +323,23 @@ public class ViaggioActivityConFragment extends TabActivity {
         super.onRestart();
         recreate();
     }
+
+
+
+
+
+
+    @Override
+    public void processFinishForNotes() {
+        inizializzaTabs();
+    }
+
+
+
+
+
+
+
 
     public void onClickStopsList(View v){
         CharSequence[] namePartecipants = new CharSequence[listPartecipants.size()];
@@ -487,17 +498,12 @@ public class ViaggioActivityConFragment extends TabActivity {
                     onClickImagePartecipant(v);
                 }
             });
-
-
             if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
-
                 String signedUrl = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_NAME, p.getIdImageProfile());
                 Picasso.with(ViaggioActivityConFragment.this).
                         load(signedUrl).
                         resize(DIMENSION_OF_IMAGE_PARTICIPANT, DIMENSION_OF_IMAGE_PARTICIPANT).
                         into(image);
-
-
             }else {
                 if(p.getSesso().equals("M")){
                     image.setImageResource(R.drawable.default_male);
@@ -507,7 +513,6 @@ public class ViaggioActivityConFragment extends TabActivity {
                 }
             }
 
-
             try {
                 Thread.currentThread().sleep(200);
             } catch (InterruptedException e) {
@@ -516,10 +521,7 @@ public class ViaggioActivityConFragment extends TabActivity {
             //image.setImageResource(R.drawable.logodef);
             rowHorizontal.addView(image, DIMENSION_OF_IMAGE_PARTICIPANT, DIMENSION_OF_IMAGE_PARTICIPANT);
             rowHorizontal.addView(new TextView(this), DIMENSION_OF_SPACE, DIMENSION_OF_IMAGE_PARTICIPANT);
-
-
             i++;
-
         }
 
         //action buttons
@@ -565,12 +567,9 @@ public class ViaggioActivityConFragment extends TabActivity {
                             Log.i(TAG, "delete travel pressed");
                             fabMenu.collapse();
                             onClickDeleteTravel(view);
-
                         }
                     });
                 }
-
-
             }
 
         }
@@ -594,8 +593,50 @@ public class ViaggioActivityConFragment extends TabActivity {
                 }
             });
         }
-
     }
+
+
+    // I tabs devono essere inizializzati dopo che i layout sono caricati, per evitare overlaps
+    public void inizializzaTabs(){
+
+        TabHost = (TabHost) findViewById(android.R.id.tabhost);
+        ImageView image1 = new ImageView(this);
+        image1.setImageResource(R.drawable.ic_person_black_18dp);
+
+        ImageView image2 = new ImageView(this);
+        image2.setImageResource(R.drawable.ic_edit_black_36dp);
+
+        ImageView image3 = new ImageView(this);
+        image3.setImageResource(R.drawable.ic_photo_camera_black_36dp);
+
+        ImageView image4 = new ImageView(this);
+        image4.setImageResource(R.drawable.ic_videocam_black_36dp);
+
+        ImageView image5 = new ImageView(this);
+        image5.setImageResource(R.drawable.ic_mic_black_36dp);
+
+        tab1 = TabHost.newTabSpec("PARTECIPANTS").setIndicator(image1);;
+        tab2 = TabHost.newTabSpec("NOTES").setIndicator(image2);
+        tab3 = TabHost.newTabSpec("PHOTOS").setIndicator(image3);
+        tab4 = TabHost.newTabSpec("VIDEOS").setIndicator(image4);
+        tab5 = TabHost.newTabSpec("AUDIOS").setIndicator(image5);
+
+        Log.i(TAG, "tab1: " +tab1);
+
+        tab1.setContent(R.id.Partecipants);
+        tab2.setContent(R.id.Notes);
+        tab3.setContent(R.id.Photos);
+        tab4.setContent(R.id.Videos);
+        tab5.setContent(R.id.Records);
+        TabHost.setup();
+        TabHost.addTab(tab1);
+        TabHost.addTab(tab2);
+        TabHost.addTab(tab3);
+        TabHost.addTab(tab4);
+        TabHost.addTab(tab5);
+        TabHost.setCurrentTab(0);
+    }
+
 
 
     public void onClickImagePartecipant(final View v){
@@ -916,6 +957,8 @@ public class ViaggioActivityConFragment extends TabActivity {
                 .setIcon(ContextCompat.getDrawable(ViaggioActivityConFragment.this, R.drawable.logodefbordo))
                 .show();
     }
+
+
 
 
     private class UtentiTask extends AsyncTask<Void, Void, Void> {

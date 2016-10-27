@@ -3,7 +3,6 @@ package com.takeatrip.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,18 +90,11 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
                     load(completeUrl.toString()).
                     resize(WIDTH_DIMENSION_IMAGE_TRAVEL, HEIGHT_DIMENSION_IMAGE_TRAVEL).
                     into(immagineViaggio);
-
-
         }
         else{
-            Log.i(TAG, "urlImmagine = null");
             immagineViaggio.setImageResource(R.drawable.empty_image);
         }
 
-        Log.i(TAG, "email: " + dataset.get(position).getEmail());
-        Log.i(TAG, "immagine del viaggio: " + dataset.get(position).getNomeViaggio()+": " +
-                holder.imageTravel.getContentDescription() + " "+
-                dataset.get(position).getUrlImageTravel());
 
         //holder.nome.equals(dataset.get(position).getNomeViaggio());
         //      holder.dateTime.setText(dataset.get(position).getmText2());
@@ -148,14 +140,6 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
             emailUser = (TextView) itemView.findViewById(R.id.EmailUser);
             imageTravel = (ImageView) itemView.findViewById(R.id.ImageTravel);
 
-
-            //codice_urlImmagineViaggio = new HashMap<String,String >();
-
-            //nomeViaggio.setText(());
-            //   dateTime = (TextView) itemView.findViewById(R.id.textView2);
-
-
-            Log.i(TAG, "Add Listener");
             itemView.setOnClickListener(this);
         }
 
@@ -178,8 +162,6 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
 
             //v.getContext().startActivity(intent);
             new StartActivityWithIndetProgressTask(context, intent).execute();
-            Log.i(TAG, "urlImmagineViaggio: " + v.getContentDescription());
-
         }
 
     }

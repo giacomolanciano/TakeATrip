@@ -68,9 +68,7 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
 
     public GetUrlsContentsTask(Context context, String codiceViaggio, GridView gridView, String phpFile,
                                String emailProfilo, int ordineTappa) {
-
         this(context, codiceViaggio, emailProfilo, gridView, phpFile);
-
         this.ordineTappa = ordineTappa;
 
     }
@@ -79,9 +77,7 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
                                String emailProfilo, int ordineTappa, ImageView coverImageTappa) {
 
         this(context, codiceViaggio, gridView, phpFile, emailProfilo, ordineTappa);
-
         this.coverImageTappa = coverImageTappa;
-
     }
 
 
@@ -90,10 +86,6 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
         dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
         dataToSend.add(new BasicNameValuePair("email", emailProfilo));
-
-        Log.i(TAG, "codice: " + codiceViaggio);
-        Log.i(TAG, "email: " + emailProfilo);
-
 
         if (phpFile.equals(Constants.QUERY_STOP_IMAGES)
                 || phpFile.equals(Constants.QUERY_STOP_VIDEOS)
@@ -180,9 +172,6 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
 
-        Log.i(TAG, "BEGIN onPostExecute");
-
-
         GridView gv = gridView;
         gv.setOnScrollListener(new ScrollListener(context));
 
@@ -235,7 +224,6 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
             if(phpFile.equals(Constants.QUERY_STOP_IMAGES) && coverImageTappa != null) {
                 Bitmap bitmap  = null;
                 try {
-
                     bitmap = new BitmapWorkerTask(coverImageTappa).execute(URLs[0]).get();
                     coverImageTappa.setImageBitmap(bitmap);
 
@@ -252,32 +240,12 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
                 || phpFile.equals(Constants.QUERY_STOP_VIDEOS)) {
 
             gv.setAdapter(new GridViewAdapter(context, URLs, Constants.VIDEO_FILE, codiceViaggio));
-
         } else {
-
             gv.setAdapter(new GridViewAdapter(context, URLs, Constants.AUDIO_FILE, codiceViaggio));
-
         }
 
 
         Log.i(TAG, "settato l'adapter per il grid");
-
-
-//            ImageGridFragment fragment = (ImageGridFragment)getFragmentManager().findFragmentById(R.id.fragment_images);
-//
-//            ImageGridFragment fragment1 = fragment.newInstance(URLs);
-//
-//            //fragment.setArguments(fragment1.getArguments());
-//
-//            fragment.onDestroy();
-//
-//            Log.i(TAG, "creato un nuovo fragment with bundle: " + fragment1.getArguments().getStringArray("urls"));
-//
-//            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//            transaction.replace(R.id.fragment_images, fragment1);
-//            transaction.addToBackStack(null);
-//            transaction.commit();
-
 
     }
 

@@ -186,47 +186,24 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
     protected void onPostExecute(Boolean aVoid) {
         super.onPostExecute(aVoid);
 
-        new GetUrlsContentsTask(context, codiceViaggio, email, gridViewPhotos, Constants.QUERY_TRAVEL_IMAGES).execute();
-
-        new GetUrlsContentsTask(context, codiceViaggio, email, gridViewVideos, Constants.QUERY_TRAVEL_VIDEOS).execute();
-
-        new GetUrlsContentsTask(context, codiceViaggio, email, gridViewAudio, Constants.QUERY_TRAVEL_AUDIO).execute();
-
-        new GetNotesTask(context, codiceViaggio, email, gridViewNotes, Constants.QUERY_TRAVEL_NOTES).execute();
-
-
-        //viewTitoloViaggio = (TextView) contentView.findViewById(R.id.titoloViaggio);
-        //layoutCopertinaViaggio = (LinearLayout) contentView.findViewById(R.id.layoutCoverImageTravel);
-
-        //layoutCopertinaViaggio = (ImageView) contentView.findViewById(R.id.imageTravel);
 
         if(urlImageTravel != null && !urlImageTravel.equals("null")){
             //new BitmapWorkerTask(null,layoutCopertinaViaggio).execute(urlImageTravel);
-            Log.i(TAG, "IMAGE VIEW : " +layoutCopertinaViaggio);
-            Log.i(TAG, "url immagine : " +urlImageTravel);
-
 
             TakeATrip TAT = (TakeATrip)getApplicationContext();
-
             Log.i(TAG, "TAT : " +TAT);
             Log.i(TAG, "TAT : " +TAT.getCurrentImage());
 
-
             try {
                 if(TAT != null && TAT.getCurrentImage() != null){
-
                     Bitmap resizedBitmap = getResizedBitmap(TAT.getCurrentImage(),layoutCopertinaViaggio);
                     layoutCopertinaViaggio.setImageBitmap(resizedBitmap);
-                    Log.i(TAG, "impostata immagine: " + TAT.getCurrentImage());
+                    TAT.setCurrentImage(null);
                 }
                 else{
                     Bitmap bitmap  = new BitmapWorkerTask(layoutCopertinaViaggio).execute(urlImageTravel).get();
                     layoutCopertinaViaggio.setImageBitmap(bitmap);
-                    Log.i(TAG, "bitmap immagine : " +bitmap);
-
                 }
-
-
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {

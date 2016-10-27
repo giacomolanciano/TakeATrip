@@ -120,6 +120,12 @@ public class ListaTappeActivity extends AppCompatActivity
     private MapFragment mapFragment;
 
 
+    private ImageView addImage;
+    private ImageView addVideo;
+    private ImageView addRecord;
+    private ImageView addNote;
+
+
 
     private Profilo profiloUtenteLoggato;
 
@@ -763,11 +769,15 @@ public class ListaTappeActivity extends AppCompatActivity
                         if(thumbnail != null){
 
                             pathsImmaginiVideoSelezionati.put(thumbnail, f.getAbsolutePath());
-
                             immaginiSelezionate.add(thumbnail);
                             bitmap_nomeFile.put(thumbnail,nomeFile);
                         }
-                        PopolaContenuti();
+
+
+                        //TODO: far partire direttamente TappaActivity
+
+
+                        addImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_photo_camera_blue_36dp));
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -815,9 +825,6 @@ public class ListaTappeActivity extends AppCompatActivity
                                 immaginiSelezionate.add(thumbnail);
                                 bitmap_nomeFile.put(thumbnail, nomeFile);
                             }
-
-                            PopolaContenuti();
-
                         }
 
                     } else {
@@ -895,9 +902,9 @@ public class ListaTappeActivity extends AppCompatActivity
 
                     audioSelezionati.add(audioFilePath);
 
+
+
                     break;
-
-
                 default:
                     Log.e(TAG, "requestCode non riconosciuto");
                     break;
@@ -1094,7 +1101,7 @@ public class ListaTappeActivity extends AppCompatActivity
         });
 
 
-        ImageView addImage = (ImageView)dialog.findViewById(R.id.addImage);
+        addImage = (ImageView)dialog.findViewById(R.id.addImage);
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1102,7 +1109,7 @@ public class ListaTappeActivity extends AppCompatActivity
             }
         });
 
-        ImageView addVideo = (ImageView)dialog.findViewById(R.id.addVideo);
+        addVideo = (ImageView)dialog.findViewById(R.id.addVideo);
         addVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1110,7 +1117,7 @@ public class ListaTappeActivity extends AppCompatActivity
             }
         });
 
-        ImageView addRecord = (ImageView)dialog.findViewById(R.id.addRecord);
+        addRecord = (ImageView)dialog.findViewById(R.id.addRecord);
         addRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1118,7 +1125,7 @@ public class ListaTappeActivity extends AppCompatActivity
             }
         });
 
-        ImageView addNote = (ImageView)dialog.findViewById(R.id.addNote);
+        addNote = (ImageView)dialog.findViewById(R.id.addNote);
         addNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1129,6 +1136,7 @@ public class ListaTappeActivity extends AppCompatActivity
         dialog.show();
 
     }
+
 
 
     private void onClickAddImage(View v) {
@@ -1143,18 +1151,9 @@ public class ListaTappeActivity extends AppCompatActivity
                     switch (which) {
 
                         case 0: //pick images from gallery
-
-
                             Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                             startActivityForResult(intentPick, Constants.REQUEST_IMAGE_PICK);
 
-
-
-
-
-
-
-                            //TODO far diventare immagine blu
 
                             break;
 
@@ -1180,7 +1179,6 @@ public class ListaTappeActivity extends AppCompatActivity
                                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
                                     startActivityForResult(intent, Constants.REQUEST_IMAGE_CAPTURE);
 
-                                    //TODO far diventare immagine blu
                                 }
                             }
                             break;
@@ -1490,8 +1488,6 @@ public class ListaTappeActivity extends AppCompatActivity
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-
-
                             Log.i(TAG, "edit text dialog canceled");
                         }
                     });
@@ -1503,6 +1499,8 @@ public class ListaTappeActivity extends AppCompatActivity
 
                             noteInserite.add(textInputEditText.getText().toString());
                             Log.i(TAG, "edit text confirmed");
+                            addNote.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_blue_36dp));
+
                         }
                     });
 
