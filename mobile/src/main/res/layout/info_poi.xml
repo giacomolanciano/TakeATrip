@@ -91,35 +91,6 @@
                             android:orientation="horizontal"
                             android:layout_marginBottom="@dimen/activity_horizontal_margin">
 
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_photo_camera_black_36dp"
-                                android:layout_gravity="center_vertical"
-                                android:paddingLeft="10dp"
-                                android:paddingRight="10dp"
-                                android:id="@+id/addImage"
-                                android:clickable="true" />
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_videocam_black_36dp"
-                                android:layout_gravity="center_vertical"
-                                android:paddingLeft="10dp"
-                                android:paddingRight="10dp"
-                                android:id="@+id/addVideo"
-                                android:clickable="true" />
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_mic_black_36dp"
-                                android:layout_gravity="center_vertical"
-                                android:paddingLeft="10dp"
-                                android:paddingRight="10dp"
-                                android:id="@+id/addRecord"
-                                android:clickable="true" />
 
                             <ImageView
                                 android:layout_width="wrap_content"
@@ -130,6 +101,13 @@
                                 android:paddingRight="10dp"
                                 android:id="@+id/addNote"
                                 android:clickable="true" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/noteAdded"
+                                android:layout_gravity="center"
+                                android:text="@string/add_a_note"/>
 
                         </LinearLayout>
                     </LinearLayout>

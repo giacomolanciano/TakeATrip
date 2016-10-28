@@ -1,7 +1,6 @@
 package com.takeatrip.Activities;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ClipData;
@@ -41,7 +40,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -92,11 +90,9 @@ import com.takeatrip.Utilities.AudioRecord;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.DatesUtils;
 import com.takeatrip.Utilities.DeviceStorageUtils;
-import com.takeatrip.Utilities.MultimedialFile;
 import com.takeatrip.Utilities.RoundedImageView;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -124,6 +120,7 @@ public class ListaTappeActivity extends AppCompatActivity
     private ImageView addVideo;
     private ImageView addRecord;
     private ImageView addNote;
+    private TextView noteAdded;
 
 
 
@@ -418,9 +415,10 @@ public class ListaTappeActivity extends AppCompatActivity
         Tappa tappa = profiloTappe.get(profiloVisualizzazioneCorrente).get(id);
         Intent i = new Intent(this, TappaActivity.class);
 
+        int ordineTappa = Integer.parseInt(item.getTitle().toString().split("\\. ")[0]);
         i.putExtra("email", email);
         i.putExtra("codiceViaggio", codiceViaggio);
-        i.putExtra("ordine", tappa.getOrdine());
+        i.putExtra("ordine", ordineTappa);
         i.putExtra("nome", item.getTitle());
         i.putExtra("data", DatesUtils.getStringFromDate(tappa.getData(), Constants.DISPLAYED_DATE_FORMAT));
         i.putExtra("codAccount", 0);
@@ -504,6 +502,9 @@ public class ListaTappeActivity extends AppCompatActivity
 
         Intent i = new Intent(this, TappaActivity.class);
 
+        if(profiloVisualizzazioneCorrente != profiloUtenteLoggato){
+            i.putExtra("visualizzazioneEsterna","true");
+        }
         i.putExtra("email", email);
         i.putExtra("codiceViaggio", codiceViaggio);
         i.putExtra("ordine", ordineTappa);
@@ -697,12 +698,11 @@ public class ListaTappeActivity extends AppCompatActivity
         if(menu != null) {
             int i = 0;
             for (Tappa t : tappe) {
-                menu.add(0, i + 1, Menu.NONE, t.getName());
+                menu.add(0, i + 1, Menu.NONE, (i+1) +". " + t.getName());
+                i++;
             }
         }
     }
-
-
 
 
 
@@ -1101,6 +1101,7 @@ public class ListaTappeActivity extends AppCompatActivity
         });
 
 
+        /*
         addImage = (ImageView)dialog.findViewById(R.id.addImage);
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1124,6 +1125,17 @@ public class ListaTappeActivity extends AppCompatActivity
                 onClickAddRecord(view);
             }
         });
+        */
+
+
+        noteAdded = (TextView) dialog.findViewById(R.id.noteAdded);
+        noteAdded.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickAddNote(view);
+            }
+        });
+
 
         addNote = (ImageView)dialog.findViewById(R.id.addNote);
         addNote.setOnClickListener(new View.OnClickListener() {
@@ -1133,12 +1145,15 @@ public class ListaTappeActivity extends AppCompatActivity
             }
         });
 
+
+
+
         dialog.show();
 
     }
 
 
-
+    /*
     private void onClickAddImage(View v) {
 
         try {
@@ -1464,50 +1479,75 @@ public class ListaTappeActivity extends AppCompatActivity
             Log.e(e.toString().toUpperCase(), e.getMessage());
         }
     }
+    */
 
 
     private void onClickAddNote(View v) {
         try {
 
             ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
-
             final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(wrapper);
             LayoutInflater inflater = this.getLayoutInflater();
             final View dialogView = inflater.inflate(R.layout.material_edit_text, null);
             builder.setView(dialogView);
 
             textInputLayout = (TextInputLayout) dialogView.findViewById(R.id.textInputLayout);
-            if (textInputLayout != null) {
-                textInputLayout.setCounterEnabled(true);
-                textInputLayout.setCounterMaxLength(Constants.NOTE_MAX_LENGTH);
-            }
             textInputEditText = (TextInputEditText) dialogView.findViewById(R.id.editText);
 
-            builder.setNegativeButton(getString(R.string.cancel),
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            Log.i(TAG, "edit text dialog canceled");
-                        }
-                    });
-
-            builder.setPositiveButton(getString(R.string.ok),
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            noteInserite.add(textInputEditText.getText().toString());
-                            Log.i(TAG, "edit text confirmed");
-                            addNote.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_blue_36dp));
-
-                        }
-                    });
 
 
-            builder.setTitle(getString(R.string.labelNote));
+            if(noteInserite.size() == 1){
+                if (textInputLayout != null) {
+                    textInputLayout.setCounterEnabled(true);
+                    textInputLayout.setCounterMaxLength((Constants.NOTE_MAX_LENGTH - noteInserite.get(0).length()));
+                }
+            }
+            else{
 
-            android.support.v7.app.AlertDialog dialog = builder.create();
+                if (textInputLayout != null) {
+                    textInputLayout.setCounterEnabled(true);
+                    textInputLayout.setCounterMaxLength(Constants.NOTE_MAX_LENGTH);
+                }
+            }
+
+                builder.setNegativeButton(getString(R.string.cancel),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                Log.i(TAG, "edit text dialog canceled");
+                            }
+                        });
+
+                builder.setPositiveButton(getString(R.string.ok),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(noteInserite.size() == 0)
+                                    noteInserite.add(textInputEditText.getText().toString());
+                                else{
+                                    noteInserite.remove(0);
+                                    noteInserite.add(textInputEditText.getText().toString());
+                                }
+                                Log.i(TAG, "note inserite: " + noteInserite);
+                                noteAdded.setText(noteInserite.get(0));
+
+                                if (!noteInserite.get(0).equals("")){
+                                    addNote.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_blue_36dp));
+                                }
+                                else{
+                                    addNote.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_black_36dp));
+                                }
+
+                            }
+                        });
+
+
+                builder.setTitle(getString(R.string.labelNote));
+
+                android.support.v7.app.AlertDialog dialog = builder.create();
+
+
             dialog.show();
 
         } catch (Exception e) {

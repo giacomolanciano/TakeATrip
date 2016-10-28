@@ -76,6 +76,10 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     private static final String ADDRESS_QUERY_URLS= "QueryImagesOfStops.php";
 
     private String email, codiceViaggio, nomeTappa, data;
+
+    private String visualizzazioneEsterna = "";
+    private boolean esterna = false;
+
     private int ordineTappa;
     private TextView textDataTappa;
     private String[] strings, subs;
@@ -117,7 +121,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
         Intent i = getIntent();
         if (i != null) {
-
+            visualizzazioneEsterna = i.getStringExtra("visualizzazioneEsterna");
             email = i.getStringExtra("email");
             codiceViaggio = i.getStringExtra("codiceViaggio");
             ordineTappa = i.getIntExtra("ordine", 0);   //è l'ordine del db
@@ -132,18 +136,12 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         Log.i(TAG, "nome: "+nomeTappa);
         Log.i(TAG, "data: "+data);
 
+        if(visualizzazioneEsterna != null){
+            esterna = true;
+            Log.i(TAG, "siamo in visualizzazione esterna della tappa: ");
 
-/*
-        mExpandableListItemAdapter = new ExpandableListItemAdapter(this);
-        AlphaInAnimationAdapter alphaInAnimationAdapter = new AlphaInAnimationAdapter(mExpandableListItemAdapter);
-        alphaInAnimationAdapter.setAbsListView(lista);
+        }
 
-        assert alphaInAnimationAdapter.getViewAnimator() != null;
-        alphaInAnimationAdapter.getViewAnimator().setInitialDelayMillis(INITIAL_DELAY_MILLIS);
-        lista.setAdapter(alphaInAnimationAdapter);
-        //getListView().setAdapter(alphaInAnimationAdapter);
-
-*/
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.myToolbar);
         setSupportActionBar(toolbar);
@@ -160,13 +158,10 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
         Spinner privacySpinner = (Spinner) findViewById(R.id.spinnerPrivacyLevel);
-
         final PrivacyLevelAdapter adapter = new PrivacyLevelAdapter(TappaActivity.this, R.layout.entry_privacy_level, strings);
 
         if (privacySpinner != null) {
-
             privacySpinner.setAdapter(adapter);
-
             privacySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -183,15 +178,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         } else {
             Log.e(TAG, "privacySpinner is null");
         }
-
-
-
-
-
-//        final ActionBar ab = getSupportActionBar();
-//        ab.setHomeAsUpIndicator(R.drawable.ic_settings_black_36dp);
-//        ab.setDisplayHomeAsUpEnabled(true);
-
 
 
         appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
@@ -239,8 +225,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
         fabMenu = (FloatingActionsMenu) findViewById(R.id.menuInserimentoContenuti);
-
-
         buttonAddNote = (FloatingActionButton) findViewById(R.id.buttonAddNote);
         if (buttonAddNote != null) {
             buttonAddNote.setIcon(R.drawable.ic_edit_black_36dp);
@@ -328,6 +312,12 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                 }
             });
         }
+
+        if(esterna){
+            fabMenu.setVisibility(View.INVISIBLE);
+        }
+
+
 
 
         isCanceled = false;
