@@ -92,15 +92,16 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
     private static final String TAG = "TEST ViaggioActivity";
     private static final String ADDRESS = "QueryNomiUtenti.php";
-    private static final int DIMENSION_OF_IMAGE_PARTICIPANT = Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT;
-    private static final int DIMENSION_OF_SPACE = Constants.BASE_DIMENSION_OF_SPACE;
+
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
     private static final int LIMIT_IMAGES_VIEWS = 4;
 
+    private int DIMENSION_OF_IMAGE_PARTICIPANT = Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT;
+    private int DIMENSION_OF_SPACE = Constants.BASE_DIMENSION_OF_SPACE;
+
 
     private boolean proprioViaggio = false;
-
     private boolean fineImageTask = false;
     private boolean fineNoteTask = false;
 
@@ -294,7 +295,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
             GNT.execute();
 
 
-            popolaPartecipanti();
         } catch (InterruptedException e) {
             Log.e(TAG, "GetPartecipantiViaggioTask interrupted!");
             e.printStackTrace();
@@ -302,6 +302,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
             Log.e(TAG, "GetPartecipantiViaggioTask not executed!");
             e.printStackTrace();
         }
+        popolaPartecipanti();
 
 
         showProgressDialog();
@@ -478,6 +479,17 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
 
     private void popolaPartecipanti(){
+
+
+        float density = getResources().getDisplayMetrics().density;
+
+        Log.i(TAG, "density of the screen: " + density);
+
+        if(density == 3.0 || density == 4.0){
+            DIMENSION_OF_SPACE = DIMENSION_OF_SPACE*2;
+            DIMENSION_OF_IMAGE_PARTICIPANT = DIMENSION_OF_IMAGE_PARTICIPANT*2;
+        }
+
         int i=0;
         for(Profilo p : listPartecipants){
             if(i%LIMIT_IMAGES_VIEWS == 0){

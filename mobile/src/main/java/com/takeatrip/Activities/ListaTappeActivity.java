@@ -521,12 +521,21 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-
-
-
     private void PopolaPartecipanti(final Set<Profilo> partecipants){
-        layoutProprietariItinerari.addView(new TextView(this), Constants.WIDTH_LAYOUT_PROPRIETARI_ITINERARI,
-                Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI);
+
+        int widthLayoutProprietari = Constants.WIDTH_LAYOUT_PROPRIETARI_ITINERARI;
+        int heighLayoutProprietari = Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI;
+
+        float density = getResources().getDisplayMetrics().density;
+        Log.i(TAG, "density of the screen: " + density);
+
+        if(density == 3.0 || density == 4.0){
+            widthLayoutProprietari = widthLayoutProprietari*2;
+            heighLayoutProprietari = heighLayoutProprietari*2;
+        }
+
+        layoutProprietariItinerari.addView(new TextView(this), widthLayoutProprietari,
+                heighLayoutProprietari);
 
         for(Profilo p : partecipants){
             ImageView image = new RoundedImageView(this, null);
@@ -538,7 +547,7 @@ public class ListaTappeActivity extends AppCompatActivity
                     completeUrl = new LoadGenericImageTask(p.getIdImageProfile(), this).execute().get();
                     Picasso.with(this)
                             .load(completeUrl.toString())
-                            .resize(Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI, Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI)
+                            .resize(heighLayoutProprietari, heighLayoutProprietari)
                             .into(image);
 
                 } catch (Exception e) {
@@ -564,10 +573,10 @@ public class ListaTappeActivity extends AppCompatActivity
                 }
             });
 
-            layoutProprietariItinerari.addView(image, Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI,
-                    Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI);
-            layoutProprietariItinerari.addView(new TextView(this), Constants.WIDTH_LAYOUT_PROPRIETARI_ITINERARI,
-                    Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI);
+            layoutProprietariItinerari.addView(image, heighLayoutProprietari,
+                    heighLayoutProprietari);
+            layoutProprietariItinerari.addView(new TextView(this), widthLayoutProprietari,
+                    heighLayoutProprietari);
 
         }
     }
@@ -1100,6 +1109,25 @@ public class ListaTappeActivity extends AppCompatActivity
             }
         });
 
+        noteAdded = (TextView) dialog.findViewById(R.id.noteAdded);
+        noteAdded.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickAddNote(view);
+            }
+        });
+
+
+        addNote = (ImageView)dialog.findViewById(R.id.addNote);
+        addNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickAddNote(view);
+            }
+        });
+
+        dialog.show();
+
 
         /*
         addImage = (ImageView)dialog.findViewById(R.id.addImage);
@@ -1128,27 +1156,6 @@ public class ListaTappeActivity extends AppCompatActivity
         */
 
 
-        noteAdded = (TextView) dialog.findViewById(R.id.noteAdded);
-        noteAdded.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onClickAddNote(view);
-            }
-        });
-
-
-        addNote = (ImageView)dialog.findViewById(R.id.addNote);
-        addNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onClickAddNote(view);
-            }
-        });
-
-
-
-
-        dialog.show();
 
     }
 

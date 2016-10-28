@@ -87,11 +87,12 @@ public class ViaggioActivity extends AppCompatActivity {
 
     private static final String TAG = "TEST ViaggioActivity";
     private static final String ADDRESS = "QueryNomiUtenti.php";
-    private static final int DIMENSION_OF_IMAGE_PARTICIPANT = Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT;
-    private static final int DIMENSION_OF_SPACE = Constants.BASE_DIMENSION_OF_SPACE;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
     private static final int LIMIT_IMAGES_VIEWS = 4;
+
+    private int DIMENSION_OF_IMAGE_PARTICIPANT = Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT;
+    private int DIMENSION_OF_SPACE = Constants.BASE_DIMENSION_OF_SPACE;
 
     private String email, emailEsterno, codiceViaggio, nomeViaggio;
     private boolean proprioViaggio = false;
@@ -421,6 +422,14 @@ public class ViaggioActivity extends AppCompatActivity {
 
 
     private void popolaPartecipanti(){
+        float density = getResources().getDisplayMetrics().density;
+        Log.i(TAG, "density of the screen: " + density);
+        if(density == 3.0 || density == 4.0){
+            DIMENSION_OF_SPACE = DIMENSION_OF_SPACE*2;
+            DIMENSION_OF_IMAGE_PARTICIPANT = DIMENSION_OF_IMAGE_PARTICIPANT*2;
+        }
+
+
         int i=0;
         for(Profilo p : listPartecipants){
             if(i%LIMIT_IMAGES_VIEWS == 0){
