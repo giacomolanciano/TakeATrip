@@ -39,17 +39,22 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.takeatrip.Adapters.ExpandableListAdapter;
 import com.takeatrip.AsyncTasks.AggiornamentoDataTappaTask;
 import com.takeatrip.AsyncTasks.BitmapWorkerTask;
 import com.takeatrip.AsyncTasks.DeleteStopTask;
+import com.takeatrip.AsyncTasks.GetNotesTask;
 import com.takeatrip.AsyncTasks.GetUrlsContentsTask;
 import com.takeatrip.AsyncTasks.InserimentoAudioTappaTask;
 import com.takeatrip.AsyncTasks.InserimentoImmagineTappaTask;
 import com.takeatrip.AsyncTasks.InserimentoNotaTappaTask;
 import com.takeatrip.AsyncTasks.InserimentoVideoTappaTask;
 import com.takeatrip.AsyncTasks.UploadFileS3Task;
+import com.takeatrip.Classes.NotaTappa;
 import com.takeatrip.Fragments.DatePickerFragment;
+import com.takeatrip.GraphicalComponents.AdaptableExpandableListView;
 import com.takeatrip.GraphicalComponents.AdaptableGridView;
+import com.takeatrip.Interfaces.AsyncResponseNotes;
 import com.takeatrip.R;
 import com.takeatrip.Utilities.AudioRecord;
 import com.takeatrip.Utilities.Constants;
@@ -70,7 +75,7 @@ import java.util.Map;
 import toan.android.floatingactionmenu.FloatingActionButton;
 import toan.android.floatingactionmenu.FloatingActionsMenu;
 
-public class TappaActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class TappaActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener , AsyncResponseNotes{
 
     private static final String TAG = "TEST TappaActivity";
     private static final String ADDRESS_QUERY_URLS= "QueryImagesOfStops.php";
@@ -114,11 +119,34 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     private ProgressDialog progressDialog;
 
 
+
+
+
+
+
+    ExpandableListAdapter listAdapter;
+    AdaptableExpandableListView expListView;
+    List<String> listDataHeader;
+    HashMap<String, List<NotaTappa>> listDataChild;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tappa);
-
         Intent i = getIntent();
         if (i != null) {
             visualizzazioneEsterna = i.getStringExtra("visualizzazioneEsterna");
@@ -184,26 +212,21 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         final View view = findViewById(R.id.viewSfondoTitolo);
 
 
-        //TODO rivedere comportamento collapsing toolbar
-//        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-//            @Override
-//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//                if(verticalOffset == -toolbar.getHeight()){
-//                    Log.i(TAG, "toolbar collapsed");
-//
-//                    view.setVisibility(View.INVISIBLE);
-//                }else
-//                    view.setVisibility(View.VISIBLE);
-//
-//
-//            }
-//        });
-
-
         gridViewPhotos = (AdaptableGridView) findViewById(R.id.grid_view_photos);
         gridViewVideos = (AdaptableGridView) findViewById(R.id.grid_view_videos);
         gridViewRecords = (AdaptableGridView) findViewById(R.id.grid_view_records);
-        gridViewNotes = (AdaptableGridView) findViewById(R.id.grid_view_notes);
+
+
+        /*
+        LinearLayout layoutNotes = (LinearLayout) findViewById(R.id.layoutNotes);
+        layoutNotes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new GetNotesTask(TappaActivity.this, codiceViaggio, null, Constants.QUERY_STOP_NOTES,
+                        email, ordineTappa).execute();
+            }
+        });
+        */
 
 
 
@@ -220,8 +243,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             if(date != null)
                 textDataTappa.setText(date);
         }
-
-
 
 
         fabMenu = (FloatingActionsMenu) findViewById(R.id.menuInserimentoContenuti);
@@ -318,8 +339,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         }
 
 
-
-
         isCanceled = false;
         isRecordFileCreated = false;
         progressStatus = 0;
@@ -346,10 +365,76 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         new GetUrlsContentsTask(TappaActivity.this, codiceViaggio, gridViewRecords, Constants.QUERY_STOP_AUDIO,
                 email, ordineTappa).execute();
 
-        //new GetNotesTask(TappaActivity.this, codiceViaggio, gridViewNotes, Constants.QUERY_STOP_NOTES,
-        //        email, ordineTappa).execute();
+
+        GetNotesTask GTN = new GetNotesTask(TappaActivity.this, codiceViaggio, null, Constants.QUERY_STOP_NOTES,
+                email, ordineTappa);
+        GTN.delegate = this;
+        GTN.execute();
+
+
+
+
+
+
+
+
+        // get the listview
+        expListView = (AdaptableExpandableListView) findViewById(R.id.notesExpandable);
+
+        // preparing list data
+        prepareListData();
+
+
+
+
+
+
+
+
 
     }
+
+
+
+    private void prepareListData() {
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<NotaTappa>>();
+
+        listDataHeader.add("Notes");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @Override
+    public void processFinishForNotes(NotaTappa[] notes) {
+        Log.i(TAG, "Qui si vedranno le note della tappa");
+
+        List<NotaTappa> noteTappa = new ArrayList<NotaTappa>();
+
+        for(NotaTappa nt : notes){
+            noteTappa.add(nt);
+        }
+        listDataChild.put(listDataHeader.get(0), noteTappa);
+
+        listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
+
+    }
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -1313,6 +1398,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
         NavUtils.navigateUpTo(this, intent);
     }
+
 
 
     private class PrivacyLevelAdapter extends ArrayAdapter<String> {

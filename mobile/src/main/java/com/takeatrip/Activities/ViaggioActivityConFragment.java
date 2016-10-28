@@ -56,6 +56,7 @@ import com.takeatrip.AsyncTasks.ItinerariesTask;
 import com.takeatrip.AsyncTasks.StartActivityWithIndetProgressTask;
 import com.takeatrip.AsyncTasks.UpdateCondivisioneViaggioTask;
 import com.takeatrip.AsyncTasks.UpdateTravelNameTask;
+import com.takeatrip.Classes.NotaTappa;
 import com.takeatrip.Classes.Profilo;
 import com.takeatrip.Classes.TakeATrip;
 import com.takeatrip.GraphicalComponents.AdaptableGridView;
@@ -332,7 +333,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
 
     @Override
-    public void processFinishForNotes() {
+    public void processFinishForNotes(NotaTappa[] notes) {
         inizializzaTabs();
     }
 

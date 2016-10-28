@@ -296,6 +296,7 @@
     <string name="adviseNewTravel">Would you like to add a new Travel?</string>
     <string name="exit_travel_alert">are you sure to exit from this travel?</string>
     <string name="add_a_note">Add a note</string>
+    <string name="view_notes">Notes</string>
 
 
 </resources>

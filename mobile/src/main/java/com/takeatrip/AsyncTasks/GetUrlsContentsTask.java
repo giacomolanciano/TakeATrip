@@ -8,13 +8,19 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SimpleAdapter;
 
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.takeatrip.Adapters.GridViewAdapter;
 import com.takeatrip.Adapters.GridViewImageAdapter;
 import com.takeatrip.Classes.ContenutoMultimediale;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.InternetConnection;
 import com.takeatrip.Utilities.ScrollListener;
+import com.takeatrip.Utilities.UtilS3Amazon;
+import com.takeatrip.Utilities.UtilS3AmazonCustom;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -31,6 +37,8 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -54,6 +62,14 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
 
     private ImageView coverImageTappa;
 
+    // The TransferUtility is the primary class for managing transfer to S3
+    private TransferUtility transferUtility;
+    private SimpleAdapter simpleAdapter;
+    private List<TransferObserver> observers;
+    private ArrayList<HashMap<String, List<Object>>> transferRecordMaps;
+    private AmazonS3Client s3;
+
+
 
     public GetUrlsContentsTask(Context context, String codiceViaggio, String emailProfilo,
                                GridView gridView, String phpFile) {
@@ -64,6 +80,10 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
         this.emailProfilo = emailProfilo;
         listContents = new ArrayList<ContenutoMultimediale>();
 
+        transferUtility = UtilS3Amazon.getTransferUtility(context);
+        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
+        s3 = UtilS3Amazon.getS3Client(context);
+
     }
 
     public GetUrlsContentsTask(Context context, String codiceViaggio, GridView gridView, String phpFile,
@@ -71,6 +91,9 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
         this(context, codiceViaggio, emailProfilo, gridView, phpFile);
         this.ordineTappa = ordineTappa;
 
+        transferUtility = UtilS3Amazon.getTransferUtility(context);
+        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
+        s3 = UtilS3Amazon.getS3Client(context);
     }
 
     public GetUrlsContentsTask(Context context, String codiceViaggio, GridView gridView, String phpFile,
@@ -78,6 +101,10 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
 
         this(context, codiceViaggio, gridView, phpFile, emailProfilo, ordineTappa);
         this.coverImageTappa = coverImageTappa;
+
+        transferUtility = UtilS3Amazon.getTransferUtility(context);
+        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
+        s3 = UtilS3Amazon.getS3Client(context);
     }
 
 
@@ -194,9 +221,6 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
                     //per facilitare l'eliminazione del contenuto
 
                     URLs[i] = image.getUrlContenuto();
-
-                    //Log.i(TAG, "url ["+i+"]: "+ URLs[i]);
-
                     i++;
                 }
             }
@@ -204,11 +228,7 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
                 return;
             }
 
-            String debug = "";
-            for (String s:URLs)
-                debug += s + ", ";
-
-            Log.i(TAG, "URLs: " + debug);
+            Log.i(TAG, "URLs: " + Arrays.toString(URLs));
 
         } else {
             return;
@@ -224,7 +244,11 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
             if(phpFile.equals(Constants.QUERY_STOP_IMAGES) && coverImageTappa != null) {
                 Bitmap bitmap  = null;
                 try {
-                    bitmap = new BitmapWorkerTask(coverImageTappa).execute(URLs[0]).get();
+
+                    final String url = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_TRAVELS_NAME,URLs[0]);
+
+                    Log.i(TAG, "final url dell'immagine da mettere come copertina della tappa");
+                    bitmap = new BitmapWorkerTask(coverImageTappa).execute(url).get();
                     coverImageTappa.setImageBitmap(bitmap);
 
                 } catch (InterruptedException e) {

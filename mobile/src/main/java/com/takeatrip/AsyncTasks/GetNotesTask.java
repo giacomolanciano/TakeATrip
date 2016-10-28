@@ -4,13 +4,16 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import com.takeatrip.Adapters.ListViewNotesAdapter;
 import com.takeatrip.Classes.NotaTappa;
 import com.takeatrip.Interfaces.AsyncResponseNotes;
+import com.takeatrip.R;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.InternetConnection;
+import com.takeatrip.Utilities.ScrollListener;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -40,6 +43,7 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
 
     private Context context;
     private ListView listView;
+    private GridView gridView;
     private String phpFile, emailProfilo;
     private int ordineTappa;
 
@@ -70,6 +74,7 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
     }
 
 
+
     @Override
     protected Void doInBackground(Void... params) {
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
@@ -84,7 +89,6 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
             dataToSend.add(new BasicNameValuePair("ordineTappa", ordineTappa + ""));
             Log.i(TAG, "ordineTappa: " + ordineTappa);
         }
-
 
         try {
             if (InternetConnection.haveInternetConnection(context)) {
@@ -147,21 +151,19 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
 
         super.onPostExecute(aVoid);
 
-        Log.i(TAG, "BEGIN onPostExecute");
-
         ListView lv = listView;
-        //gv.setOnScrollListener(new ScrollListener(context));
+        GridView gv = gridView;
+        if(gv != null)
+        gv.setOnScrollListener(new ScrollListener(context));
 
         Log.i(TAG, "listContents.size() = " + listContents.size());
 
         if (listContents.size() > 0) {
-
             notes = new NotaTappa[listContents.size()];
             notes = listContents.toArray(notes);
-
             if (notes[0] == null || notes[0].equals("null")) {
                 if (!phpFile.equals(Constants.QUERY_STOP_NOTES)) {
-                    delegate.processFinishForNotes();
+                    delegate.processFinishForNotes(notes);
                 }
                 return;
             }
@@ -169,7 +171,7 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
 
         } else {
             if (!phpFile.equals(Constants.QUERY_STOP_NOTES)) {
-                delegate.processFinishForNotes();
+                delegate.processFinishForNotes(notes);
             }
             return;
         }
@@ -177,12 +179,19 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
 
         Log.i(TAG, "notes: " + Arrays.toString(notes));
 
-        ListViewNotesAdapter adapter = new ListViewNotesAdapter(context,android.R.layout.simple_list_item_1 ,notes);
-        lv.setAdapter(adapter);
+        if(lv != null){
+            ListViewNotesAdapter adapter = new ListViewNotesAdapter(context, R.layout.entry_list_notes ,notes);
+            lv.setAdapter(adapter);
+            Log.i(TAG, "settato il list adapter per la lista");
+        }
+        else{
+            delegate.processFinishForNotes(notes);
+        }
 
-        Log.i(TAG, "settato l'adapter per la lista");
+
+
         if (!phpFile.equals(Constants.QUERY_STOP_NOTES)) {
-            delegate.processFinishForNotes();
+            delegate.processFinishForNotes(notes);
         }
     }
 
