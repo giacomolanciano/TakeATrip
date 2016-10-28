@@ -21,17 +21,13 @@
             android:layout_gravity="left"/>
     </LinearLayout>
 
-    <com.takeatrip.GraphicalComponents.AdaptableGridView
+    <com.takeatrip.GraphicalComponents.AdaptableListView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/grid_view_notes"
+        android:id="@+id/list_view_notes"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:numColumns="3"
         android:scrollbarStyle="insideOverlay"
-        android:scrollbars="none"
-        android:listSelector="@null"
         />
 
 </LinearLayout>

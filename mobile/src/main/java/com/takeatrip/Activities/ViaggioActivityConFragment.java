@@ -34,6 +34,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TabHost;
@@ -202,9 +203,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         });
 
 
-
-
-
         imageTravel = (ImageView) findViewById(R.id.coverImageTravel);
 
         strings = getResources().getStringArray(R.array.PrivacyLevel);
@@ -267,7 +265,10 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         gridViewPhotos = (AdaptableGridView) findViewById(R.id.grid_view_photos);
         gridViewVideos = (AdaptableGridView) findViewById(R.id.grid_view_videos);
         gridViewRecords = (AdaptableGridView) findViewById(R.id.grid_view_records);
+
         gridViewNotes = (AdaptableGridView) findViewById(R.id.grid_view_notes);
+        ListView listViewNotes = (ListView)findViewById(R.id.list_view_notes);
+
 
         //layoutCopertinaViaggio = (LinearLayout) findViewById(R.id.layoutCoverImageTravel);
 
@@ -288,7 +289,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
             new GetUrlsContentsTask(ViaggioActivityConFragment.this, codiceViaggio, email, gridViewRecords, Constants.QUERY_TRAVEL_AUDIO).execute();
 
-            GetNotesTask GNT = new GetNotesTask(ViaggioActivityConFragment.this, codiceViaggio, email, gridViewNotes, Constants.QUERY_TRAVEL_NOTES);
+            GetNotesTask GNT = new GetNotesTask(ViaggioActivityConFragment.this, codiceViaggio, email, listViewNotes, Constants.QUERY_TRAVEL_NOTES);
             GNT.delegate = this;
             GNT.execute();
 

@@ -42,7 +42,6 @@ import android.widget.TextView;
 import com.takeatrip.AsyncTasks.AggiornamentoDataTappaTask;
 import com.takeatrip.AsyncTasks.BitmapWorkerTask;
 import com.takeatrip.AsyncTasks.DeleteStopTask;
-import com.takeatrip.AsyncTasks.GetNotesTask;
 import com.takeatrip.AsyncTasks.GetUrlsContentsTask;
 import com.takeatrip.AsyncTasks.InserimentoAudioTappaTask;
 import com.takeatrip.AsyncTasks.InserimentoImmagineTappaTask;
@@ -357,8 +356,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         new GetUrlsContentsTask(TappaActivity.this, codiceViaggio, gridViewRecords, Constants.QUERY_STOP_AUDIO,
                 email, ordineTappa).execute();
 
-        new GetNotesTask(TappaActivity.this, codiceViaggio, gridViewNotes, Constants.QUERY_STOP_NOTES,
-                email, ordineTappa).execute();
+        //new GetNotesTask(TappaActivity.this, codiceViaggio, gridViewNotes, Constants.QUERY_STOP_NOTES,
+        //        email, ordineTappa).execute();
 
     }
 

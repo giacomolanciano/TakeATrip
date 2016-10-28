@@ -4,13 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.GridView;
+import android.widget.ListView;
 
-import com.takeatrip.Adapters.GridViewAdapter;
+import com.takeatrip.Adapters.ListViewNotesAdapter;
+import com.takeatrip.Classes.NotaTappa;
 import com.takeatrip.Interfaces.AsyncResponseNotes;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.InternetConnection;
-import com.takeatrip.Utilities.ScrollListener;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -27,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -38,34 +39,32 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
     public AsyncResponseNotes delegate = null;
 
     private Context context;
-    private GridView gridView;
+    private ListView listView;
     private String phpFile, emailProfilo;
     private int ordineTappa;
 
     private String codiceViaggio;
     InputStream is = null;
     String result, stringaFinale = "";
-    private List<String> listContents;
-    private String[] notes;
+    private List<NotaTappa> listContents;
+    private NotaTappa[] notes;
 
     private ProgressDialog mProgressDialog;
 
     public GetNotesTask(Context context, String codiceViaggio, String emailProfilo,
-                        GridView gridView, String phpFile) {
+                        ListView listView, String phpFile) {
         this.codiceViaggio = codiceViaggio;
         this.context = context;
-        this.gridView = gridView;
+        this.listView = listView;
         this.phpFile = phpFile;
         this.emailProfilo = emailProfilo;
-        listContents = new ArrayList<String>();
+        listContents = new ArrayList<NotaTappa>();
 
     }
 
-    public GetNotesTask(Context context, String codiceViaggio, GridView gridView, String phpFile,
+    public GetNotesTask(Context context, String codiceViaggio, ListView listView, String phpFile,
                                String emailProfilo, int ordineTappa) {
-
-        this(context, codiceViaggio, emailProfilo, gridView, phpFile);
-
+        this(context, codiceViaggio, emailProfilo, listView, phpFile);
         this.ordineTappa = ordineTappa;
 
     }
@@ -118,15 +117,15 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
 
                 if(result != null && !result.equals("null\n")){
                     JSONArray jArray = new JSONArray(result);
-                    String nota;
+                    String nota, livelloCondivisione, username;
 
                     if (jArray != null) {
                         for (int i = 0; i < jArray.length(); i++) {
                             JSONObject json_data = jArray.getJSONObject(i);
                             nota = json_data.getString("nota");
-
-                            listContents.add(nota);
-
+                            livelloCondivisione = json_data.getString("livelloCondivisione");
+                            username = json_data.getString("username");
+                            listContents.add(new NotaTappa(username, ordineTappa, livelloCondivisione, nota));
                         }
                     }
 
@@ -150,20 +149,14 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
 
         Log.i(TAG, "BEGIN onPostExecute");
 
-        GridView gv = gridView;
-        gv.setOnScrollListener(new ScrollListener(context));
+        ListView lv = listView;
+        //gv.setOnScrollListener(new ScrollListener(context));
 
         Log.i(TAG, "listContents.size() = " + listContents.size());
 
         if (listContents.size() > 0) {
 
-            //se la lista di elementi da caricare è non vuota, il linear layout parent viene visualizzato
-            //LinearLayout parent = (LinearLayout) gv.getParent();
-            //parent.setVisibility(View.VISIBLE);
-
-
-            notes = new String[listContents.size()];
-
+            notes = new NotaTappa[listContents.size()];
             notes = listContents.toArray(notes);
 
             if (notes[0] == null || notes[0].equals("null")) {
@@ -173,9 +166,6 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
                 return;
             }
 
-            String debug = "";
-            for (String s:notes)
-                debug += s + ", ";
 
         } else {
             if (!phpFile.equals(Constants.QUERY_STOP_NOTES)) {
@@ -184,8 +174,13 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
             return;
         }
 
-        gv.setAdapter(new GridViewAdapter(context, notes, Constants.NOTE_FILE, codiceViaggio));
-        Log.i(TAG, "settato l'adapter per il grid");
+
+        Log.i(TAG, "notes: " + Arrays.toString(notes));
+
+        ListViewNotesAdapter adapter = new ListViewNotesAdapter(context,android.R.layout.simple_list_item_1 ,notes);
+        lv.setAdapter(adapter);
+
+        Log.i(TAG, "settato l'adapter per la lista");
         if (!phpFile.equals(Constants.QUERY_STOP_NOTES)) {
             delegate.processFinishForNotes();
         }
