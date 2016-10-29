@@ -34,7 +34,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TabHost;
@@ -46,6 +45,7 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.google.android.gms.drive.DriveId;
 import com.squareup.picasso.Picasso;
+import com.takeatrip.Adapters.ExpandableListAdapter;
 import com.takeatrip.AsyncTasks.BitmapWorkerTask;
 import com.takeatrip.AsyncTasks.DeleteTravelTask;
 import com.takeatrip.AsyncTasks.ExitTravelTask;
@@ -59,6 +59,7 @@ import com.takeatrip.AsyncTasks.UpdateTravelNameTask;
 import com.takeatrip.Classes.NotaTappa;
 import com.takeatrip.Classes.Profilo;
 import com.takeatrip.Classes.TakeATrip;
+import com.takeatrip.GraphicalComponents.AdaptableExpandableListView;
 import com.takeatrip.GraphicalComponents.AdaptableGridView;
 import com.takeatrip.Interfaces.AsyncResponseNotes;
 import com.takeatrip.R;
@@ -163,6 +164,10 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
     private TabHost.TabSpec tab4;
     private TabHost.TabSpec tab5;
 
+    AdaptableExpandableListView listViewNotes;
+    List<String> listDataHeader;
+    HashMap<String, List<NotaTappa>> listDataChild;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -251,6 +256,9 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         listPartecipants = new ArrayList<Profilo>();
         names = new ArrayList<String>();
         profiles = new ArrayList<Profilo>();
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<NotaTappa>>();
+        listDataHeader.add("View notes");
 
 
         nameForUrl = codiceViaggio.trim().replace(" ", "");
@@ -269,7 +277,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         gridViewRecords = (AdaptableGridView) findViewById(R.id.grid_view_records);
 
         gridViewNotes = (AdaptableGridView) findViewById(R.id.grid_view_notes);
-        ListView listViewNotes = (ListView)findViewById(R.id.list_view_notes);
+        listViewNotes = (AdaptableExpandableListView)findViewById(R.id.list_view_notes);
 
 
         //layoutCopertinaViaggio = (LinearLayout) findViewById(R.id.layoutCoverImageTravel);
@@ -334,6 +342,20 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
     @Override
     public void processFinishForNotes(NotaTappa[] notes) {
+        List<NotaTappa> noteTappa = new ArrayList<NotaTappa>();
+
+        for(NotaTappa nt : notes){
+            noteTappa.add(nt);
+        }
+        listDataChild.put(listDataHeader.get(0), noteTappa);
+        if(noteTappa.size() == 0){
+            noteTappa.add(new NotaTappa("There are no notes","","",0,null,""));
+            listDataChild.put(listDataHeader.get(0), noteTappa);
+        }
+
+        ExpandableListAdapter listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild, email);
+        listViewNotes.setAdapter(listAdapter);
+
         inizializzaTabs();
     }
 

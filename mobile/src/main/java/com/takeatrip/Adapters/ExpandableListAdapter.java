@@ -15,8 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.takeatrip.AsyncTasks.UpdateNotaTappaTask;
 import com.takeatrip.Classes.NotaTappa;
 import com.takeatrip.R;
@@ -33,12 +35,21 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     // child data in format of header title, child title
     private HashMap<String, List<NotaTappa>> _listDataChild;
     private String nuovaNota = "";
+    private String email;
+
+
 
     public ExpandableListAdapter(Context context, List<String> listDataHeader,
                                  HashMap<String, List<NotaTappa>> listChildData) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
+    }
+
+    public ExpandableListAdapter(Context context, List<String> listDataHeader,
+                                 HashMap<String, List<NotaTappa>> listChildData, String email) {
+        this(context,listDataHeader,listChildData);
+        this.email = email;
 
     }
 
@@ -69,13 +80,26 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView userTappa = (TextView) convertView.findViewById(R.id.UserTappa);
         final TextView note = (TextView) convertView.findViewById(R.id.NoteTappa);
         final TextView editNotatappa = (TextView) convertView.findViewById(R.id.editNotaTappa);
+        final SwipeRevealLayout swipeLayout = (SwipeRevealLayout) convertView.findViewById(R.id.swipeLayout);
+        final FrameLayout deleteLayout = (FrameLayout) convertView.findViewById(R.id.layoutDeleteNote);
 
-        if(!notaTappa.getNota().equals("")){
+
+        if(!notaTappa.getNota().equals("") && email == null){
             editNotatappa.setVisibility(View.VISIBLE);
+            swipeLayout.setDragEdge(SwipeRevealLayout.DRAG_EDGE_RIGHT);
             editNotatappa.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     String nuovaNota = modificaNotatappa(notaTappa,v, note);
+                }
+            });
+
+            deleteLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i(TAG, "Ho cliccato la delete della nota");
+
+
                 }
             });
         }

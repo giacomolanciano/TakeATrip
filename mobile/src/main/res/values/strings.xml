@@ -298,6 +298,7 @@
     <string name="add_a_note">Add a note</string>
     <string name="view_notes">View notes</string>
     <string name="EditNote">Edit note</string>
+    <string name="delete">Delete</string>
 
 
 </resources>

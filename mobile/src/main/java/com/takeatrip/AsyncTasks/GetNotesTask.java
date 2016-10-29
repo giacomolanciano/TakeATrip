@@ -7,10 +7,8 @@ import android.util.Log;
 import android.widget.GridView;
 import android.widget.ListView;
 
-import com.takeatrip.Adapters.ListViewNotesAdapter;
 import com.takeatrip.Classes.NotaTappa;
 import com.takeatrip.Interfaces.AsyncResponseNotes;
-import com.takeatrip.R;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.InternetConnection;
 import com.takeatrip.Utilities.ScrollListener;
@@ -178,9 +176,11 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
         }
 
         if(lv != null){
-            ListViewNotesAdapter adapter = new ListViewNotesAdapter(context, R.layout.entry_list_notes ,notes);
+            /*
+            ListViewNotesAdapter adapter = new ListViewNotesAdapter(this, R.layout.entry_list_notes ,notes);
             lv.setAdapter(adapter);
             Log.i(TAG, "settato il list adapter per la lista");
+            */
         }
         else{
             delegate.processFinishForNotes(notes);
