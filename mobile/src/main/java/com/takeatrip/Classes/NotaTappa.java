@@ -6,12 +6,31 @@ package com.takeatrip.Classes;
 
 public class NotaTappa {
 
-    private String emailProfilo;
+    private String emailProfilo, username, codiceViaggio;
     private int ordineTappa;
     private String livelloCondivisione,nota;
 
+
+    public NotaTappa(String emailProfilo, String username, String codiceViaggio, int ordineTappa, String livelloCondivisione, String nota) {
+
+        this.emailProfilo = emailProfilo;
+        this.username = username;
+        this.codiceViaggio = codiceViaggio;
+        this.ordineTappa = ordineTappa;
+        this.livelloCondivisione = livelloCondivisione;
+        this.nota = nota;
+    }
+
     public void setEmailProfilo(String emailProfilo) {
         this.emailProfilo = emailProfilo;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public void setOrdineTappa(int ordineTappa) {
@@ -27,8 +46,11 @@ public class NotaTappa {
     }
 
     public String getEmailProfilo() {
-
         return emailProfilo;
+    }
+
+    public String getCodiceViaggio() {
+        return codiceViaggio;
     }
 
     public int getOrdineTappa() {
@@ -43,15 +65,9 @@ public class NotaTappa {
         return nota;
     }
 
-    public NotaTappa(String emailProfilo, int ordineTappa, String livelloCondivisione, String nota) {
 
-        this.emailProfilo = emailProfilo;
-        this.ordineTappa = ordineTappa;
-        this.livelloCondivisione = livelloCondivisione;
-        this.nota = nota;
-    }
 
     public String toString(){
-        return emailProfilo +" "+ ordineTappa +" "+livelloCondivisione+" "+ nota;
+        return emailProfilo +" "+username+" "+codiceViaggio+" "+ ordineTappa +" "+livelloCondivisione+" "+ nota;
     }
 }

@@ -23,7 +23,6 @@ public class ListViewNotesAdapter extends ArrayAdapter<NotaTappa> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         return getViewOptimize(position, convertView, parent);
-
     }
 
 
@@ -44,7 +43,9 @@ public class ListViewNotesAdapter extends ArrayAdapter<NotaTappa> {
 
 
         NotaTappa notaTappa = getItem(position);
-        viewHolder.user.setText(notaTappa.getEmailProfilo());
+        viewHolder.user.setText(notaTappa.getUsername());
+        viewHolder.user.setTextColor(getContext().getResources().getColor(R.color.blu_scuro));
+
         viewHolder.note.setText(notaTappa.getNota());
         return convertView;
     }

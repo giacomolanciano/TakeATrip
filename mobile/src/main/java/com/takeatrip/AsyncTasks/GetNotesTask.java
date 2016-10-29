@@ -30,7 +30,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -129,7 +128,7 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
                             nota = json_data.getString("nota");
                             livelloCondivisione = json_data.getString("livelloCondivisione");
                             username = json_data.getString("username");
-                            listContents.add(new NotaTappa(username, ordineTappa, livelloCondivisione, nota));
+                            listContents.add(new NotaTappa(emailProfilo, username, codiceViaggio, ordineTappa, livelloCondivisione, nota));
                         }
                     }
 
@@ -157,9 +156,9 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
         gv.setOnScrollListener(new ScrollListener(context));
 
         Log.i(TAG, "listContents.size() = " + listContents.size());
+        notes = new NotaTappa[listContents.size()];
 
         if (listContents.size() > 0) {
-            notes = new NotaTappa[listContents.size()];
             notes = listContents.toArray(notes);
             if (notes[0] == null || notes[0].equals("null")) {
                 if (!phpFile.equals(Constants.QUERY_STOP_NOTES)) {
@@ -173,11 +172,10 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
             if (!phpFile.equals(Constants.QUERY_STOP_NOTES)) {
                 delegate.processFinishForNotes(notes);
             }
+
+            delegate.processFinishForNotes(notes);
             return;
         }
-
-
-        Log.i(TAG, "notes: " + Arrays.toString(notes));
 
         if(lv != null){
             ListViewNotesAdapter adapter = new ListViewNotesAdapter(context, R.layout.entry_list_notes ,notes);

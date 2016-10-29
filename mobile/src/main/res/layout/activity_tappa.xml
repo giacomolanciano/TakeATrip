@@ -165,7 +165,7 @@
                     android:id="@+id/notesExpandable"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"/>
+                    android:layout_width="match_parent"/>
 
             </LinearLayout>
 

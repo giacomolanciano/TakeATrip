@@ -61,15 +61,9 @@ public class InserimentoNotaTappaTask extends AsyncTask<Void, Void, Void> {
         dataToSend.add(new BasicNameValuePair("emailProfilo", email));
         dataToSend.add(new BasicNameValuePair("livelloCondivisione", livelloCondivisione));
 
-        Log.i(TAG, "ordine: " + ordineAux);
-        Log.i(TAG, "codiceViaggio: " + codiceViaggio);
-        Log.i(TAG, "emailProfilo: " + email);
-
         try {
             if (InternetConnection.haveInternetConnection(context)) {
                 Log.i(TAG, "CONNESSIONE Internet Presente!");
-
-
                 Log.i(TAG, "noteInserite: " + noteInserite);
 
                 HttpClient httpclient;

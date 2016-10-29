@@ -21,13 +21,34 @@
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:orientation="vertical">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="User"
-            android:textStyle="bold"
-            android:id="@+id/UserTappa"
-            android:textColor="@color/black"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User"
+                android:textStyle="bold"
+                android:id="@+id/UserTappa"
+                android:textColor="@color/blu_scuro"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/editNotaTappa"
+                android:layout_marginStart="10dp"
+                android:text="@string/Edit"
+                android:visibility="invisible"
+                android:textStyle="italic"
+                android:textColor="@color/blue"/>
+
+        </LinearLayout>
+
+
+
+
 
         <TextView
             android:layout_width="match_parent"

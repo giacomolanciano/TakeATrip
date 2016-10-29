@@ -5,31 +5,41 @@ package com.takeatrip.Adapters;
  */
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
+import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.takeatrip.AsyncTasks.UpdateNotaTappaTask;
 import com.takeatrip.Classes.NotaTappa;
 import com.takeatrip.R;
+import com.takeatrip.Utilities.Constants;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
+    private static final String TAG = "ExpListAdapt";
     private Context _context;
     private List<String> _listDataHeader; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<NotaTappa>> _listDataChild;
+    private String nuovaNota = "";
 
     public ExpandableListAdapter(Context context, List<String> listDataHeader,
                                  HashMap<String, List<NotaTappa>> listChildData) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
+
     }
 
     @Override
@@ -37,6 +47,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         return this._listDataChild.get(this._listDataHeader.get(groupPosition))
                 .get(childPosititon);
     }
+
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
@@ -56,11 +67,73 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         TextView userTappa = (TextView) convertView.findViewById(R.id.UserTappa);
-        TextView note = (TextView) convertView.findViewById(R.id.NoteTappa);
+        final TextView note = (TextView) convertView.findViewById(R.id.NoteTappa);
+        final TextView editNotatappa = (TextView) convertView.findViewById(R.id.editNotaTappa);
 
-        userTappa.setText(notaTappa.getEmailProfilo());
+        if(!notaTappa.getNota().equals("")){
+            editNotatappa.setVisibility(View.VISIBLE);
+            editNotatappa.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String nuovaNota = modificaNotatappa(notaTappa,v, note);
+                }
+            });
+        }
+
+        userTappa.setText(notaTappa.getUsername());
         note.setText(notaTappa.getNota());
         return convertView;
+    }
+
+    private String modificaNotatappa(final NotaTappa notaTappa, View v, final TextView note) {
+        Log.i(TAG, "qui si modificherà la nota della tappa: " + notaTappa);
+        final String vecchiaNota = notaTappa.getNota();
+
+        ContextThemeWrapper wrapper = new ContextThemeWrapper(_context, android.R.style.Theme_Material_Light_Dialog);
+        final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(wrapper);
+
+        LayoutInflater inflater = (LayoutInflater) _context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        final View dialogView = inflater.inflate(R.layout.material_edit_text, null);
+        builder.setView(dialogView);
+
+        TextInputLayout textInputLayout = (TextInputLayout) dialogView.findViewById(R.id.textInputLayout);
+        final TextInputEditText textInputEditText = (TextInputEditText) dialogView.findViewById(R.id.editText);
+        textInputEditText.setText(vecchiaNota);
+
+        textInputLayout.setCounterEnabled(true);
+        textInputLayout.setCounterMaxLength((Constants.NOTE_MAX_LENGTH - vecchiaNota.length()));
+
+        builder.setNegativeButton(_context.getString(R.string.cancel),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Log.i(TAG, "edit text dialog canceled");
+                    }
+                });
+
+        builder.setPositiveButton(_context.getString(R.string.ok),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        nuovaNota = textInputEditText.getText().toString();
+
+                        Log.i(TAG, "vecchia nota: " + vecchiaNota);
+                        Log.i(TAG, "nuova nota: " + nuovaNota);
+
+                        new UpdateNotaTappaTask(_context, notaTappa.getEmailProfilo(),
+                                notaTappa.getCodiceViaggio(),notaTappa.getOrdineTappa(), vecchiaNota, nuovaNota).execute();
+                        note.setText(nuovaNota);
+                        notaTappa.setNota(nuovaNota);
+
+                    }
+                });
+
+        builder.setTitle(_context.getString(R.string.EditNote));
+        android.support.v7.app.AlertDialog dialog = builder.create();
+        dialog.show();
+
+        return nuovaNota;
     }
 
     @Override
@@ -88,8 +161,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                              View convertView, ViewGroup parent) {
         String headerTitle = (String) getGroup(groupPosition);
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.header_expandable_list_view, null);
         }
 

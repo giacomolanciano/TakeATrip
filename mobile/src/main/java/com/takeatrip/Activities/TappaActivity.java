@@ -400,7 +400,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<NotaTappa>>();
 
-        listDataHeader.add("Notes");
+        listDataHeader.add("View notes");
     }
 
 
@@ -418,22 +418,21 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
     @Override
     public void processFinishForNotes(NotaTappa[] notes) {
-        Log.i(TAG, "Qui si vedranno le note della tappa");
-
         List<NotaTappa> noteTappa = new ArrayList<NotaTappa>();
 
         for(NotaTappa nt : notes){
             noteTappa.add(nt);
         }
         listDataChild.put(listDataHeader.get(0), noteTappa);
+        if(noteTappa.size() == 0){
+            noteTappa.add(new NotaTappa("There are no notes","","",0,null,""));
+            listDataChild.put(listDataHeader.get(0), noteTappa);
+        }
 
         listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
-        // setting list adapter
         expListView.setAdapter(listAdapter);
 
     }
-
-
 
 
     @Override
