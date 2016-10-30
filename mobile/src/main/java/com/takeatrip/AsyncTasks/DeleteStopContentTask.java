@@ -40,28 +40,15 @@ public class DeleteStopContentTask extends AsyncTask<Void, Void, Void> {
     private String result;
 
     private Context context;
+    private String emailProfilo;
     private String query;
     private String codiceViaggio;
     private String id;
 
-    // The TransferUtility is the primary class for managing transfer to S3
     private TransferUtility transferUtility;
-
-    // The SimpleAdapter adapts the data about transfers to rows in the UI
     private SimpleAdapter simpleAdapter;
-
-    // A List of all transfers
     private List<TransferObserver> observers;
-
-    /**
-     * This map is used to provide data to the SimpleAdapter above. See the
-     * fillMap() function for how it relates observers to rows in the displayed
-     * activity.
-     */
     private ArrayList<HashMap<String, List<Object>>> transferRecordMaps;
-
-
-    // The S3 client
     private AmazonS3Client s3;
 
     public DeleteStopContentTask(Context context, String query, String codiceViaggio, String id) {
@@ -75,6 +62,23 @@ public class DeleteStopContentTask extends AsyncTask<Void, Void, Void> {
         s3 = UtilS3Amazon.getS3Client(context);
     }
 
+
+
+
+    public DeleteStopContentTask(Context context, String query, String emailProfilo, String codiceViaggio, String id) {
+        this.context = context;
+        this.emailProfilo = emailProfilo;
+        this.query = query;
+        this.codiceViaggio = codiceViaggio;
+        this.id = id;
+
+        transferUtility = UtilS3Amazon.getTransferUtility(context);
+        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
+        s3 = UtilS3Amazon.getS3Client(context);
+    }
+
+
+
     @Override
     protected Void doInBackground(Void... params) {
 
@@ -84,6 +88,7 @@ public class DeleteStopContentTask extends AsyncTask<Void, Void, Void> {
 
         if (query.equals(Constants.QUERY_DEL_NOTE)) {
             dataToSend.add(new BasicNameValuePair("nota", id));
+            dataToSend.add(new BasicNameValuePair("emailProfilo", emailProfilo));
         } else {
             dataToSend.add(new BasicNameValuePair("url", id));
         }

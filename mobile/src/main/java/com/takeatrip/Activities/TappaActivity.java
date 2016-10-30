@@ -497,9 +497,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             switch (requestCode) {
 
                 case Constants.REQUEST_IMAGE_CAPTURE:
-
-                    Log.i(TAG, "REQUEST_IMAGE_CAPTURE");
-
                     File f = new File(DeviceStorageUtils.getImagesStoragePath());
                     for (File temp : f.listFiles()) {
                         if (temp.getName().equals(imageFileName)) {
@@ -619,11 +616,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                         Log.e(TAG, "data is null");
 
                     }
-
-
-
-
-
                     break;
 
                 case Constants.REQUEST_VIDEO_CAPTURE:
@@ -638,8 +630,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                     }
                     try {
                         Bitmap bitmap;
-
-
                         bitmap = ThumbnailUtils.createVideoThumbnail(fileVideo.getAbsolutePath(),
                                 MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
 
@@ -668,9 +658,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-
-
                     break;
 
                 case Constants.REQUEST_VIDEO_PICK:
@@ -690,19 +677,13 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
                     Log.i(TAG, "video from gallery: " + videoPath + "");
-
                     String timeStamp = new SimpleDateFormat(Constants.FILE_NAME_TIMESTAMP_FORMAT).format(new Date());
-
                     String nomeFile = timeStamp + Constants.VIDEO_EXT;
-
                     Log.i(TAG, "timeStamp video: " + nomeFile);
 
-
                     if(thumbnail != null){
-
                         //inserire file in una lista di file per caricamento in s3
                         pathsImmaginiSelezionate.put(thumbnail, videoPath);
-
                         videoSelezionati.add(thumbnail);
                         bitmap_nomeFile.put(thumbnail, nomeFile);
                     }
@@ -712,12 +693,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                     Log.i(TAG, "elenco path risorse selezionate: " + pathsImmaginiSelezionate);
                     Log.i(TAG, "elenco nomi risorse: " + bitmap_nomeFile.values());
 
-
                     uploadVideos();
-
                     //refresh activity
                     recreate();
-
                     break;
 
 
@@ -747,11 +725,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                 default:
                     Log.e(TAG, "requestCode non riconosciuto");
                     break;
-
-
-
-
-
             }
 
         } else {
@@ -764,7 +737,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
     //metodi ausiliari
-
 
     private static String getRealPathFromURI(Context context, Uri contentUri) {
 
@@ -838,9 +810,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 //                            startActivityForResult(intentPick, Constants.REQUEST_IMAGE_PICK);
 
 
-
-                            //TODO far diventare immagine blu
-
                             break;
 
                         case 1: //take a photo
@@ -864,8 +833,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                                 if (photoFile != null) {
                                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
                                     startActivityForResult(intent, Constants.REQUEST_IMAGE_CAPTURE);
-
-                                    //TODO far diventare immagine blu
                                 }
                             }
                             break;
@@ -918,8 +885,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 //                            startActivityForResult(Intent.createChooser(intentPick,"Select Video"),
 //                                    Constants.REQUEST_VIDEO_PICK);
 
-                            //TODO far diventare immagine blu
-
                             break;
 
                         case 1: //take a video
@@ -942,8 +907,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                                 if (videoFile != null) {
                                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile));
                                     startActivityForResult(intent, Constants.REQUEST_VIDEO_CAPTURE);
-
-                                    //TODO far diventare immagine blu
                                 }
                             }
                             break;
@@ -1293,8 +1256,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                 Log.i(TAG, "name of the image: " + nameImage);
                 Log.i(TAG, "livello Condivisione: " + livelloCondivisioneTappa);
 
-
-
                 new UploadFileS3Task(TappaActivity.this, Constants.BUCKET_TRAVELS_NAME,
                         codiceViaggio, Constants.TRAVEL_IMAGES_LOCATION, email, pathImage, nameImage).execute();
 
@@ -1303,11 +1264,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                 new InserimentoImmagineTappaTask(TappaActivity.this, email,codiceViaggio,
                         ordineTappa,null,completePath,livelloCondivisioneTappa).execute();
-
             }
-
         }
-
 
         //per evitare che un contenuto venga caricato due volte
         immaginiSelezionate.clear();

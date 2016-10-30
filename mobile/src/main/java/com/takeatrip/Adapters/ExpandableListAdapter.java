@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
+import com.takeatrip.AsyncTasks.DeleteStopContentTask;
 import com.takeatrip.AsyncTasks.UpdateNotaTappaTask;
 import com.takeatrip.Classes.NotaTappa;
 import com.takeatrip.R;
@@ -36,6 +37,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private HashMap<String, List<NotaTappa>> _listDataChild;
     private String nuovaNota = "";
     private String email;
+    private SwipeRevealLayout currentOpenSwipe;
 
 
 
@@ -67,13 +69,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, final int childPosition,
-                             boolean isLastChild, View convertView, ViewGroup parent) {
+                             boolean isLastChild, View convertView, final ViewGroup parent) {
 
         final NotaTappa notaTappa = (NotaTappa) getChild(groupPosition, childPosition);
+        final View cView = convertView;
 
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.entry_list_notes, null);
         }
 
@@ -83,10 +85,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         final SwipeRevealLayout swipeLayout = (SwipeRevealLayout) convertView.findViewById(R.id.swipeLayout);
         final FrameLayout deleteLayout = (FrameLayout) convertView.findViewById(R.id.layoutDeleteNote);
 
+        final ExpandableListAdapter adapter = this;
+
 
         if(!notaTappa.getNota().equals("") && email == null){
             editNotatappa.setVisibility(View.VISIBLE);
             swipeLayout.setDragEdge(SwipeRevealLayout.DRAG_EDGE_RIGHT);
+
             editNotatappa.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -97,9 +102,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             deleteLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.i(TAG, "Ho cliccato la delete della nota");
+                    Log.i(TAG, "Ho cliccato la delete della nota: " + notaTappa);
+                    noteDeletion(v, Constants.QUERY_DEL_NOTE, notaTappa);
 
-
+                    //Zero because we have one header: "view Notes"
+                    _listDataChild.get(_listDataHeader.get(0)).remove(notaTappa);
+                    adapter.notifyDataSetChanged();
+                    swipeLayout.close(true);
+                    //swipeLayout.setDragEdge(SwipeRevealLayout.DRAG_EDGE_RIGHT);
                 }
             });
         }
@@ -159,6 +169,16 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         return nuovaNota;
     }
+
+
+    public void noteDeletion(View v, String q, NotaTappa nota){
+        Log.i(TAG,"Ho eliminato la nota: " + nota);
+        new DeleteStopContentTask(_context, q, nota.getEmailProfilo(),nota.getCodiceViaggio(),
+                nota.getNota()).execute();
+    }
+
+
+
 
     @Override
     public int getChildrenCount(int groupPosition) {
