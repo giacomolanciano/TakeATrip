@@ -126,6 +126,8 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
                             nota = json_data.getString("nota");
                             livelloCondivisione = json_data.getString("livelloCondivisione");
                             username = json_data.getString("username");
+                            if(ordineTappa == 0)
+                                ordineTappa = json_data.getInt("ordineTappa");
                             listContents.add(new NotaTappa(emailProfilo, username, codiceViaggio, ordineTappa, livelloCondivisione, nota));
                         }
                     }

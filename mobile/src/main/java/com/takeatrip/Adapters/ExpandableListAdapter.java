@@ -88,7 +88,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         final ExpandableListAdapter adapter = this;
 
 
-        if(!notaTappa.getNota().equals("") && email == null){
+        if(!notaTappa.getNota().equals("") && (email == null || email.equals(notaTappa.getEmailProfilo()))){
             editNotatappa.setVisibility(View.VISIBLE);
             swipeLayout.setDragEdge(SwipeRevealLayout.DRAG_EDGE_RIGHT);
 

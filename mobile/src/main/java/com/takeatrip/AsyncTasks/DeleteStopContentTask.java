@@ -63,8 +63,6 @@ public class DeleteStopContentTask extends AsyncTask<Void, Void, Void> {
     }
 
 
-
-
     public DeleteStopContentTask(Context context, String query, String emailProfilo, String codiceViaggio, String id) {
         this.context = context;
         this.emailProfilo = emailProfilo;
@@ -100,15 +98,10 @@ public class DeleteStopContentTask extends AsyncTask<Void, Void, Void> {
 
         try {
             if (InternetConnection.haveInternetConnection(context)) {
-                Log.i(TAG, "CONNESSIONE Internet Presente!");
-
-
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + query);
                 httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-
                 HttpResponse response = httpclient.execute(httppost);
-
                 HttpEntity entity = response.getEntity();
 
                 is = entity.getContent();
@@ -126,7 +119,6 @@ public class DeleteStopContentTask extends AsyncTask<Void, Void, Void> {
 
                         result = sb.toString();
                         Log.i(TAG, "result: " +result);
-
                         //elimina contenuto da amazon s3
                         s3.deleteObject(Constants.BUCKET_TRAVELS_NAME, id);
 

@@ -1501,8 +1501,6 @@ public class ListaTappeActivity extends AppCompatActivity
             textInputLayout = (TextInputLayout) dialogView.findViewById(R.id.textInputLayout);
             textInputEditText = (TextInputEditText) dialogView.findViewById(R.id.editText);
 
-
-
             if(noteInserite.size() == 1){
                 if (textInputLayout != null) {
                     textInputLayout.setCounterEnabled(true);
@@ -1544,6 +1542,8 @@ public class ListaTappeActivity extends AppCompatActivity
                                 }
                                 else{
                                     addNote.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_black_36dp));
+                                    if(noteInserite.size() >0)
+                                        noteInserite.remove(0);
                                 }
 
                             }
