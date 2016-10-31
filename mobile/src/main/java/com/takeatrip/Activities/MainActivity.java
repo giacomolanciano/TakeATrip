@@ -144,12 +144,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setContentView(R.layout.activity_main);
 
-/*      usato solo con onSavedInstanceState
-        if (savedInstanceState != null) {
-            // Restore value of members from saved state
-            email = savedInstanceState.getString(email);
-        }
-*/
         if (getIntent() != null) {
             Intent intent = getIntent();
             name = intent.getStringExtra("name");
@@ -185,6 +179,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         TakeATrip TAT = (TakeATrip) getApplicationContext();
         TAT.setProfiloCorrente(profilo);
+
+        Log.i(TAG, "Settato profilo corrente: " + TAT.getProfiloCorrente());
     }
 
 

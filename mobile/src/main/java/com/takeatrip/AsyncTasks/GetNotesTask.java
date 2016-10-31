@@ -118,7 +118,7 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
 
                 if(result != null && !result.equals("null\n")){
                     JSONArray jArray = new JSONArray(result);
-                    String nota, livelloCondivisione, username;
+                    String nota, livelloCondivisione, username, email;
 
                     if (jArray != null) {
                         for (int i = 0; i < jArray.length(); i++) {
@@ -126,9 +126,10 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
                             nota = json_data.getString("nota");
                             livelloCondivisione = json_data.getString("livelloCondivisione");
                             username = json_data.getString("username");
+                            email = json_data.getString("email");
                             if(ordineTappa == 0)
                                 ordineTappa = json_data.getInt("ordineTappa");
-                            listContents.add(new NotaTappa(emailProfilo, username, codiceViaggio, ordineTappa, livelloCondivisione, nota));
+                            listContents.add(new NotaTappa(email, username, codiceViaggio, ordineTappa, livelloCondivisione, nota));
                         }
                     }
 

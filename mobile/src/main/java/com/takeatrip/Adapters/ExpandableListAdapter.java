@@ -87,11 +87,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         final ExpandableListAdapter adapter = this;
 
+        Log.i(TAG, "email profilo loggato: "+ email + " " + "email notaTappa: " + notaTappa.getEmailProfilo());
+
 
         if(!notaTappa.getNota().equals("") && (email == null || email.equals(notaTappa.getEmailProfilo()))){
             editNotatappa.setVisibility(View.VISIBLE);
-            swipeLayout.setDragEdge(SwipeRevealLayout.DRAG_EDGE_RIGHT);
-
             editNotatappa.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -99,6 +99,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 }
             });
 
+            swipeLayout.setLockDrag(false);
             deleteLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -112,6 +113,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     //swipeLayout.setDragEdge(SwipeRevealLayout.DRAG_EDGE_RIGHT);
                 }
             });
+        }else {
+            swipeLayout.setLockDrag(true);
         }
 
         userTappa.setText(notaTappa.getUsername());
@@ -135,7 +138,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         textInputEditText.setText(vecchiaNota);
 
         textInputLayout.setCounterEnabled(true);
-        textInputLayout.setCounterMaxLength((Constants.NOTE_MAX_LENGTH - vecchiaNota.length()));
+        textInputLayout.setCounterMaxLength((Constants.NOTE_MAX_LENGTH));
 
         builder.setNegativeButton(_context.getString(R.string.cancel),
                 new DialogInterface.OnClickListener() {
