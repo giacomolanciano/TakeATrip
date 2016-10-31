@@ -489,7 +489,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-                                Uri uri = Uri.parse(idImageProfile);
+                                String urlImmagine = generateCompleteUrl(idImageProfile);
+                                Uri uri = Uri.parse(urlImmagine);
                                 Intent intent2 = new Intent(Intent.ACTION_VIEW, uri);
                                 intent2.setDataAndType(uri, "image/*");
                                 startActivity(intent2);
@@ -560,9 +561,11 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0: //view cover image
-
-                                //TODO : IMPLEMENT THE VIEW OF THE IMAGE
-
+                                String urlImmagine = generateCompleteUrl(idCoverImage);
+                                Uri uri = Uri.parse(urlImmagine);
+                                Intent intent2 = new Intent(Intent.ACTION_VIEW, uri);
+                                intent2.setDataAndType(uri, "image/*");
+                                startActivity(intent2);
                                 break;
                             case 1:
                                 Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -741,10 +744,28 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             }
         }
     }
+    private String generateCompleteUrl(String key){
+        URL url = null;
+        java.util.Date expiration = new java.util.Date();
+        long msec = expiration.getTime();
+        msec += 1000 * 60 * 60; // 1 hour.
+        expiration.setTime(msec);
+
+        try{
+            GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                    new GeneratePresignedUrlRequest(Constants.BUCKET_NAME,key);
+            generatePresignedUrlRequest.setMethod(HttpMethod.GET);
+
+            url = s3.generatePresignedUrl(generatePresignedUrlRequest);
+        }catch(Exception e){
+            Log.e(TAG, "thrown exception "+ e);
+        }
+        return url.toString();
+    }
+
 
 
     private void beginDownloadProfilePicture(String key) {
-
         java.util.Date expiration = new java.util.Date();
         long msec = expiration.getTime();
         msec += 1000 * 60 * 60; // 1 hour.
@@ -761,13 +782,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 load(url.toString()).
                 resize(DIMENSION_PROFILE_IMAGE,DIMENSION_PROFILE_IMAGE).
                 into(imageProfile);
-
-        // Initiate the download
-        //TransferObserver observer = transferUtility.download(email, key, file);
-        //Log.i(TAG, "downloaded file: " + file);
-        //Log.i(TAG, "key file: " + key);
-        //observer.setTransferListener(new DownloadListener());
-
     }
 
 
