@@ -489,8 +489,10 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-                                //TODO: VIEW IMAGE PROFILE
-
+                                Uri uri = Uri.parse(idImageProfile);
+                                Intent intent2 = new Intent(Intent.ACTION_VIEW, uri);
+                                intent2.setDataAndType(uri, "image/*");
+                                startActivity(intent2);
                                 break;
                             case 1: //change image profile
 

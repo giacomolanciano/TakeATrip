@@ -283,7 +283,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
 
     public void onInfoWindowClick(Marker marker) {
-        Intent i = new Intent(this, ViaggioActivity.class);
+        Intent i = new Intent(this, ViaggioActivityConFragment.class);
         if(email == null || (email != null && emailEsterno!= null)) {
             i.putExtra("email", email);
         }

@@ -158,42 +158,10 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
 
         Log.i(TAG, "listContents.size() = " + listContents.size());
         notes = new NotaTappa[listContents.size()];
+        notes = listContents.toArray(notes);
+        delegate.processFinishForNotes(notes);
+        return;
 
-        if (listContents.size() > 0) {
-            notes = listContents.toArray(notes);
-            if (notes[0] == null || notes[0].equals("null")) {
-                if (!phpFile.equals(Constants.QUERY_STOP_NOTES)) {
-                    delegate.processFinishForNotes(notes);
-                }
-                return;
-            }
-
-
-        } else {
-            if (!phpFile.equals(Constants.QUERY_STOP_NOTES)) {
-                delegate.processFinishForNotes(notes);
-            }
-
-            delegate.processFinishForNotes(notes);
-            return;
-        }
-
-        if(lv != null){
-            /*
-            ListViewNotesAdapter adapter = new ListViewNotesAdapter(this, R.layout.entry_list_notes ,notes);
-            lv.setAdapter(adapter);
-            Log.i(TAG, "settato il list adapter per la lista");
-            */
-        }
-        else{
-            delegate.processFinishForNotes(notes);
-        }
-
-
-
-        if (!phpFile.equals(Constants.QUERY_STOP_NOTES)) {
-            delegate.processFinishForNotes(notes);
-        }
     }
 
 

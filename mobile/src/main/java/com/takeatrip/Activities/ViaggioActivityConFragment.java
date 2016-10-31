@@ -209,8 +209,13 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
             }
         });
 
-
         imageTravel = (ImageView) findViewById(R.id.coverImageTravel);
+        imageTravel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickImageTravel(v);
+            }
+        });
 
         strings = getResources().getStringArray(R.array.PrivacyLevel);
         subs = getResources().getStringArray(R.array.PrivacyLevelDescription);
@@ -349,7 +354,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         }
         listDataChild.put(listDataHeader.get(0), noteTappa);
         if(noteTappa.size() == 0){
-            noteTappa.add(new NotaTappa("There are no notes","","",0,null,""));
+            noteTappa.add(new NotaTappa(null,"There are no notes","",0,null,""));
             listDataChild.put(listDataHeader.get(0), noteTappa);
         }
 
@@ -419,8 +424,12 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0: //view cover image
-
+                                Uri uri = Uri.parse(urlImageTravel);
+                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                intent.setDataAndType(uri, "image/*");
+                                startActivity(intent);
                                 break;
+
                             case 1: //change cover image
                                 Intent intentPick = new Intent(Intent.ACTION_PICK,
                                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
