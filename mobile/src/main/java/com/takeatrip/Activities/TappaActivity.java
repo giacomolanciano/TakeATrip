@@ -120,25 +120,10 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
 
-
-
-
-
     ExpandableListAdapter listAdapter;
     AdaptableExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<NotaTappa>> listDataChild;
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -155,7 +140,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             ordineTappa = i.getIntExtra("ordine", 0);   //è l'ordine del db
             nomeTappa = i.getStringExtra("nome");
             data = i.getStringExtra("data");
-
         }
 
         Log.i(TAG, "email: "+email);
@@ -384,14 +368,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         // preparing list data
         prepareListData();
 
-
-
-
-
-
-
-
-
     }
 
 
@@ -425,11 +401,11 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         }
         listDataChild.put(listDataHeader.get(0), noteTappa);
         if(noteTappa.size() == 0){
-            noteTappa.add(new NotaTappa("There are no notes","","",0,null,""));
+            noteTappa.add(new NotaTappa(null,"There are no notes","",0,null,""));
             listDataChild.put(listDataHeader.get(0), noteTappa);
         }
 
-        listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+        listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild,email);
         expListView.setAdapter(listAdapter);
 
     }
