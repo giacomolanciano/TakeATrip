@@ -6,22 +6,15 @@
     android:id="@+id/Records"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:text="@string/Records"
-            android:layout_gravity="left"/>
-
-    </LinearLayout>
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:text="@string/Records"
+        />
 
     <com.takeatrip.GraphicalComponents.AdaptableGridView
         xmlns:android="http://schemas.android.com/apk/res/android"

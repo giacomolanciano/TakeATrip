@@ -58,10 +58,6 @@
                 />
 
 
-
-
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,9 +68,10 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
+                    android:id="@+id/imageSearchUser"
                     android:src="@drawable/ic_search_grey_36dp"
                     android:layout_gravity="center_vertical"
-                    android:paddingLeft="14dp"
+                    android:paddingStart="14dp"
                     android:layout_weight="0.1"
                     android:onClick="onClickSearchUser"/>
 
@@ -82,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/editTextUser"
-                    android:paddingLeft="26dp"
+                    android:paddingStart="26dp"
                     android:hint="Search by user"
                     android:textColorHint="@color/color_hint"
                     android:textSize="20sp"

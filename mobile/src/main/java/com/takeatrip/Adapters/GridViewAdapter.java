@@ -8,13 +8,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -25,6 +21,7 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.squareup.picasso.Picasso;
 import com.takeatrip.AsyncTasks.DeleteStopContentTask;
+import com.takeatrip.Classes.ContenutoMultimediale;
 import com.takeatrip.R;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.SquaredImageView;
@@ -45,8 +42,9 @@ public class GridViewAdapter extends BaseAdapter {
 
     private final Context context;
     private final List<String> urls = new ArrayList<String>();
+    private final List<ContenutoMultimediale> contents = new ArrayList<ContenutoMultimediale>();
     private final int tipoContenuti;
-    private final String codiceViaggio;
+    protected String codiceViaggio, emailProfiloLoggato;
 
     // The TransferUtility is the primary class for managing transfer to S3
     private TransferUtility transferUtility;
@@ -68,26 +66,41 @@ public class GridViewAdapter extends BaseAdapter {
     // The S3 client
     private AmazonS3Client s3;
 
-    public GridViewAdapter(Context context, String[] URLs, int tipoContenuti) {
+    public GridViewAdapter(Context context, ContenutoMultimediale[] URLs, int tipoContenuti, String emailProfiloLoggato) {
         this.context = context;
         this.tipoContenuti = tipoContenuti;
         this.codiceViaggio = null;
+        this.emailProfiloLoggato = emailProfiloLoggato;
 
-        if(URLs != null)
-            Collections.addAll(urls, URLs);
+        if(URLs != null) {
+            String[] URLS = new String[URLs.length];
+            for (int i = 0; i < URLS.length; i++) {
+                contents.add(URLs[i]);
+                URLS[i] = URLs[i].getUrlContenuto();
+            }
+            Collections.addAll(urls, URLS);
+        }
+
 
         transferUtility = UtilS3Amazon.getTransferUtility(context);
         transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
         s3 = UtilS3Amazon.getS3Client(context);
     }
 
-    public GridViewAdapter(Context context, String[] URLs, int tipoContenuti, String codiceViaggio) {
+    public GridViewAdapter(Context context, ContenutoMultimediale[] URLs, int tipoContenuti, String codiceViaggio, String emailProfiloLoggato) {
         this.context = context;
         this.tipoContenuti = tipoContenuti;
         this.codiceViaggio = codiceViaggio;
+        this.emailProfiloLoggato = emailProfiloLoggato;
 
-        if(URLs != null)
-            Collections.addAll(urls, URLs);
+        if(URLs != null) {
+            String[] URLS = new String[URLs.length];
+            for (int i = 0; i < URLS.length; i++) {
+                contents.add(URLs[i]);
+                URLS[i] = URLs[i].getUrlContenuto();
+            }
+            Collections.addAll(urls, URLS);
+        }
 
         transferUtility = UtilS3Amazon.getTransferUtility(context);
         transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
@@ -101,16 +114,15 @@ public class GridViewAdapter extends BaseAdapter {
             view.setScaleType(CENTER_CROP);
         }
 
+        final ContenutoMultimediale cm = getItem(position);
+
         // Get the URL for the current position (o il testo nel caso delle note).
-        final String url = getItem(position);
+        final String url = cm.getUrlContenuto();
 
         //è utile solamente nel caso delle immagini
         view.setContentDescription(url);
 
-
-
         if (tipoContenuti == Constants.VIDEO_FILE) {
-
             // Trigger the download of the URL asynchronously into the image view.
             Picasso.with(context)
                     .load(R.drawable.video_content)
@@ -122,11 +134,8 @@ public class GridViewAdapter extends BaseAdapter {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     Log.i(TAG, "content: "+v.getContentDescription());
-
                     Uri uri = Uri.parse(UtilS3AmazonCustom.getS3FileURL(getS3(), Constants.BUCKET_TRAVELS_NAME,url));
-
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     intent.setDataAndType(uri, "video/*");
                     context.startActivity(intent);
@@ -138,9 +147,10 @@ public class GridViewAdapter extends BaseAdapter {
                 view.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        Log.i(TAG, "file da eliminare: " + v.getContentDescription());
-                        confirmFileDeletion(v, Constants.QUERY_DEL_VIDEO);
-
+                        if(cm.getEmailProfilo().equals(emailProfiloLoggato)){
+                            Log.i(TAG, "file da eliminare: " + v.getContentDescription());
+                            confirmFileDeletion(v, Constants.QUERY_DEL_VIDEO);
+                        }
                         return false;
                     }
                 });
@@ -159,10 +169,7 @@ public class GridViewAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
 
-                    Log.i(TAG, "content: "+v.getContentDescription());
-
                     Uri uri = Uri.parse(UtilS3AmazonCustom.getS3FileURL(getS3(), Constants.BUCKET_TRAVELS_NAME,url));
-
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     intent.setDataAndType(uri, "audio/*");
                     context.startActivity(intent);
@@ -174,14 +181,19 @@ public class GridViewAdapter extends BaseAdapter {
                 view.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        Log.i(TAG, "file da eliminare: " + v.getContentDescription());
-                        confirmFileDeletion(v, Constants.QUERY_DEL_AUDIO);
+                        if(cm.getEmailProfilo().equals(emailProfiloLoggato)) {
+                            Log.i(TAG, "file da eliminare: " + v.getContentDescription());
+                            confirmFileDeletion(v, Constants.QUERY_DEL_AUDIO);
+                        }
 
                         return false;
                     }
                 });
             }
-        } else if (tipoContenuti == Constants.NOTE_FILE) {
+        }
+
+        /*
+        else if (tipoContenuti == Constants.NOTE_FILE) {
 
             // Trigger the download of the URL asynchronously into the image view.
             Picasso.with(context)
@@ -247,6 +259,7 @@ public class GridViewAdapter extends BaseAdapter {
                 });
             }
         }
+        */
 
         return view;
     }
@@ -255,8 +268,8 @@ public class GridViewAdapter extends BaseAdapter {
         return urls.size();
     }
 
-    @Override public String getItem(int position) {
-        return urls.get(position);
+    @Override public ContenutoMultimediale getItem(int position) {
+        return contents.get(position);
     }
 
     @Override public long getItemId(int position) {

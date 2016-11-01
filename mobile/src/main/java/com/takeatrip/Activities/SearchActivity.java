@@ -108,6 +108,12 @@ public class SearchActivity extends AppCompatActivity {
 
         editTextUser = (AutoCompleteTextView) findViewById(R.id.editTextUser);
 
+        float density = getResources().getDisplayMetrics().density;
+        editTextUser.setTextSize(20);
+
+        if(density == 3.0 || density == 4.0){
+            editTextUser.setTextSize(25);
+        }
 
         // lista = (ListView)findViewById(R.id.listTravelsBySearch);
         mRecyclerView = (RecyclerView) findViewById(R.id.listTravelsBySearch);
@@ -135,12 +141,8 @@ public class SearchActivity extends AppCompatActivity {
         viaggi = new ArrayList<Viaggio>();
 
 
-        autocompleteFragment = (PlaceAutocompleteFragment)
-                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-
+        autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
         autocompleteFragment.setHint(getString(R.string.SearchByDestination));
-
-
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {

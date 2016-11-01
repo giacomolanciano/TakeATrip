@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by Giacomo Lanciano on 20/04/2016.
  */
-public class UploadFileS3Task extends AsyncTask<Void, Void, Void> {
+public class UploadFileS3Task extends AsyncTask<Void, Void, Boolean> {
 
     private static final String TAG = "TEST UploadFileS3Task";
 
@@ -72,7 +72,7 @@ public class UploadFileS3Task extends AsyncTask<Void, Void, Void> {
 
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected Boolean doInBackground(Void... params) {
         try {
 
             if (InternetConnection.haveInternetConnection(context)) {
@@ -80,9 +80,8 @@ public class UploadFileS3Task extends AsyncTask<Void, Void, Void> {
 
 
                 if (filePath == null) {
-                    Toast.makeText(context, "Could not find the filepath of the selected file",
-                            Toast.LENGTH_LONG).show();
-                    return null;
+                    Toast.makeText(context, "Could not find the filepath of the selected file", Toast.LENGTH_LONG).show();
+                    return false;
                 }
 
                 Log.i(TAG, "filePath: " + filePath);
@@ -97,30 +96,25 @@ public class UploadFileS3Task extends AsyncTask<Void, Void, Void> {
 
                 Log.i(TAG, "final url: " + key);
 
-                /*
-                 * Note that usually we set the transfer listener after initializing the
-                 * transfer. However it isn't required in this sample app. The flow is
-                 * click upload button -> start an activity for image selection
-                 * startActivityForResult -> onActivityResult -> beginUploadProfilePicture -> onResume
-                 * -> set listeners to in progress transfers.
-                 */
-                // observer.setTransferListener(new UploadListener());
 
-
-            } else
+            } else{
                 Log.e(TAG,"CONNESSIONE Internet Assente!");
+                return false;
+            }
+
 
         } catch (Exception e) {
             Log.e(TAG, "Errore nella connessione http "+e.toString());
+            return false;
         }
 
 
-        return null;
+        return true;
     }
 
 
     @Override
-    protected void onPostExecute(Void aVoid) {
+    protected void onPostExecute(Boolean aVoid) {
         super.onPostExecute(aVoid);
     }
 

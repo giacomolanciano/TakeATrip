@@ -37,13 +37,13 @@ import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TabHost;
+import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.google.android.gms.drive.DriveId;
 import com.squareup.picasso.Picasso;
 import com.takeatrip.Adapters.ExpandableListAdapter;
 import com.takeatrip.AsyncTasks.BitmapWorkerTask;
@@ -102,22 +102,15 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
     private int DIMENSION_OF_IMAGE_PARTICIPANT = Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT;
     private int DIMENSION_OF_SPACE = Constants.BASE_DIMENSION_OF_SPACE;
 
-
     private boolean proprioViaggio = false;
-    private boolean fineImageTask = false;
-    private boolean fineNoteTask = false;
-
-
-
     private String email, emailEsterno, codiceViaggio, nomeViaggio;
     private List<Profilo> listPartecipants, profiles;
     private List<String> names;
     private LinearLayout layoutPartecipants;
     private LinearLayout rowHorizontal, layoutFAB;
     private ImageView imageTravel;
-    private DriveId idFolder;
     private Bitmap bitmapImageTravel;
-    private String nameImageTravel, urlImageTravel;
+    private String urlImageTravel;
     private AdaptableGridView gridViewPhotos;
     private AdaptableGridView gridViewRecords;
     private AdaptableGridView gridViewVideos;
@@ -181,7 +174,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
             emailEsterno = intent.getStringExtra("emailEsterno");
             codiceViaggio = intent.getStringExtra("codiceViaggio");
             nomeViaggio = intent.getStringExtra("nomeViaggio");
-            idFolder = intent.getParcelableExtra("idFolder");
             urlImageTravel = intent.getStringExtra("urlImmagineViaggio");
             livelloCondivisioneViaggio = intent.getStringExtra("livelloCondivisione");
         }
@@ -367,10 +359,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
 
 
-
-
-
-
     public void onClickStopsList(View v){
         CharSequence[] namePartecipants = new CharSequence[listPartecipants.size()];
         CharSequence[] emailPartecipants = new CharSequence[listPartecipants.size()];
@@ -431,8 +419,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                                 break;
 
                             case 1: //change cover image
-                                Intent intentPick = new Intent(Intent.ACTION_PICK,
-                                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                Intent intentPick = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                                 startActivityForResult(intentPick, REQUEST_IMAGE_PICK);
                                 break;
                             case 2: //modify travel name
@@ -503,10 +490,19 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                     TAT.setCurrentImage(bitmapImageTravel);
 
                 imageTravel = (ImageView) findViewById(R.id.coverImageTravel);
-                imageTravel.setImageBitmap(bitmapImageTravel);
-
+                imageTravel.setImageBitmap(getScaledBitmap(bitmapImageTravel));
             }
         }
+    }
+
+    private Bitmap getScaledBitmap(Bitmap bitmap){
+        float density = getResources().getDisplayMetrics().density;
+        int heigh = 300;
+        Log.i(TAG, "density of the screen: " + density);
+        if(density == 3.0 || density == 4.0){
+            heigh = 600;
+        }
+        return bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), heigh, false);
     }
 
 
@@ -651,14 +647,15 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         ImageView image2 = new ImageView(this);
         image2.setImageResource(R.drawable.ic_edit_black_36dp);
 
-        ImageView image3 = new ImageView(this);
+        final ImageView image3 = new ImageView(this);
         image3.setImageResource(R.drawable.ic_photo_camera_black_36dp);
 
-        ImageView image4 = new ImageView(this);
+        final ImageView image4 = new ImageView(this);
         image4.setImageResource(R.drawable.ic_videocam_black_36dp);
 
-        ImageView image5 = new ImageView(this);
+        final ImageView image5 = new ImageView(this);
         image5.setImageResource(R.drawable.ic_mic_black_36dp);
+
 
         tab1 = TabHost.newTabSpec("PARTECIPANTS").setIndicator(image1);;
         tab2 = TabHost.newTabSpec("NOTES").setIndicator(image2);
@@ -666,7 +663,14 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         tab4 = TabHost.newTabSpec("VIDEOS").setIndicator(image4);
         tab5 = TabHost.newTabSpec("AUDIOS").setIndicator(image5);
 
-        Log.i(TAG, "tab1: " +tab1);
+
+        TabWidget widget = TabHost.getTabWidget();
+        for(int i = 0; i < widget.getChildCount(); i++) {
+            View v = widget.getChildAt(i);
+
+            v.setBackgroundResource(R.drawable.your_tab_selector_drawable);
+        }
+
 
         tab1.setContent(R.id.Partecipants);
         tab2.setContent(R.id.Notes);
@@ -688,7 +692,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         try {
             final Dialog dialog = new Dialog(this, R.style.CustomDialog);
             dialog.setContentView(R.layout.layout_dialog_profiles);
-
             TextView viewName = (TextView) dialog.findViewById(R.id.viewNameProfileDialog);
             LinearLayout layoutCopertina = (LinearLayout)dialog.findViewById(R.id.layoutCopertinaNelDialog);
             ImageView imageProfile = (ImageView) dialog.findViewById(R.id.imageView_round_Dialog);
@@ -697,7 +700,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
             for(Profilo p : listPartecipants){
                 if(p.getEmail().equals(v.getContentDescription())){
                     viewName.setText(p.getName() + " " + p.getSurname());
-
                     if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
                         String signedUrl = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_NAME,
                                 p.getIdImageProfile());
@@ -706,8 +708,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                                 load(signedUrl).
                                 resize(DIMENSION_OF_IMAGE_PARTICIPANT *2, DIMENSION_OF_IMAGE_PARTICIPANT *2).
                                 into(imageProfile);
-
-
                     }
                     else{
                         if(p.getSesso().equals("M")){
@@ -719,14 +719,9 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                     }
 
                     if(p.getGetIdImageCover() != null && !p.getGetIdImageCover().equals("null")){
-
-                        //String urlCoverPartecipant =  Constants.ADDRESS_TAT+ p.getGetIdImageCover();
-
                         String signedUrl = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_NAME,
                                 p.getGetIdImageCover());
                         new BitmapWorkerTask(null, layoutCopertina).execute(signedUrl);
-
-
                     }
 
                     break;
@@ -740,8 +735,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
             Button cancelDialogButton = (Button) dialog.findViewById(R.id.buttonCancelDialog);
             cancelDialogButton.setBackground(getDrawable(R.drawable.button_style));
             cancelDialogButton.setTextSize(20);
-
-
 
             viewProfileButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -805,7 +798,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         dialog.setView(view);
 
         layoutFAB = (LinearLayout) view.findViewById(R.id.layoutFloatingButtonAdd);
-
         final AutoCompleteTextView text = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView1);
         ArrayAdapter adapter = new ArrayAdapter(ViaggioActivityConFragment.this, android.R.layout.test_list_item, names);
         text.setHint("Add partecipant");
@@ -837,13 +829,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         TextView travel = (TextView) view.findViewById(R.id.titoloViaggio);
         travel.setText(nomeViaggio);
         travel.setEnabled(false);
-
-        /*
-        Button buttonCreate = (Button) dialog.findViewById(R.id.buttonCreateTravel);
-        buttonCreate.setVisibility(View.INVISIBLE);
-        Button buttonCancella = (Button) dialog.findViewById(R.id.buttonCancellaDialog);
-        buttonCancella.setVisibility(View.INVISIBLE);
-        */
 
         final android.support.design.widget.FloatingActionButton buttonAdd
                 = (android.support.design.widget.FloatingActionButton) view.findViewById(R.id.floatingButtonAdd);
@@ -981,8 +966,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                 .show();
     }
 
-
-
     private void onClickExitTravel(View view) {
         new android.support.v7.app.AlertDialog.Builder(ViaggioActivityConFragment.this)
                 .setTitle(getString(R.string.confirm))
@@ -1002,8 +985,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                 .setIcon(ContextCompat.getDrawable(ViaggioActivityConFragment.this, R.drawable.logodefbordo))
                 .show();
     }
-
-
 
 
     private class UtentiTask extends AsyncTask<Void, Void, Void> {

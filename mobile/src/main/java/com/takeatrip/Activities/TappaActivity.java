@@ -71,6 +71,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import toan.android.floatingactionmenu.FloatingActionButton;
 import toan.android.floatingactionmenu.FloatingActionsMenu;
@@ -357,11 +358,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
 
-
-
-
-
-
         // get the listview
         expListView = (AdaptableExpandableListView) findViewById(R.id.notesExpandable);
 
@@ -375,20 +371,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     private void prepareListData() {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<NotaTappa>>();
-
         listDataHeader.add("View notes");
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -835,9 +819,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
     private void onClickAddVideo(View v) {
-
-        Log.i(TAG, "add video pressed");
-
         try {
             ContextThemeWrapper wrapper = new ContextThemeWrapper(this,
                     android.R.style.Theme_Material_Light_Dialog);
@@ -1114,11 +1095,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
     private void onClickAddNote(View v) {
 
-
-
-        Log.i(TAG, "add note pressed");
-
-
         try {
 
             ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
@@ -1232,14 +1208,26 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                 Log.i(TAG, "name of the image: " + nameImage);
                 Log.i(TAG, "livello Condivisione: " + livelloCondivisioneTappa);
 
-                new UploadFileS3Task(TappaActivity.this, Constants.BUCKET_TRAVELS_NAME,
-                        codiceViaggio, Constants.TRAVEL_IMAGES_LOCATION, email, pathImage, nameImage).execute();
+                try {
+                    boolean uploaded = new UploadFileS3Task(TappaActivity.this, Constants.BUCKET_TRAVELS_NAME,
+                            codiceViaggio, Constants.TRAVEL_IMAGES_LOCATION, email, pathImage, nameImage).execute().get();
+
+                    String completePath = codiceViaggio + "/" + Constants.TRAVEL_IMAGES_LOCATION + "/" + email + "_" + nameImage;
+
+                    if(uploaded){
+                        new InserimentoImmagineTappaTask(TappaActivity.this, email,codiceViaggio,
+                                ordineTappa,null,completePath,livelloCondivisioneTappa).execute();
+                    }
 
 
-                String completePath = codiceViaggio + "/" + Constants.TRAVEL_IMAGES_LOCATION + "/" + email + "_" + nameImage;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
 
-                new InserimentoImmagineTappaTask(TappaActivity.this, email,codiceViaggio,
-                        ordineTappa,null,completePath,livelloCondivisioneTappa).execute();
+
+
             }
         }
 
@@ -1267,9 +1255,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                 new UploadFileS3Task(TappaActivity.this, Constants.BUCKET_TRAVELS_NAME,
                         codiceViaggio, Constants.TRAVEL_VIDEOS_LOCATION, email, pathVideo, nameVideo).execute();
 
-
-                //TODO nella colonna urlImmagine si potrebbe salvare soltanto il nome del file
-                //si può riscostruire il path a partire dalle altre info nella riga corrispondente
 
                 String completePath = codiceViaggio + "/" + Constants.TRAVEL_VIDEOS_LOCATION + "/" + email + "_" + nameVideo;
 

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,6 +33,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.takeatrip.Classes.Profilo;
 import com.takeatrip.Classes.TakeATrip;
 import com.takeatrip.R;
@@ -171,10 +174,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //Task for retrieving all the users of the app for adding a new travel and allow the autocomplete
         //new MyTask().execute();
-
-        showProgressDialog();
-
-
         profilo = new Profilo(email, name, surname, date, password, nazionalità, sesso, username, lavoro, descrizione);
 
         TakeATrip TAT = (TakeATrip) getApplicationContext();
@@ -187,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
+        showProgressDialog();
 
         //Task for retrieving the profile and cover image of the user
         new MyTaskIDProfileImage(this, email).execute();
@@ -213,28 +213,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(this);
     }
-
-    /* usato solo quando viene distrutta l'activity
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        // Always call the superclass so it can save the view hierarchy state
-        super.onSaveInstanceState(savedInstanceState);
-        Log.i(TAG, "SALVO BUNDLE: " + savedInstanceState);
-        // Save the user's current game state
-        savedInstanceState.putString(EMAIL, email);
-        Log.i(TAG, "SALVO EMAIL: " + email);
-
-    }
-    */
-/*
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        // Always call the superclass so it can restore the view hierarchy
-        super.onRestoreInstanceState(savedInstanceState);
-
-        // Restore state members from saved instance
-        email = savedInstanceState.getString(email);
-        Log.i(TAG, "EMAIL SALVATA: " + email);
-    }
-    */
 
     public void ClickImageProfile(View v) {
         Intent openProfilo = new Intent(MainActivity.this, ProfiloActivity.class);
@@ -280,7 +258,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(openNewTravel);
 
     }
-
 
     public void onClickSocialButton(View v) {
         Intent openSocial = new Intent(MainActivity.this, SocialActivity.class);
@@ -355,104 +332,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
-
-    /*
-    private class MyTask extends AsyncTask<Void, Void, Void> {
-
-        InputStream is = null;
-        String result, stringaFinale = "";
-        String idProfiles, idCovers;
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                if (InternetConnection.haveInternetConnection(MainActivity.this)) {
-                    Log.i(TAG, "CONNESSIONE Internet Presente!");
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS);
-                    HttpResponse response = httpclient.execute(httppost);
-
-                    HttpEntity entity = response.getEntity();
-
-                    is = entity.getContent();
-
-                    if (is != null) {
-                        //converto la risposta in stringa
-                        try {
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                            StringBuilder sb = new StringBuilder();
-                            String line = null;
-                            while ((line = reader.readLine()) != null) {
-                                sb.append(line + "\n");
-                            }
-                            is.close();
-
-                            result = sb.toString();
-                            JSONArray jArray = new JSONArray(result);
-
-                            if (jArray != null && result != null) {
-                                for (int i = 0; i < jArray.length(); i++) {
-                                    JSONObject json_data = jArray.getJSONObject(i);
-                                    String nomeUtente = json_data.getString("nome");
-                                    String cognomeUtente = json_data.getString("cognome");
-                                    String emailUtente = json_data.getString("email");
-                                    String username = json_data.getString("username");
-                                    String sesso = json_data.getString("sesso");
-                                    String urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
-                                    String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
-
-                                    if (urlImmagineProfilo.equals("null")) {
-                                        idProfiles = null;
-                                    } else {
-                                        idProfiles = urlImmagineProfilo;
-                                    }
-
-                                    if (urlImmagineCopertina.equals("null")) {
-                                        idCovers = null;
-                                    } else {
-                                        idCovers = urlImmagineCopertina;
-                                    }
-
-                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, sesso, username, null, null, null, idProfiles, idCovers);
-                                    profiles.add(p);
-                                    stringaFinale = nomeUtente + " " + cognomeUtente + "\n" + "(" + username + ")";
-                                    names.add(stringaFinale);
-                                }
-                            }
-
-
-                        } catch (Exception e) {
-                            Log.i(TAG, "Errore nel risultato o nel convertire il risultato");
-                        }
-                    } else {
-                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
-                    }
-
-                } else
-                    Log.e(TAG, "CONNESSIONE Internet Assente!");
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(e.toString(), e.getMessage());
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-        }
-    }
-
-    */
-
-
-
-
-
     private String beginDownloadProfilePicture(String key) {
         // Location to download files from S3 to. You can choose any accessible
         // file.
@@ -472,17 +351,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             Log.i(TAG, "amazon client: " + s3);
             url = s3.generatePresignedUrl(generatePresignedUrlRequest);
-
-            // Initiate the download
-            //TransferObserver observer = transferUtility.download(Constants.BUCKET_NAME, key, file);
-            //Log.i(TAG, "downloaded file: " + file);
-
-
-            //observer.setTransferListener(new DownloadListener());
         } catch (Exception exception) {
             exception.printStackTrace();
         }
         return url.toString();
+
+    }
+
+    @Override
+    public void onClick(View v) {
 
     }
 
@@ -564,10 +441,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         protected void onPostExecute(Void aVoid) {
             Log.i(TAG, "risultato dal prelievo dell'url imm profilo: " + signedUrl);
             if (signedUrl != null) {
-                Picasso.with(MainActivity.this).
-                        load(signedUrl.toString()).
-                        resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT * 2, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT * 2).
-                        into(imageViewProfileRound);
+                Picasso.with(MainActivity.this)
+                        .load(signedUrl.toString())
+                        .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT * 2, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT * 2)
+                        .into(target);
+
             } else {
                 //L'utente è loggato con facebook
                 if (fbProfile != null) {
@@ -577,7 +455,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     try {
                         final URI image_URI = new URI(image_uri.toString());
                         Log.i(TAG, "url_image: " + image_URI.toURL().toString());
-                        Picasso.with(MainActivity.this).load(image_URI.toURL().toString()).into(imageViewProfileRound);
+                        //Picasso.with(MainActivity.this).load(image_URI.toURL().toString()).into(imageViewProfileRound);
+                        Picasso.with(MainActivity.this).load(image_URI.toURL().toString()).into(target);
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -587,6 +467,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private Target target = new Target() {
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            // loading of the bitmap was a success
+            imageViewProfileRound.setImageBitmap(bitmap);
+            hideProgressDialog();
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+        }
+    };
 
     private class MyTaskIDCoverImage extends AsyncTask<Void, Void, Void> {
 
@@ -657,7 +554,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         protected void onPostExecute(Void aVoid) {
             Log.i(TAG, "risultato dal prelievo dell'id imm copertina: " + urlImmagineCopertina);
             super.onPostExecute(aVoid);
-            hideProgressDialog();
         }
     }
 

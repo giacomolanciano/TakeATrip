@@ -196,13 +196,13 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
 
             try {
                 if(TAT != null && TAT.getCurrentImage() != null){
-                    Bitmap resizedBitmap = getResizedBitmap(TAT.getCurrentImage(),layoutCopertinaViaggio);
+                    Bitmap resizedBitmap = getScaledBitmap(TAT.getCurrentImage());
                     layoutCopertinaViaggio.setImageBitmap(resizedBitmap);
                     TAT.setCurrentImage(null);
                 }
                 else{
                     Bitmap bitmap  = new BitmapWorkerTask(layoutCopertinaViaggio).execute(urlImageTravel).get();
-                    layoutCopertinaViaggio.setImageBitmap(bitmap);
+                    layoutCopertinaViaggio.setImageBitmap(getScaledBitmap(bitmap));
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -213,9 +213,14 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
     }
 
 
-
-    public Bitmap getResizedBitmap(Bitmap image, ImageView bmImage) {
-        return Bitmap.createScaledBitmap(image, bmImage.getWidth(), bmImage.getHeight(), true);
+    private Bitmap getScaledBitmap(Bitmap bitmap){
+        float density = context.getResources().getDisplayMetrics().density;
+        int heigh = 300;
+        Log.i(TAG, "density of the screen: " + density);
+        if(density == 3.0 || density == 4.0){
+            heigh = 600;
+        }
+        return bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), heigh, false);
     }
 
 }

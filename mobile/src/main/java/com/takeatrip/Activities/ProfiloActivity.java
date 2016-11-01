@@ -124,7 +124,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
     private boolean alreadyFollowing = false;
 
-    private ProgressDialog mProgressDialog;
+    private ProgressDialog progressDialog;
 
     // The TransferUtility is the primary class for managing transfer to S3
     private TransferUtility transferUtility;
@@ -185,6 +185,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             idImageProfile = intent.getStringExtra("urlImmagineProfilo");
             idCoverImage = intent.getStringExtra("urlImmagineCopertina");
 
+            showProgressDialog();
 
             //download of profile and cover images
             if(idImageProfile == null || idImageProfile.equals("null")){
@@ -778,10 +779,29 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
         URL url = s3.generatePresignedUrl(generatePresignedUrlRequest);
 
+        /*
         Picasso.with(this).
                 load(url.toString()).
                 resize(DIMENSION_PROFILE_IMAGE,DIMENSION_PROFILE_IMAGE).
                 into(imageProfile);
+                */
+
+
+        Picasso.with(this)
+                .load(url.toString())
+                .resize(DIMENSION_PROFILE_IMAGE,DIMENSION_PROFILE_IMAGE)
+                .into(imageProfile, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
+
     }
 
 
@@ -1205,6 +1225,23 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         @Override
         public void onStateChanged(int id, TransferState state) {
             Log.i(TAG, "onStateChanged: " + id + ", " + state);
+        }
+    }
+
+    private void showProgressDialog() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage(getString(R.string.CaricamentoInCorso));
+            progressDialog.setIndeterminate(true);
+        }
+
+        progressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.hide();
+            progressDialog.dismiss();
         }
     }
 

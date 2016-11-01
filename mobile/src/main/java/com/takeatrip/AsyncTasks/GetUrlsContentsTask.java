@@ -37,7 +37,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -58,7 +57,7 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
     InputStream is = null;
     String result, stringaFinale = "";
     private List<ContenutoMultimediale> listContents;
-    private String[] URLs;
+    private ContenutoMultimediale[] URLs;
 
     private ImageView coverImageTappa;
 
@@ -158,11 +157,13 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
 
                 if (result != null && !result.equals("null\n")) {
                     JSONArray jArray = new JSONArray(result);
-                    String url, livelloCondivisione;
+                    String emailProfilo, url, livelloCondivisione;
 
                     if (jArray != null) {
                         for (int i = 0; i < jArray.length(); i++) {
                             JSONObject json_data = jArray.getJSONObject(i);
+
+                            emailProfilo = json_data.getString("emailProfilo");
 
                             if (phpFile.equals(Constants.QUERY_TRAVEL_IMAGES)
                                     || phpFile.equals(Constants.QUERY_STOP_IMAGES)) {
@@ -178,7 +179,7 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
 
 
                             livelloCondivisione = json_data.getString("livelloCondivisione");
-                            listContents.add(new ContenutoMultimediale(url, livelloCondivisione));
+                            listContents.add(new ContenutoMultimediale(emailProfilo,url, codiceViaggio, livelloCondivisione));
 
                         }
                     }
@@ -209,7 +210,7 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
             LinearLayout parent = (LinearLayout) gv.getParent();
             parent.setVisibility(View.VISIBLE);
 
-            URLs = new String[listContents.size()];
+            URLs = new ContenutoMultimediale[listContents.size()];
             int i = 0;
             for (ContenutoMultimediale image : listContents) {
 
@@ -220,15 +221,13 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
                     //NOTA: la traduzione dell'id del contenuto in url viene delegata al GridViewAdapter,
                     //per facilitare l'eliminazione del contenuto
 
-                    URLs[i] = image.getUrlContenuto();
+                    URLs[i] = image;
                     i++;
                 }
             }
             if (URLs[0] == null || URLs[0].equals("null")) {
                 return;
             }
-
-            Log.i(TAG, "URLs: " + Arrays.toString(URLs));
 
         } else {
             return;
@@ -238,19 +237,15 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
         if (phpFile.equals(Constants.QUERY_TRAVEL_IMAGES)
                 || phpFile.equals(Constants.QUERY_STOP_IMAGES)) {
 
-            gv.setAdapter(new GridViewImageAdapter(context, URLs, Constants.IMAGE_FILE, codiceViaggio));
+            gv.setAdapter(new GridViewImageAdapter(context, URLs, Constants.IMAGE_FILE, codiceViaggio, emailProfilo));
 
             //nel caso di immagini della tappa, la prima viene impostata come copertina
             if(phpFile.equals(Constants.QUERY_STOP_IMAGES) && coverImageTappa != null) {
                 Bitmap bitmap  = null;
                 try {
-
-                    final String url = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_TRAVELS_NAME,URLs[0]);
-
-                    Log.i(TAG, "final url dell'immagine da mettere come copertina della tappa");
+                    final String url = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_TRAVELS_NAME,URLs[0].getUrlContenuto());
                     bitmap = new BitmapWorkerTask(coverImageTappa).execute(url).get();
                     coverImageTappa.setImageBitmap(bitmap);
-
                 } catch (InterruptedException e) {
                     Log.e(TAG, e.getMessage());
                     e.printStackTrace();

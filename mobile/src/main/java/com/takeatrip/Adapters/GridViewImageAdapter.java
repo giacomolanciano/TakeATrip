@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
+import com.takeatrip.Classes.ContenutoMultimediale;
 import com.takeatrip.R;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.SquaredImageView;
@@ -21,16 +22,16 @@ public class GridViewImageAdapter extends GridViewAdapter {
     private static final String TAG = "TEST GridViewImgAdapt";
     private static final int TRIPLE = 3;
 
-    public GridViewImageAdapter(Context context, String[] URLs, int tipoContenuto) {
-        super(context, URLs, tipoContenuto);
+    public GridViewImageAdapter(Context context, ContenutoMultimediale[] URLs, int tipoContenuto, String emailProfiloLoggato) {
+        super(context, URLs, tipoContenuto, emailProfiloLoggato);
     }
 
-    public GridViewImageAdapter(Context context, String[] URLs, int tipoContenuto, String codiceViaggio) {
-        super(context, URLs, tipoContenuto, codiceViaggio);
+    public GridViewImageAdapter(Context context, ContenutoMultimediale[] URLs, int tipoContenuto, String codiceViaggio, String emailProfiloLoggato) {
+        super(context, URLs, tipoContenuto, codiceViaggio, emailProfiloLoggato);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         SquaredImageView result = (SquaredImageView) super.getView(position, convertView, parent);
         final Context context = this.getContext();
@@ -65,8 +66,10 @@ public class GridViewImageAdapter extends GridViewAdapter {
             result.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Log.i(TAG, "file da eliminare: " + v.getContentDescription());
-                    confirmFileDeletion(v, Constants.QUERY_DEL_IMAGE);
+                    if(getItem(position).getEmailProfilo().equals(emailProfiloLoggato)){
+                        Log.i(TAG, "file da eliminare: " + v.getContentDescription());
+                        confirmFileDeletion(v, Constants.QUERY_DEL_IMAGE);
+                    }
 
                     return false;
                 }
