@@ -292,13 +292,24 @@
     <string name="memories_slide_description">You can upload into TakeATrip your travel memories,
         like photos and videos. You will always have them with you to revive your special moments.</string>
     <string name="memories_slide_title">Memories</string>
-    <string name="adviseNoTravel">Travels no foud</string>
+    <string name="adviseNoTravel">No travels found</string>
     <string name="adviseNewTravel">Would you like to add a new Travel?</string>
+    <string name="adviseNewStop">Would you like to add a new Stop?</string>
     <string name="exit_travel_alert">are you sure to exit from this travel?</string>
     <string name="add_a_note">Add a note</string>
     <string name="view_notes">View notes</string>
     <string name="EditNote">Edit note</string>
     <string name="delete">Delete</string>
+    <string name="add_a_travel">Add travel</string>
+    <string name="add_to_last_stop">Add to last stop</string>
+    <string name="travelByUser">travel by user</string>
+    <string name="SearchTravelByDestination">travel by destination</string>
+    <string name="adviseNoStops">No stops found</string>
+    <string name="searchUser">Search user</string>
+    <string name="add_a_stop">Add stop to last travel</string>
+    <string name="last_stop">Last stop</string>
+    <string name="travels">Travels</string>
+    <string name="travel">Travel</string>
 
 
 </resources>

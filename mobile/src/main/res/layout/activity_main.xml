@@ -3,77 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.takeatrip.Activities.MainActivity"
     android:background="@drawable/sfondo">
-
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left|center_vertical"
-        android:paddingLeft="20dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center"
-            android:onClick="onClickSearchTravels">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Search"
-                android:textSize="25dp"
-                android:visibility="invisible"
-                />
-
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center"
-                android:src="@drawable/search"
-                />
-        </LinearLayout>
-
-
-    </FrameLayout>
-
-
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|center_vertical"
-        android:paddingRight="20dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center"
-            android:onClick="onClickSocialButton">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Social"
-                android:textSize="25dp"
-                android:visibility="invisible"
-                />
-
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center"
-                android:src="@drawable/social"
-                />
-
-        </LinearLayout>
-
-
-    </FrameLayout>
-
 
 
     <LinearLayout
@@ -132,16 +64,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="New Travel"
+                    android:text="New "
                     android:textSize="25dp"
                     android:visibility="invisible"/>
 
-                <ImageView
+
+                <toan.android.floatingactionmenu.FloatingActionButton
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:id="@+id/buttonSocial"
+                    app:fab_colorNormal="@color/blu_scuro"
+                    app:fab_icon="@drawable/ic_people_white_36dp"
+                    app:fab_size="normal" />
+
+
+
+                <!--ImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/aggiungi"
-                    />
+                    android:src="@drawable/social"
+                    /-->
+
+
+
             </LinearLayout>
         </FrameLayout>
 
@@ -149,10 +95,6 @@
 
 
     </LinearLayout>
-
-
-
-
 
 
     <com.takeatrip.Utilities.RoundedImageView
@@ -181,5 +123,141 @@
         android:onClick="onClickTutorial"
         android:id="@+id/imageView2"
         android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:paddingRight="20dp"
+        >
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <toan.android.floatingactionmenu.FloatingActionsMenu
+                    android:id="@+id/menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_addButtonColorNormal="@color/blue"
+                    app:fab_addButtonColorPressed="@color/blue_semi_transparent_pressed"
+                    app:fab_addButtonPlusIconColor="@color/biancoPallido"
+                    app:fab_labelsPosition="left"
+                    app:fab_labelStyle="@style/menu_labels_style"
+                    app:fab_menuIcon="@drawable/aggiungi"
+                    >
+
+
+                    <toan.android.floatingactionmenu.FloatingActionButton
+                        android:id="@+id/addTravel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:fab_icon="@drawable/ic_flight_takeoff_white_36dp"
+                        app:fab_colorNormal="@color/blue"
+                        app:fab_size="mini"
+                        app:fab_title="@string/add_a_travel"
+                        app:fab_colorPressed="@color/white_pressed"
+                        />
+
+                    <toan.android.floatingactionmenu.FloatingActionButton
+                        android:id="@+id/addStop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:fab_icon="@drawable/ic_add_location_white_36dp"
+                        app:fab_colorNormal="@color/blue"
+                        app:fab_size="mini"
+                        app:fab_title="@string/add_a_stop"
+                        app:fab_colorPressed="@color/white_pressed"
+                        />
+
+                    <toan.android.floatingactionmenu.FloatingActionButton
+                        android:id="@+id/addToLastStop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:fab_icon="@drawable/ic_edit_location_white_36dp"
+                        app:fab_colorNormal="@color/blue"
+                        app:fab_size="mini"
+                        app:fab_title="@string/add_to_last_stop"
+                        app:fab_colorPressed="@color/white_pressed"
+                        />
+
+                </toan.android.floatingactionmenu.FloatingActionsMenu>
+
+
+            </LinearLayout>
+
+    </FrameLayout>
+
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center_vertical"
+        android:layout_marginStart="20dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+
+            <toan.android.floatingactionmenu.FloatingActionsMenu
+                android:id="@+id/menu2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_addButtonColorNormal="@color/blue"
+                app:fab_addButtonColorPressed="@color/blue_semi_transparent_pressed"
+                app:fab_addButtonPlusIconColor="@color/biancoPallido"
+                app:fab_labelsPosition="right"
+                app:fab_labelStyle="@style/menu_labels_style"
+                app:fab_menuIcon="@drawable/ic_search_white_36dp">
+
+                <toan.android.floatingactionmenu.FloatingActionButton
+                    android:id="@+id/buttonSearchByUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_icon="@drawable/ic_place_white_36dp"
+                    app:fab_colorNormal="@color/blue"
+                    app:fab_size="mini"
+                    app:fab_colorPressed="@color/white_pressed"
+                    android:visibility="invisible"
+                    />
+
+                <toan.android.floatingactionmenu.FloatingActionButton
+                    android:id="@+id/buttonSearchTravels"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_colorNormal="@color/blue"
+                    app:fab_icon="@drawable/ic_place_white_36dp"
+                    app:fab_size="mini"
+                    app:fab_title="@string/travel"
+                    app:fab_colorPressed="@color/white_pressed"
+                    />
+
+                <toan.android.floatingactionmenu.FloatingActionButton
+                    android:id="@+id/searchUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_icon="@drawable/ic_person_white_36dp"
+                    app:fab_colorNormal="@color/blue"
+                    app:fab_size="mini"
+                    app:fab_title="@string/user"
+                    app:fab_colorPressed="@color/white_pressed"
+                    />
+
+            </toan.android.floatingactionmenu.FloatingActionsMenu>
+        </LinearLayout>
+
+
+
+    </FrameLayout>
+
+
 
 </FrameLayout>

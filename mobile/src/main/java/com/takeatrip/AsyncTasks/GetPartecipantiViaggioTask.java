@@ -202,7 +202,8 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
                 }
                 else{
                     Bitmap bitmap  = new BitmapWorkerTask(layoutCopertinaViaggio).execute(urlImageTravel).get();
-                    layoutCopertinaViaggio.setImageBitmap(getScaledBitmap(bitmap));
+                    if(bitmap != null)
+                        layoutCopertinaViaggio.setImageBitmap(getScaledBitmap(bitmap));
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

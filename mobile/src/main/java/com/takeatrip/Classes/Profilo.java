@@ -14,7 +14,8 @@ public class Profilo {
     public Profilo(){
     }
 
-    public Profilo(String email, String name, String surname, String dataNascita, String nazionalita, String sesso, String username, String lavoro, String descrizione, String tipo) {
+    public Profilo(String email, String name, String surname, String dataNascita, String nazionalita,
+                   String sesso, String username, String lavoro, String descrizione, String tipo) {
         this.email = email;
         this.name = name;
         this.surname = surname;

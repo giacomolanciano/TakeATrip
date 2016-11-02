@@ -36,15 +36,16 @@ public class InserimentoTappaTask extends AsyncTask<Void, Void, Void> {
     public AsyncResponseInsertStop delegate = null;
 
     private Context context;
-    private String email, codiceViaggio, placeId;
+    private String email, codiceViaggio, placeId, nome;
     private int ordine;
 
-    public InserimentoTappaTask(Context context, String email, String codiceViaggio, int ordine, String placeId){
+    public InserimentoTappaTask(Context context, String email, String codiceViaggio, int ordine, String placeId, String nome){
         this.context = context;
         this.email = email;
         this.codiceViaggio = codiceViaggio;
         this.ordine = ordine;
         this.placeId = placeId;
+        this.nome = nome;
     }
 
     @Override
@@ -56,12 +57,12 @@ public class InserimentoTappaTask extends AsyncTask<Void, Void, Void> {
         dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
         dataToSend.add(new BasicNameValuePair("ordine", ""+ordine));
         dataToSend.add(new BasicNameValuePair("POI", "" + placeId));
+        dataToSend.add(new BasicNameValuePair("nome", nome));
+
 
         String data = DatesUtils.getCurrentDateString();
         dataToSend.add(new BasicNameValuePair("data", ""+data));
 
-        String paginaDiario = "";
-        dataToSend.add(new BasicNameValuePair("paginaDiario", paginaDiario));
 
         try {
 

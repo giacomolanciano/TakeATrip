@@ -490,7 +490,8 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                     TAT.setCurrentImage(bitmapImageTravel);
 
                 imageTravel = (ImageView) findViewById(R.id.coverImageTravel);
-                imageTravel.setImageBitmap(getScaledBitmap(bitmapImageTravel));
+                if(bitmapImageTravel != null)
+                    imageTravel.setImageBitmap(getScaledBitmap(bitmapImageTravel));
             }
         }
     }

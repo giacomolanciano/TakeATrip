@@ -20,12 +20,12 @@ public class Tappa {
         this.ordine = ordine;
     }
 
-    public Tappa(Itinerario itinerario, int ordine, Tappa tappaPrecedente, Date data, String paginaDiario, POI poi) {
+    public Tappa(Itinerario itinerario, int ordine, Tappa tappaPrecedente, Date data, String nomeTappa, POI poi) {
         this.itinerario = itinerario;
         this.ordine = ordine;
         this.tappaPrecedente = tappaPrecedente;
         this.data = data;
-        this.paginaDiario = paginaDiario;
+        this.nome = nomeTappa;
         this.poi = poi;
     }
 
@@ -91,11 +91,6 @@ public class Tappa {
         this.nome = name;
     }
 
-    public String getNome() {
-        //TODO
-        //return this.poi.getNome();
-        return "tappa";
-    }
 
     @Override
     public boolean equals(Object o) {

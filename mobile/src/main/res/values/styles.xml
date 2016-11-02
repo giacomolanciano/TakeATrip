@@ -55,6 +55,13 @@
 
     </style>
 
+    <style name="search_labels_style">
+        <item name="android:background">@drawable/fab_label_background</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:colorBackground">@color/sfondoBianco</item>
+
+    </style>
+
     <style name="Theme.WithActionBar.Social" parent="android:Theme.WithActionBar">
         <item name="colorPrimary">@color/blue</item>
         <item name="android:textColorPrimaryInverse">@color/blue</item>

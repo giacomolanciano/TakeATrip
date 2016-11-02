@@ -152,7 +152,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         if(visualizzazioneEsterna != null){
             esterna = true;
             Log.i(TAG, "siamo in visualizzazione esterna della tappa: ");
-
         }
 
 

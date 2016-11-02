@@ -64,7 +64,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private final String API_KEY = "AIzaSyA1YAGqN4CRpchUly-R5MkllvnM99I872A";
 
-    private String nomeScelto, cognomeScelto, destination;
+    private String nomeScelto, cognomeScelto, destination, searchBy;
     private String emailUtente, emailEserno;
 
     private RecyclerView mRecyclerView;
@@ -166,6 +166,9 @@ public class SearchActivity extends AppCompatActivity {
 
         });
         new MyTask().execute();
+
+
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -187,9 +190,7 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         for (int i = 0; i < result.size(); i++) {
-
             Log.i(TAG, "result:" + result.get(i).getCodiceViaggio() + " " + result.get(i).getUrlImageTravel());
-
         }
 
 
@@ -257,67 +258,8 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
-    private class MyTaskTranslate extends AsyncTask<Void, Void, Void> {
-
-        InputStream is = null;
-        String toTranslate;
-        String translated;
-
-        public MyTaskTranslate(String word) {
-            toTranslate = word;
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                if (InternetConnection.haveInternetConnection(SearchActivity.this)) {
-
-                    Log.i(TAG, "placeNuovo: " + toTranslate);
-
-                    String languageDevice = Locale.getDefault().getLanguage();
-                    if (!languageDevice.equals("it")) {
-                        GoogleTranslate translate = new GoogleTranslate(API_KEY);
-                        translated = translate.translate(toTranslate, languageDevice, "it");
-
-                        String finalTranslated = translated.toLowerCase();
-                        translated = finalTranslated.replace(" ", "_");
-
-                        Log.i(TAG, "placeNuovo tradotto: " + translated);
-
-                        destination = translated;
-
-
-                    } else {
-                        String finalTranslated = toTranslate.toLowerCase();
-                        toTranslate = finalTranslated.replace(" ", "_");
-                        destination = toTranslate;
-
-
-                    }
-
-                } else
-                    Log.e("CONNESSIONE Internet", "Assente!");
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(e.toString(), e.getMessage());
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            showProgressDialog();
-            new myTaskSearchByDestination().execute();
-
-        }
-    }
-
 
     private class MyTask extends AsyncTask<Void, Void, Void> {
-
         InputStream is = null;
         String result, stringaFinale = "";
 
@@ -400,8 +342,76 @@ public class SearchActivity extends AppCompatActivity {
                 }
             });
 
+            Log.i(TAG, "search by user: focus the editText..." + searchBy);
+
+
         }
     }
+
+
+
+
+
+    private class MyTaskTranslate extends AsyncTask<Void, Void, Void> {
+
+        InputStream is = null;
+        String toTranslate;
+        String translated;
+
+        public MyTaskTranslate(String word) {
+            toTranslate = word;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                if (InternetConnection.haveInternetConnection(SearchActivity.this)) {
+
+                    Log.i(TAG, "placeNuovo: " + toTranslate);
+
+                    String languageDevice = Locale.getDefault().getLanguage();
+                    if (!languageDevice.equals("it")) {
+                        GoogleTranslate translate = new GoogleTranslate(API_KEY);
+                        translated = translate.translate(toTranslate, languageDevice, "it");
+
+                        String finalTranslated = translated.toLowerCase();
+                        translated = finalTranslated.replace(" ", "_");
+
+                        Log.i(TAG, "placeNuovo tradotto: " + translated);
+
+                        destination = translated;
+
+
+                    } else {
+                        String finalTranslated = toTranslate.toLowerCase();
+                        toTranslate = finalTranslated.replace(" ", "_");
+                        destination = toTranslate;
+
+
+                    }
+
+                } else
+                    Log.e("CONNESSIONE Internet", "Assente!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(e.toString(), e.getMessage());
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            showProgressDialog();
+            new myTaskSearchByDestination().execute();
+
+        }
+    }
+
+
+
 
     public void onClickSearchUser(View v, String utenteSelezionato) {
         if (viaggi_profilo.size() != 0 && editTextUser.getText().toString().equals("")) {

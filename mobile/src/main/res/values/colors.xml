@@ -25,11 +25,13 @@
 
     <color name="blue">#90CAF9</color>
     <color name="bluePiuScuro">#7db8e8</color>
+    <color name="blu_scuro">#03A9F4</color>
+    <color name="blu_scuro_scuro">#1976D2</color>
+
     <color name="black">#000000</color>
 
 
     <color name="white">#FFFFFF</color>
-    <color name="blu_scuro">#1976D2</color>
     <color name="verde_follow">#9CCC65</color>
 
     <color name="red">#FF0000 </color>

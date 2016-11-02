@@ -54,7 +54,6 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
     private final String ADDRESS_PRELIEVO = "PrendiFollower.php";
     private final String ADDRESS_PRELIEVO_FOLLOWING = "PrendiFollowing.php";
 
-
     private ArrayList<Following> follow;
     private ArrayList<Following> following;
     private ArrayList<DataObject> dataFollowers;
@@ -62,9 +61,8 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
     ArrayList<Profilo> seguiti = new ArrayList<Profilo>();
     ArrayList<Profilo> seguaci = new ArrayList<Profilo>();
 
-
     private String email;
-
+    String fromMain;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private static String LOG_TAG = "CardViewActivity";
@@ -84,7 +82,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
     private int[] icons = {
             //R.drawable.ic_people_black_36dp,
-           R.drawable.ic_account_box_black_36dp,
+            R.drawable.ic_account_box_black_36dp,
             R.drawable.ic_account_circle_black_36dp,
             R.drawable.ic_search_white_36dp,
             //R.drawable.ic_cast_light
@@ -95,11 +93,11 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_social);
 
+
         Intent intent;
         if ((intent = getIntent()) != null) {
             email = intent.getStringExtra("email");
-            Log.i(TAG, "email utente in Social: " + email);
-
+            fromMain = intent.getStringExtra("fromMain");
         }
         viewPager = (ViewPager) findViewById(R.id.pager);
 
@@ -107,31 +105,11 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-
-
-        /*
-        non ci servono tutti gli utenti
-        try {
-            profiles = new PrelievoTotaleUtentiTask(this).execute().get();
-            Log.i(TAG, "all profiles: " + profiles.toString());
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        */
-
         // Adding Tabs
         for (String tab_name : tabs) {
-            actionBar.addTab(actionBar.newTab().setText(tab_name)
-                    .setTabListener(this));
+            actionBar.addTab(actionBar.newTab().setText(tab_name).setTabListener(this));
         }
-
-
         corrente = new Profilo(email);
-
-
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
@@ -150,26 +128,30 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
             }
         });
 
+        Log.i(TAG, "fromMain:"+ fromMain);
+
+        if(fromMain!= null){
+            viewPager.setCurrentItem(2);
+            actionBar.setSelectedNavigationItem(2);
+        }
+
+
         follow = new ArrayList<Following>();
         following = new ArrayList<Following>();
         dataFollowers = new ArrayList<DataObject>();
 
         image_default = new ImageView(this);
         nome = new TextView(this);
-        nome.setText("CIAO");
         image_default.setImageDrawable(getDrawable(R.drawable.default_male));
-
 
         group = new ViewGroup(this) {
             @Override
             protected void onLayout(boolean changed, int l, int t, int r, int b) {
-
             }
         };
 
        // group.addView(image_default);
         group.addView(nome);
-
 
         /*Email Utente*/
         MyTaskFollowers mT = new MyTaskFollowers();
@@ -183,13 +165,9 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
             e.printStackTrace();
         }
 
-
         showProgressDialog();
         MyTaskFollowing mTF = new MyTaskFollowing();
         mTF.execute();
-
-
-
     }
 
 
@@ -197,15 +175,6 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         viewPager.setCurrentItem(tab.getPosition());
-
-
-        //TODO una volta impostate le icone giuste queste scritte vanno levate
-
-        /*
-        if(tab.getPosition()==0) {
-            tab.setText("HOME");
-        }
-        */
 
 
         if(tab.getPosition()==0) {
@@ -218,15 +187,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
             tab.setText(" SEARCH");
         }
 
-        /*
-        if(tab.getPosition()==4) {
-            tab.setText("TOP RATED");
-        }
-        */
-
         Log.i(TAG, "TAB SELEZIONATO: "+ tab.getPosition() );
-
-
     }
 
     @Override
@@ -336,7 +297,13 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
     private void settaAdapter() {
         mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(),seguaci,seguiti, profiles);
+
+        if(fromMain!= null){
+            viewPager.setCurrentItem(2);
+        }
         viewPager.setAdapter(mAdapter);
+
+
     }
 
     //era un popolalista
@@ -354,7 +321,6 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         Log.i(TAG, "seguiti di: "+ corrente + ": " + seguiti);
 
     }
-
 
 
     private class MyTaskFollowers extends AsyncTask<Void, Void, Void> {
@@ -479,6 +445,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
     private void hideProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.hide();
+            mProgressDialog.dismiss();
         }
     }
 

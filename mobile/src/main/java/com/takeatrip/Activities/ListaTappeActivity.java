@@ -260,7 +260,6 @@ public class ListaTappeActivity extends AppCompatActivity
             CharSequence[] urlImagePartecipants = intent.getCharSequenceArrayExtra("urlImagePartecipants");
             CharSequence[] sessoPartecipants = intent.getCharSequenceArrayExtra("sessoPartecipants");
 
-
             //insert the travel image in the menu
             new BitmapWorkerTask(ViewImmagineViaggio, linearLayoutHeader).execute(urlImmagineViaggio);
 
@@ -271,6 +270,7 @@ public class ListaTappeActivity extends AppCompatActivity
             //popolo i partecipanti al viaggio
             int i = 0;
             for (CharSequence cs : listPartecipants) {
+
                 Profilo aux = new Profilo(cs.toString(), namesPartecipants[i].toString(), null, null, null,
                         sessoPartecipants[i].toString(), null, null, null,null, urlImagePartecipants[i].toString(), null);
                 partecipants.add(aux);
@@ -409,21 +409,27 @@ public class ListaTappeActivity extends AppCompatActivity
     //When click on item in the menu, open  TappaActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        Tappa tappa = profiloTappe.get(profiloVisualizzazioneCorrente).get(id);
-        Intent i = new Intent(this, TappaActivity.class);
+        if(id>0){
+            Tappa tappa = profiloTappe.get(profiloVisualizzazioneCorrente).get(id);
 
-        int ordineTappa = Integer.parseInt(item.getTitle().toString().split("\\. ")[0]);
-        i.putExtra("email", email);
-        i.putExtra("codiceViaggio", codiceViaggio);
-        i.putExtra("ordine", ordineTappa);
-        i.putExtra("nome", item.getTitle());
-        i.putExtra("data", DatesUtils.getStringFromDate(tappa.getData(), Constants.DISPLAYED_DATE_FORMAT));
-        i.putExtra("codAccount", 0);
+            Intent i = new Intent(this, TappaActivity.class);
 
-        startActivity(i);
+            int ordineTappa = Integer.parseInt(item.getTitle().toString().split("\\. ")[0]);
+            i.putExtra("email", email);
+            i.putExtra("codiceViaggio", codiceViaggio);
+            i.putExtra("ordine", ordineTappa);
+            i.putExtra("nome", item.getTitle());
+            i.putExtra("data", DatesUtils.getStringFromDate(tappa.getData(), Constants.DISPLAYED_DATE_FORMAT));
+            i.putExtra("codAccount", 0);
+
+            startActivity(i);
+        }
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -636,7 +642,9 @@ public class ListaTappeActivity extends AppCompatActivity
 
                         if (places.getStatus().isSuccess()) {
                             Place place = places.get(0);
+
                             LatLng currentLatLng = place.getLatLng();
+
 
                             //serve per mantenere l'ordine nella lista
                             int k=0;
@@ -647,6 +655,7 @@ public class ListaTappeActivity extends AppCompatActivity
                                     latLngs[k] = place.getLatLng();
 
                                     t.setName(arrayNamePlace[k]);
+
 
                                     break;
                                 }
@@ -705,11 +714,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
 
 
-
-
-
-
-
     private static String getRealPathFromURI(Context context, Uri contentUri) {
         Cursor cursor = null;
         String result = null;
@@ -735,9 +739,6 @@ public class ListaTappeActivity extends AppCompatActivity
             }
         }
     }
-
-
-
 
 
 
@@ -986,7 +987,7 @@ public class ListaTappeActivity extends AppCompatActivity
         }
     }
 
-    private void startAddingStop(Place place) {
+    private void startAddingStop(final Place place) {
         final Place addedPlace = place;
 
         //prendere info poi
@@ -1057,8 +1058,10 @@ public class ListaTappeActivity extends AppCompatActivity
 
                 int stopOrder = calcolaNumUltimaTappaUtenteCorrente()+1;
 
+                Log.i(TAG, "sto aggiungendo la tappa: " + placeId + " " +placeName);
+
                 //Insert all the content of the stop
-                InserimentoTappaTask ITT = new InserimentoTappaTask(ListaTappeActivity.this, email, codiceViaggio, ordine, placeId);
+                InserimentoTappaTask ITT = new InserimentoTappaTask(ListaTappeActivity.this, email, codiceViaggio, ordine, placeId, placeName);
                 ITT.delegate = ListaTappeActivity.this;
                 ITT.execute();
 

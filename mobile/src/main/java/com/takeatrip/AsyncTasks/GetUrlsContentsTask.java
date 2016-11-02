@@ -245,7 +245,9 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
                 try {
                     final String url = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_TRAVELS_NAME,URLs[0].getUrlContenuto());
                     bitmap = new BitmapWorkerTask(coverImageTappa).execute(url).get();
-                    coverImageTappa.setImageBitmap(bitmap);
+                    if(bitmap != null)
+                        coverImageTappa.setImageBitmap(getScaledBitmap(bitmap));
+
                 } catch (InterruptedException e) {
                     Log.e(TAG, e.getMessage());
                     e.printStackTrace();
@@ -268,5 +270,16 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
 
     }
 
+
+
+    private Bitmap getScaledBitmap(Bitmap bitmap){
+        float density = context.getResources().getDisplayMetrics().density;
+        int heigh = 300;
+        Log.i(TAG, "density of the screen: " + density);
+        if(density == 3.0 || density == 4.0){
+            heigh = 600;
+        }
+        return bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), heigh, false);
+    }
 
 }

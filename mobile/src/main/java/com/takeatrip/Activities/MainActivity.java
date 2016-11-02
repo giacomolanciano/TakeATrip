@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.amazonaws.HttpMethod;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
@@ -34,11 +35,18 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+import com.takeatrip.AsyncTasks.GetStopsTask;
+import com.takeatrip.AsyncTasks.GetViaggiTask;
 import com.takeatrip.Classes.Profilo;
 import com.takeatrip.Classes.TakeATrip;
+import com.takeatrip.Classes.Tappa;
+import com.takeatrip.Classes.Viaggio;
+import com.takeatrip.Interfaces.AsyncResponseStops;
+import com.takeatrip.Interfaces.AsyncResponseTravels;
 import com.takeatrip.R;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.DatabaseHandler;
+import com.takeatrip.Utilities.DatesUtils;
 import com.takeatrip.Utilities.InternetConnection;
 import com.takeatrip.Utilities.UtilS3Amazon;
 
@@ -62,8 +70,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import toan.android.floatingactionmenu.FloatingActionButton;
+import toan.android.floatingactionmenu.FloatingActionsMenu;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, AsyncResponseTravels, AsyncResponseStops {
 
     private static final String TAG = "TEST MainActivity";
     private final String ADDRESS = "QueryNomiUtenti.php";
@@ -77,8 +90,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView imageViewProfileRound;
     private Profilo profilo;
     private Profile fbProfile;
+    private Viaggio ultimoViaggio;
+
     private ProgressDialog progressDialog;
     private GoogleApiClient googleApiClient;
+
+    private FloatingActionsMenu fabMenu;
+    private FloatingActionsMenu fabMenu2;
+    private FloatingActionButton buttonAddTravel;
+    private FloatingActionButton buttonAddToStop;
+    private FloatingActionButton buttonAddStop;
+    private FloatingActionButton buttonSearchUser;
+    private FloatingActionButton buttonSearchTravels;
+    private FloatingActionButton buttonSocial;
+
+    private boolean newStop = false;
+
+
 
     //per alert
     private boolean doubleBackToExitPressedOnce = false;
@@ -146,7 +174,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         appIntroThread.start();
 
         setContentView(R.layout.activity_main);
-
         if (getIntent() != null) {
             Intent intent = getIntent();
             name = intent.getStringExtra("name");
@@ -165,40 +192,58 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //Prendi i dati dal database perche è gia presente l'utente
         }
 
+
+        //action buttons
+        fabMenu = (FloatingActionsMenu) findViewById(R.id.menu);
+        fabMenu2 = (FloatingActionsMenu) findViewById(R.id.menu2);
+        buttonAddTravel = (FloatingActionButton) findViewById(R.id.addTravel);
+        buttonAddToStop = (FloatingActionButton) findViewById(R.id.addToLastStop);
+        buttonAddStop = (FloatingActionButton) findViewById(R.id.addStop);
+        buttonSearchUser = (FloatingActionButton) findViewById(R.id.searchUser);
+        buttonSearchTravels = (FloatingActionButton) findViewById(R.id.buttonSearchTravels);
+        buttonSocial = (FloatingActionButton) findViewById(R.id.buttonSocial);
+
+        inizializzaButton();
+
         imageViewProfileRound = (ImageView) findViewById(R.id.imageView_round);
 
         transferUtility = UtilS3Amazon.getTransferUtility(this);
         transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
         s3 = UtilS3Amazon.getS3Client(MainActivity.this);
-
-
-        //Task for retrieving all the users of the app for adding a new travel and allow the autocomplete
-        //new MyTask().execute();
-        profilo = new Profilo(email, name, surname, date, password, nazionalità, sesso, username, lavoro, descrizione);
-
-        TakeATrip TAT = (TakeATrip) getApplicationContext();
-        TAT.setProfiloCorrente(profilo);
-
-        Log.i(TAG, "Settato profilo corrente: " + TAT.getProfiloCorrente());
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        showProgressDialog();
+
 
         //Task for retrieving the profile and cover image of the user
-        new MyTaskIDProfileImage(this, email).execute();
-        new MyTaskIDCoverImage(this, email).execute();
+        String urlImageProfile = null;
+        String urlCoverImage = null;
+        try {
+            urlImageProfile = new MyTaskIDProfileImage(this, email).execute().get();
+            urlCoverImage = new MyTaskIDCoverImage(this, email).execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
 
         if (sesso != null && sesso.equals("M")) {
             imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_male));
         } else if (sesso != null && sesso.equals("F")) {
             imageViewProfileRound.setImageDrawable(getResources().getDrawable(R.drawable.default_female));
         }
-        TakeATrip TAT = ((TakeATrip) getApplicationContext());
 
+
+        profilo = new Profilo(email, name, surname, date, nazionalità, sesso, username, lavoro, descrizione,tipo,urlImageProfile,urlCoverImage);
+        TakeATrip TAT = (TakeATrip) getApplicationContext();
+        TAT.setProfiloCorrente(profilo);
+
+
+        Log.i(TAG, "Settato profilo corrente: " + TAT.getProfiloCorrente());
 
         googleApiClient = TAT.getGoogleApiClient();
         if (googleApiClient != null) {
@@ -213,6 +258,167 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(this);
     }
+
+
+
+
+    private void inizializzaButton(){
+        buttonAddTravel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClickNewTravel(v);
+                fabMenu.collapse();
+            }
+        });
+
+        buttonAddToStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClickLastStop(v);
+                fabMenu.collapse();
+            }
+        });
+
+        buttonAddStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClickNewStop(v);
+                fabMenu.collapse();
+            }
+        });
+
+        buttonSocial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                onClickSocialButton(v);
+            }
+        });
+
+        buttonSearchUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                ClickSearchUser(v);
+                fabMenu2.collapse();
+            }
+        });
+
+        buttonSearchTravels.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                onClickSearchTravels(v);
+                fabMenu2.collapse();
+            }
+        });
+
+
+    }
+
+
+    private void ClickNewStop(View v) {
+        newStop = true;
+
+        GetViaggiTask GVT = new GetViaggiTask(MainActivity.this, email);
+        GVT.delegate = this;
+        GVT.execute();
+    }
+
+    private void ClickLastStop(View v) {
+        GetViaggiTask GVT = new GetViaggiTask(MainActivity.this, email);
+        GVT.delegate = this;
+        GVT.execute();
+    }
+
+
+    @Override
+    public void processFinishForTravels(List<Viaggio> travels) {
+
+        if(travels.size() > 0){
+            ultimoViaggio = travels.get(0);
+
+            List<Profilo> partecipant = new ArrayList<Profilo>();
+            partecipant.add(profilo);
+            if(newStop){
+
+                CharSequence[] namesPartecipants = { profilo.getName() };
+                CharSequence[] listPartecipants = { profilo.getEmail() };
+                CharSequence[] urlImagePartecipants = { profilo.getIdImageProfile() };
+                CharSequence[] sessoPartecipants = { profilo.getSesso() };
+
+                Intent intent = new Intent(MainActivity.this, ListaTappeActivity.class);
+                intent.putExtra("email", email);
+                intent.putExtra("codiceViaggio", ultimoViaggio.getCodice());
+                intent.putExtra("nomeViaggio", ultimoViaggio.getNome());
+                intent.putExtra("urlImmagineViaggio", ultimoViaggio.getUrlImmagine());
+                intent.putExtra("livelloCondivisione", ultimoViaggio.getCondivisioneDefault());
+                intent.putExtra("urlImmagineViaggio", ultimoViaggio.getUrlImmagine());
+                intent.putExtra("namesPartecipants", namesPartecipants);
+                intent.putExtra("partecipanti", listPartecipants);
+                intent.putExtra("urlImagePartecipants", urlImagePartecipants);
+                intent.putExtra("sessoPartecipants", sessoPartecipants);
+                startActivity(intent);
+
+                newStop = false;
+            }
+            else{
+                GetStopsTask GST = new GetStopsTask(MainActivity.this, partecipant, ultimoViaggio.getCodice());
+                GST.delegate = this;
+                GST.execute();
+            }
+
+        }
+        else{
+            Toast.makeText(this, this.getResources().getString(R.string.no_travels), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+    @Override
+    public void processFinishForStops(Map<Profilo, List<Tappa>> profilo_tappe) {
+        List<Tappa> tappe = profilo_tappe.get(profilo);
+        if(tappe.size() == 0 ){
+            new AlertDialog.Builder(this)
+                    .setTitle(this.getString(R.string.adviseNoStops))
+                    .setMessage(this.getString(R.string.adviseNewStop))
+                    .setPositiveButton(this.getString(R.string.si), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent openNewTravel = new Intent(MainActivity.this, ViaggioActivityConFragment.class);
+
+                            openNewTravel.putExtra("email", email);
+                            openNewTravel.putExtra("codiceViaggio", ultimoViaggio.getCodice());
+                            openNewTravel.putExtra("nomeViaggio", ultimoViaggio.getNome());
+                            openNewTravel.putExtra("urlImmagineViaggio", ultimoViaggio.getUrlImmagine());
+                            openNewTravel.putExtra("livelloCondivisione", ultimoViaggio.getCondivisioneDefault());
+                            startActivity(openNewTravel);
+                        }
+                    })
+
+                    .setNegativeButton(this.getString(R.string.no), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            //onBackPressed();
+                            return;
+                        }
+                    })
+                    .setIcon(ContextCompat.getDrawable(this,R.drawable.logodefbordo))
+                    .show();
+
+
+        }else{
+            Tappa ultimaTappa = tappe.get(tappe.size()-1);
+
+            Intent intent = new Intent(MainActivity.this, TappaActivity.class);
+            intent.putExtra("email",profilo.getEmail());
+            intent.putExtra("codiceViaggio", ultimoViaggio.getCodice());
+            intent.putExtra("ordine", tappe.size());
+            intent.putExtra("nome", tappe.size() + ". "+ ultimaTappa.getName());
+            intent.putExtra("data", DatesUtils.getStringFromDate(ultimaTappa.getData(), Constants.DISPLAYED_DATE_FORMAT));
+
+            startActivity(intent);
+        }
+
+
+    }
+
 
     public void ClickImageProfile(View v) {
         Intent openProfilo = new Intent(MainActivity.this, ProfiloActivity.class);
@@ -237,12 +443,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    private void ClickSearchUser(View v) {
+        Intent intent = new Intent(MainActivity.this, SocialActivity.class);
+        intent.putExtra("email", email);
+        intent.putExtra("fromMain", "yes");
+        startActivity(intent);
+    }
+
+
     public void onClickSearchTravels(View v) {
         Intent intent = new Intent(MainActivity.this, SearchActivity.class);
         intent.putExtra("email", email);
         startActivity(intent);
     }
-
 
     public void ClickTravels(View v) {
         Intent openListaViaggi = new Intent(MainActivity.this, ListaViaggiActivity.class);
@@ -256,8 +469,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         openNewTravel.putExtra("email", email);
         openNewTravel.putExtra("emailEsterno", emailEsterno);
         startActivity(openNewTravel);
-
     }
+
+
+
 
     public void onClickSocialButton(View v) {
         Intent openSocial = new Intent(MainActivity.this, SocialActivity.class);
@@ -363,7 +578,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private class MyTaskIDProfileImage extends AsyncTask<Void, Void, Void> {
+
+
+
+    private class MyTaskIDProfileImage extends AsyncTask<Void, Void, String> {
 
         private final String ADDRESS_QUERY_PROFILE_IMAGE = "QueryImmagineProfilo.php";
 
@@ -378,7 +596,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("email", emailUser));
 
@@ -434,11 +658,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 e.printStackTrace();
                 Log.e(e.toString(), e.getMessage());
             }
-            return null;
+            return signedUrl;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
+        protected void onPostExecute(String aVoid) {
             Log.i(TAG, "risultato dal prelievo dell'url imm profilo: " + signedUrl);
             if (signedUrl != null) {
                 Picasso.with(MainActivity.this)
@@ -485,7 +709,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
-    private class MyTaskIDCoverImage extends AsyncTask<Void, Void, Void> {
+    private class MyTaskIDCoverImage extends AsyncTask<Void, Void, String> {
 
         private final String ADDRESS_QUERY_COVER_IMAGE = "QueryImmagineCopertina.php";
 
@@ -499,7 +723,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("email", emailUser));
             try {
@@ -551,7 +775,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
+        protected void onPostExecute(String aVoid) {
             Log.i(TAG, "risultato dal prelievo dell'id imm copertina: " + urlImmagineCopertina);
             super.onPostExecute(aVoid);
         }

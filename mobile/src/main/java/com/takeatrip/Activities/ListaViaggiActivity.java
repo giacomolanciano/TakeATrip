@@ -2,14 +2,10 @@ package com.takeatrip.Activities;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,31 +16,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.takeatrip.Adapters.RecyclerViewViaggiAdapter;
+import com.takeatrip.AsyncTasks.GetViaggiTask;
 import com.takeatrip.Classes.Profilo;
 import com.takeatrip.Classes.Viaggio;
+import com.takeatrip.Interfaces.AsyncResponseTravels;
 import com.takeatrip.R;
-import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.DataObject;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 
-
-public class ListaViaggiActivity extends ActionBarActivity {
+public class ListaViaggiActivity extends ActionBarActivity implements AsyncResponseTravels {
 
     private static final String TAG = "TEST ListaViaggiAct";
 
@@ -94,7 +77,6 @@ public class ListaViaggiActivity extends ActionBarActivity {
 
 
         viaggi = new ArrayList<Viaggio>();
-        profili = new ArrayList<Profilo>();
         dataTravels = new ArrayList<DataObject>();
 
 
@@ -105,51 +87,12 @@ public class ListaViaggiActivity extends ActionBarActivity {
 
         }
 
-        new GetViaggiTask().execute();
+        GetViaggiTask GVT = new GetViaggiTask(ListaViaggiActivity.this, email);
+        GVT.delegate = this;
+        GVT.execute();
 
     }
 
-    private ArrayList<DataObject> getDataSet() {
-        ArrayList results = new ArrayList<DataObject>();
-        for (int index = 0; index < 20; index++) {
-            //DataObject obj = new DataObject("Some Primary Text " + index,
-            //        "Secondary " + index);
-            //results.add(index, obj);
-        }
-        return results;
-    }
-
-
-    private void PopolaLista() {
-
-        RecyclerViewViaggiAdapter adapter = new RecyclerViewViaggiAdapter(dataTravels, ListaViaggiActivity.this);
-        adapter.onCreateViewHolder(group, 0);
-        recyclerView.setAdapter(adapter);
-        hideProgressDialog();
-
-        /*
-        recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adattatore, final View componente, int pos, long id) {
-
-                final Viaggio viaggio = (Viaggio) adattatore.getItemAtPosition(pos);
-                // Toast.makeText(getBaseContext(), "hai cliccato il viaggio: " + viaggio.getNome(), Toast.LENGTH_SHORT).show();
-
-                //TODO per ora non ci interessano tutti gli itinerari associati al viaggio
-                //Intent intent = new Intent(ListaViaggiActivity.this, ViaggioActivity.class);
-                Intent intent = new Intent(ListaViaggiActivity.this, ViaggioActivity.class);
-                intent.putExtra("email", email);
-                intent.putExtra("codiceViaggio", viaggio.getCodice());
-                intent.putExtra("nomeViaggio", viaggio.getNome());
-
-                startActivity(intent);
-
-            }
-        });
-
-        */
-
-    }
 
 
     @Override
@@ -192,150 +135,60 @@ public class ListaViaggiActivity extends ActionBarActivity {
         recreate();
     }
 
-    private void showProgressDialog() {
-        if (progressDialog == null) {
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage(getString(R.string.CaricamentoInCorso));
-            progressDialog.setIndeterminate(true);
+
+
+    @Override
+    public void processFinishForTravels(List<Viaggio> travels) {
+        Log.i(TAG, "viaggi di: " + email + " " + travels);
+
+        Profilo p = new Profilo(email);
+        for(Viaggio v : travels) {
+            ImageView image = new ImageView(ListaViaggiActivity.this);
+            dataTravels.add(new DataObject(v, p, image));
         }
-        progressDialog.show();
+        PopolaLista();
     }
 
-    private void hideProgressDialog() {
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.hide();
-            progressDialog.dismiss();
+    private ArrayList<DataObject> getDataSet() {
+        ArrayList results = new ArrayList<DataObject>();
+        for (int index = 0; index < 20; index++) {
+            //DataObject obj = new DataObject("Some Primary Text " + index,
+            //        "Secondary " + index);
+            //results.add(index, obj);
         }
+        return results;
     }
 
-    private class GetViaggiTask extends AsyncTask<Void, Void, Void> {
 
-        //private static final String TAG = "TEST GetViaggiTask";
-        private static final String ADDRESS_PRELIEVO = "QueryViaggi.php";
+    private void PopolaLista() {
 
-        InputStream is = null;
-        String stringaFinale = "";
+        RecyclerViewViaggiAdapter adapter = new RecyclerViewViaggiAdapter(dataTravels, ListaViaggiActivity.this);
+        adapter.onCreateViewHolder(group, 0);
+        recyclerView.setAdapter(adapter);
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showProgressDialog();
-        }
+        /*
+        recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adattatore, final View componente, int pos, long id) {
 
-        @Override
-        protected Void doInBackground(Void... params) {
+                final Viaggio viaggio = (Viaggio) adattatore.getItemAtPosition(pos);
+                // Toast.makeText(getBaseContext(), "hai cliccato il viaggio: " + viaggio.getNome(), Toast.LENGTH_SHORT).show();
 
+                //TODO per ora non ci interessano tutti gli itinerari associati al viaggio
+                //Intent intent = new Intent(ListaViaggiActivity.this, ViaggioActivity.class);
+                Intent intent = new Intent(ListaViaggiActivity.this, ViaggioActivity.class);
+                intent.putExtra("email", email);
+                intent.putExtra("codiceViaggio", viaggio.getCodice());
+                intent.putExtra("nomeViaggio", viaggio.getNome());
 
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("email", email));
-
-
-            try {
-
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_PRELIEVO);
-                httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                HttpResponse response = httpclient.execute(httppost);
-
-                HttpEntity entity = response.getEntity();
-                is = entity.getContent();
-
-                if (is != null) {
-                    //converto la risposta in stringa
-                    try {
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                        StringBuilder sb = new StringBuilder();
-                        String line = null;
-                        while ((line = reader.readLine()) != null) {
-                            sb.append(line + "\n");
-                        }
-                        is.close();
-
-                        String result = sb.toString();
-
-                        Log.i(TAG, "result da queryViaggi: " + result);
-
-
-                        if (result.equals("null\n")) {
-                            stringaFinale = getString(R.string.NoTravels);
-
-                        } else {
-                            JSONArray jArray = new JSONArray(result);
-
-                            if (jArray != null && result != null) {
-                                for (int i = 0; i < jArray.length(); i++) {
-                                    JSONObject json_data = jArray.getJSONObject(i);
-                                    String codiceViaggio = json_data.getString("codiceViaggio");
-                                    String nomeViaggio = json_data.getString("nomeViaggio");
-                                    String urlImmagineViaggio = json_data.getString("idFotoViaggio");
-                                    String condivisioneDefault = json_data.getString("livelloCondivisione");
-
-                                    viaggi.add(new Viaggio(codiceViaggio, nomeViaggio, urlImmagineViaggio, condivisioneDefault));
-                                    profili.add(new Profilo(email));
-                                }
-                            }
-                        }
-
-
-                    } catch (Exception e) {
-                        Log.e(TAG, "Errore nel risultato o nel convertire il risultato");
-                    }
-                } else {
-                    Log.e(TAG, "Input Stream uguale a null");
-                }
-
-            } catch (Exception e) {
-                Log.e(TAG, "Errore nella connessione http " + e.toString());
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            if (stringaFinale.equals("")) {
-                Profilo p = new Profilo(email);
-                for(Viaggio v : viaggi) {
-                    ImageView image = new ImageView(ListaViaggiActivity.this);
-                    dataTravels.add(new DataObject(v, p, image));
-                }
-
-                PopolaLista();
-            } else {
-                hideProgressDialog();
-                adviseNewTravel();
+                startActivity(intent);
 
             }
-            super.onPostExecute(aVoid);
+        });
 
-        }
-
-
-        //allert di avviso per uscita senza salvataggio
-        private void adviseNewTravel() {
-
-            new AlertDialog.Builder(ListaViaggiActivity.this)
-                    .setTitle(getString(R.string.adviseNoTravel))
-                    .setMessage(getString(R.string.adviseNewTravel))
-                    .setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent openNewTravel = new Intent(ListaViaggiActivity.this, NuovoViaggioActivity.class);
-                            openNewTravel.putExtra("email", email);
-                            startActivity(openNewTravel);
-                            finish();
-                        }
-                    })
-
-                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            ListaViaggiActivity.this.onBackPressed();
-                            return;
-                        }
-                    })
-                    .setIcon(ContextCompat.getDrawable(ListaViaggiActivity.this,R.drawable.logodefbordo))
-                    .show();
-        }
+        */
 
     }
+
 
 }

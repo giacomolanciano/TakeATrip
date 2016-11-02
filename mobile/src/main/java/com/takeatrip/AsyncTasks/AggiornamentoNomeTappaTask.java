@@ -1,5 +1,6 @@
 package com.takeatrip.AsyncTasks;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -25,23 +26,32 @@ import java.util.ArrayList;
 /**
  * Created by Giacomo Lanciano on 25/04/2016.
  */
-public class InserimentoFiltroTask extends AsyncTask<Void, Void, Void> {
+public class AggiornamentoNomeTappaTask extends AsyncTask<Void, Void, Void> {
 
-    private static final String TAG = "TEST ListaTappeAct";
+    private static final String TAG = "TEST AggDataTappaTask";
 
-    private static final String ADDRESS_INSERIMENTO_FILTRO = "InserimentoFiltro.php";
+    private static final String ADDRESS_AGGIORNAMENTO_TAPPA = "UpdateNomeTappa.php";
 
 
     private InputStream is = null;
     private String result, stringaFinale = "";
 
     private Context context;
-    private String codiceViaggio, placeName;
+    private int ordineTappa;
+    private String codiceViaggio;
+    private String email;
+    private String nomeTappa;
 
-    public InserimentoFiltroTask(Context context, String codiceViaggio, String placeName) {
+    private ProgressDialog mProgressDialog;
+
+
+    public AggiornamentoNomeTappaTask(Context context, int ordineTappa, String codiceViaggio,
+                                      String email, String nomeTappa) {
         this.context = context;
+        this.ordineTappa = ordineTappa;
         this.codiceViaggio = codiceViaggio;
-        this.placeName = placeName;
+        this.email = email;
+        this.nomeTappa = nomeTappa;
     }
 
     @Override
@@ -49,21 +59,32 @@ public class InserimentoFiltroTask extends AsyncTask<Void, Void, Void> {
 
 
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-        dataToSend.add(new BasicNameValuePair("filtro", creaStringaFiltro()));
+        dataToSend.add(new BasicNameValuePair("ordine", ""+ ordineTappa));
         dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
+        dataToSend.add(new BasicNameValuePair("emailProfilo", email));
+        dataToSend.add(new BasicNameValuePair("nome", nomeTappa));
 
-        Log.i(TAG, "filtro: " + creaStringaFiltro());
+
+        Log.i(TAG, "ordine: " + ordineTappa);
+        Log.i(TAG, "codiceViaggio: " + codiceViaggio);
+        Log.i(TAG, "emailProfilo: " + email);
+        Log.i(TAG, "dataTappa: " + nomeTappa);
 
         try {
             if (InternetConnection.haveInternetConnection(context)) {
                 Log.i(TAG, "CONNESSIONE Internet Presente!");
 
+
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_FILTRO);
+                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_AGGIORNAMENTO_TAPPA);
                 httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+
                 HttpResponse response = httpclient.execute(httppost);
+
                 HttpEntity entity = response.getEntity();
+
                 is = entity.getContent();
+
                 if (is != null) {
                     //converto la risposta in stringa
                     try {
@@ -79,15 +100,12 @@ public class InserimentoFiltroTask extends AsyncTask<Void, Void, Void> {
                         Log.i(TAG, "result: " +result);
 
                     } catch (Exception e) {
-                        Toast.makeText(context, "Errore nel risultato o nel convertire il risultato",
-                                Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
                     }
                 }
                 else {
                     Toast.makeText(context, "Input Stream uguale a null", Toast.LENGTH_LONG).show();
                 }
-
-
             } else
                 Log.e(TAG, "CONNESSIONE Internet Assente!");
         } catch (Exception e) {
@@ -102,19 +120,20 @@ public class InserimentoFiltroTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
 
         if(!result.equals("OK\n")){
-            Log.e(TAG, "filtro non inserito");
+            Log.e(TAG, "nome non aggiornato");
         }
         else{
-            Log.i(TAG, "filtro inserito correttamente");
+            Log.i(TAG, "nome aggiornato");
 
         }
+        hideProgressDialog();
         super.onPostExecute(aVoid);
     }
 
 
-
-    private String creaStringaFiltro() {
-        return placeName.toLowerCase().replaceAll(" ", "_");
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
     }
-
 }

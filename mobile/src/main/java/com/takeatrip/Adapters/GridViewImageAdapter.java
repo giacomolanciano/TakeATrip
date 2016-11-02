@@ -1,11 +1,11 @@
 package com.takeatrip.Adapters;
 
+import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 import com.takeatrip.Classes.ContenutoMultimediale;
@@ -20,7 +20,9 @@ import com.takeatrip.Utilities.UtilS3AmazonCustom;
 public class GridViewImageAdapter extends GridViewAdapter {
 
     private static final String TAG = "TEST GridViewImgAdapt";
-    private static final int TRIPLE = 3;
+    private static final int THREE = 3;
+    private static final int SIX = 3;
+
 
     public GridViewImageAdapter(Context context, ContenutoMultimediale[] URLs, int tipoContenuto, String emailProfiloLoggato) {
         super(context, URLs, tipoContenuto, emailProfiloLoggato);
@@ -41,7 +43,7 @@ public class GridViewImageAdapter extends GridViewAdapter {
         Picasso.with(context)
                 .load(url)
                 .placeholder(R.drawable.empty_image)
-                .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *TRIPLE, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *TRIPLE)
+                .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *THREE, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *THREE)
                 .centerCrop()
                 .tag(context)
                 .into(result);
@@ -51,14 +53,33 @@ public class GridViewImageAdapter extends GridViewAdapter {
             @Override
             public void onClick(View v) {
 
-                Log.i(TAG, "content: "+v.getContentDescription());
+                final Dialog dialog = new Dialog(context, R.style.CustomDialog);
+                dialog.setContentView(R.layout.photos_view);
+                ImageView imageProfile = (ImageView) dialog.findViewById(R.id.imageDialog);
+                imageProfile.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
 
-                Uri uri = Uri.parse(url);
 
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                intent.setDataAndType(uri, "image/*");
-                context.startActivity(intent);
+                float density = context.getResources().getDisplayMetrics().density;
+                if(density < 3.0){
+                    Picasso.with(context)
+                            .load(url)
+                            .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *6, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *6)
+                            .into(imageProfile);
+                }
+                else if(density == 3.0 || density == 4.0){
+                    Picasso.with(context)
+                            .load(url)
+                            .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *10, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *10)
+                            .into(imageProfile);
+                }
 
+
+                dialog.show();
             }
         });
 

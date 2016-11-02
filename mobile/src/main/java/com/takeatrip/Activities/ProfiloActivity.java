@@ -1,6 +1,7 @@
 package com.takeatrip.Activities;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TabActivity;
 import android.content.DialogInterface;
@@ -490,11 +491,18 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-                                String urlImmagine = generateCompleteUrl(idImageProfile);
+
+                                if(idImageProfile != null){
+                                    String urlImmagine = generateCompleteUrl(idImageProfile);
+                                    viewImage(urlImmagine);
+                                }
+
+                                /*
                                 Uri uri = Uri.parse(urlImmagine);
                                 Intent intent2 = new Intent(Intent.ACTION_VIEW, uri);
                                 intent2.setDataAndType(uri, "image/*");
                                 startActivity(intent2);
+                                */
                                 break;
                             case 1: //change image profile
 
@@ -562,11 +570,18 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0: //view cover image
-                                String urlImmagine = generateCompleteUrl(idCoverImage);
+                                Log.i(TAG, "idCoverImage: " + idCoverImage);
+                                if(idCoverImage != null && !idCoverImage.equals("null")){
+                                    String urlImmagine = generateCompleteUrl(idCoverImage);
+                                    viewImage(urlImmagine);
+                                }
+                                /*
+
                                 Uri uri = Uri.parse(urlImmagine);
                                 Intent intent2 = new Intent(Intent.ACTION_VIEW, uri);
                                 intent2.setDataAndType(uri, "image/*");
                                 startActivity(intent2);
+                                */
                                 break;
                             case 1:
                                 Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -607,6 +622,37 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             }
         }
     }
+
+
+    private void viewImage(String url){
+        final Dialog dialog2 = new Dialog(ProfiloActivity.this, R.style.CustomDialog);
+        dialog2.setContentView(R.layout.photos_view);
+        ImageView imageProfile = (ImageView) dialog2.findViewById(R.id.imageDialog);
+        imageProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog2.dismiss();
+            }
+        });
+
+        float density = getResources().getDisplayMetrics().density;
+        if(density < 3.0){
+            Picasso.with(ProfiloActivity.this)
+                    .load(url)
+                    .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *6, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *6)
+                    .into(imageProfile);
+        }
+        else if(density == 3.0 || density == 4.0){
+            Picasso.with(ProfiloActivity.this)
+                    .load(url)
+                    .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *10, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *10)
+                    .into(imageProfile);
+        }
+        dialog2.show();
+    }
+
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

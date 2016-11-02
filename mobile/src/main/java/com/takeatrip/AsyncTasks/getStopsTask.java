@@ -62,9 +62,7 @@ public class GetStopsTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         for(Profilo p : partecipants){
-
             List<Tappa> tappe = new ArrayList<Tappa>();
-
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("email", p.getEmail()));
             dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
@@ -104,7 +102,7 @@ public class GetStopsTask extends AsyncTask<Void, Void, Void> {
 
                                 Tappa tappaPrecedente = new Tappa(itinerario, (ordineTappaPrecedente));
 
-                                String paginaDiario = json_data.getString("paginaDiario");
+                                String nome = json_data.getString("nome");
                                 String codicePOI = json_data.getString("codicePOI");
                                 String fontePOI = json_data.getString("fontePOI");
 
@@ -114,7 +112,11 @@ public class GetStopsTask extends AsyncTask<Void, Void, Void> {
                                 Calendar cal = DatesUtils.getDateFromString(dataString, Constants.DATABASE_DATE_FORMAT);
                                 Date data = cal.getTime();
 
-                                tappe.add(new Tappa(itinerario, ordine, tappaPrecedente, data, paginaDiario, poi));
+
+
+                                tappe.add(new Tappa(itinerario, ordine, tappaPrecedente, data, nome, poi));
+                                Log.i(TAG, "tappa prelevata: " + tappe);
+
                             }
                         }
 
