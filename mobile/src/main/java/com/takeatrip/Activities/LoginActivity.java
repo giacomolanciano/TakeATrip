@@ -389,7 +389,7 @@ public class LoginActivity extends AppCompatActivity implements
         openAccedi.putExtra("lavoro", job);
         openAccedi.putExtra("descrizione", description);
         openAccedi.putExtra("tipo", type);
-        openAccedi.putExtra("profile", profile);
+        openAccedi.putExtra("fbProfile", profile);
 
         startActivity(openAccedi);
 

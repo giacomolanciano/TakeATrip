@@ -75,16 +75,24 @@ public class DatesUtils {
     }
 
     public static Calendar getDateFromString(String date, String dateFormat) {
+        Calendar cal = null;
 
-        if(date.equals(null) || dateFormat.equals(null))
-            return null;
+        try{
+            if(date.equals(null) || dateFormat.equals(null))
+                return null;
 
-        Calendar cal = Calendar.getInstance();
+            cal = Calendar.getInstance();
 
-        SimpleDateFormat fromFormat = new SimpleDateFormat(dateFormat);
-        Date formattedDate = fromFormat.parse(date, new ParsePosition(0));
+            SimpleDateFormat fromFormat = new SimpleDateFormat(dateFormat);
+            Date formattedDate = fromFormat.parse(date, new ParsePosition(0));
 
-        cal.setTime(formattedDate);
+            cal.setTime(formattedDate);
+        }
+        catch(Exception e){
+            Log.e(TAG, "Thrown exception:" + e);
+
+        }
+
 
         return cal;
     }

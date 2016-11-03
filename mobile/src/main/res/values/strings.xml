@@ -310,6 +310,7 @@
     <string name="last_stop">Last stop</string>
     <string name="travels">Travels</string>
     <string name="travel">Travel</string>
+    <string name="incorrect_date">Attention! Incorrect date</string>
 
 
 </resources>

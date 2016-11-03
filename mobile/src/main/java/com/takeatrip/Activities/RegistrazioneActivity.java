@@ -64,6 +64,7 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
     private boolean update, passwordModificata;
     private boolean loginFB = false, loginGoogle = false;
     private boolean updateProfilo = false;
+    private boolean dataNonCorretta = false;
 
     private Calendar calendar = Calendar.getInstance();
     //private int cDay = calendar.get(Calendar.DAY_OF_MONTH);
@@ -137,6 +138,8 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
             tipo = intent.getStringExtra("tipo");
             profile = intent.getParcelableExtra("profile");
             provieneDa = intent.getStringExtra("provieneDa");
+
+            Log.i(TAG, "profileFB: " +  profile);
 
             if(provieneDa != null){
                 updateProfilo = true;
@@ -232,8 +235,13 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
                 Log.i(TAG, "data nascita: " + campoDataNascita.getText().toString());
 
                 if(campoDataNascita.getText() != null && !campoDataNascita.getText().toString().equals("")){
-                    data = DatesUtils.convertFormatStringDate(campoDataNascita.getText().toString(),
-                            Constants.DISPLAYED_DATE_FORMAT, Constants.DATABASE_DATE_FORMAT);
+                    try{
+                        data = DatesUtils.convertFormatStringDate(campoDataNascita.getText().toString(),
+                                Constants.DISPLAYED_DATE_FORMAT, Constants.DATABASE_DATE_FORMAT);
+                    }
+                    catch (Exception e){
+                        dataNonCorretta = true;
+                    }
                 }
 
                 nome = campoNome.getText().toString();
@@ -246,7 +254,11 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
 
                 Log.i(TAG, "dati inseriti: " + nome + " " + cognome + " " + username + " " + data + " " + email + "vpwd " + password);
 
-                if(username == null || username.equals("")){
+                if(dataNonCorretta){
+                    Toast.makeText(getBaseContext(), R.string.incorrect_date, Toast.LENGTH_LONG).show();
+                    dataNonCorretta = false;
+                }
+                else if(username == null || username.equals("")){
                     Toast.makeText(getBaseContext(), R.string.incorrectUsername, Toast.LENGTH_LONG).show();
                 }
                 else if(campoMale.isChecked() && campoFemale.isChecked() ||
@@ -518,7 +530,7 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
                 openProfilo.putExtra("lavoro", lavoro);
                 openProfilo.putExtra("descrizione", descrizione);
                 openProfilo.putExtra("tipo", tipo);
-                openProfilo.putExtra("profile", profile);
+                openProfilo.putExtra("fbProfile", profile);
 
                 startActivity(openProfilo);
                 finish();

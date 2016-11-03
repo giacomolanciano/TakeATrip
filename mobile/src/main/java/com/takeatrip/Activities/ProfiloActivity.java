@@ -1279,6 +1279,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             progressDialog = new ProgressDialog(this);
             progressDialog.setMessage(getString(R.string.CaricamentoInCorso));
             progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
         }
 
         progressDialog.show();

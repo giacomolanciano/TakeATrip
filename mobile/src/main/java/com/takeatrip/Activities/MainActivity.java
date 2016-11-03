@@ -196,6 +196,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //action buttons
         fabMenu = (FloatingActionsMenu) findViewById(R.id.menu);
         fabMenu2 = (FloatingActionsMenu) findViewById(R.id.menu2);
+
+        fabMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
+            @Override
+            public void onMenuExpanded() {
+                fabMenu2.collapse();
+            }
+
+            @Override
+            public void onMenuCollapsed() {
+            }
+        });
+
+
+        fabMenu2.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
+            @Override
+            public void onMenuExpanded() {
+                fabMenu.collapse();
+            }
+
+            @Override
+            public void onMenuCollapsed() {
+            }
+        });
+
+
         buttonAddTravel = (FloatingActionButton) findViewById(R.id.addTravel);
         buttonAddToStop = (FloatingActionButton) findViewById(R.id.addToLastStop);
         buttonAddStop = (FloatingActionButton) findViewById(R.id.addStop);
@@ -244,6 +269,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         Log.i(TAG, "Settato profilo corrente: " + TAT.getProfiloCorrente());
+        Log.i(TAG, "profilo FB: " + fbProfile);
 
         googleApiClient = TAT.getGoogleApiClient();
         if (googleApiClient != null) {
@@ -678,6 +704,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     try {
                         final URI image_URI = new URI(image_uri.toString());
+
                         Log.i(TAG, "url_image: " + image_URI.toURL().toString());
                         //Picasso.with(MainActivity.this).load(image_URI.toURL().toString()).into(imageViewProfileRound);
                         Picasso.with(MainActivity.this).load(image_URI.toURL().toString()).into(target);
@@ -686,6 +713,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         e.printStackTrace();
                     }
                 }
+                hideProgressDialog();
+
             }
 
         }
@@ -696,7 +725,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             // loading of the bitmap was a success
             imageViewProfileRound.setImageBitmap(bitmap);
-            hideProgressDialog();
         }
 
         @Override
@@ -781,6 +809,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+
     //Dialog per backPressed in home
     private void prepareSignOut() {
 
@@ -823,6 +853,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             progressDialog = new ProgressDialog(this);
             progressDialog.setMessage(getString(R.string.CaricamentoInCorso));
             progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(true);
         }
 
         progressDialog.show();

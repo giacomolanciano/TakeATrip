@@ -284,7 +284,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
         openAccedi.putExtra("lavoro", job);
         openAccedi.putExtra("descrizione", description);
         openAccedi.putExtra("tipo", type);
-        openAccedi.putExtra("profile", profile);
+        openAccedi.putExtra("fbProfile", profile);
 
         startActivity(openAccedi);
 
