@@ -30,7 +30,6 @@ import android.widget.SimpleAdapter;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewAnimator;
 
 import com.amazonaws.HttpMethod;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
@@ -86,7 +85,6 @@ import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId, AsyncResponseDriveIdCover{
-
     private static final String TAG = "TEST ProfiloActivity";
 
     private final int REQUEST_UPLOAD_PROFILE_IMAGE = 123;
@@ -244,6 +242,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 externalView = true;
                 corrente = new Profilo(emailEsterno);
 
+                email = emailProfilo;
                 MyTaskVerificaFollowing mTF = new MyTaskVerificaFollowing();
                 mTF.execute();
             }
@@ -297,6 +296,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         //tab2.setIndicator("STATS");
         tab3.setIndicator(image2);
 
+
         Intent intentInfo = new Intent(this, InfoActivity.class);
         intentInfo.putExtra("name", name);
         intentInfo.putExtra("surname", surname);
@@ -310,8 +310,10 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         intentInfo.putExtra("lavoro", lavoro);
         intentInfo.putExtra("descrizione", descrizione);
         intentInfo.putExtra("tipo", tipo);
-        intentInfo.putExtra("profile", profile);
+        if(profile != null)
+            intentInfo.putExtra("profile", profile);
         tab1.setContent(intentInfo);
+
 
 
         tab2.setContent(new Intent(this, StatsActivity.class));
@@ -353,31 +355,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
-
-
-/*
-
-    public void onClickInfoTab(View v) {
-        Intent intentInfo = new Intent(this, InfoActivity.class);
-        intentInfo.putExtra("name", name);
-        intentInfo.putExtra("surname", surname);
-        intentInfo.putExtra("email", email);
-        intentInfo.putExtra("dateOfBirth", date);
-        intentInfo.putExtra("pwd", password);
-        intentInfo.putExtra("nazionalita", nazionalita);
-        intentInfo.putExtra("sesso", sesso);
-        intentInfo.putExtra("username", username);
-        intentInfo.putExtra("lavoro", lavoro);
-        intentInfo.putExtra("descrizione", descrizione);
-        intentInfo.putExtra("tipo", tipo);
-
-    }
-    */
-
 
 
     String mCurrentPhotoPath;
@@ -423,10 +400,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     }
 
 
-
-
     private void setButtonToFollowing() {
-
         if (alreadyFollowing) {
             Log.i(TAG, "GIA' SEGUI QUESTO UTENTE! ");
             follow.setText("FOLLOWING");
@@ -461,26 +435,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         finish();
     }
 
-
-//    public void ClickFollowing(View v) {
-//        Intent intentFollowers = new Intent(this, VisualizzazioneFollowActivity.class);
-//        intentFollowers.putExtra("name", name);
-//        intentFollowers.putExtra("surname", surname);
-//        if(emailEsterno != null ){
-//            intentFollowers.putExtra("email", emailEsterno);
-//            Log.i(TAG, "Email di chi voglio vedere i followers (Esterno) " + emailEsterno);
-//        }
-//        else{
-//            TakeATrip TAT = (TakeATrip)getApplicationContext();
-//            email = TAT.getProfiloCorrente().getEmail();
-//            intentFollowers.putExtra("email", email);
-//            Log.i(TAG, "Email di chi voglio vedere i followers " + email);
-//        }
-//        startActivity(intentFollowers);
-//    }
-
-
-    private ViewAnimator animator;
 
     public void ClickImageProfile(View v) {
         try {
@@ -805,6 +759,8 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             }
         }
     }
+
+
     private String generateCompleteUrl(String key){
         URL url = null;
         java.util.Date expiration = new java.util.Date();
@@ -962,7 +918,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             dataToSend.add(new BasicNameValuePair("emailSeguito", emailEsterno));
             dataToSend.add(new BasicNameValuePair("emailSeguace", email));
 
-            Log.i("TEST: ", "MIA MAIL ESISTE FOLLOWING: " + email);
             try {
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + QUERY_VERIFICA_FOLLOWING);
@@ -1199,7 +1154,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
     }
 
 
-        private class MyTaskQueryNumFollowings extends AsyncTask<Void, Void, Void> {
+    private class MyTaskQueryNumFollowings extends AsyncTask<Void, Void, Void> {
         InputStream is = null;
         String result = "";
 
@@ -1262,13 +1217,14 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
             super.onPostExecute(aVoid);
-
             numFollowingsView.setText(numFollowings);
             numFollowersView.setText(numFollowers);
         }
     }
+
+
+
     /*
      * A TransferListener class that can listen to a download task and be
      * notified when the status changes.

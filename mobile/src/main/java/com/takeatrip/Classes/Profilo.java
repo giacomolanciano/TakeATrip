@@ -2,10 +2,12 @@ package com.takeatrip.Classes;
 
 import com.takeatrip.Utilities.Constants;
 
+import java.io.Serializable;
+
 /**
  * Created by lucagiacomelli on 08/01/16.
  */
-public class Profilo {
+public class Profilo implements Serializable {
 
     private String email, name, surname, password, dataNascita, nazionalita, sesso, username, lavoro, descrizione, tipo;
     private String idImageProfile, getIdImageCover;

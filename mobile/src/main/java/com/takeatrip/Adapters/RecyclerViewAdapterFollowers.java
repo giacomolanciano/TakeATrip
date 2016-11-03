@@ -30,7 +30,7 @@ public class RecyclerViewAdapterFollowers extends RecyclerView
         .Adapter<RecyclerViewAdapterFollowers
         .DataObjectHolder> {
 
-    private static String TAG = "TEST RecViewAdaptFollowers";
+    private static String TAG = "TEST RecAdaptFollowers";
 
     private ArrayList<DataObject> mDataset;
     private static MyClickListener myClickListener;
@@ -81,12 +81,9 @@ public class RecyclerViewAdapterFollowers extends RecyclerView
 
                     Intent openProfilo = new Intent(v.getContext(), ProfiloActivity.class);
 
-
-                    //TODO: mancano gli altri dati: SELECT* nel php che prende i followers e i following
-
-
                     //Here pass all the parameter and start the ProfiloActivity
                     openProfilo.putExtra("emailEsterno", p.getEmail());
+                    openProfilo.putExtra("dateOfBirth", p.getDataNascita());
                     openProfilo.putExtra("name", p.getName());
                     openProfilo.putExtra("surname",p.getSurname());
                     openProfilo.putExtra("sesso", p.getSesso());
@@ -122,8 +119,6 @@ public class RecyclerViewAdapterFollowers extends RecyclerView
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_followers, parent, false);
 
-
-
         DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
         return dataObjectHolder;
     }
@@ -133,8 +128,7 @@ public class RecyclerViewAdapterFollowers extends RecyclerView
         holder.nomeUtente.setText(mDataset.get(position).getNomeFollow());
         holder.cognomeUtente.setText(mDataset.get(position).getCognomeFollow());
         holder.usernameUtente.setText("(" +  mDataset.get(position).getUsernameFollow() +")");
-        //holder.emailUtente.setText(mDataset.get(position).getEmailFollow());
-        //Log.i("TEST: ", "USERNAME UTENTE LISTA FOLLOWERS: " + mDataset.get(position).getEmailFollow());
+
 
         holder.dataUtente.setText(mDataset.get(position).getDataNascitaFollow());
 

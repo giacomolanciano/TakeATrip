@@ -10,4 +10,11 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewNotFount"
+        android:textStyle="bold"
+        android:gravity="center"/>
+
 </RelativeLayout>

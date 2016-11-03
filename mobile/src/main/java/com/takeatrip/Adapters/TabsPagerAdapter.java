@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
 
 import com.takeatrip.Classes.Profilo;
 import com.takeatrip.Fragments.FollowersFragment;
@@ -22,6 +21,8 @@ import java.util.HashSet;
 public class TabsPagerAdapter extends FragmentPagerAdapter {
 
     private static String TAG = "TEST TabsPagerAdapt";
+    private static int NUM_ITEMS = 3;
+    private String[] titles = {"FOLLOWING", "FOLLOWERS","SEARCH"};
 
     private ArrayList<Profilo> followers;
     private ArrayList<Profilo> following;
@@ -60,31 +61,26 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 b = new Bundle();
                 b.putSerializable("following", following);
-                FollowingFragment followingFragment = new FollowingFragment();
+                FollowingFragment followingFragment =  FollowingFragment.newInstance(0,titles[0]);
                 followingFragment.setArguments(b);
 
                 return followingFragment;
 
+
             case 1:
-                // Movies fragment activity
                 b = new Bundle();
                 b.putSerializable("followers", followers);
-                FollowersFragment followersFragment = new FollowersFragment();
+                FollowersFragment followersFragment =  FollowersFragment.newInstance(1,titles[1]);
                 followersFragment.setArguments(b);
-
-                Log.i(TAG, "args: "+followersFragment.getArguments());
-                Log.i(TAG, "args followers: "+followersFragment.getArguments().getSerializable("followers"));
-
                 return followersFragment;
-            case 2:
 
-                // Games fragment activity
+            case 2:
                 b = new Bundle();
                 b.putSerializable("profiles", profiles);
-                SearchUsersFragment searchFragment = new SearchUsersFragment();
+                SearchUsersFragment searchFragment = SearchUsersFragment.newInstance(2,titles[2]);
                 searchFragment.setArguments(b);
-
                 return searchFragment;
+
         }
 
         return null;
@@ -93,7 +89,13 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         // get item count - equal to number of tabs
-        return 3;
+        return NUM_ITEMS;
+    }
+
+    // Returns the page title for the top indicator
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return titles[position];
     }
 
 }

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
 
 import com.takeatrip.Classes.Profilo;
 import com.takeatrip.Fragments.FollowersFragment;
@@ -21,6 +20,7 @@ public class TabsPagerAdapterVisualizzazioneFollow extends FragmentPagerAdapter 
 
     private static String TAG = "TEST TabsPagerAdaptVF";
 
+    private String[] titles = {"FOLLOWING", "FOLLOWERS"};
     private ArrayList<Profilo> followers;
     private ArrayList<Profilo> following;
     private ArrayList<Profilo> homePage;
@@ -54,20 +54,12 @@ public class TabsPagerAdapterVisualizzazioneFollow extends FragmentPagerAdapter 
 
         switch (index) {
             case 0:
-                // Movies fragment activity
-                Log.i(TAG, "seguiti in Adapter: " + following);
-                Log.i(TAG, "context in Adapter: " + context);
                 b = new Bundle();
                 b.putSerializable("following", following);
                 FollowingFragment followingFragment = new FollowingFragment();
                 followingFragment.setArguments(b);
-
                 return followingFragment;
             case 1:
-                // Movies fragment activity
-                Log.i(TAG, "seguaci in Adapter: " + followers);
-                Log.i(TAG, "context in Adapter: " + context);
-
                 b = new Bundle();
                 b.putSerializable("followers", followers);
                 FollowersFragment followersFragment = new FollowersFragment();
@@ -82,6 +74,12 @@ public class TabsPagerAdapterVisualizzazioneFollow extends FragmentPagerAdapter 
     public int getCount() {
         // get item count - equal to number of tabs
         return 2;
+    }
+
+    // Returns the page title for the top indicator
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return titles[position];
     }
 
 }

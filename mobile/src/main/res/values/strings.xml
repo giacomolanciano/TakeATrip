@@ -311,6 +311,8 @@
     <string name="travels">Travels</string>
     <string name="travel">Travel</string>
     <string name="incorrect_date">Attention! Incorrect date</string>
+    <string name="no_followers">Followers not found</string>
+    <string name="no_following">Following not found</string>
 
 
 </resources>

@@ -31,7 +31,8 @@ import java.util.ArrayList;
 
 public class MyTaskFollowers extends AsyncTask<Void, Void, Void> {
 
-    private final String ADDRESS_PRELIEVO_FOLLOWING = "PrendiFollowing.php";
+    private final String ADDRESS_PRELIEVO = "PrendiFollower.php";
+
     private static final String TAG = "TaskFollowers";
 
     InputStream is = null;
@@ -58,7 +59,7 @@ public class MyTaskFollowers extends AsyncTask<Void, Void, Void> {
         dataToSend.add(new BasicNameValuePair("email", email));
         try {
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_PRELIEVO_FOLLOWING);
+            HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_PRELIEVO);
             httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
             HttpResponse response = httpclient.execute(httppost);
 

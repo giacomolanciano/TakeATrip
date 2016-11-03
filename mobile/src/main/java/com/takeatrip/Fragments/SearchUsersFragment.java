@@ -32,17 +32,15 @@ public class SearchUsersFragment extends Fragment {
     private static final String TAG = "TEST SearchUsersFr";
 
     private Context context;
+
     private Set<Profilo> profiles;
     List<String> userNames;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
-
     private EditText editTextUser;
     private ImageView imageSearch;
-
     private ArrayList<DataObject> dataUsers;
-
     private ViewGroup group;
     private ImageView image_default;
 
@@ -50,7 +48,18 @@ public class SearchUsersFragment extends Fragment {
     ProgressDialog progressDialog;
 
 
+
+
     public SearchUsersFragment() {}
+
+
+    // newInstance constructor for creating fragment with arguments
+    public static SearchUsersFragment newInstance(int page, String title) {
+        SearchUsersFragment fragmentFirst = new SearchUsersFragment();
+        return fragmentFirst;
+    }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
@@ -61,6 +70,7 @@ public class SearchUsersFragment extends Fragment {
         dataUsers = new ArrayList<DataObject>();
 
         final View rootView = inflater.inflate(R.layout.fragment_search, container, false);
+
 
         progressDialog = new ProgressDialog(context);
 

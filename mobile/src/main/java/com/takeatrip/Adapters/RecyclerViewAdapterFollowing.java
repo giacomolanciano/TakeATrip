@@ -30,7 +30,7 @@ public class RecyclerViewAdapterFollowing extends RecyclerView
         .Adapter<RecyclerViewAdapterFollowing
         .DataObjectHolder> {
 
-    private static String TAG = "TEST RecViewAdaptFollowing";
+    private static String TAG = "TEST RecAdaptFollowing";
 
     private ArrayList<DataObject> mDataset;
     private static MyClickListener myClickListener;
@@ -41,15 +41,9 @@ public class RecyclerViewAdapterFollowing extends RecyclerView
             implements View
             .OnClickListener {
         TextView nomeUtente;
-        TextView emailUtente;
         TextView cognomeUtente;
         TextView usernameUtente;
-        TextView dataUtente;
         TextView sessoUtente;
-        TextView lavoroUtente;
-        TextView descrizioneUtente;
-        TextView tipoUtente;
-        TextView nazionalitaUtente;
         ImageView imageProfile;
 
 
@@ -68,14 +62,12 @@ public class RecyclerViewAdapterFollowing extends RecyclerView
 
         @Override
         public void onClick(View v) {
-
             String username =  usernameUtente.getText().toString().replace("(","").replace(")","");
             Log.d(TAG, "username utente cliccato: " + username);
 
             for(DataObject object : mDataset){
                 Profilo p = object.getProfilo();
 
-                Log.i(TAG, "username utente nel dataset: " + p.getUsername());
                 if(p.getUsername().equals(username)){
 
                     Log.i(TAG, "utente selezionato: " + p);
@@ -84,6 +76,7 @@ public class RecyclerViewAdapterFollowing extends RecyclerView
 
                     //Here pass all the parameter and start the ProfiloActivity
                     openProfilo.putExtra("emailEsterno", p.getEmail());
+                    openProfilo.putExtra("dateOfBirth", p.getDataNascita());
                     openProfilo.putExtra("name", p.getName());
                     openProfilo.putExtra("surname",p.getSurname());
                     openProfilo.putExtra("sesso", p.getSesso());
@@ -94,12 +87,16 @@ public class RecyclerViewAdapterFollowing extends RecyclerView
                     openProfilo.putExtra("urlImmagineProfilo", p.getIdImageProfile());
                     openProfilo.putExtra("urlImmagineCopertina", p.getGetIdImageCover());
 
-                    v.getContext().startActivity(openProfilo);
+                    try{
+                        v.getContext().startActivity(openProfilo);
+                    }
+                    catch(Exception e){
+                        Log.e(TAG, "Thrown exception " + e);
+                    }
 
                     break;
                 }
             }
-
         }
     }
 
@@ -115,8 +112,7 @@ public class RecyclerViewAdapterFollowing extends RecyclerView
     @Override
     public DataObjectHolder onCreateViewHolder(ViewGroup parent,
                                                int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_following, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_following, parent, false);
 
         DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
         return dataObjectHolder;
@@ -126,7 +122,7 @@ public class RecyclerViewAdapterFollowing extends RecyclerView
     public void onBindViewHolder(DataObjectHolder holder, int position) {
         holder.nomeUtente.setText(mDataset.get(position).getNomeFollow());
         holder.cognomeUtente.setText(mDataset.get(position).getCognomeFollow());
-        holder.usernameUtente.setText("(" +  mDataset.get(position).getUsernameFollow() +")");
+        holder.usernameUtente.setText("(" + mDataset.get(position).getUsernameFollow() + ")");
 
         String sesso = mDataset.get(position).getSessoFollow();
 
@@ -147,9 +143,9 @@ public class RecyclerViewAdapterFollowing extends RecyclerView
         ImageView immagineProfilo = holder.imageProfile;
         immagineProfilo.setContentDescription(urlImmagine);
 
-        if(urlImmagine != null && !urlImmagine.equals("null")){
+        if (urlImmagine != null && !urlImmagine.equals("null")) {
 
-            URL completeUrl= null;
+            URL completeUrl = null;
 
             try {
                 completeUrl = new LoadGenericImageTask(urlImmagine, context).execute().get();
@@ -159,23 +155,15 @@ public class RecyclerViewAdapterFollowing extends RecyclerView
                 e.printStackTrace();
             }
 
-            if(completeUrl != null)
+            if (completeUrl != null)
                 Picasso.with(null).load(completeUrl.toString()).into(immagineProfilo);
-
-
-        }
-        else{
-            if(sesso.equals("M")){
+        } else {
+            if (sesso.equals("M")) {
                 immagineProfilo.setImageResource(R.drawable.default_male);
-            }
-            else{
+            } else {
                 immagineProfilo.setImageResource(R.drawable.default_female);
             }
         }
-
-
-
-
 
 
     }
