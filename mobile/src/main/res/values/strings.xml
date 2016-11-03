@@ -44,8 +44,6 @@
     <string name="LoginError">Incorrect Data</string>
 
 
-
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="Splash">Take a Trip</string>
@@ -193,7 +191,6 @@
         <item>Choose existing records</item>
         <item>Take a record</item>
     </string-array>
-
 
 
     <string name="completeProfile">Complete your profile</string>

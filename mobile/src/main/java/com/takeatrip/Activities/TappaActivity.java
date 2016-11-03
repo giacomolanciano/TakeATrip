@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -66,6 +68,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -80,8 +83,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
     private static final String TAG = "TEST TappaActivity";
     private static final String ADDRESS_QUERY_URLS= "QueryImagesOfStops.php";
+    private static final int PICK_IMAGE_MULTIPLE = 100;
 
-    private String email, codiceViaggio, nomeTappa, data;
+    private String email, codiceViaggio, nomeTappa, data, fromListOfStops;
 
     private String visualizzazioneEsterna = "";
     private boolean esterna = false;
@@ -200,27 +204,11 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         gridViewVideos = (AdaptableGridView) findViewById(R.id.grid_view_videos);
         gridViewRecords = (AdaptableGridView) findViewById(R.id.grid_view_records);
 
-
-        /*
-        LinearLayout layoutNotes = (LinearLayout) findViewById(R.id.layoutNotes);
-        layoutNotes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new GetNotesTask(TappaActivity.this, codiceViaggio, null, Constants.QUERY_STOP_NOTES,
-                        email, ordineTappa).execute();
-            }
-        });
-        */
-
-
-
         if (collapsingToolbar != null) {
             collapsingToolbar.setTitle(nomeTappa);
         }
         if (textDataTappa != null) {
             String date = null;
-
-            //TODO: il formato della data non consente questo metodo
             if(data != null && !data.equals(""))
                 //date = DatesUtils.convertFormatStringDate(data, Constants.DATABASE_DATE_FORMAT, Constants.DISPLAYED_DATE_FORMAT);
 
@@ -355,14 +343,10 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         GTN.delegate = this;
         GTN.execute();
 
-
-
         // get the listview
         expListView = (AdaptableExpandableListView) findViewById(R.id.notesExpandable);
-
         // preparing list data
         prepareListData();
-
     }
 
 
@@ -403,6 +387,11 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
     public void onClickChangeDate(View v) {
 
         Log.i(TAG, "changing date");
@@ -436,15 +425,56 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         new AggiornamentoDataTappaTask(TappaActivity.this, ordineTappa, codiceViaggio, email,
                 DatesUtils.getStringFromDate(newDate, Constants.DATABASE_DATE_FORMAT)).execute();
 
-        //TODO
-        // poiche le tappe vengono caricate tutte in lista tappe activity, se si aggiorna, si torna indietro
-        // e si riclicca sulla tappa la data apare non aggiornata, quando invece lo è nel db
-        // capire come sistemare questo inconveniente
-
-
         Log.i(TAG, "date changed");
-
     }
+
+
+
+
+
+
+    private static String getRealPathFromURI(Context context, Uri contentUri) {
+
+        Log.i(TAG, "entro in getRealPathFromURI(...)");
+
+        Cursor cursor = null;
+        String result = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri, proj, null,
+                    null, null);
+
+            if (cursor != null) {
+                cursor.moveToFirst();
+
+                int columnIndex = cursor
+                        .getColumnIndex(proj[0]);
+
+                result = cursor.getString(columnIndex);
+                Log.i(TAG, "result: "+result);
+            }
+
+            return result;
+
+        } catch (Exception e) {
+            Log.e(TAG, "eccezione nel restituire il path: "+e.toString());
+            return null;
+
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+
+
+
+
+
+    private LinearLayout lnrImages;
+    private ArrayList<String> imagesPathList;
+    private Bitmap yourbitmap;
 
 
     @Override
@@ -454,6 +484,51 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         if (resultCode == RESULT_OK) {
 
             switch (requestCode) {
+
+                case PICK_IMAGE_MULTIPLE:
+                    imagesPathList = new ArrayList<String>();
+                    String[] imagesPath = data.getStringExtra("data").split("\\|");
+
+
+                    Log.i(TAG, "selezionate: " + Arrays.toString(imagesPath));
+
+
+                    /*
+                    try{
+                        lnrImages.removeAllViews();
+                    }catch (Throwable e){
+                        e.printStackTrace();
+                    }
+                    */
+
+                    for (int i=0;i<imagesPath.length;i++){
+
+                        String timeStamp = new SimpleDateFormat(Constants.FILE_NAME_TIMESTAMP_FORMAT).format(new Date());
+
+                        String nomeFile = i+timeStamp + Constants.IMAGE_EXT;
+
+                        Log.i(TAG, "name image: " + nomeFile);
+
+                        imagesPathList.add(timeStamp + imagesPath[i]);
+                        yourbitmap = BitmapFactory.decodeFile(imagesPath[i]);
+
+                        pathsImmaginiSelezionate.put(yourbitmap, imagesPath[i]);
+
+                        immaginiSelezionate.add(yourbitmap);
+                        bitmap_nomeFile.put(yourbitmap,nomeFile);
+
+                    }
+
+
+                    uploadPhotos();
+
+                    //refresh activity
+                    recreate();
+
+                break;
+
+
+
 
                 case Constants.REQUEST_IMAGE_CAPTURE:
                     File f = new File(DeviceStorageUtils.getImagesStoragePath());
@@ -693,48 +768,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     }
 
 
-
-
-    //metodi ausiliari
-
-    private static String getRealPathFromURI(Context context, Uri contentUri) {
-
-        Log.i(TAG, "entro in getRealPathFromURI(...)");
-
-        Cursor cursor = null;
-        String result = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri, proj, null,
-                    null, null);
-
-            if (cursor != null) {
-                cursor.moveToFirst();
-
-                int columnIndex = cursor
-                        .getColumnIndex(proj[0]);
-
-                result = cursor.getString(columnIndex);
-                Log.i(TAG, "result: "+result);
-            }
-
-            return result;
-
-        } catch (Exception e) {
-            Log.e(TAG, "eccezione nel restituire il path: "+e.toString());
-            return null;
-
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
-
-
-
-
-
     private void onClickAddImage(View v) {
 
         Log.i(TAG, "add image pressed");
@@ -750,23 +783,14 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                         case 0: //pick images from gallery
 
-                            Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(intentPick, Constants.REQUEST_IMAGE_PICK);
+
+                            Intent intentPick = new Intent(TappaActivity.this,CustomPhotoGalleryActivity.class);
+                            startActivityForResult(intentPick,PICK_IMAGE_MULTIPLE);
 
 
-                            //TODO per selezione multipla, non funzionante con galleria, si con google photo
-//                            Intent intentPick = new Intent();
-//                            intentPick.setType("image/*");
-//                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-//                            intentPick.setAction(Intent.ACTION_GET_CONTENT);
-//                            startActivityForResult(Intent.createChooser(intentPick, "Select Picture"), Constants.REQUEST_IMAGE_PICK);
 
-
-//                            ######### ALTERNATIVA #########
-//                            Intent intentPick = new Intent(Intent.ACTION_PICK);
-//                            intentPick.setType("image/*");
-//                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-//                            startActivityForResult(intentPick, Constants.REQUEST_IMAGE_PICK);
+                            //Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            //startActivityForResult(intentPick, Constants.REQUEST_IMAGE_PICK);
 
 
                             break;

@@ -27,7 +27,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
-        android:name="com.takeatrip.Classes.TakeATrip"
+        android:name=".Classes.TakeATrip"
         android:allowBackup="true"
         android:icon="@drawable/logodef"
         android:label="@string/app_name"
@@ -48,31 +48,29 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name="com.takeatrip.Activities.LoginActivity"
+            android:name=".Activities.LoginActivity"
             android:label="@string/app_name" />
         <activity
-            android:name="com.takeatrip.Activities.RegistrazioneActivity"
+            android:name=".Activities.RegistrazioneActivity"
             android:label="@string/title_activity_registrazione" />
         <activity
-            android:name="com.takeatrip.Activities.ProfiloActivity"
+            android:name=".Activities.ProfiloActivity"
             android:label="@string/title_activity_profilo"
-            android:parentActivityName="com.takeatrip.Activities.MainActivity" />
+            android:parentActivityName=".Activities.MainActivity" />
         <activity
-            android:name="com.takeatrip.Activities.ListaViaggiActivity"
+            android:name=".Activities.ListaViaggiActivity"
             android:label="@string/title_activity_lista_viaggi"
-            android:parentActivityName="com.takeatrip.Activities.MainActivity"/>
+            android:parentActivityName=".Activities.MainActivity" />
         <activity
-            android:name="com.takeatrip.Activities.ViaggioActivity"
+            android:name=".Activities.ViaggioActivity"
             android:label="@string/title_activity_viaggio"
-            android:parentActivityName="com.takeatrip.Activities.MainActivity" />
-
+            android:parentActivityName=".Activities.MainActivity" />
         <activity
-            android:name="com.takeatrip.Activities.ViaggioActivityConFragment"
+            android:name=".Activities.ViaggioActivityConFragment"
             android:label="@string/title_activity_viaggio"
-            android:parentActivityName="com.takeatrip.Activities.MainActivity" />
-
+            android:parentActivityName=".Activities.MainActivity" />
         <activity
-            android:name="com.takeatrip.Activities.SplashActivity"
+            android:name=".Activities.SplashActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -80,22 +78,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.takeatrip.Activities.MapsActivity" />
+        <activity android:name=".Activities.MapsActivity" />
         <activity
-            android:name="com.takeatrip.Activities.MainActivity"
+            android:name=".Activities.MainActivity"
             android:launchMode="singleTop" />
         <!-- usato per tornare alla mainActivity senza perdere i dati -->
 
-        <activity android:name="com.takeatrip.Activities.InfoActivity" />
-        <activity android:name="com.takeatrip.Activities.StatsActivity" />
+        <activity android:name=".Activities.InfoActivity" />
+        <activity android:name=".Activities.StatsActivity" />
         <activity
-            android:name="com.takeatrip.Activities.ListaTappeActivity"
+            android:name=".Activities.ListaTappeActivity"
             android:label="@string/title_activity_lista_tappe2"
-            android:parentActivityName="com.takeatrip.Activities.MainActivity"
+            android:parentActivityName=".Activities.MainActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name="com.takeatrip.Activities.SearchActivity" />
+        <activity android:name=".Activities.SearchActivity" />
         <activity
-            android:name="com.takeatrip.Activities.SocialActivity"
+            android:name=".Activities.SocialActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -103,12 +101,12 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name="com.takeatrip.Activities.TappaActivity"
+            android:name=".Activities.TappaActivity"
             android:label="@string/title_activity_tappa"
-            android:parentActivityName="com.takeatrip.Activities.MainActivity"
+            android:parentActivityName=".Activities.MainActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.takeatrip.Activities.VisualizzazioneFollowActivity"
+            android:name=".Activities.VisualizzazioneFollowActivity"
             android:theme="@style/AppTheme" />
 
         <service
@@ -116,14 +114,15 @@
             android:enabled="true" />
 
         <activity
-            android:name="com.takeatrip.Activities.TutorialActivity"
+            android:name=".Activities.TutorialActivity"
             android:label="@string/title_activity_tutorial"
             android:theme="@style/AppTheme" />
-        <activity android:name="com.takeatrip.Activities.NuovoViaggioActivity" />
+        <activity android:name=".Activities.NuovoViaggioActivity" />
         <activity
-            android:name="com.takeatrip.Activities.IntroActivity"
+            android:name=".Activities.IntroActivity"
             android:label="@string/title_activity_tatintro"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".Activities.CustomPhotoGalleryActivity"></activity>
     </application>
 
 </manifest>

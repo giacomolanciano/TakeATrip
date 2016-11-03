@@ -363,6 +363,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             List<Profilo> partecipant = new ArrayList<Profilo>();
             partecipant.add(profilo);
+
             if(newStop){
 
                 CharSequence[] namesPartecipants = { profilo.getName() };
@@ -713,10 +714,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         e.printStackTrace();
                     }
                 }
-                hideProgressDialog();
-
             }
 
+            hideProgressDialog();
         }
     }
 

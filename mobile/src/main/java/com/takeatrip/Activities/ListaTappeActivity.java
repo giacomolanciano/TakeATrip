@@ -260,6 +260,12 @@ public class ListaTappeActivity extends AppCompatActivity
             CharSequence[] urlImagePartecipants = intent.getCharSequenceArrayExtra("urlImagePartecipants");
             CharSequence[] sessoPartecipants = intent.getCharSequenceArrayExtra("sessoPartecipants");
 
+            if(email == null){
+                TakeATrip TAT = (TakeATrip)getApplicationContext();
+                email = TAT.getProfiloCorrente().getEmail();
+            }
+
+
             //insert the travel image in the menu
             new BitmapWorkerTask(ViewImmagineViaggio, linearLayoutHeader).execute(urlImmagineViaggio);
 
@@ -425,8 +431,8 @@ public class ListaTappeActivity extends AppCompatActivity
             i.putExtra("nome", item.getTitle());
             i.putExtra("data", DatesUtils.getStringFromDate(tappa.getData(), Constants.DISPLAYED_DATE_FORMAT));
             i.putExtra("codAccount", 0);
-
             startActivity(i);
+            finish();
         }
 
 
@@ -510,6 +516,7 @@ public class ListaTappeActivity extends AppCompatActivity
         cal.setTime(tappaSelezionata.getData());
         i.putExtra("data", DatesUtils.getStringFromDate(tappaSelezionata.getData(), Constants.DISPLAYED_DATE_FORMAT));
         startActivity(i);
+        finish();
     }
 
 
@@ -772,10 +779,6 @@ public class ListaTappeActivity extends AppCompatActivity
                             immaginiSelezionate.add(thumbnail);
                             bitmap_nomeFile.put(thumbnail,nomeFile);
                         }
-
-
-                        //TODO: far partire direttamente TappaActivity
-
 
                         addImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_photo_camera_blue_36dp));
 

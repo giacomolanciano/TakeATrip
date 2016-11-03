@@ -67,6 +67,8 @@ public class GetStopsTask extends AsyncTask<Void, Void, Void> {
             dataToSend.add(new BasicNameValuePair("email", p.getEmail()));
             dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
 
+            Log.i(TAG,"email: " + p.getEmail());
+            Log.i(TAG,"codiceViaggio: " + codiceViaggio);
 
             try {
                 HttpClient httpclient = new DefaultHttpClient();
@@ -112,8 +114,6 @@ public class GetStopsTask extends AsyncTask<Void, Void, Void> {
                                 Calendar cal = DatesUtils.getDateFromString(dataString, Constants.DATABASE_DATE_FORMAT);
                                 Date data = cal.getTime();
 
-
-
                                 tappe.add(new Tappa(itinerario, ordine, tappaPrecedente, data, nome, poi));
                                 Log.i(TAG, "tappa prelevata: " + tappe);
 
@@ -128,6 +128,7 @@ public class GetStopsTask extends AsyncTask<Void, Void, Void> {
             } catch (Exception e) {
                 Log.e(TAG, "Errore nella connessione http "+e.toString());
             }
+
             profilo_tappe.put(p, tappe);
         }
         return null;
@@ -136,6 +137,7 @@ public class GetStopsTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        Log.i(TAG,"tappe del viaggio: " + codiceViaggio);
         delegate.processFinishForStops(profilo_tappe);
     }
 }
