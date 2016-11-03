@@ -36,7 +36,6 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
         }
         else{
             this.followers = followers;
-
         }
 
         if(following == null){
@@ -58,28 +57,13 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 
         switch (index) {
 
-            /*
             case 0:
-
-                HomeFragment newFragment = new HomeFragment(context, follower);
-
-                Bundle args = new Bundle();
-
-                newFragment.setArguments(args);
-
-                return newFragment;
-                */
-
-            case 0:
-                // Movies fragment activity
-
                 b = new Bundle();
                 b.putSerializable("following", following);
                 FollowingFragment followingFragment = new FollowingFragment();
                 followingFragment.setArguments(b);
 
                 return followingFragment;
-
 
             case 1:
                 // Movies fragment activity
@@ -93,21 +77,14 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 
                 return followersFragment;
             case 2:
+
                 // Games fragment activity
                 b = new Bundle();
                 b.putSerializable("profiles", profiles);
                 SearchUsersFragment searchFragment = new SearchUsersFragment();
                 searchFragment.setArguments(b);
 
-
                 return searchFragment;
-
-            /*
-            case 4:
-                // Movies fragment activity
-                return new TopRatedFragment();
-                */
-
         }
 
         return null;

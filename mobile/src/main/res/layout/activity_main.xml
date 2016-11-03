@@ -216,7 +216,7 @@
                 app:fab_addButtonColorPressed="@color/blue_semi_transparent_pressed"
                 app:fab_addButtonPlusIconColor="@color/biancoPallido"
                 app:fab_labelsPosition="right"
-                app:fab_labelStyle="@style/menu_labels_style2"
+                app:fab_labelStyle="@style/menu_labels_style"
                 app:fab_menuIcon="@drawable/ic_search_white_36dp">
 
                 <toan.android.floatingactionmenu.FloatingActionButton

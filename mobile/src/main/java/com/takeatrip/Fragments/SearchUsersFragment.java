@@ -36,7 +36,6 @@ public class SearchUsersFragment extends Fragment {
     List<String> userNames;
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private EditText editTextUser;
@@ -51,11 +50,7 @@ public class SearchUsersFragment extends Fragment {
     ProgressDialog progressDialog;
 
 
-    /*TODO: ci sono due modi: caricare tutti gli utenti in locale e poi visualizzare velocemente quelli che servono
-    oppure caricare solo quelli che servono con query ripetute*/
-
     public SearchUsersFragment() {}
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,

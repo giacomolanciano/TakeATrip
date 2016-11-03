@@ -59,7 +59,8 @@
             android:parentActivityName="com.takeatrip.Activities.MainActivity" />
         <activity
             android:name="com.takeatrip.Activities.ListaViaggiActivity"
-            android:label="@string/title_activity_lista_viaggi" />
+            android:label="@string/title_activity_lista_viaggi"
+            android:parentActivityName="com.takeatrip.Activities.MainActivity"/>
         <activity
             android:name="com.takeatrip.Activities.ViaggioActivity"
             android:label="@string/title_activity_viaggio"

@@ -197,6 +197,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     try {
                         image_URI = new URI(image_uri.toString());
                         Picasso.with(this).load(image_URI.toURL().toString()).into(imageProfile);
+                        hideProgressDialog();
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -209,6 +210,7 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     else if (sesso != null && sesso.equals("F")){
                         imageProfile.setImageDrawable(getResources().getDrawable(R.drawable.default_female));
                     }
+                    hideProgressDialog();
                 }
             }
             else{
@@ -492,9 +494,22 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                         switch (which) {
                             case 0:
 
-                                if(idImageProfile != null){
+                                if(idImageProfile != null && !idImageProfile.equals("null")){
                                     String urlImmagine = generateCompleteUrl(idImageProfile);
                                     viewImage(urlImmagine);
+                                }
+                                // open the FB image
+                                else if(profile != null){
+                                    final Uri image_uri = profile.getProfilePictureUri(
+                                            Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT*10,
+                                            Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT*10);
+                                    final URI image_URI;
+                                    try {
+                                        image_URI = new URI(image_uri.toString());
+                                        viewImage(image_URI.toURL().toString());
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
 
                                 /*
@@ -570,7 +585,6 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0: //view cover image
-                                Log.i(TAG, "idCoverImage: " + idCoverImage);
                                 if(idCoverImage != null && !idCoverImage.equals("null")){
                                     String urlImmagine = generateCompleteUrl(idCoverImage);
                                     viewImage(urlImmagine);
@@ -807,7 +821,10 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         }catch(Exception e){
             Log.e(TAG, "thrown exception "+ e);
         }
-        return url.toString();
+        if(url != null)
+            return url.toString();
+
+        return null;
     }
 
 

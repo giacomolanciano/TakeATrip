@@ -6,7 +6,6 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -16,34 +15,23 @@ import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.takeatrip.Adapters.TabsPagerAdapter;
+import com.takeatrip.AsyncTasks.MyTaskFollowers;
+import com.takeatrip.AsyncTasks.MyTaskFollowing;
 import com.takeatrip.Classes.Following;
 import com.takeatrip.Classes.Profilo;
+import com.takeatrip.Interfaces.AsyncResponseFollowers;
+import com.takeatrip.Interfaces.AsyncResponseFollowing;
 import com.takeatrip.R;
-import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.DataObject;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class SocialActivity extends FragmentActivity implements ActionBar.TabListener {
+public class SocialActivity extends FragmentActivity implements ActionBar.TabListener, AsyncResponseFollowers, AsyncResponseFollowing {
 
     private static final String TAG = "TEST SocialActivity";
 
@@ -77,22 +65,12 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
     private HashSet<Profilo> profiles;
 
     private String[] tabs = {"FOLLOWERS","FOLLOWING", "SEARCH"};
-
     private ProgressDialog mProgressDialog;
-
-    private int[] icons = {
-            //R.drawable.ic_people_black_36dp,
-            R.drawable.ic_account_box_black_36dp,
-            R.drawable.ic_account_circle_black_36dp,
-            R.drawable.ic_search_white_36dp,
-            //R.drawable.ic_cast_light
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_social);
-
 
         Intent intent;
         if ((intent = getIntent()) != null) {
@@ -110,12 +88,13 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
             actionBar.addTab(actionBar.newTab().setText(tab_name).setTabListener(this));
         }
         corrente = new Profilo(email);
+
+
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int position) {
-                // on changing the page
-                // make respected tab selected
+                Log.i(TAG, "on Page selected: " + position);
                 actionBar.setSelectedNavigationItem(position);
             }
 
@@ -129,7 +108,6 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         });
 
         Log.i(TAG, "fromMain:"+ fromMain);
-
         if(fromMain!= null){
             viewPager.setCurrentItem(2);
             actionBar.setSelectedNavigationItem(2);
@@ -144,19 +122,11 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         nome = new TextView(this);
         image_default.setImageDrawable(getDrawable(R.drawable.default_male));
 
-        group = new ViewGroup(this) {
-            @Override
-            protected void onLayout(boolean changed, int l, int t, int r, int b) {
-            }
-        };
-
-       // group.addView(image_default);
-        group.addView(nome);
 
         /*Email Utente*/
-        MyTaskFollowers mT = new MyTaskFollowers();
+        MyTaskFollowers mT = new MyTaskFollowers(this, email, corrente);
+        mT.delegate = this;
         mT.execute();
-
 
         //TODO: introdurre delegate per download followers and following
         try {
@@ -166,8 +136,7 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
         }
 
         showProgressDialog();
-        MyTaskFollowing mTF = new MyTaskFollowing();
-        mTF.execute();
+
     }
 
 
@@ -200,114 +169,46 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
     }
 
-    private class MyTaskFollowing extends AsyncTask<Void, Void, Void> {
-        InputStream is = null;
-        String stringaFinale = "";
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("email", email));
-            try {
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_PRELIEVO);
-                httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                HttpResponse response = httpclient.execute(httppost);
-
-                HttpEntity entity = response.getEntity();
-                is = entity.getContent();
-
-                if (is != null) {
-                    //converto la risposta in stringa
-                    try {
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                        StringBuilder sb = new StringBuilder();
-                        String line = null;
-                        while ((line = reader.readLine()) != null) {
-                            sb.append(line + "\n");
-                        }
-                        is.close();
-
-                        String result = sb.toString();
-
-                        if (result.equals("null\n")) {
-                            stringaFinale = "Non sono presenti following";
-                            Log.i(TAG, "result da Followers: " + stringaFinale);
-                            Log.i(TAG, "NO FOLLOWING " + seguaci);
-                            //mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(), seguaci,null);
-                            //viewPager.setAdapter(mAdapter);  //LASCIARE ASSOLUTAMENTE COSI!!!!!
-
-                        } else {
-                            JSONArray jArray = new JSONArray(result);
-
-                            if (jArray != null && result != null) {
-                                for (int i = 0; i < jArray.length(); i++) {
-                                    JSONObject json_data = jArray.getJSONObject(i);
-                                    String emailSeguace = json_data.getString("email").toString();
-                                    String nomeUtente = json_data.getString("nome");
-                                    String cognomeUtente = json_data.getString("cognome");
-                                    String username = json_data.getString("username");
-                                    String sesso = json_data.getString("sesso");
-                                    String urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
-                                    String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
-                                    String dataNascita = json_data.getString("dataNascita");
-                                    String lavoro = json_data.getString("lavoro");
-                                    String nazionalita = json_data.getString("nazionalita");
-                                    String descrizione = json_data.getString("descrizione");
-                                    String tipo = json_data.getString("tipo");
-
-                                    Profilo seguito = new Profilo(emailSeguace, nomeUtente, cognomeUtente, dataNascita, nazionalita, sesso, username, lavoro, descrizione, tipo,urlImmagineProfilo,urlImmagineCopertina);
-                                    Log.i(TAG, "seguito : " + seguito.getEmail());
-                                    follow.add(new Following(corrente, seguito));
-                                    //Corrente è il seguito
-                                }
-                            }
-
-                        }
 
 
-                    } catch (Exception e) {
-                        Log.e(TAG, "Errore nel risultato o nel convertire il risultato");
-                    }
-                } else {
-                    Log.e(TAG, "Input Stream uguale a null");
-                }
-
-            } catch (Exception e) {
-                Log.e(TAG, "Errore nella connessione http " + e.toString());
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            if (stringaFinale.equals("")) {
-                PopolaListaFollowing(follow);
-            } else {
-                Toast.makeText(getBaseContext(), stringaFinale, Toast.LENGTH_LONG).show();
-                settaAdapter();
-            }
 
 
-            hideProgressDialog();
-            super.onPostExecute(aVoid);
-        }
-    }
 
-    private void settaAdapter() {
-        mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(),seguaci,seguiti, profiles);
 
-        if(fromMain!= null){
-            viewPager.setCurrentItem(2);
-        }
-        viewPager.setAdapter(mAdapter);
 
+    @Override
+    public void processFinishForFollowers(ArrayList<Following> follow) {
+        PopolaListaFollowers(follow);
+
+        //Una volta prelevati i followers, prelevo i following
+        MyTaskFollowing mTF = new MyTaskFollowing(this, email, corrente);
+        mTF.delegate = this;
+        mTF.execute();
 
     }
+
+
+    //Finish also the following
+    @Override
+    public void processFinishForFollowing(ArrayList<Following> follow) {
+        PopolaListaFollowing(follow);
+
+        //settaAdapter();
+    }
+
+
+    private void PopolaListaFollowers(List<Following> following) {
+        seguaci.clear();
+        for (Following f : following) {
+            seguaci.add(f.getSegue());
+            Log.i(TAG, "email seguaci: " + f.getSegue().getEmail());
+        }
+        Log.i(TAG, "seguaci di: "+ corrente + ": " + seguaci);
+    }
+
 
     //era un popolalista
-    private void PopolaListaFollowing( ArrayList<Following> follow) {
+    private void PopolaListaFollowing(ArrayList<Following> follow) {
         seguiti.clear();
         seguiti = new ArrayList<Profilo>();
         for (Following f : follow) {
@@ -317,120 +218,20 @@ public class SocialActivity extends FragmentActivity implements ActionBar.TabLis
 
         mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(),seguaci,seguiti, profiles);
         viewPager.setAdapter(mAdapter);
-
-        Log.i(TAG, "seguiti di: "+ corrente + ": " + seguiti);
-
+        Log.i(TAG, "seguiti da: "+ corrente + ": " + seguiti);
     }
 
-
-    private class MyTaskFollowers extends AsyncTask<Void, Void, Void> {
-        InputStream is = null;
-        String stringaFinale = "";
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("email", email));
-            try {
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_PRELIEVO_FOLLOWING);
-                httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                HttpResponse response = httpclient.execute(httppost);
-
-                HttpEntity entity = response.getEntity();
-                is = entity.getContent();
-
-                if (is != null) {
-                    //converto la risposta in stringa
-                    try {
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                        StringBuilder sb = new StringBuilder();
-                        String line = null;
-                        while ((line = reader.readLine()) != null) {
-                            sb.append(line + "\n");
-                        }
-                        is.close();
-
-                        String result = sb.toString();
-
-                        if (result.equals("null\n")) {
-                            stringaFinale = "Non sono presenti followers";
-                            Log.i(TAG, "result da Followers: " + stringaFinale);
-                            //mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(), seguiti);
-                            //viewPager.setAdapter(mAdapter); //LASCIARE ASSOLUTAMENTE COSI!!!!!
-
-
-                        } else {
-                            JSONArray jArray = new JSONArray(result);
-
-                            if (jArray != null && result != null) {
-                                for (int i = 0; i < jArray.length(); i++) {
-                                    JSONObject json_data = jArray.getJSONObject(i);
-                                    String emailSeguito = json_data.getString("email").toString();
-                                    String nomeUtente = json_data.getString("nome");
-                                    String cognomeUtente = json_data.getString("cognome");
-                                    String username = json_data.getString("username");
-                                    String sesso = json_data.getString("sesso");
-                                    String urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
-                                    String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
-
-                                    String dataNascita = json_data.getString("dataNascita");
-                                    String lavoro = json_data.getString("lavoro");
-                                    String nazionalita = json_data.getString("nazionalita");
-                                    String descrizione = json_data.getString("descrizione");
-                                    String tipo = json_data.getString("tipo");
-                                    Profilo seguace = new Profilo(emailSeguito, nomeUtente, cognomeUtente, dataNascita, nazionalita, sesso, username, lavoro, descrizione, tipo,urlImmagineProfilo,urlImmagineCopertina);
-                                    following.add(new Following(seguace,corrente));
-                                   }
-                            }
-
-                            Log.i(TAG, "lista followers di " + email + ": " + follow);
-                            for (int i = 0; i < following.size(); i++) {
-                                Log.i(TAG, "followers : " + following.get(i).toString());
-                            }
-                        }
-
-
-                    } catch (Exception e) {
-                        Log.e(TAG, "Errore nel risultato o nel convertire il risultato");
-                    }
-                } else {
-                    Log.e(TAG, "Input Stream uguale a null");
-                }
-
-            } catch (Exception e) {
-                Log.e(TAG, "Errore nella connessione http " + e.toString());
-            }
-
-            return null;
+    private void settaAdapter() {
+        mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(),seguaci,seguiti, profiles);
+        Log.i(TAG, "adapter di viePager settato con seguaci: " + seguaci + " seguiti: " +seguiti);
+        if(fromMain!= null){
+            viewPager.setCurrentItem(2);
         }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            if (stringaFinale.equals("")) {
-                PopolaListaFollowers(following);
-            } else {
-                Toast.makeText(getBaseContext(), stringaFinale, Toast.LENGTH_LONG).show();
-                settaAdapter();
-            }
-            super.onPostExecute(aVoid);
-        }
-    }
-
-    private void PopolaListaFollowers( ArrayList<Following> following) {
-        seguaci.clear();
-        for (Following f : following) {
-            seguaci.add(f.getSegue());
-            Log.i(TAG, "email seguaci: " + f.getSegue().getEmail());
-        }
-/*
-        mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(), seguaci,seguiti);
         viewPager.setAdapter(mAdapter);
-*/
 
-        Log.i(TAG, "seguaci di: "+ corrente + ": " + seguaci);
-
+        hideProgressDialog();
     }
+
 
     private void showProgressDialog() {
         if (mProgressDialog == null) {
