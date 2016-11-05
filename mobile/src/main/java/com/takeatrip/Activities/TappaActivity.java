@@ -792,13 +792,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                             Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
                             startActivityForResult(intentPick, Constants.REQUEST_VIDEO_PICK);
 
-                            //TODO per selezione multipla, non funzionante
-//                            Intent intentPick = new Intent();
-//                            intentPick.setType("video/*");
-//                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-//                            intentPick.setAction(Intent.ACTION_GET_CONTENT);
-//                            startActivityForResult(Intent.createChooser(intentPick,"Select Video"),
-//                                    Constants.REQUEST_VIDEO_PICK);
+                            //TODO selezione multipla di video, non funzionante
+
 
                             break;
 
@@ -877,8 +872,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 //                            startActivityForResult(Intent.createChooser(intentPick, "Select Record"),
 //                                    Constants.REQUEST_IMAGE_PICK);
 
-                            //TODO far diventare immagine blu
-
                             break;
 
                         case 1: //take a record
@@ -912,8 +905,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                                             isCanceled = true;
 
                                             if(isRecordFileCreated) {
-
-                                                //TODO cancellare file
 
                                             }
 
@@ -1279,12 +1270,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
     private class PrivacyLevelAdapter extends ArrayAdapter<String> {
 
-        //TODO inner class da rimuovere una volta sistemato l'adapter esterno
-
-
         public PrivacyLevelAdapter(Context context, int textViewResourceId, String[] strings) {
             super(context, textViewResourceId, strings);
-
         }
 
         @Override
@@ -1298,8 +1285,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         }
 
         public View getCustomView(int position, View convertView, ViewGroup parent) {
-
-
             LayoutInflater inflater=getLayoutInflater();
             convertView=inflater.inflate(R.layout.entry_privacy_level, parent, false);
             TextView label=(TextView)convertView.findViewById(R.id.privacyLevel);
@@ -1310,11 +1295,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
             ImageView icon=(ImageView)convertView.findViewById(R.id.image);
             icon.setImageResource(arr_images[position]);
-
-            //Log.i(TAG, "string: " + strings[position]);
-            //Log.i(TAG, "sub: " + subs[position]);
-            //Log.i(TAG, "img: " + arr_images[position]);
-
             return convertView;
         }
     }

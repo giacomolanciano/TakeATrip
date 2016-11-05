@@ -146,11 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 //  Create a new boolean and preference and set it to true
                 boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
-
-                // Forces flag equals to true, only for debugging
-                // TODO comment this line for release
-                //isFirstStart = true;
-
+                
                 //  If the activity has never started before...
                 if (isFirstStart) {
 

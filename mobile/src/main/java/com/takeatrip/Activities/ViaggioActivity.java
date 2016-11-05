@@ -887,10 +887,6 @@ public class ViaggioActivity extends AppCompatActivity {
 
 
     private class UtentiTask extends AsyncTask<Void, Void, Void> {
-
-        //TODO task da modularizzare, side-effect importanti da gestire
-        //private static final String TAG = "TEST UtentiTask";
-
         InputStream is = null;
         String result, stringaFinale = "";
 
@@ -998,8 +994,6 @@ public class ViaggioActivity extends AppCompatActivity {
     }
 
     private class PrivacyLevelAdapter extends ArrayAdapter<String> {
-
-        //TODO inner class da rimuovere una volta sistemato l'adapter esterno
         public PrivacyLevelAdapter(Context context, int textViewResourceId, String[] strings) {
             super(context, textViewResourceId, strings);
         }
@@ -1025,11 +1019,6 @@ public class ViaggioActivity extends AppCompatActivity {
 
             ImageView icon=(ImageView)convertView.findViewById(R.id.image);
             icon.setImageResource(arr_images[position]);
-
-            //Log.i(TAG, "string: " + strings[position]);
-            //Log.i(TAG, "sub: " + subs[position]);
-            //Log.i(TAG, "img: " + arr_images[position]);
-
             return convertView;
         }
 

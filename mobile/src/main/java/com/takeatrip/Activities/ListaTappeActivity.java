@@ -3,21 +3,16 @@ package com.takeatrip.Activities;
 import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.media.ThumbnailUtils;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
-import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputEditText;
@@ -89,10 +84,8 @@ import com.takeatrip.R;
 import com.takeatrip.Utilities.AudioRecord;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.DatesUtils;
-import com.takeatrip.Utilities.DeviceStorageUtils;
 import com.takeatrip.Utilities.RoundedImageView;
 
-import java.io.File;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -371,7 +364,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
     @Override
     protected void onRestart() {
-        //TODO find workaround to reload properly the map
         super.onRestart();
         if(mGoogleApiClient.isConnected()){
             Log.i(TAG, "google api client is connected, disconnecting...");
@@ -472,7 +464,6 @@ public class ListaTappeActivity extends AppCompatActivity
                     try {
                         PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
 
-                        //TODO gestire zoom con LatLngBounds
                         LatLngBounds bounds = new LatLngBounds(latLng, latLng);
 
                         intentBuilder.setLatLngBounds(bounds);
@@ -722,35 +713,6 @@ public class ListaTappeActivity extends AppCompatActivity
     }
 
 
-
-    private static String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        String result = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri, proj, null,
-                    null, null);
-
-            if (cursor != null) {
-                cursor.moveToFirst();
-                int columnIndex = cursor.getColumnIndex(proj[0]);
-                result = cursor.getString(columnIndex);
-            }
-
-            return result;
-
-        } catch (Exception e) {
-            Log.e(TAG, "eccezione nel restituire il path: "+e.toString());
-            return null;
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
-
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -761,155 +723,6 @@ public class ListaTappeActivity extends AppCompatActivity
                     startAddingStop(place);
                     break;
 
-                case Constants.REQUEST_IMAGE_CAPTURE:
-                    File f = new File(DeviceStorageUtils.getImagesStoragePath());
-                    for (File temp : f.listFiles()) {
-                        if (temp.getName().equals(imageFileName)) {
-                            f = temp;
-                            break;
-                        }
-                    }
-                    try {
-
-                        Bitmap thumbnail = BitmapWorkerTask.decodeSampledBitmapFromPath(f.getAbsolutePath(), 0, 0);
-                        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
-
-                        String nomeFile = timeStamp + Constants.IMAGE_EXT;
-                        if(thumbnail != null){
-
-                            pathsImmaginiVideoSelezionati.put(thumbnail, f.getAbsolutePath());
-                            immaginiSelezionate.add(thumbnail);
-                            bitmap_nomeFile.put(thumbnail,nomeFile);
-                        }
-
-                        addImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_photo_camera_blue_36dp));
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    break;
-
-                case Constants.REQUEST_IMAGE_PICK:
-                    if (data != null) {
-                        ClipData clipData = data.getClipData();
-                        if (clipData != null) {
-
-                            //TODO per selezione multipla, ancora non funzionante
-
-                            for (int i = 0; i < clipData.getItemCount(); i++) {
-                                ClipData.Item item = clipData.getItemAt(i);
-                                Uri uri = item.getUri();
-
-                                //In case you need image's absolute path
-                                //String path= MultimedialFile.getRealPathFromURI(ListaTappeActivity.this, uri);
-                                String path= getRealPathFromURI(ListaTappeActivity.this, uri);
-                                Log.i(TAG, "image path: " + path);
-                            }
-                        } else {
-
-                            layoutContents = data.getParcelableExtra("layoutContent");
-                            Uri selectedImage = data.getData();
-
-                            String[] filePath = {MediaStore.Images.Media.DATA};
-                            Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
-                            c.moveToFirst();
-                            int columnIndex = c.getColumnIndex(filePath[0]);
-                            String picturePath = c.getString(columnIndex);
-                            c.close();
-
-                            //TODO creazione bitmap per ora necessaria per far apparire miniature durante aggiunta tappa
-                            //rivedere meccanismo usando Picasso
-                            Bitmap thumbnail = BitmapWorkerTask.decodeSampledBitmapFromPath(picturePath, 0, 0);
-                            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
-                            String nomeFile = timeStamp + Constants.IMAGE_EXT;
-                            if(thumbnail != null){
-                                //inserire file in una lista di file per caricamento in s3
-                                pathsImmaginiVideoSelezionati.put(thumbnail, picturePath);
-
-                                immaginiSelezionate.add(thumbnail);
-                                bitmap_nomeFile.put(thumbnail, nomeFile);
-                            }
-                        }
-
-                    } else {
-                        Log.e(TAG, "data is null");
-
-                    }
-                    break;
-
-                case Constants.REQUEST_VIDEO_CAPTURE:
-
-                    File fileVideo = new File(DeviceStorageUtils.getVideosStoragePath());
-                    for (File temp : fileVideo.listFiles()) {
-                        if (temp.getName().equals(videoFileName)) {
-                            fileVideo = temp;
-                            break;
-                        }
-                    }
-                    try {
-                        Bitmap bitmap;
-                        bitmap = ThumbnailUtils.createVideoThumbnail(fileVideo.getAbsolutePath(),
-                                MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
-
-                        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
-                        String nomeFile = timeStamp + Constants.VIDEO_EXT;
-                        if(bitmap != null){
-                            pathsImmaginiVideoSelezionati.put(bitmap, fileVideo.getAbsolutePath());
-                            videoSelezionati.add(bitmap);
-                            bitmap_nomeFile.put(bitmap,nomeFile);
-                        }
-
-                        Log.i(TAG, "path file video: " + fileVideo.getAbsolutePath());
-                        Log.i(TAG, "bitmap file immagine: " + bitmap);
-
-                    } catch (Exception e) {
-                        Log.e(TAG,"thrown exception " + e);
-                    }
-
-                    break;
-
-                case Constants.REQUEST_VIDEO_PICK:
-                    Uri selectedVideo = data.getData();
-
-                    String[] filePath = {MediaStore.Video.Media.DATA};
-                    Cursor c = getContentResolver().query(selectedVideo, filePath, null, null, null);
-                    c.moveToFirst();
-                    int columnIndex = c.getColumnIndex(filePath[0]);
-                    String videoPath = c.getString(columnIndex);
-                    c.close();
-
-                    Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(videoPath,
-                            MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
-                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
-
-                    String nomeFile = timeStamp + Constants.VIDEO_EXT;
-                    if(thumbnail != null){
-                        //inserire file in una lista di file per caricamento in s3
-                        pathsImmaginiVideoSelezionati.put(thumbnail, videoPath);
-                        videoSelezionati.add(thumbnail);
-                        bitmap_nomeFile.put(thumbnail, nomeFile);
-                    }
-
-                    break;
-
-                case Constants.REQUEST_RECORD_PICK:
-                    Log.i(TAG, "REQUEST_RECORD_PICK");
-
-                    Uri selectedAudio = data.getData();
-
-                    String[] audioPath = {MediaStore.Audio.Media.DATA};
-                    Cursor cursor = getContentResolver().query(selectedAudio, audioPath, null, null, null);
-                    cursor.moveToFirst();
-                    int columnIndexAudio = cursor.getColumnIndex(audioPath[0]);
-                    String audioFilePath = cursor.getString(columnIndexAudio);
-                    cursor.close();
-
-                    audioSelezionati.add(audioFilePath);
-
-
-
-                    break;
                 default:
                     Log.e(TAG, "requestCode non riconosciuto");
                     break;
@@ -921,54 +734,10 @@ public class ListaTappeActivity extends AppCompatActivity
     }
 
 
-
-
-    private void PopolaContenuti(){
-        layoutContents = (LinearLayout) dialog.findViewById(R.id.layoutContents);
-
-        layoutContents.removeAllViews();
-
-        int i=0;
-        for(Bitmap bitmap : immaginiSelezionate){
-            if(i%LIMIT_IMAGES_VIEWS == 0){
-                rowHorizontal = new LinearLayout(ListaTappeActivity.this);
-                rowHorizontal.setOrientation(LinearLayout.HORIZONTAL);
-
-                //Log.i(TAG, "creato nuovo layout");
-                layoutContents.addView(rowHorizontal);
-                layoutContents.addView(new TextView(ListaTappeActivity.this), 10, 10);
-            }
-
-
-            final ImageView image = new ImageView(this, null);
-            float density = getResources().getDisplayMetrics().density;
-            Log.i(TAG, "density of the screen: " + density);
-
-            if(density == 2.0){
-                widthContent = 80;
-                highContent = 40;
-            }
-
-            if(density == 3.0 || density == 4.0){
-                widthContent = 100;
-                highContent = 50;
-            }
-
-            Bitmap myBitmap = Bitmap.createScaledBitmap(bitmap, widthContent, highContent, true);
-            image.setImageBitmap(myBitmap);
-
-            rowHorizontal.addView(image, widthContent, highContent);
-            i++;
-        }
-    }
-
-
-
     /*
     * Da qui la gestione di una nuova tappa con i relativi contenuti
     *
     * */
-
     public void onClickAddStop(View v){
 
         pathsImmaginiVideoSelezionati.clear();
@@ -1153,338 +922,8 @@ public class ListaTappeActivity extends AppCompatActivity
         });
         */
 
-
-
     }
 
-
-    /*
-    private void onClickAddImage(View v) {
-
-        try {
-            ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
-            builder.setItems(R.array.CommandsAddPhotoToStop, new DialogInterface.OnClickListener() {
-
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-
-                        case 0: //pick images from gallery
-                            Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(intentPick, Constants.REQUEST_IMAGE_PICK);
-
-
-                            break;
-
-                        case 1: //take a photo
-                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            if (intent.resolveActivity(getPackageManager()) != null) {
-
-                                File photoFile = null;
-                                try {
-
-                                    photoFile = MultimedialFile.createImageFile();
-                                    imageFileName = photoFile.getName();
-
-
-                                } catch (IOException ex) {
-                                    Log.e(TAG, "eccezione nella creazione di file immagine");
-                                }
-
-                                Log.i(TAG, "creato file immagine col nome: " +imageFileName);
-
-                                // Continue only if the File was successfully created
-                                if (photoFile != null) {
-                                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-                                    startActivityForResult(intent, Constants.REQUEST_IMAGE_CAPTURE);
-
-                                }
-                            }
-                            break;
-
-
-                        default:
-                            Log.e(TAG, "azione non riconosciuta");
-                            break;
-                    }
-                }
-            });
-
-
-            // Create the AlertDialog object and return it
-            builder.create().show();
-
-        } catch (Exception e) {
-            Log.e(e.toString().toUpperCase(), e.getMessage());
-        }
-
-    }
-
-
-    private void onClickAddVideo(View v) {
-
-        Log.i(TAG, "add video pressed");
-
-        try {
-            ContextThemeWrapper wrapper = new ContextThemeWrapper(this,
-                    android.R.style.Theme_Material_Light_Dialog);
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
-            builder.setItems(R.array.CommandsAddVideoToStop, new DialogInterface.OnClickListener() {
-
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-
-                        case 0: //pick videos from gallery
-
-                            Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(intentPick, Constants.REQUEST_VIDEO_PICK);
-
-                            //TODO per selezione multipla, non funzionante
-//                            Intent intentPick = new Intent();
-//                            intentPick.setType("video/*");
-//                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-//                            intentPick.setAction(Intent.ACTION_GET_CONTENT);
-//                            startActivityForResult(Intent.createChooser(intentPick,"Select Video"),
-//                                    Constants.REQUEST_VIDEO_PICK);
-
-                            //TODO far diventare immagine blu
-
-                            break;
-
-                        case 1: //take a video
-                            Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                            if (intent.resolveActivity(getPackageManager()) != null) {
-
-                                File videoFile = null;
-                                try {
-
-                                    videoFile = MultimedialFile.createVideoFile();
-                                    videoFileName = videoFile.getName();
-
-                                } catch (IOException ex) {
-                                    Log.e(TAG, "eccezione nella creazione di file video");
-                                }
-
-                                Log.i(TAG, "creato file video");
-
-                                // Continue only if the File was successfully created
-                                if (videoFile != null) {
-                                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile));
-                                    startActivityForResult(intent, Constants.REQUEST_VIDEO_CAPTURE);
-
-                                    //TODO far diventare immagine blu
-                                }
-                            }
-                            break;
-
-
-                        default:
-                            Log.e(TAG, "azione non riconosciuta");
-                            break;
-                    }
-                }
-            });
-
-
-            // Create the AlertDialog object and return it
-            builder.create().show();
-
-        } catch (Exception e) {
-            Log.e(e.toString().toUpperCase(), e.getMessage());
-        }
-
-        Log.i(TAG, "END add video");
-
-
-    }
-
-
-    private void onClickAddRecord(View v) {
-
-        try {
-            final ContextThemeWrapper wrapper = new ContextThemeWrapper(this,
-                    android.R.style.Theme_Material_Light_Dialog);
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
-            builder.setItems(R.array.CommandsAddRecordToStop, new DialogInterface.OnClickListener() {
-
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-
-                        case 0: //pick audio from storage
-
-                            Intent intentPick = new Intent(Intent.ACTION_PICK,
-                                    android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
-
-                            startActivityForResult(intentPick, Constants.REQUEST_RECORD_PICK);
-
-                            //TODO per selezione multipla, non funzionante
-//                            Intent intentPick = new Intent();
-//                            intentPick.setType("audio/*");
-//                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-//                            intentPick.setAction(Intent.ACTION_GET_CONTENT);
-//                            startActivityForResult(Intent.createChooser(intentPick, "Select Record"),
-//                                    Constants.REQUEST_IMAGE_PICK);
-
-                            //TODO far diventare immagine blu
-
-                            break;
-
-                        case 1: //take a record
-
-                            isCanceled = false;
-                            isRecordFileCreated = false;
-                            progressStatus = 0;
-
-
-                            final ProgressDialog progressDialog = new ProgressDialog(ListaTappeActivity.this);
-                            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                            progressDialog.setMax(Constants.MAX_RECORDING_TIME_IN_MILLISEC);
-                            progressDialog.setTitle(getString(R.string.labelBeforeCaptureAudio));
-                            //progressDialog.setMessage(getString(R.string.labelBeforeCaptureAudio));
-                            progressDialog.setIndeterminate(false);
-                            progressDialog.setCancelable(false);
-
-                            //TODO formattare valore millisecondi per mostrare minuti
-                            //progressDialog.setProgressNumberFormat("%1tL/%2tL");
-                            progressDialog.setProgressNumberFormat(null);
-
-
-                            progressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel),
-                                    new DialogInterface.OnClickListener() {
-                                        // Set a click listener for progress dialog cancel button
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            // dismiss the progress dialog
-                                            progressDialog.dismiss();
-                                            // Tell the system about cancellation
-                                            isCanceled = true;
-
-                                            if(isRecordFileCreated) {
-
-                                                //TODO cancellare file
-
-                                            }
-
-                                            Log.i(TAG, "progress dialog canceled");
-                                        }
-                                    });
-
-
-                            DialogInterface.OnClickListener listener = null;
-                            progressDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.start), listener);
-
-
-                            progressDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-
-                                @Override
-                                public void onShow(DialogInterface dialog) {
-
-                                    final Button b = progressDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                                    b.setOnClickListener(new View.OnClickListener() {
-
-                                        @Override
-                                        public void onClick(View view) {
-
-                                            //TODO viene creato un file in locale, verificare se è utile manterlo
-                                            isRecordFileCreated = true;
-                                            record = new AudioRecord();
-                                            record.startRecording();
-
-                                            b.setText(getString(R.string.stop));
-                                            b.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-
-                                                    isCanceled = true;
-
-                                                    record.stopRecording();
-
-                                                    progressDialog.dismiss();
-
-
-                                                    Log.i(TAG, "file audio generato: " + record.getFileName());
-
-                                                    audioSelezionati.add(record.getFileName());
-
-                                                }
-                                            });
-
-
-
-                                            // Start the lengthy operation in a background thread
-                                            new Thread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    while (progressStatus < progressDialog.getMax()) {
-                                                        // If user's click the cancel button from progress dialog
-                                                        if (isCanceled) {
-                                                            // Stop the operation/loop
-
-                                                            Log.i(TAG, "thread stopped");
-
-                                                            break;
-                                                        }
-                                                        // Update the progress status
-                                                        progressStatus += Constants.ONE_SEC_IN_MILLISEC;
-
-                                                        try {
-                                                            Thread.sleep(Constants.ONE_SEC_IN_MILLISEC);
-                                                        } catch (InterruptedException e) {
-                                                            e.printStackTrace();
-                                                        }
-
-
-                                                        handler.post(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                progressDialog.setProgress(progressStatus);
-
-                                                                if (progressStatus == progressDialog.getMax()) {
-
-                                                                    Log.i(TAG, "thread stopped");
-
-                                                                    record.stopRecording();
-
-                                                                    progressDialog.dismiss();
-
-                                                                    Log.i(TAG, "file audio generato: " + record.getFileName());
-
-                                                                    audioSelezionati.add(record.getFileName());
-                                                                }
-                                                            }
-                                                        });
-
-
-                                                    }
-                                                }
-                                            }).start();
-
-                                        }
-                                    });
-                                }
-                            });
-
-                            progressDialog.show();
-
-
-                            break;
-
-
-                        default:
-                            break;
-                    }
-                }
-            });
-
-            builder.create().show();
-        } catch (Exception e) {
-            Log.e(e.toString().toUpperCase(), e.getMessage());
-        }
-    }
-    */
 
 
     private void onClickAddNote(View v) {
@@ -1562,7 +1001,6 @@ public class ListaTappeActivity extends AppCompatActivity
     }
 
 
-
     @Override
     public void processFinishForInsertStop() {
         if(!noteInserite.isEmpty()) {
@@ -1581,13 +1019,8 @@ public class ListaTappeActivity extends AppCompatActivity
                 Log.i(TAG, "name of the image: " + nameImage);
 
 
-
                 new UploadFileS3Task(ListaTappeActivity.this, Constants.BUCKET_TRAVELS_NAME,
                         codiceViaggio, Constants.TRAVEL_IMAGES_LOCATION, email, pathImage, nameImage).execute();
-
-
-                //TODO nella colonna urlImmagine si potrebbe salvare soltanto il nome del file
-                //si può riscostruire il path a partire dalle altre info nella riga corrispondente
 
                 String completePath = codiceViaggio + "/" + Constants.TRAVEL_IMAGES_LOCATION + "/" + email + "_" + nameImage;
 
@@ -1659,9 +1092,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
         ordine += 1;
     }
-
-
-
 
 
     private class PrivacyLevelAdapter extends ArrayAdapter<String> {

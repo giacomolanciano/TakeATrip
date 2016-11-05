@@ -119,7 +119,7 @@ public class UploadFileS3Task extends AsyncTask<Void, Void, Boolean> {
     }
 
 
-    /** TODO da eliminare quando verrà risolto il bug
+    /**
      * work around for a bug:
      * http://stackoverflow.com/questions/36587511/android-amazon-s3-uploading-crash
      */

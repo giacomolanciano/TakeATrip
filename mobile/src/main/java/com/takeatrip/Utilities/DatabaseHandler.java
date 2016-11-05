@@ -144,9 +144,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 profile.setTipo(cursor.getString(10));
 
 
-                //TODO: settare i valori a profile
-
-
                 // Adding contact to list
                 contactList.add(profile);
             } while (cursor.moveToNext());
@@ -172,11 +169,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(LAVORO, profilo.getLavoro());
         values.put(DESCRIZIONE, profilo.getDescrizione());
         values.put(TIPO, profilo.getTipo());
-
-
-        //TODO: completare l'update del profilo
-
-
 
         // updating row
         return db.update(TABLE_USERS, values, EMAIL + " = ?",

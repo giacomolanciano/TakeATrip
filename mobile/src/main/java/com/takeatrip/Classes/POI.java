@@ -28,10 +28,6 @@ public class POI {
         this.fonte = fonte;
     }
 
-    public String getNome() {
-        //TODO ottenere nome da google places api
-        return null;
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -7,18 +7,13 @@ import com.takeatrip.R;
  */
 public class Constants {
 
-    //TODO assicurarsi che tutti i codici account siano univoci
     public static final int DEFAULT_COD_ACCOUNT = 0;
     public static final int FACEBOOK_COD_ACCOUNT = 1;
     public static final int GOOGLE_COD_ACCOUNT = 2;
 
-    //TODO assicurarsi che tutti i codici prefissi account siano univoci
     public static final String PREFIX_GOOGLE = "google";
     public static final String PREFIX_FACEBOOK = "facebo";
 
-
-//    public static int[] privacy_images = {R.drawable.ic_public_black_36dp, R.drawable.ic_people_black_36dp,
-//            R.drawable.ic_person_pin_circle_black_36dp, R.drawable.ic_settings_black_36dp};
 
     //i nuovi livelli sono: public, followers, travel, private
     public static int[] privacy_images = {R.drawable.ic_public_black_36dp, R.drawable.ic_people_black_36dp,
@@ -26,13 +21,10 @@ public class Constants {
 
 
     //php files
-
-
     public static final String ADDRESS_TAT = "http://ec2-54-194-7-136.eu-west-1.compute.amazonaws.com/";
     public static final String PREFIX_ADDRESS = ADDRESS_TAT + "InserimentoDati/";
 
 
-    //TODO assicurarsi che tutti i codici request da utilizzare per AcitivityResult siano univoci
     public static final int REQUEST_IMAGE_CAPTURE = 1;
     public static final int REQUEST_IMAGE_PICK = 2;
     public static final int REQUEST_COVER_IMAGE_CAPTURE = 3;
@@ -44,7 +36,6 @@ public class Constants {
     public static final int REQUEST_RECORD_PICK = 9;
 
 
-    //TODO assicurarsi che tutti i codici tipoFile siano univoci
     public static final int IMAGE_FILE = 1;
     public static final int VIDEO_FILE = 2;
     public static final int AUDIO_FILE = 3;
@@ -83,16 +74,8 @@ public class Constants {
     public static final int MAX_RECORDING_TIME_IN_MILLISEC = 120000;    //2 MINUTES
     public static final int ONE_SEC_IN_MILLISEC = 1000;
 
-    //TODO verificare il valore corretto
     public static final int NOTE_MAX_LENGTH = 1000;
-
-
     public static final int QUALITY_PHOTO = 60;
-
-
-    public static final String NAME_IMAGES_PROFILE_DEFAULT = "profileTAT.jpg";
-    public static final String NAME_IMAGES_COVER_DEFAULT = "coverTAT.jpg";
-    public static final String NAME_IMAGES_TRAVEL_DEFAULT = "imageTravel.jpg";
 
 
     public static final String DISPLAYED_DATE_FORMAT = "dd/MM/yyyy";

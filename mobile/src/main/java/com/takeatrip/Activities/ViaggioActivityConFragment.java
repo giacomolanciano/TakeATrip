@@ -988,11 +988,11 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
     }
 
 
+    /*
+    * Necessary for adding a new partecipant to travel
+    *
+    * */
     private class UtentiTask extends AsyncTask<Void, Void, Void> {
-
-        //TODO task da modularizzare, side-effect importanti da gestire
-        //private static final String TAG = "TEST UtentiTask";
-
         InputStream is = null;
         String result, stringaFinale = "";
 
@@ -1100,8 +1100,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
     }
 
     private class PrivacyLevelAdapter extends ArrayAdapter<String> {
-
-        //TODO inner class da rimuovere una volta sistemato l'adapter esterno
         public PrivacyLevelAdapter(Context context, int textViewResourceId, String[] strings) {
             super(context, textViewResourceId, strings);
         }
@@ -1127,11 +1125,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
             ImageView icon=(ImageView)convertView.findViewById(R.id.image);
             icon.setImageResource(arr_images[position]);
-
-            //Log.i(TAG, "string: " + strings[position]);
-            //Log.i(TAG, "sub: " + subs[position]);
-            //Log.i(TAG, "img: " + arr_images[position]);
-
             return convertView;
         }
 

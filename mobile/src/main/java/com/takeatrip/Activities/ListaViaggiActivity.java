@@ -165,29 +165,6 @@ public class ListaViaggiActivity extends ActionBarActivity implements AsyncRespo
         RecyclerViewViaggiAdapter adapter = new RecyclerViewViaggiAdapter(dataTravels, ListaViaggiActivity.this);
         adapter.onCreateViewHolder(group, 0);
         recyclerView.setAdapter(adapter);
-
-        /*
-        recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adattatore, final View componente, int pos, long id) {
-
-                final Viaggio viaggio = (Viaggio) adattatore.getItemAtPosition(pos);
-                // Toast.makeText(getBaseContext(), "hai cliccato il viaggio: " + viaggio.getNome(), Toast.LENGTH_SHORT).show();
-
-                //TODO per ora non ci interessano tutti gli itinerari associati al viaggio
-                //Intent intent = new Intent(ListaViaggiActivity.this, ViaggioActivity.class);
-                Intent intent = new Intent(ListaViaggiActivity.this, ViaggioActivity.class);
-                intent.putExtra("email", email);
-                intent.putExtra("codiceViaggio", viaggio.getCodice());
-                intent.putExtra("nomeViaggio", viaggio.getNome());
-
-                startActivity(intent);
-
-            }
-        });
-
-        */
-
     }
 
 
