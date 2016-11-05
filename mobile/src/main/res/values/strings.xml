@@ -178,7 +178,8 @@
     <string name="insert_new_stop">New stop</string>
 
     <string-array name="CommandsAddPhotoToStop">
-        <item>Choose existing photos</item>
+        <item>Choose a photo</item>
+        <item>Choose multiple photos</item>
         <item>Take a photo</item>
     </string-array>
 
@@ -310,6 +311,7 @@
     <string name="incorrect_date">Attention! Incorrect date</string>
     <string name="no_followers">Followers not found</string>
     <string name="no_following">Following not found</string>
+    <string name="choose">CHOOSE</string>
 
 
 </resources>

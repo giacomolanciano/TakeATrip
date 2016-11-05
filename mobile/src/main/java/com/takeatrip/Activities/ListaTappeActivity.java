@@ -420,10 +420,12 @@ public class ListaTappeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if(id>0){
-            Tappa tappa = profiloTappe.get(profiloVisualizzazioneCorrente).get(id);
+
+            Tappa tappa = profiloTappe.get(profiloVisualizzazioneCorrente).get(id-1);
+
+            Log.i(TAG, "tappa selezionata: " + tappa);
 
             Intent i = new Intent(this, TappaActivity.class);
-
             int ordineTappa = Integer.parseInt(item.getTitle().toString().split("\\. ")[0]);
             i.putExtra("email", email);
             i.putExtra("codiceViaggio", codiceViaggio);

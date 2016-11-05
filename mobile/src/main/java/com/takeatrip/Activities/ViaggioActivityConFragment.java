@@ -282,6 +282,8 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         layoutPartecipants = (LinearLayout)findViewById(R.id.Partecipants);
         rowHorizontal = (LinearLayout) findViewById(R.id.layout_horizontal2);
 
+        showProgressDialog();
+
         try {
             proprioViaggio = new GetPartecipantiViaggioTask(ViaggioActivityConFragment.this, contentView, s3,
                     codiceViaggio, listPartecipants, nomeViaggio, email, urlImageTravel,
@@ -509,11 +511,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
     private void popolaPartecipanti(){
 
-
         float density = getResources().getDisplayMetrics().density;
-
-        Log.i(TAG, "density of the screen: " + density);
-
         if(density == 3.0 || density == 4.0){
             DIMENSION_OF_SPACE = DIMENSION_OF_SPACE*2;
             DIMENSION_OF_IMAGE_PARTICIPANT = DIMENSION_OF_IMAGE_PARTICIPANT*2;
@@ -685,6 +683,8 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         TabHost.addTab(tab4);
         TabHost.addTab(tab5);
         TabHost.setCurrentTab(0);
+
+        hideProgressDialog();
     }
 
 

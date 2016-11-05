@@ -26,12 +26,22 @@
         android:horizontalSpacing="10dp"
         android:gravity="center"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewOtherPhotos"
+        android:text="other..."
+        android:textColor="@color/blue"
+        android:textSize="20sp"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_gravity="center"/>
+
     <Button
         android:id="@+id/btnSelect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/blue"
-        android:text="Select"
+        android:text="@string/choose"
         android:layout_marginTop="5dp"/>
 
 </LinearLayout>

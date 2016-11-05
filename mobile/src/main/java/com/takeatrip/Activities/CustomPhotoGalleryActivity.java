@@ -17,17 +17,22 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.takeatrip.R;
 import com.takeatrip.Utilities.Constants;
 
+@SuppressWarnings("deprecation")
 public class CustomPhotoGalleryActivity extends Activity {
 
     private static final String TAG = "CustomPhotGallery";
+    private int RANGE_IMAGES = 10;
+    private int startImages = 10;
 
     private GridView grdImages;
     private Button btnSelect;
+    private TextView btnOther;
 
     private ImageAdapter imageAdapter;
     private String[] arrPath;
@@ -35,6 +40,8 @@ public class CustomPhotoGalleryActivity extends Activity {
     private int ids[];
     private int count;
 
+
+    private Cursor imagecursor, imageCursorTotal;
 
     /**
      * Overrides methods
@@ -45,28 +52,24 @@ public class CustomPhotoGalleryActivity extends Activity {
         setContentView(R.layout.activity_custom_photo_gallery);
         grdImages= (GridView) findViewById(R.id.grdImages);
         btnSelect= (Button) findViewById(R.id.btnSelect);
-
+        btnOther= (TextView) findViewById(R.id.viewOtherPhotos);
 
         final String[] columns = { MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID };
         final String orderBy = MediaStore.Images.Media._ID;
-        @SuppressWarnings("deprecation")
-        Cursor imagecursor = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null, null, orderBy);
-        int image_column_index = imagecursor.getColumnIndex(MediaStore.Images.Media._ID);
-        this.count = imagecursor.getCount();
-        this.arrPath = new String[this.count];
-        ids = new int[count];
-        this.thumbnailsselection = new boolean[this.count];
-        for (int i = 0; i < this.count; i++) {
-            imagecursor.moveToPosition(i);
-            ids[i] = imagecursor.getInt(image_column_index);
-            int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);
-            arrPath[i] = imagecursor.getString(dataColumnIndex);
-        }
+        imageCursorTotal = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null, null, orderBy+" DESC");
 
-        imageAdapter = new ImageAdapter();
-        grdImages.setAdapter(imageAdapter);
-        imagecursor.close();
+        btnOther.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(imagecursor.getCount() < startImages + RANGE_IMAGES){
+                    startImages = startImages + RANGE_IMAGES;
+                }
+                initialization();
+            }
+        });
 
+
+        initialization();
 
         btnSelect.setOnClickListener(new View.OnClickListener() {
 
@@ -88,11 +91,54 @@ public class CustomPhotoGalleryActivity extends Activity {
                     Intent i = new Intent();
                     i.putExtra("data", selectImages);
                     setResult(Activity.RESULT_OK, i);
+                    imagecursor.close();
                     finish();
                 }
             }
         });
     }
+
+
+
+    private void initialization(){
+        final String[] columns = { MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID };
+        final String orderBy = MediaStore.Images.Media._ID;
+
+        imagecursor = managedQuery(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null, null, orderBy+" DESC" + " LIMIT " + startImages);
+        int image_column_index = imagecursor.getColumnIndex(MediaStore.Images.Media._ID);
+        this.count = imagecursor.getCount();
+
+        this.arrPath = new String[this.count];
+        ids = new int[count];
+        if(this.thumbnailsselection == null){
+            this.thumbnailsselection = new boolean[this.count];
+        }
+        else{
+            //to mantain selected pictures
+            boolean[] selectedTemp = this.thumbnailsselection;
+            thumbnailsselection = new boolean[count];
+            for(int i=0; i<selectedTemp.length; i++){
+                thumbnailsselection[i] = selectedTemp[i];
+            }
+        }
+
+
+        for (int i = 0; i < this.count; i++) {
+            imagecursor.moveToPosition(i);
+            ids[i] = imagecursor.getInt(image_column_index);
+            int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);
+            arrPath[i] = imagecursor.getString(dataColumnIndex);
+        }
+
+        imageAdapter = new ImageAdapter();
+        grdImages.setAdapter(imageAdapter);
+
+        if(imageCursorTotal.getCount() <=  startImages){
+            btnOther.setVisibility(View.INVISIBLE);
+        }
+    }
+
+
     @Override
     public void onBackPressed() {
         setResult(Activity.RESULT_CANCELED);

@@ -366,6 +366,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if(newStop){
 
+                /*
                 CharSequence[] namesPartecipants = { profilo.getName() };
                 CharSequence[] listPartecipants = { profilo.getEmail() };
                 CharSequence[] urlImagePartecipants = { profilo.getIdImageProfile() };
@@ -383,6 +384,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intent.putExtra("urlImagePartecipants", urlImagePartecipants);
                 intent.putExtra("sessoPartecipants", sessoPartecipants);
                 startActivity(intent);
+                */
+
+
+                Intent openNewTravel = new Intent(MainActivity.this, ViaggioActivityConFragment.class);
+
+                openNewTravel.putExtra("email", email);
+                openNewTravel.putExtra("codiceViaggio", ultimoViaggio.getCodice());
+                openNewTravel.putExtra("nomeViaggio", ultimoViaggio.getNome());
+                openNewTravel.putExtra("urlImmagineViaggio", ultimoViaggio.getUrlImmagine());
+                openNewTravel.putExtra("livelloCondivisione", ultimoViaggio.getCondivisioneDefault());
+                startActivity(openNewTravel);
+
+
 
                 newStop = false;
             }
