@@ -214,37 +214,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         arr_images = Constants.privacy_images;
 
 
-        Spinner privacySpinner = (Spinner) findViewById(R.id.spinnerPrivacyLevel);
-        final PrivacyLevelAdapter adapter = new PrivacyLevelAdapter(ViaggioActivityConFragment.this, R.layout.entry_privacy_level, strings);
-        String livelloMaiuscolo = livelloCondivisioneViaggio.substring(0,1).toUpperCase()
-                + livelloCondivisioneViaggio.substring(1,livelloCondivisioneViaggio.length());
-
-        final int spinnerPosition = adapter.getPosition(livelloMaiuscolo);
-
-        if (privacySpinner != null) {
-            privacySpinner.setAdapter(adapter);
-            privacySpinner.setSelection(spinnerPosition);
-            privacySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if(checkSelectionSpinner > 0){
-                        Log.i(TAG, "elemento selezionato spinner: "+ adapter.getItem(position));
-                        livelloCondivisioneViaggio = adapter.getItem(position);
-                        new UpdateCondivisioneViaggioTask(ViaggioActivityConFragment.this, codiceViaggio, livelloCondivisioneViaggio).execute();
-                    }
-                    checkSelectionSpinner++;
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-
-        } else {
-            Log.e(TAG, "privacySpinner is null");
-        }
-
         appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
         transferUtility = UtilS3Amazon.getTransferUtility(this);
         transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
@@ -310,6 +279,49 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
             Log.e(TAG, "GetPartecipantiViaggioTask not executed!");
             e.printStackTrace();
         }
+
+
+        Spinner privacySpinner = (Spinner) findViewById(R.id.spinnerPrivacyLevel);
+        final PrivacyLevelAdapter adapter = new PrivacyLevelAdapter(ViaggioActivityConFragment.this, R.layout.entry_privacy_level, strings);
+        String livelloMaiuscolo = livelloCondivisioneViaggio.substring(0,1).toUpperCase()
+                + livelloCondivisioneViaggio.substring(1,livelloCondivisioneViaggio.length());
+
+        final int spinnerPosition = adapter.getPosition(livelloMaiuscolo);
+
+        if (privacySpinner != null) {
+            privacySpinner.setAdapter(adapter);
+            privacySpinner.setSelection(spinnerPosition);
+
+            if(!proprioViaggio){
+                privacySpinner.setEnabled(false);
+            }
+            else{
+                privacySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        if(checkSelectionSpinner > 0){
+                            Log.i(TAG, "elemento selezionato spinner: "+ adapter.getItem(position));
+                            livelloCondivisioneViaggio = adapter.getItem(position);
+                            new UpdateCondivisioneViaggioTask(ViaggioActivityConFragment.this, codiceViaggio, livelloCondivisioneViaggio).execute();
+                        }
+                        checkSelectionSpinner++;
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+            }
+
+
+        } else {
+            Log.e(TAG, "privacySpinner is null");
+        }
+
+
+
+
         popolaPartecipanti();
 
 
@@ -1121,7 +1133,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
             label.setText(strings[position]);
 
             TextView sub=(TextView)convertView.findViewById(R.id.description);
-            sub.setText(subs[position]);
+            sub.setText(subs[position].replace("these","future"));
 
             ImageView icon=(ImageView)convertView.findViewById(R.id.image);
             icon.setImageResource(arr_images[position]);

@@ -1,18 +1,28 @@
 package com.takeatrip.Adapters;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.takeatrip.AsyncTasks.UpdateCondivisioneContentTask;
 import com.takeatrip.Classes.ContenutoMultimediale;
 import com.takeatrip.R;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.SquaredImageView;
 import com.takeatrip.Utilities.UtilS3AmazonCustom;
+
+import java.util.List;
 
 /**
  * Created by Giacomo Lanciano on 29/04/2016.
@@ -23,13 +33,18 @@ public class GridViewImageAdapter extends GridViewAdapter {
     private static final int THREE = 3;
     private static final int SIX = 3;
 
+    private String[] strings, subs;
+    private int[] arr_images;
 
-    public GridViewImageAdapter(Context context, ContenutoMultimediale[] URLs, int tipoContenuto, String emailProfiloLoggato) {
-        super(context, URLs, tipoContenuto, emailProfiloLoggato);
+    private ProgressDialog progressDialog;
+
+
+    public GridViewImageAdapter(Context context, GridView gv, List<ContenutoMultimediale> URLs, int tipoContenuto, String emailProfiloLoggato) {
+        super(context,gv, URLs, tipoContenuto, emailProfiloLoggato);
     }
 
-    public GridViewImageAdapter(Context context, ContenutoMultimediale[] URLs, int tipoContenuto, String codiceViaggio, String emailProfiloLoggato) {
-        super(context, URLs, tipoContenuto, codiceViaggio, emailProfiloLoggato);
+    public GridViewImageAdapter(Context context,GridView gv, List<ContenutoMultimediale> URLs, int tipoContenuto, String codiceViaggio, String emailProfiloLoggato) {
+        super(context, gv, URLs, tipoContenuto, codiceViaggio, emailProfiloLoggato);
     }
 
     @Override
@@ -51,10 +66,10 @@ public class GridViewImageAdapter extends GridViewAdapter {
 
         result.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
+            public void onClick(final View v) {
                 final Dialog dialog = new Dialog(context, R.style.CustomDialog);
                 dialog.setContentView(R.layout.photos_view);
+
                 ImageView imageProfile = (ImageView) dialog.findViewById(R.id.imageDialog);
                 imageProfile.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -63,26 +78,42 @@ public class GridViewImageAdapter extends GridViewAdapter {
                     }
                 });
 
-
                 float density = context.getResources().getDisplayMetrics().density;
                 if(density < 3.0){
                     Picasso.with(context)
                             .load(url)
                             .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *6, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *6)
-                            .into(imageProfile);
+                            .into(imageProfile, new com.squareup.picasso.Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    setSpinner(dialog,position,v);
+                                }
+
+                                @Override
+                                public void onError() {
+
+                                }
+                            });
                 }
                 else if(density == 3.0 || density == 4.0){
                     Picasso.with(context)
                             .load(url)
                             .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *10, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *10)
-                            .into(imageProfile);
+                            .into(imageProfile, new com.squareup.picasso.Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    setSpinner(dialog,position,v);
+                                }
+
+                                @Override
+                                public void onError() {
+
+                                }
+                            });
+
                 }
-
-
-                dialog.show();
             }
         });
-
         if (getCodiceViaggio() != null) {
             result.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -99,4 +130,89 @@ public class GridViewImageAdapter extends GridViewAdapter {
 
         return result;
     }
+
+
+
+    private void setSpinner(Dialog dialog, int position, final View v){
+
+        strings = context.getResources().getStringArray(R.array.PrivacyLevel);
+        subs = context.getResources().getStringArray(R.array.PrivacyLevelDescription);
+        arr_images = Constants.privacy_images;
+
+        final Spinner privacySpinner = (Spinner) dialog.findViewById(R.id.spinnerPrivacyLevel);
+
+
+        final PrivacyLevelAdapter adapter = new PrivacyLevelAdapter(context, R.layout.entry_privacy_level, strings);
+
+        if (privacySpinner != null) {
+            privacySpinner.setAdapter(adapter);
+
+            Log.i(TAG, "contenuto: " + cm.getUrlContenuto() +" "+ cm.getLivelloCondivisione());
+
+            final int spinnerPosition = adapter.getPosition(cm.getLivelloCondivisione());
+            privacySpinner.setSelection(spinnerPosition);
+
+            if(!getItem(position).getEmailProfilo().equals(emailProfiloLoggato)) {
+                privacySpinner.setEnabled(false);
+            }
+            else {
+                privacySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Log.i(TAG, "elemento selezionato: " + adapter.getItem(position));
+                        String livelloCondivisioneContenuto = adapter.getItem(position);
+
+                        Log.i(TAG, "update a livello: " + livelloCondivisioneContenuto +" del viaggio: "+ codiceViaggio + " " + cm.getOrdineTappa());
+                        Log.i(TAG, "url contenuto: " + cm.getUrlContenuto());
+
+                        cm.setLivelloCondivisione(livelloCondivisioneContenuto);
+                        new UpdateCondivisioneContentTask(context, codiceViaggio, cm.getOrdineTappa(), livelloCondivisioneContenuto, v.getContentDescription().toString()).execute();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+            }
+        } else {
+            Log.e(TAG, "privacySpinner is null");
+        }
+
+        dialog.show();
+    }
+
+
+
+    private class PrivacyLevelAdapter extends ArrayAdapter<String> {
+
+        public PrivacyLevelAdapter(Context context, int textViewResourceId, String[] strings) {
+            super(context, textViewResourceId, strings);
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater= LayoutInflater.from(getContext());
+            convertView=inflater.inflate(R.layout.entry_privacy_level, parent, false);
+            TextView label=(TextView)convertView.findViewById(R.id.privacyLevel);
+            label.setText(strings[position]);
+
+            TextView sub=(TextView)convertView.findViewById(R.id.description);
+            sub.setText(subs[position]);
+
+            ImageView icon=(ImageView)convertView.findViewById(R.id.image);
+            icon.setImageResource(arr_images[position]);
+            return convertView;
+        }
+    }
+
 }

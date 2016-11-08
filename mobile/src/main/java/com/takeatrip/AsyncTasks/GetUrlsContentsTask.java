@@ -57,7 +57,7 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
     InputStream is = null;
     String result, stringaFinale = "";
     private List<ContenutoMultimediale> listContents;
-    private ContenutoMultimediale[] URLs;
+    private List<ContenutoMultimediale> URLs;
 
     private ImageView coverImageTappa;
 
@@ -118,8 +118,6 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
                 || phpFile.equals(Constants.QUERY_STOP_AUDIO)) {
 
             dataToSend.add(new BasicNameValuePair("ordineTappa", ordineTappa + ""));
-
-            Log.i(TAG, "ordineTappa: " + ordineTappa);
         }
 
 
@@ -145,9 +143,6 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
                         is.close();
 
                         result = sb.toString();
-
-                        Log.i(TAG, "result: " + result);
-
                     } catch (Exception e) {
                         Log.e(TAG, "Errore nel risultato o nel convertire il risultato");
                     }
@@ -158,6 +153,9 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
                 if (result != null && !result.equals("null\n")) {
                     JSONArray jArray = new JSONArray(result);
                     String emailProfilo, url, livelloCondivisione;
+                    int ordineTappa = 0;
+
+
 
                     if (jArray != null) {
                         for (int i = 0; i < jArray.length(); i++) {
@@ -176,10 +174,20 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
                             } else {
                                 url = json_data.getString("urlAudio");
                             }
-
-
                             livelloCondivisione = json_data.getString("livelloCondivisione");
-                            listContents.add(new ContenutoMultimediale(emailProfilo,url, codiceViaggio, livelloCondivisione));
+
+                            ordineTappa = json_data.getInt("ordineTappa");
+
+/*
+                            if (phpFile.equals(Constants.QUERY_STOP_IMAGES)
+                                    || phpFile.equals(Constants.QUERY_STOP_VIDEOS)
+                                    || phpFile.equals(Constants.QUERY_STOP_AUDIO)) {
+
+                            }
+                            */
+
+
+                            listContents.add(new ContenutoMultimediale(emailProfilo,url, codiceViaggio, ordineTappa, livelloCondivisione));
 
                         }
                     }
@@ -203,29 +211,18 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
         GridView gv = gridView;
         gv.setOnScrollListener(new ScrollListener(context));
 
-        Log.i(TAG, "listContents.size() = " + listContents.size());
-
         if (listContents.size() > 0) {
             //se la lista di elementi da caricare è non vuota, il linear layout parent viene visualizzato
             LinearLayout parent = (LinearLayout) gv.getParent();
             parent.setVisibility(View.VISIBLE);
 
-            URLs = new ContenutoMultimediale[listContents.size()];
+            URLs = new ArrayList<ContenutoMultimediale>();
             int i = 0;
             for (ContenutoMultimediale image : listContents) {
-
-                //TODO la query restituisce già solamente i contenuti public/travel, valutare eliminazione controllo
-                if (image.getLivelloCondivisione().equalsIgnoreCase("public")
-                        || image.getLivelloCondivisione().equalsIgnoreCase("travel")) {
-
-                    //NOTA: la traduzione dell'id del contenuto in url viene delegata al GridViewAdapter,
-                    //per facilitare l'eliminazione del contenuto
-
-                    URLs[i] = image;
-                    i++;
-                }
+                URLs.add(image);
+                i++;
             }
-            if (URLs[0] == null || URLs[0].equals("null")) {
+            if (URLs.get(0) == null || URLs.get(0).equals("null")) {
                 return;
             }
 
@@ -237,13 +234,15 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
         if (phpFile.equals(Constants.QUERY_TRAVEL_IMAGES)
                 || phpFile.equals(Constants.QUERY_STOP_IMAGES)) {
 
-            gv.setAdapter(new GridViewImageAdapter(context, URLs, Constants.IMAGE_FILE, codiceViaggio, emailProfilo));
+            GridViewImageAdapter adapter = new GridViewImageAdapter(context, gv, URLs, Constants.IMAGE_FILE, codiceViaggio, emailProfilo);
+            gv.setAdapter(adapter);
+            gv.invalidateViews();
 
             //nel caso di immagini della tappa, la prima viene impostata come copertina
             if(phpFile.equals(Constants.QUERY_STOP_IMAGES) && coverImageTappa != null) {
                 Bitmap bitmap  = null;
                 try {
-                    final String url = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_TRAVELS_NAME,URLs[0].getUrlContenuto());
+                    final String url = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_TRAVELS_NAME,URLs.get(0).getUrlContenuto());
                     bitmap = new BitmapWorkerTask(coverImageTappa).execute(url).get();
                     if(bitmap != null)
                         coverImageTappa.setImageBitmap(getScaledBitmap(bitmap));
@@ -260,13 +259,12 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
         } else if (phpFile.equals(Constants.QUERY_TRAVEL_VIDEOS)
                 || phpFile.equals(Constants.QUERY_STOP_VIDEOS)) {
 
-            gv.setAdapter(new GridViewAdapter(context, URLs, Constants.VIDEO_FILE, codiceViaggio));
+            GridViewAdapter adapter = new GridViewAdapter(context, gv, URLs, Constants.VIDEO_FILE, codiceViaggio);
+            gv.setAdapter(adapter);
+
         } else {
-            gv.setAdapter(new GridViewAdapter(context, URLs, Constants.AUDIO_FILE, codiceViaggio));
+            gv.setAdapter(new GridViewAdapter(context, gv, URLs, Constants.AUDIO_FILE, codiceViaggio));
         }
-
-
-        Log.i(TAG, "settato l'adapter per il grid");
 
     }
 
@@ -275,7 +273,6 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
     private Bitmap getScaledBitmap(Bitmap bitmap){
         float density = context.getResources().getDisplayMetrics().density;
         int heigh = 300;
-        Log.i(TAG, "density of the screen: " + density);
         if(density == 3.0 || density == 4.0){
             heigh = 600;
         }

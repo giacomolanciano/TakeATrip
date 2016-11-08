@@ -312,6 +312,7 @@
     <string name="no_followers">Followers not found</string>
     <string name="no_following">Following not found</string>
     <string name="choose">CHOOSE</string>
+    <string name="see_last_stop">Last stop</string>
 
 
 </resources>

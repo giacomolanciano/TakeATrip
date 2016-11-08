@@ -50,6 +50,7 @@ import com.takeatrip.AsyncTasks.InserimentoAudioTappaTask;
 import com.takeatrip.AsyncTasks.InserimentoImmagineTappaTask;
 import com.takeatrip.AsyncTasks.InserimentoNotaTappaTask;
 import com.takeatrip.AsyncTasks.InserimentoVideoTappaTask;
+import com.takeatrip.AsyncTasks.UpdateCondivisioneTappaTask;
 import com.takeatrip.AsyncTasks.UploadFileS3Task;
 import com.takeatrip.Classes.NotaTappa;
 import com.takeatrip.Fragments.DatePickerFragment;
@@ -143,6 +144,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             ordineTappa = i.getIntExtra("ordine", 0);   //è l'ordine del db
             nomeTappa = i.getStringExtra("nome");
             data = i.getStringExtra("data");
+            livelloCondivisioneTappa = i.getStringExtra("livelloCondivisioneTappa");
         }
 
         Log.i(TAG, "email: "+email);
@@ -176,18 +178,32 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
         if (privacySpinner != null) {
             privacySpinner.setAdapter(adapter);
-            privacySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Log.i(TAG, "elemento selezionato: " + adapter.getItem(position));
-                    livelloCondivisioneTappa = adapter.getItem(position);
-                }
+            final int spinnerPosition = adapter.getPosition(livelloCondivisioneTappa);
+            privacySpinner.setSelection(spinnerPosition);
 
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
+            Log.i(TAG,"esterna? "+ esterna);
+            if(esterna) {
+                privacySpinner.setEnabled(false);
+            }
+            else{
+                privacySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Log.i(TAG, "elemento selezionato: " + adapter.getItem(position));
+                        livelloCondivisioneTappa = adapter.getItem(position);
 
-                }
-            });
+                        new UpdateCondivisioneTappaTask(TappaActivity.this, codiceViaggio, ordineTappa, livelloCondivisioneTappa).execute();
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+            }
+
+
 
         } else {
             Log.e(TAG, "privacySpinner is null");

@@ -78,13 +78,8 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
         dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
         dataToSend.add(new BasicNameValuePair("email", emailProfilo));
 
-        Log.i(TAG, "codice: " + codiceViaggio);
-        Log.i(TAG, "email: " + emailProfilo);
-
-
         if (phpFile.equals(Constants.QUERY_STOP_NOTES)) {
             dataToSend.add(new BasicNameValuePair("ordineTappa", ordineTappa + ""));
-            Log.i(TAG, "ordineTappa: " + ordineTappa);
         }
 
         try {

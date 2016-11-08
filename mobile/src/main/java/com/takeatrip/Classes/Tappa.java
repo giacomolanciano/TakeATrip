@@ -14,25 +14,28 @@ public class Tappa {
     private String paginaDiario;
     private POI poi;
     private String nome;
+    private String livelloCondivisione;
 
     public Tappa(Itinerario itinerario, int ordine) {
         this.itinerario = itinerario;
         this.ordine = ordine;
     }
 
-    public Tappa(Itinerario itinerario, int ordine, Tappa tappaPrecedente, Date data, String nomeTappa, POI poi) {
+    public Tappa(Itinerario itinerario, int ordine, Tappa tappaPrecedente, Date data, String nomeTappa, POI poi, String livelloCondivisione) {
         this.itinerario = itinerario;
         this.ordine = ordine;
         this.tappaPrecedente = tappaPrecedente;
         this.data = data;
         this.nome = nomeTappa;
         this.poi = poi;
+        this.livelloCondivisione = livelloCondivisione;
     }
 
-    public Tappa(Itinerario itinerario, int ordine, Date data) {
+    public Tappa(Itinerario itinerario, int ordine, Date data, String livelloCondivisione) {
         this.itinerario = itinerario;
         this.ordine = ordine;
         this.data = data;
+        this.livelloCondivisione = livelloCondivisione;
     }
 
     public Itinerario getItinerario() {
@@ -111,7 +114,16 @@ public class Tappa {
         return result;
     }
 
+
+    public String getLivelloCondivisione() {
+        return livelloCondivisione;
+    }
+
+    public void setLivelloCondivisione(String livelloCondivisione) {
+        this.livelloCondivisione = livelloCondivisione;
+    }
+
     public String toString(){
-        return getPoi() + " " +getName();
+        return getPoi() + " " +getName() +" "+ livelloCondivisione;
     }
 }

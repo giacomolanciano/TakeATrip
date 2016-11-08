@@ -107,6 +107,8 @@ public class GetStopsTask extends AsyncTask<Void, Void, Void> {
                                 String nome = json_data.getString("nome");
                                 String codicePOI = json_data.getString("codicePOI");
                                 String fontePOI = json_data.getString("fontePOI");
+                                String livelloCondivisione = json_data.getString("livelloCondivisioneTappa");
+
 
                                 POI poi = new POI(codicePOI, fontePOI);
 
@@ -114,7 +116,7 @@ public class GetStopsTask extends AsyncTask<Void, Void, Void> {
                                 Calendar cal = DatesUtils.getDateFromString(dataString, Constants.DATABASE_DATE_FORMAT);
                                 Date data = cal.getTime();
 
-                                tappe.add(new Tappa(itinerario, ordine, tappaPrecedente, data, nome, poi));
+                                tappe.add(new Tappa(itinerario, ordine, tappaPrecedente, data, nome, poi, livelloCondivisione));
                                 Log.i(TAG, "tappa prelevata: " + tappe);
 
                             }

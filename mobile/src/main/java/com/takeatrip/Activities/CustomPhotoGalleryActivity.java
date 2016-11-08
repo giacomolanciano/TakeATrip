@@ -85,7 +85,11 @@ public class CustomPhotoGalleryActivity extends Activity {
                 }
                 if (cnt == 0) {
                     Toast.makeText(getApplicationContext(), "Please select at least one image", Toast.LENGTH_LONG).show();
-                } else {
+                }
+                else if(cnt > 10){
+                    Toast.makeText(getApplicationContext(), "Please select at most ten images", Toast.LENGTH_LONG).show();
+                }
+                else {
 
                     Log.d("SelectedImages", selectImages);
                     Intent i = new Intent();

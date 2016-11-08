@@ -182,7 +182,7 @@
                         app:fab_icon="@drawable/ic_edit_location_white_36dp"
                         app:fab_colorNormal="@color/blue"
                         app:fab_size="mini"
-                        app:fab_title="@string/add_to_last_stop"
+                        app:fab_title="@string/see_last_stop"
                         app:fab_colorPressed="@color/white_pressed"
                         />
 

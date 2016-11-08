@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * Created by Giacomo Lanciano on 17/08/2016.
  */
-public class DeleteStopContentTask extends AsyncTask<Void, Void, Void> {
+public class DeleteStopContentTask extends AsyncTask<Void, Void, Boolean> {
 
     private static final String TAG = "TEST DelStopContTask";
 
@@ -78,7 +78,7 @@ public class DeleteStopContentTask extends AsyncTask<Void, Void, Void> {
 
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected Boolean doInBackground(Void... params) {
 
 
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
@@ -129,23 +129,22 @@ public class DeleteStopContentTask extends AsyncTask<Void, Void, Void> {
                 else {
                     Toast.makeText(context, "Input Stream uguale a null", Toast.LENGTH_LONG).show();
                 }
-
-
-
-
-            } else
+            } else{
                 Log.e(TAG, "CONNESSIONE Internet Assente!");
+                return false;
+            }
+
         } catch (Exception e) {
             Log.e(TAG, "Errore nella connessione http "+e.toString());
+            return false;
         }
 
 
-        return null;
+        return true;
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
-
+    protected void onPostExecute(Boolean aVoid) {
         super.onPostExecute(aVoid);
 
     }

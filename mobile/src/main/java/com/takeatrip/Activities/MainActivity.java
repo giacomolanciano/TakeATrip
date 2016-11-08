@@ -449,6 +449,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intent.putExtra("ordine", tappe.size());
             intent.putExtra("nome", tappe.size() + ". "+ ultimaTappa.getName());
             intent.putExtra("data", DatesUtils.getStringFromDate(ultimaTappa.getData(), Constants.DISPLAYED_DATE_FORMAT));
+            intent.putExtra("livelloCondivisione", ultimaTappa.getLivelloCondivisione());
 
             startActivity(intent);
         }
@@ -707,9 +708,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT * 2, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT * 2)
                         .into(target);
 
-            } else {
-                //L'utente è loggato con facebook
-                if (fbProfile != null) {
+
+            }
+            //L'utente è loggato con facebook
+            else if (fbProfile != null) {
                     Log.i(TAG, fbProfile.getProfilePictureUri(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT + 50, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT + 50).toString());
                     final Uri image_uri = fbProfile.getProfilePictureUri(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT + 50, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT + 50);
 
@@ -723,10 +725,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }
+
+            }
+            else{
+                hideProgressDialog();
             }
 
-            hideProgressDialog();
         }
     }
 
@@ -735,6 +739,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             // loading of the bitmap was a success
             imageViewProfileRound.setImageBitmap(bitmap);
+            hideProgressDialog();
         }
 
         @Override

@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.SimpleAdapter;
 
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static android.widget.ImageView.ScaleType.CENTER_CROP;
 
@@ -40,9 +42,8 @@ public class GridViewAdapter extends BaseAdapter {
     private static final String TAG = "TEST GridViewAdapter";
     private static final int TRIPLE = 3;
 
-    private final Context context;
-    private final List<String> urls = new ArrayList<String>();
-    private final List<ContenutoMultimediale> contents = new ArrayList<ContenutoMultimediale>();
+    protected final Context context;
+    protected final List<String> urls = new ArrayList<String>();
     private final int tipoContenuti;
     protected String codiceViaggio, emailProfiloLoggato;
 
@@ -61,22 +62,28 @@ public class GridViewAdapter extends BaseAdapter {
      * activity.
      */
     private ArrayList<HashMap<String, List<Object>>> transferRecordMaps;
+    protected  GridViewAdapter adapter;
+    protected  ContenutoMultimediale cm;
+    protected List<ContenutoMultimediale> contents;
+    private GridView gridView;
 
 
     // The S3 client
     private AmazonS3Client s3;
 
-    public GridViewAdapter(Context context, ContenutoMultimediale[] URLs, int tipoContenuti, String emailProfiloLoggato) {
+    public GridViewAdapter(Context context, GridView gv, List<ContenutoMultimediale> URLs, int tipoContenuti, String emailProfiloLoggato) {
         this.context = context;
         this.tipoContenuti = tipoContenuti;
         this.codiceViaggio = null;
         this.emailProfiloLoggato = emailProfiloLoggato;
+        this.contents = URLs;
+        this.gridView = gv;
 
-        if(URLs != null) {
-            String[] URLS = new String[URLs.length];
-            for (int i = 0; i < URLS.length; i++) {
-                contents.add(URLs[i]);
-                URLS[i] = URLs[i].getUrlContenuto();
+
+        if(contents != null && contents.size() >0 ) {
+            String[] URLS = new String[contents.size()];
+            for (int i = 0; i < contents.size(); i++) {
+                URLS[i] = contents.get(i).getUrlContenuto();
             }
             Collections.addAll(urls, URLS);
         }
@@ -87,17 +94,17 @@ public class GridViewAdapter extends BaseAdapter {
         s3 = UtilS3Amazon.getS3Client(context);
     }
 
-    public GridViewAdapter(Context context, ContenutoMultimediale[] URLs, int tipoContenuti, String codiceViaggio, String emailProfiloLoggato) {
+    public GridViewAdapter(Context context, GridView gv,  List<ContenutoMultimediale> URLs, int tipoContenuti, String codiceViaggio, String emailProfiloLoggato) {
         this.context = context;
         this.tipoContenuti = tipoContenuti;
         this.codiceViaggio = codiceViaggio;
         this.emailProfiloLoggato = emailProfiloLoggato;
-
-        if(URLs != null) {
-            String[] URLS = new String[URLs.length];
-            for (int i = 0; i < URLS.length; i++) {
-                contents.add(URLs[i]);
-                URLS[i] = URLs[i].getUrlContenuto();
+        this.contents = URLs;
+        this.gridView = gv;
+        if(contents != null && contents.size() >0 ) {
+            String[] URLS = new String[contents.size()];
+            for (int i = 0; i < contents.size(); i++) {
+                URLS[i] = contents.get(i).getUrlContenuto();
             }
             Collections.addAll(urls, URLS);
         }
@@ -114,7 +121,12 @@ public class GridViewAdapter extends BaseAdapter {
             view.setScaleType(CENTER_CROP);
         }
 
-        final ContenutoMultimediale cm = getItem(position);
+
+        adapter = this;
+        cm = getItem(position);
+
+        Log.i(TAG, view + " " + " position " +position+" "+ getItem(position));
+
 
         // Get the URL for the current position (o il testo nel caso delle note).
         final String url = cm.getUrlContenuto();
@@ -139,7 +151,6 @@ public class GridViewAdapter extends BaseAdapter {
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     intent.setDataAndType(uri, "video/*");
                     context.startActivity(intent);
-
                 }
             });
 
@@ -184,6 +195,7 @@ public class GridViewAdapter extends BaseAdapter {
                         if(cm.getEmailProfilo().equals(emailProfiloLoggato)) {
                             Log.i(TAG, "file da eliminare: " + v.getContentDescription());
                             confirmFileDeletion(v, Constants.QUERY_DEL_AUDIO);
+
                         }
 
                         return false;
@@ -226,6 +238,8 @@ public class GridViewAdapter extends BaseAdapter {
         return s3;
     }
 
+
+
     protected void confirmFileDeletion(View v, String q) {
         final View view = v;
         final String query = q;
@@ -235,9 +249,28 @@ public class GridViewAdapter extends BaseAdapter {
                 .setMessage(context.getString(R.string.delete_content_alert))
                 .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        view.setVisibility(View.GONE);
-                        new DeleteStopContentTask(context, query, codiceViaggio,
-                                view.getContentDescription().toString()).execute();
+                        try {
+                            boolean result = new DeleteStopContentTask(context, query, codiceViaggio,
+                                    view.getContentDescription().toString()).execute().get();
+
+                            if(result){
+                                Log.i(TAG, "deleted file with url: " + view.getContentDescription().toString());
+
+                                contents.remove(cm);
+                                urls.remove(cm.getUrlContenuto());
+
+                                adapter.notifyDataSetChanged();
+
+
+                            }
+
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
+
+
                     }
                 })
                 .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -248,4 +281,8 @@ public class GridViewAdapter extends BaseAdapter {
                 .setIcon(ContextCompat.getDrawable(context, R.drawable.logodefbordo))
                 .show();
     }
+
+
+
+
 }

@@ -283,6 +283,12 @@ public class ListaTappeActivity extends AppCompatActivity
                 i++;
             }
 
+
+            if(profiloUtenteLoggato == null){
+                TakeATrip TAT = (TakeATrip) getApplicationContext();
+                profiloUtenteLoggato = TAT.getProfiloCorrente();
+            }
+
             if(profiloVisualizzazioneCorrente == null){
                 visualizzazioneEsterna = true;
                 buttonAddStop.setVisibility(View.INVISIBLE);
@@ -425,6 +431,7 @@ public class ListaTappeActivity extends AppCompatActivity
             i.putExtra("nome", item.getTitle());
             i.putExtra("data", DatesUtils.getStringFromDate(tappa.getData(), Constants.DISPLAYED_DATE_FORMAT));
             i.putExtra("codAccount", 0);
+            i.putExtra("livelloCondivisioneTappa", tappa.getLivelloCondivisione());
             startActivity(i);
             finish();
         }
@@ -504,6 +511,8 @@ public class ListaTappeActivity extends AppCompatActivity
         i.putExtra("codiceViaggio", codiceViaggio);
         i.putExtra("ordine", ordineTappa);
         i.putExtra("nome", nomeTappa);
+        i.putExtra("livelloCondivisioneTappa", tappaSelezionata.getLivelloCondivisione());
+
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(tappaSelezionata.getData());
@@ -832,10 +841,10 @@ public class ListaTappeActivity extends AppCompatActivity
 
                 int stopOrder = calcolaNumUltimaTappaUtenteCorrente()+1;
 
-                Log.i(TAG, "sto aggiungendo la tappa: " + placeId + " " +placeName);
+                Log.i(TAG, "sto aggiungendo la tappa: " + placeId + " " +placeName+" con livello condivisione: "+ livelloCondivisioneTappa );
 
                 //Insert all the content of the stop
-                InserimentoTappaTask ITT = new InserimentoTappaTask(ListaTappeActivity.this, email, codiceViaggio, ordine, placeId, placeName);
+                InserimentoTappaTask ITT = new InserimentoTappaTask(ListaTappeActivity.this, email, codiceViaggio, ordine, placeId, placeName, livelloCondivisioneTappa);
                 ITT.delegate = ListaTappeActivity.this;
                 ITT.execute();
 
@@ -845,7 +854,7 @@ public class ListaTappeActivity extends AppCompatActivity
                 Calendar cal = DatesUtils.getDateFromString(DatesUtils.getCurrentDateString(), Constants.DATABASE_DATE_FORMAT);
 
                 POI poiAdded = new POI(placeId, "google");
-                Tappa stopAdded = new Tappa(itAux, stopOrder, cal.getTime());
+                Tappa stopAdded = new Tappa(itAux, stopOrder, cal.getTime(), livelloCondivisioneTappa);
                 stopAdded.setName(placeName);
                 stopAdded.setPoi(poiAdded);
 

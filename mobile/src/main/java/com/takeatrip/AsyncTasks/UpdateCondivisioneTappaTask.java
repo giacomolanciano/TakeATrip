@@ -5,9 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.takeatrip.Interfaces.AsyncResponseInsertStop;
 import com.takeatrip.Utilities.Constants;
-import com.takeatrip.Utilities.DatesUtils;
 import com.takeatrip.Utilities.InternetConnection;
 
 import org.apache.http.HttpEntity;
@@ -25,63 +23,50 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
- * Created by Giacomo Lanciano on 25/04/2016.
+ * Created by lucagiacomelli on 30/04/16.
  */
-public class InserimentoTappaTask extends AsyncTask<Void, Void, Void> {
-    private static final String ADDRESS_INSERIMENTO_TAPPA = "InserimentoTappa.php";
-    private static final String TAG = "InsTappaTask";
+public class UpdateCondivisioneTappaTask extends AsyncTask<Void, Void, Void> {
 
-    private InputStream is = null;
-    private String result;
-    public AsyncResponseInsertStop delegate = null;
+    private static final String TAG = "TEST UpCondTappaTask";
+    private static final String ADDRESS = "UpdateCondivisioneDefaultTappa.php";
 
     private Context context;
-    private String email, codiceViaggio, placeId, nome, livelloCondivisioneTappa;
+    private String codiceViaggio, nuovoLivello;
+    private InputStream is = null;
+    private String result;
     private int ordine;
 
-
-    public InserimentoTappaTask(Context context, String email, String codiceViaggio, int ordine, String placeId, String nome, String livelloCondivisione){
+    public UpdateCondivisioneTappaTask(Context context, String codiceViaggio, int ordine, String nuovoLivello) {
         this.context = context;
-        this.email = email;
         this.codiceViaggio = codiceViaggio;
+        this.nuovoLivello = nuovoLivello;
         this.ordine = ordine;
-        this.placeId = placeId;
-        this.nome = nome;
-        this.livelloCondivisioneTappa = livelloCondivisione;
     }
+
 
     @Override
     protected Void doInBackground(Void... params) {
-
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-
-        dataToSend.add(new BasicNameValuePair("emailProfilo", email));
+        dataToSend.add(new BasicNameValuePair("livelloCondivisione", nuovoLivello));
         dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
-        dataToSend.add(new BasicNameValuePair("ordine", ""+ordine));
-        dataToSend.add(new BasicNameValuePair("POI", "" + placeId));
-        dataToSend.add(new BasicNameValuePair("nome", nome));
-        dataToSend.add(new BasicNameValuePair("livelloCondivisioneTappa", livelloCondivisioneTappa));
-
-
-        String data = DatesUtils.getCurrentDateString();
-        dataToSend.add(new BasicNameValuePair("data", ""+data));
+        dataToSend.add(new BasicNameValuePair("ordine", ordine+""));
 
 
         try {
-
             if (InternetConnection.haveInternetConnection(context)) {
-                Log.i("CONNESSIONE Internet", "Presente!");
+                Log.i(TAG, "CONNESSIONE Internet Presente!");
 
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_TAPPA);
+                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS);
                 httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+
                 HttpResponse response = httpclient.execute(httppost);
+
                 HttpEntity entity = response.getEntity();
 
                 is = entity.getContent();
 
                 if (is != null) {
-
                     //converto la risposta in stringa
                     try {
                         BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
@@ -93,33 +78,33 @@ public class InserimentoTappaTask extends AsyncTask<Void, Void, Void> {
                         is.close();
 
                         result = sb.toString();
-                        Log.i(TAG, "InserimentoTappaTask result: " +result);
+                        Log.i(TAG, "result: " +result);
 
                     } catch (Exception e) {
-                        Log.e(TAG, "Errore nel convertire il risultato");
+                        Toast.makeText(context, "Errore nel risultato o nel convertire il risultato",
+                                Toast.LENGTH_LONG).show();
                     }
                 }
                 else {
-                    Log.e(TAG, "Input Stream uguale a null");
+                    Toast.makeText(context, "Input Stream uguale a null", Toast.LENGTH_LONG).show();
                 }
 
 
             } else
-                Log.e("CONNESSIONE Internet", "Assente!");
+                Log.e(TAG, "CONNESSIONE Internet Assente!");
         } catch (Exception e) {
             Log.e(TAG, "Errore nella connessione http "+e.toString());
         }
 
-
         return null;
     }
+
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        Log.i(TAG, "tappa inserita correttamente");
-        Toast.makeText(context, "tappa inserita correttamente", Toast.LENGTH_LONG).show();
 
-        delegate.processFinishForInsertStop();
     }
+
+
 }

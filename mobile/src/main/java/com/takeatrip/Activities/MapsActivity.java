@@ -140,9 +140,6 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = getIntent();
             email = intent.getStringExtra("email");
             emailEsterno = intent.getStringExtra("emailEsterno");
-            Log.i(TAG, "email" + email);
-            Log.i(TAG, "email esterno: " + emailEsterno);
-
         }
 
         transferUtility = UtilS3Amazon.getTransferUtility(this);
@@ -172,8 +169,6 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         else{
             profiloUtente = new Profilo(email, null, null, null, null, null, null, null, null, null);
         }
-
-        Log.i(TAG, "Profilo utente corrente: " + profiloUtente);
 
         mGoogleApiClient = new GoogleApiClient
                 .Builder( this )
@@ -546,8 +541,8 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
                                     POI poi = new POI(codicePOI, fontePOI);
 
                                     nome.add(new Viaggio(codiceViaggio, nomeViaggio));
-                                    tappe.add(new Tappa(itinerario, ordine, null, null, paginaDiario, poi));
-                                    nomeTappa.add(new Tappa(null, ordine, null, null, codicePOI, null));
+                                    tappe.add(new Tappa(itinerario, ordine, null, null, paginaDiario, poi,null));
+                                    nomeTappa.add(new Tappa(null, ordine, null, null, codicePOI, null,null));
                                 }
                                 Log.i(TAG, " combo finale: " + combo);
                                 Log.i(TAG, " combo finale Codice: " + comboCodice);

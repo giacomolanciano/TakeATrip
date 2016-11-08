@@ -87,8 +87,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         final ExpandableListAdapter adapter = this;
 
-        Log.i(TAG, "email profilo loggato: "+ email + " " + "email notaTappa: " + notaTappa.getEmailProfilo());
-
 
         if(!notaTappa.getNota().equals("") && (email == null || email.equals(notaTappa.getEmailProfilo()))){
             editNotatappa.setVisibility(View.VISIBLE);
