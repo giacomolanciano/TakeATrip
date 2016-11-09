@@ -432,6 +432,10 @@ public class ListaTappeActivity extends AppCompatActivity
             i.putExtra("data", DatesUtils.getStringFromDate(tappa.getData(), Constants.DISPLAYED_DATE_FORMAT));
             i.putExtra("codAccount", 0);
             i.putExtra("livelloCondivisioneTappa", tappa.getLivelloCondivisione());
+            if(profiloVisualizzazioneCorrente != profiloUtenteLoggato){
+                i.putExtra("visualizzazioneEsterna","true");
+            }
+
             startActivity(i);
             finish();
         }

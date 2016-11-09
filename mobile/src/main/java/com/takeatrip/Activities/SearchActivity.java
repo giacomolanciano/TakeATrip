@@ -49,6 +49,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -189,10 +190,6 @@ public class SearchActivity extends AppCompatActivity {
             }
         }
 
-        for (int i = 0; i < result.size(); i++) {
-            Log.i(TAG, "result:" + result.get(i).getCodiceViaggio() + " " + result.get(i).getUrlImageTravel());
-        }
-
 
         RecyclerViewViaggiAdapter adapter = new RecyclerViewViaggiAdapter(result, SearchActivity.this);
         adapter.onCreateViewHolder(group, 0);
@@ -201,13 +198,31 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
+
+    //viaggi[i] is associated to profili[i]
+    private void PopolaListaDaDestinazione(Viaggio[] viaggi, Profilo[] profili) {
+        ArrayList<DataObject> result = new ArrayList<DataObject>();
+
+        List<String> codiciViaggi = new ArrayList<String>();
+        for (int i=0; i<viaggi.length; i++) {
+            if (!codiciViaggi.contains(viaggi[i].getCodice())) {
+                ImageView image = new ImageView(SearchActivity.this);
+                result.add(new DataObject(viaggi[i], profili[i], image));
+                codiciViaggi.add(viaggi[i].getCodice());}
+        }
+
+        RecyclerViewViaggiAdapter adapter = new RecyclerViewViaggiAdapter(result, SearchActivity.this);
+        adapter.onCreateViewHolder(group, 0);
+        mRecyclerView.setAdapter(adapter);
+    }
+
+
+
+
+
     public ArrayList<DataObject> getDataSet() {
         ArrayList results = new ArrayList<DataObject>();
-        //for (int index = 0; index < 20; index++) {
-        //DataObject obj = new DataObject("Some Primary Text " + index,
-        //        "Secondary " + index);
-        //results.add(index, obj);
-        // }
+
         return results;
     }
 
@@ -408,7 +423,7 @@ public class SearchActivity extends AppCompatActivity {
     private class myTaskSearchByUser extends AsyncTask<Void, Void, Void> {
 
         InputStream is = null;
-        String result, stringaFinale = "";
+        String result;
         Map<Profilo, List<Viaggio>> mappaProvvisoria = new HashMap<Profilo, List<Viaggio>>();
         String username;
 
@@ -449,8 +464,11 @@ public class SearchActivity extends AppCompatActivity {
 
                             Log.i(TAG, "risultato dalla search: " + result);
 
-                            JSONArray jArray = new JSONArray(result);
 
+                            List<Viaggio> viaggi = new ArrayList<Viaggio>();
+                            Profilo p = null;
+
+                            JSONArray jArray = new JSONArray(result);
                             if (jArray != null && result != null) {
                                 for (int i = 0; i < jArray.length(); i++) {
                                     JSONObject json_data = jArray.getJSONObject(i);
@@ -461,12 +479,11 @@ public class SearchActivity extends AppCompatActivity {
                                     String cognomeUtente = json_data.getString("cognome").toString();
                                     String urlImmagineViaggio = json_data.getString("idFotoViaggio").toString();
                                     String condivisioneDefault = json_data.getString("livelloCondivisione").toString();
-                                    Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, null, null, null, null, null);
 
-                                    List<Viaggio> viaggi = new ArrayList<Viaggio>();
+                                    if(i==0)
+                                        p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, null, null, null, null, null);
+
                                     viaggi.add(new Viaggio(codice, nomeViaggio, urlImmagineViaggio, condivisioneDefault));
-
-                                    Log.i(TAG, "viaggi: " + viaggi);
                                     mappaProvvisoria.put(p, viaggi);
                                 }
                             }
@@ -509,6 +526,8 @@ public class SearchActivity extends AppCompatActivity {
         String result, stringaFinale = "";
         Map<Profilo, List<Viaggio>> mappaProvvisoria = new HashMap<Profilo, List<Viaggio>>();
 
+        Viaggio[] viaggi;
+        Profilo[] profili;
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -547,6 +566,10 @@ public class SearchActivity extends AppCompatActivity {
                             JSONArray jArray = new JSONArray(result);
 
                             if (jArray != null && result != null) {
+
+                                viaggi = new Viaggio[jArray.length()];
+                                profili = new Profilo[jArray.length()];
+
                                 for (int i = 0; i < jArray.length(); i++) {
                                     JSONObject json_data = jArray.getJSONObject(i);
                                     String codice = json_data.getString("codice").toString();
@@ -559,11 +582,11 @@ public class SearchActivity extends AppCompatActivity {
 
 
                                     Profilo p = new Profilo(emailUtente, nomeUtente, cognomeUtente, null, null, null, null, null, null, null);
+                                    Viaggio nuovoViaggio = new Viaggio(codice, nomeViaggio, urlImmagineViaggio, condivisioneDefault);
 
-                                    List<Viaggio> viaggi = new ArrayList<Viaggio>();
-                                    viaggi.add(new Viaggio(codice, nomeViaggio, urlImmagineViaggio, condivisioneDefault));
+                                    viaggi[i] = nuovoViaggio;
+                                    profili[i] = p;
 
-                                    mappaProvvisoria.put(p, viaggi);
                                 }
                             }
                         } catch (Exception e) {
@@ -586,11 +609,11 @@ public class SearchActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Log.i(TAG, "Mappa mappaProvvisoria:" + mappaProvvisoria);
+            Log.i(TAG, "viaggi:" + Arrays.toString(viaggi));
+            Log.i(TAG, "profili:" + Arrays.toString(profili));
 
-            PopolaLista(mappaProvvisoria);
+            PopolaListaDaDestinazione(viaggi, profili);
             editTextUser.setText("");
-            //PopolaLista();
 
             hideProgressDialog();
             super.onPostExecute(aVoid);

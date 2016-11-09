@@ -45,4 +45,9 @@ public class Viaggio {
     }
 
     public String getCondivisioneDefault(){ return condivisioneDefault;}
+
+
+    public String toString(){
+        return nome + " "+ codice;
+    }
 }

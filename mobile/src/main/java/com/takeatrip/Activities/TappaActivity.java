@@ -804,13 +804,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                     switch (which) {
 
                         case 0: //pick videos from gallery
-
                             Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
                             startActivityForResult(intentPick, Constants.REQUEST_VIDEO_PICK);
-
-                            //TODO selezione multipla di video, non funzionante
-
-
                             break;
 
                         case 1: //take a video
@@ -877,17 +872,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                             Intent intentPick = new Intent(Intent.ACTION_PICK,
                                     android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
-
                             startActivityForResult(intentPick, Constants.REQUEST_RECORD_PICK);
-
-                            //TODO per selezione multipla, non funzionante
-//                            Intent intentPick = new Intent();
-//                            intentPick.setType("audio/*");
-//                            intentPick.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-//                            intentPick.setAction(Intent.ACTION_GET_CONTENT);
-//                            startActivityForResult(Intent.createChooser(intentPick, "Select Record"),
-//                                    Constants.REQUEST_IMAGE_PICK);
-
                             break;
 
                         case 1: //take a record
@@ -943,8 +928,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                                         @Override
                                         public void onClick(View view) {
-
-                                            //TODO viene creato un file in locale, verificare se è utile manterlo
                                             isRecordFileCreated = true;
                                             record = new AudioRecord();
                                             record.startRecording();
@@ -1002,16 +985,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                                                                 if (progressStatus == progressDialog.getMax()) {
 
-                                                                    Log.i(TAG, "thread stopped");
-
                                                                     record.stopRecording();
-
                                                                     progressDialog.dismiss();
-
-                                                                    Log.i(TAG, "file audio generato: " + record.getFileName());
-
                                                                     audioSelezionati.add(record.getFileName());
-
                                                                     //il caricamento viene iniziato immediatamente
                                                                     uploadAudio();
                                                                 }
@@ -1307,7 +1283,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             label.setText(strings[position]);
 
             TextView sub=(TextView)convertView.findViewById(R.id.description);
-            sub.setText(subs[position]);
+            sub.setText(subs[position].replace(getString(R.string.these),getString(R.string.future)));
 
             ImageView icon=(ImageView)convertView.findViewById(R.id.image);
             icon.setImageResource(arr_images[position]);

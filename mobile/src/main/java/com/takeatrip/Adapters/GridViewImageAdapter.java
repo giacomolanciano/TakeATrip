@@ -52,7 +52,10 @@ public class GridViewImageAdapter extends GridViewAdapter {
 
         SquaredImageView result = (SquaredImageView) super.getView(position, convertView, parent);
         final Context context = this.getContext();
-        final String url = UtilS3AmazonCustom.getS3FileURL(getS3(), Constants.BUCKET_TRAVELS_NAME,result.getContentDescription().toString());
+
+        final ContenutoMultimediale contenutoMultimediale = getItem(Integer.parseInt(result.getContentDescription().toString()));
+        final String url = UtilS3AmazonCustom.getS3FileURL(getS3(), Constants.BUCKET_TRAVELS_NAME,
+                contenutoMultimediale.getUrlContenuto());
 
         // Trigger the download of the URL asynchronously into the image view.
         Picasso.with(context)
@@ -119,7 +122,7 @@ public class GridViewImageAdapter extends GridViewAdapter {
                 @Override
                 public boolean onLongClick(View v) {
                     if(getItem(position).getEmailProfilo().equals(emailProfiloLoggato)){
-                        Log.i(TAG, "file da eliminare: " + v.getContentDescription());
+
                         confirmFileDeletion(v, Constants.QUERY_DEL_IMAGE);
                     }
 
@@ -140,16 +143,13 @@ public class GridViewImageAdapter extends GridViewAdapter {
         arr_images = Constants.privacy_images;
 
         final Spinner privacySpinner = (Spinner) dialog.findViewById(R.id.spinnerPrivacyLevel);
-
-
+        final ContenutoMultimediale contenutoMultimediale = getItem(Integer.parseInt(v.getContentDescription().toString()));
         final PrivacyLevelAdapter adapter = new PrivacyLevelAdapter(context, R.layout.entry_privacy_level, strings);
 
         if (privacySpinner != null) {
             privacySpinner.setAdapter(adapter);
 
-            Log.i(TAG, "contenuto: " + cm.getUrlContenuto() +" "+ cm.getLivelloCondivisione());
-
-            final int spinnerPosition = adapter.getPosition(cm.getLivelloCondivisione());
+            final int spinnerPosition = adapter.getPosition(contenutoMultimediale.getLivelloCondivisione());
             privacySpinner.setSelection(spinnerPosition);
 
             if(!getItem(position).getEmailProfilo().equals(emailProfiloLoggato)) {
@@ -159,14 +159,15 @@ public class GridViewImageAdapter extends GridViewAdapter {
                 privacySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Log.i(TAG, "elemento selezionato: " + adapter.getItem(position));
+                        //Log.i(TAG, "elemento selezionato nello spinner: " + adapter.getItem(position));
                         String livelloCondivisioneContenuto = adapter.getItem(position);
 
-                        Log.i(TAG, "update a livello: " + livelloCondivisioneContenuto +" del viaggio: "+ codiceViaggio + " " + cm.getOrdineTappa());
-                        Log.i(TAG, "url contenuto: " + cm.getUrlContenuto());
-
+                        cm = getItem(Integer.parseInt(v.getContentDescription().toString()));
                         cm.setLivelloCondivisione(livelloCondivisioneContenuto);
-                        new UpdateCondivisioneContentTask(context, codiceViaggio, cm.getOrdineTappa(), livelloCondivisioneContenuto, v.getContentDescription().toString()).execute();
+
+                        //Log.i(TAG, "update livello condivisione del contenuto: " + cm.getUrlContenuto());
+
+                        new UpdateCondivisioneContentTask(context, codiceViaggio, cm.getOrdineTappa(), livelloCondivisioneContenuto, cm.getUrlContenuto()).execute();
                     }
 
                     @Override

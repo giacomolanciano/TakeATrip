@@ -123,16 +123,14 @@ public class GridViewAdapter extends BaseAdapter {
 
 
         adapter = this;
-        cm = getItem(position);
+
 
         Log.i(TAG, view + " " + " position " +position+" "+ getItem(position));
 
 
-        // Get the URL for the current position (o il testo nel caso delle note).
-        final String url = cm.getUrlContenuto();
-
         //è utile solamente nel caso delle immagini
-        view.setContentDescription(url);
+        view.setContentDescription(position+"");
+
 
         if (tipoContenuti == Constants.VIDEO_FILE) {
             // Trigger the download of the URL asynchronously into the image view.
@@ -146,8 +144,9 @@ public class GridViewAdapter extends BaseAdapter {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.i(TAG, "content: "+v.getContentDescription());
-                    Uri uri = Uri.parse(UtilS3AmazonCustom.getS3FileURL(getS3(), Constants.BUCKET_TRAVELS_NAME,url));
+                    cm = getItem(Integer.parseInt(v.getContentDescription().toString()));
+
+                    Uri uri = Uri.parse(UtilS3AmazonCustom.getS3FileURL(getS3(), Constants.BUCKET_TRAVELS_NAME,cm.getUrlContenuto()));
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     intent.setDataAndType(uri, "video/*");
                     context.startActivity(intent);
@@ -158,8 +157,13 @@ public class GridViewAdapter extends BaseAdapter {
                 view.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
+
+                        cm = getItem(Integer.parseInt(v.getContentDescription().toString()));
+
                         if(cm.getEmailProfilo().equals(emailProfiloLoggato)){
-                            Log.i(TAG, "file da eliminare: " + v.getContentDescription());
+
+
+                            Log.i(TAG, "file da eliminare: " + cm.getUrlContenuto());
                             confirmFileDeletion(v, Constants.QUERY_DEL_VIDEO);
                         }
                         return false;
@@ -179,8 +183,9 @@ public class GridViewAdapter extends BaseAdapter {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    cm = getItem(Integer.parseInt(v.getContentDescription().toString()));
 
-                    Uri uri = Uri.parse(UtilS3AmazonCustom.getS3FileURL(getS3(), Constants.BUCKET_TRAVELS_NAME,url));
+                    Uri uri = Uri.parse(UtilS3AmazonCustom.getS3FileURL(getS3(), Constants.BUCKET_TRAVELS_NAME,cm.getUrlContenuto()));
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     intent.setDataAndType(uri, "audio/*");
                     context.startActivity(intent);
@@ -193,9 +198,7 @@ public class GridViewAdapter extends BaseAdapter {
                     @Override
                     public boolean onLongClick(View v) {
                         if(cm.getEmailProfilo().equals(emailProfiloLoggato)) {
-                            Log.i(TAG, "file da eliminare: " + v.getContentDescription());
                             confirmFileDeletion(v, Constants.QUERY_DEL_AUDIO);
-
                         }
 
                         return false;
@@ -254,7 +257,12 @@ public class GridViewAdapter extends BaseAdapter {
                                     view.getContentDescription().toString()).execute().get();
 
                             if(result){
-                                Log.i(TAG, "deleted file with url: " + view.getContentDescription().toString());
+
+                                Log.i(TAG, "deleted file in position: " + view.getContentDescription().toString());
+
+                                cm = getItem(Integer.parseInt(view.getContentDescription().toString()));
+                                Log.i(TAG, "deleted file: " + cm.getUrlContenuto());
+
 
                                 contents.remove(cm);
                                 urls.remove(cm.getUrlContenuto());
