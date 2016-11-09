@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.takeatrip.Adapters.RecyclerViewAdapterUsers;
 import com.takeatrip.AsyncTasks.RicercaUtenteTask;
@@ -39,7 +40,7 @@ public class SearchUsersFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private EditText editTextUser;
-    private ImageView imageSearch;
+    private LinearLayout searchUser;
     private ArrayList<DataObject> dataUsers;
     private ViewGroup group;
     private ImageView image_default;
@@ -70,27 +71,21 @@ public class SearchUsersFragment extends Fragment {
         dataUsers = new ArrayList<DataObject>();
 
         final View rootView = inflater.inflate(R.layout.fragment_search, container, false);
-
-
         progressDialog = new ProgressDialog(context);
 
         editTextUser = (EditText) rootView.findViewById(R.id.editTextUserSearch);
-        Log.i(TAG, "editTextUser: " +  editTextUser);
 
-        imageSearch = (ImageView) rootView.findViewById(R.id.imageSearchUser);
-        imageSearch.setOnClickListener(new View.OnClickListener() {
+        searchUser = (LinearLayout) rootView.findViewById(R.id.searchUser);
+        searchUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dataUsers = new ArrayList<DataObject>();
-
-
                 try {
 
                     String testo_cercato = editTextUser.getText().toString().trim().replace(" ", "");
                     profiles = new RicercaUtenteTask(context,testo_cercato).execute().get();
 
                     Log.i(TAG, "testo cercato: " +  testo_cercato);
-                    Log.i(TAG, "prelevati i seguenti profili nella search: " + profiles);
 
                     for(Profilo p : profiles){
                         dataUsers.add(new DataObject(p));
@@ -106,7 +101,6 @@ public class SearchUsersFragment extends Fragment {
                 mRecyclerView.setHasFixedSize(true);
                 mLayoutManager = new LinearLayoutManager(context);
                 mRecyclerView.setLayoutManager(mLayoutManager);
-
 
                 image_default = new ImageView(context);
                 image_default.setImageResource((R.drawable.default_male));

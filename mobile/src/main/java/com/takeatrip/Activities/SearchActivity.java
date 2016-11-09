@@ -190,12 +190,9 @@ public class SearchActivity extends AppCompatActivity {
             }
         }
 
-
         RecyclerViewViaggiAdapter adapter = new RecyclerViewViaggiAdapter(result, SearchActivity.this);
         adapter.onCreateViewHolder(group, 0);
         mRecyclerView.setAdapter(adapter);
-
-
     }
 
 

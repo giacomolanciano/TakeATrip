@@ -709,7 +709,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(String aVoid) {
-            Log.i(TAG, "risultato dal prelievo dell'url imm profilo: " + signedUrl);
             if (signedUrl != null) {
                 Picasso.with(MainActivity.this)
                         .load(signedUrl.toString())
@@ -830,7 +829,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(String aVoid) {
-            Log.i(TAG, "risultato dal prelievo dell'id imm copertina: " + urlImmagineCopertina);
             super.onPostExecute(aVoid);
         }
     }

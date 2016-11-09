@@ -317,6 +317,7 @@
     <string name="future">future</string>
     <string name="no_internet_connection">No internet connection</string>
     <string name="error_connection">Error: maybe no internet connection.</string>
+    <string name="Search">search</string>
 
 
 </resources>

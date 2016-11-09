@@ -31,7 +31,7 @@ public class RecyclerViewAdapterUsers extends RecyclerView
         .Adapter<RecyclerViewAdapterUsers
         .DataObjectHolder> {
 
-    private static String TAG = "TEST RecViewAdaptFollowing";
+    private static String TAG = "TEST RecViewAdaptUsers";
 
     private ArrayList<DataObject> mDataset;
     private static MyClickListener myClickListener;
@@ -57,12 +57,12 @@ public class RecyclerViewAdapterUsers extends RecyclerView
         public DataObjectHolder(View itemView) {
             super(itemView);
 
-            nomeUtente = (TextView) itemView.findViewById(R.id.NomeUtenteFollowing);
+            nomeUtente = (TextView) itemView.findViewById(R.id.NomeUtenteFollowers);
             //emailUtente = (TextView) itemView.findViewById(R.id.EmailUserFollowing);
-            cognomeUtente = (TextView) itemView.findViewById(R.id.CognomeUtenteFollowing);
-            usernameUtente = (TextView) itemView.findViewById(R.id.UsernameUtenteFollowing);
+            cognomeUtente = (TextView) itemView.findViewById(R.id.CognomeUtenteFollowers);
+            usernameUtente = (TextView) itemView.findViewById(R.id.UsernameUtenteFollowers);
             imageProfile = (RoundedImageView) itemView.findViewById(R.id.ImageProfile);
-            sessoUtente = (TextView) itemView.findViewById(R.id.SessoUtenteFollowing);
+            sessoUtente = (TextView) itemView.findViewById(R.id.SessoUtenteFollowers);
 
             /*
             sessoUtente = (TextView) itemView.findViewById(R.id.SessoUtenteFollowing);
@@ -126,7 +126,7 @@ public class RecyclerViewAdapterUsers extends RecyclerView
     public DataObjectHolder onCreateViewHolder(ViewGroup parent,
                                                int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_following, parent, false);
+                .inflate(R.layout.fragment_followers, parent, false);
 
         DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
         return dataObjectHolder;
@@ -139,18 +139,6 @@ public class RecyclerViewAdapterUsers extends RecyclerView
         holder.usernameUtente.setText("(" +  mDataset.get(position).getUsernameFollow() +")");
 
         String sesso = mDataset.get(position).getSessoFollow();
-
-        //holder.sessoUtente.setText(mDataset.get(position).getSessoFollow());
-
-        /*
-        holder.emailUtente.setText(mDataset.get(position).getEmailFollow());
-       holder.dataUtente.setText(mDataset.get(position).getDataNascitaFollow());
-       holder.sessoUtente.setText(mDataset.get(position).getSessoFollow());
-       holder.lavoroUtente.setText(mDataset.get(position).getLavoroFollow());
-       holder.descrizioneUtente.setText(mDataset.get(position).getDescrizioneFollow());
-       holder.tipoUtente.setText(mDataset.get(position).getTipoFollow());
-       holder.nazionalitaUtente.setText(mDataset.get(position).getNazionalitaFollow());
-       */
 
         String urlImmagine = mDataset.get(position).getUrlImmagineProfilo();
 
@@ -169,8 +157,9 @@ public class RecyclerViewAdapterUsers extends RecyclerView
                 e.printStackTrace();
             }
 
-            if(completeUrl != null)
+            if(completeUrl != null){
                 Picasso.with(null).load(completeUrl.toString()).into(immagineProfilo);
+            }
 
         }
         else{
