@@ -447,9 +447,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intent.putExtra("email",profilo.getEmail());
             intent.putExtra("codiceViaggio", ultimoViaggio.getCodice());
             intent.putExtra("ordine", tappe.size());
+            intent.putExtra("ordineDB", ultimaTappa.getOrdine());
             intent.putExtra("nome", tappe.size() + ". "+ ultimaTappa.getName());
             intent.putExtra("data", DatesUtils.getStringFromDate(ultimaTappa.getData(), Constants.DISPLAYED_DATE_FORMAT));
-            intent.putExtra("livelloCondivisione", ultimaTappa.getLivelloCondivisione());
+            intent.putExtra("livelloCondivisioneTappa", ultimaTappa.getLivelloCondivisione());
 
             startActivity(intent);
         }

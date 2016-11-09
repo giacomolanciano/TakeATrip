@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.takeatrip.Activities.ViaggioActivityConFragment;
 import com.takeatrip.Adapters.GridViewAdapter;
 import com.takeatrip.Adapters.GridViewImageAdapter;
 import com.takeatrip.Classes.ContenutoMultimediale;
@@ -43,6 +44,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+
 /**
  * Created by Giacomo Lanciano on 20/04/2016.
  */
@@ -70,6 +73,7 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
     private ArrayList<HashMap<String, List<Object>>> transferRecordMaps;
     private AmazonS3Client s3;
 
+    private JCVideoPlayerStandard videoPlayer;
 
 
     public GetUrlsContentsTask(Context context, String codiceViaggio, String emailProfilo,
@@ -107,6 +111,33 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
         transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
         s3 = UtilS3Amazon.getS3Client(context);
     }
+
+
+
+
+
+
+    public GetUrlsContentsTask(ViaggioActivityConFragment context, String codiceViaggio, String emailProfilo, JCVideoPlayerStandard jcVideoPlayerStandard, String phpFile) {
+        this.codiceViaggio = codiceViaggio;
+        this.context = context;
+        this.phpFile = phpFile;
+        this.emailProfilo = emailProfilo;
+        this.videoPlayer = jcVideoPlayerStandard;
+        listContents = new ArrayList<ContenutoMultimediale>();
+
+        transferUtility = UtilS3Amazon.getTransferUtility(context);
+        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
+        s3 = UtilS3Amazon.getS3Client(context);
+
+    }
+
+
+
+
+
+
+
+
 
 
     @Override
@@ -215,12 +246,17 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
         if(aVoid){
 
             GridView gv = gridView;
-            gv.setOnScrollListener(new ScrollListener(context));
+            if(gv != null)
+                gv.setOnScrollListener(new ScrollListener(context));
 
             if (listContents.size() > 0) {
                 //se la lista di elementi da caricare è non vuota, il linear layout parent viene visualizzato
-                LinearLayout parent = (LinearLayout) gv.getParent();
-                parent.setVisibility(View.VISIBLE);
+
+                if(gv != null){
+                    LinearLayout parent = (LinearLayout) gv.getParent();
+                    parent.setVisibility(View.VISIBLE);
+                }
+
 
                 URLs = new ArrayList<ContenutoMultimediale>();
                 int i = 0;
@@ -265,8 +301,12 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
             } else if (phpFile.equals(Constants.QUERY_TRAVEL_VIDEOS)
                     || phpFile.equals(Constants.QUERY_STOP_VIDEOS)) {
 
-                GridViewAdapter adapter = new GridViewAdapter(context, gv, URLs, Constants.VIDEO_FILE, codiceViaggio);
-                gv.setAdapter(adapter);
+
+                videoPlayer.setUp(URLs.get(0).getUrlContenuto(), JCVideoPlayerStandard.SCREEN_LAYOUT_LIST, "title");
+                videoPlayer.thumbImageView.setImageResource(R.drawable.video_content);
+
+                //GridViewAdapter adapter = new GridViewAdapter(context, gv, URLs, Constants.VIDEO_FILE, codiceViaggio);
+                //gv.setAdapter(adapter);
 
             } else {
                 gv.setAdapter(new GridViewAdapter(context, gv, URLs, Constants.AUDIO_FILE, codiceViaggio));

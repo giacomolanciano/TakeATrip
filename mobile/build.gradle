@@ -82,6 +82,7 @@ dependencies {
     compile 'com.github.paolorotolo:appintro:4.0.0'
 
     compile 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.0'
+    compile 'fm.jiecao:jiecaovideoplayer:4.8.2'
 
 }
 

@@ -124,23 +124,12 @@ public class GridViewAdapter extends BaseAdapter {
 
         adapter = this;
 
-
-        Log.i(TAG, view + " " + " position " +position+" "+ getItem(position));
-
-
         //è utile solamente nel caso delle immagini
         view.setContentDescription(position+"");
 
 
         if (tipoContenuti == Constants.VIDEO_FILE) {
-            // Trigger the download of the URL asynchronously into the image view.
-            Picasso.with(context)
-                    .load(R.drawable.video_content)
-                    .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *TRIPLE, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *TRIPLE)
-                    .centerCrop()
-                    .tag(context)
-                    .into(view);
-
+            /*
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -170,6 +159,7 @@ public class GridViewAdapter extends BaseAdapter {
                     }
                 });
             }
+            */
         } else if (tipoContenuti == Constants.AUDIO_FILE) {
 
             // Trigger the download of the URL asynchronously into the image view.

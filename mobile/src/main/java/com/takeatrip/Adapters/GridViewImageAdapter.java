@@ -91,7 +91,7 @@ public class GridViewImageAdapter extends GridViewAdapter {
                             .into(imageProfile, new com.squareup.picasso.Callback() {
                                 @Override
                                 public void onSuccess() {
-                                    setSpinner(dialog,position,v);
+                                    setDialog(dialog,position,v);
                                 }
 
                                 @Override
@@ -107,7 +107,7 @@ public class GridViewImageAdapter extends GridViewAdapter {
                             .into(imageProfile, new com.squareup.picasso.Callback() {
                                 @Override
                                 public void onSuccess() {
-                                    setSpinner(dialog,position,v);
+                                    setDialog(dialog,position,v);
                                 }
 
                                 @Override
@@ -138,14 +138,22 @@ public class GridViewImageAdapter extends GridViewAdapter {
 
 
 
-    private void setSpinner(Dialog dialog, int position, final View v){
+    private void setDialog(Dialog dialog, int position, final View v){
+        final ContenutoMultimediale contenutoMultimediale = getItem(Integer.parseInt(v.getContentDescription().toString()));
+
+        TextView viewReport = (TextView)dialog.findViewById(R.id.textSegnala);
+        viewReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "Segnalata foto: " + contenutoMultimediale.getUrlContenuto() +" di " + contenutoMultimediale.getEmailProfilo());
+            }
+        });
 
         strings = context.getResources().getStringArray(R.array.PrivacyLevel);
         subs = context.getResources().getStringArray(R.array.PrivacyLevelDescription);
         arr_images = Constants.privacy_images;
 
         final Spinner privacySpinner = (Spinner) dialog.findViewById(R.id.spinnerPrivacyLevel);
-        final ContenutoMultimediale contenutoMultimediale = getItem(Integer.parseInt(v.getContentDescription().toString()));
         final PrivacyLevelAdapter adapter = new PrivacyLevelAdapter(context, R.layout.entry_privacy_level, strings);
 
         if (privacySpinner != null) {

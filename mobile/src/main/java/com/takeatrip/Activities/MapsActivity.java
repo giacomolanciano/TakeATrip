@@ -532,8 +532,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
                                     stringaFinale = email + " " + codiceViaggio  +" "+ nomeViaggio  +" "+ ordine + " "+ urlImmagineViaggio;
                                     Log.i(TAG, "result da queryDEST: " + stringaFinale);
 
-
-                                    String paginaDiario = json_data.getString("paginaDiario");
+                                    String name = json_data.getString("nome");
                                     String codicePOI = json_data.getString("codicePOI");
                                     String fontePOI = json_data.getString("fontePOI");
 
@@ -543,11 +542,9 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
                                     POI poi = new POI(codicePOI, fontePOI);
 
                                     nome.add(new Viaggio(codiceViaggio, nomeViaggio));
-                                    tappe.add(new Tappa(itinerario, ordine, null, null, paginaDiario, poi,null));
+                                    tappe.add(new Tappa(itinerario, ordine, null, null, name, poi,null));
                                     nomeTappa.add(new Tappa(null, ordine, null, null, codicePOI, null,null));
                                 }
-                                Log.i(TAG, " combo finale: " + combo);
-                                Log.i(TAG, " combo finale Codice: " + comboCodice);
 
                             }
 
@@ -570,14 +567,8 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Log.i(TAG, "lista tappe: " + tappe);
-            Log.i(TAG, "lista viaggi: " + nome);
-
-
             Log.i(TAG, "Profilo utente corrente: " + profiloUtente);
-
             AggiungiMarkedPointsOnMap(profiloUtente,tappe, nome);
-
             super.onPostExecute(aVoid);
 
         }

@@ -155,6 +155,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         Log.i(TAG, "ordineDB: "+ordineTappaDB);
         Log.i(TAG, "nome: "+nomeTappa);
         Log.i(TAG, "data: "+data);
+        Log.i(TAG, "livelloCondivisione: "+livelloCondivisioneTappa);
+
 
         if(visualizzazioneEsterna != null){
             esterna = true;

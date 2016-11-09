@@ -86,6 +86,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 import toan.android.floatingactionmenu.FloatingActionButton;
 import toan.android.floatingactionmenu.FloatingActionsMenu;
 
@@ -160,6 +161,9 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
     AdaptableExpandableListView listViewNotes;
     List<String> listDataHeader;
     HashMap<String, List<NotaTappa>> listDataChild;
+
+    private JCVideoPlayerStandard videoPlayerStandard;
+
 
 
     @Override
@@ -242,6 +246,11 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         gridViewVideos = (AdaptableGridView) findViewById(R.id.grid_view_videos);
         gridViewRecords = (AdaptableGridView) findViewById(R.id.grid_view_records);
 
+        videoPlayerStandard = (JCVideoPlayerStandard) findViewById(R.id.custom_videoplayer_standard);
+
+
+
+
         listViewNotes = (AdaptableExpandableListView)findViewById(R.id.list_view_notes);
 
 
@@ -262,7 +271,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
             GUCT.execute();
 
 
-            new GetUrlsContentsTask(ViaggioActivityConFragment.this, codiceViaggio, email, gridViewVideos, Constants.QUERY_TRAVEL_VIDEOS).execute();
+            new GetUrlsContentsTask(ViaggioActivityConFragment.this, codiceViaggio, email, videoPlayerStandard, Constants.QUERY_TRAVEL_VIDEOS).execute();
 
             new GetUrlsContentsTask(ViaggioActivityConFragment.this, codiceViaggio, email, gridViewRecords, Constants.QUERY_TRAVEL_AUDIO).execute();
 
@@ -340,6 +349,23 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
         new UtentiTask().execute();
     }
+
+
+
+    @Override
+    public void onBackPressed() {
+        if (videoPlayerStandard.backPress()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        videoPlayerStandard.releaseAllVideos();
+    }
+
+
 
     @Override
     protected void onResume() {
