@@ -83,8 +83,11 @@ public class DeleteStopContentTask extends AsyncTask<Void, Void, Boolean> {
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
         dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
 
+
         if (query.equals(Constants.QUERY_DEL_NOTE)) {
-            dataToSend.add(new BasicNameValuePair("nota", id));
+            String nota_modificata = id.replace("'","''").replace("€","euro");
+
+            dataToSend.add(new BasicNameValuePair("nota", nota_modificata));
             dataToSend.add(new BasicNameValuePair("emailProfilo", emailProfilo));
         } else {
             dataToSend.add(new BasicNameValuePair("url", id));

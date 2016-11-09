@@ -43,13 +43,15 @@ public class UpdateNotaTappaTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
 
+        String vecchia_nota_modificata = vecchiaNota.replace("'","''").replace("€","euro");
+        String nuova_nota_modificata = nuovaNota.replace("'","''").replace("€","euro");
 
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
         dataToSend.add(new BasicNameValuePair("emailProfilo", emailProfilo));
         dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
         dataToSend.add(new BasicNameValuePair("ordine", ordine+""));
-        dataToSend.add(new BasicNameValuePair("vecchiaNota", vecchiaNota));
-        dataToSend.add(new BasicNameValuePair("nuovaNota", nuovaNota));
+        dataToSend.add(new BasicNameValuePair("vecchiaNota", vecchia_nota_modificata));
+        dataToSend.add(new BasicNameValuePair("nuovaNota", nuova_nota_modificata));
 
         Log.i(TAG, emailProfilo+ " " + codiceViaggio + " " + ordine + " " +vecchiaNota + " " + nuovaNota);
 

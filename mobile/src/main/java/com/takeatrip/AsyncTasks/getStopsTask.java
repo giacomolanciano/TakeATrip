@@ -150,7 +150,7 @@ public class GetStopsTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean aVoid) {
         super.onPostExecute(aVoid);
-        Log.i(TAG,"tappe del viaggio: " + codiceViaggio);
+        Log.i(TAG,"result dal task: " + aVoid);
 
         if(aVoid)
             delegate.processFinishForStops(profilo_tappe);

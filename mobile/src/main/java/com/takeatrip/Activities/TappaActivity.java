@@ -90,7 +90,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     private String visualizzazioneEsterna = "";
     private boolean esterna = false;
 
-    private int ordineTappa;
+    private int ordineTappa, ordineTappaDB;
     private TextView textDataTappa;
     private String[] strings, subs;
     private int[] arr_images;
@@ -142,7 +142,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             visualizzazioneEsterna = i.getStringExtra("visualizzazioneEsterna");
             email = i.getStringExtra("email");
             codiceViaggio = i.getStringExtra("codiceViaggio");
-            ordineTappa = i.getIntExtra("ordine", 0);   //è l'ordine del db
+            ordineTappa = i.getIntExtra("ordine", 0);
+            ordineTappaDB = i.getIntExtra("ordineDB", 0); //è l'ordine del db
             nomeTappa = i.getStringExtra("nome");
             data = i.getStringExtra("data");
             livelloCondivisioneTappa = i.getStringExtra("livelloCondivisioneTappa");
@@ -151,6 +152,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         Log.i(TAG, "email: "+email);
         Log.i(TAG, "codice: "+codiceViaggio);
         Log.i(TAG, "ordine: "+ordineTappa);
+        Log.i(TAG, "ordineDB: "+ordineTappaDB);
         Log.i(TAG, "nome: "+nomeTappa);
         Log.i(TAG, "data: "+data);
 
@@ -194,7 +196,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                         livelloCondivisioneTappa = adapter.getItem(position);
 
                         try {
-                            boolean result = new UpdateCondivisioneTappaTask(TappaActivity.this, codiceViaggio, ordineTappa, livelloCondivisioneTappa).execute().get();
+                            boolean result = new UpdateCondivisioneTappaTask(TappaActivity.this, codiceViaggio, ordineTappaDB, livelloCondivisioneTappa).execute().get();
 
                             if(!result){
                                 Toast.makeText(getApplicationContext(), R.string.error_connection, Toast.LENGTH_LONG).show();
@@ -356,17 +358,17 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         showProgressDialog();
 
         new GetUrlsContentsTask(TappaActivity.this, codiceViaggio, gridViewPhotos, Constants.QUERY_STOP_IMAGES,
-                email, ordineTappa, coverImageTappa).execute();
+                email, ordineTappaDB, coverImageTappa).execute();
 
         new GetUrlsContentsTask(TappaActivity.this, codiceViaggio, gridViewVideos, Constants.QUERY_STOP_VIDEOS,
-                email, ordineTappa).execute();
+                email, ordineTappaDB).execute();
 
         new GetUrlsContentsTask(TappaActivity.this, codiceViaggio, gridViewRecords, Constants.QUERY_STOP_AUDIO,
-                email, ordineTappa).execute();
+                email, ordineTappaDB).execute();
 
 
         GetNotesTask GTN = new GetNotesTask(TappaActivity.this, codiceViaggio, null, Constants.QUERY_STOP_NOTES,
-                email, ordineTappa);
+                email, ordineTappaDB);
         GTN.delegate = this;
         GTN.execute();
 
@@ -390,17 +392,25 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     public void processFinishForNotes(NotaTappa[] notes) {
         List<NotaTappa> noteTappa = new ArrayList<NotaTappa>();
 
-        for(NotaTappa nt : notes){
-            noteTappa.add(nt);
+        if(notes != null){
+
+            for(NotaTappa nt : notes){
+                noteTappa.add(nt);
+            }
+            listDataChild.put(listDataHeader.get(0), noteTappa);
+            if(noteTappa.size() == 0){
+                noteTappa.add(new NotaTappa(null,"There are no notes","",0,null,""));
+                listDataChild.put(listDataHeader.get(0), noteTappa);
+            }
         }
-        listDataChild.put(listDataHeader.get(0), noteTappa);
-        if(noteTappa.size() == 0){
+        else{
             noteTappa.add(new NotaTappa(null,"There are no notes","",0,null,""));
             listDataChild.put(listDataHeader.get(0), noteTappa);
         }
 
         listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild,email);
         expListView.setAdapter(listAdapter);
+
 
         hideProgressDialog();
     }
@@ -450,7 +460,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         textDataTappa.setText(DatesUtils.getStringFromDate(newDate, Constants.DISPLAYED_DATE_FORMAT));
 
         showProgressDialog();
-        new AggiornamentoDataTappaTask(TappaActivity.this, ordineTappa, codiceViaggio, email,
+        new AggiornamentoDataTappaTask(TappaActivity.this, ordineTappaDB, codiceViaggio, email,
                 DatesUtils.getStringFromDate(newDate, Constants.DATABASE_DATE_FORMAT)).execute();
 
         Log.i(TAG, "date changed");
@@ -1081,7 +1091,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                             noteInserite.add(textInputEditText.getText().toString());
 
-                            new InserimentoNotaTappaTask(TappaActivity.this, ordineTappa, codiceViaggio,
+                            new InserimentoNotaTappaTask(TappaActivity.this, ordineTappaDB, codiceViaggio,
                                     email, livelloCondivisioneTappa, noteInserite).execute();
                             Log.i(TAG, "edit text confirmed");
 
@@ -1135,7 +1145,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                         boolean result = false;
                         try {
-                            result = new DeleteStopTask(TappaActivity.this, codiceViaggio, ordineTappa,
+                            result = new DeleteStopTask(TappaActivity.this, codiceViaggio, ordineTappaDB,
                                     contentsToDelete).execute().get();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -1180,7 +1190,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
                     if(uploaded){
                         new InserimentoImmagineTappaTask(TappaActivity.this, email,codiceViaggio,
-                                ordineTappa,null,completePath,livelloCondivisioneTappa).execute();
+                                ordineTappaDB,null,completePath,livelloCondivisioneTappa).execute();
                     }
 
 
@@ -1217,7 +1227,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                         String completePath = codiceViaggio + "/" + Constants.TRAVEL_VIDEOS_LOCATION + "/" + email + "_" + nameVideo;
 
                         new InserimentoVideoTappaTask(TappaActivity.this, email,codiceViaggio,
-                                ordineTappa,null,completePath,livelloCondivisioneTappa).execute();
+                                ordineTappaDB,null,completePath,livelloCondivisioneTappa).execute();
                     }
 
                 } catch (InterruptedException e) {
@@ -1255,7 +1265,7 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                         String completePath = codiceViaggio + "/" + Constants.TRAVEL_AUDIO_LOCATION + "/" + email + "_" + newAudioName;
 
                         new InserimentoAudioTappaTask(TappaActivity.this, email,codiceViaggio,
-                                ordineTappa,null,completePath,livelloCondivisioneTappa).execute();
+                                ordineTappaDB,null,completePath,livelloCondivisioneTappa).execute();
                     }
 
                 } catch (InterruptedException e) {

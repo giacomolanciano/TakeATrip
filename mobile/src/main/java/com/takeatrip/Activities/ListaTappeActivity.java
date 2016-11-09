@@ -330,7 +330,6 @@ public class ListaTappeActivity extends AppCompatActivity
     @Override
     public void processFinishForStops(Map<Profilo, List<Tappa>> profilo_tappe) {
 
-
         if(profilo_tappe != null){
             ViewCaricamentoInCorso.setVisibility(View.INVISIBLE);
             profiloTappe = profilo_tappe;
@@ -358,7 +357,8 @@ public class ListaTappeActivity extends AppCompatActivity
                 }
             }
             ordine = calcolaNumUltimaTappaUtenteCorrente()+1;
-        }{
+        }
+        else{
             buttonAddStop.setVisibility(View.INVISIBLE);
         }
         hideProgressDialog();
@@ -433,6 +433,7 @@ public class ListaTappeActivity extends AppCompatActivity
             i.putExtra("email", email);
             i.putExtra("codiceViaggio", codiceViaggio);
             i.putExtra("ordine", ordineTappa);
+            i.putExtra("ordineDB", tappa.getOrdine());
             i.putExtra("nome", item.getTitle());
             i.putExtra("data", DatesUtils.getStringFromDate(tappa.getData(), Constants.DISPLAYED_DATE_FORMAT));
             i.putExtra("codAccount", 0);
@@ -509,7 +510,7 @@ public class ListaTappeActivity extends AppCompatActivity
         int numeroTappa = Integer.parseInt(labelTappa)-1;
 
         Tappa tappaSelezionata = profiloTappe.get(profiloVisualizzazioneCorrente).get(numeroTappa);
-        int ordineTappa = tappaSelezionata.getOrdine();
+        int ordineTappa = Integer.parseInt(nomeTappa.split("\\. ")[0]);
 
         Intent i = new Intent(this, TappaActivity.class);
 
@@ -519,6 +520,7 @@ public class ListaTappeActivity extends AppCompatActivity
         i.putExtra("email", email);
         i.putExtra("codiceViaggio", codiceViaggio);
         i.putExtra("ordine", ordineTappa);
+        i.putExtra("ordineDB", tappaSelezionata.getOrdine());
         i.putExtra("nome", nomeTappa);
         i.putExtra("livelloCondivisioneTappa", tappaSelezionata.getLivelloCondivisione());
 

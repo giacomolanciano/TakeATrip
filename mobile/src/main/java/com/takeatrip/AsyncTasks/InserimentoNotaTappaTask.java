@@ -76,12 +76,13 @@ public class InserimentoNotaTappaTask extends AsyncTask<Void, Void, Void> {
 
                 for (String nota : noteInserite) {
 
+                    String nota_modificata = nota.replace("'","''").replace("€","euro");
+
                     String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
                     dataToSend.add(new BasicNameValuePair("timestamp", timestamp));
-                    dataToSend.add(new BasicNameValuePair("nota", nota));
+                    dataToSend.add(new BasicNameValuePair("nota", nota_modificata));
 
-                    Log.i(TAG, "timestamp: " + timestamp);
-                    Log.i(TAG, "nota: " + nota);
+
 
                     httpclient = new DefaultHttpClient();
                     httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_NOTA);

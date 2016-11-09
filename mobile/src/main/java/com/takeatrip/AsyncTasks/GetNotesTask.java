@@ -136,7 +136,7 @@ public class GetNotesTask extends AsyncTask<Void, Void, Boolean> {
             }
 
         } catch (Exception e) {
-            Log.e(TAG, "Errore nella connessione http "+e.toString());
+            Log.e(TAG, e.toString());
             return false;
         }
 
@@ -158,6 +158,8 @@ public class GetNotesTask extends AsyncTask<Void, Void, Boolean> {
         notes = listContents.toArray(notes);
         if(aVoid)
             delegate.processFinishForNotes(notes);
+        else
+            delegate.processFinishForNotes(null);
         return;
 
     }

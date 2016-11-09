@@ -365,11 +365,18 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
     public void processFinishForNotes(NotaTappa[] notes) {
         List<NotaTappa> noteTappa = new ArrayList<NotaTappa>();
 
-        for(NotaTappa nt : notes){
-            noteTappa.add(nt);
+
+        if(notes != null){
+            for(NotaTappa nt : notes){
+                noteTappa.add(nt);
+            }
+            listDataChild.put(listDataHeader.get(0), noteTappa);
+            if(noteTappa.size() == 0){
+                noteTappa.add(new NotaTappa(null,"There are no notes","",0,null,""));
+                listDataChild.put(listDataHeader.get(0), noteTappa);
+            }
         }
-        listDataChild.put(listDataHeader.get(0), noteTappa);
-        if(noteTappa.size() == 0){
+        else{
             noteTappa.add(new NotaTappa(null,"There are no notes","",0,null,""));
             listDataChild.put(listDataHeader.get(0), noteTappa);
         }
