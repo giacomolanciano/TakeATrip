@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.takeatrip.Activities.ViaggioActivityConFragment;
 import com.takeatrip.Adapters.GridViewAdapter;
 import com.takeatrip.Adapters.GridViewImageAdapter;
+import com.takeatrip.Adapters.ListViewVideoAdapter;
 import com.takeatrip.Classes.ContenutoMultimediale;
 import com.takeatrip.R;
 import com.takeatrip.Utilities.Constants;
@@ -43,8 +45,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
  * Created by Giacomo Lanciano on 20/04/2016.
@@ -73,7 +73,10 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
     private ArrayList<HashMap<String, List<Object>>> transferRecordMaps;
     private AmazonS3Client s3;
 
-    private JCVideoPlayerStandard videoPlayer;
+    private ListView listViewVideos;
+
+
+
 
 
     public GetUrlsContentsTask(Context context, String codiceViaggio, String emailProfilo,
@@ -117,24 +120,18 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
 
 
 
-    public GetUrlsContentsTask(ViaggioActivityConFragment context, String codiceViaggio, String emailProfilo, JCVideoPlayerStandard jcVideoPlayerStandard, String phpFile) {
+    public GetUrlsContentsTask(ViaggioActivityConFragment context, String codiceViaggio, String emailProfilo, ListView listViewVideos, String phpFile) {
         this.codiceViaggio = codiceViaggio;
         this.context = context;
         this.phpFile = phpFile;
         this.emailProfilo = emailProfilo;
-        this.videoPlayer = jcVideoPlayerStandard;
+        this.listViewVideos = listViewVideos;
         listContents = new ArrayList<ContenutoMultimediale>();
 
         transferUtility = UtilS3Amazon.getTransferUtility(context);
         transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
         s3 = UtilS3Amazon.getS3Client(context);
-
     }
-
-
-
-
-
 
 
 
@@ -211,17 +208,7 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
 
                             ordineTappa = json_data.getInt("ordineTappa");
 
-/*
-                            if (phpFile.equals(Constants.QUERY_STOP_IMAGES)
-                                    || phpFile.equals(Constants.QUERY_STOP_VIDEOS)
-                                    || phpFile.equals(Constants.QUERY_STOP_AUDIO)) {
-
-                            }
-                            */
-
-
                             listContents.add(new ContenutoMultimediale(emailProfilo,url, codiceViaggio, ordineTappa, livelloCondivisione));
-
                         }
                     }
 
@@ -246,8 +233,10 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
         if(aVoid){
 
             GridView gv = gridView;
-            if(gv != null)
+            if(gv != null) {
                 gv.setOnScrollListener(new ScrollListener(context));
+            }
+
 
             if (listContents.size() > 0) {
                 //se la lista di elementi da caricare è non vuota, il linear layout parent viene visualizzato
@@ -256,7 +245,6 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
                     LinearLayout parent = (LinearLayout) gv.getParent();
                     parent.setVisibility(View.VISIBLE);
                 }
-
 
                 URLs = new ArrayList<ContenutoMultimediale>();
                 int i = 0;
@@ -302,11 +290,8 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
                     || phpFile.equals(Constants.QUERY_STOP_VIDEOS)) {
 
 
-                videoPlayer.setUp(URLs.get(0).getUrlContenuto(), JCVideoPlayerStandard.SCREEN_LAYOUT_LIST, "title");
-                videoPlayer.thumbImageView.setImageResource(R.drawable.video_content);
-
-                //GridViewAdapter adapter = new GridViewAdapter(context, gv, URLs, Constants.VIDEO_FILE, codiceViaggio);
-                //gv.setAdapter(adapter);
+                ListViewVideoAdapter adapter = new ListViewVideoAdapter(context, R.layout.entry_list_videos, URLs, codiceViaggio, emailProfilo);
+                listViewVideos.setAdapter(adapter);
 
             } else {
                 gv.setAdapter(new GridViewAdapter(context, gv, URLs, Constants.AUDIO_FILE, codiceViaggio));

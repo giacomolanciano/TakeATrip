@@ -17,11 +17,14 @@
 
 
 
-    <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:id="@+id/custom_videoplayer_standard"
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/list_view_videos">
+
+
+    </ListView>
+
 
 
     <!--com.takeatrip.GraphicalComponents.AdaptableGridView

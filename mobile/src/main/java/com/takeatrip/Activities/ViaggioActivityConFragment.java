@@ -34,6 +34,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TabHost;
@@ -86,7 +87,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 import toan.android.floatingactionmenu.FloatingActionButton;
 import toan.android.floatingactionmenu.FloatingActionsMenu;
 
@@ -162,8 +162,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
     List<String> listDataHeader;
     HashMap<String, List<NotaTappa>> listDataChild;
 
-    private JCVideoPlayerStandard videoPlayerStandard;
-
+    private ListView listViewVideos;
 
 
     @Override
@@ -246,13 +245,8 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         gridViewVideos = (AdaptableGridView) findViewById(R.id.grid_view_videos);
         gridViewRecords = (AdaptableGridView) findViewById(R.id.grid_view_records);
 
-        videoPlayerStandard = (JCVideoPlayerStandard) findViewById(R.id.custom_videoplayer_standard);
-
-
-
-
+        listViewVideos = (ListView) findViewById(R.id.list_view_videos);
         listViewNotes = (AdaptableExpandableListView)findViewById(R.id.list_view_notes);
-
 
         //layoutCopertinaViaggio = (LinearLayout) findViewById(R.id.layoutCoverImageTravel);
 
@@ -271,7 +265,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
             GUCT.execute();
 
 
-            new GetUrlsContentsTask(ViaggioActivityConFragment.this, codiceViaggio, email, videoPlayerStandard, Constants.QUERY_TRAVEL_VIDEOS).execute();
+            new GetUrlsContentsTask(ViaggioActivityConFragment.this, codiceViaggio, email, listViewVideos, Constants.QUERY_TRAVEL_VIDEOS).execute();
 
             new GetUrlsContentsTask(ViaggioActivityConFragment.this, codiceViaggio, email, gridViewRecords, Constants.QUERY_TRAVEL_AUDIO).execute();
 
@@ -348,21 +342,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
 
         new UtentiTask().execute();
-    }
-
-
-
-    @Override
-    public void onBackPressed() {
-        if (videoPlayerStandard.backPress()) {
-            return;
-        }
-        super.onBackPressed();
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        videoPlayerStandard.releaseAllVideos();
     }
 
 
