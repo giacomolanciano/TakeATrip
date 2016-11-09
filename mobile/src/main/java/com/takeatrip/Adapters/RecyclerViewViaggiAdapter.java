@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.takeatrip.Activities.ViaggioActivityConFragment;
@@ -84,12 +85,19 @@ public class RecyclerViewViaggiAdapter extends RecyclerView
                 e.printStackTrace();
             }
 
-            immagineViaggio.setContentDescription(completeUrl.toString());
+            if(completeUrl != null){
+                immagineViaggio.setContentDescription(completeUrl.toString());
 
-            Picasso.with(context).
-                    load(completeUrl.toString()).
-                    resize(WIDTH_DIMENSION_IMAGE_TRAVEL, HEIGHT_DIMENSION_IMAGE_TRAVEL).
-                    into(immagineViaggio);
+                Picasso.with(context).
+                        load(completeUrl.toString()).
+                        resize(WIDTH_DIMENSION_IMAGE_TRAVEL, HEIGHT_DIMENSION_IMAGE_TRAVEL).
+                        into(immagineViaggio);
+            }
+            else{
+                Toast.makeText(context, R.string.error_connection, Toast.LENGTH_LONG).show();
+            }
+
+
         }
         else{
             immagineViaggio.setImageResource(R.drawable.empty_image);

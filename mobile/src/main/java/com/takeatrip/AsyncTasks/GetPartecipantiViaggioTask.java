@@ -174,10 +174,9 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
                 }
             }
             else
-                Log.e(TAG, "CONNESSIONE Internet Assente!");
+                Log.e(TAG, "no Internet connection");
         } catch (Exception e) {
-            e.printStackTrace();
-            Log.e(e.toString(),e.getMessage());
+            Log.e(TAG, "Errore nella connessione http "+e.toString());
         }
         return proprioViaggio;
     }
@@ -185,7 +184,6 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean aVoid) {
         super.onPostExecute(aVoid);
-
 
         if(urlImageTravel != null && !urlImageTravel.equals("null")){
             //new BitmapWorkerTask(null,layoutCopertinaViaggio).execute(urlImageTravel);

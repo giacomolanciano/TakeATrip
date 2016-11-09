@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
@@ -30,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class ExitTravelTask extends AsyncTask<Void, Void, Void> {
+public class ExitTravelTask extends AsyncTask<Void, Void, Boolean> {
 
     private static final String TAG = "TEST ExTravelTask";
 
@@ -74,7 +73,7 @@ public class ExitTravelTask extends AsyncTask<Void, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected Boolean doInBackground(Void... params) {
 
 
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
@@ -111,25 +110,27 @@ public class ExitTravelTask extends AsyncTask<Void, Void, Void> {
                         result = sb.toString();
                         Log.i(TAG, "result: " +result);
                     } catch (Exception e) {
-                        Toast.makeText(context, "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        Log.e(TAG, "Errore nella connessione http "+e.toString());
                     }
                 }
                 else {
-                    Toast.makeText(context, "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    Log.e(TAG, "Errore nella connessione http ");
                 }
 
-            } else
+            } else{
                 Log.e(TAG, "CONNESSIONE Internet Assente!");
+                return false;
+            }
         } catch (Exception e) {
             Log.e(TAG, "Errore nella connessione http "+e.toString());
+            return false;
         }
 
-
-        return null;
+        return true;
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
+    protected void onPostExecute(Boolean aVoid) {
         super.onPostExecute(aVoid);
     }
 }

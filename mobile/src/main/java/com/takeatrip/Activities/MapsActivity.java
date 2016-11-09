@@ -271,8 +271,10 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
             Log.e(TAG, e.getMessage());
         }
+        if(url != null)
+            return  url.toString();
 
-        return  url.toString();
+        return null;
 
     }
 

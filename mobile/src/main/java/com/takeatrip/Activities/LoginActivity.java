@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.cognito.CognitoSyncManager;
@@ -207,7 +208,6 @@ public class LoginActivity extends AppCompatActivity implements
     protected void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
-            Log.i(TAG, "result success!!!");
 
             TakeATrip TAT = ((TakeATrip) getApplicationContext());
             TAT.setmGoogleApiClient(mGoogleApiClient);
@@ -249,7 +249,7 @@ public class LoginActivity extends AppCompatActivity implements
             //new MyTask().execute();
 
         } else {
-            // Signed out, show unauthenticated UI.
+            Toast.makeText(getApplicationContext(), R.string.error_connection, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -344,8 +344,8 @@ public class LoginActivity extends AppCompatActivity implements
                     output.getDescrizione(), output.getTipo());
         }
         else{
+            Toast.makeText(getApplicationContext(), R.string.error_connection, Toast.LENGTH_LONG).show();
             openMainActivity(email, nome, cognome, null,"", null, null, null,null, null, null);
-
         }
 
 

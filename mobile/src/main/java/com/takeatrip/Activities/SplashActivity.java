@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.cognito.CognitoSyncManager;
@@ -28,6 +29,7 @@ import com.takeatrip.Interfaces.AsyncResponseLogin;
 import com.takeatrip.R;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.DeviceStorageUtils;
+import com.takeatrip.Utilities.InternetConnection;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,106 +63,112 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
         int timeout = 2000;
         super.onCreate(savedInstanceState);
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        setContentView(R.layout.activity_splash);
+        if(InternetConnection.haveInternetConnection(getApplicationContext())){
+            FacebookSdk.sdkInitialize(getApplicationContext());
+            setContentView(R.layout.activity_splash);
 
 
-        //TODO: cambiare in fase di release il WEBAPP_ID
-        GoogleSignInOptions.Builder builder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN);
-        builder.requestIdToken(Constants.WEBAPP_ID);
+            //TODO: cambiare in fase di release il WEBAPP_ID
+            GoogleSignInOptions.Builder builder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN);
+            builder.requestIdToken(Constants.WEBAPP_ID);
 
-        GoogleSignInOptions gso = builder.build();
+            GoogleSignInOptions gso = builder.build();
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .enableAutoManage(this, this)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                    .build();
 
-        logins = new HashMap<String, String>();
+            logins = new HashMap<String, String>();
 
-        // Initialize the Amazon Cognito credentials provider
-        credentialsProvider = new CognitoCachingCredentialsProvider(
-                getApplicationContext(),
-                Constants.AMAZON_POOL_ID, // Identity Pool ID
-                Regions.EU_WEST_1 // Region
-        );
-        // Initialize the Cognito Sync client
-        syncClient = new CognitoSyncManager(
-                getApplicationContext(),
-                Regions.EU_WEST_1, // Region
-                credentialsProvider);
-        DeviceStorageUtils.createExternalStorageDirectories();
+            // Initialize the Amazon Cognito credentials provider
+            credentialsProvider = new CognitoCachingCredentialsProvider(
+                    getApplicationContext(),
+                    Constants.AMAZON_POOL_ID, // Identity Pool ID
+                    Regions.EU_WEST_1 // Region
+            );
+            // Initialize the Cognito Sync client
+            syncClient = new CognitoSyncManager(
+                    getApplicationContext(),
+                    Regions.EU_WEST_1, // Region
+                    credentialsProvider);
+            DeviceStorageUtils.createExternalStorageDirectories();
 
 
-        // If the Facebook access token is available already assign it.
-        fbAccessToken = AccessToken.getCurrentAccessToken();
-        if(fbAccessToken != null){
-            Log.i(TAG, "fbAccessToken:" + "user id: " + fbAccessToken.getUserId() + "  token: " + fbAccessToken.getToken());
+            // If the Facebook access token is available already assign it.
+            fbAccessToken = AccessToken.getCurrentAccessToken();
+            if(fbAccessToken != null){
+                Log.i(TAG, "fbAccessToken:" + "user id: " + fbAccessToken.getUserId() + "  token: " + fbAccessToken.getToken());
 
-            profile = Profile.getCurrentProfile();
-
-            if(Profile.getCurrentProfile() == null) {
-                profileTracker = new ProfileTracker() {
-                    @Override
-                    protected void onCurrentProfileChanged(Profile oldProfile, Profile profile2) {
-                        profile = profile2;
-                        // profile2 is the new profile
-                        Log.i(TAG, "facebook - profile: " + profile.getName());
-                        profileTracker.stopTracking();
-                    }
-                };
-                profileTracker.startTracking();
-            }
-            else {
                 profile = Profile.getCurrentProfile();
-                Log.v(TAG, "facebook - profile: " + profile.getFirstName());
 
-                email = Constants.PREFIX_FACEBOOK  +profile.getId();
-                password = "";
-                nome = profile.getFirstName();
-                cognome = profile.getLastName();
-                data = "0000-00-00";
+                if(Profile.getCurrentProfile() == null) {
+                    profileTracker = new ProfileTracker() {
+                        @Override
+                        protected void onCurrentProfileChanged(Profile oldProfile, Profile profile2) {
+                            profile = profile2;
+                            // profile2 is the new profile
+                            Log.i(TAG, "facebook - profile: " + profile.getName());
+                            profileTracker.stopTracking();
+                        }
+                    };
+                    profileTracker.startTracking();
+                }
+                else {
+                    profile = Profile.getCurrentProfile();
+                    Log.v(TAG, "facebook - profile: " + profile.getFirstName());
 
-                logins.put(TAG, "graph.facebook.com: " + fbAccessToken.getToken());
+                    email = Constants.PREFIX_FACEBOOK  +profile.getId();
+                    password = "";
+                    nome = profile.getFirstName();
+                    cognome = profile.getLastName();
+                    data = "0000-00-00";
 
-                Log.i(TAG, "token FB: " + fbAccessToken.getToken());
-                Log.i(TAG, "logins: " + logins);
+                    logins.put(TAG, "graph.facebook.com: " + fbAccessToken.getToken());
 
-                credentialsProvider.setLogins(logins);
+                    Log.i(TAG, "token FB: " + fbAccessToken.getToken());
+                    Log.i(TAG, "logins: " + logins);
 
-                TakeATrip TAT = ((TakeATrip) getApplicationContext());
-                TAT.setCredentialsProvider(credentialsProvider);
+                    credentialsProvider.setLogins(logins);
 
-                LoginTask task = new LoginTask(this,email,password);
-                task.delegate = this;
-                task.execute();
-                return;
+                    TakeATrip TAT = ((TakeATrip) getApplicationContext());
+                    TAT.setCredentialsProvider(credentialsProvider);
+
+                    LoginTask task = new LoginTask(this,email,password);
+                    task.delegate = this;
+                    task.execute();
+                    return;
+                }
             }
-        }
 
 
 
-        // If the Google access token is available already assign it.
-        // Gather all the informations about the user through the LoginTask with the delegate. Then, Open the Main Activity
-        else if(mGoogleApiClient != null){
-            Log.i(TAG, "mGoogleApiClient diverso da null");
+            // If the Google access token is available already assign it.
+            // Gather all the informations about the user through the LoginTask with the delegate. Then, Open the Main Activity
+            else if(mGoogleApiClient != null){
+                Log.i(TAG, "mGoogleApiClient diverso da null");
 
-            mGoogleApiClient.connect();
-            OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-            if (opr.isDone()) {
-                // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-                // and the GoogleSignInResult will be available instantly.
-                Log.i(TAG, "Google Sign In isDone");
-                GoogleSignInResult result = opr.get();
-                handleSignInResult(result);
+                mGoogleApiClient.connect();
+                OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+                if (opr.isDone()) {
+                    // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+                    // and the GoogleSignInResult will be available instantly.
+                    Log.i(TAG, "Google Sign In isDone");
+                    GoogleSignInResult result = opr.get();
+                    handleSignInResult(result);
+                }
+                else{
+                    openLoginActivity(timeout);
+                }
             }
+
+            //Otherwise we need the login of the user
             else{
                 openLoginActivity(timeout);
             }
         }
-
-        //Otherwise we need the login of the user
         else{
+            Toast.makeText(getApplicationContext(), R.string.no_internet_connection, Toast.LENGTH_LONG).show();
             openLoginActivity(timeout);
         }
     }
@@ -213,7 +221,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
             //new MyTask().execute();
 
         } else {
-            // Signed out, show unauthenticated UI.
+            Toast.makeText(getApplicationContext(), R.string.error_connection, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -242,6 +250,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
 
         }
         else{
+            Toast.makeText(getApplicationContext(), R.string.error_connection, Toast.LENGTH_LONG).show();
             openMainActivity(email, nome, cognome,null,null,null,null,null,null,null,null);
         }
 

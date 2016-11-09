@@ -8,12 +8,14 @@ import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.takeatrip.Activities.NuovoViaggioActivity;
 import com.takeatrip.Classes.Viaggio;
 import com.takeatrip.Interfaces.AsyncResponseTravels;
 import com.takeatrip.R;
 import com.takeatrip.Utilities.Constants;
+import com.takeatrip.Utilities.InternetConnection;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -36,7 +38,7 @@ import java.util.List;
  * Created by lucagiacomelli on 02/11/16.
  */
 
-public class GetViaggiTask extends AsyncTask<Void, Void, Void> {
+public class GetViaggiTask extends AsyncTask<Void, Void, Boolean> {
     private static final String ADDRESS_PRELIEVO = "QueryViaggi.php";
     private static final String TAG = "GetViaggiTask";
 
@@ -63,79 +65,91 @@ public class GetViaggiTask extends AsyncTask<Void, Void, Void> {
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Boolean doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("email", email));
-            try {
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_PRELIEVO);
-                httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                HttpResponse response = httpclient.execute(httppost);
-
-                HttpEntity entity = response.getEntity();
-                is = entity.getContent();
-
-                if (is != null) {
-                    //converto la risposta in stringa
-                    try {
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                        StringBuilder sb = new StringBuilder();
-                        String line = null;
-                        while ((line = reader.readLine()) != null) {
-                            sb.append(line + "\n");
-                        }
-                        is.close();
-
-                        String result = sb.toString();
-
-                        Log.i(TAG, "result da queryViaggi: " + result);
 
 
-                        if (result.equals("null\n")) {
-                            stringaFinale = context.getString(R.string.NoTravels);
+            if (InternetConnection.haveInternetConnection(context)) {
+                try {
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS_PRELIEVO);
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                    HttpResponse response = httpclient.execute(httppost);
 
-                        } else {
-                            JSONArray jArray = new JSONArray(result);
+                    HttpEntity entity = response.getEntity();
+                    is = entity.getContent();
 
-                            if (jArray != null && result != null) {
-                                for (int i = 0; i < jArray.length(); i++) {
-                                    JSONObject json_data = jArray.getJSONObject(i);
-                                    String codiceViaggio = json_data.getString("codiceViaggio");
-                                    String nomeViaggio = json_data.getString("nomeViaggio");
-                                    String urlImmagineViaggio = json_data.getString("idFotoViaggio");
-                                    String condivisioneDefault = json_data.getString("livelloCondivisione");
+                    if (is != null) {
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
+                            }
+                            is.close();
 
-                                    viaggi.add(new Viaggio(codiceViaggio, nomeViaggio, urlImmagineViaggio, condivisioneDefault));
+                            String result = sb.toString();
+
+                            Log.i(TAG, "result da queryViaggi: " + result);
+
+
+                            if (result.equals("null\n")) {
+                                stringaFinale = context.getString(R.string.NoTravels);
+
+                            } else {
+                                JSONArray jArray = new JSONArray(result);
+
+                                if (jArray != null && result != null) {
+                                    for (int i = 0; i < jArray.length(); i++) {
+                                        JSONObject json_data = jArray.getJSONObject(i);
+                                        String codiceViaggio = json_data.getString("codiceViaggio");
+                                        String nomeViaggio = json_data.getString("nomeViaggio");
+                                        String urlImmagineViaggio = json_data.getString("idFotoViaggio");
+                                        String condivisioneDefault = json_data.getString("livelloCondivisione");
+
+                                        viaggi.add(new Viaggio(codiceViaggio, nomeViaggio, urlImmagineViaggio, condivisioneDefault));
+                                    }
                                 }
                             }
+
+
+                        } catch (Exception e) {
+                            Log.e(TAG, "Errore nel risultato o nel convertire il risultato");
                         }
-
-
-                    } catch (Exception e) {
-                        Log.e(TAG, "Errore nel risultato o nel convertire il risultato");
+                    } else {
+                        Log.e(TAG, "Input Stream uguale a null");
                     }
-                } else {
-                    Log.e(TAG, "Input Stream uguale a null");
+
+                } catch (Exception e) {
+                    Log.e(TAG, "Errore nella connessione http " + e.toString());
+                    return false;
                 }
-
-            } catch (Exception e) {
-                Log.e(TAG, "Errore nella connessione http " + e.toString());
             }
-
-            return null;
+            else{
+                return false;
+            }
+            return true;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            hideProgressDialog();
-
-            if (stringaFinale.equals("")) {
-                delegate.processFinishForTravels(viaggi);
-            } else {
-                adviseNewTravel();
-            }
+        protected void onPostExecute(Boolean aVoid) {
             super.onPostExecute(aVoid);
 
+            hideProgressDialog();
+
+            if(aVoid){
+                if (stringaFinale.equals("")) {
+                    delegate.processFinishForTravels(viaggi);
+                } else {
+                    adviseNewTravel();
+                }
+            }
+            else{
+                Toast.makeText(context, R.string.error_connection,Toast.LENGTH_LONG).show();
+            }
         }
 
     //allert di avviso per uscita senza salvataggio

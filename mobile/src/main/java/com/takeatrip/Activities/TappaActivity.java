@@ -39,6 +39,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.takeatrip.Adapters.ExpandableListAdapter;
 import com.takeatrip.AsyncTasks.AggiornamentoDataTappaTask;
@@ -192,7 +193,17 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                         Log.i(TAG, "elemento selezionato: " + adapter.getItem(position));
                         livelloCondivisioneTappa = adapter.getItem(position);
 
-                        new UpdateCondivisioneTappaTask(TappaActivity.this, codiceViaggio, ordineTappa, livelloCondivisioneTappa).execute();
+                        try {
+                            boolean result = new UpdateCondivisioneTappaTask(TappaActivity.this, codiceViaggio, ordineTappa, livelloCondivisioneTappa).execute().get();
+
+                            if(!result){
+                                Toast.makeText(getApplicationContext(), R.string.error_connection, Toast.LENGTH_LONG).show();
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
 
                     }
 
@@ -1122,9 +1133,21 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                         getContentsToDelete(gridViewVideos);
                         getContentsToDelete(gridViewRecords);
 
-                        new DeleteStopTask(TappaActivity.this, codiceViaggio, ordineTappa,
-                                contentsToDelete).execute();
-                        finish();
+                        boolean result = false;
+                        try {
+                            result = new DeleteStopTask(TappaActivity.this, codiceViaggio, ordineTappa,
+                                    contentsToDelete).execute().get();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
+
+                        if(result)
+                            finish();
+                        else
+                            Toast.makeText(getApplicationContext(), "Error in delete",Toast.LENGTH_LONG).show();
+
                     }
                 })
                 .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -1186,21 +1209,22 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                 String nameVideo = bitmap_nomeFile.get(bitmap);
                 String pathVideo = pathsImmaginiSelezionate.get(bitmap);
 
-                Log.i(TAG, "email: " + email);
-                Log.i(TAG, "codiceViaggio: " + codiceViaggio);
-                Log.i(TAG, "name of the video: " + nameVideo);
-                Log.i(TAG, "livello Condivisione: " + livelloCondivisioneTappa);
+                try {
+                    boolean result = new UploadFileS3Task(TappaActivity.this, Constants.BUCKET_TRAVELS_NAME,
+                            codiceViaggio, Constants.TRAVEL_VIDEOS_LOCATION, email, pathVideo, nameVideo).execute().get();
 
+                    if(result){
+                        String completePath = codiceViaggio + "/" + Constants.TRAVEL_VIDEOS_LOCATION + "/" + email + "_" + nameVideo;
 
+                        new InserimentoVideoTappaTask(TappaActivity.this, email,codiceViaggio,
+                                ordineTappa,null,completePath,livelloCondivisioneTappa).execute();
+                    }
 
-                new UploadFileS3Task(TappaActivity.this, Constants.BUCKET_TRAVELS_NAME,
-                        codiceViaggio, Constants.TRAVEL_VIDEOS_LOCATION, email, pathVideo, nameVideo).execute();
-
-
-                String completePath = codiceViaggio + "/" + Constants.TRAVEL_VIDEOS_LOCATION + "/" + email + "_" + nameVideo;
-
-                new InserimentoVideoTappaTask(TappaActivity.this, email,codiceViaggio,
-                        ordineTappa,null,completePath,livelloCondivisioneTappa).execute();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
 
             }
 
@@ -1224,13 +1248,23 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                 timeStamp = new SimpleDateFormat(Constants.FILE_NAME_TIMESTAMP_FORMAT).format(new Date());
                 newAudioName = timeStamp + Constants.AUDIO_EXT;
 
-                new UploadFileS3Task(TappaActivity.this, Constants.BUCKET_TRAVELS_NAME,
-                        codiceViaggio, Constants.TRAVEL_AUDIO_LOCATION, email, pathAudio, newAudioName).execute();
+                try {
+                    boolean result = new UploadFileS3Task(TappaActivity.this, Constants.BUCKET_TRAVELS_NAME,
+                            codiceViaggio, Constants.TRAVEL_AUDIO_LOCATION, email, pathAudio, newAudioName).execute().get();
+                    if(result){
+                        String completePath = codiceViaggio + "/" + Constants.TRAVEL_AUDIO_LOCATION + "/" + email + "_" + newAudioName;
 
-                String completePath = codiceViaggio + "/" + Constants.TRAVEL_AUDIO_LOCATION + "/" + email + "_" + newAudioName;
+                        new InserimentoAudioTappaTask(TappaActivity.this, email,codiceViaggio,
+                                ordineTappa,null,completePath,livelloCondivisioneTappa).execute();
+                    }
 
-                new InserimentoAudioTappaTask(TappaActivity.this, email,codiceViaggio,
-                        ordineTappa,null,completePath,livelloCondivisioneTappa).execute();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+
+
             }
 
         }

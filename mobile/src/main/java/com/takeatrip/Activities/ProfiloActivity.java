@@ -40,15 +40,12 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.facebook.Profile;
-import com.google.android.gms.drive.DriveId;
 import com.squareup.picasso.Picasso;
 import com.takeatrip.AsyncTasks.BitmapWorkerTask;
 import com.takeatrip.AsyncTasks.InserimentoImmagineCopertinaTask;
 import com.takeatrip.AsyncTasks.InserimentoImmagineProfiloTask;
 import com.takeatrip.Classes.Profilo;
 import com.takeatrip.Classes.TakeATrip;
-import com.takeatrip.Interfaces.AsyncResponseDriveId;
-import com.takeatrip.Interfaces.AsyncResponseDriveIdCover;
 import com.takeatrip.R;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.InternetConnection;
@@ -81,10 +78,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 
 @SuppressWarnings("deprecation")
-public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId, AsyncResponseDriveIdCover{
+public class ProfiloActivity extends TabActivity {
     private static final String TAG = "TEST ProfiloActivity";
 
     private final int REQUEST_UPLOAD_PROFILE_IMAGE = 123;
@@ -275,8 +273,11 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         }
 
         //per aggiornamento numero follow...
-        new MyTaskQueryNumFollowers().execute();
-        new MyTaskQueryNumFollowings().execute();
+        if(InternetConnection.haveInternetConnection(getApplicationContext())){
+            new MyTaskQueryNumFollowers().execute();
+            new MyTaskQueryNumFollowings().execute();
+        }
+
 
         TabHost = (TabHost) findViewById(android.R.id.tabhost);
 
@@ -381,20 +382,49 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
         int val;
         if (alreadyFollowing){
             MyTaskDeleteFollowing mTD = new MyTaskDeleteFollowing();
-            mTD.execute();
-            follow.setText("FOLLOW");
-            alreadyFollowing=false;
-            val = Integer.parseInt(numFollowersView.getText().toString());
-            numFollowersView.setText("" + (val - 1));
-            follow.setBackground(getDrawable(R.drawable.button_style));
+            try {
+                boolean result = mTD.execute().get();
+
+                if(result){
+                    follow.setText("FOLLOW");
+                    alreadyFollowing=false;
+                    val = Integer.parseInt(numFollowersView.getText().toString());
+                    numFollowersView.setText("" + (val - 1));
+                    follow.setBackground(getDrawable(R.drawable.button_style));
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), R.string.error_connection,Toast.LENGTH_LONG).show();
+                }
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
         }else {
             MyTaskInsertFollowing mTF = new MyTaskInsertFollowing();
-            mTF.execute();
-            follow.setText("FOLLOWING");
-            alreadyFollowing=true;
-            val = Integer.parseInt(numFollowersView.getText().toString());
-            numFollowersView.setText("" + (val + 1));
-            follow.setBackground(getDrawable(R.drawable.button_follow_cliccato));
+            try {
+                boolean result = mTF.execute().get();
+
+                if(result){
+                    follow.setText("FOLLOWING");
+                    alreadyFollowing=true;
+                    val = Integer.parseInt(numFollowersView.getText().toString());
+                    numFollowersView.setText("" + (val + 1));
+                    follow.setBackground(getDrawable(R.drawable.button_follow_cliccato));
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), R.string.error_connection,Toast.LENGTH_LONG).show();
+                }
+
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
         }
 
     }
@@ -786,17 +816,19 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
 
     private void beginDownloadProfilePicture(String key) {
-        java.util.Date expiration = new java.util.Date();
-        long msec = expiration.getTime();
-        msec += 1000 * 60 * 60; // 1 hour.
-        expiration.setTime(msec);
 
-        GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                new GeneratePresignedUrlRequest(Constants.BUCKET_NAME,key);
-        generatePresignedUrlRequest.setMethod(HttpMethod.GET);
-        generatePresignedUrlRequest.setExpiration(expiration);
+        if(InternetConnection.haveInternetConnection(getApplicationContext())) {
+            java.util.Date expiration = new java.util.Date();
+            long msec = expiration.getTime();
+            msec += 1000 * 60 * 60; // 1 hour.
+            expiration.setTime(msec);
 
-        URL url = s3.generatePresignedUrl(generatePresignedUrlRequest);
+            GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                    new GeneratePresignedUrlRequest(Constants.BUCKET_NAME,key);
+            generatePresignedUrlRequest.setMethod(HttpMethod.GET);
+            generatePresignedUrlRequest.setExpiration(expiration);
+
+            URL url = s3.generatePresignedUrl(generatePresignedUrlRequest);
 
         /*
         Picasso.with(this).
@@ -804,22 +836,27 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                 resize(DIMENSION_PROFILE_IMAGE,DIMENSION_PROFILE_IMAGE).
                 into(imageProfile);
                 */
+            Picasso.with(this)
+                    .load(url.toString())
+                    .resize(DIMENSION_PROFILE_IMAGE,DIMENSION_PROFILE_IMAGE)
+                    .into(imageProfile, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {
+                            hideProgressDialog();
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+                    });
+        }
+        else {
+            hideProgressDialog();
+            Toast.makeText(getApplicationContext(), R.string.no_internet_connection,Toast.LENGTH_LONG).show();
+        }
 
 
-        Picasso.with(this)
-                .load(url.toString())
-                .resize(DIMENSION_PROFILE_IMAGE,DIMENSION_PROFILE_IMAGE)
-                .into(imageProfile, new com.squareup.picasso.Callback() {
-                    @Override
-                    public void onSuccess() {
-                        hideProgressDialog();
-                    }
-
-                    @Override
-                    public void onError() {
-
-                    }
-                });
 
     }
 
@@ -843,77 +880,58 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
             Log.e(TAG, "thrown exception "+ e);
         }
 
-        //observer.setTransferListener(new DownloadListener());
-
     }
 
 
 
     private void beginUploadProfilePicture(String filePath) {
-        if (filePath == null) {
-            Toast.makeText(this, "Could not find the filepath of the selected file",
-                    Toast.LENGTH_LONG).show();
-            return;
+        if(InternetConnection.haveInternetConnection(getApplicationContext())) {
+            if (filePath == null) {
+                Toast.makeText(this, "Could not find the filepath of the selected file",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            File file = new File(filePath);
+
+            ObjectMetadata myObjectMetadata = new ObjectMetadata();
+            TransferObserver observer = transferUtility.upload(Constants.BUCKET_NAME, email + "/"+ Constants.PROFILE_PICTURES_LOCATION +"/"+file.getName(), file);
+            new InserimentoImmagineProfiloTask(this,email,null,email + "/"+ Constants.PROFILE_PICTURES_LOCATION +"/"+file.getName()).execute();
         }
-        File file = new File(filePath);
+        else {
+            Toast.makeText(getApplicationContext(), R.string.no_internet_connection,Toast.LENGTH_LONG).show();
+        }
 
-        ObjectMetadata myObjectMetadata = new ObjectMetadata();
-        TransferObserver observer = transferUtility.upload(Constants.BUCKET_NAME, email + "/"+ Constants.PROFILE_PICTURES_LOCATION +"/"+file.getName(), file);
-        new InserimentoImmagineProfiloTask(this,email,null,email + "/"+ Constants.PROFILE_PICTURES_LOCATION +"/"+file.getName()).execute();
-
-        // observer.setTransferListener(new UploadListener());
     }
 
 
 
     private void beginUploadCoverPicture(String filePath) {
-        if (filePath == null) {
-            Toast.makeText(this, "Could not find the filepath of the selected file",
-                    Toast.LENGTH_LONG).show();
-            return;
+        if(InternetConnection.haveInternetConnection(getApplicationContext())) {
+            if (filePath == null) {
+                Toast.makeText(this, "Could not find the filepath of the selected file",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            File file = new File(filePath);
+
+            TransferObserver observer = transferUtility.upload(Constants.BUCKET_NAME, email +"/"+ Constants.COVER_IMAGES_LOCATION +"/"+file.getName(), file);
+            new InserimentoImmagineCopertinaTask(this,email,null,email +"/"+ Constants.COVER_IMAGES_LOCATION +"/"+file.getName()).execute();
+
         }
-        File file = new File(filePath);
-
-        ObjectMetadata myObjectMetadata = new ObjectMetadata();
-        TransferObserver observer = transferUtility.upload(Constants.BUCKET_NAME, email +"/"+ Constants.COVER_IMAGES_LOCATION +"/"+file.getName(), file);
-        new InserimentoImmagineCopertinaTask(this,email,null,email +"/"+ Constants.COVER_IMAGES_LOCATION +"/"+file.getName()).execute();
-
-        /*
-         * Note that usually we set the transfer listener after initializing the
-         * transfer. However it isn't required in this sample app. The flow is
-         * click upload button -> start an activity for image selection
-         * startActivityForResult -> onActivityResult -> beginUploadProfilePicture -> onResume
-         * -> set listeners to in progress transfers.
-         */
-        // observer.setTransferListener(new UploadListener());
-    }
-
-
-
-    //Return the id of the uploaded profile image
-    @Override
-    public void processFinish(DriveId output) {
-        Log.i(TAG, "uploaded profile image with id: " + output);
-
-        new InserimentoImmagineProfiloTask(this,email,output).execute();
+        else{
+            Toast.makeText(getApplicationContext(), R.string.no_internet_connection,Toast.LENGTH_LONG).show();
+        }
 
     }
 
 
-    //Return the id of the uploaded cover image
-    @Override
-    public void processFinish2(DriveId output) {
-        Log.i(TAG, "uploaded cover image with id: " + output);
-        new InserimentoImmagineCopertinaTask(this,email,output).execute();
-    }
 
-
-    private class MyTaskVerificaFollowing extends AsyncTask<Void, Void, Void> {
+    private class MyTaskVerificaFollowing extends AsyncTask<Void, Void, Boolean> {
         InputStream is = null;
         String stringaFinale = "";
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Boolean doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("emailSeguito", emailEsterno));
             dataToSend.add(new BasicNameValuePair("emailSeguace", email));
@@ -955,33 +973,31 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
 
             } catch (Exception e) {
                 Log.e(TAG, "Errore nella connessione http " + e.toString());
+                return false;
             }
 
-            return null;
+            return true;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-
-              setButtonToFollowing();
-
+        protected void onPostExecute(Boolean aVoid) {
             super.onPostExecute(aVoid);
+            if(aVoid)
+                setButtonToFollowing();
         }
     }
 
 
-    private class MyTaskInsertFollowing extends AsyncTask<Void, Void, Void> {
+    private class MyTaskInsertFollowing extends AsyncTask<Void, Void, Boolean> {
         InputStream is = null;
         String result, stringaFinale = "";
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Boolean doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("email", email));
             dataToSend.add(new BasicNameValuePair("emailEsterno", emailEsterno));
 
-
-            Log.i(TAG, "dati follow: " + email + " " + emailEsterno);
             try {
                 if (InternetConnection.haveInternetConnection(ProfiloActivity.this)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
@@ -1010,33 +1026,34 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                             Log.i(TAG, "result " + result);
 
                         } catch (Exception e) {
-                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                            Log.e(TAG,"CONNESSIONE Internet Assente!"+ e.toString());
                         }
                     } else {
-                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                        Log.e(TAG,"CONNESSIONE Internet Assente!");
                     }
-                } else
+                } else{
                     Log.e("CONNESSIONE Internet", "Assente!");
+                    return false;
+                }
+
             } catch (Exception e) {
-                e.printStackTrace();
                 Log.e(e.toString(), e.getMessage());
+                return false;
             }
-            return null;
+            return true;
         }
     }
 
- private class MyTaskDeleteFollowing extends AsyncTask<Void, Void, Void> {
+ private class MyTaskDeleteFollowing extends AsyncTask<Void, Void, Boolean> {
         InputStream is = null;
         String result, stringaFinale = "";
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Boolean doInBackground(Void... params) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("email", email));
             dataToSend.add(new BasicNameValuePair("emailEsterno", emailEsterno));
 
-
-            Log.i(TAG, "dati follow: " + email + " " + emailEsterno);
             try {
                 if (InternetConnection.haveInternetConnection(ProfiloActivity.this)) {
                     Log.i("CONNESSIONE Internet", "Presente!");
@@ -1065,20 +1082,24 @@ public class ProfiloActivity extends TabActivity implements AsyncResponseDriveId
                             Log.i(TAG, "result " + result);
 
                         } catch (Exception e) {
-                            Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                            Log.e(TAG,"CONNESSIONE Internet Assente!"+ e.toString());
                         }
                     } else {
-                        Toast.makeText(getBaseContext(), "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                        Log.e(TAG,"CONNESSIONE Internet Assente!");
                     }
-                } else
+                } else{
                     Log.e("CONNESSIONE Internet", "Assente!");
+                    return false;
+                }
             } catch (Exception e) {
-                e.printStackTrace();
                 Log.e(e.toString(), e.getMessage());
+                return false;
             }
-            return null;
+            return true;
         }
     }
+
+
     private class MyTaskQueryNumFollowers extends AsyncTask<Void, Void, Void> {
         InputStream is = null;
         String result = "";

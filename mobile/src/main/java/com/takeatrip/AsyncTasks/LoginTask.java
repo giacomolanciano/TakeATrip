@@ -129,7 +129,9 @@ public class LoginTask extends AsyncTask<Void, Void, Profilo> {
 
     @Override
     protected void onPostExecute(Profilo profilo) {
-        delegate.processFinish(profilo);
+        if(profilo != null){
+            delegate.processFinish(profilo);
+        }
         super.onPostExecute(profilo);
 
     }

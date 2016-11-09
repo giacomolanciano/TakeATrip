@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
@@ -91,11 +90,6 @@ public class DeleteStopContentTask extends AsyncTask<Void, Void, Boolean> {
             dataToSend.add(new BasicNameValuePair("url", id));
         }
 
-
-        Log.i(TAG, "query: " + query);
-        Log.i(TAG, "codiceViaggio: " + codiceViaggio);
-        Log.i(TAG, "id: " + id);
-
         try {
             if (InternetConnection.haveInternetConnection(context)) {
                 HttpClient httpclient = new DefaultHttpClient();
@@ -123,14 +117,14 @@ public class DeleteStopContentTask extends AsyncTask<Void, Void, Boolean> {
                         s3.deleteObject(Constants.BUCKET_TRAVELS_NAME, id);
 
                     } catch (Exception e) {
-                        Toast.makeText(context, "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        Log.e(TAG, "Errore nella connessione http "+e.toString());
                     }
                 }
                 else {
-                    Toast.makeText(context, "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    Log.e(TAG, "Errore nella connessione http ");
                 }
             } else{
-                Log.e(TAG, "CONNESSIONE Internet Assente!");
+                Log.e(TAG,"no internet connection");
                 return false;
             }
 

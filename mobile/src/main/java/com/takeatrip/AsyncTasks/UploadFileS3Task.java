@@ -78,31 +78,21 @@ public class UploadFileS3Task extends AsyncTask<Void, Void, Boolean> {
             if (InternetConnection.haveInternetConnection(context)) {
                 Log.i(TAG, "CONNESSIONE Internet Presente!");
 
-
                 if (filePath == null) {
                     Toast.makeText(context, "Could not find the filepath of the selected file", Toast.LENGTH_LONG).show();
                     return false;
                 }
 
-                Log.i(TAG, "filePath: " + filePath);
-
                 File file = new File(filePath);
-
-                //ObjectMetadata myObjectMetadata = new ObjectMetadata();
 
                 String key = idViaggio +"/" + tipoFile + "/" + idUtente + "_" + newFileName;
 
                 TransferObserver observer = transferUtility.upload(bucketName, key, file);
 
-                Log.i(TAG, "final url: " + key);
-
-
             } else{
                 Log.e(TAG,"CONNESSIONE Internet Assente!");
                 return false;
             }
-
-
         } catch (Exception e) {
             Log.e(TAG, "Errore nella connessione http "+e.toString());
             return false;

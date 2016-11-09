@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
@@ -33,7 +32,7 @@ import java.util.List;
 /**
  * Created by Giacomo Lanciano on 17/08/2016.
  */
-public class DeleteTravelTask extends AsyncTask<Void, Void, Void> {
+public class DeleteTravelTask extends AsyncTask<Void, Void, Boolean> {
 
     private static final String TAG = "TEST DelTravelTask";
 
@@ -75,7 +74,7 @@ public class DeleteTravelTask extends AsyncTask<Void, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected Boolean doInBackground(Void... params) {
 
 
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
@@ -116,30 +115,28 @@ public class DeleteTravelTask extends AsyncTask<Void, Void, Void> {
                         s3.deleteObject(Constants.BUCKET_TRAVELS_NAME, codiceViaggio+"/");
 
                     } catch (Exception e) {
-                        Toast.makeText(context, "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        Log.e(TAG,e.toString());
                     }
                 }
                 else {
-                    Toast.makeText(context, "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    Log.e(TAG, "Errore nella connessione http ");
                 }
 
-
-
-
-            } else
-                Log.e(TAG, "CONNESSIONE Internet Assente!");
+            } else{
+                Log.e(TAG, "no internet connection");
+                return false;
+            }
         } catch (Exception e) {
             Log.e(TAG, "Errore nella connessione http "+e.toString());
+            return false;
         }
 
 
-        return null;
+        return true;
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
-
+    protected void onPostExecute(Boolean aVoid) {
         super.onPostExecute(aVoid);
-
     }
 }

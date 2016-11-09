@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  * Created by Giacomo Lanciano on 25/04/2016.
  */
-public class InserimentoAudioTappaTask extends AsyncTask<Void, Void, Void> {
+public class InserimentoAudioTappaTask extends AsyncTask<Void, Void, Boolean> {
 
     private static final String TAG = "TEST InsAudioTappaTask";
 
@@ -53,7 +53,7 @@ public class InserimentoAudioTappaTask extends AsyncTask<Void, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected Boolean doInBackground(Void... params) {
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
         dataToSend.add(new BasicNameValuePair("email", email));
         dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
@@ -96,18 +96,21 @@ public class InserimentoAudioTappaTask extends AsyncTask<Void, Void, Void> {
                     Toast.makeText(context, "Input Stream uguale a null", Toast.LENGTH_LONG).show();
                 }
 
-            } else
+            } else{
                 Log.e(TAG, "CONNESSIONE Internet Assente!");
+                return false;
+            }
         } catch (Exception e) {
             Log.e(TAG, "Errore nella connessione http " + e.toString());
+            return false;
         }
 
 
-        return null;
+        return true;
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
+    protected void onPostExecute(Boolean aVoid) {
         super.onPostExecute(aVoid);
     }
 }

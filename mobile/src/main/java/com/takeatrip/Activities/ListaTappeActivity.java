@@ -95,6 +95,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 public class ListaTappeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
@@ -328,34 +329,38 @@ public class ListaTappeActivity extends AppCompatActivity
 
     @Override
     public void processFinishForStops(Map<Profilo, List<Tappa>> profilo_tappe) {
-        ViewCaricamentoInCorso.setVisibility(View.INVISIBLE);
 
-        profiloTappe = profilo_tappe;
-        PopolaPartecipanti(profiloTappe.keySet());
-        boolean aggiuntiMarkedPoints = false;
 
-        //aggiungo sulla mappa solamente le tappe del profilo corrente, se partecipante al viaggio,
-        //altrimenti aggiungo le tappe di un profilo casuale
-        for(Profilo p : profiloTappe.keySet()){
-            if(p.getEmail().equals(email)){
-                List<Tappa> aux = profiloTappe.get(p);
-                AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
-                aggiuntiMarkedPoints = true;
+        if(profilo_tappe != null){
+            ViewCaricamentoInCorso.setVisibility(View.INVISIBLE);
+            profiloTappe = profilo_tappe;
+            PopolaPartecipanti(profiloTappe.keySet());
+            boolean aggiuntiMarkedPoints = false;
 
-                profiloVisualizzazioneCorrente = p;
-                break;
-            }
-        }
-
-        if(!aggiuntiMarkedPoints){
+            //aggiungo sulla mappa solamente le tappe del profilo corrente, se partecipante al viaggio,
+            //altrimenti aggiungo le tappe di un profilo casuale
             for(Profilo p : profiloTappe.keySet()){
-                AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
-                profiloVisualizzazioneCorrente =p;
-                break;
-            }
-        }
+                if(p.getEmail().equals(email)){
+                    List<Tappa> aux = profiloTappe.get(p);
+                    AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
+                    aggiuntiMarkedPoints = true;
 
-        ordine = calcolaNumUltimaTappaUtenteCorrente()+1;
+                    profiloVisualizzazioneCorrente = p;
+                    break;
+                }
+            }
+
+            if(!aggiuntiMarkedPoints){
+                for(Profilo p : profiloTappe.keySet()){
+                    AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
+                    profiloVisualizzazioneCorrente =p;
+                    break;
+                }
+            }
+            ordine = calcolaNumUltimaTappaUtenteCorrente()+1;
+        }{
+            buttonAddStop.setVisibility(View.INVISIBLE);
+        }
         hideProgressDialog();
     }
 
@@ -1032,13 +1037,24 @@ public class ListaTappeActivity extends AppCompatActivity
                 Log.i(TAG, "name of the image: " + nameImage);
 
 
-                new UploadFileS3Task(ListaTappeActivity.this, Constants.BUCKET_TRAVELS_NAME,
-                        codiceViaggio, Constants.TRAVEL_IMAGES_LOCATION, email, pathImage, nameImage).execute();
+                try {
+                    boolean result = new UploadFileS3Task(ListaTappeActivity.this, Constants.BUCKET_TRAVELS_NAME,
+                            codiceViaggio, Constants.TRAVEL_IMAGES_LOCATION, email, pathImage, nameImage).execute().get();
 
-                String completePath = codiceViaggio + "/" + Constants.TRAVEL_IMAGES_LOCATION + "/" + email + "_" + nameImage;
+                    if(result){
+                        String completePath = codiceViaggio + "/" + Constants.TRAVEL_IMAGES_LOCATION + "/" + email + "_" + nameImage;
 
-                new InserimentoImmagineTappaTask(ListaTappeActivity.this, email,codiceViaggio,
-                        ordine,null,completePath,livelloCondivisioneTappa).execute();
+                        new InserimentoImmagineTappaTask(ListaTappeActivity.this, email,codiceViaggio,
+                                ordine,null,completePath,livelloCondivisioneTappa).execute();
+                    }
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+
+
 
             }
 
@@ -1057,14 +1073,26 @@ public class ListaTappeActivity extends AppCompatActivity
                 Log.i(TAG, "livello Condivisione: " + livelloCondivisioneTappa);
 
 
+                try {
+                    boolean result = new UploadFileS3Task(ListaTappeActivity.this, Constants.BUCKET_TRAVELS_NAME,
+                            codiceViaggio, Constants.TRAVEL_VIDEOS_LOCATION, email, pathVideo, nameVideo).execute().get();
 
-                new UploadFileS3Task(ListaTappeActivity.this, Constants.BUCKET_TRAVELS_NAME,
-                        codiceViaggio, Constants.TRAVEL_VIDEOS_LOCATION, email, pathVideo, nameVideo).execute();
+                    if(result){
+                        String completePath = codiceViaggio + "/" + Constants.TRAVEL_VIDEOS_LOCATION + "/" + email + "_" + nameVideo;
 
-                String completePath = codiceViaggio + "/" + Constants.TRAVEL_VIDEOS_LOCATION + "/" + email + "_" + nameVideo;
+                        new InserimentoVideoTappaTask(ListaTappeActivity.this, email,codiceViaggio,
+                                ordine,null,completePath,livelloCondivisioneTappa).execute();
+                    }
 
-                new InserimentoVideoTappaTask(ListaTappeActivity.this, email,codiceViaggio,
-                        ordine,null,completePath,livelloCondivisioneTappa).execute();
+
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+
+
 
             }
 
@@ -1081,13 +1109,24 @@ public class ListaTappeActivity extends AppCompatActivity
                 timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
                 newAudioName = timeStamp + Constants.AUDIO_EXT;
 
-                new UploadFileS3Task(ListaTappeActivity.this, Constants.BUCKET_TRAVELS_NAME,
-                        codiceViaggio, Constants.TRAVEL_AUDIO_LOCATION, email, pathAudio, newAudioName).execute();
+                try {
+                    boolean result = new UploadFileS3Task(ListaTappeActivity.this, Constants.BUCKET_TRAVELS_NAME,
+                            codiceViaggio, Constants.TRAVEL_AUDIO_LOCATION, email, pathAudio, newAudioName).execute().get();
 
-                String completePath = codiceViaggio + "/" + Constants.TRAVEL_AUDIO_LOCATION + "/" + email + "_" + newAudioName;
+                    if(result){
+                        String completePath = codiceViaggio + "/" + Constants.TRAVEL_AUDIO_LOCATION + "/" + email + "_" + newAudioName;
 
-                new InserimentoAudioTappaTask(ListaTappeActivity.this, email,codiceViaggio,
-                        ordine,null,completePath,livelloCondivisioneTappa).execute();
+                        new InserimentoAudioTappaTask(ListaTappeActivity.this, email,codiceViaggio,
+                                ordine,null,completePath,livelloCondivisioneTappa).execute();
+                    }
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+
+
             }
 
         }

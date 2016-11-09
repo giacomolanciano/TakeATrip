@@ -3,6 +3,7 @@ package com.takeatrip.AsyncTasks;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.takeatrip.Classes.Itinerario;
 import com.takeatrip.Classes.POI;
@@ -10,8 +11,10 @@ import com.takeatrip.Classes.Profilo;
 import com.takeatrip.Classes.Tappa;
 import com.takeatrip.Classes.Viaggio;
 import com.takeatrip.Interfaces.AsyncResponseStops;
+import com.takeatrip.R;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.DatesUtils;
+import com.takeatrip.Utilities.InternetConnection;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -38,7 +41,7 @@ import java.util.Map;
  * Created by lucagiacomelli on 26/10/16.
  */
 
-public class GetStopsTask extends AsyncTask<Void, Void, Void> {
+public class GetStopsTask extends AsyncTask<Void, Void, Boolean> {
 
     private static final String ADDRESS_PRELIEVO_TAPPE = "QueryTappe.php";
     private static final String TAG = "GetStopTask";
@@ -60,86 +63,101 @@ public class GetStopsTask extends AsyncTask<Void, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(Void... params) {
-        for(Profilo p : partecipants){
-            List<Tappa> tappe = new ArrayList<Tappa>();
-            ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("email", p.getEmail()));
-            dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
+    protected Boolean doInBackground(Void... params) {
 
-            Log.i(TAG,"email: " + p.getEmail());
-            Log.i(TAG,"codiceViaggio: " + codiceViaggio);
+        if (InternetConnection.haveInternetConnection(context)) {
+            for(Profilo p : partecipants){
+                List<Tappa> tappe = new ArrayList<Tappa>();
+                ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
+                dataToSend.add(new BasicNameValuePair("email", p.getEmail()));
+                dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
 
-            try {
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_PRELIEVO_TAPPE);
-                httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
-                HttpResponse response = httpclient.execute(httppost);
+                Log.i(TAG,"email: " + p.getEmail());
+                Log.i(TAG,"codiceViaggio: " + codiceViaggio);
 
-                HttpEntity entity = response.getEntity();
-                is = entity.getContent();
+                try {
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_PRELIEVO_TAPPE);
+                    httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
+                    HttpResponse response = httpclient.execute(httppost);
 
-                if (is != null) {
-                    //converto la risposta in stringa
-                    try {
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                        StringBuilder sb = new StringBuilder();
-                        String line = null;
-                        while ((line = reader.readLine()) != null) {
-                            sb.append(line + "\n");
-                        }
-                        is.close();
-                        String result = sb.toString();
-                        JSONArray jArray = new JSONArray(result);
-                        if(jArray != null && result != null){
-                            for(int i=0;i<jArray.length();i++){
-                                JSONObject json_data = jArray.getJSONObject(i);
+                    HttpEntity entity = response.getEntity();
+                    is = entity.getContent();
 
-                                String email = json_data.getString("emailProfilo");
-                                String codiceViaggio = json_data.getString("codiceViaggio");
-
-                                Itinerario itinerario = new Itinerario(new Profilo(email), new Viaggio(codiceViaggio));
-                                int ordine = json_data.getInt("ordine");
-                                int ordineTappaPrecedente = json_data.optInt("ordineTappaPrecedente", DEFAULT_INT);
-
-                                Tappa tappaPrecedente = new Tappa(itinerario, (ordineTappaPrecedente));
-
-                                String nome = json_data.getString("nome");
-                                String codicePOI = json_data.getString("codicePOI");
-                                String fontePOI = json_data.getString("fontePOI");
-                                String livelloCondivisione = json_data.getString("livelloCondivisioneTappa");
-
-
-                                POI poi = new POI(codicePOI, fontePOI);
-
-                                String dataString = json_data.optString("data", DEFAULT_DATE);
-                                Calendar cal = DatesUtils.getDateFromString(dataString, Constants.DATABASE_DATE_FORMAT);
-                                Date data = cal.getTime();
-
-                                tappe.add(new Tappa(itinerario, ordine, tappaPrecedente, data, nome, poi, livelloCondivisione));
-                                Log.i(TAG, "tappa prelevata: " + tappe);
-
+                    if (is != null) {
+                        //converto la risposta in stringa
+                        try {
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                            StringBuilder sb = new StringBuilder();
+                            String line = null;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line + "\n");
                             }
+                            is.close();
+                            String result = sb.toString();
+                            JSONArray jArray = new JSONArray(result);
+                            if(jArray != null && result != null){
+                                for(int i=0;i<jArray.length();i++){
+                                    JSONObject json_data = jArray.getJSONObject(i);
+
+                                    String email = json_data.getString("emailProfilo");
+                                    String codiceViaggio = json_data.getString("codiceViaggio");
+
+                                    Itinerario itinerario = new Itinerario(new Profilo(email), new Viaggio(codiceViaggio));
+                                    int ordine = json_data.getInt("ordine");
+                                    int ordineTappaPrecedente = json_data.optInt("ordineTappaPrecedente", DEFAULT_INT);
+
+                                    Tappa tappaPrecedente = new Tappa(itinerario, (ordineTappaPrecedente));
+
+                                    String nome = json_data.getString("nome");
+                                    String codicePOI = json_data.getString("codicePOI");
+                                    String fontePOI = json_data.getString("fontePOI");
+                                    String livelloCondivisione = json_data.getString("livelloCondivisioneTappa");
+
+
+                                    POI poi = new POI(codicePOI, fontePOI);
+
+                                    String dataString = json_data.optString("data", DEFAULT_DATE);
+                                    Calendar cal = DatesUtils.getDateFromString(dataString, Constants.DATABASE_DATE_FORMAT);
+                                    Date data = cal.getTime();
+
+                                    tappe.add(new Tappa(itinerario, ordine, tappaPrecedente, data, nome, poi, livelloCondivisione));
+                                    Log.i(TAG, "tappa prelevata: " + tappe);
+
+                                }
+                            }
+
+
+
+                        } catch (Exception e) {
                         }
-
-
-
-                    } catch (Exception e) {
                     }
+                } catch (Exception e) {
+                    Log.e(TAG, "Errore nella connessione http "+e.toString());
                 }
-            } catch (Exception e) {
-                Log.e(TAG, "Errore nella connessione http "+e.toString());
-            }
 
-            profilo_tappe.put(p, tappe);
+                profilo_tappe.put(p, tappe);
+            }
         }
-        return null;
+        else {
+            return false;
+        }
+
+
+        return true;
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
+    protected void onPostExecute(Boolean aVoid) {
         super.onPostExecute(aVoid);
         Log.i(TAG,"tappe del viaggio: " + codiceViaggio);
-        delegate.processFinishForStops(profilo_tappe);
+
+        if(aVoid)
+            delegate.processFinishForStops(profilo_tappe);
+        else{
+            Toast.makeText(context, R.string.no_internet_connection,Toast.LENGTH_LONG).show();
+            delegate.processFinishForStops(null);
+        }
+
     }
 }

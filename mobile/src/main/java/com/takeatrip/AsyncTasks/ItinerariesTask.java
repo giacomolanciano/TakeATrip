@@ -23,7 +23,7 @@ import java.util.ArrayList;
 /**
  * Created by Giacomo Lanciano on 26/04/2016.
  */
-public class ItinerariesTask extends AsyncTask<Void, Void, Void> {
+public class ItinerariesTask extends AsyncTask<Void, Void, Boolean> {
 
     private static final String TAG = "TEST ItinerariesTask";
 
@@ -46,9 +46,8 @@ public class ItinerariesTask extends AsyncTask<Void, Void, Void> {
     }
 
 
-
     @Override
-    protected Void doInBackground(Void... params) {
+    protected Boolean doInBackground(Void... params) {
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
         dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
         dataToSend.add(new BasicNameValuePair("email", profilo.getEmail()));
@@ -72,18 +71,21 @@ public class ItinerariesTask extends AsyncTask<Void, Void, Void> {
                 is = entity.getContent();
 
             }
-            else
+            else{
                 Log.e(TAG, "CONNESSIONE Internet Assente!");
+                return false;
+            }
+
         } catch (Exception e) {
-            e.printStackTrace();
             Log.e(TAG, e.toString()+ ": " + e.getMessage());
+            return false;
         }
 
-        return null;
+        return true;
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
+    protected void onPostExecute(Boolean aVoid) {
         super.onPostExecute(aVoid);
     }
 }

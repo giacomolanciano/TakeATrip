@@ -315,6 +315,8 @@
     <string name="see_last_stop">Last stop</string>
     <string name="these">these</string>
     <string name="future">future</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="error_connection">Error: maybe no internet connection.</string>
 
 
 </resources>

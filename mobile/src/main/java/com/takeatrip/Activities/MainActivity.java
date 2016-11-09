@@ -525,64 +525,70 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void onClickLogout(View v) {
-
-        try {
-            if (googleApiClient != null && !googleApiClient.isConnected()) {
-                googleApiClient.connect();
-            }
-            new AlertDialog.Builder(MainActivity.this)
-                    .setTitle(getString(R.string.confirm))
-                    .setMessage(getString(R.string.logout_alert))
-                    .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (email.contains("@")) {
-                                DatabaseHandler db = new DatabaseHandler(MainActivity.this);
-                                // Inserting Users
-                                Log.d(TAG, "Drop the user...");
-                                db.deleteContact(profilo);
-                            } else {
-
-                                if (LoginManager.getInstance() != null) {
-                                    Log.d(TAG, "Log out from facebook: ..");
-
-                                    LoginManager.getInstance().logOut();
-                                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                                    finish();
+        if(InternetConnection.haveInternetConnection(getApplicationContext())){
+            try {
+                if (googleApiClient != null && !googleApiClient.isConnected()) {
+                    googleApiClient.connect();
+                }
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle(getString(R.string.confirm))
+                        .setMessage(getString(R.string.logout_alert))
+                        .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (email.contains("@")) {
+                                    DatabaseHandler db = new DatabaseHandler(MainActivity.this);
+                                    // Inserting Users
+                                    Log.d(TAG, "Drop the user...");
+                                    db.deleteContact(profilo);
                                 } else {
-                                    Log.d(TAG, "Log out from google con apiClient: " + googleApiClient);
 
-                                    if(googleApiClient != null){
-                                        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
-                                                new ResultCallback<Status>() {
-                                                    @Override
-                                                    public void onResult(Status status) {
-                                                        Log.d(TAG, "Status: " + status);
-                                                        if (status.isSuccess()) {
-                                                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                                    if (LoginManager.getInstance() != null) {
+                                        Log.d(TAG, "Log out from facebook: ..");
+
+                                        LoginManager.getInstance().logOut();
+                                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                                        finish();
+                                    } else {
+                                        Log.d(TAG, "Log out from google con apiClient: " + googleApiClient);
+
+                                        if(googleApiClient != null){
+                                            Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
+                                                    new ResultCallback<Status>() {
+                                                        @Override
+                                                        public void onResult(Status status) {
+                                                            Log.d(TAG, "Status: " + status);
+                                                            if (status.isSuccess()) {
+                                                                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                                                            }
                                                         }
-                                                    }
-                                                });
+                                                    });
+                                        }
+
                                     }
 
                                 }
-
                             }
-                        }
-                    })
-                    .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (googleApiClient.isConnected()) {
-                                googleApiClient.disconnect();
+                        })
+                        .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (googleApiClient.isConnected()) {
+                                    googleApiClient.disconnect();
+                                }
+                                dialog.dismiss();
                             }
-                            dialog.dismiss();
-                        }
-                    })
-                    .setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.logodefbordo))
-                    .show();
+                        })
+                        .setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.logodefbordo))
+                        .show();
 
-        } catch (Exception e) {
-            Log.e(e.toString().toUpperCase(), e.getMessage());
+            } catch (Exception e) {
+                Log.e(e.toString().toUpperCase(), e.getMessage());
+            }
         }
+        else{
+            Toast.makeText(getApplicationContext(), R.string.no_internet_connection,Toast.LENGTH_LONG).show();
+        }
+
+
     }
 
     private String beginDownloadProfilePicture(String key) {
@@ -690,8 +696,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     } else {
                         Log.i(TAG, "Input Stream uguale a null");
                     }
-                } else
+                } else{
                     Log.e(TAG, "CONNESSIONE Internet Assente!");
+                    Toast.makeText(context, R.string.no_internet_connection,Toast.LENGTH_LONG).show();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.e(e.toString(), e.getMessage());
@@ -808,8 +816,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     } else {
                         Log.i(TAG, "Input Stream uguale a null");
                     }
-                } else
+                } else{
                     Log.e(TAG, "CONNESSIONE Internet Assente!");
+                    Toast.makeText(context, R.string.no_internet_connection,Toast.LENGTH_LONG).show();
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.e(e.toString(), e.getMessage());

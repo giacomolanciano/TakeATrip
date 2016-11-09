@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.takeatrip.AsyncTasks.DeleteStopContentTask;
@@ -27,6 +28,7 @@ import com.takeatrip.Utilities.Constants;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
@@ -156,10 +158,25 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                         Log.i(TAG, "vecchia nota: " + vecchiaNota);
                         Log.i(TAG, "nuova nota: " + nuovaNota);
 
-                        new UpdateNotaTappaTask(_context, notaTappa.getEmailProfilo(),
-                                notaTappa.getCodiceViaggio(),notaTappa.getOrdineTappa(), vecchiaNota, nuovaNota).execute();
-                        note.setText(nuovaNota);
-                        notaTappa.setNota(nuovaNota);
+                        try {
+                            boolean result = new UpdateNotaTappaTask(_context, notaTappa.getEmailProfilo(),
+                                    notaTappa.getCodiceViaggio(),notaTappa.getOrdineTappa(), vecchiaNota, nuovaNota).execute().get();
+
+                            if(result){
+                                note.setText(nuovaNota);
+                                notaTappa.setNota(nuovaNota);
+                            }
+                            else {
+                                if(!result){
+                                    Toast.makeText(_context, R.string.error_connection, Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
+
 
                     }
                 });

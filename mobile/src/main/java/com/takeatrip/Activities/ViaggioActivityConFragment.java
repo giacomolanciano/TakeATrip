@@ -242,7 +242,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         gridViewVideos = (AdaptableGridView) findViewById(R.id.grid_view_videos);
         gridViewRecords = (AdaptableGridView) findViewById(R.id.grid_view_records);
 
-        gridViewNotes = (AdaptableGridView) findViewById(R.id.grid_view_notes);
         listViewNotes = (AdaptableExpandableListView)findViewById(R.id.list_view_notes);
 
 
@@ -302,7 +301,18 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                         if(checkSelectionSpinner > 0){
                             Log.i(TAG, "elemento selezionato spinner: "+ adapter.getItem(position));
                             livelloCondivisioneViaggio = adapter.getItem(position);
-                            new UpdateCondivisioneViaggioTask(ViaggioActivityConFragment.this, codiceViaggio, livelloCondivisioneViaggio).execute();
+                            try {
+                                boolean result = new UpdateCondivisioneViaggioTask(ViaggioActivityConFragment.this, codiceViaggio, livelloCondivisioneViaggio).execute().get();
+
+                                if(!result){
+                                    Toast.makeText(getApplicationContext(), R.string.error_connection, Toast.LENGTH_LONG).show();
+                                }
+
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            }
                         }
                         checkSelectionSpinner++;
                     }
@@ -448,11 +458,28 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                                         .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 String nuovoNome = textInputEditText.getText().toString();
-                                                new UpdateTravelNameTask(ViaggioActivityConFragment.this, codiceViaggio, nuovoNome)
-                                                        .execute();
-                                                collapsingToolbar.setTitle(nuovoNome);
 
-                                                Log.i(TAG, "edit text dialog confirmed");
+                                                try {
+                                                    boolean result = new UpdateTravelNameTask(ViaggioActivityConFragment.this, codiceViaggio, nuovoNome)
+                                                            .execute().get();
+
+                                                    if(result){
+                                                        collapsingToolbar.setTitle(nuovoNome);
+                                                        Log.i(TAG, "edit text dialog confirmed");
+                                                    }
+                                                    else{
+                                                        if(!result){
+                                                            Toast.makeText(getApplicationContext(), R.string.error_connection, Toast.LENGTH_LONG).show();
+                                                        }
+                                                    }
+
+
+                                                } catch (InterruptedException e) {
+                                                    e.printStackTrace();
+                                                } catch (ExecutionException e) {
+                                                    e.printStackTrace();
+                                                }
+
                                             }
                                         })
                                         .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -888,22 +915,38 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                             //if(!listPartecipants.contains(p)) {
                             if(!giaPresente) {
                                 listPartecipants.add(p);
-                                new ItinerariesTask(ViaggioActivityConFragment.this, p, codiceViaggio, nameForUrl).execute();
+                                try {
+                                    boolean result = new ItinerariesTask(ViaggioActivityConFragment.this, p, codiceViaggio, nameForUrl).execute().get();
 
-                                final ImageView image = new RoundedImageView(ViaggioActivityConFragment.this, null);
-                                image.setContentDescription(p.getEmail());
+                                    if(result){
+                                        final ImageView image = new RoundedImageView(ViaggioActivityConFragment.this, null);
+                                        image.setContentDescription(p.getEmail());
 
-                                image.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        onClickImagePartecipant(v);
+                                        image.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                onClickImagePartecipant(v);
+                                            }
+                                        });
+
+                                        layoutPartecipants.removeAllViews();
+                                        popolaPartecipanti();
+                                        text.setText("");
+                                        Toast.makeText(getBaseContext(), R.string.success_add_participant, Toast.LENGTH_LONG).show();
+
                                     }
-                                });
+                                    else{
+                                        Toast.makeText(getBaseContext(), R.string.error_connection, Toast.LENGTH_LONG).show();
+                                    }
 
-                                layoutPartecipants.removeAllViews();
-                                popolaPartecipanti();
-                                text.setText("");
-                                Toast.makeText(getBaseContext(), R.string.success_add_participant, Toast.LENGTH_LONG).show();
+
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                }
+
+
                             }
                             else{
                                 Toast.makeText(getBaseContext(), R.string.fail_add_participant, Toast.LENGTH_LONG).show();
@@ -964,9 +1007,20 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                     public void onClick(DialogInterface dialog, int which) {
 
                         Log.i(TAG, "partecipanti al viaggio: " + listPartecipants.size());
+                        boolean result = false;
+                        try {
+                            result = new DeleteTravelTask(ViaggioActivityConFragment.this, codiceViaggio).execute().get();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
 
-                        new DeleteTravelTask(ViaggioActivityConFragment.this, codiceViaggio).execute();
-                        finish();
+                        if(result)
+                            finish();
+                        else
+                            Toast.makeText(getApplicationContext(), getString(R.string.error_connection),Toast.LENGTH_LONG).show();
+
 
                     }
                 })
@@ -985,9 +1039,20 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                 .setMessage(getString(R.string.exit_travel_alert))
                 .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        boolean result = false;
 
-                        new ExitTravelTask(ViaggioActivityConFragment.this, codiceViaggio, email).execute();
-                        finish();
+                        try {
+                            result = new ExitTravelTask(ViaggioActivityConFragment.this, codiceViaggio, email).execute().get();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
+                        if(result)
+                            finish();
+                        else
+                            Toast.makeText(getApplicationContext(), getString(R.string.error_connection),Toast.LENGTH_LONG).show();
+
                     }
                 })
                 .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -1067,8 +1132,10 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                     }
 
                 }
-                else
+                else{
                     Log.e(TAG, "CONNESSIONE Internet Assente!");
+                    Toast.makeText(getApplicationContext(), R.string.no_internet_connection,Toast.LENGTH_LONG).show();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.e(TAG, e.toString()+ ": " + e.getMessage());

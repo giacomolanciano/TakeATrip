@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * Created by Giacomo Lanciano on 28/04/2016.
  */
-public class GetNotesTask extends AsyncTask<Void, Void, Void> {
+public class GetNotesTask extends AsyncTask<Void, Void, Boolean> {
 
     private static final String TAG = "TEST GetNotesTask";
     public AsyncResponseNotes delegate = null;
@@ -73,7 +73,7 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
 
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected Boolean doInBackground(Void... params) {
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
         dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
         dataToSend.add(new BasicNameValuePair("email", emailProfilo));
@@ -130,20 +130,22 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
 
                 }
 
-            } else
-                Log.e(TAG, "CONNESSIONE Internet Assente!");
+            } else{
+                Log.e(TAG, "no internet connection");
+                return false;
+            }
+
         } catch (Exception e) {
-            e.printStackTrace();
-            Log.e(e.toString(), e.getMessage());
+            Log.e(TAG, "Errore nella connessione http "+e.toString());
+            return false;
         }
 
-        return null;
+        return true;
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
+    protected void onPostExecute(Boolean aVoid) {
         hideProgressDialog();
-
         super.onPostExecute(aVoid);
 
         ListView lv = listView;
@@ -154,7 +156,8 @@ public class GetNotesTask extends AsyncTask<Void, Void, Void> {
         Log.i(TAG, "listContents.size() = " + listContents.size());
         notes = new NotaTappa[listContents.size()];
         notes = listContents.toArray(notes);
-        delegate.processFinishForNotes(notes);
+        if(aVoid)
+            delegate.processFinishForNotes(notes);
         return;
 
     }

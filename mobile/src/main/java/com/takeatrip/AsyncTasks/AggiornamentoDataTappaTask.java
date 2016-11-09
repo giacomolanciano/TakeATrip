@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.InternetConnection;
@@ -72,11 +71,6 @@ public class AggiornamentoDataTappaTask extends AsyncTask<Void, Void, Void> {
 
         try {
             if (InternetConnection.haveInternetConnection(context)) {
-                Log.i(TAG, "CONNESSIONE Internet Presente!");
-
-
-
-
 
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_AGGIORNAMENTO_TAPPA);
@@ -103,18 +97,19 @@ public class AggiornamentoDataTappaTask extends AsyncTask<Void, Void, Void> {
                         Log.i(TAG, "result: " +result);
 
                     } catch (Exception e) {
-                        Toast.makeText(context, "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
+                        Log.e(TAG, e.toString());
                     }
                 }
                 else {
-                    Toast.makeText(context, "Input Stream uguale a null", Toast.LENGTH_LONG).show();
+                    Log.e(TAG, "Input Stream uguale a null");
                 }
 
 
 
 
-            } else
+            } else{
                 Log.e(TAG, "CONNESSIONE Internet Assente!");
+            }
         } catch (Exception e) {
             Log.e(TAG, "Errore nella connessione http "+e.toString());
         }

@@ -13,6 +13,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.takeatrip.AsyncTasks.UpdateCondivisioneContentTask;
@@ -23,6 +24,7 @@ import com.takeatrip.Utilities.SquaredImageView;
 import com.takeatrip.Utilities.UtilS3AmazonCustom;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Giacomo Lanciano on 29/04/2016.
@@ -167,7 +169,18 @@ public class GridViewImageAdapter extends GridViewAdapter {
 
                         //Log.i(TAG, "update livello condivisione del contenuto: " + cm.getUrlContenuto());
 
-                        new UpdateCondivisioneContentTask(context, codiceViaggio, cm.getOrdineTappa(), livelloCondivisioneContenuto, cm.getUrlContenuto()).execute();
+                        try {
+                            boolean result = new UpdateCondivisioneContentTask(context, codiceViaggio, cm.getOrdineTappa(),
+                                    livelloCondivisioneContenuto, cm.getUrlContenuto()).execute().get();
+
+                            if(!result){
+                                Toast.makeText(context, R.string.error_connection, Toast.LENGTH_LONG).show();
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override

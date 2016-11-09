@@ -20,7 +20,7 @@ import java.util.ArrayList;
 /**
  * Created by lucagiacomelli on 29/10/16.
  */
-public class UpdateNotaTappaTask extends AsyncTask<Void, Void, Void> {
+public class UpdateNotaTappaTask extends AsyncTask<Void, Void, Boolean> {
 
     private static final String ADDRESS = "UpdateNotaTappa.php";
     private static final String TAG = "UpNotaTask";
@@ -41,7 +41,7 @@ public class UpdateNotaTappaTask extends AsyncTask<Void, Void, Void> {
 
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected Boolean doInBackground(Void... params) {
 
 
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
@@ -64,18 +64,20 @@ public class UpdateNotaTappaTask extends AsyncTask<Void, Void, Void> {
                 HttpResponse response = httpclient.execute(httppost);
 
 
-            } else
+            } else{
                 Log.e(TAG, "CONNESSIONE Internet Assente!");
+                return false;
+            }
         } catch (Exception e) {
             Log.e(TAG, "Errore nella connessione http "+e.toString());
+            return false;
         }
 
-        return null;
+        return true;
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
-
+    protected void onPostExecute(Boolean aVoid) {
         super.onPostExecute(aVoid);
 
     }

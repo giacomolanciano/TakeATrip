@@ -9,6 +9,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
@@ -16,6 +17,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.takeatrip.Adapters.GridViewAdapter;
 import com.takeatrip.Adapters.GridViewImageAdapter;
 import com.takeatrip.Classes.ContenutoMultimediale;
+import com.takeatrip.R;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.InternetConnection;
 import com.takeatrip.Utilities.ScrollListener;
@@ -44,7 +46,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by Giacomo Lanciano on 20/04/2016.
  */
-public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
+public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
 
     private static final String TAG = "TEST GetUrlsContTask";
 
@@ -108,7 +110,7 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
 
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected Boolean doInBackground(Void... params) {
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
         dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
         dataToSend.add(new BasicNameValuePair("email", emailProfilo));
@@ -194,77 +196,88 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Void> {
 
                 }
 
-            } else
+            } else{
                 Log.e(TAG, "CONNESSIONE Internet Assente!");
+                return false;
+            }
         } catch (Exception e) {
-            e.printStackTrace();
             Log.e(e.toString(), e.getMessage());
+            return false;
         }
 
-        return null;
+        return true;
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
+    protected void onPostExecute(Boolean aVoid) {
         super.onPostExecute(aVoid);
 
-        GridView gv = gridView;
-        gv.setOnScrollListener(new ScrollListener(context));
+        if(aVoid){
 
-        if (listContents.size() > 0) {
-            //se la lista di elementi da caricare è non vuota, il linear layout parent viene visualizzato
-            LinearLayout parent = (LinearLayout) gv.getParent();
-            parent.setVisibility(View.VISIBLE);
+            GridView gv = gridView;
+            gv.setOnScrollListener(new ScrollListener(context));
 
-            URLs = new ArrayList<ContenutoMultimediale>();
-            int i = 0;
-            for (ContenutoMultimediale image : listContents) {
-                URLs.add(image);
-                i++;
-            }
-            if (URLs.get(0) == null || URLs.get(0).equals("null")) {
+            if (listContents.size() > 0) {
+                //se la lista di elementi da caricare è non vuota, il linear layout parent viene visualizzato
+                LinearLayout parent = (LinearLayout) gv.getParent();
+                parent.setVisibility(View.VISIBLE);
+
+                URLs = new ArrayList<ContenutoMultimediale>();
+                int i = 0;
+                for (ContenutoMultimediale image : listContents) {
+                    URLs.add(image);
+                    i++;
+                }
+                if (URLs.get(0) == null || URLs.get(0).equals("null")) {
+                    return;
+                }
+
+            } else {
                 return;
             }
 
-        } else {
-            return;
-        }
 
+            if (phpFile.equals(Constants.QUERY_TRAVEL_IMAGES)
+                    || phpFile.equals(Constants.QUERY_STOP_IMAGES)) {
 
-        if (phpFile.equals(Constants.QUERY_TRAVEL_IMAGES)
-                || phpFile.equals(Constants.QUERY_STOP_IMAGES)) {
+                GridViewImageAdapter adapter = new GridViewImageAdapter(context, gv, URLs, Constants.IMAGE_FILE, codiceViaggio, emailProfilo);
+                gv.setAdapter(adapter);
+                gv.invalidateViews();
 
-            GridViewImageAdapter adapter = new GridViewImageAdapter(context, gv, URLs, Constants.IMAGE_FILE, codiceViaggio, emailProfilo);
-            gv.setAdapter(adapter);
-            gv.invalidateViews();
+                //nel caso di immagini della tappa, la prima viene impostata come copertina
+                if(phpFile.equals(Constants.QUERY_STOP_IMAGES) && coverImageTappa != null) {
+                    Bitmap bitmap  = null;
+                    try {
+                        final String url = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_TRAVELS_NAME,URLs.get(0).getUrlContenuto());
+                        bitmap = new BitmapWorkerTask(coverImageTappa).execute(url).get();
+                        if(bitmap != null)
+                            coverImageTappa.setImageBitmap(getScaledBitmap(bitmap));
 
-            //nel caso di immagini della tappa, la prima viene impostata come copertina
-            if(phpFile.equals(Constants.QUERY_STOP_IMAGES) && coverImageTappa != null) {
-                Bitmap bitmap  = null;
-                try {
-                    final String url = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_TRAVELS_NAME,URLs.get(0).getUrlContenuto());
-                    bitmap = new BitmapWorkerTask(coverImageTappa).execute(url).get();
-                    if(bitmap != null)
-                        coverImageTappa.setImageBitmap(getScaledBitmap(bitmap));
-
-                } catch (InterruptedException e) {
-                    Log.e(TAG, e.getMessage());
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    Log.e(TAG, e.getMessage());
-                    e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, e.getMessage());
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        Log.e(TAG, e.getMessage());
+                        e.printStackTrace();
+                    }
                 }
+
+            } else if (phpFile.equals(Constants.QUERY_TRAVEL_VIDEOS)
+                    || phpFile.equals(Constants.QUERY_STOP_VIDEOS)) {
+
+                GridViewAdapter adapter = new GridViewAdapter(context, gv, URLs, Constants.VIDEO_FILE, codiceViaggio);
+                gv.setAdapter(adapter);
+
+            } else {
+                gv.setAdapter(new GridViewAdapter(context, gv, URLs, Constants.AUDIO_FILE, codiceViaggio));
             }
 
-        } else if (phpFile.equals(Constants.QUERY_TRAVEL_VIDEOS)
-                || phpFile.equals(Constants.QUERY_STOP_VIDEOS)) {
-
-            GridViewAdapter adapter = new GridViewAdapter(context, gv, URLs, Constants.VIDEO_FILE, codiceViaggio);
-            gv.setAdapter(adapter);
-
-        } else {
-            gv.setAdapter(new GridViewAdapter(context, gv, URLs, Constants.AUDIO_FILE, codiceViaggio));
         }
+        else{
+            Toast.makeText(context, R.string.no_internet_connection,Toast.LENGTH_SHORT).show();
+        }
+
+
 
     }
 

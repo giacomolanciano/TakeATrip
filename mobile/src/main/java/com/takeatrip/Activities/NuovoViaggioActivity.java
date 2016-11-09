@@ -300,7 +300,7 @@ public class NuovoViaggioActivity extends AppCompatActivity {
 
     //per ora non utilizzato
     public void openViaggio() {
-        Intent openViaggio = new Intent(NuovoViaggioActivity.this, ViaggioActivity.class);
+        Intent openViaggio = new Intent(NuovoViaggioActivity.this, ViaggioActivityConFragment.class);
         openViaggio.putExtra("email", email);
         Log.i(TAG, "email: " + email);
         openViaggio.putExtra("emailEsterno", email);

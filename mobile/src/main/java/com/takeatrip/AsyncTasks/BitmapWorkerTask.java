@@ -110,8 +110,6 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
             super(bitmap);
             bitmapWorkerTaskReference =
                     new WeakReference<BitmapWorkerTask>(bitmapWorkerTask);
-
-            Log.i(TAG, "taskPreference");
         }
 
         public BitmapWorkerTask getBitmapWorkerTask() {

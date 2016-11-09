@@ -17,6 +17,7 @@ import com.takeatrip.AsyncTasks.UploadFileS3Task;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Giacomo Lanciano on 24/04/2016.
@@ -65,11 +66,20 @@ public class UtilS3AmazonCustom {
         String timeStamp = new SimpleDateFormat(Constants.FILE_NAME_TIMESTAMP_FORMAT).format(new Date());
         String newFileName = timeStamp + Constants.IMAGE_EXT;
 
-        new UploadFileS3Task(context, Constants.BUCKET_TRAVELS_NAME, codiceViaggio,
-                Constants.TRAVEL_COVER_IMAGE_LOCATION, email, filePath, newFileName).execute();
+        try {
+            boolean result = new UploadFileS3Task(context, Constants.BUCKET_TRAVELS_NAME, codiceViaggio,
+                    Constants.TRAVEL_COVER_IMAGE_LOCATION, email, filePath, newFileName).execute().get();
 
-        new InsertCoverImageTravelTask(context,email,codiceViaggio, null, newFileName,
-                bitmapImageTravel, layoutCopertinaViaggio, selectedImage).execute();
+            if(result){
+                new InsertCoverImageTravelTask(context,email,codiceViaggio, null, newFileName,
+                        bitmapImageTravel, layoutCopertinaViaggio, selectedImage).execute();
+            }
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
     }
 
