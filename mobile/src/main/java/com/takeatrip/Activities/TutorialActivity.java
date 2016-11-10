@@ -25,7 +25,7 @@ public class TutorialActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Developers: Davide Mazza and Giacomo Lanciano", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Developers: Davide Mazza, Giacomo Lanciano and Luca Giacomelli", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             } //Aggiungere luca dopo HCI xD
         });

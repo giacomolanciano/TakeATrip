@@ -49,18 +49,6 @@
     <string name="Splash">Take a Trip</string>
     <string name="Viaggi">Travels</string>
 
-    <string name="DestinationSelection">Search destination</string>
-
-
-    <string name="SceltaMeta">Choose your parameters</string>
-    <string name="Altitudine">Altitude</string>
-    <string name="Temperatura">Temperature</string>
-    <string name="Pressione">Pressure</string>
-    <string name="Umidita">Humidity</string>
-    <string name="tempMax">Temperatura Massima</string>
-    <string name="tempMin">Temperatura Minima</string>
-    <string name="VelocitaVento">Speed of Wind</string>
-
     <string name="AvviaRicerca">Search</string>
     <string name="CaricamentoInCorso">Loading...</string>
 
@@ -80,27 +68,6 @@
     <string name="Create">Create</string>
     <string name="Cancel">Cancel</string>
 
-
-    <string-array name="livelliUmidita">
-        <item>low level</item>
-        <item>medium level</item>
-        <item>high level</item>
-
-    </string-array>
-    <string-array name="livelloVento">
-        <item>low level</item>
-        <item>medium level</item>
-        <item>high level</item>
-    </string-array>
-
-    <string-array name="livelloTemperatura">
-        <item>very very cold</item>
-        <item>very cold</item>
-        <item>cold</item>
-        <item>moderate</item>
-        <item>hot</item>
-        <item>very hot</item>
-    </string-array>
 
 
     <string-array name="CommandsImageProfile">
@@ -139,7 +106,7 @@
     <string name="ConfermaNuovaPassword">Confirm new password</string>
     <string name="ConfermaPassword">Confirm password</string>
     <string name="InserisciNuovoUsername">Username</string>
-    <string name="InserisciNuovoSesso"> Sex</string>
+    <string name="InserisciNuovoSesso">Sex</string>
     <string name="InserisciNuovaNazionalita">Nationality</string>
     <string name="InserisciNuovoLavoro">Job</string>
     <string name="InserisciNuovaDescrizione">Description</string>
@@ -249,7 +216,7 @@
     <string name="travel_text">"Go to your travels list"</string>
     <string name="social_text">"Go to the social area"</string>
     <string name="add_text">"Create a new travel"</string>
-    <string name="search_text">"Search a travel in TAT community"</string>
+    <string name="search_text">Search user or travel in TAT community</string>
     <string name="profile_text">"Go to your public profile\nYou will see here your custom image profile"</string>
     <string name="plus_text">"Add a new stop to a travel"</string>
     <string name="menu_text">"Sub-menu with multiple choices"</string>
@@ -284,7 +251,7 @@
     <string name="help_slide_title">Help!</string>
     <string name="help_slide_description">Whenever you will find yourself in troubles, go to the Home
         page and tap on this icon to view a Tutorial page.</string>
-    <string name="home_slide_description">This is your TakeATrip home page. From year, you can acces
+    <string name="home_slide_description">This is your TakeATrip home page. From here, you can acces
         all the main features like creating a new travel or searching for someone else\'s one.</string>
     <string name="home_slide_title">Home page</string>
     <string name="memories_slide_description">You can upload into TakeATrip your travel memories,

@@ -1,6 +1,8 @@
 package com.takeatrip.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,22 +10,23 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.SimpleAdapter;
 
-import com.amazonaws.HttpMethod;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.takeatrip.Classes.ContenutoMultimediale;
 import com.takeatrip.R;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.UtilS3Amazon;
+import com.takeatrip.Utilities.UtilS3AmazonCustom;
+import com.volokh.danylo.video_player_manager.manager.PlayerItemChangeListener;
+import com.volokh.danylo.video_player_manager.manager.SingleVideoPlayerManager;
+import com.volokh.danylo.video_player_manager.manager.VideoPlayerManager;
+import com.volokh.danylo.video_player_manager.meta.MetaData;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
  * Created by Giacomo Lanciano on 29/04/2016.
@@ -53,8 +56,6 @@ public class ListViewVideoAdapter extends ArrayAdapter<ContenutoMultimediale> {
 
     private AmazonS3Client s3;
 
-    JCVideoPlayerStandard videoPlayer;
-
 
     public ListViewVideoAdapter(Context context, int textViewResourceId, List<ContenutoMultimediale> URLs, String codiceViaggio, String emailProfiloLoggato) {
 
@@ -63,18 +64,6 @@ public class ListViewVideoAdapter extends ArrayAdapter<ContenutoMultimediale> {
         this.codiceViaggio = codiceViaggio;
         this.emailProfiloLoggato = emailProfiloLoggato;
         this.contents = URLs;
-
-
-
-        /*
-        if(contents != null && contents.size() >0 ) {
-            String[] URLS = new String[contents.size()];
-            for (int i = 0; i < contents.size(); i++) {
-                URLS[i] = contents.get(i).getUrlContenuto();
-            }
-            Collections.addAll(urls, URLS);
-        }
-        */
 
         transferUtility = UtilS3Amazon.getTransferUtility(context);
         transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
@@ -86,27 +75,36 @@ public class ListViewVideoAdapter extends ArrayAdapter<ContenutoMultimediale> {
     public View getView(final int position, View convertView, ViewGroup parent) {
 
         View cView = convertView;
-
         if (cView == null) {
             LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             cView = infalInflater.inflate(R.layout.entry_list_videos, null);
         }
 
+        cView.setBackground(context.getResources().getDrawable(R.drawable.video_content));
+
+
         final ContenutoMultimediale contenutoMultimediale = getItem(position);
         Log.i(TAG, "contenuto video: " + contenutoMultimediale);
         Log.i(TAG, "url contenuto video: " + contenutoMultimediale.getUrlContenuto());
 
-        videoPlayer = (JCVideoPlayerStandard) cView.findViewById(R.id.custom_videoplayer_standard);
+        //final VideoPlayerView mVideoPlayer_1 = (VideoPlayerView)cView.findViewById(R.id.video_player_1);
 
-        GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                new GeneratePresignedUrlRequest( Constants.BUCKET_TRAVELS_NAME,contenutoMultimediale.getUrlContenuto());
 
-        generatePresignedUrlRequest.setMethod(HttpMethod.GET);
+        final String url = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_TRAVELS_NAME,contenutoMultimediale.getUrlContenuto());
 
-        URL url = s3.generatePresignedUrl(generatePresignedUrlRequest);
-        //Log.i(TAG,"url video: " +url);
-        videoPlayer.setUp(url.toString(), JCVideoPlayerStandard.SCREEN_LAYOUT_LIST, "");
-        videoPlayer.thumbImageView.setImageResource(R.drawable.video_content);
+        cView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //mVideoPlayerManager.playNewVideo(null, mVideoPlayer_1, url);
+
+                Uri uri = Uri.parse(UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_TRAVELS_NAME,contenutoMultimediale.getUrlContenuto()));
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                intent.setDataAndType(uri, "video/*");
+                context.startActivity(intent);
+            }
+        });
+
+
 
 
         return cView;
@@ -116,5 +114,13 @@ public class ListViewVideoAdapter extends ArrayAdapter<ContenutoMultimediale> {
     public ContenutoMultimediale getItem(int position) {
         return contents.get(position);
     }
+
+
+    private VideoPlayerManager<MetaData> mVideoPlayerManager = new SingleVideoPlayerManager(new PlayerItemChangeListener() {
+        @Override
+        public void onPlayerItemChanged(MetaData metaData) {
+
+        }
+    });
 
 }
