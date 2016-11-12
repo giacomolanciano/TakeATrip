@@ -158,7 +158,7 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
 
                                 //controllo se l'email dell'utente è tra quelle dei partecipanti al viaggio
                                 for(Profilo p : listPartecipants){
-                                    if(email != null && email.equals(p.getEmail())){
+                                    if(email != null && email.equals(p.getId())){
                                         proprioViaggio = true;
                                     }
                                 }

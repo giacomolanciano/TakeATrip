@@ -4,10 +4,11 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.takeatrip.Utilities.InternetConnection;
@@ -29,8 +30,11 @@ public class UploadFileS3Task extends AsyncTask<Void, Void, Boolean> {
     private String filePath, bucketName, idViaggio, idUtente, tipoFile, completeUrl, newFileName;
 
 
+
+
     // The TransferUtility is the primary class for managing transfer to S3
     private TransferUtility transferUtility;
+    private TransferObserver observer;
 
     // The SimpleAdapter adapts the data about transfers to rows in the UI
     private SimpleAdapter simpleAdapter;
@@ -79,7 +83,6 @@ public class UploadFileS3Task extends AsyncTask<Void, Void, Boolean> {
                 Log.i(TAG, "CONNESSIONE Internet Presente!");
 
                 if (filePath == null) {
-                    Toast.makeText(context, "Could not find the filepath of the selected file", Toast.LENGTH_LONG).show();
                     return false;
                 }
 
@@ -87,7 +90,27 @@ public class UploadFileS3Task extends AsyncTask<Void, Void, Boolean> {
 
                 String key = idViaggio +"/" + tipoFile + "/" + idUtente + "_" + newFileName;
 
-                TransferObserver observer = transferUtility.upload(bucketName, key, file);
+                observer = transferUtility.upload(bucketName, key, file);
+                observer.setTransferListener(new TransferListener(){
+
+                    @Override
+                    public void onStateChanged(int id, TransferState state) {
+                        Log.i(TAG, "transfer state: " + state);
+                    }
+
+                    @Override
+                    public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
+                        int percentage = (int) (bytesCurrent/bytesTotal * 100);
+                        Log.i(TAG, "percentage of upload: " + percentage);
+                        //Display percentage transfered to user
+                    }
+
+                    @Override
+                    public void onError(int id, Exception ex) {
+                        Log.e(TAG, "error: " + ex);
+                    }
+
+                });
 
             } else{
                 Log.e(TAG,"CONNESSIONE Internet Assente!");
@@ -106,6 +129,7 @@ public class UploadFileS3Task extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean aVoid) {
         super.onPostExecute(aVoid);
+        Log.i(TAG, "finito l'upload con stato : " + observer.getState());
     }
 
 

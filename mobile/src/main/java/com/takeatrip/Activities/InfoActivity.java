@@ -84,7 +84,7 @@ public class InfoActivity extends AppCompatActivity {
             if(email == null){
                 TakeATrip TAT = (TakeATrip)getApplicationContext();
                 if(TAT != null)
-                    email = TAT.getProfiloCorrente().getEmail();
+                    email = TAT.getProfiloCorrente().getId();
             }
 
             if((email != null && emailEsterno == null) || (email != null && email.equals(emailEsterno))){

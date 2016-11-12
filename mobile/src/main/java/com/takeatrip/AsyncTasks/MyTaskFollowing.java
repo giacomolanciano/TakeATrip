@@ -104,7 +104,7 @@ public class MyTaskFollowing extends AsyncTask<Void, Void, Void> {
                                 String tipo = json_data.getString("tipo");
 
                                 Profilo seguito = new Profilo(emailSeguace, nomeUtente, cognomeUtente, dataNascita, nazionalita, sesso, username, lavoro, descrizione, tipo,urlImmagineProfilo,urlImmagineCopertina);
-                                Log.i(TAG, "seguito : " + seguito.getEmail());
+                                Log.i(TAG, "seguito : " + seguito.getId());
                                 follow.add(new Following(profiloCorrente, seguito));
                                 //Corrente è il seguito
                             }

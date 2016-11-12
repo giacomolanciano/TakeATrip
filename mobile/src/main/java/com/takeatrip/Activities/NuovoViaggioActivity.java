@@ -196,7 +196,7 @@ public class NuovoViaggioActivity extends AppCompatActivity {
                                     }
 
                                     final ImageView image = new RoundedImageView(NuovoViaggioActivity.this, null);
-                                    image.setContentDescription(p.getEmail());
+                                    image.setContentDescription(p.getId());
 
                                     if (p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")) {
                                         String signedUrl = beginDownloadProfilePicture(p.getIdImageProfile());
@@ -412,7 +412,7 @@ public class NuovoViaggioActivity extends AppCompatActivity {
 
                 ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
                 dataToSend.add(new BasicNameValuePair("codice", UUIDViaggio));
-                dataToSend.add(new BasicNameValuePair("email", p.getEmail()));
+                dataToSend.add(new BasicNameValuePair("email", p.getId()));
 
 
                 try {

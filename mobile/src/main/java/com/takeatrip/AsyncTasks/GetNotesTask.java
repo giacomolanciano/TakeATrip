@@ -51,6 +51,7 @@ public class GetNotesTask extends AsyncTask<Void, Void, Boolean> {
     private NotaTappa[] notes;
 
     private ProgressDialog mProgressDialog;
+    private String emailProprietarioTappa;
 
     public GetNotesTask(Context context, String codiceViaggio, String emailProfilo,
                         ListView listView, String phpFile) {
@@ -64,8 +65,9 @@ public class GetNotesTask extends AsyncTask<Void, Void, Boolean> {
     }
 
     public GetNotesTask(Context context, String codiceViaggio, ListView listView, String phpFile,
-                               String emailProfilo, int ordineTappa) {
+                               String emailProfilo, String emailProprietarioTappa, int ordineTappa) {
         this(context, codiceViaggio, emailProfilo, listView, phpFile);
+        this.emailProprietarioTappa = emailProprietarioTappa;
         this.ordineTappa = ordineTappa;
 
     }
@@ -80,6 +82,7 @@ public class GetNotesTask extends AsyncTask<Void, Void, Boolean> {
 
         if (phpFile.equals(Constants.QUERY_STOP_NOTES)) {
             dataToSend.add(new BasicNameValuePair("ordineTappa", ordineTappa + ""));
+            dataToSend.add(new BasicNameValuePair("emailProprietarioTappa", emailProprietarioTappa));
         }
 
         try {

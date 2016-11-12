@@ -364,7 +364,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 /*
                 CharSequence[] namesPartecipants = { profilo.getName() };
-                CharSequence[] listPartecipants = { profilo.getEmail() };
+                CharSequence[] listPartecipants = { profilo.getId() };
                 CharSequence[] urlImagePartecipants = { profilo.getIdImageProfile() };
                 CharSequence[] sessoPartecipants = { profilo.getSesso() };
 
@@ -444,7 +444,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Tappa ultimaTappa = tappe.get(tappe.size()-1);
 
             Intent intent = new Intent(MainActivity.this, TappaActivity.class);
-            intent.putExtra("email",profilo.getEmail());
+            intent.putExtra("email",profilo.getId());
             intent.putExtra("codiceViaggio", ultimoViaggio.getCodice());
             intent.putExtra("ordine", tappe.size());
             intent.putExtra("ordineDB", ultimaTappa.getOrdine());
@@ -515,8 +515,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void onClickSocialButton(View v) {
         Intent openSocial = new Intent(MainActivity.this, SocialActivity.class);
-        openSocial.putExtra("email", profilo.getEmail());
-        Log.i("TEST: ", "EMAIL PER SOCIAL " + profilo.getEmail());
+        openSocial.putExtra("email", profilo.getId());
+        Log.i("TEST: ", "EMAIL PER SOCIAL " + profilo.getId());
         startActivity(openSocial);
     }
 

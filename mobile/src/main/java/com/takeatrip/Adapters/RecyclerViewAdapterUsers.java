@@ -92,7 +92,7 @@ public class RecyclerViewAdapterUsers extends RecyclerView
                     Intent openProfilo = new Intent(v.getContext(), ProfiloActivity.class);
 
                     //Here pass all the parameter and start the ProfiloActivity
-                    openProfilo.putExtra("emailEsterno", p.getEmail());
+                    openProfilo.putExtra("emailEsterno", p.getId());
                     openProfilo.putExtra("name", p.getName());
                     openProfilo.putExtra("surname",p.getSurname());
                     openProfilo.putExtra("sesso", p.getSesso());

@@ -82,7 +82,7 @@ dependencies {
     compile 'com.github.paolorotolo:appintro:4.0.0'
 
     compile 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.0'
-    compile 'com.github.danylovolokh:video-player-manager:0.2.0'
+    compile 'com.google.android.exoplayer:exoplayer:r2.0.4'
 
 }
 

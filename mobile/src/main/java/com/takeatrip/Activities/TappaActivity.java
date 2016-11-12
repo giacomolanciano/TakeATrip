@@ -17,16 +17,20 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -41,7 +45,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.ui.PlaybackControlView;
 import com.takeatrip.Adapters.ExpandableListAdapter;
+import com.takeatrip.Adapters.GridViewAdapter;
+import com.takeatrip.Adapters.ListViewVideoAdapter;
 import com.takeatrip.AsyncTasks.AggiornamentoDataTappaTask;
 import com.takeatrip.AsyncTasks.BitmapWorkerTask;
 import com.takeatrip.AsyncTasks.DeleteStopTask;
@@ -53,17 +63,21 @@ import com.takeatrip.AsyncTasks.InserimentoNotaTappaTask;
 import com.takeatrip.AsyncTasks.InserimentoVideoTappaTask;
 import com.takeatrip.AsyncTasks.UpdateCondivisioneTappaTask;
 import com.takeatrip.AsyncTasks.UploadFileS3Task;
+import com.takeatrip.Classes.ContenutoMultimediale;
 import com.takeatrip.Classes.NotaTappa;
+import com.takeatrip.Classes.Tappa;
 import com.takeatrip.Fragments.DatePickerFragment;
 import com.takeatrip.GraphicalComponents.AdaptableExpandableListView;
 import com.takeatrip.GraphicalComponents.AdaptableGridView;
 import com.takeatrip.Interfaces.AsyncResponseNotes;
+import com.takeatrip.Interfaces.AsyncResponseVideos;
 import com.takeatrip.R;
 import com.takeatrip.Utilities.AudioRecord;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.DatesUtils;
 import com.takeatrip.Utilities.DeviceStorageUtils;
 import com.takeatrip.Utilities.MultimedialFile;
+import com.takeatrip.Utilities.RoundedImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -79,7 +93,8 @@ import java.util.concurrent.ExecutionException;
 import toan.android.floatingactionmenu.FloatingActionButton;
 import toan.android.floatingactionmenu.FloatingActionsMenu;
 
-public class TappaActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener , AsyncResponseNotes{
+public class TappaActivity extends AppCompatActivity implements
+        DatePickerDialog.OnDateSetListener, AsyncResponseNotes, AsyncResponseVideos, PlaybackControlView.VisibilityListener, ExoPlayer.EventListener, NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "TEST TappaActivity";
     private static final String ADDRESS_QUERY_URLS= "QueryImagesOfStops.php";
@@ -123,30 +138,62 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     private List<String> contentsToDelete;
     private ProgressDialog progressDialog;
 
+    private GridViewAdapter adapterVideos;
 
+    private LinearLayout lnrImages;
+    private ArrayList<String> imagesPathList;
+    private Bitmap yourbitmap;
 
     ExpandableListAdapter listAdapter;
     AdaptableExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<NotaTappa>> listDataChild;
+    private ListView listViewVideos;
+    ListViewVideoAdapter listViewVideoAdapter;
+    private String emailProprietarioTappa;
 
 
+    private NavigationView navigationView;
+    private TextView ViewNomeViaggio;
+    private LinearLayout linearLayoutHeader;
+    private LinearLayout layoutContents,rowHorizontal;
+    private RoundedImageView ViewImmagineViaggio;
+
+
+    //private Tappa[] tappeViaggio;
+    private ArrayList<Tappa> tappeViaggio;
+    private String nomeViaggio;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tappa);
+        setContentView(R.layout.activity_tappa2);
+
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        if (navigationView != null)
+            navigationView.setNavigationItemSelectedListener(this);
+        View layoutHeader = navigationView.getHeaderView(0);
+        ViewNomeViaggio = (TextView) layoutHeader.findViewById(R.id.textViewNameTravel);
+        linearLayoutHeader = (LinearLayout) layoutHeader.findViewById(R.id.layoutHeaderTravel);
+
+
+
         Intent i = getIntent();
         if (i != null) {
             visualizzazioneEsterna = i.getStringExtra("visualizzazioneEsterna");
             email = i.getStringExtra("email");
+            emailProprietarioTappa = i.getStringExtra("emailProprietarioTappa");
             codiceViaggio = i.getStringExtra("codiceViaggio");
             ordineTappa = i.getIntExtra("ordine", 0);
             ordineTappaDB = i.getIntExtra("ordineDB", 0); //è l'ordine del db
             nomeTappa = i.getStringExtra("nome");
             data = i.getStringExtra("data");
             livelloCondivisioneTappa = i.getStringExtra("livelloCondivisioneTappa");
+            nomeViaggio = i.getStringExtra("nomeViaggio");
+            tappeViaggio = i.getParcelableArrayListExtra("tappeViaggio");
+
         }
 
         Log.i(TAG, "email: "+email);
@@ -156,6 +203,13 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         Log.i(TAG, "nome: "+nomeTappa);
         Log.i(TAG, "data: "+data);
         Log.i(TAG, "livelloCondivisione: "+livelloCondivisioneTappa);
+        Log.i(TAG, "tappe del viaggio: " + tappeViaggio);
+
+
+        if (ViewNomeViaggio != null)
+            ViewNomeViaggio.setText(nomeViaggio);
+
+        CreaMenu(tappeViaggio);
 
 
         if(visualizzazioneEsterna != null){
@@ -232,6 +286,8 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         gridViewPhotos = (AdaptableGridView) findViewById(R.id.grid_view_photos);
         gridViewVideos = (AdaptableGridView) findViewById(R.id.grid_view_videos);
         gridViewRecords = (AdaptableGridView) findViewById(R.id.grid_view_records);
+        //listViewVideos = (ListView) findViewById(R.id.list_view_videos);
+        
 
         if (collapsingToolbar != null) {
             collapsingToolbar.setTitle(nomeTappa);
@@ -308,8 +364,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                 @Override
                 public void onClick(View view) {
 
-                    Log.i(TAG, "add photo pressed");
-
                     fabMenu.collapse();
 
                     onClickAddImage(view);
@@ -324,8 +378,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             buttonDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    Log.i(TAG, "delete travel pressed");
 
                     fabMenu.collapse();
 
@@ -360,17 +412,19 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         showProgressDialog();
 
         new GetUrlsContentsTask(TappaActivity.this, codiceViaggio, gridViewPhotos, Constants.QUERY_STOP_IMAGES,
-                email, ordineTappaDB, coverImageTappa).execute();
+                email, emailProprietarioTappa, ordineTappaDB, coverImageTappa).execute();
 
-        new GetUrlsContentsTask(TappaActivity.this, codiceViaggio, gridViewVideos, Constants.QUERY_STOP_VIDEOS,
-                email, ordineTappaDB).execute();
+        GetUrlsContentsTask videoTask = new GetUrlsContentsTask(TappaActivity.this, codiceViaggio, gridViewVideos, Constants.QUERY_STOP_VIDEOS,
+                email, emailProprietarioTappa, ordineTappaDB, null);
+        videoTask.delegate = this;
+        videoTask.execute();
 
         new GetUrlsContentsTask(TappaActivity.this, codiceViaggio, gridViewRecords, Constants.QUERY_STOP_AUDIO,
-                email, ordineTappaDB).execute();
+                email, emailProprietarioTappa, ordineTappaDB, null).execute();
 
 
         GetNotesTask GTN = new GetNotesTask(TappaActivity.this, codiceViaggio, null, Constants.QUERY_STOP_NOTES,
-                email, ordineTappaDB);
+                email, emailProprietarioTappa, ordineTappaDB);
         GTN.delegate = this;
         GTN.execute();
 
@@ -381,12 +435,88 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     }
 
 
-
     private void prepareListData() {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<NotaTappa>>();
         listDataHeader.add("View notes");
     }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if(adapterVideos != null){
+            adapterVideos.releasePlayer();
+            Log.i(TAG, "onPause TappaActivity: release player...");
+        }
+
+    }
+
+    protected void onStop(){
+        super.onStop();
+        if(adapterVideos != null){
+            adapterVideos.releasePlayer();
+            Log.i(TAG, "onStop TappaActivity: release player...");
+
+        }
+    }
+
+
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if(id>=0){
+
+            Tappa tappa = tappeViaggio.get(id);
+
+            Log.i(TAG, "tappa selezionata: " + tappa);
+
+            Intent i = new Intent(this, TappaActivity.class);
+            int ordineTappa = Integer.parseInt(item.getTitle().toString().split("\\. ")[0]);
+            i.putExtra("email", email);
+            i.putExtra("emailProprietarioTappa", emailProprietarioTappa);
+            i.putExtra("codiceViaggio", codiceViaggio);
+            i.putExtra("ordine", ordineTappa);
+            i.putExtra("ordineDB", tappa.getOrdine());
+            i.putExtra("nome", item.getTitle());
+            i.putExtra("data", DatesUtils.getStringFromDate(tappa.getData(), Constants.DISPLAYED_DATE_FORMAT));
+            i.putExtra("codAccount", 0);
+            i.putExtra("livelloCondivisioneTappa", tappa.getLivelloCondivisione());
+            i.putExtra("nomeViaggio", nomeViaggio);
+            i.putParcelableArrayListExtra("tappeViaggio", tappeViaggio);
+
+            if(!email.equals(emailProprietarioTappa)){
+                i.putExtra("visualizzazioneEsterna","true");
+            }
+
+            startActivity(i);
+            finish();
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
+
+    private void CreaMenu(List<Tappa> tappe){
+        Menu menu = navigationView.getMenu();
+        menu.clear();
+
+        if(menu != null) {
+            int i = 0;
+            for (Tappa t : tappe) {
+                menu.add(0, i, Menu.NONE, (i+1) +". " + t.getName());
+                i++;
+            }
+        }
+    }
+
 
 
 
@@ -415,6 +545,13 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
         hideProgressDialog();
+    }
+
+
+    @Override
+    public void processFinishForVideos(List<ContenutoMultimediale> URLS) {
+        adapterVideos = new GridViewAdapter(this, gridViewVideos, URLS, Constants.VIDEO_FILE, codiceViaggio, email);
+        gridViewVideos.setAdapter(adapterVideos);
     }
 
 
@@ -506,15 +643,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             }
         }
     }
-
-
-
-
-
-
-    private LinearLayout lnrImages;
-    private ArrayList<String> imagesPathList;
-    private Bitmap yourbitmap;
 
 
     @Override
@@ -747,8 +875,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
     private void onClickAddImage(View v) {
 
-        Log.i(TAG, "add image pressed");
-
         try {
             ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Material_Light_Dialog);
 
@@ -810,8 +936,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             Log.e(e.toString().toUpperCase(), e.getMessage());
         }
 
-        Log.i(TAG, "END add image");
-
     }
 
 
@@ -871,15 +995,11 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             Log.e(e.toString().toUpperCase(), e.getMessage());
         }
 
-        Log.i(TAG, "END add video");
-
 
     }
 
 
     private void onClickAddRecord(View v) {
-
-        Log.i(TAG, "add record pressed");
 
         try {
             final ContextThemeWrapper wrapper = new ContextThemeWrapper(this,
@@ -1051,9 +1171,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         }
 
 
-
-        Log.i(TAG, "END add record");
-
     }
 
 
@@ -1116,8 +1233,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
         //NB il clear() per le note viene chiamato alla fine del corrisposndente asyntask
         //altrimenti la lista viene svuotata prima della sua esecuzione
 
-        Log.i(TAG, "END add note");
-
     }
 
 
@@ -1179,11 +1294,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                 String nameImage = bitmap_nomeFile.get(bitmap);
                 String pathImage = pathsImmaginiSelezionate.get(bitmap);
 
-                Log.i(TAG, "email: " + email);
-                Log.i(TAG, "codiceViaggio: " + codiceViaggio);
-                Log.i(TAG, "name of the image: " + nameImage);
-                Log.i(TAG, "livello Condivisione: " + livelloCondivisioneTappa);
-
                 try {
                     boolean uploaded = new UploadFileS3Task(TappaActivity.this, Constants.BUCKET_TRAVELS_NAME,
                             codiceViaggio, Constants.TRAVEL_IMAGES_LOCATION, email, pathImage, nameImage).execute().get();
@@ -1193,6 +1303,9 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
                     if(uploaded){
                         new InserimentoImmagineTappaTask(TappaActivity.this, email,codiceViaggio,
                                 ordineTappaDB,null,completePath,livelloCondivisioneTappa).execute();
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), R.string.error_upload, Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -1306,6 +1419,35 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
 
 
 
+
+    @Override
+    public void onLoadingChanged(boolean isLoading) {
+
+    }
+
+    @Override
+    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+
+    }
+
+    @Override
+    public void onTimelineChanged(Timeline timeline, Object manifest) {
+
+    }
+
+    @Override
+    public void onPlayerError(ExoPlaybackException error) {
+
+    }
+
+    @Override
+    public void onPositionDiscontinuity() {
+
+    }
+
+
+
+
     private class PrivacyLevelAdapter extends ArrayAdapter<String> {
 
         public PrivacyLevelAdapter(Context context, int textViewResourceId, String[] strings) {
@@ -1338,6 +1480,10 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
     }
 
 
+    @Override
+    public void onVisibilityChange(int visibility) {
+
+    }
     private void showProgressDialog() {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(this);
@@ -1354,8 +1500,6 @@ public class TappaActivity extends AppCompatActivity implements DatePickerDialog
             progressDialog.dismiss();
         }
     }
-
-
 
 
 

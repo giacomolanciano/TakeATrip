@@ -339,7 +339,7 @@ public class LoginActivity extends AppCompatActivity implements
 
         if(output != null){
             Log.i(TAG, "non primo accesso a TakeATrip");
-            openMainActivity2(output.getEmail(), output.getName(), output.getSurname(), output.getDataNascita(),
+            openMainActivity2(output.getId(), output.getName(), output.getSurname(), output.getDataNascita(),
                     output.getPassword(), output.getNazionalita(), output.getSesso(), output.getUsername(),output.getLavoro(),
                     output.getDescrizione(), output.getTipo());
         }

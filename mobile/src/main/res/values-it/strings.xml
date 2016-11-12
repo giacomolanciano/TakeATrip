@@ -121,7 +121,7 @@
     <string name="error_invalid_password">Password troppo corta</string>
     <string name="error_incorrect_password">Password non corretta</string>
     <string name="error_field_required">Questo campo è obbligatorio</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
+    <string name="permission_rationale">"Contacts permissions are needed for providing id
         completions."
     </string>
 
@@ -201,7 +201,7 @@
     <string name="following">FOLLOWING</string>
     <string name="followers">FOLLOWERS</string>
     <string name="search">Cerca</string>
-    <string name="search_the_user">Cerca l'utente</string>
+    <string name="search_the_user">Cerca l\'utente</string>
     <string name="user">Utente</string>
     <string name="exit">Esci</string>
     <string name="back">Indietro</string>
@@ -214,14 +214,14 @@
 
 
     <string name="travel_text">Vai alla lista dei tuoi viaggi</string>
-    <string name="social_text">Visita l'area social</string>
+    <string name="social_text">Visita l\'area social</string>
     <string name="add_text">Crea un nuovo viaggio</string>
     <string name="search_text">Cerca utenti o viaggi nella TAT community</string>
     <string name="profile_text">Visita il tuo profilo\nPotrai personalizzarlo come vuoi</string>
     <string name="plus_text">Aggiungi una tappa al viaggio</string>
     <string name="menu_text">Sottomenu con scelta multipla</string>
     <string name="home_text">Torna alla home</string>
-    <string name="help_text">Alcuni aiuti per l'utilizzo</string>
+    <string name="help_text">Alcuni aiuti per l\'utilizzo</string>
     <string name="finish">Fine</string>
     <string name="info_add_partecipant_travel">Scegli un partecipante e clicca sul pulsante "più" per aggiungerlo al viaggio</string>
     <string name="stopsList">Gestisci tappe</string>
@@ -248,7 +248,7 @@
     <string name="last_slide_title">Let\'s start!</string>
     <string name="last_slide_description">Don\'t miss anything you love in your journey… TakeATrip!</string>
     <string name="help_slide_title">Help!</string>
-    <string name="help_slide_description">Ogni volta che ti trovi in difficoltà, torna alla Home e premi l'icona per visualizzare il Tutorial.</string>
+    <string name="help_slide_description">Ogni volta che ti trovi in difficoltà, torna alla Home e premi l\'icona per visualizzare il Tutorial.</string>
     <string name="home_slide_description">Questa è la tuo Home page. Da qui puoi accedere alle principali funzioni come creare un nuovo viaggio o cercare quelli
         di qualcun altro.</string>
     <string name="home_slide_title">Home page</string>
@@ -264,7 +264,7 @@
     <string name="EditNote">Modifica nota</string>
     <string name="delete">Elimina</string>
     <string name="add_a_travel">Aggiungi viaggio</string>
-    <string name="add_to_last_stop">Aggiungi all'ultima tappa</string>
+    <string name="add_to_last_stop">Aggiungi all\'ultima tappa</string>
     <string name="travelByUser">Viaggio da utenter</string>
     <string name="SearchTravelByDestination">Viaggio da destinazione</string>
     <string name="adviseNoStops">Nessuna tappa trovata</string>

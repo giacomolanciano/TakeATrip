@@ -221,7 +221,7 @@ public class ProfiloActivity extends TabActivity {
             //verify if the visualized user is the logged user
             TakeATrip TAT = (TakeATrip)getApplicationContext();
             if(TAT != null)
-                emailProfilo = TAT.getProfiloCorrente().getEmail();
+                emailProfilo = TAT.getProfiloCorrente().getId();
 
             Log.i(TAG, "email : " + email);
             Log.i(TAG, "email profilo loggato: " + emailProfilo);
@@ -449,7 +449,7 @@ public class ProfiloActivity extends TabActivity {
         }
         else{
             TakeATrip TAT = (TakeATrip)getApplicationContext();
-            email = TAT.getProfiloCorrente().getEmail();
+            email = TAT.getProfiloCorrente().getId();
             intentFollowers.putExtra("email", email);
             Log.i(TAG, "Email di chi voglio vedere i followers " + email);
         }

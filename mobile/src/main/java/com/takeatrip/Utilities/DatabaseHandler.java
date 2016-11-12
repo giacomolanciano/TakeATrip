@@ -74,7 +74,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(EMAIL, profilo.getEmail()); // User Name
+        values.put(EMAIL, profilo.getId()); // User Name
         values.put(USER_PWD, s);
         values.put(NAME, profilo.getName());
         values.put(SURNAME, profilo.getSurname());
@@ -129,7 +129,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
                 Profilo profile = new Profilo();
-                profile.setEmail(cursor.getString(0));
+                profile.setId(cursor.getString(0));
                 profile.setPassword(cursor.getString(1));
                 profile.setName(cursor.getString(2));
                 profile.setSurname(cursor.getString(3));
@@ -158,7 +158,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(EMAIL, profilo.getEmail()); // User Name
+        values.put(EMAIL, profilo.getId()); // User Name
         values.put(USER_PWD, s);
         values.put(NAME, profilo.getName());
         values.put(SURNAME, profilo.getSurname());
@@ -172,7 +172,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // updating row
         return db.update(TABLE_USERS, values, EMAIL + " = ?",
-                new String[] { String.valueOf(profilo.getEmail()) });
+                new String[] { String.valueOf(profilo.getId()) });
     }
 
 
@@ -180,7 +180,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void deleteContact(Profilo p) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_USERS, EMAIL + " = ?",
-                new String[]{String.valueOf(p.getEmail())});
+                new String[]{String.valueOf(p.getId())});
         db.close();
     }
 

@@ -51,89 +51,102 @@ public class GridViewImageAdapter extends GridViewAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        adapter = this;
 
-        SquaredImageView result = (SquaredImageView) super.getView(position, convertView, parent);
-        final Context context = this.getContext();
+        if(!(convertView instanceof SquaredImageView)){
+            Log.i(TAG, "squared image view number " + position);
+            convertView = new SquaredImageView(context);
 
-        final ContenutoMultimediale contenutoMultimediale = getItem(Integer.parseInt(result.getContentDescription().toString()));
-        final String url = UtilS3AmazonCustom.getS3FileURL(getS3(), Constants.BUCKET_TRAVELS_NAME,
-                contenutoMultimediale.getUrlContenuto());
+            convertView.setContentDescription(position+"");
 
-        // Trigger the download of the URL asynchronously into the image view.
-        Picasso.with(context)
-                .load(url)
-                .placeholder(R.drawable.empty_image)
-                .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *THREE, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *THREE)
-                .centerCrop()
-                .tag(context)
-                .into(result);
+            final Context context = this.getContext();
+
+            final ContenutoMultimediale contenutoMultimediale = getItem(Integer.parseInt(convertView.getContentDescription().toString()));
+            final String url = UtilS3AmazonCustom.getS3FileURL(getS3(), Constants.BUCKET_TRAVELS_NAME,
+                    contenutoMultimediale.getUrlContenuto());
+
+            // Trigger the download of the URL asynchronously into the image view.
+            Picasso.with(context)
+                    .load(url)
+                    .placeholder(R.drawable.empty_image)
+                    .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *THREE, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *THREE)
+                    .centerCrop()
+                    .tag(context)
+                    .into((SquaredImageView) convertView);
 
 
-        result.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                final Dialog dialog = new Dialog(context, R.style.CustomDialog);
-                dialog.setContentView(R.layout.photos_view);
-
-                ImageView imageProfile = (ImageView) dialog.findViewById(R.id.imageDialog);
-                imageProfile.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-                float density = context.getResources().getDisplayMetrics().density;
-                if(density < 3.0){
-                    Picasso.with(context)
-                            .load(url)
-                            .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *6, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *6)
-                            .into(imageProfile, new com.squareup.picasso.Callback() {
-                                @Override
-                                public void onSuccess() {
-                                    setDialog(dialog,position,v);
-                                }
-
-                                @Override
-                                public void onError() {
-
-                                }
-                            });
-                }
-                else if(density == 3.0 || density == 4.0){
-                    Picasso.with(context)
-                            .load(url)
-                            .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *10, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *10)
-                            .into(imageProfile, new com.squareup.picasso.Callback() {
-                                @Override
-                                public void onSuccess() {
-                                    setDialog(dialog,position,v);
-                                }
-
-                                @Override
-                                public void onError() {
-
-                                }
-                            });
-
-                }
-            }
-        });
-        if (getCodiceViaggio() != null) {
-            result.setOnLongClickListener(new View.OnLongClickListener() {
+            convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public boolean onLongClick(View v) {
-                    if(getItem(position).getEmailProfilo().equals(emailProfiloLoggato)){
+                public void onClick(final View v) {
+                    final Dialog dialog = new Dialog(context, R.style.CustomDialog);
+                    dialog.setContentView(R.layout.photos_view);
 
-                        confirmFileDeletion(v, Constants.QUERY_DEL_IMAGE);
+                    ImageView imageProfile = (ImageView) dialog.findViewById(R.id.imageDialog);
+                    imageProfile.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    float density = context.getResources().getDisplayMetrics().density;
+                    if(density < 3.0){
+                        Picasso.with(context)
+                                .load(url)
+                                .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *6, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *6)
+                                .into(imageProfile, new com.squareup.picasso.Callback() {
+                                    @Override
+                                    public void onSuccess() {
+                                        setDialog(dialog,position,v);
+                                    }
+
+                                    @Override
+                                    public void onError() {
+
+                                    }
+                                });
                     }
+                    else if(density == 3.0 || density == 4.0){
+                        Picasso.with(context)
+                                .load(url)
+                                .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *10, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *10)
+                                .into(imageProfile, new com.squareup.picasso.Callback() {
+                                    @Override
+                                    public void onSuccess() {
+                                        setDialog(dialog,position,v);
+                                    }
 
-                    return false;
+                                    @Override
+                                    public void onError() {
+
+                                    }
+                                });
+
+                    }
                 }
             });
-        }
+            if (getCodiceViaggio() != null) {
+                convertView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        if(getItem(position).getEmailProfilo().equals(emailProfiloLoggato)){
 
-        return result;
+                            confirmFileDeletion(v, Constants.QUERY_DEL_IMAGE);
+                        }
+
+                        return false;
+                    }
+                });
+            }
+
+
+            return convertView;
+
+
+        } else {
+            return convertView;
+
+        }
     }
 
 

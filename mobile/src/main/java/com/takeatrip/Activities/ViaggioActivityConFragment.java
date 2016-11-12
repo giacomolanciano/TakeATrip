@@ -45,8 +45,13 @@ import android.widget.Toast;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.ui.PlaybackControlView;
 import com.squareup.picasso.Picasso;
 import com.takeatrip.Adapters.ExpandableListAdapter;
+import com.takeatrip.Adapters.ListViewVideoAdapter;
 import com.takeatrip.AsyncTasks.BitmapWorkerTask;
 import com.takeatrip.AsyncTasks.DeleteTravelTask;
 import com.takeatrip.AsyncTasks.ExitTravelTask;
@@ -57,12 +62,14 @@ import com.takeatrip.AsyncTasks.ItinerariesTask;
 import com.takeatrip.AsyncTasks.StartActivityWithIndetProgressTask;
 import com.takeatrip.AsyncTasks.UpdateCondivisioneViaggioTask;
 import com.takeatrip.AsyncTasks.UpdateTravelNameTask;
+import com.takeatrip.Classes.ContenutoMultimediale;
 import com.takeatrip.Classes.NotaTappa;
 import com.takeatrip.Classes.Profilo;
 import com.takeatrip.Classes.TakeATrip;
 import com.takeatrip.GraphicalComponents.AdaptableExpandableListView;
 import com.takeatrip.GraphicalComponents.AdaptableGridView;
 import com.takeatrip.Interfaces.AsyncResponseNotes;
+import com.takeatrip.Interfaces.AsyncResponseVideos;
 import com.takeatrip.R;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.InternetConnection;
@@ -91,7 +98,8 @@ import toan.android.floatingactionmenu.FloatingActionButton;
 import toan.android.floatingactionmenu.FloatingActionsMenu;
 
 
-public class ViaggioActivityConFragment extends TabActivity implements AsyncResponseNotes{
+public class ViaggioActivityConFragment extends TabActivity implements AsyncResponseNotes,
+        AsyncResponseVideos,PlaybackControlView.VisibilityListener, ExoPlayer.EventListener {
 
     private static final String TAG = "TEST ViaggioActivity";
     private static final String ADDRESS = "QueryNomiUtenti.php";
@@ -163,6 +171,8 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
     HashMap<String, List<NotaTappa>> listDataChild;
 
     private ListView listViewVideos;
+    ListViewVideoAdapter listViewVideoAdapter;
+
 
 
     @Override
@@ -235,14 +245,14 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
         if(email == null){
             TakeATrip TAT = (TakeATrip)getApplicationContext();
-            email = TAT.getProfiloCorrente().getEmail();
+            email = TAT.getProfiloCorrente().getId();
         }
 
         Log.i(TAG, "email utente: " + email + " codiceViaggio: " + codiceViaggio + " nomeVaggio: " + nomeViaggio);
 
 
         gridViewPhotos = (AdaptableGridView) findViewById(R.id.grid_view_photos);
-        gridViewVideos = (AdaptableGridView) findViewById(R.id.grid_view_videos);
+        //gridViewVideos = (AdaptableGridView) findViewById(R.id.grid_view_videos);
         gridViewRecords = (AdaptableGridView) findViewById(R.id.grid_view_records);
 
         listViewVideos = (ListView) findViewById(R.id.list_view_videos);
@@ -265,7 +275,10 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
             GUCT.execute();
 
 
-            new GetUrlsContentsTask(ViaggioActivityConFragment.this, codiceViaggio, email, listViewVideos, Constants.QUERY_TRAVEL_VIDEOS).execute();
+            GetUrlsContentsTask taskVideos = new GetUrlsContentsTask(ViaggioActivityConFragment.this, codiceViaggio, email, listViewVideos, Constants.QUERY_TRAVEL_VIDEOS);
+            taskVideos.delegate = this;
+            taskVideos.execute();
+
 
             new GetUrlsContentsTask(ViaggioActivityConFragment.this, codiceViaggio, email, gridViewRecords, Constants.QUERY_TRAVEL_AUDIO).execute();
 
@@ -332,15 +345,8 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
             Log.e(TAG, "privacySpinner is null");
         }
 
-
-
-
         popolaPartecipanti();
-
-
         showProgressDialog();
-
-
         new UtentiTask().execute();
     }
 
@@ -351,8 +357,24 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         super.onResume();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if(listViewVideoAdapter != null){
+            listViewVideoAdapter.releasePlayer();
+            Log.i(TAG, "onPause ViaggioActivity: release player...");
+        }
+
+    }
+
     protected void onStop(){
         super.onStop();
+        if(listViewVideoAdapter != null){
+            listViewVideoAdapter.releasePlayer();
+            Log.i(TAG, "onStop ViaggioActivity: release player...");
+
+        }
     }
 
     @Override
@@ -404,7 +426,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         int i= 0;
         for(Profilo p: listPartecipants){
             namePartecipants[i] = p.getName();
-            emailPartecipants[i] = p.getEmail();
+            emailPartecipants[i] = p.getId();
             urlImagePartecipants[i] = p.getIdImageProfile();
             sessoPartecipants[i] = p.getSesso();
             i++;
@@ -418,7 +440,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         }
         else{
             TakeATrip TAT = (TakeATrip)getApplicationContext();
-            email = TAT.getProfiloCorrente().getEmail();
+            email = TAT.getProfiloCorrente().getId();
             intent.putExtra("email", email);
         }
 
@@ -581,7 +603,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
             }
 
             final ImageView image = new RoundedImageView(this, null);
-            image.setContentDescription(p.getEmail());
+            image.setContentDescription(p.getId());
 
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -750,7 +772,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
             ImageView coverImageProfile = (ImageView) dialog.findViewById(R.id.CoverImageDialog);
 
             for(Profilo p : listPartecipants){
-                if(p.getEmail().equals(v.getContentDescription())){
+                if(p.getId().equals(v.getContentDescription())){
                     viewName.setText(p.getName() + " " + p.getSurname());
                     if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
                         String signedUrl = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_NAME,
@@ -793,13 +815,13 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                 public void onClick(View view) {
                     Log.i(TAG,"email profilo selezionato: "+ v.getContentDescription().toString());
                     for(Profilo p : listPartecipants){
-                        if(p.getEmail().equals(v.getContentDescription())){
+                        if(p.getId().equals(v.getContentDescription())){
 
                             Intent openProfilo = new Intent(ViaggioActivityConFragment.this, ProfiloActivity.class);
                             openProfilo.putExtra("name", p.getName());
                             openProfilo.putExtra("surname", p.getSurname());
                             if(emailEsterno != null){
-                                openProfilo.putExtra("emailEsterno", p.getEmail());
+                                openProfilo.putExtra("emailEsterno", p.getId());
                             }
                             else{
                                 openProfilo.putExtra("email", email);
@@ -919,7 +941,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
                             boolean giaPresente = false;
                             for(Profilo partecipant : listPartecipants){
-                                if(partecipant.getEmail().equals(p.getEmail())){
+                                if(partecipant.getId().equals(p.getId())){
                                     giaPresente = true;
                                     break;
                                 }
@@ -932,7 +954,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
                                     if(result){
                                         final ImageView image = new RoundedImageView(ViaggioActivityConFragment.this, null);
-                                        image.setContentDescription(p.getEmail());
+                                        image.setContentDescription(p.getId());
 
                                         image.setOnClickListener(new View.OnClickListener() {
                                             @Override
@@ -1075,6 +1097,59 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                 .setIcon(ContextCompat.getDrawable(ViaggioActivityConFragment.this, R.drawable.logodefbordo))
                 .show();
     }
+
+
+
+
+
+    @Override
+    public void processFinishForVideos(List<ContenutoMultimediale> URLs) {
+
+        listViewVideoAdapter = new ListViewVideoAdapter(this, R.layout.entry_list_videos, URLs, codiceViaggio, email, Constants.QUERY_TRAVEL_VIDEOS);
+        listViewVideos.setAdapter(listViewVideoAdapter);
+    }
+
+
+
+
+
+
+    @Override
+    public void onVisibilityChange(int visibility) {
+        if(listViewVideoAdapter != null)
+                listViewVideoAdapter.debugRootView.setVisibility(visibility);
+    }
+
+    @Override
+    public void onLoadingChanged(boolean isLoading) {
+        // Do nothing.
+
+    }
+
+    @Override
+    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+        if (listViewVideoAdapter != null && playbackState == ExoPlayer.STATE_ENDED) {
+            listViewVideoAdapter.showControls();
+        }
+    }
+
+    @Override
+    public void onTimelineChanged(Timeline timeline, Object manifest) {
+
+    }
+
+    @Override
+    public void onPlayerError(ExoPlaybackException error) {
+        Log.e(TAG, "error occurred: " + error);
+    }
+
+    @Override
+    public void onPositionDiscontinuity() {
+        // Do nothing.
+
+    }
+
+
 
 
     /*

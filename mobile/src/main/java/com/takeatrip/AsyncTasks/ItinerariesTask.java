@@ -50,9 +50,9 @@ public class ItinerariesTask extends AsyncTask<Void, Void, Boolean> {
     protected Boolean doInBackground(Void... params) {
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
         dataToSend.add(new BasicNameValuePair("codice", codiceViaggio));
-        dataToSend.add(new BasicNameValuePair("email", profilo.getEmail()));
+        dataToSend.add(new BasicNameValuePair("email", profilo.getId()));
 
-        String url = profilo.getEmail()+"/"+ nameForUrl;
+        String url = profilo.getId()+"/"+ nameForUrl;
 
         Log.i(TAG, "url della cartella del nuovo partecipante: " + url);
         dataToSend.add(new BasicNameValuePair("urlCartella",url));

@@ -1,11 +1,18 @@
 package com.takeatrip.Classes;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.takeatrip.Utilities.Constants;
+import com.takeatrip.Utilities.DatesUtils;
+
+import java.util.Calendar;
 import java.util.Date;
 
 /**
  * Created by Giacomo on 15/01/2016.
  */
-public class Tappa {
+public class Tappa implements Parcelable{
 
     private Itinerario itinerario;
     private int ordine;
@@ -20,6 +27,8 @@ public class Tappa {
         this.itinerario = itinerario;
         this.ordine = ordine;
     }
+
+
 
     public Tappa(Itinerario itinerario, int ordine, Tappa tappaPrecedente, Date data, String nomeTappa, POI poi, String livelloCondivisione) {
         this.itinerario = itinerario;
@@ -37,6 +46,29 @@ public class Tappa {
         this.data = data;
         this.livelloCondivisione = livelloCondivisione;
     }
+
+    protected Tappa(Parcel in) {
+        String[] array = new String[3];
+        in.readStringArray(array);
+        ordine = in.readInt();
+        //tappaPrecedente = in.readParcelable(Tappa.class.getClassLoader());
+        nome = array[0];
+        livelloCondivisione =array[1];
+        Calendar cal = DatesUtils.getDateFromString(array[2], Constants.DATABASE_DATE_FORMAT);
+        data = cal.getTime();
+    }
+
+    public static final Creator<Tappa> CREATOR = new Creator<Tappa>() {
+        @Override
+        public Tappa createFromParcel(Parcel in) {
+            return new Tappa(in);
+        }
+
+        @Override
+        public Tappa[] newArray(int size) {
+            return new Tappa[size];
+        }
+    };
 
     public Itinerario getItinerario() {
         return itinerario;
@@ -124,6 +156,23 @@ public class Tappa {
     }
 
     public String toString(){
-        return getPoi() + " " +getName() +" "+ livelloCondivisione;
+        return getPoi() + " "+ getOrdine() +  " " +getName() +" "+ livelloCondivisione;
     }
+
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeStringArray(new String[] {this.nome,
+                this.livelloCondivisione, DatesUtils.getStringFromDate(data, Constants.DISPLAYED_DATE_FORMAT)});
+        dest.writeInt(ordine);
+
+    }
+
+
 }

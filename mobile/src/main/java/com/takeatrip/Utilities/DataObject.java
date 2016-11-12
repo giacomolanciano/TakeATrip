@@ -70,7 +70,7 @@ public class DataObject {
     }
     public String getEmailFollow() {
 
-        return follow.getEmail();
+        return follow.getId();
     }
     public String getSessoFollow() {
         return follow.getSesso();
@@ -118,7 +118,7 @@ public class DataObject {
     }
 
     public String getEmail() {
-        return profilo.getEmail();
+        return profilo.getId();
     }
 
     public void setProfilo(Profilo profilo) {

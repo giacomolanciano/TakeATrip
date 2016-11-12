@@ -477,7 +477,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
 
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-            dataToSend.add(new BasicNameValuePair("email", profiloUtente.getEmail()));
+            dataToSend.add(new BasicNameValuePair("email", profiloUtente.getId()));
             try {
 
                 HttpClient httpclient = new DefaultHttpClient();

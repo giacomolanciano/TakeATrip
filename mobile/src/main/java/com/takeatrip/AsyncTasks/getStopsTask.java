@@ -69,10 +69,10 @@ public class GetStopsTask extends AsyncTask<Void, Void, Boolean> {
             for(Profilo p : partecipants){
                 List<Tappa> tappe = new ArrayList<Tappa>();
                 ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-                dataToSend.add(new BasicNameValuePair("email", p.getEmail()));
+                dataToSend.add(new BasicNameValuePair("email", p.getId()));
                 dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
 
-                Log.i(TAG,"email: " + p.getEmail());
+                Log.i(TAG,"email: " + p.getId());
                 Log.i(TAG,"codiceViaggio: " + codiceViaggio);
 
                 try {

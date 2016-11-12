@@ -82,13 +82,12 @@ public class DeleteStopContentTask extends AsyncTask<Void, Void, Boolean> {
 
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
         dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
+        dataToSend.add(new BasicNameValuePair("emailProfilo", emailProfilo));
 
 
         if (query.equals(Constants.QUERY_DEL_NOTE)) {
             String nota_modificata = id.replace("'","''").replace("€","euro");
-
             dataToSend.add(new BasicNameValuePair("nota", nota_modificata));
-            dataToSend.add(new BasicNameValuePair("emailProfilo", emailProfilo));
         } else {
             dataToSend.add(new BasicNameValuePair("url", id));
         }
@@ -116,8 +115,9 @@ public class DeleteStopContentTask extends AsyncTask<Void, Void, Boolean> {
 
                         result = sb.toString();
                         Log.i(TAG, "result: " +result);
-                        //elimina contenuto da amazon s3
-                        s3.deleteObject(Constants.BUCKET_TRAVELS_NAME, id);
+                        if(result != null)
+                            s3.deleteObject(Constants.BUCKET_TRAVELS_NAME, id);
+                        else return false;
 
                     } catch (Exception e) {
                         Log.e(TAG, "Errore nella connessione http "+e.toString());

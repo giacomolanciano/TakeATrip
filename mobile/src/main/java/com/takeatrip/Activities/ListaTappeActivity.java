@@ -116,8 +116,6 @@ public class ListaTappeActivity extends AppCompatActivity
     private ImageView addNote;
     private TextView noteAdded;
 
-
-
     private Profilo profiloUtenteLoggato;
 
     //il profilo dell'utilizzatore è sempre il primo
@@ -256,7 +254,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
             if(email == null){
                 TakeATrip TAT = (TakeATrip)getApplicationContext();
-                email = TAT.getProfiloCorrente().getEmail();
+                email = TAT.getProfiloCorrente().getId();
             }
 
 
@@ -339,7 +337,7 @@ public class ListaTappeActivity extends AppCompatActivity
             //aggiungo sulla mappa solamente le tappe del profilo corrente, se partecipante al viaggio,
             //altrimenti aggiungo le tappe di un profilo casuale
             for(Profilo p : profiloTappe.keySet()){
-                if(p.getEmail().equals(email)){
+                if(p.getId().equals(email)){
                     List<Tappa> aux = profiloTappe.get(p);
                     AggiungiMarkedPointsOnMap(p, profiloTappe.get(p));
                     aggiuntiMarkedPoints = true;
@@ -424,6 +422,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
         if(id>0){
 
+            ArrayList<Tappa> tappe = (ArrayList<Tappa>) profiloTappe.get(profiloVisualizzazioneCorrente);
             Tappa tappa = profiloTappe.get(profiloVisualizzazioneCorrente).get(id-1);
 
             Log.i(TAG, "tappa selezionata: " + tappa);
@@ -431,6 +430,7 @@ public class ListaTappeActivity extends AppCompatActivity
             Intent i = new Intent(this, TappaActivity.class);
             int ordineTappa = Integer.parseInt(item.getTitle().toString().split("\\. ")[0]);
             i.putExtra("email", email);
+            i.putExtra("emailProprietarioTappa", profiloVisualizzazioneCorrente.getId());
             i.putExtra("codiceViaggio", codiceViaggio);
             i.putExtra("ordine", ordineTappa);
             i.putExtra("ordineDB", tappa.getOrdine());
@@ -438,6 +438,11 @@ public class ListaTappeActivity extends AppCompatActivity
             i.putExtra("data", DatesUtils.getStringFromDate(tappa.getData(), Constants.DISPLAYED_DATE_FORMAT));
             i.putExtra("codAccount", 0);
             i.putExtra("livelloCondivisioneTappa", tappa.getLivelloCondivisione());
+            i.putExtra("nomeViaggio", nomeViaggio);
+            i.putParcelableArrayListExtra("tappeViaggio", tappe);
+
+
+
             if(profiloVisualizzazioneCorrente != profiloUtenteLoggato){
                 i.putExtra("visualizzazioneEsterna","true");
             }
@@ -509,6 +514,8 @@ public class ListaTappeActivity extends AppCompatActivity
         String labelTappa = nomeTappa.split("\\.")[0];
         int numeroTappa = Integer.parseInt(labelTappa)-1;
 
+        ArrayList<Tappa> tappe = (ArrayList<Tappa>) profiloTappe.get(profiloVisualizzazioneCorrente);
+
         Tappa tappaSelezionata = profiloTappe.get(profiloVisualizzazioneCorrente).get(numeroTappa);
         int ordineTappa = Integer.parseInt(nomeTappa.split("\\. ")[0]);
 
@@ -518,11 +525,14 @@ public class ListaTappeActivity extends AppCompatActivity
             i.putExtra("visualizzazioneEsterna","true");
         }
         i.putExtra("email", email);
+        i.putExtra("emailProprietarioTappa", profiloVisualizzazioneCorrente.getId());
         i.putExtra("codiceViaggio", codiceViaggio);
         i.putExtra("ordine", ordineTappa);
         i.putExtra("ordineDB", tappaSelezionata.getOrdine());
         i.putExtra("nome", nomeTappa);
         i.putExtra("livelloCondivisioneTappa", tappaSelezionata.getLivelloCondivisione());
+        i.putExtra("nomeViaggio", nomeViaggio);
+        i.putParcelableArrayListExtra("tappeViaggio", tappe);
 
 
         Calendar cal = Calendar.getInstance();
@@ -555,7 +565,7 @@ public class ListaTappeActivity extends AppCompatActivity
 
         for(Profilo p : partecipants){
             ImageView image = new RoundedImageView(this, null);
-            image.setContentDescription(p.getEmail());
+            image.setContentDescription(p.getId());
             currentProfile = p;
             if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
                 URL completeUrl = null;
@@ -581,7 +591,7 @@ public class ListaTappeActivity extends AppCompatActivity
                 @Override
                 public void onClick(View v) {
                     for (Profilo p : partecipants) {
-                        if (p.getEmail().equals(v.getContentDescription())) {
+                        if (p.getId().equals(v.getContentDescription())) {
                             ClickImagePartecipant(p);
                             break;
                         }
@@ -604,7 +614,7 @@ public class ListaTappeActivity extends AppCompatActivity
         Log.i(TAG,"PROFILO UTENTE CLICCATO: " + p);
         Log.i(TAG,"PROFILO UTENTE LOGGATO: " + profiloUtenteLoggato);
 
-        if(!p.getEmail().equals(profiloUtenteLoggato.getEmail()))
+        if(!p.getId().equals(profiloUtenteLoggato.getId()))
             buttonAddStop.setVisibility(View.INVISIBLE);
         else
             buttonAddStop.setVisibility(View.VISIBLE);

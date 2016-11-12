@@ -88,8 +88,6 @@ public class LoadGenericImageTask extends AsyncTask<Void, Void, URL>  {
                 msec += Constants.ONE_HOUR_IN_MILLISEC;
                 expiration.setTime(msec);
 
-
-
                 if(codiceViaggio != null){
                     GeneratePresignedUrlRequest generatePresignedUrlRequest =
                             new GeneratePresignedUrlRequest(Constants.BUCKET_TRAVELS_NAME,codiceViaggio
@@ -98,7 +96,6 @@ public class LoadGenericImageTask extends AsyncTask<Void, Void, URL>  {
                     generatePresignedUrlRequest.setExpiration(expiration);
 
                     url = s3.generatePresignedUrl(generatePresignedUrlRequest);
-
                 }
                 else{
                     GeneratePresignedUrlRequest generatePresignedUrlRequest =

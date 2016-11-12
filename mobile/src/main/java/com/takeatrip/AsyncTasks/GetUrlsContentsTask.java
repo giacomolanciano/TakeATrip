@@ -18,8 +18,8 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.takeatrip.Activities.ViaggioActivityConFragment;
 import com.takeatrip.Adapters.GridViewAdapter;
 import com.takeatrip.Adapters.GridViewImageAdapter;
-import com.takeatrip.Adapters.ListViewVideoAdapter;
 import com.takeatrip.Classes.ContenutoMultimediale;
+import com.takeatrip.Interfaces.AsyncResponseVideos;
 import com.takeatrip.R;
 import com.takeatrip.Utilities.Constants;
 import com.takeatrip.Utilities.InternetConnection;
@@ -55,7 +55,7 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
 
     private Context context;
     private GridView gridView;
-    private String phpFile, emailProfilo;
+    private String phpFile, emailProfilo, emailProprietarioTappa;
     private int ordineTappa;
 
     private String codiceViaggio;
@@ -74,11 +74,10 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
     private AmazonS3Client s3;
 
     private ListView listViewVideos;
+    public AsyncResponseVideos delegate = null;
 
 
-
-
-
+    //Task for contents of the whole travel
     public GetUrlsContentsTask(Context context, String codiceViaggio, String emailProfilo,
                                GridView gridView, String phpFile) {
         this.codiceViaggio = codiceViaggio;
@@ -94,32 +93,7 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
 
     }
 
-    public GetUrlsContentsTask(Context context, String codiceViaggio, GridView gridView, String phpFile,
-                               String emailProfilo, int ordineTappa) {
-        this(context, codiceViaggio, emailProfilo, gridView, phpFile);
-        this.ordineTappa = ordineTappa;
-
-        transferUtility = UtilS3Amazon.getTransferUtility(context);
-        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
-        s3 = UtilS3Amazon.getS3Client(context);
-    }
-
-    public GetUrlsContentsTask(Context context, String codiceViaggio, GridView gridView, String phpFile,
-                               String emailProfilo, int ordineTappa, ImageView coverImageTappa) {
-
-        this(context, codiceViaggio, gridView, phpFile, emailProfilo, ordineTappa);
-        this.coverImageTappa = coverImageTappa;
-
-        transferUtility = UtilS3Amazon.getTransferUtility(context);
-        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
-        s3 = UtilS3Amazon.getS3Client(context);
-    }
-
-
-
-
-
-
+    //Task for contents of the videos of travel
     public GetUrlsContentsTask(ViaggioActivityConFragment context, String codiceViaggio, String emailProfilo, ListView listViewVideos, String phpFile) {
         this.codiceViaggio = codiceViaggio;
         this.context = context;
@@ -137,6 +111,43 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
 
 
 
+    //Task for contents of a particular stop
+    public GetUrlsContentsTask(Context context, String codiceViaggio, GridView gridView, String phpFile,
+                               String emailProfilo, String emailProprietarioTappa, int ordineTappa, ImageView coverImageTappa) {
+        this.codiceViaggio = codiceViaggio;
+        this.context = context;
+        this.gridView = gridView;
+        this.phpFile = phpFile;
+        this.emailProfilo = emailProfilo;
+        this.emailProprietarioTappa = emailProprietarioTappa;
+        this.coverImageTappa = coverImageTappa;
+        this.ordineTappa = ordineTappa;
+
+        listContents = new ArrayList<ContenutoMultimediale>();
+
+        transferUtility = UtilS3Amazon.getTransferUtility(context);
+        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
+        s3 = UtilS3Amazon.getS3Client(context);
+    }
+
+
+    public GetUrlsContentsTask(Context context, String codiceViaggio, ListView listViewVideos, String phpFile,
+                               String emailProfilo, String emailProprietarioTappa, int ordineTappa, ImageView coverImageTappa) {
+        this.codiceViaggio = codiceViaggio;
+        this.context = context;
+        this.phpFile = phpFile;
+        this.emailProfilo = emailProfilo;
+        this.emailProprietarioTappa = emailProprietarioTappa;
+        this.coverImageTappa = coverImageTappa;
+        this.listViewVideos = listViewVideos;
+        listContents = new ArrayList<ContenutoMultimediale>();
+        this.ordineTappa = ordineTappa;
+
+        transferUtility = UtilS3Amazon.getTransferUtility(context);
+        transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
+        s3 = UtilS3Amazon.getS3Client(context);
+    }
+
     @Override
     protected Boolean doInBackground(Void... params) {
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
@@ -146,7 +157,7 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
         if (phpFile.equals(Constants.QUERY_STOP_IMAGES)
                 || phpFile.equals(Constants.QUERY_STOP_VIDEOS)
                 || phpFile.equals(Constants.QUERY_STOP_AUDIO)) {
-
+            dataToSend.add(new BasicNameValuePair("emailProprietarioTappa", emailProprietarioTappa));
             dataToSend.add(new BasicNameValuePair("ordineTappa", ordineTappa + ""));
         }
 
@@ -237,7 +248,6 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
                 gv.setOnScrollListener(new ScrollListener(context));
             }
 
-
             if (listContents.size() > 0) {
                 //se la lista di elementi da caricare è non vuota, il linear layout parent viene visualizzato
 
@@ -263,10 +273,10 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
 
             if (phpFile.equals(Constants.QUERY_TRAVEL_IMAGES)
                     || phpFile.equals(Constants.QUERY_STOP_IMAGES)) {
+                Log.i(TAG, "immagini scaricate: " + URLs);
 
                 GridViewImageAdapter adapter = new GridViewImageAdapter(context, gv, URLs, Constants.IMAGE_FILE, codiceViaggio, emailProfilo);
                 gv.setAdapter(adapter);
-                gv.invalidateViews();
 
                 //nel caso di immagini della tappa, la prima viene impostata come copertina
                 if(phpFile.equals(Constants.QUERY_STOP_IMAGES) && coverImageTappa != null) {
@@ -286,14 +296,12 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
                     }
                 }
 
-            } else if (phpFile.equals(Constants.QUERY_TRAVEL_VIDEOS)
-                    || phpFile.equals(Constants.QUERY_STOP_VIDEOS)) {
-
-
-                ListViewVideoAdapter adapter = new ListViewVideoAdapter(context, R.layout.entry_list_videos, URLs, codiceViaggio, emailProfilo);
-                listViewVideos.setAdapter(adapter);
-
-            } else {
+            }
+            else if (phpFile.equals(Constants.QUERY_TRAVEL_VIDEOS) || phpFile.equals(Constants.QUERY_STOP_VIDEOS)){
+                Log.i(TAG,"video caricati: " + URLs);
+                delegate.processFinishForVideos(URLs);
+            }
+            else {
                 gv.setAdapter(new GridViewAdapter(context, gv, URLs, Constants.AUDIO_FILE, codiceViaggio));
             }
 

@@ -9,15 +9,30 @@ import java.io.Serializable;
  */
 public class Profilo implements Serializable {
 
-    private String email, name, surname, password, dataNascita, nazionalita, sesso, username, lavoro, descrizione, tipo;
+    private String id, email, name, surname, password, dataNascita, nazionalita, sesso, username, lavoro, descrizione, tipo;
     private String idImageProfile, getIdImageCover;
     private int codAccount;
 
-    public Profilo(){
+    public Profilo(){}
+
+    public Profilo(String id, String name, String surname, String dataNascita, String nazionalita,
+                   String sesso, String username, String lavoro, String descrizione, String tipo) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.dataNascita = dataNascita;
+        this.codAccount = Constants.DEFAULT_COD_ACCOUNT;
+        this.nazionalita = nazionalita;
+        this.sesso = sesso;
+        this.username = username;
+        this.lavoro = lavoro;
+        this.descrizione = descrizione;
+        this.tipo = tipo;
     }
 
-    public Profilo(String email, String name, String surname, String dataNascita, String nazionalita,
+    public Profilo(String id, String email, String name, String surname, String dataNascita, String nazionalita,
                    String sesso, String username, String lavoro, String descrizione, String tipo) {
+        this.id = id;
         this.email = email;
         this.name = name;
         this.surname = surname;
@@ -31,10 +46,10 @@ public class Profilo implements Serializable {
         this.tipo = tipo;
     }
 
-    public Profilo(String email, String name, String surname, String dataNascita,
+    public Profilo(String id, String name, String surname, String dataNascita,
                    String nazionalita, String sesso, String username, String lavoro,
-                   String descrizione, String tipo,String idImageProfile, String idImageCover) {
-        this.email = email;
+                   String descrizione, String tipo, String idImageProfile, String idImageCover) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.dataNascita = dataNascita;
@@ -50,8 +65,16 @@ public class Profilo implements Serializable {
     }
 
 
-    public Profilo(String email) {
-        this.email = email;
+    public Profilo(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -152,7 +175,7 @@ public class Profilo implements Serializable {
     }
 
     public String toString() {
-        return getName() + " " + getSurname() + " " + getEmail();
+        return getName() + " " + getSurname() + " " + getId();
     }
 
 
