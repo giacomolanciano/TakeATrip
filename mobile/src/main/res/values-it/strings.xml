@@ -285,5 +285,8 @@
     <string name="Search">cerca</string>
     <string name="segnala">Segnala</string>
 
+    <string name="error_upload">Errore nel caricamento del file</string>
+    <string name="exit_travel">Esci dal viaggio</string>
+
 
 </resources>
