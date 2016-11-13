@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // The S3 client
     private AmazonS3Client s3;
+    private String emailProfilo;
 
 
     @Override
@@ -175,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             name = intent.getStringExtra("name");
             surname = intent.getStringExtra("surname");
             email = intent.getStringExtra("email");
+            emailProfilo = intent.getStringExtra("emailProfilo");
             date = intent.getStringExtra("dateOfBirth");
             password = intent.getStringExtra("pwd");
             nazionalità = intent.getStringExtra("nazionalita");
@@ -259,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
-        profilo = new Profilo(email, name, surname, date, nazionalità, sesso, username, lavoro, descrizione,tipo,urlImageProfile,urlCoverImage);
+        profilo = new Profilo(email, emailProfilo, name, surname, date, nazionalità, sesso, username, lavoro, descrizione,tipo,urlImageProfile,urlCoverImage);
         TakeATrip TAT = (TakeATrip) getApplicationContext();
         TAT.setProfiloCorrente(profilo);
 
@@ -280,7 +282,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(this);
     }
-
 
 
 

@@ -65,6 +65,26 @@ public class Profilo implements Serializable {
     }
 
 
+    public Profilo(String id, String email, String name, String surname, String dataNascita,
+                   String nazionalita, String sesso, String username, String lavoro,
+                   String descrizione, String tipo, String idImageProfile, String idImageCover) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+        this.surname = surname;
+        this.dataNascita = dataNascita;
+        this.codAccount = Constants.DEFAULT_COD_ACCOUNT;
+        this.nazionalita = nazionalita;
+        this.sesso = sesso;
+        this.username = username;
+        this.lavoro = lavoro;
+        this.descrizione = descrizione;
+        this.tipo = tipo;
+        this.idImageProfile = idImageProfile;
+        this.getIdImageCover = idImageCover;
+    }
+
+
     public Profilo(String id) {
         this.id = id;
     }

@@ -55,7 +55,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
     private CognitoCachingCredentialsProvider credentialsProvider;
     private CognitoSyncManager syncClient;
     private Map<String, String> logins;
-
+    private String emailProfilo;
 
 
     @Override
@@ -185,7 +185,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
 
             GoogleSignInAccount acct = result.getSignInAccount();
 
-            email = acct.getEmail();
+            emailProfilo = acct.getEmail();
             email = Constants.PREFIX_GOOGLE  + acct.getId();
 
             int describeContents = acct.describeContents();
@@ -193,7 +193,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
             String idUser = acct.getId();
             String tokenId = acct.getIdToken();
 
-            Log.i(TAG, "email: " + email + " describeContents: " + describeContents + " dispplayName: " + displayName
+            Log.i(TAG, "email: " + email + " emailProfilo: "+ emailProfilo + " describeContents: " + describeContents + " dispplayName: " + displayName
                     + " idUser: " + idUser + " tokenId: " + tokenId);
             password = "";
 
@@ -244,23 +244,24 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
     public void processFinish(Profilo output) {
         if(output != null){
             Log.i(TAG, "non primo accesso a TakeATrip");
-            openMainActivity2(output.getId(), output.getName(), output.getSurname(), output.getDataNascita(),
+            openMainActivity2(output.getId(), output.getEmail(), output.getName(), output.getSurname(), output.getDataNascita(),
                     password, output.getNazionalita(), output.getSesso(), output.getUsername(),output.getLavoro(),
                     output.getDescrizione(), output.getTipo());
 
         }
         else{
             Toast.makeText(getApplicationContext(), R.string.error_connection, Toast.LENGTH_LONG).show();
-            openMainActivity(email, nome, cognome,null,null,null,null,null,null,null,null);
+            openMainActivity(email, emailProfilo, nome, cognome,null,null,null,null,null,null,null,null);
         }
 
     }
 
-    private void openMainActivity(String e, String name, String surname, String date, String pwd, String n, String sex, String username,
+    private void openMainActivity(String e, String emailprofilo, String name, String surname, String date, String pwd, String n, String sex, String username,
                                   String job, String description, String type){
 
         Intent openAccedi = new Intent(SplashActivity.this, RegistrazioneActivity.class);
         openAccedi.putExtra("email", e);
+        openAccedi.putExtra("emailProfilo", emailProfilo);
         openAccedi.putExtra("name", name);
         openAccedi.putExtra("surname", surname);
         openAccedi.putExtra("dateOfBirth", date);
@@ -278,11 +279,12 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
         finish();
     }
 
-    private void openMainActivity2(String e, String name, String surname, String date, String pwd, String n, String sex, String username,
+    private void openMainActivity2(String e, String emailProfilo, String name, String surname, String date, String pwd, String n, String sex, String username,
                                    String job, String description, String type){
 
         Intent openAccedi = new Intent(SplashActivity.this, MainActivity.class);
         openAccedi.putExtra("email", e);
+        openAccedi.putExtra("emailProfilo", emailProfilo);
         openAccedi.putExtra("name", name);
         openAccedi.putExtra("surname", surname);
         openAccedi.putExtra("dateOfBirth", date);

@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity implements
     private SignInButton signInButton;
 
     private String email, password, nome, cognome, data, nazionalita, sesso, username, lavoro, descrizione, tipo;
-
+    private String emailProfilo;
 
     LoginButton blogin;
     AccessToken fbAccessToken;
@@ -73,10 +73,6 @@ public class LoginActivity extends AppCompatActivity implements
         public void onSuccess(LoginResult loginResult) {
 
             logins.put("graph.facebook.com", AccessToken.getCurrentAccessToken().getToken());
-
-            Log.i(TAG, "token: " + AccessToken.getCurrentAccessToken().getToken());
-            Log.i(TAG, "logins: " + logins);
-
             credentialsProvider.setLogins(logins);
 
             TakeATrip TAT = ((TakeATrip) getApplicationContext());
@@ -98,6 +94,8 @@ public class LoginActivity extends AppCompatActivity implements
                         nome = profile.getFirstName();
                         cognome = profile.getLastName();
                         data = "0000-00-00";
+                        emailProfilo = "";
+
 
                         profileTracker.stopTracking();
 
@@ -159,7 +157,7 @@ public class LoginActivity extends AppCompatActivity implements
 
         //TODO: cambiare in fase di release il WEBAPP_ID
         GoogleSignInOptions.Builder builder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN);
-        builder.requestIdToken(Constants.WEBAPP_ID);
+        builder.requestIdToken(Constants.WEBAPP_ID).requestEmail();
 
         GoogleSignInOptions gso = builder.build();
 
@@ -172,6 +170,11 @@ public class LoginActivity extends AppCompatActivity implements
         signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setScopes(gso.getScopeArray());
         signInButton.setOnClickListener(this);
+
+        if (!mGoogleApiClient.isConnecting() &&
+                !mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.connect();
+        }
 
     }
 
@@ -214,7 +217,7 @@ public class LoginActivity extends AppCompatActivity implements
 
             GoogleSignInAccount acct = result.getSignInAccount();
 
-            email = acct.getEmail();
+            emailProfilo = acct.getEmail();
             email = Constants.PREFIX_GOOGLE  + acct.getId();
 
             int describeContents = acct.describeContents();
@@ -222,7 +225,7 @@ public class LoginActivity extends AppCompatActivity implements
             String idUser = acct.getId();
             String tokenId = acct.getIdToken();
 
-            Log.i(TAG, "email: " + email + " describeContents: " + describeContents + " displayName: " + displayName
+            Log.i(TAG, "email: " + email + " emailProfilo: "+ emailProfilo + " describeContents: " + describeContents + " displayName: " + displayName
                     + " idUser: " + idUser + " tokenId: " + tokenId);
             password = "";
 
@@ -339,24 +342,25 @@ public class LoginActivity extends AppCompatActivity implements
 
         if(output != null){
             Log.i(TAG, "non primo accesso a TakeATrip");
-            openMainActivity2(output.getId(), output.getName(), output.getSurname(), output.getDataNascita(),
+            openMainActivity2(output.getId(), output.getEmail(), output.getName(), output.getSurname(), output.getDataNascita(),
                     output.getPassword(), output.getNazionalita(), output.getSesso(), output.getUsername(),output.getLavoro(),
                     output.getDescrizione(), output.getTipo());
         }
         else{
-            Toast.makeText(getApplicationContext(), R.string.error_connection, Toast.LENGTH_LONG).show();
-            openMainActivity(email, nome, cognome, null,"", null, null, null,null, null, null);
+            openMainActivity(email, emailProfilo, nome, cognome, null,"", null, null, null,null, null, null);
         }
 
 
     }
 
 
-    private void openMainActivity(String e, String name, String surname, String date, String pwd, String n, String sex, String username,
+    private void openMainActivity(String e, String emailProfilo, String name, String surname, String date,
+                                  String pwd, String n, String sex, String username,
                                   String job, String description, String type){
 
         Intent openAccedi = new Intent(LoginActivity.this, RegistrazioneActivity.class);
         openAccedi.putExtra("email", e);
+        openAccedi.putExtra("emailProfilo", emailProfilo);
         openAccedi.putExtra("name", name);
         openAccedi.putExtra("surname", surname);
         openAccedi.putExtra("dateOfBirth", date);
@@ -374,11 +378,12 @@ public class LoginActivity extends AppCompatActivity implements
         finish();
     }
 
-    private void openMainActivity2(String e, String name, String surname, String date, String pwd, String n, String sex, String username,
+    private void openMainActivity2(String e, String emailProfilo, String name, String surname, String date, String pwd, String n, String sex, String username,
                                    String job, String description, String type){
 
         Intent openAccedi = new Intent(LoginActivity.this, MainActivity.class);
         openAccedi.putExtra("email", e);
+        openAccedi.putExtra("emailProfilo", emailProfilo);
         openAccedi.putExtra("name", name);
         openAccedi.putExtra("surname", surname);
         openAccedi.putExtra("dateOfBirth", date);

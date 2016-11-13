@@ -140,7 +140,8 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
                         if(result != null){
                             for(int i=0;i<jArray.length();i++){
                                 JSONObject json_data = jArray.getJSONObject(i);
-                                String emailProfilo = json_data.getString("emailProfilo");
+                                String idProfilo = json_data.getString("emailProfilo");
+                                String emailProfilo = json_data.getString("email2");
                                 String nomePartecipante = json_data.getString("nome");
                                 String cognomePartecipante = json_data.getString("cognome");
                                 String data = json_data.getString("dataNascita");
@@ -153,7 +154,7 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
                                 String urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
                                 String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
 
-                                listPartecipants.add(new Profilo(emailProfilo, nomePartecipante,cognomePartecipante,
+                                listPartecipants.add(new Profilo(idProfilo, emailProfilo, nomePartecipante,cognomePartecipante,
                                         data, nazionalita, sesso, username, lavoro, descrizione, tipo, urlImmagineProfilo, urlImmagineCopertina));
 
                                 //controllo se l'email dell'utente è tra quelle dei partecipanti al viaggio

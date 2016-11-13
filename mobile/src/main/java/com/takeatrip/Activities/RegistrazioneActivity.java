@@ -116,6 +116,7 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
 
     //per allert
     private boolean doubleBackToExitPressedOnce = false;
+    private String emailProfilo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +129,7 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
             nome = intent.getStringExtra("name");
             cognome = intent.getStringExtra("surname");
             email = intent.getStringExtra("email");
+            emailProfilo = intent.getStringExtra("emailProfilo");
             data = intent.getStringExtra("date");
             password = intent.getStringExtra("password");
             nazionalita = intent.getStringExtra("nazionalita");
@@ -448,6 +450,7 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
             dataToSend.add(new BasicNameValuePair("cognome", cognome));
             dataToSend.add(new BasicNameValuePair("dataNascita", data));
             dataToSend.add(new BasicNameValuePair("email", email));
+            dataToSend.add(new BasicNameValuePair("emailProfilo", emailProfilo));
             dataToSend.add(new BasicNameValuePair("nazionalita", nazionalita));
             dataToSend.add(new BasicNameValuePair("sesso", sesso));
             dataToSend.add(new BasicNameValuePair("username", username));

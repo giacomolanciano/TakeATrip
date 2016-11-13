@@ -43,6 +43,7 @@ public class LoginTask extends AsyncTask<Void, Void, Profilo> {
     String email, password, nome,cognome,data,nazionalita,sesso,lavoro,username,descrizione,tipo;
     Context context;
     Profilo profilo;
+    private String emailProfilo;
 
     public LoginTask(Context context, String email, String password){
         this.context = context;
@@ -92,6 +93,7 @@ public class LoginTask extends AsyncTask<Void, Void, Profilo> {
                                 if(json_data != null){
                                     stringaFinale = json_data.getString("email").toString() + " " + json_data.getString("password").toString();
                                     email = json_data.getString("email").toString();
+                                    emailProfilo = json_data.getString("email2").toString();
                                     nome =  json_data.getString("nome").toString();
                                     cognome = json_data.getString("cognome").toString();
                                     data = json_data.getString("dataNascita").toString();
@@ -102,7 +104,7 @@ public class LoginTask extends AsyncTask<Void, Void, Profilo> {
                                     descrizione = json_data.getString("descrizione").toString();
                                     tipo = json_data.getString("tipo").toString();
 
-                                    profilo = new Profilo(email,nome,cognome,data,nazionalita,sesso,username,lavoro,descrizione,tipo);
+                                    profilo = new Profilo(email, emailProfilo,nome,cognome,data,nazionalita,sesso,username,lavoro,descrizione,tipo);
 
                                 }
 
@@ -129,9 +131,9 @@ public class LoginTask extends AsyncTask<Void, Void, Profilo> {
 
     @Override
     protected void onPostExecute(Profilo profilo) {
-        if(profilo != null){
-            delegate.processFinish(profilo);
-        }
+        Log.i(TAG, "profilo: " + profilo);
+        delegate.processFinish(profilo);
+
         super.onPostExecute(profilo);
 
     }

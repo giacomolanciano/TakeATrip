@@ -662,7 +662,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                 buttonDelete.setIcon(R.drawable.ic_delete_black_36dp);
 
                 if(listPartecipants.size()>1){
-                    buttonDelete.setTitle("Exit travel");
+                    buttonDelete.setTitle(getString(R.string.exit_travel));
                     buttonDelete.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -994,10 +994,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         });
 
         dialog.show();
-
-
-
-
     }
 
     private void showAlertDialog(final View v){
