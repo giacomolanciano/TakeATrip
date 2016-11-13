@@ -135,15 +135,6 @@ public class Profilo implements Serializable {
         this.dataNascita = dataNascita;
     }
 
-    public int getCodAccount() {
-        return codAccount;
-    }
-
-    public void setCodAccount(int codAccount) {
-        this.codAccount = codAccount;
-    }
-
-
     public String getNazionalita() { return nazionalita; }
 
     public void setNazionalita(String nazionalita) {
@@ -195,9 +186,7 @@ public class Profilo implements Serializable {
     }
 
     public String toString() {
-        return getName() + " " + getSurname() + " " + getId();
+        return getName() + " " + getSurname() + " " + getId() + " " + getEmail();
     }
-
-
 
 }

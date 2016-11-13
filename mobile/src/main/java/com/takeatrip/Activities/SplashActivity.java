@@ -256,7 +256,7 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
 
     }
 
-    private void openMainActivity(String e, String emailprofilo, String name, String surname, String date, String pwd, String n, String sex, String username,
+    private void openMainActivity(String e, String emailProfilo, String name, String surname, String date, String pwd, String n, String sex, String username,
                                   String job, String description, String type){
 
         Intent openAccedi = new Intent(SplashActivity.this, RegistrazioneActivity.class);

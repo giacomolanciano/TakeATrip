@@ -584,6 +584,8 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
     private void popolaPartecipanti(){
 
+        Log.i(TAG, "partecipanti al viaggio: " + listPartecipants);
+
         float density = getResources().getDisplayMetrics().density;
         if(density == 3.0 || density == 4.0){
             DIMENSION_OF_SPACE = DIMENSION_OF_SPACE*2;

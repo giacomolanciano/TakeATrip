@@ -157,6 +157,8 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
                                 listPartecipants.add(new Profilo(idProfilo, emailProfilo, nomePartecipante,cognomePartecipante,
                                         data, nazionalita, sesso, username, lavoro, descrizione, tipo, urlImmagineProfilo, urlImmagineCopertina));
 
+
+
                                 //controllo se l'email dell'utente è tra quelle dei partecipanti al viaggio
                                 for(Profilo p : listPartecipants){
                                     if(email != null && email.equals(p.getId())){
