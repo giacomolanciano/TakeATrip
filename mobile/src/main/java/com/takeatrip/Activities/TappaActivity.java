@@ -196,6 +196,7 @@ public class TappaActivity extends AppCompatActivity implements
 
         }
 
+        /*
         Log.i(TAG, "email: "+email);
         Log.i(TAG, "emailProprietarioTappa: "+emailProprietarioTappa);
         Log.i(TAG, "codice: "+codiceViaggio);
@@ -205,6 +206,7 @@ public class TappaActivity extends AppCompatActivity implements
         Log.i(TAG, "data: "+data);
         Log.i(TAG, "livelloCondivisione: "+livelloCondivisioneTappa);
         Log.i(TAG, "tappe del viaggio: " + tappeViaggio);
+        */
 
 
         if (ViewNomeViaggio != null)
@@ -449,7 +451,6 @@ public class TappaActivity extends AppCompatActivity implements
 
         if(adapterVideos != null){
             adapterVideos.releasePlayer();
-            Log.i(TAG, "onPause TappaActivity: release player...");
         }
 
     }
@@ -458,7 +459,6 @@ public class TappaActivity extends AppCompatActivity implements
         super.onStop();
         if(adapterVideos != null){
             adapterVideos.releasePlayer();
-            Log.i(TAG, "onStop TappaActivity: release player...");
 
         }
     }
@@ -474,8 +474,6 @@ public class TappaActivity extends AppCompatActivity implements
         if(id>=0){
 
             Tappa tappa = tappeViaggio.get(id);
-
-            Log.i(TAG, "tappa selezionata: " + tappa);
 
             Intent i = new Intent(this, TappaActivity.class);
             int ordineTappa = Integer.parseInt(item.getTitle().toString().split("\\. ")[0]);
@@ -572,8 +570,6 @@ public class TappaActivity extends AppCompatActivity implements
 
     public void onClickChangeDate(View v) {
 
-        Log.i(TAG, "changing date");
-
         DialogFragment newFragment = new DatePickerFragment();
 
         Bundle args = new Bundle();
@@ -602,8 +598,6 @@ public class TappaActivity extends AppCompatActivity implements
         showProgressDialog();
         new AggiornamentoDataTappaTask(TappaActivity.this, ordineTappaDB, codiceViaggio, email,
                 DatesUtils.getStringFromDate(newDate, Constants.DATABASE_DATE_FORMAT)).execute();
-
-        Log.i(TAG, "date changed");
     }
 
 
@@ -612,8 +606,6 @@ public class TappaActivity extends AppCompatActivity implements
 
 
     private static String getRealPathFromURI(Context context, Uri contentUri) {
-
-        Log.i(TAG, "entro in getRealPathFromURI(...)");
 
         Cursor cursor = null;
         String result = null;
@@ -629,7 +621,6 @@ public class TappaActivity extends AppCompatActivity implements
                         .getColumnIndex(proj[0]);
 
                 result = cursor.getString(columnIndex);
-                Log.i(TAG, "result: "+result);
             }
 
             return result;
@@ -669,7 +660,7 @@ public class TappaActivity extends AppCompatActivity implements
 
                         String nomeFile = timeStamp + Constants.IMAGE_EXT;
 
-                        Log.i(TAG, "timeStamp image: " + nomeFile);
+
                         if(thumbnail != null){
 
                             pathsImmaginiSelezionate.put(thumbnail, f.getAbsolutePath());
@@ -677,9 +668,6 @@ public class TappaActivity extends AppCompatActivity implements
                             immaginiSelezionate.add(thumbnail);
                             bitmap_nomeFile.put(thumbnail,nomeFile);
                         }
-
-                        Log.i(TAG, "path file immagine: " + f.getAbsolutePath());
-                        Log.i(TAG, "bitmap file immagine: " + thumbnail);
 
                         uploadPhotos();
 
@@ -696,8 +684,6 @@ public class TappaActivity extends AppCompatActivity implements
                     if (data != null) {
 
                         Uri selectedImage = data.getData();
-
-                        Log.i(TAG, "uri selected image: " + selectedImage);
 
                         String[] filePath = {MediaStore.Images.Media.DATA};
                         Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
@@ -759,7 +745,6 @@ public class TappaActivity extends AppCompatActivity implements
 
 
                 case Constants.REQUEST_VIDEO_CAPTURE:
-                    Log.i(TAG, "REQUEST_VIDEO_CAPTURE");
 
                     File fileVideo = new File(DeviceStorageUtils.getVideosStoragePath());
                     for (File temp : fileVideo.listFiles()) {
@@ -777,7 +762,6 @@ public class TappaActivity extends AppCompatActivity implements
 
                         String nomeFile = timeStamp + Constants.VIDEO_EXT;
 
-                        Log.i(TAG, "timeStamp image: " + nomeFile);
                         if(bitmap != null){
 
                             pathsImmaginiSelezionate.put(bitmap, fileVideo.getAbsolutePath());
@@ -785,10 +769,6 @@ public class TappaActivity extends AppCompatActivity implements
                             videoSelezionati.add(bitmap);
                             bitmap_nomeFile.put(bitmap,nomeFile);
                         }
-
-                        Log.i(TAG, "path file video: " + fileVideo.getAbsolutePath());
-                        Log.i(TAG, "bitmap file immagine: " + bitmap);
-
 
                         uploadVideos();
 
@@ -801,8 +781,6 @@ public class TappaActivity extends AppCompatActivity implements
                     break;
 
                 case Constants.REQUEST_VIDEO_PICK:
-                    Log.i(TAG, "REQUEST_VIDEO_PICK");
-
                     Uri selectedVideo = data.getData();
 
                     String[] filePath = {MediaStore.Video.Media.DATA};
@@ -815,11 +793,8 @@ public class TappaActivity extends AppCompatActivity implements
                     Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(videoPath,
                             MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
 
-
-                    Log.i(TAG, "video from gallery: " + videoPath + "");
                     String timeStamp = new SimpleDateFormat(Constants.FILE_NAME_TIMESTAMP_FORMAT).format(new Date());
                     String nomeFile = timeStamp + Constants.VIDEO_EXT;
-                    Log.i(TAG, "timeStamp video: " + nomeFile);
 
                     if(thumbnail != null){
                         //inserire file in una lista di file per caricamento in s3
@@ -828,11 +803,6 @@ public class TappaActivity extends AppCompatActivity implements
                         bitmap_nomeFile.put(thumbnail, nomeFile);
                     }
 
-
-                    Log.i(TAG, "elenco video selezionate: " + videoSelezionati);
-                    Log.i(TAG, "elenco path risorse selezionate: " + pathsImmaginiSelezionate);
-                    Log.i(TAG, "elenco nomi risorse: " + bitmap_nomeFile.values());
-
                     uploadVideos();
                     //refresh activity
                     recreate();
@@ -840,7 +810,6 @@ public class TappaActivity extends AppCompatActivity implements
 
 
                 case Constants.REQUEST_RECORD_PICK:
-                    Log.i(TAG, "REQUEST_RECORD_PICK");
 
                     Uri selectedAudio = data.getData();
 
@@ -911,8 +880,6 @@ public class TappaActivity extends AppCompatActivity implements
                                     Log.e(TAG, "eccezione nella creazione di file immagine");
                                 }
 
-                                Log.i(TAG, "creato file immagine col nome: " +imageFileName);
-
                                 // Continue only if the File was successfully created
                                 if (photoFile != null) {
                                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
@@ -969,8 +936,6 @@ public class TappaActivity extends AppCompatActivity implements
                                 } catch (IOException ex) {
                                     Log.e(TAG, "eccezione nella creazione di file video");
                                 }
-
-                                Log.i(TAG, "creato file video");
 
                                 // Continue only if the File was successfully created
                                 if (videoFile != null) {
@@ -1053,7 +1018,6 @@ public class TappaActivity extends AppCompatActivity implements
 
                                             }
 
-                                            Log.i(TAG, "progress dialog canceled");
                                         }
                                     });
 
@@ -1087,8 +1051,6 @@ public class TappaActivity extends AppCompatActivity implements
 
                                                     progressDialog.dismiss();
 
-                                                    Log.i(TAG, "file audio generato: " + record.getFileName());
-
                                                     audioSelezionati.add(record.getFileName());
 
                                                     //il caricamento viene iniziato immediatamente
@@ -1107,8 +1069,6 @@ public class TappaActivity extends AppCompatActivity implements
                                                         // If user's click the cancel button from progress dialog
                                                         if (isCanceled) {
                                                             // Stop the operation/loop
-
-                                                            Log.i(TAG, "thread stopped");
 
                                                             break;
                                                         }
@@ -1199,8 +1159,6 @@ public class TappaActivity extends AppCompatActivity implements
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
 
-
-                            Log.i(TAG, "edit text dialog canceled");
                         }
                     });
 
@@ -1213,7 +1171,6 @@ public class TappaActivity extends AppCompatActivity implements
 
                             new InserimentoNotaTappaTask(TappaActivity.this, ordineTappaDB, codiceViaggio,
                                     email, livelloCondivisioneTappa, noteInserite).execute();
-                            Log.i(TAG, "edit text confirmed");
 
                             //refresh activity
                             recreate();
@@ -1406,8 +1363,6 @@ public class TappaActivity extends AppCompatActivity implements
         for(int i = 0; i < count; i++) {
             elem = gridView.getChildAt(i);
             contentsToDelete.add(elem.getContentDescription().toString());
-
-            Log.i(TAG, "content "+i+": "+elem.getContentDescription().toString());
         }
     }
 

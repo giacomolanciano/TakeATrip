@@ -178,10 +178,8 @@ public class NuovoViaggioActivity extends AppCompatActivity {
                         tv.setText(NuovoViaggioActivity.this.autoCompleteTextView.getText().toString());
 
                         String s = NuovoViaggioActivity.this.autoCompleteTextView.getText().toString();
-                        Log.i(TAG, "partecipante selezionato: " + s);
 
                         String usernameUtenteSelezionato = s.substring(s.indexOf('(') + 1, s.indexOf(')'));
-                        Log.i(TAG, "username selezionato: " + usernameUtenteSelezionato);
                         for (Profilo p : profiles) {
 
                             if (p.getUsername().equals(usernameUtenteSelezionato)) {
@@ -215,7 +213,6 @@ public class NuovoViaggioActivity extends AppCompatActivity {
 
                                     rowHorizontal.addView(image, SIZE_IMAGE_PARTECIPANT, SIZE_IMAGE_PARTECIPANT);
                                     rowHorizontal.addView(new TextView(NuovoViaggioActivity.this), Constants.BASE_DIMENSION_OF_SPACE, SIZE_IMAGE_PARTECIPANT);
-                                    Log.i(TAG, "aggiungo la view nel layout orizzonale");
                                     partecipants.add(p);
                                     namesPartecipants.add(p.getUsername());
 
@@ -254,9 +251,6 @@ public class NuovoViaggioActivity extends AppCompatActivity {
 
             url = s3.generatePresignedUrl(generatePresignedUrlRequest);
 
-            Log.i(TAG, "url file: " + url);
-
-
             // Initiate the download
             //TransferObserver observer = transferUtility.download(Constants.BUCKET_NAME, key, file);
             //Log.i(TAG, "downloaded file: " + file);
@@ -288,8 +282,6 @@ public class NuovoViaggioActivity extends AppCompatActivity {
                     }
                 }
             }
-            Log.i(TAG, "lista partecipanti:" + partecipants);
-            Log.i(TAG, "nome Viaggio:" + nomeViaggio);
 
             showProgressDialog();
             new UUIDTask().execute();
@@ -302,12 +294,9 @@ public class NuovoViaggioActivity extends AppCompatActivity {
     public void openViaggio() {
         Intent openViaggio = new Intent(NuovoViaggioActivity.this, ViaggioActivityConFragment.class);
         openViaggio.putExtra("email", email);
-        Log.i(TAG, "email: " + email);
         openViaggio.putExtra("emailEsterno", email);
         openViaggio.putExtra("codiceViaggio",UUIDViaggio);
-        Log.i(TAG, "codiceViaggio Nuovo: " + UUIDViaggio);
         openViaggio.putExtra("nomeViaggio", nomeViaggio);
-        Log.i(TAG, "nomeViaggio: " + nomeViaggio);
         openViaggio.putExtra("idFolder", "");
         openViaggio.putExtra("urlImmagineViaggio", "https://takeatriptravels.s3.amazonaws.com/c71d8f39-2918-4bfb-f26c-fdf9de072479/coverTravelImages/facebo10207495202451064_20160817_165913_109.jpg?x-amz-security-token=AgoGb3JpZ2luEIT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCWV1LXdlc3QtMSKAAqiNDAYFP0XW%2FwU3oDxWLE76PyHjvNYO2cPaNptfoZbu6g2cdRWLu8Ia0%2BFQLjjj%2FyVouQtPbZKJRg5WBPMybboZbxTNcdwPbOd99OWsyp58o80wdy1tkIkugh2hfQNdDHqgSD52UQ6BZfWjdUjZC6TxQH3xBbZTtttnkroJGfh9qMdRcwf8FeaTHsCMXT6QuWW0rCNIZrkMVYCVpww42Ip%2BmnNkf4Z8YwSSWLUY2NvM%2BhDGp1YhMsTRyeQVQ%2BRz51psrcjqnHrItsynx%2BoBBu5%2B0xHnWlP%2BXNnOpAx3%2BtKoxUPlZOp9U6TWsKzSHz71DlgC9RuGoGK49cGxfDQ0%2FwgqpgUI6f%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgw0NjE0ODAxMTY0ODgiDL3p0xgCyg9q0BYHVCr6BNd14MpYZrrpXA3HaZMngV%2FcUUjHZ4te7vKPBezHgix%2BzMzJtJYdjJxJC6Z4oRrTSifi37YXoV%2BIz37erx3YPkskh30thvE0h3aBiA6x%2FBARa%2FfB7rR09gVw8Xo2FNK7PPM%2BXO%2FtzFV%2BEEimFwfoNzQObfYAS%2BLxD6UuuPwdhlOPjGZ3awRPvzxALixOq4KmBL3qSPd3opCsD1NfBJvdSCFaWYcRPCtWD4jaVU1T2EXjZlr9RF7vw9Z%2BKrXZLvig9IjXZN44Kzsof%2FoBGETkNDZk3wUEOrYGs5Z6aJ4D9nsM9hAwNEYs2sJjieFxLiEr45Z7pWO%2FOaHS80Wp%2BSjYv2LcM5n4dqtjUlYa%2F%2Fc42HAE3e0n5RN04QhGx5kPCvWQuY6gYmqYHJgFX72J%2FGNwtsp7QgAiPdQIuLyhNZtjpwfVMl1lOMpI%2F1M%2FiLHKWDV7Kj5ggpwBouJQil%2BVc5Y3l2Gm6ewXmnEFTuPdTy9tAShylebYJCqWDcEwAlYxPFxZZ5vnfUWQ9Mx0ctgFUAbuurR%2FTb6JvCwjGpNOyzFU%2FxG590HCtLioAbdMktUgcgdtl3ZeynFkFtPUHG8CaNocUPBkjnfcTN3iYLqTiwn4xHATTVlJ1hhLFwVBertsQsqZhBCLkvogGli2aU3tghEkpRNvgxlG2WipP4Qu6aDZ4VHi6fC0QG7Cgs4POmG7hnIeJQrczgecw8wflCk%2FIJA6GOpXURcq%2BzGh%2BfbilXPLAtoQC%2FvELq5fKCx3neinC%2FGQJkhdbkTHxIWjvyz0lh6y6dZtbDpUP6VOsSAaGB9UWy5P79JGGzoesfRyz%2FHdYMrbVoZIhp0gH9KrbgIwi9TVvQU%3D&AWSAccessKeyId=ASIAI5EUI7DOKMEYNDBQ&Expires=1471511679&Signature=%2BfPrFJzexSHl7TkhPRxYSTwwy2U%3D");
         openViaggio.putExtra("livelloCondivisione", "public");
@@ -406,8 +395,6 @@ public class NuovoViaggioActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
 
-            Log.i(TAG, "lista partecipanti:" + partecipants);
-
             for (Profilo p : partecipants) {
 
                 ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
@@ -417,7 +404,6 @@ public class NuovoViaggioActivity extends AppCompatActivity {
 
                 try {
                     if (InternetConnection.haveInternetConnection(NuovoViaggioActivity.this)) {
-                        Log.i(TAG, "CONNESSIONE Internet Presente!");
                         HttpClient httpclient = new DefaultHttpClient();
                         HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_ITINERARIO);
                         httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
@@ -442,8 +428,6 @@ public class NuovoViaggioActivity extends AppCompatActivity {
             String stringaFiltro = nomeViaggio.replace(" ", "_");
             filtro = stringaFiltro.toLowerCase();
 
-            Log.i(TAG, "filtro: " + filtro);
-
             new FilterTask().execute();
 
             super.onPostExecute(aVoid);
@@ -467,7 +451,6 @@ public class NuovoViaggioActivity extends AppCompatActivity {
 
                 try {
                     if (InternetConnection.haveInternetConnection(NuovoViaggioActivity.this)) {
-                        Log.i(TAG, "CONNESSIONE Internet Presente!");
                         HttpClient httpclient = new DefaultHttpClient();
                         HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_INSERIMENTO_FILTRO);
                         httppost.setEntity(new UrlEncodedFormEntity(dataToSend));
@@ -535,8 +518,6 @@ public class NuovoViaggioActivity extends AppCompatActivity {
                             result = sb.toString();
 
                             UUIDViaggio = result;
-                            Log.i(TAG, "UUID viaggio " + UUIDViaggio);
-
                         } catch (Exception e) {
                             Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
                         }
@@ -560,7 +541,6 @@ public class NuovoViaggioActivity extends AppCompatActivity {
                 Log.e(TAG, "devo generare un nuovo UUID");
                 new UUIDTask().execute();
             } else {
-                Log.i(TAG, "UUID corretto, ora aggiungo gli itinerari");
 
                 new ItinerariesTask().execute();
             }

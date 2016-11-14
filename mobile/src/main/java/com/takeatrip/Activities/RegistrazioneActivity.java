@@ -353,8 +353,6 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
                 DriveId idFolder = data.getParcelableExtra("idFolder");
                 String nameFolder = data.getStringExtra("nameFolder");
 
-                Log.i(TAG, "Ricevuto l'id della cartella: " + idFolder);
-                Log.i(TAG, "Ricevuto il nome della cartella: " + nameFolder);
 
                 cartellaCreata = true;
             }
@@ -365,14 +363,10 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
 
     public void onClickChangeDate(View v) {
 
-        Log.i(TAG, "changing date");
-
         DialogFragment newFragment = new DatePickerFragment();
 
         EditText e = (EditText) v;
         String text = e.getText().toString();
-
-        Log.i(TAG, "text: " + text);
 
         if(!text.equals("")) {
             Bundle args = new Bundle();
@@ -394,8 +388,6 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
         Date newDate = c.getTime();
 
         campoDataNascita.setText(DatesUtils.getStringFromDate(newDate, Constants.DISPLAYED_DATE_FORMAT));
-
-        Log.i(TAG, "date changed");
     }
 
     //allert di avviso per uscita senza salvataggio
@@ -489,8 +481,6 @@ public class  RegistrazioneActivity extends AppCompatActivity implements DatePic
                             is.close();
 
                             result = sb.toString();
-
-                            Log.i(TAG, "result " +result);
 
                         } catch (Exception e) {
                             Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();

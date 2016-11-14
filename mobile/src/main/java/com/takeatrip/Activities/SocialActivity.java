@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -155,8 +154,6 @@ public class SocialActivity extends FragmentActivity implements AsyncResponseFol
 
     private void settaAdapter() {
         mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), getBaseContext(),seguaci,seguiti, profiles);
-        Log.i(TAG, "adapter di viePager settato con seguaci: " + seguaci + " seguiti: " +seguiti);
-
 
         viewPager.setAdapter(mAdapter);
         if(fromMain!= null){

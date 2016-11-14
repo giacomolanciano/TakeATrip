@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.ViewGroup;
 
 import com.takeatrip.Adapters.TabsPagerAdapterVisualizzazioneFollow;
@@ -68,7 +67,6 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
         Intent intent;
         if ((intent = getIntent()) != null) {
             email = intent.getStringExtra("email");
-            Log.i(TAG, "email utente in Social: " + email);
 
         }
         viewPager = (ViewPager) findViewById(R.id.pagerVisualizzazione);
@@ -134,7 +132,6 @@ public class VisualizzazioneFollowActivity extends FragmentActivity implements A
 
     private void settaAdapter() {
         mAdapter = new TabsPagerAdapterVisualizzazioneFollow(getSupportFragmentManager(), getBaseContext(),seguaci,seguiti);
-        Log.i(TAG, "adapter di viePager settato con seguaci: " + seguaci + " seguiti: " +seguiti);
         viewPager.setAdapter(mAdapter);
         hideProgressDialog();
     }

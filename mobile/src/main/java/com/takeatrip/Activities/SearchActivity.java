@@ -49,7 +49,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -147,8 +146,6 @@ public class SearchActivity extends AppCompatActivity {
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                Log.i(TAG, "Place: " + place.getName());
-
                 if (viaggi_profilo.size() != 0 && editTextUser.getText().toString().equals("")) {
                     viaggi_profilo.clear();
                 }
@@ -161,7 +158,7 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onError(Status status) {
-                Log.i(TAG, "An error occurred: " + status);
+                Log.e(TAG, "An error occurred: " + status);
             }
 
 
@@ -320,9 +317,6 @@ public class SearchActivity extends AppCompatActivity {
                 }
             });
 
-            Log.i(TAG, "search by user: focus the editText..." + searchBy);
-
-
         }
     }
 
@@ -345,8 +339,6 @@ public class SearchActivity extends AppCompatActivity {
             try {
                 if (InternetConnection.haveInternetConnection(SearchActivity.this)) {
 
-                    Log.i(TAG, "placeNuovo: " + toTranslate);
-
                     String languageDevice = Locale.getDefault().getLanguage();
                     if (!languageDevice.equals("it")) {
                         GoogleTranslate translate = new GoogleTranslate(API_KEY);
@@ -354,8 +346,6 @@ public class SearchActivity extends AppCompatActivity {
 
                         String finalTranslated = translated.toLowerCase();
                         translated = finalTranslated.replace(" ", "_");
-
-                        Log.i(TAG, "placeNuovo tradotto: " + translated);
 
                         destination = translated;
 
@@ -458,10 +448,6 @@ public class SearchActivity extends AppCompatActivity {
 
                             result = sb.toString();
 
-
-                            Log.i(TAG, "risultato dalla search: " + result);
-
-
                             List<Viaggio> viaggi = new ArrayList<Viaggio>();
                             Profilo p = null;
 
@@ -506,8 +492,6 @@ public class SearchActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Log.i(TAG, "mappaProvvisoria:" + mappaProvvisoria);
-
             PopolaLista(mappaProvvisoria);
             autocompleteFragment.setText("");
 
@@ -531,8 +515,6 @@ public class SearchActivity extends AppCompatActivity {
 
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
             dataToSend.add(new BasicNameValuePair("destinazione", destination));
-
-            Log.i(TAG, "destinazione: " + destination);
 
             try {
                 if (InternetConnection.haveInternetConnection(SearchActivity.this)) {
@@ -606,8 +588,6 @@ public class SearchActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Log.i(TAG, "viaggi:" + Arrays.toString(viaggi));
-            Log.i(TAG, "profili:" + Arrays.toString(profili));
 
             PopolaListaDaDestinazione(viaggi, profili);
             editTextUser.setText("");

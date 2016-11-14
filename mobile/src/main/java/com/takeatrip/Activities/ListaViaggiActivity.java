@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -83,8 +82,6 @@ public class ListaViaggiActivity extends ActionBarActivity implements AsyncRespo
         Intent intent;
         if ((intent = getIntent()) != null) {
             email = intent.getStringExtra("email");
-            Log.i(TAG, "email utente in lista viaggi: " + email);
-
         }
 
         GetViaggiTask GVT = new GetViaggiTask(ListaViaggiActivity.this, email);
@@ -124,7 +121,6 @@ public class ListaViaggiActivity extends ActionBarActivity implements AsyncRespo
         ((RecyclerViewViaggiAdapter) adapter).setOnItemClickListener(new RecyclerViewViaggiAdapter.ClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-                Log.i(TAG, " Clicked on Item " + position);
             }
         });
     }
@@ -139,7 +135,6 @@ public class ListaViaggiActivity extends ActionBarActivity implements AsyncRespo
 
     @Override
     public void processFinishForTravels(List<Viaggio> travels) {
-        Log.i(TAG, "viaggi di: " + email + " " + travels);
 
         Profilo p = new Profilo(email);
         for(Viaggio v : travels) {

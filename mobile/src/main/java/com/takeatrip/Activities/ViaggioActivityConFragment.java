@@ -89,7 +89,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -248,7 +247,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
             email = TAT.getProfiloCorrente().getId();
         }
 
-        Log.i(TAG, "email utente: " + email + " codiceViaggio: " + codiceViaggio + " nomeVaggio: " + nomeViaggio);
+        //Log.i(TAG, "email utente: " + email + " codiceViaggio: " + codiceViaggio + " nomeVaggio: " + nomeViaggio);
 
 
         gridViewPhotos = (AdaptableGridView) findViewById(R.id.grid_view_photos);
@@ -315,7 +314,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         if(checkSelectionSpinner > 0){
-                            Log.i(TAG, "elemento selezionato spinner: "+ adapter.getItem(position));
                             livelloCondivisioneViaggio = adapter.getItem(position);
                             try {
                                 boolean result = new UpdateCondivisioneViaggioTask(ViaggioActivityConFragment.this, codiceViaggio, livelloCondivisioneViaggio).execute().get();
@@ -363,7 +361,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
         if(listViewVideoAdapter != null){
             listViewVideoAdapter.releasePlayer();
-            Log.i(TAG, "onPause ViaggioActivity: release player...");
         }
 
     }
@@ -372,7 +369,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         super.onStop();
         if(listViewVideoAdapter != null){
             listViewVideoAdapter.releasePlayer();
-            Log.i(TAG, "onStop ViaggioActivity: release player...");
 
         }
     }
@@ -431,8 +427,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
             sessoPartecipants[i] = p.getSesso();
             i++;
         }
-
-        Log.i(TAG, "email partecipants: " + Arrays.toString(emailPartecipants));
 
         Intent intent = new Intent(ViaggioActivityConFragment.this, ListaTappeActivity.class);
         if(email != null){
@@ -499,7 +493,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
                                                     if(result){
                                                         collapsingToolbar.setTitle(nuovoNome);
-                                                        Log.i(TAG, "edit text dialog confirmed");
                                                     }
                                                     else{
                                                         if(!result){
@@ -519,7 +512,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                                         .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 dialog.dismiss();
-                                                Log.i(TAG, "edit text dialog canceled");
                                             }
                                         })
                                         .setIcon(ContextCompat.getDrawable(ViaggioActivityConFragment.this, R.drawable.logodefbordo))
@@ -555,7 +547,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                 String picturePath = c.getString(columnIndex);
                 c.close();
                 bitmapImageTravel = (BitmapFactory.decodeFile(picturePath));
-                Log.i(TAG, "image from gallery: " + picturePath);
 
                 UtilS3AmazonCustom.uploadTravelCoverPicture(ViaggioActivityConFragment.this, picturePath,
                         codiceViaggio, email, bitmapImageTravel, imageTravel, selectedImage);
@@ -574,7 +565,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
     private Bitmap getScaledBitmap(Bitmap bitmap){
         float density = getResources().getDisplayMetrics().density;
         int heigh = 300;
-        Log.i(TAG, "density of the screen: " + density);
         if(density == 3.0 || density == 4.0){
             heigh = 600;
         }
@@ -583,8 +573,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
 
     private void popolaPartecipanti(){
-
-        Log.i(TAG, "partecipanti al viaggio: " + listPartecipants);
 
         float density = getResources().getDisplayMetrics().density;
         if(density == 3.0 || density == 4.0){
@@ -653,7 +641,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                 buttonAddPartecipant.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.i(TAG, "stops list pressed");
                         fabMenu.collapse();
                         onClickAddPartecipant(view);
                     }
@@ -668,7 +655,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                     buttonDelete.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Log.i(TAG, "exit travel pressed");
                             fabMenu.collapse();
                             onClickExitTravel(view);
 
@@ -679,7 +665,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                     buttonDelete.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Log.i(TAG, "delete travel pressed");
                             fabMenu.collapse();
                             onClickDeleteTravel(view);
                         }
@@ -702,7 +687,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
             buttonStopsList.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.i(TAG, "stops list pressed");
                     fabMenu.collapse();
                     onClickStopsList(view);
                 }
@@ -815,7 +799,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
             viewProfileButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.i(TAG,"email profilo selezionato: "+ v.getContentDescription().toString());
                     for(Profilo p : listPartecipants){
                         if(p.getId().equals(v.getContentDescription())){
 
@@ -932,9 +915,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                 if (!text.getText().toString().equals("")) {
 
                     String newPartecipant = text.getText().toString();
-                    Log.i(TAG, "lista Partecipanti al viaggio: " + listPartecipants);
-                    Log.i(TAG, "nuovo Partecipante: " + newPartecipant);
-
                     String usernameUtenteSelezionato = newPartecipant.substring(newPartecipant.indexOf('(')+1,
                             newPartecipant.indexOf(')'));
 
@@ -1037,8 +1017,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                 .setMessage(getString(R.string.delete_travel_alert))
                 .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
-                        Log.i(TAG, "partecipanti al viaggio: " + listPartecipants.size());
                         boolean result = false;
                         try {
                             result = new DeleteTravelTask(ViaggioActivityConFragment.this, codiceViaggio).execute().get();
@@ -1162,7 +1140,6 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
         protected Void doInBackground(Void... params) {
             try {
                 if (InternetConnection.haveInternetConnection(ViaggioActivityConFragment.this)) {
-                    Log.i(TAG, "CONNESSIONE Internet Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
                     HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS+ADDRESS);
                     HttpResponse response = httpclient.execute(httppost);

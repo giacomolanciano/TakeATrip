@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,8 +89,6 @@ public class CustomPhotoGalleryActivity extends Activity {
                     Toast.makeText(getApplicationContext(), "Please select at most ten images", Toast.LENGTH_LONG).show();
                 }
                 else {
-
-                    Log.d("SelectedImages", selectImages);
                     Intent i = new Intent();
                     i.putExtra("data", selectImages);
                     setResult(Activity.RESULT_OK, i);

@@ -625,7 +625,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             generatePresignedUrlRequest.setMethod(HttpMethod.GET);
             generatePresignedUrlRequest.setExpiration(expiration);
 
-            Log.i(TAG, "amazon client: " + s3);
             url = s3.generatePresignedUrl(generatePresignedUrlRequest);
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -669,7 +668,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             try {
                 if (InternetConnection.haveInternetConnection(context)) {
-                    Log.i(TAG, "CONNESSIONE Internet Presente!");
                     HttpClient httpclient = new DefaultHttpClient();
 
                     HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_QUERY_PROFILE_IMAGE);
@@ -742,7 +740,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     try {
                         final URI image_URI = new URI(image_uri.toString());
 
-                        Log.i(TAG, "url_image: " + image_URI.toURL().toString());
                         //Picasso.with(MainActivity.this).load(image_URI.toURL().toString()).into(imageViewProfileRound);
                         Picasso.with(MainActivity.this).load(image_URI.toURL().toString()).into(target);
 

@@ -198,7 +198,6 @@ public class LoginActivity extends AppCompatActivity implements
             }
 
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            Log.i(TAG, "result: " + result.toString());
             handleSignInResult(result);
         }
         else {
@@ -225,8 +224,6 @@ public class LoginActivity extends AppCompatActivity implements
             String idUser = acct.getId();
             String tokenId = acct.getIdToken();
 
-            Log.i(TAG, "email: " + email + " emailProfilo: "+ emailProfilo + " describeContents: " + describeContents + " displayName: " + displayName
-                    + " idUser: " + idUser + " tokenId: " + tokenId);
             password = "";
 
             if(displayName != null){
@@ -338,10 +335,8 @@ public class LoginActivity extends AppCompatActivity implements
 
     @Override
     public void processFinish(Profilo output) {
-        Log.i(TAG, "login finished with profile: " + output);
 
         if(output != null){
-            Log.i(TAG, "non primo accesso a TakeATrip");
             openMainActivity2(output.getId(), output.getEmail(), output.getName(), output.getSurname(), output.getDataNascita(),
                     output.getPassword(), output.getNazionalita(), output.getSesso(), output.getUsername(),output.getLavoro(),
                     output.getDescrizione(), output.getTipo());

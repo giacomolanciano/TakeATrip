@@ -98,8 +98,6 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
             // If the Facebook access token is available already assign it.
             fbAccessToken = AccessToken.getCurrentAccessToken();
             if(fbAccessToken != null){
-                Log.i(TAG, "fbAccessToken:" + "user id: " + fbAccessToken.getUserId() + "  token: " + fbAccessToken.getToken());
-
                 profile = Profile.getCurrentProfile();
 
                 if(Profile.getCurrentProfile() == null) {
@@ -108,7 +106,6 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
                         protected void onCurrentProfileChanged(Profile oldProfile, Profile profile2) {
                             profile = profile2;
                             // profile2 is the new profile
-                            Log.i(TAG, "facebook - profile: " + profile.getName());
                             profileTracker.stopTracking();
                         }
                     };
@@ -125,10 +122,6 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
                     data = "0000-00-00";
 
                     logins.put(TAG, "graph.facebook.com: " + fbAccessToken.getToken());
-
-                    Log.i(TAG, "token FB: " + fbAccessToken.getToken());
-                    Log.i(TAG, "logins: " + logins);
-
                     credentialsProvider.setLogins(logins);
 
                     TakeATrip TAT = ((TakeATrip) getApplicationContext());
@@ -146,14 +139,11 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
             // If the Google access token is available already assign it.
             // Gather all the informations about the user through the LoginTask with the delegate. Then, Open the Main Activity
             else if(mGoogleApiClient != null){
-                Log.i(TAG, "mGoogleApiClient diverso da null");
-
                 mGoogleApiClient.connect();
                 OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
                 if (opr.isDone()) {
                     // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
                     // and the GoogleSignInResult will be available instantly.
-                    Log.i(TAG, "Google Sign In isDone");
                     GoogleSignInResult result = opr.get();
                     handleSignInResult(result);
                 }
@@ -178,8 +168,6 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
     protected void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
-            Log.i(TAG, "result success!!!");
-
             TakeATrip TAT = ((TakeATrip) getApplicationContext());
             TAT.setmGoogleApiClient(mGoogleApiClient);
 
@@ -193,8 +181,6 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
             String idUser = acct.getId();
             String tokenId = acct.getIdToken();
 
-            Log.i(TAG, "email: " + email + " emailProfilo: "+ emailProfilo + " describeContents: " + describeContents + " dispplayName: " + displayName
-                    + " idUser: " + idUser + " tokenId: " + tokenId);
             password = "";
 
             if(displayName != null){
@@ -243,7 +229,6 @@ public class SplashActivity extends AppCompatActivity implements GoogleApiClient
     @Override
     public void processFinish(Profilo output) {
         if(output != null){
-            Log.i(TAG, "non primo accesso a TakeATrip");
             openMainActivity2(output.getId(), output.getEmail(), output.getName(), output.getSurname(), output.getDataNascita(),
                     password, output.getNazionalita(), output.getSesso(), output.getUsername(),output.getLavoro(),
                     output.getDescrizione(), output.getTipo());

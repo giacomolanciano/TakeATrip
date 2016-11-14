@@ -553,7 +553,6 @@ public class ListaTappeActivity extends AppCompatActivity
         int heighLayoutProprietari = Constants.HEIGH_LAYOUT_PROPRIETARI_ITINERARI;
 
         float density = getResources().getDisplayMetrics().density;
-        Log.i(TAG, "density of the screen: " + density);
 
         if(density == 3.0 || density == 4.0){
             widthLayoutProprietari = widthLayoutProprietari*2;
@@ -610,9 +609,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
     private void ClickImagePartecipant(Profilo p){
         profiloVisualizzazioneCorrente = p;
-
-        Log.i(TAG,"PROFILO UTENTE CLICCATO: " + p);
-        Log.i(TAG,"PROFILO UTENTE LOGGATO: " + profiloUtenteLoggato);
 
         if(!p.getId().equals(profiloUtenteLoggato.getId()))
             buttonAddStop.setVisibility(View.INVISIBLE);
@@ -805,9 +801,6 @@ public class ListaTappeActivity extends AppCompatActivity
         if(aux != null)
             placeAttr += aux;
 
-        Log.i(TAG, "name: " + placeName);
-        Log.i(TAG, "addr: " + placeAddress);
-
         dialog = new Dialog(ListaTappeActivity.this);
         dialog.setContentView(R.layout.info_poi);
         dialog.setTitle(getResources().getString(R.string.insert_new_stop));
@@ -861,8 +854,6 @@ public class ListaTappeActivity extends AppCompatActivity
             public void onClick(View view) {
 
                 int stopOrder = calcolaNumUltimaTappaUtenteCorrente()+1;
-
-                Log.i(TAG, "sto aggiungendo la tappa: " + placeId + " " +placeName+" con livello condivisione: "+ livelloCondivisioneTappa );
 
                 //Insert all the content of the stop
                 InserimentoTappaTask ITT = new InserimentoTappaTask(ListaTappeActivity.this, email, codiceViaggio, ordine, placeId, placeName, livelloCondivisioneTappa);
@@ -925,33 +916,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
         dialog.show();
 
-
-        /*
-        addImage = (ImageView)dialog.findViewById(R.id.addImage);
-        addImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onClickAddImage(view);
-            }
-        });
-
-        addVideo = (ImageView)dialog.findViewById(R.id.addVideo);
-        addVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onClickAddVideo(view);
-            }
-        });
-
-        addRecord = (ImageView)dialog.findViewById(R.id.addRecord);
-        addRecord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onClickAddRecord(view);
-            }
-        });
-        */
-
     }
 
 
@@ -987,7 +951,6 @@ public class ListaTappeActivity extends AppCompatActivity
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                Log.i(TAG, "edit text dialog canceled");
                             }
                         });
 
@@ -1001,7 +964,6 @@ public class ListaTappeActivity extends AppCompatActivity
                                     noteInserite.remove(0);
                                     noteInserite.add(textInputEditText.getText().toString());
                                 }
-                                Log.i(TAG, "note inserite: " + noteInserite);
                                 noteAdded.setText(noteInserite.get(0));
 
                                 if (!noteInserite.get(0).equals("")){
@@ -1043,10 +1005,6 @@ public class ListaTappeActivity extends AppCompatActivity
 
                 String nameImage = bitmap_nomeFile.get(bitmap);
                 String pathImage = pathsImmaginiVideoSelezionati.get(bitmap);
-
-                Log.i(TAG, "email: " + email);
-                Log.i(TAG, "codiceViaggio: " + codiceViaggio);
-                Log.i(TAG, "name of the image: " + nameImage);
 
 
                 try {

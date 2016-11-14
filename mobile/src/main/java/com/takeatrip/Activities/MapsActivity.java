@@ -319,9 +319,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         }
         profiloNomiTappe.put(p, tappe);
         viaggioTappa.put(tappe, nome);
-        Log.i(TAG, "profiloNomiTappe: " + profiloNomiTappe);
-        Log.i(TAG, "viaggioTappa: " + viaggioTappa);
-        Log.i(TAG, "ho aggiunto i markedPoints di " + p);
+
     }
 
 
@@ -331,8 +329,6 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
     private void findPlaceById(Profilo p, Tappa t) {
         if( TextUtils.isEmpty(t.getPoi().getCodicePOI()) || mGoogleApiClient == null){
-            Log.i(TAG, "codice tappa: " + t.getPoi().getCodicePOI());
-            Log.i(TAG, "return");
             return;
         }
 
@@ -342,10 +338,6 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
         }
 
         currentProfile = p;
-
-
-
-        Log.i(TAG, "Profilo utente corrente in findPlace: " + profiloUtente);
 
 
         //Se sono presenti gia i nomi delle tappe non devo riprenderli
@@ -372,17 +364,9 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
                     @Override
                     public void onResult(PlaceBuffer places) {
-                        Log.i(TAG, "sono in onResult");
-                        Log.i(TAG, "PlaceBuffer: " + places.toString());
-                        Log.i(TAG, "Status PlaceBuffer: " + places.getStatus());
-                        Log.i(TAG, "Count PlaceBuffer: " + places.getCount());
 
                         if (places.getStatus().isSuccess()) {
                             Place place = places.get(0);
-                            Log.i(TAG, "nome place: " + place.getName());
-                            Log.i(TAG, "idPlace " + place.getId());
-                            Log.i(TAG, "titolo Viaggio " + combo.get(place.getId()));
-
 
                             googleMap.addMarker(new MarkerOptions()
                                     .title(combo.get(place.getId()).getNome()+"@@@"+combo.get(place.getId()).getCondivisioneDefault())
@@ -397,9 +381,6 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
 
                             count++;
 
-                            Log.i(TAG, "count: " + count);
-
-
                             if (count == 1) {
                                 CameraUpdate cu = CameraUpdateFactory.newLatLng(place.getLatLng());
                                 googleMap.moveCamera(cu);
@@ -408,10 +389,7 @@ public class MapsActivity extends AppCompatActivity implements NavigationView.On
                                 googleMap.moveCamera(cu);
                             }
 
-
-
                             // googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 4));
-
                         }
 
                         //Release the PlaceBuffer to prevent a memory leak

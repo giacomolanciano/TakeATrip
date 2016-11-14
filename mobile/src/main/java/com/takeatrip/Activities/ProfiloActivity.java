@@ -223,11 +223,6 @@ public class ProfiloActivity extends TabActivity {
             if(TAT != null)
                 emailProfilo = TAT.getProfiloCorrente().getId();
 
-            Log.i(TAG, "email : " + email);
-            Log.i(TAG, "email profilo loggato: " + emailProfilo);
-            Log.i(TAG, "emailEsterno: " + emailEsterno);
-
-
             if(email != null && email.equals(emailProfilo)){
                 corrente = new Profilo(email);
                 follow.setVisibility(View.INVISIBLE);
@@ -249,7 +244,6 @@ public class ProfiloActivity extends TabActivity {
 
 
             if(externalView){
-                Log.i(TAG, "visualizzazione esterna del profilo");
                 follow.setVisibility(View.VISIBLE);
             }
 
@@ -372,8 +366,6 @@ public class ProfiloActivity extends TabActivity {
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
 
-        Log.i(TAG, "path file immagine: " + mCurrentPhotoPath);
-
         return image;
     }
 
@@ -432,7 +424,6 @@ public class ProfiloActivity extends TabActivity {
 
     private void setButtonToFollowing() {
         if (alreadyFollowing) {
-            Log.i(TAG, "GIA' SEGUI QUESTO UTENTE! ");
             follow.setText("FOLLOWING");
             follow.setBackground(getDrawable(R.drawable.button_follow_cliccato));
         }
@@ -445,13 +436,11 @@ public class ProfiloActivity extends TabActivity {
         intentFollowers.putExtra("surname", surname);
         if(emailEsterno != null ){
             intentFollowers.putExtra("email", emailEsterno);
-            Log.i(TAG, "Email di chi voglio vedere i followers (Esterno) " + emailEsterno);
         }
         else{
             TakeATrip TAT = (TakeATrip)getApplicationContext();
             email = TAT.getProfiloCorrente().getId();
             intentFollowers.putExtra("email", email);
-            Log.i(TAG, "Email di chi voglio vedere i followers " + email);
         }
     startActivity(intentFollowers);
 
@@ -597,8 +586,6 @@ public class ProfiloActivity extends TabActivity {
                                         Log.e(TAG, "eccezione nella creazione di file immagine");
                                     }
 
-                                    Log.i(TAG, "creato file immagine");
-
                                     // Continue only if the File was successfully created
                                     if (photoFile != null) {
                                         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
@@ -660,7 +647,6 @@ public class ProfiloActivity extends TabActivity {
 
             //return from take a photo
             if (requestCode == Constants.REQUEST_IMAGE_CAPTURE) {
-                Log.i(TAG, "immagine fatta");
 
                 File f = new File(Environment.getExternalStorageDirectory().toString());
                 for (File temp : f.listFiles()) {
@@ -674,8 +660,6 @@ public class ProfiloActivity extends TabActivity {
                     BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
                     bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
                             bitmapOptions);
-
-                    Log.i(TAG, "path file immagine: " + f.getAbsolutePath());
 
                     try {
                         beginUploadProfilePicture(f.getAbsolutePath());
@@ -779,8 +763,6 @@ public class ProfiloActivity extends TabActivity {
                 String picturePath = c.getString(columnIndex);
                 c.close();
                 Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-                Log.i("image from gallery:", picturePath + "");
-
 
                 beginUploadCoverPicture(picturePath);
 
@@ -909,7 +891,6 @@ public class ProfiloActivity extends TabActivity {
     private void beginUploadCoverPicture(String filePath) {
         if(InternetConnection.haveInternetConnection(getApplicationContext())) {
             if (filePath == null) {
-                Log.i(TAG, "Could not find the filepath of the selected file");
                 return;
             }
             File file = new File(filePath);
@@ -1023,8 +1004,6 @@ public class ProfiloActivity extends TabActivity {
 
                             result = sb.toString();
 
-                            Log.i(TAG, "result " + result);
-
                         } catch (Exception e) {
                             Log.e(TAG,"CONNESSIONE Internet Assente!"+ e.toString());
                         }
@@ -1079,8 +1058,6 @@ public class ProfiloActivity extends TabActivity {
 
                             result = sb.toString();
 
-                            Log.i(TAG, "result " + result);
-
                         } catch (Exception e) {
                             Log.e(TAG,"CONNESSIONE Internet Assente!"+ e.toString());
                         }
@@ -1109,10 +1086,8 @@ public class ProfiloActivity extends TabActivity {
 
             ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
 
-            Log.i(TAG, "EXTERNAL VIEW: "+ externalView);
             if (!externalView) {
                 dataToSend.add(new BasicNameValuePair("email", email));
-                Log.i(TAG, "EMAIL EXTERNAL VIEW " + email);
             } else {
                 dataToSend.add(new BasicNameValuePair("email", emailEsterno));
             }
@@ -1139,14 +1114,10 @@ public class ProfiloActivity extends TabActivity {
 
                         result = sb.toString();
 
-                        Log.i(TAG, "result FOLLOWERS: " + result);
-
                         JSONArray jsonArray = new JSONArray(result);
                         JSONObject jsonObject = jsonArray.getJSONObject(0);
 
                         numFollowers = ""+jsonObject.getInt(Constants.COUNT_FOLLOW_ID);
-
-                        Log.i(TAG, "numFollowers: " + numFollowers);
                     } catch (Exception e) {
                         //Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
                         Log.e(TAG, "eccezione query followers: "+e.toString());
@@ -1212,14 +1183,11 @@ public class ProfiloActivity extends TabActivity {
 
                         result = sb.toString();
 
-                        Log.i(TAG, "result FOLLOWING: " + result);
-
                         JSONArray jsonArray = new JSONArray(result);
                         JSONObject jsonObject = jsonArray.getJSONObject(0);
 
                         numFollowings = ""+jsonObject.getInt(Constants.COUNT_FOLLOW_ID);
 
-                        Log.i(TAG, "numFollowings: " + numFollowings);
                     } catch (Exception e) {
                         //Toast.makeText(getBaseContext(), "Errore nel risultato o nel convertire il risultato", Toast.LENGTH_LONG).show();
                         Log.e(TAG, "eccezione query followings: "+e.toString());
@@ -1259,12 +1227,9 @@ public class ProfiloActivity extends TabActivity {
 
         @Override
         public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
-            Log.i(TAG, String.format("onProgressChanged: %d, total: %d, current: %d",
-                    id, bytesTotal, bytesCurrent));
         }
         @Override
         public void onStateChanged(int id, TransferState state) {
-            Log.i(TAG, "onStateChanged: " + id + ", " + state);
         }
     }
 
