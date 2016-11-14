@@ -121,5 +121,6 @@ public class Constants {
     public static final String DEVICE_DIR_AUDIO = "TakeATrip Audio";
 
 
-
+    public static final String prefixReport = "h589so7eQ043";
+    public static final String suffixReport = "985n944683h011369990123";
 }

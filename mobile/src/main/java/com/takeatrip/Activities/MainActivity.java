@@ -413,6 +413,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void processFinishForStops(Map<Profilo, List<Tappa>> profilo_tappe) {
+
         List<Tappa> tappe = profilo_tappe.get(profilo);
         if(tappe.size() == 0 ){
             new AlertDialog.Builder(this)
@@ -427,6 +428,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             openNewTravel.putExtra("nomeViaggio", ultimoViaggio.getNome());
                             openNewTravel.putExtra("urlImmagineViaggio", ultimoViaggio.getUrlImmagine());
                             openNewTravel.putExtra("livelloCondivisione", ultimoViaggio.getCondivisioneDefault());
+
                             startActivity(openNewTravel);
                         }
                     })
@@ -442,16 +444,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         }else{
+            final ArrayList<Tappa> tappe2 = (ArrayList<Tappa>) profilo_tappe.get(profilo);;
+
             Tappa ultimaTappa = tappe.get(tappe.size()-1);
 
             Intent intent = new Intent(MainActivity.this, TappaActivity.class);
             intent.putExtra("email",profilo.getId());
+            intent.putExtra("emailProprietarioTappa", profilo.getId());
             intent.putExtra("codiceViaggio", ultimoViaggio.getCodice());
             intent.putExtra("ordine", tappe.size());
             intent.putExtra("ordineDB", ultimaTappa.getOrdine());
             intent.putExtra("nome", tappe.size() + ". "+ ultimaTappa.getName());
             intent.putExtra("data", DatesUtils.getStringFromDate(ultimaTappa.getData(), Constants.DISPLAYED_DATE_FORMAT));
             intent.putExtra("livelloCondivisioneTappa", ultimaTappa.getLivelloCondivisione());
+            intent.putExtra("nomeViaggio", ultimoViaggio.getNome());
+            intent.putParcelableArrayListExtra("tappeViaggio", tappe2);
+
 
             startActivity(intent);
         }

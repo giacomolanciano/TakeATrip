@@ -4,6 +4,7 @@ package com.takeatrip.Adapters;
  * Created by lucagiacomelli on 17/03/16.
  */
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -188,7 +189,7 @@ public class GridViewAdapter extends BaseAdapter {
                 Log.i(TAG, "contenuto video: " + contenutoMultimediale);
                 Log.i(TAG, "url contenuto video: " + contenutoMultimediale.getUrlContenuto());
 
-                Uri uri = Uri.parse(UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_TRAVELS_NAME,contenutoMultimediale.getUrlContenuto()));
+                Uri uri = Uri.parse(UtilS3AmazonCustom.getS3FileURL(context,s3, Constants.BUCKET_TRAVELS_NAME,contenutoMultimediale.getUrlContenuto()));
 
 
                 debugRootView = (LinearLayout) convertView.findViewById(R.id.controls_root);
@@ -205,8 +206,6 @@ public class GridViewAdapter extends BaseAdapter {
                 else{
                     textViewVideo.setVisibility(View.INVISIBLE);
                 }
-
-
                 retryButton = (Button) convertView.findViewById(R.id.retry_button);
                 retryButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -215,6 +214,7 @@ public class GridViewAdapter extends BaseAdapter {
                     }
                 });
 
+
                 simpleExoPlayerView = (SimpleExoPlayerView) convertView.findViewById(R.id.player_view);
 
                 simpleExoPlayerView.setControllerVisibilityListener((TappaActivity)context);
@@ -222,9 +222,6 @@ public class GridViewAdapter extends BaseAdapter {
 
 
                 simpleExoPlayerView.requestFocus();
-
-
-
 
             }
             else if (tipoContenuti == Constants.AUDIO_FILE) {
@@ -244,7 +241,7 @@ public class GridViewAdapter extends BaseAdapter {
                     public void onClick(View v) {
                         cm = getItem(Integer.parseInt(v.getContentDescription().toString()));
 
-                        Uri uri = Uri.parse(UtilS3AmazonCustom.getS3FileURL(getS3(), Constants.BUCKET_TRAVELS_NAME,cm.getUrlContenuto()));
+                        Uri uri = Uri.parse(UtilS3AmazonCustom.getS3FileURL(context,getS3(), Constants.BUCKET_TRAVELS_NAME,cm.getUrlContenuto()));
                         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                         intent.setDataAndType(uri, "audio/*");
                         context.startActivity(intent);
@@ -267,43 +264,6 @@ public class GridViewAdapter extends BaseAdapter {
             }
         }
 
-        //è utile solamente nel caso delle immagini
-
-/*
-        if (tipoContenuti == Constants.VIDEO_FILE) {
-
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    cm = getItem(Integer.parseInt(v.getContentDescription().toString()));
-
-                    Uri uri = Uri.parse(UtilS3AmazonCustom.getS3FileURL(getS3(), Constants.BUCKET_TRAVELS_NAME,cm.getUrlContenuto()));
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    intent.setDataAndType(uri, "video/*");
-                    context.startActivity(intent);
-                }
-            });
-
-            if (codiceViaggio != null) {
-                view.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-
-                        cm = getItem(Integer.parseInt(v.getContentDescription().toString()));
-
-                        if(cm.getEmailProfilo().equals(emailProfiloLoggato)){
-
-
-                            Log.i(TAG, "file da eliminare: " + cm.getUrlContenuto());
-                            confirmFileDeletion(v, Constants.QUERY_DEL_VIDEO);
-                        }
-                        return false;
-                    }
-                });
-            }
-
-        }
-        */
         return convertView;
     }
 
@@ -338,51 +298,6 @@ public class GridViewAdapter extends BaseAdapter {
     public AmazonS3Client getS3() {
         return s3;
     }
-
-
-
-    protected void confirmFileDeletion(View v, String q) {
-        final View view = v;
-        final String query = q;
-
-        new AlertDialog.Builder(context)
-                .setTitle(context.getString(R.string.confirm))
-                .setMessage(context.getString(R.string.delete_content_alert))
-                .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            cm = getItem(Integer.parseInt(view.getContentDescription().toString()));
-                            boolean result = new DeleteStopContentTask(context, query, codiceViaggio,
-                                    cm.getUrlContenuto()).execute().get();
-
-                            if(result){
-                                cm = getItem(Integer.parseInt(view.getContentDescription().toString()));
-                                Log.i(TAG, "deleted file: " + cm.getUrlContenuto());
-                                contents.remove(cm);
-                                urls.remove(cm.getUrlContenuto());
-                                adapter.notifyDataSetChanged();
-
-                            }
-
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        }
-
-
-                    }
-                })
-                .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .setIcon(ContextCompat.getDrawable(context, R.drawable.logodefbordo))
-                .show();
-    }
-
-
 
 
     private void initializePlayer(TappaActivity listener, Uri uri) {
@@ -457,5 +372,88 @@ public class GridViewAdapter extends BaseAdapter {
         }
     }
 
+
+    protected void confirmFileDeletion(View v, String q) {
+        final View view = v;
+        final String query = q;
+
+        new AlertDialog.Builder(context)
+                .setTitle(context.getString(R.string.confirm))
+                .setMessage(context.getString(R.string.delete_content_alert))
+                .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            cm = getItem(Integer.parseInt(view.getContentDescription().toString()));
+                            boolean result = new DeleteStopContentTask(context, query, codiceViaggio,
+                                    cm.getUrlContenuto()).execute().get();
+
+                            if(result){
+                                cm = getItem(Integer.parseInt(view.getContentDescription().toString()));
+                                Log.i(TAG, "deleted file: " + cm.getUrlContenuto());
+                                contents.remove(cm);
+                                urls.remove(cm.getUrlContenuto());
+                                adapter.notifyDataSetChanged();
+
+                            }
+
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                })
+                .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(ContextCompat.getDrawable(context, R.drawable.logodefbordo))
+                .show();
+    }
+
+
+    protected void confirmReportFile(View v, final ContenutoMultimediale contenutoMultimediale) {
+        final View view = v;
+
+        Log.i(TAG, "cliccato contenuto: " +contenutoMultimediale.getUrlContenuto() +
+                " " +contenutoMultimediale.getEmailProfilo() + " per segnalazione");
+
+        new AlertDialog.Builder(context)
+                .setTitle(context.getString(R.string.confirm))
+                .setMessage(context.getString(R.string.report_content_alert))
+                .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        String textReport = "segnalato contenuto dall'applicazione!\n"
+                                +"codiceSegnalazione: " + Constants.prefixReport +
+                                contenutoMultimediale.getEmailProfilo().replace("oogle","")
+                                + Constants.suffixReport +
+                                contenutoMultimediale.getUrlContenuto().replace("/travelImages/","ti").replace("oogle","") +
+                                "\n\nwrite here a comment:" +"\n";
+                        Intent i = new Intent(Intent.ACTION_SEND);
+                        i.setType("message/rfc822");
+                        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"apptakeatrip@gmail.com"});
+                        i.putExtra(Intent.EXTRA_SUBJECT, "REPORT OF CONTENT");
+                        i.putExtra(Intent.EXTRA_TEXT   , textReport);
+                        //i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        try {
+                            context.startActivity(Intent.createChooser(i, "Send mail..."));
+                        } catch (ActivityNotFoundException ex) {
+                            Log.i(TAG, "There are no email clients installed.");
+                        }
+
+                    }
+                })
+                .setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(ContextCompat.getDrawable(context, R.drawable.logodefbordo))
+                .show();
+    }
 
 }

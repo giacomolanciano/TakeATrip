@@ -282,7 +282,7 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
                 if(phpFile.equals(Constants.QUERY_STOP_IMAGES) && coverImageTappa != null) {
                     Bitmap bitmap  = null;
                     try {
-                        final String url = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_TRAVELS_NAME,URLs.get(0).getUrlContenuto());
+                        final String url = UtilS3AmazonCustom.getS3FileURL(context, s3, Constants.BUCKET_TRAVELS_NAME,URLs.get(0).getUrlContenuto());
                         bitmap = new BitmapWorkerTask(coverImageTappa).execute(url).get();
                         if(bitmap != null)
                             coverImageTappa.setImageBitmap(getScaledBitmap(bitmap));

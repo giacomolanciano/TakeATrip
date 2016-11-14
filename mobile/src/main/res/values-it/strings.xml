@@ -287,6 +287,8 @@
 
     <string name="error_upload">Errore nel caricamento del file</string>
     <string name="exit_travel">Esci dal viaggio</string>
+    <string name="report_content_alert">Vuoi davvero segnalare il contenuto del viaggio?</string>
+    <string name="content_reported">Contenuto segnalato</string>
 
 
 </resources>

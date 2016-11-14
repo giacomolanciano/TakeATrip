@@ -26,9 +26,15 @@ public class UtilS3AmazonCustom {
 
     private static final String TAG = "TEST UtilS3AmazonCustom";
 
-    public static String getS3FileURL(AmazonS3Client s3, String bucket, String key) {
+    public static String getS3FileURL(Context context, AmazonS3Client s3, String bucket, String key) {
         // Location to download files from S3 to. You can choose any accessible
         // file.
+
+        Log.i(TAG, "s3: " + s3);
+
+        if(s3 == null){
+            s3 = UtilS3Amazon.getS3Client(context);
+        }
 
         URL url = null;
 
@@ -46,12 +52,14 @@ public class UtilS3AmazonCustom {
             url = s3.generatePresignedUrl(generatePresignedUrlRequest);
         }
         catch(Exception exception){
-            exception.printStackTrace();
+            Log.e(TAG, "thrown exception "+exception + " " + exception.getMessage() );
+            //exception.printStackTrace();
         }
 
+        if(url != null)
+            return url.toString();
 
-        return url.toString();
-
+        return null;
     }
 
 

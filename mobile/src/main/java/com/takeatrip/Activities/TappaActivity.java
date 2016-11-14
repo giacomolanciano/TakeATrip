@@ -197,6 +197,7 @@ public class TappaActivity extends AppCompatActivity implements
         }
 
         Log.i(TAG, "email: "+email);
+        Log.i(TAG, "emailProprietarioTappa: "+emailProprietarioTappa);
         Log.i(TAG, "codice: "+codiceViaggio);
         Log.i(TAG, "ordine: "+ordineTappa);
         Log.i(TAG, "ordineDB: "+ordineTappaDB);

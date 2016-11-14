@@ -614,7 +614,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                 }
             });
             if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
-                String signedUrl = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_NAME, p.getIdImageProfile());
+                String signedUrl = UtilS3AmazonCustom.getS3FileURL(this,s3, Constants.BUCKET_NAME, p.getIdImageProfile());
                 Picasso.with(ViaggioActivityConFragment.this).
                         load(signedUrl).
                         resize(DIMENSION_OF_IMAGE_PARTICIPANT, DIMENSION_OF_IMAGE_PARTICIPANT).
@@ -777,7 +777,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                 if(p.getId().equals(v.getContentDescription())){
                     viewName.setText(p.getName() + " " + p.getSurname());
                     if(p.getIdImageProfile() != null && !p.getIdImageProfile().equals("null")){
-                        String signedUrl = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_NAME,
+                        String signedUrl = UtilS3AmazonCustom.getS3FileURL(this,s3, Constants.BUCKET_NAME,
                                 p.getIdImageProfile());
 
                         Picasso.with(ViaggioActivityConFragment.this).
@@ -795,7 +795,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                     }
 
                     if(p.getGetIdImageCover() != null && !p.getGetIdImageCover().equals("null")){
-                        String signedUrl = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_NAME,
+                        String signedUrl = UtilS3AmazonCustom.getS3FileURL(this,s3, Constants.BUCKET_NAME,
                                 p.getGetIdImageCover());
                         new BitmapWorkerTask(null, layoutCopertina).execute(signedUrl);
                     }

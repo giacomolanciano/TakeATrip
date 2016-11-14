@@ -62,7 +62,7 @@ public class GridViewImageAdapter extends GridViewAdapter {
             final Context context = this.getContext();
 
             final ContenutoMultimediale contenutoMultimediale = getItem(Integer.parseInt(convertView.getContentDescription().toString()));
-            final String url = UtilS3AmazonCustom.getS3FileURL(getS3(), Constants.BUCKET_TRAVELS_NAME,
+            final String url = UtilS3AmazonCustom.getS3FileURL(context,getS3(), Constants.BUCKET_TRAVELS_NAME,
                     contenutoMultimediale.getUrlContenuto());
 
             // Trigger the download of the URL asynchronously into the image view.
@@ -152,13 +152,15 @@ public class GridViewImageAdapter extends GridViewAdapter {
 
 
     private void setDialog(Dialog dialog, int position, final View v){
+
         final ContenutoMultimediale contenutoMultimediale = getItem(Integer.parseInt(v.getContentDescription().toString()));
+
 
         TextView viewReport = (TextView)dialog.findViewById(R.id.textSegnala);
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "Segnalata foto: " + contenutoMultimediale.getUrlContenuto() +" di " + contenutoMultimediale.getEmailProfilo());
+                confirmReportFile(v, contenutoMultimediale);
             }
         });
 

@@ -99,7 +99,7 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         ArrayList<NameValuePair> dataToSend = new ArrayList<NameValuePair>();
-        Log.i(TAG, "codiceViaggio Get: "+ codiceViaggio);
+        Log.i(TAG, "codiceViaggio: "+ codiceViaggio);
         // codiceViaggio="8f09454f-2fd7-48c0-8b7d-41aa1fc005aa";
         //Log.i(TAG, "codiceViaggio Get dopo modifica: "+ codiceViaggio);
         dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
@@ -141,7 +141,7 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
                             for(int i=0;i<jArray.length();i++){
                                 JSONObject json_data = jArray.getJSONObject(i);
                                 String idProfilo = json_data.getString("emailProfilo");
-                                String emailProfilo = json_data.getString("email2");
+                                //String emailProfilo = json_data.getString("email2");
                                 String nomePartecipante = json_data.getString("nome");
                                 String cognomePartecipante = json_data.getString("cognome");
                                 String data = json_data.getString("dataNascita");
@@ -154,7 +154,7 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
                                 String urlImmagineProfilo = json_data.getString("urlImmagineProfilo");
                                 String urlImmagineCopertina = json_data.getString("urlImmagineCopertina");
 
-                                listPartecipants.add(new Profilo(idProfilo, emailProfilo, nomePartecipante,cognomePartecipante,
+                                listPartecipants.add(new Profilo(idProfilo, nomePartecipante,cognomePartecipante,
                                         data, nazionalita, sesso, username, lavoro, descrizione, tipo, urlImmagineProfilo, urlImmagineCopertina));
 
 

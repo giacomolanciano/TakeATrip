@@ -233,6 +233,7 @@
         participants and then press the "plus button"</string>
     <string name="confirm">Confirm</string>
     <string name="delete_content_alert">Proceed removing the content from this travel?</string>
+    <string name="report_content_alert">Proceed reporting the content of this travel?</string>
     <string name="delete_travel">Delete this travel</string>
     <string name="delete_travel_alert">Proceed deleting this travel?</string>
     <string name="delete_stop">Delete this stop</string>
@@ -291,6 +292,7 @@
 
     <string name="error_upload">Error in the upload</string>
     <string name="exit_travel">Exit travel</string>
+    <string name="content_reported">Content reported</string>
 
 
 </resources>

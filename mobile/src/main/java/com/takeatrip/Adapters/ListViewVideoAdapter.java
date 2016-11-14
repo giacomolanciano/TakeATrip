@@ -132,9 +132,9 @@ public class ListViewVideoAdapter extends ArrayAdapter<ContenutoMultimediale> {
             Log.i(TAG, "url contenuto video: " + contenutoMultimediale.getUrlContenuto());
 
 
-            final String url = UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_TRAVELS_NAME,contenutoMultimediale.getUrlContenuto());
+            final String url = UtilS3AmazonCustom.getS3FileURL(context,s3, Constants.BUCKET_TRAVELS_NAME,contenutoMultimediale.getUrlContenuto());
 
-            Uri uri = Uri.parse(UtilS3AmazonCustom.getS3FileURL(s3, Constants.BUCKET_TRAVELS_NAME,contenutoMultimediale.getUrlContenuto()));
+            Uri uri = Uri.parse(UtilS3AmazonCustom.getS3FileURL(context,s3, Constants.BUCKET_TRAVELS_NAME,contenutoMultimediale.getUrlContenuto()));
 
 
             debugRootView = (LinearLayout) convertView.findViewById(R.id.controls_root);
