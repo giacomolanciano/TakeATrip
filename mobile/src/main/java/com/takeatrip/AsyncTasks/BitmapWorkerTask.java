@@ -31,10 +31,13 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 
     public BitmapWorkerTask(ImageView bmImage) {
         //this.bmImage = bmImage;
-        imageViewReference = new WeakReference<ImageView>(bmImage);
+        if(bmImage != null){
+            imageViewReference = new WeakReference<ImageView>(bmImage);
 
-        width = bmImage.getWidth();
-        height = bmImage.getHeight();
+            width = bmImage.getWidth();
+            height = bmImage.getHeight();
+        }
+
     }
 
     public BitmapWorkerTask(ImageView bmImage, LinearLayout layout) {
@@ -119,8 +122,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 
 
 
-    public static Bitmap decodeSampledBitmapFromResource(String url,
-                                                         int reqWidth, int reqHeight) {
+    public static Bitmap decodeSampledBitmapFromResource(String url, int reqWidth, int reqHeight) {
         InputStream in = null;
         Bitmap mIcon11 = null;
 

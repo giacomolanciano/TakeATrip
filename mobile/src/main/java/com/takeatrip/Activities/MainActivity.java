@@ -26,6 +26,7 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
@@ -35,8 +36,10 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+import com.takeatrip.AsyncTasks.BitmapWorkerTask;
 import com.takeatrip.AsyncTasks.GetStopsTask;
 import com.takeatrip.AsyncTasks.GetViaggiTask;
+import com.takeatrip.AsyncTasks.InserimentoImmagineProfiloTask;
 import com.takeatrip.Classes.Profilo;
 import com.takeatrip.Classes.TakeATrip;
 import com.takeatrip.Classes.Tappa;
@@ -63,11 +66,15 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URI;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -739,6 +746,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         //Picasso.with(MainActivity.this).load(image_URI.toURL().toString()).into(imageViewProfileRound);
                         Picasso.with(MainActivity.this).load(image_URI.toURL().toString()).into(target);
 
+
+
+                        Bitmap bitmap = new BitmapWorkerTask(null).execute(image_URI.toURL().toString()).get();
+                        File filesDir = getApplicationContext().getFilesDir();
+
+                        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+                        File imageFile = new File(filesDir,"profileImageTATfromFB" + timeStamp+ Constants.IMAGE_EXT);
+                        OutputStream os;
+                        try {
+                            os = new FileOutputStream(imageFile);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+                            os.flush();
+                            os.close();
+                        } catch (Exception e) {
+                            Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
+                        }
+
+                        beginUploadProfilePicture(imageFile.getAbsolutePath());
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -865,6 +892,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.logodefbordo))
                 .show();
     }
+
+
+
+
+    private void beginUploadProfilePicture(String filePath) {
+        if(InternetConnection.haveInternetConnection(getApplicationContext())) {
+            if (filePath == null) {
+                Log.i(TAG, "Could not find the filepath of the selected file");
+                return;
+            }
+            File file = new File(filePath);
+
+            ObjectMetadata myObjectMetadata = new ObjectMetadata();
+            TransferObserver observer = transferUtility.upload(Constants.BUCKET_NAME, email + "/" + Constants.PROFILE_PICTURES_LOCATION + "/" + file.getName(), file);
+            new InserimentoImmagineProfiloTask(this, email, null, email + "/" + Constants.PROFILE_PICTURES_LOCATION + "/" + file.getName()).execute();
+        }
+        else {
+            Toast.makeText(getApplicationContext(), R.string.no_internet_connection,Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+
+
 
     @Override
     public void onBackPressed() {

@@ -896,6 +896,7 @@ public class ProfiloActivity extends TabActivity {
             ObjectMetadata myObjectMetadata = new ObjectMetadata();
             TransferObserver observer = transferUtility.upload(Constants.BUCKET_NAME, email + "/"+ Constants.PROFILE_PICTURES_LOCATION +"/"+file.getName(), file);
             new InserimentoImmagineProfiloTask(this,email,null,email + "/"+ Constants.PROFILE_PICTURES_LOCATION +"/"+file.getName()).execute();
+
         }
         else {
             Toast.makeText(getApplicationContext(), R.string.no_internet_connection,Toast.LENGTH_LONG).show();
@@ -908,8 +909,7 @@ public class ProfiloActivity extends TabActivity {
     private void beginUploadCoverPicture(String filePath) {
         if(InternetConnection.haveInternetConnection(getApplicationContext())) {
             if (filePath == null) {
-                Toast.makeText(this, "Could not find the filepath of the selected file",
-                        Toast.LENGTH_LONG).show();
+                Log.i(TAG, "Could not find the filepath of the selected file");
                 return;
             }
             File file = new File(filePath);
