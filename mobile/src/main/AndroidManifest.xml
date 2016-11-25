@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.takeatrip">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -62,10 +64,6 @@
             android:label="@string/title_activity_lista_viaggi"
             android:parentActivityName=".Activities.MainActivity" />
         <activity
-            android:name=".Activities.ViaggioActivity"
-            android:label="@string/title_activity_viaggio"
-            android:parentActivityName=".Activities.MainActivity" />
-        <activity
             android:name=".Activities.ViaggioActivityConFragment"
             android:label="@string/title_activity_viaggio"
             android:parentActivityName=".Activities.MainActivity" />
@@ -122,7 +120,24 @@
             android:name=".Activities.IntroActivity"
             android:label="@string/title_activity_tatintro"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Activities.CustomPhotoGalleryActivity"></activity>
+        <activity android:name=".Activities.CustomPhotoGalleryActivity"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity android:name="com.darsh.multipleimageselect.activities.AlbumSelectActivity"
+            tools:replace="android:theme"
+            android:theme="@style/OverrideMultipleImageSelectTheme">
+            <intent-filter>
+                <category android:name="ANDROID.INTENT.CATEGORY.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.darsh.multipleimageselect.activities.ImageSelectActivity"
+            tools:replace="android:theme"
+            android:theme="@style/OverrideMultipleImageSelectTheme">
+            <intent-filter>
+                <category android:name="ANDROID.INTENT.CATEGORY.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

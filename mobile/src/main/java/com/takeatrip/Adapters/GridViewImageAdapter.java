@@ -53,9 +53,7 @@ public class GridViewImageAdapter extends GridViewAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         adapter = this;
 
-        if(!(convertView instanceof SquaredImageView)){
-            Log.i(TAG, "squared image view number " + position);
-            convertView = new SquaredImageView(context);
+        convertView = new SquaredImageView(context);
 
             convertView.setContentDescription(position+"");
 
@@ -139,14 +137,9 @@ public class GridViewImageAdapter extends GridViewAdapter {
                 });
             }
 
+        return convertView;
 
-            return convertView;
 
-
-        } else {
-            return convertView;
-
-        }
     }
 
 
@@ -184,7 +177,7 @@ public class GridViewImageAdapter extends GridViewAdapter {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         //Log.i(TAG, "elemento selezionato nello spinner: " + adapter.getItem(position));
-                        String livelloCondivisioneContenuto = position+""   ;
+                        String livelloCondivisioneContenuto = position+"";
 
                         cm = getItem(Integer.parseInt(v.getContentDescription().toString()));
                         cm.setLivelloCondivisione(livelloCondivisioneContenuto);

@@ -53,6 +53,10 @@ android {
 
 repositories {
     mavenCentral()
+
+    maven {
+        url "https://jitpack.io"
+    }
 }
 
 dependencies {
@@ -86,6 +90,7 @@ dependencies {
     compile 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.0'
     compile 'com.google.android.exoplayer:exoplayer:r2.0.4'
     compile 'com.github.amlcurran.showcaseview:library:5.4.3'
+    compile 'com.github.darsh2:MultipleImageSelect:v0.0.4'
 
 }
 

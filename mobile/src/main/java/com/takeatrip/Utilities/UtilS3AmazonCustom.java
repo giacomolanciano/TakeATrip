@@ -30,8 +30,6 @@ public class UtilS3AmazonCustom {
         // Location to download files from S3 to. You can choose any accessible
         // file.
 
-        Log.i(TAG, "s3: " + s3);
-
         if(s3 == null){
             s3 = UtilS3Amazon.getS3Client(context);
         }
@@ -68,7 +66,6 @@ public class UtilS3AmazonCustom {
                                                 //LinearLayout layoutCopertinaViaggio) {
                                                 ImageView layoutCopertinaViaggio, Uri selectedImage) {
 
-        Log.i(TAG, "enter uploadTravelCoverPicture(...)");
 
         @SuppressLint("SimpleDateFormat")
         String timeStamp = new SimpleDateFormat(Constants.FILE_NAME_TIMESTAMP_FORMAT).format(new Date());

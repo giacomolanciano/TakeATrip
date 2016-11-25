@@ -87,6 +87,14 @@ public class Constants {
 
     public static final int LIMIT_NAMES_PROFILE = 18;
 
+
+    public static final int REQUEST_CODE_ALBUM = 2000;
+    public static final String INTENT_EXTRA_ALBUM = "album";
+    public static final String INTENT_EXTRA_IMAGES = "images";
+    public static final String INTENT_EXTRA_LIMIT = "limit";
+    public static final int DEFAULT_IMAGES_LIMIT = 10;
+
+
     public static final int ONE_HOUR_IN_MILLISEC = 1000 * 60 * 60;
 
 

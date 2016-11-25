@@ -144,7 +144,21 @@
     <style name="CustomText2" parent="TextAppearance.ShowcaseView.Detail">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/text_showCase</item>
+    </style>
 
+
+
+    <style name="OverrideMultipleImageSelectTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/blu_scuro</item>
+        <item name="colorPrimaryDark">@color/blue</item>
+        <item name="colorAccent">@color/blue</item>
+        <item name="actionModeStyle">@style/OverrideCustomActionModeStyle</item>
+        <item name="windowActionModeOverlay">true</item>
+    </style>
+    <style name="OverrideCustomActionModeStyle" parent="Base.Widget.AppCompat.ActionMode">
+        <item name="background">@color/blu_scuro</item>
+    </style>
+    <style name="OverrideCustomToolbarTheme" parent="Base.ThemeOverlay.AppCompat.ActionBar">
     </style>
 
 </resources>

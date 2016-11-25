@@ -45,6 +45,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.darsh.multipleimageselect.activities.AlbumSelectActivity;
+import com.darsh.multipleimageselect.models.Image;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.Timeline;
@@ -717,6 +719,33 @@ public class TappaActivity extends AppCompatActivity implements
                     break;
 
                 case PICK_IMAGE_MULTIPLE:
+                    if (data != null) {
+                        ArrayList<Image> images = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
+
+                        imagesPathList = new ArrayList<String>();
+                        for (int i=0;i<images.size();i++){
+
+                            String timeStamp = new SimpleDateFormat(Constants.FILE_NAME_TIMESTAMP_FORMAT).format(new Date());
+                            String nomeFile = i+timeStamp + Constants.IMAGE_EXT;
+
+                            String path_image = images.get(i).path;
+
+                            imagesPathList.add(timeStamp + path_image);
+                            yourbitmap = BitmapFactory.decodeFile(path_image);
+
+                            pathsImmaginiSelezionate.put(yourbitmap, path_image);
+                            immaginiSelezionate.add(yourbitmap);
+                            bitmap_nomeFile.put(yourbitmap,nomeFile);
+                        }
+
+                        uploadPhotos();
+
+                        recreate();
+                    }
+
+
+
+                    /*
                     imagesPathList = new ArrayList<String>();
                     String[] imagesPath = data.getStringExtra("data").split("\\|");
 
@@ -738,8 +767,8 @@ public class TappaActivity extends AppCompatActivity implements
 
                     uploadPhotos();
 
-                    //refresh activity
                     recreate();
+                    */
 
                     break;
 
@@ -861,8 +890,15 @@ public class TappaActivity extends AppCompatActivity implements
 
                         case 1: //pick multiple images from gallery
 
-                            Intent intentPick2 = new Intent(TappaActivity.this,CustomPhotoGalleryActivity.class);
-                            startActivityForResult(intentPick2,PICK_IMAGE_MULTIPLE);
+                            //Intent intentPick2 = new Intent(TappaActivity.this,CustomPhotoGalleryActivity.class);
+                            //startActivityForResult(intentPick2,PICK_IMAGE_MULTIPLE);
+
+
+                            Intent intent2 = new Intent(TappaActivity.this, AlbumSelectActivity.class);
+                            //set limit on number of images that can be selected, default is 10
+                            intent2.putExtra(Constants.INTENT_EXTRA_LIMIT, Constants.DEFAULT_IMAGES_LIMIT);
+                            startActivityForResult(intent2, PICK_IMAGE_MULTIPLE);
+
                             break;
 
                         case 2: //take a photo

@@ -452,7 +452,7 @@ public class SearchActivity extends AppCompatActivity {
                             Profilo p = null;
 
                             JSONArray jArray = new JSONArray(result);
-                            if (jArray != null && result != null) {
+                            if (result != null && !result.equals("null\n")) {
                                 for (int i = 0; i < jArray.length(); i++) {
                                     JSONObject json_data = jArray.getJSONObject(i);
                                     String codice = json_data.getString("codice").toString();
@@ -541,10 +541,10 @@ public class SearchActivity extends AppCompatActivity {
 
                             result = sb.toString();
 
+                            Log.i(TAG, "result da query viaggi by destination: " + result);
 
-                            JSONArray jArray = new JSONArray(result);
-
-                            if (jArray != null && result != null) {
+                            if (result != null && !result.equals("null\n")) {
+                                JSONArray jArray = new JSONArray(result);
 
                                 viaggi = new Viaggio[jArray.length()];
                                 profili = new Profilo[jArray.length()];
@@ -568,8 +568,14 @@ public class SearchActivity extends AppCompatActivity {
 
                                 }
                             }
+                            else{
+                                viaggi = new Viaggio[0];
+                                profili = new Profilo[0];
+                            }
                         } catch (Exception e) {
                             Log.e(TAG, "Errore nel risultato o nel convertire il risultato");
+                            viaggi = new Viaggio[0];
+                            profili = new Profilo[0];
                         }
                     } else {
                         Log.e(TAG, "Input Stream uguale a null");

@@ -56,7 +56,6 @@ import com.takeatrip.Utilities.UtilS3Amazon;
 import com.takeatrip.Utilities.UtilS3AmazonCustom;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -128,13 +127,17 @@ public class GridViewAdapter extends BaseAdapter {
         this.contents = URLs;
         this.gridView = gv;
 
+        /*
         if(contents != null && contents.size() >0 ) {
             String[] URLS = new String[contents.size()];
             for (int i = 0; i < contents.size(); i++) {
+                urls.add(contents.get(i).getUrlContenuto());
+
                 URLS[i] = contents.get(i).getUrlContenuto();
             }
-            Collections.addAll(urls, URLS);
+            //Collections.addAll(urls, URLS);
         }
+        */
 
         transferUtility = UtilS3Amazon.getTransferUtility(context);
         transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
@@ -155,13 +158,17 @@ public class GridViewAdapter extends BaseAdapter {
         this.emailProfiloLoggato = emailProfiloLoggato;
         this.contents = URLs;
         this.gridView = gv;
+        /*
         if(contents != null && contents.size() >0 ) {
             String[] URLS = new String[contents.size()];
             for (int i = 0; i < contents.size(); i++) {
+                urls.add(contents.get(i).getUrlContenuto());
+
                 URLS[i] = contents.get(i).getUrlContenuto();
             }
-            Collections.addAll(urls, URLS);
+            //Collections.addAll(urls, URLS);
         }
+        */
 
         transferUtility = UtilS3Amazon.getTransferUtility(context);
         transferRecordMaps = new ArrayList<HashMap<String, List<Object>>>();
@@ -196,10 +203,11 @@ public class GridViewAdapter extends BaseAdapter {
                 textViewVideo = (TextView) convertView.findViewById(R.id.text_view_video);
 
                 if(emailProfiloLoggato.equals(contenutoMultimediale.getEmailProfilo())){
+                    final View finalConvertView = convertView;
                     textViewVideo.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            confirmFileDeletion(v, Constants.QUERY_DEL_VIDEO);
+                            confirmFileDeletion(finalConvertView, Constants.QUERY_DEL_VIDEO);
                         }
                     });
                 }
@@ -268,7 +276,7 @@ public class GridViewAdapter extends BaseAdapter {
     }
 
     @Override public int getCount() {
-        return urls.size();
+        return contents.size();
     }
 
     @Override public ContenutoMultimediale getItem(int position) {
@@ -281,10 +289,6 @@ public class GridViewAdapter extends BaseAdapter {
 
     public Context getContext() {
         return context;
-    }
-
-    public List<String> getUrls() {
-        return urls;
     }
 
     public int getTipoContenuti() {
@@ -377,21 +381,24 @@ public class GridViewAdapter extends BaseAdapter {
         final View view = v;
         final String query = q;
 
+        Log.i(TAG, "elemento selezionato per la rimozione: " + Integer.parseInt(view.getContentDescription().toString()));
+
+        cm = getItem(Integer.parseInt(view.getContentDescription().toString()));
+        Log.i(TAG, "url elemento: " + cm.getUrlContenuto());
+
+
         new AlertDialog.Builder(context)
                 .setTitle(context.getString(R.string.confirm))
                 .setMessage(context.getString(R.string.delete_content_alert))
                 .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         try {
-                            cm = getItem(Integer.parseInt(view.getContentDescription().toString()));
                             boolean result = new DeleteStopContentTask(context, query, codiceViaggio,
                                     cm.getUrlContenuto()).execute().get();
 
                             if(result){
-                                cm = getItem(Integer.parseInt(view.getContentDescription().toString()));
-                                Log.i(TAG, "deleted file: " + cm.getUrlContenuto());
                                 contents.remove(cm);
-                                urls.remove(cm.getUrlContenuto());
+                                //urls.remove(cm.getUrlContenuto());
                                 adapter.notifyDataSetChanged();
 
                             }
