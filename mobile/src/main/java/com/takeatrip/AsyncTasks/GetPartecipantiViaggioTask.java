@@ -132,7 +132,7 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
                         is.close();
 
                         result = sb.toString();
-                        Log.i(TAG, "result: " + result);
+                        //Log.i(TAG, "result: " + result);
 
 
                         JSONArray jArray = new JSONArray(result);
@@ -192,8 +192,6 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
             //new BitmapWorkerTask(null,layoutCopertinaViaggio).execute(urlImageTravel);
 
             TakeATrip TAT = (TakeATrip)getApplicationContext();
-            Log.i(TAG, "TAT : " +TAT);
-            Log.i(TAG, "TAT : " +TAT.getCurrentImage());
 
             try {
                 if(TAT != null && TAT.getCurrentImage() != null){
@@ -218,7 +216,6 @@ public class GetPartecipantiViaggioTask extends AsyncTask<Void, Void, Boolean> {
     private Bitmap getScaledBitmap(Bitmap bitmap){
         float density = context.getResources().getDisplayMetrics().density;
         int heigh = 300;
-        Log.i(TAG, "density of the screen: " + density);
         if(density == 3.0 || density == 4.0){
             heigh = 600;
         }

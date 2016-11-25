@@ -244,7 +244,8 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
         if(email == null){
             TakeATrip TAT = (TakeATrip)getApplicationContext();
-            email = TAT.getProfiloCorrente().getId();
+            if(TAT != null && TAT.getProfiloCorrente() != null)
+                email = TAT.getProfiloCorrente().getId();
         }
 
         //Log.i(TAG, "email utente: " + email + " codiceViaggio: " + codiceViaggio + " nomeVaggio: " + nomeViaggio);

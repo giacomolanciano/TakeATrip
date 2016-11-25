@@ -220,7 +220,7 @@ public class ProfiloActivity extends TabActivity {
 
             //verify if the visualized user is the logged user
             TakeATrip TAT = (TakeATrip)getApplicationContext();
-            if(TAT != null)
+            if(TAT != null && TAT.getProfiloCorrente() != null)
                 emailProfilo = TAT.getProfiloCorrente().getId();
 
             if(email != null && email.equals(emailProfilo)){

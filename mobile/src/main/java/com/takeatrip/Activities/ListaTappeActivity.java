@@ -758,7 +758,6 @@ public class ListaTappeActivity extends AppCompatActivity
                     break;
 
                 default:
-                    Log.e(TAG, "requestCode non riconosciuto");
                     break;
             }
 
@@ -1080,12 +1079,6 @@ public class ListaTappeActivity extends AppCompatActivity
                 String nameVideo = bitmap_nomeFile.get(bitmap);
                 String pathVideo = pathsImmaginiVideoSelezionati.get(bitmap);
 
-                Log.i(TAG, "email: " + email);
-                Log.i(TAG, "codiceViaggio: " + codiceViaggio);
-                Log.i(TAG, "name of the video: " + nameVideo);
-                Log.i(TAG, "livello Condivisione: " + livelloCondivisioneTappa);
-
-
                 try {
                     boolean result = new UploadFileS3Task(ListaTappeActivity.this, Constants.BUCKET_TRAVELS_NAME,
                             codiceViaggio, Constants.TRAVEL_VIDEOS_LOCATION, email, pathVideo, nameVideo).execute().get();
@@ -1232,7 +1225,6 @@ public class ListaTappeActivity extends AppCompatActivity
     private int calcolaNumUltimaTappaUtenteCorrente() {
         int result = 0;
         ArrayList<Tappa> listaTappe = (ArrayList<Tappa>) profiloTappe.get(profiloUtenteLoggato);
-        Log.i(TAG, "lista tappe di " + profiloUtenteLoggato + ": " + listaTappe);
         if(listaTappe != null)
             result = listaTappe.size();
 

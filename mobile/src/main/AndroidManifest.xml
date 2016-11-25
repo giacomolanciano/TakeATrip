@@ -120,9 +120,6 @@
             android:name=".Activities.IntroActivity"
             android:label="@string/title_activity_tatintro"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Activities.CustomPhotoGalleryActivity"
-            android:theme="@style/AppTheme">
-        </activity>
         <activity android:name="com.darsh.multipleimageselect.activities.AlbumSelectActivity"
             tools:replace="android:theme"
             android:theme="@style/OverrideMultipleImageSelectTheme">

@@ -274,7 +274,6 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
 
             if (phpFile.equals(Constants.QUERY_TRAVEL_IMAGES)
                     || phpFile.equals(Constants.QUERY_STOP_IMAGES)) {
-                Log.i(TAG, "immagini scaricate: " + URLs);
 
                 GridViewImageAdapter adapter = new GridViewImageAdapter(context, gv, URLs, Constants.IMAGE_FILE, codiceViaggio, emailProfilo);
                 gv.setAdapter(adapter);
@@ -299,7 +298,6 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
 
             }
             else if (phpFile.equals(Constants.QUERY_TRAVEL_VIDEOS) || phpFile.equals(Constants.QUERY_STOP_VIDEOS)){
-                Log.i(TAG,"video caricati: " + URLs);
                 delegate.processFinishForVideos(URLs);
             }
             else {

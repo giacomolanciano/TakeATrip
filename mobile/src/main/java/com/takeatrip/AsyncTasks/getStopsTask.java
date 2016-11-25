@@ -72,9 +72,6 @@ public class GetStopsTask extends AsyncTask<Void, Void, Boolean> {
                 dataToSend.add(new BasicNameValuePair("email", p.getId()));
                 dataToSend.add(new BasicNameValuePair("codiceViaggio", codiceViaggio));
 
-                Log.i(TAG,"email: " + p.getId());
-                Log.i(TAG,"codiceViaggio: " + codiceViaggio);
-
                 try {
                     HttpClient httpclient = new DefaultHttpClient();
                     HttpPost httppost = new HttpPost(Constants.PREFIX_ADDRESS + ADDRESS_PRELIEVO_TAPPE);
@@ -122,7 +119,6 @@ public class GetStopsTask extends AsyncTask<Void, Void, Boolean> {
                                     Date data = cal.getTime();
 
                                     tappe.add(new Tappa(itinerario, ordine, tappaPrecedente, data, nome, poi, livelloCondivisione));
-                                    Log.i(TAG, "tappa prelevata: " + tappe);
 
                                 }
                             }
@@ -150,8 +146,6 @@ public class GetStopsTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean aVoid) {
         super.onPostExecute(aVoid);
-        Log.i(TAG,"result dal task: " + aVoid);
-
         if(aVoid)
             delegate.processFinishForStops(profilo_tappe);
         else{

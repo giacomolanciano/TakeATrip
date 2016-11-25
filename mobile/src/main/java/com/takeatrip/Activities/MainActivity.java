@@ -310,9 +310,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TAT.setProfiloCorrente(profilo);
 
 
-        Log.i(TAG, "Settato profilo corrente: " + TAT.getProfiloCorrente());
-        Log.i(TAG, "profilo FB: " + fbProfile);
-
         googleApiClient = TAT.getGoogleApiClient();
         if (googleApiClient != null) {
             googleApiClient.connect();
