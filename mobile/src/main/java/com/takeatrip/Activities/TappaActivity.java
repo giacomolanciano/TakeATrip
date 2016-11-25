@@ -240,8 +240,7 @@ public class TappaActivity extends AppCompatActivity implements
 
         if (privacySpinner != null) {
             privacySpinner.setAdapter(adapter);
-            final int spinnerPosition = adapter.getPosition(livelloCondivisioneTappa);
-            privacySpinner.setSelection(spinnerPosition);
+            privacySpinner.setSelection(Integer.parseInt(livelloCondivisioneTappa));
 
             Log.i(TAG,"esterna? "+ esterna);
             if(esterna) {
@@ -252,7 +251,8 @@ public class TappaActivity extends AppCompatActivity implements
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         Log.i(TAG, "elemento selezionato: " + adapter.getItem(position));
-                        livelloCondivisioneTappa = adapter.getItem(position);
+                        livelloCondivisioneTappa = position+"";
+
 
                         try {
                             boolean result = new UpdateCondivisioneTappaTask(TappaActivity.this, codiceViaggio, ordineTappaDB, livelloCondivisioneTappa).execute().get();

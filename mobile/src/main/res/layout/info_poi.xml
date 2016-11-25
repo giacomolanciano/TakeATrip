@@ -135,8 +135,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:id="@+id/fabAddStopInfoPoi"
+            app:fab_size="mini"
             app:backgroundTint="@color/blue"
-            android:src="@drawable/ic_add_white_24dp"
+            android:src="@drawable/ic_add_location_white_36dp"
             android:layout_margin="@dimen/fab_margin"
             />
 

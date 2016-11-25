@@ -458,6 +458,7 @@ public class ProfiloActivity extends TabActivity {
     public void ClickImageProfile(View v) {
         try {
             if(!externalView){
+
                 ContextThemeWrapper wrapper = new ContextThemeWrapper(this, android.R.style.Theme_Holo_Dialog);
                 AlertDialog.Builder builder = new AlertDialog.Builder(wrapper);
                 LayoutInflater inflater = this.getLayoutInflater();
@@ -467,30 +468,31 @@ public class ProfiloActivity extends TabActivity {
                         switch (which) {
                             case 0:
 
-                                if(idImageProfile != null && !idImageProfile.equals("null")){
+                                if(idImageProfile != null && !idImageProfile.equals("null")) {
                                     String urlImmagine = generateCompleteUrl(idImageProfile);
-                                    viewImage(urlImmagine);
+                                    Uri uri = Uri.parse(urlImmagine);
+                                    Intent intent2 = new Intent(Intent.ACTION_VIEW, uri);
+                                    intent2.setDataAndType(uri, "image/*");
+                                    startActivity(intent2);
+
+                                    //viewImage(urlImmagine);
                                 }
                                 // open the FB image
                                 else if(profile != null){
                                     final Uri image_uri = profile.getProfilePictureUri(
                                             Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT*10,
                                             Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT*10);
-                                    final URI image_URI;
                                     try {
-                                        image_URI = new URI(image_uri.toString());
-                                        viewImage(image_URI.toURL().toString());
+                                        Intent intent2 = new Intent(Intent.ACTION_VIEW, image_uri);
+                                        intent2.setDataAndType(image_uri, "image/*");
+                                        startActivity(intent2);
+
+                                        //viewImage(image_URI.toURL().toString());
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
                                 }
 
-                                /*
-                                Uri uri = Uri.parse(urlImmagine);
-                                Intent intent2 = new Intent(Intent.ACTION_VIEW, uri);
-                                intent2.setDataAndType(uri, "image/*");
-                                startActivity(intent2);
-                                */
                                 break;
                             case 1: //change image profile
 
@@ -539,6 +541,17 @@ public class ProfiloActivity extends TabActivity {
                 // Create the AlertDialog object and return it
                 builder.create().show();
             }
+            else{
+                if(idImageProfile != null && !idImageProfile.equals("null")) {
+                    String urlImmagine = generateCompleteUrl(idImageProfile);
+                    Uri uri = Uri.parse(urlImmagine);
+                    Intent intent2 = new Intent(Intent.ACTION_VIEW, uri);
+                    intent2.setDataAndType(uri, "image/*");
+                    startActivity(intent2);
+
+                    //viewImage(urlImmagine);
+                }
+            }
 
         } catch (Exception e) {
             Log.e(e.toString().toUpperCase(), e.getMessage());
@@ -560,15 +573,14 @@ public class ProfiloActivity extends TabActivity {
                             case 0: //view cover image
                                 if(idCoverImage != null && !idCoverImage.equals("null")){
                                     String urlImmagine = generateCompleteUrl(idCoverImage);
-                                    viewImage(urlImmagine);
-                                }
-                                /*
+                                    Uri uri = Uri.parse(urlImmagine);
+                                    Intent intent2 = new Intent(Intent.ACTION_VIEW, uri);
+                                    intent2.setDataAndType(uri, "image/*");
+                                    startActivity(intent2);
 
-                                Uri uri = Uri.parse(urlImmagine);
-                                Intent intent2 = new Intent(Intent.ACTION_VIEW, uri);
-                                intent2.setDataAndType(uri, "image/*");
-                                startActivity(intent2);
-                                */
+                                    //viewImage(urlImmagine);
+                                }
+
                                 break;
                             case 1:
                                 Intent intentPick = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -604,6 +616,17 @@ public class ProfiloActivity extends TabActivity {
 
             } catch (Exception e) {
                 Log.e(e.toString().toUpperCase(), e.getMessage());
+            }
+        }
+        else{
+            if(idCoverImage != null && !idCoverImage.equals("null")){
+                String urlImmagine = generateCompleteUrl(idCoverImage);
+                Uri uri = Uri.parse(urlImmagine);
+                Intent intent2 = new Intent(Intent.ACTION_VIEW, uri);
+                intent2.setDataAndType(uri, "image/*");
+                startActivity(intent2);
+
+                //viewImage(urlImmagine);
             }
         }
     }

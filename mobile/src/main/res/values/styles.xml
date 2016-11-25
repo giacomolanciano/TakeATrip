@@ -126,4 +126,25 @@
 
     </style>
 
+
+    <style name="CustomShowcaseTheme2" parent="ShowcaseView">
+        <item name="sv_backgroundColor">@color/black_semi_transparent</item>
+        <item name="sv_showcaseColor">#25467F</item>
+        <item name="sv_tintButtonColor">@color/blue</item>
+        <item name="sv_titleTextAppearance">@style/CustomTitle2</item>
+        <item name="sv_detailTextAppearance">@style/CustomText2</item>
+    </style>
+
+    <style name="CustomTitle2" parent="TextAppearance.ShowcaseView.Title">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/title_showCase</item>
+    </style>
+
+    <style name="CustomText2" parent="TextAppearance.ShowcaseView.Detail">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_showCase</item>
+
+    </style>
+
 </resources>

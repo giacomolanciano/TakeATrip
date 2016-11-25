@@ -259,7 +259,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
         //layoutCopertinaViaggio = (LinearLayout) findViewById(R.id.layoutCoverImageTravel);
 
-        layoutPartecipants = (LinearLayout)findViewById(R.id.Partecipants);
+        layoutPartecipants = (LinearLayout)findViewById(R.id.layoutPhotosPartecipants);
         rowHorizontal = (LinearLayout) findViewById(R.id.layout_horizontal2);
 
         showProgressDialog();
@@ -297,14 +297,10 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
         Spinner privacySpinner = (Spinner) findViewById(R.id.spinnerPrivacyLevel);
         final PrivacyLevelAdapter adapter = new PrivacyLevelAdapter(ViaggioActivityConFragment.this, R.layout.entry_privacy_level, strings);
-        String livelloMaiuscolo = livelloCondivisioneViaggio.substring(0,1).toUpperCase()
-                + livelloCondivisioneViaggio.substring(1,livelloCondivisioneViaggio.length());
-
-        final int spinnerPosition = adapter.getPosition(livelloMaiuscolo);
 
         if (privacySpinner != null) {
             privacySpinner.setAdapter(adapter);
-            privacySpinner.setSelection(spinnerPosition);
+            privacySpinner.setSelection(Integer.parseInt(livelloCondivisioneViaggio));
 
             if(!proprioViaggio){
                 privacySpinner.setEnabled(false);
@@ -314,7 +310,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         if(checkSelectionSpinner > 0){
-                            livelloCondivisioneViaggio = adapter.getItem(position);
+                            livelloCondivisioneViaggio = position+"";
                             try {
                                 boolean result = new UpdateCondivisioneViaggioTask(ViaggioActivityConFragment.this, codiceViaggio, livelloCondivisioneViaggio).execute().get();
 
@@ -576,8 +572,11 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
         float density = getResources().getDisplayMetrics().density;
         if(density == 3.0 || density == 4.0){
-            DIMENSION_OF_SPACE = DIMENSION_OF_SPACE*2;
-            DIMENSION_OF_IMAGE_PARTICIPANT = DIMENSION_OF_IMAGE_PARTICIPANT*2;
+            if(DIMENSION_OF_SPACE != Constants.BASE_DIMENSION_OF_SPACE*2)
+                DIMENSION_OF_SPACE = Constants.BASE_DIMENSION_OF_SPACE*2;
+
+            if(DIMENSION_OF_IMAGE_PARTICIPANT != Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT*2)
+                DIMENSION_OF_IMAGE_PARTICIPANT = Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT*2;
         }
 
         int i=0;
@@ -853,13 +852,13 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
 
         LayoutInflater inflater = this.getLayoutInflater();
         final View view = inflater.inflate(R.layout.dialog_add_partecipant_viaggio, null);
-        dialog.setTitle("Add Partecipant");
+        dialog.setTitle(getString(R.string.addPartecipant));
         dialog.setView(view);
 
         layoutFAB = (LinearLayout) view.findViewById(R.id.layoutFloatingButtonAdd);
         final AutoCompleteTextView text = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView1);
         ArrayAdapter adapter = new ArrayAdapter(ViaggioActivityConFragment.this, android.R.layout.test_list_item, names);
-        text.setHint("Add partecipant");
+        text.setHint(getString(R.string.addPartecipant));
         text.setAdapter(adapter);
         text.setThreshold(1);
         text.addTextChangedListener(new TextWatcher() {

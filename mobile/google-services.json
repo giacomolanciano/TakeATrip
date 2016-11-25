@@ -27,6 +27,11 @@
         {
           "client_id": "854482298731-9maeevj20buep03pjefnvvdq4ch0q19j.apps.googleusercontent.com",
           "client_type": 3
+        },
+        //for debugging
+        {
+          "client_id": "854482298731-5ckb096pj7u0npmcvfg2kgk2gnu5megs.apps.googleusercontent.com",
+          "client_type": 4
         }
       ],
       "api_key": [{ "current_key": "" }],

@@ -174,8 +174,7 @@ public class GridViewImageAdapter extends GridViewAdapter {
         if (privacySpinner != null) {
             privacySpinner.setAdapter(adapter);
 
-            final int spinnerPosition = adapter.getPosition(contenutoMultimediale.getLivelloCondivisione());
-            privacySpinner.setSelection(spinnerPosition);
+            privacySpinner.setSelection(Integer.parseInt(contenutoMultimediale.getLivelloCondivisione()));
 
             if(!getItem(position).getEmailProfilo().equals(emailProfiloLoggato)) {
                 privacySpinner.setEnabled(false);
@@ -185,7 +184,7 @@ public class GridViewImageAdapter extends GridViewAdapter {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         //Log.i(TAG, "elemento selezionato nello spinner: " + adapter.getItem(position));
-                        String livelloCondivisioneContenuto = adapter.getItem(position);
+                        String livelloCondivisioneContenuto = position+""   ;
 
                         cm = getItem(Integer.parseInt(v.getContentDescription().toString()));
                         cm.setLivelloCondivisione(livelloCondivisioneContenuto);

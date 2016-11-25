@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +24,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
@@ -40,6 +42,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.Target;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -56,6 +60,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -555,8 +560,11 @@ public class ListaTappeActivity extends AppCompatActivity
         float density = getResources().getDisplayMetrics().density;
 
         if(density == 3.0 || density == 4.0){
-            widthLayoutProprietari = widthLayoutProprietari*2;
-            heighLayoutProprietari = heighLayoutProprietari*2;
+            if(widthLayoutProprietari != widthLayoutProprietari*2)
+                widthLayoutProprietari = widthLayoutProprietari*2;
+
+            if(heighLayoutProprietari != heighLayoutProprietari*2)
+                heighLayoutProprietari = heighLayoutProprietari*2;
         }
 
         layoutProprietariItinerari.addView(new TextView(this), widthLayoutProprietari,
@@ -807,19 +815,15 @@ public class ListaTappeActivity extends AppCompatActivity
 
         Spinner mySpinner = (Spinner)dialog.findViewById(R.id.spinner);
         final PrivacyLevelAdapter adapter = new PrivacyLevelAdapter(ListaTappeActivity.this, R.layout.entry_privacy_level, strings);
-        String livelloMaiuscolo = livelloCondivisioneDefaultViaggio.substring(0,1).toUpperCase()
-                + livelloCondivisioneDefaultViaggio.substring(1,livelloCondivisioneDefaultViaggio.length());
-
-        final int spinnerPosition = adapter.getPosition(livelloMaiuscolo);
 
         mySpinner.setAdapter(adapter);
-        mySpinner.setSelection(spinnerPosition);
+        mySpinner.setSelection(Integer.parseInt(livelloCondivisioneDefaultViaggio));
 
         mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(checkSelectionSpinner > 0){
-                    livelloCondivisioneTappa = adapter.getItem(position).toString();
+                    livelloCondivisioneTappa = position+"";
                 }
                 checkSelectionSpinner++;
             }
@@ -874,22 +878,61 @@ public class ListaTappeActivity extends AppCompatActivity
 
                 new InserimentoFiltroTask(ListaTappeActivity.this, codiceViaggio, placeName).execute();
 
-                //add marker
-                googleMap.addMarker(new MarkerOptions()
+
+                MarkerOptions mo = new MarkerOptions()
                         .title(stopOrder + ". " + placeName)
-                        .position(placeLatLng));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(addedPlace.getLatLng(), Constants.DEFAULT_ZOOM_MAP));
+                        .position(placeLatLng);
+
+
+                //add marker
+                googleMap.addMarker(mo);
 
                 //update polyline
                 polyline.add(addedPlace.getLatLng());
                 googleMap.addPolyline(polyline);
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(placeLatLng, Constants.DEFAULT_ZOOM_MAP));
+
 
 
                 //update zoom
                 mapBoundsBuilder.include(addedPlace.getLatLng());
                 mapBounds = mapBoundsBuilder.build();
-                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(mapBounds, Constants.LATLNG_BOUNDS_PADDING);
-                googleMap.moveCamera(cu);
+                //CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(mapBounds, Constants.LATLNG_BOUNDS_PADDING);
+                //CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(mo.getPosition(), 5);
+                //googleMap.moveCamera(cu);
+
+
+
+                if(stopOrder == 1){
+                    Projection projection = googleMap.getProjection();
+                    final Point screenPosition = projection.toScreenLocation(placeLatLng);
+
+
+                    ShowcaseView showcaseView = new ShowcaseView.Builder(ListaTappeActivity.this)
+                            .setTarget(new Target() {
+                                @Override
+                                public Point getPoint() {
+                                    screenPosition.offset(0,120);
+                                    return screenPosition;
+                                }
+                            })
+
+                            .setStyle(R.style.CustomShowcaseTheme2)
+                            .setContentTitle(getString(R.string.visit_stop))
+                            .setContentText(getString(R.string.text_showcase_stop))
+                            .hideOnTouchOutside()
+                            .build();
+
+
+                    showcaseView.setDetailTextAlignment(Layout.Alignment.ALIGN_CENTER);
+                    showcaseView.setTitleTextAlignment(Layout.Alignment.ALIGN_CENTER);
+                    showcaseView.forceTextPosition(ShowcaseView.ABOVE_SHOWCASE);
+                }
+                else{
+                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(mapBounds, Constants.LATLNG_BOUNDS_PADDING);
+                    googleMap.moveCamera(cu);
+
+                }
 
                 CreaMenu(profiloVisualizzazioneCorrente,profiloTappe.get(profiloVisualizzazioneCorrente));
 

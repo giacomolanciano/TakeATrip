@@ -5,8 +5,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.takeatrip.Activities.MainActivity"
-    android:background="@drawable/sfondo">
+    android:background="@drawable/sfondo"
+    android:id="@+id/frameLayoutMain">
 
+    <!--com.takeatrip.GraphicalComponents.DrawView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewMain"/-->
 
     <LinearLayout
         android:layout_width="match_parent"

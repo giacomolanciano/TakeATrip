@@ -162,6 +162,7 @@ public class GetUrlsContentsTask extends AsyncTask<Void, Void, Boolean> {
         }
 
 
+
         try {
             if (InternetConnection.haveInternetConnection(context)) {
                 HttpClient httpclient = new DefaultHttpClient();

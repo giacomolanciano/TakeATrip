@@ -17,6 +17,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -140,6 +142,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String emailProfilo;
 
 
+
+
+    private int xMenu1, yMenu1, xMenu2, yMenu2, xSocialButton, ySocialButton;
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -197,11 +208,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //Prendi i dati dal database perche è gia presente l'utente
         }
 
+        final FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frameLayoutMain);
 
         //action buttons
         fabMenu = (FloatingActionsMenu) findViewById(R.id.menu);
         fabMenu2 = (FloatingActionsMenu) findViewById(R.id.menu2);
-
         fabMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
             @Override
             public void onMenuExpanded() {
@@ -212,7 +223,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onMenuCollapsed() {
             }
         });
-
 
         fabMenu2.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
             @Override
@@ -232,6 +242,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonSearchUser = (FloatingActionButton) findViewById(R.id.searchUser);
         buttonSearchTravels = (FloatingActionButton) findViewById(R.id.buttonSearchTravels);
         buttonSocial = (FloatingActionButton) findViewById(R.id.buttonSocial);
+
+
+
+        frameLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            public void onGlobalLayout() {
+                frameLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+
+                int[] locations = new int[2];
+                int[] locations2 = new int[2];
+                int[] locations3 = new int[2];
+                fabMenu.getLocationInWindow(locations);
+                fabMenu2.getLocationInWindow(locations2);
+                buttonSocial.getLocationOnScreen(locations3);
+
+                xMenu1 = locations[0];
+                yMenu1 = locations[1];
+                xMenu2 = locations2[0];
+                yMenu2 = locations2[1];
+                xSocialButton = locations3[0];
+                ySocialButton = locations3[1];
+
+                Log.i(TAG, "location on screen of fabMenu: " + xMenu1 +" "+ yMenu1);
+                Log.i(TAG, "location on screen of fabMenu2: " + xMenu2 +" "+ yMenu2);
+                Log.i(TAG, "location on screen of socialButton: " + xSocialButton +" "+ ySocialButton);
+            }
+        });
+
 
         inizializzaButton();
 
@@ -289,6 +326,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(this);
     }
+
+
+
 
 
 

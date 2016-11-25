@@ -274,8 +274,8 @@
     <string name="travels">Viaggi</string>
     <string name="travel">Viaggio</string>
     <string name="incorrect_date">Attenzione! Data non corretta</string>
-    <string name="no_followers">Followers not found</string>
-    <string name="no_following">Following not found</string>
+    <string name="no_followers">Nessuna persona seguita trovata</string>
+    <string name="no_following">Nessun seguace trovato</string>
     <string name="choose">SCEGLI</string>
     <string name="see_last_stop">Ultima tappa</string>
     <string name="these">questi</string>
@@ -289,6 +289,10 @@
     <string name="exit_travel">Esci dal viaggio</string>
     <string name="report_content_alert">Vuoi davvero segnalare il contenuto del viaggio?</string>
     <string name="content_reported">Contenuto segnalato</string>
+
+
+    <string name="visit_stop">Visita la Tappa!</string>
+    <string name="text_showcase_stop">Clicca sul picker e poi sul nome della tappa per aggiungere contenuti.</string>
 
 
 </resources>
