@@ -28,7 +28,7 @@ public class UploadFileS3Task extends AsyncTask<Void, Void, Boolean> {
 
     private Context context;
     private String filePath, bucketName, idViaggio, idUtente, tipoFile, completeUrl, newFileName;
-
+    private boolean resultUpload = true;
 
 
 
@@ -88,6 +88,9 @@ public class UploadFileS3Task extends AsyncTask<Void, Void, Boolean> {
 
                 File file = new File(filePath);
 
+
+                Log.i(TAG, "lenght of the file: " + file.length());
+
                 String key = idViaggio +"/" + tipoFile + "/" + idUtente + "_" + newFileName;
 
                 observer = transferUtility.upload(bucketName, key, file);
@@ -101,28 +104,27 @@ public class UploadFileS3Task extends AsyncTask<Void, Void, Boolean> {
                     @Override
                     public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
                         int percentage = (int) (bytesCurrent/bytesTotal * 100);
-                        Log.i(TAG, "percentage of upload: " + percentage);
-                        //Display percentage transfered to user
                     }
 
                     @Override
                     public void onError(int id, Exception ex) {
                         Log.e(TAG, "error: " + ex);
+                        resultUpload = false;
                     }
 
                 });
 
             } else{
                 Log.e(TAG,"CONNESSIONE Internet Assente!");
-                return false;
+                resultUpload = false;
             }
         } catch (Exception e) {
             Log.e(TAG, "Errore nella connessione http "+e.toString());
-            return false;
+            resultUpload = false;
         }
 
 
-        return true;
+        return resultUpload;
     }
 
 

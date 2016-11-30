@@ -89,12 +89,13 @@ public class GridViewImageAdapter extends GridViewAdapter {
 
                     float density = context.getResources().getDisplayMetrics().density;
                     if(density < 3.0){
+
                         Picasso.with(context)
                                 .load(url)
-                                .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *6, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *6)
                                 .into(imageProfile, new com.squareup.picasso.Callback() {
                                     @Override
                                     public void onSuccess() {
+
                                         setDialog(dialog,position,v);
                                     }
 
@@ -107,7 +108,6 @@ public class GridViewImageAdapter extends GridViewAdapter {
                     else if(density == 3.0 || density == 4.0){
                         Picasso.with(context)
                                 .load(url)
-                                .resize(Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *10, Constants.BASE_DIMENSION_OF_IMAGE_PARTICIPANT *10)
                                 .into(imageProfile, new com.squareup.picasso.Callback() {
                                     @Override
                                     public void onSuccess() {

@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
@@ -82,6 +81,7 @@ import com.takeatrip.Utilities.MultimedialFile;
 import com.takeatrip.Utilities.RoundedImageView;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -731,7 +731,7 @@ public class TappaActivity extends AppCompatActivity implements
                             String path_image = images.get(i).path;
 
                             imagesPathList.add(timeStamp + path_image);
-                            yourbitmap = BitmapFactory.decodeFile(path_image);
+                            yourbitmap = BitmapWorkerTask.decodeSampledBitmapFromPath(path_image, 0, 0);
 
                             pathsImmaginiSelezionate.put(yourbitmap, path_image);
                             immaginiSelezionate.add(yourbitmap);
@@ -742,33 +742,6 @@ public class TappaActivity extends AppCompatActivity implements
 
                         recreate();
                     }
-
-
-
-                    /*
-                    imagesPathList = new ArrayList<String>();
-                    String[] imagesPath = data.getStringExtra("data").split("\\|");
-
-                    for (int i=0;i<imagesPath.length;i++){
-
-                        String timeStamp = new SimpleDateFormat(Constants.FILE_NAME_TIMESTAMP_FORMAT).format(new Date());
-
-                        String nomeFile = i+timeStamp + Constants.IMAGE_EXT;
-
-                        imagesPathList.add(timeStamp + imagesPath[i]);
-                        yourbitmap = BitmapFactory.decodeFile(imagesPath[i]);
-
-                        pathsImmaginiSelezionate.put(yourbitmap, imagesPath[i]);
-
-                        immaginiSelezionate.add(yourbitmap);
-                        bitmap_nomeFile.put(yourbitmap,nomeFile);
-                    }
-
-
-                    uploadPhotos();
-
-                    recreate();
-                    */
 
                     break;
 
@@ -1285,12 +1258,27 @@ public class TappaActivity extends AppCompatActivity implements
         if(immaginiSelezionate.size() > 0){
             for(Bitmap bitmap : immaginiSelezionate) {
 
+
+                Log.i(TAG, "bitmap uploaded: " + bitmap);
+                Log.i(TAG, "dimensions of bitmap: " + bitmap.getByteCount());
+
+
                 String nameImage = bitmap_nomeFile.get(bitmap);
                 String pathImage = pathsImmaginiSelezionate.get(bitmap);
 
                 try {
+
+                    File file = new File(this.getCacheDir(), nameImage);
+                    file.createNewFile();
+
+                    FileOutputStream out = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 70, out);
+                    out.flush();
+                    out.close();
+
+
                     boolean uploaded = new UploadFileS3Task(TappaActivity.this, Constants.BUCKET_TRAVELS_NAME,
-                            codiceViaggio, Constants.TRAVEL_IMAGES_LOCATION, email, pathImage, nameImage).execute().get();
+                            codiceViaggio, Constants.TRAVEL_IMAGES_LOCATION, email, file.getAbsolutePath(), nameImage).execute().get();
 
                     String completePath = codiceViaggio + "/" + Constants.TRAVEL_IMAGES_LOCATION + "/" + email + "_" + nameImage;
 
@@ -1303,13 +1291,9 @@ public class TappaActivity extends AppCompatActivity implements
                     }
 
 
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    Log.e(TAG, "thrown exception " + e);
                 }
-
-
 
             }
         }

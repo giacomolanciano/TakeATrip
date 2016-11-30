@@ -269,7 +269,7 @@
     <string name="SearchTravelByDestination">Viaggio da destinazione</string>
     <string name="adviseNoStops">Nessuna tappa trovata</string>
     <string name="searchUser">Cerca utente</string>
-    <string name="add_a_stop">Aggiungi tappa ad ultimo viaggio</string>
+    <string name="add_a_stop">Aggiungi tappa \n ad ultimo viaggio</string>
     <string name="last_stop">Ultima tappa</string>
     <string name="travels">Viaggi</string>
     <string name="travel">Viaggio</string>
