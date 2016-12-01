@@ -75,7 +75,7 @@ public class Constants {
     public static final int ONE_SEC_IN_MILLISEC = 1000;
 
     public static final int NOTE_MAX_LENGTH = 1000;
-    public static final int QUALITY_PHOTO = 60;
+    public static final int QUALITY_PHOTO = 45;
 
 
     public static final String DISPLAYED_DATE_FORMAT = "dd/MM/yyyy";

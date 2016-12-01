@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -65,12 +64,10 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.URI;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -679,38 +676,18 @@ public class ProfiloActivity extends TabActivity {
                     }
                 }
                 try {
-                    Bitmap bitmap;
-                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-                    bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
-                            bitmapOptions);
+                    String timeStamp = new SimpleDateFormat(Constants.FILE_NAME_TIMESTAMP_FORMAT).format(new Date());
+                    String nomeFile = timeStamp + Constants.IMAGE_EXT;
+                    Bitmap bitmap = BitmapWorkerTask.decodeSampledBitmapFromPath(f.getAbsolutePath(), 0, 0);
 
                     try {
-                        beginUploadProfilePicture(f.getAbsolutePath());
+                        beginUploadProfilePicture(bitmap, f.getAbsolutePath(), nomeFile);
 
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-
                     imageProfile.setImageBitmap(bitmap);
 
-                    String path = android.os.Environment.getExternalStorageDirectory().toString();
-                    f.delete();
-
-                    OutputStream outFile = null;
-                    file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
-                    try {
-                        outFile = new FileOutputStream(file);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, QUALITY_OF_IMAGE, outFile);
-                        outFile.flush();
-                        outFile.close();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -726,10 +703,20 @@ public class ProfiloActivity extends TabActivity {
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
 
-                c.close();
-                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
 
-                beginUploadProfilePicture(picturePath);
+
+
+
+                c.close();
+
+                Bitmap thumbnail = BitmapWorkerTask.decodeSampledBitmapFromPath(picturePath, 0, 0);
+
+
+
+                String timeStamp = new SimpleDateFormat(Constants.FILE_NAME_TIMESTAMP_FORMAT).format(new Date());
+                String nomeFile = timeStamp + Constants.IMAGE_EXT;
+
+                beginUploadProfilePicture(thumbnail,picturePath, nomeFile);
                 imageProfile.setImageBitmap(thumbnail);
 
 
@@ -742,36 +729,16 @@ public class ProfiloActivity extends TabActivity {
                     }
                 }
                 try {
-                    Bitmap bitmap;
-                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                    String timeStamp = new SimpleDateFormat(Constants.FILE_NAME_TIMESTAMP_FORMAT).format(new Date());
+                    String nomeFile = timeStamp + Constants.IMAGE_EXT;
 
-                    bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
-                            bitmapOptions);
-
-
-                    beginUploadCoverPicture(f.getAbsolutePath());
+                    Bitmap bitmap = BitmapWorkerTask.decodeSampledBitmapFromPath(f.getAbsolutePath(), 0, 0);
+                    beginUploadCoverPicture(bitmap,f.getAbsolutePath(), nomeFile);
 
 
                     Drawable d = new BitmapDrawable(getResources(), bitmap);
                     layoutCoverImage.setBackground(d);
 
-                    String path = android.os.Environment.getExternalStorageDirectory().toString();
-                    f.delete();
-
-                    OutputStream outFile = null;
-                    file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
-                    try {
-                        outFile = new FileOutputStream(file);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, QUALITY_OF_IMAGE, outFile);
-                        outFile.flush();
-                        outFile.close();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -785,9 +752,13 @@ public class ProfiloActivity extends TabActivity {
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
                 c.close();
-                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
 
-                beginUploadCoverPicture(picturePath);
+                String timeStamp = new SimpleDateFormat(Constants.FILE_NAME_TIMESTAMP_FORMAT).format(new Date());
+                String nomeFile = timeStamp + Constants.IMAGE_EXT;
+
+                Bitmap thumbnail = BitmapWorkerTask.decodeSampledBitmapFromPath(picturePath, 0, 0);
+
+                beginUploadCoverPicture(thumbnail,picturePath, nomeFile);
 
                 Drawable d = new BitmapDrawable(getResources(), thumbnail);
                 layoutCoverImage.setBackground(d);
@@ -835,12 +806,6 @@ public class ProfiloActivity extends TabActivity {
 
             URL url = s3.generatePresignedUrl(generatePresignedUrlRequest);
 
-        /*
-        Picasso.with(this).
-                load(url.toString()).
-                resize(DIMENSION_PROFILE_IMAGE,DIMENSION_PROFILE_IMAGE).
-                into(imageProfile);
-                */
             Picasso.with(this)
                     .load(url.toString())
                     .resize(DIMENSION_PROFILE_IMAGE,DIMENSION_PROFILE_IMAGE)
@@ -889,14 +854,25 @@ public class ProfiloActivity extends TabActivity {
 
 
 
-    private void beginUploadProfilePicture(String filePath) {
+    private void beginUploadProfilePicture(Bitmap bitmap, String filePath, String fileName) {
         if(InternetConnection.haveInternetConnection(getApplicationContext())) {
             if (filePath == null) {
                 Toast.makeText(this, "Could not find the filepath of the selected file",
                         Toast.LENGTH_LONG).show();
                 return;
             }
-            File file = new File(filePath);
+            File file = new File(getCacheDir(), fileName);
+            try {
+                file.createNewFile();
+
+                FileOutputStream out = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.QUALITY_PHOTO, out);
+                out.flush();
+                out.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             ObjectMetadata myObjectMetadata = new ObjectMetadata();
             TransferObserver observer = transferUtility.upload(Constants.BUCKET_NAME, email + "/"+ Constants.PROFILE_PICTURES_LOCATION +"/"+file.getName(), file);
@@ -911,12 +887,25 @@ public class ProfiloActivity extends TabActivity {
 
 
 
-    private void beginUploadCoverPicture(String filePath) {
+    private void beginUploadCoverPicture(Bitmap bitmap, String filePath, String fileName) {
         if(InternetConnection.haveInternetConnection(getApplicationContext())) {
             if (filePath == null) {
                 return;
             }
-            File file = new File(filePath);
+
+            File file = new File(getCacheDir(), fileName);
+            try {
+                file.createNewFile();
+
+                FileOutputStream out = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.QUALITY_PHOTO, out);
+                out.flush();
+                out.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
 
             TransferObserver observer = transferUtility.upload(Constants.BUCKET_NAME, email +"/"+ Constants.COVER_IMAGES_LOCATION +"/"+file.getName(), file);
             new InserimentoImmagineCopertinaTask(this,email,null,email +"/"+ Constants.COVER_IMAGES_LOCATION +"/"+file.getName()).execute();

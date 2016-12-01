@@ -1272,7 +1272,7 @@ public class TappaActivity extends AppCompatActivity implements
                     file.createNewFile();
 
                     FileOutputStream out = new FileOutputStream(file);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 70, out);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.QUALITY_PHOTO, out);
                     out.flush();
                     out.close();
 
@@ -1313,8 +1313,17 @@ public class TappaActivity extends AppCompatActivity implements
                 String pathVideo = pathsImmaginiSelezionate.get(bitmap);
 
                 try {
+
+                    File file = new File(this.getCacheDir(), nameVideo);
+                    file.createNewFile();
+
+                    FileOutputStream out = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.valueOf(Constants.VIDEO_EXT), Constants.QUALITY_PHOTO, out);
+                    out.flush();
+                    out.close();
+
                     boolean result = new UploadFileS3Task(TappaActivity.this, Constants.BUCKET_TRAVELS_NAME,
-                            codiceViaggio, Constants.TRAVEL_VIDEOS_LOCATION, email, pathVideo, nameVideo).execute().get();
+                            codiceViaggio, Constants.TRAVEL_VIDEOS_LOCATION, email, file.getAbsolutePath(), nameVideo).execute().get();
 
                     if(result){
                         String completePath = codiceViaggio + "/" + Constants.TRAVEL_VIDEOS_LOCATION + "/" + email + "_" + nameVideo;
@@ -1323,12 +1332,9 @@ public class TappaActivity extends AppCompatActivity implements
                                 ordineTappaDB,null,completePath,livelloCondivisioneTappa).execute();
                     }
 
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
 
         }

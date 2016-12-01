@@ -52,22 +52,27 @@
 
         <activity
             android:name=".Activities.LoginActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.RegistrazioneActivity"
-            android:label="@string/title_activity_registrazione" />
+            android:label="@string/title_activity_registrazione"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.ProfiloActivity"
             android:label="@string/title_activity_profilo"
-            android:parentActivityName=".Activities.MainActivity" />
+            android:parentActivityName=".Activities.MainActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.ListaViaggiActivity"
             android:label="@string/title_activity_lista_viaggi"
-            android:parentActivityName=".Activities.MainActivity" />
+            android:parentActivityName=".Activities.MainActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.ViaggioActivityConFragment"
             android:label="@string/title_activity_viaggio"
-            android:parentActivityName=".Activities.MainActivity" />
+            android:parentActivityName=".Activities.MainActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.SplashActivity"
             android:label="@string/app_name">
@@ -77,23 +82,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.MapsActivity" />
+        <activity android:name=".Activities.MapsActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.MainActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
         <!-- usato per tornare alla mainActivity senza perdere i dati -->
 
-        <activity android:name=".Activities.InfoActivity" />
+        <activity android:name=".Activities.InfoActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".Activities.StatsActivity" />
         <activity
             android:name=".Activities.ListaTappeActivity"
             android:label="@string/title_activity_lista_tappe2"
             android:parentActivityName=".Activities.MainActivity"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".Activities.SearchActivity" />
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".Activities.SearchActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.SocialActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -103,10 +115,12 @@
             android:name=".Activities.TappaActivity"
             android:label="@string/title_activity_tappa"
             android:parentActivityName=".Activities.MainActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.VisualizzazioneFollowActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
 
         <service
             android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
@@ -116,11 +130,14 @@
             android:name=".Activities.TutorialActivity"
             android:label="@string/title_activity_tutorial"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Activities.NuovoViaggioActivity" />
+        <activity android:name=".Activities.NuovoViaggioActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.IntroActivity"
             android:label="@string/title_activity_tatintro"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
+
         <activity android:name="com.darsh.multipleimageselect.activities.AlbumSelectActivity"
             tools:replace="android:theme"
             android:theme="@style/OverrideMultipleImageSelectTheme">

@@ -76,7 +76,7 @@ public class GridViewImageAdapter extends GridViewAdapter {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    final Dialog dialog = new Dialog(context, R.style.CustomDialog);
+                    final Dialog dialog = new Dialog(context, R.style.CustomDialog2);
                     dialog.setContentView(R.layout.photos_view);
 
                     ImageView imageProfile = (ImageView) dialog.findViewById(R.id.imageDialog);
@@ -87,40 +87,24 @@ public class GridViewImageAdapter extends GridViewAdapter {
                         }
                     });
 
-                    float density = context.getResources().getDisplayMetrics().density;
-                    if(density < 3.0){
 
-                        Picasso.with(context)
-                                .load(url)
-                                .into(imageProfile, new com.squareup.picasso.Callback() {
-                                    @Override
-                                    public void onSuccess() {
+                    Picasso.with(context)
+                            .load(url)
+                            .into(imageProfile, new com.squareup.picasso.Callback() {
 
-                                        setDialog(dialog,position,v);
-                                    }
+                                @Override
+                                public void onSuccess() {
 
-                                    @Override
-                                    public void onError() {
+                                    setDialog(dialog,position,v);
+                                }
 
-                                    }
-                                });
-                    }
-                    else if(density == 3.0 || density == 4.0){
-                        Picasso.with(context)
-                                .load(url)
-                                .into(imageProfile, new com.squareup.picasso.Callback() {
-                                    @Override
-                                    public void onSuccess() {
-                                        setDialog(dialog,position,v);
-                                    }
+                                @Override
+                                public void onError() {
 
-                                    @Override
-                                    public void onError() {
+                                }
+                            });
 
-                                    }
-                                });
 
-                    }
                 }
             });
             if (getCodiceViaggio() != null) {

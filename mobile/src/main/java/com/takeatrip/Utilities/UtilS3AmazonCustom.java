@@ -14,10 +14,11 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.takeatrip.AsyncTasks.InsertCoverImageTravelTask;
 import com.takeatrip.AsyncTasks.UploadFileS3Task;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Giacomo Lanciano on 24/04/2016.
@@ -71,21 +72,28 @@ public class UtilS3AmazonCustom {
         String timeStamp = new SimpleDateFormat(Constants.FILE_NAME_TIMESTAMP_FORMAT).format(new Date());
         String newFileName = timeStamp + Constants.IMAGE_EXT;
 
+        File file = new File(context.getCacheDir(), newFileName);
+
         try {
+
+            file.createNewFile();
+
+            FileOutputStream out = new FileOutputStream(file);
+            bitmapImageTravel.compress(Bitmap.CompressFormat.JPEG, Constants.QUALITY_PHOTO, out);
+            out.flush();
+            out.close();
+
             boolean result = new UploadFileS3Task(context, Constants.BUCKET_TRAVELS_NAME, codiceViaggio,
-                    Constants.TRAVEL_COVER_IMAGE_LOCATION, email, filePath, newFileName).execute().get();
+                    Constants.TRAVEL_COVER_IMAGE_LOCATION, email, file.getAbsolutePath(), newFileName).execute().get();
 
             if(result){
                 new InsertCoverImageTravelTask(context,email,codiceViaggio, null, newFileName,
                         bitmapImageTravel, layoutCopertinaViaggio, selectedImage).execute();
             }
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
 

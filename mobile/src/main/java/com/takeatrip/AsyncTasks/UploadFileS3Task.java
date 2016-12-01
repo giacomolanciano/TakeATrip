@@ -87,8 +87,6 @@ public class UploadFileS3Task extends AsyncTask<Void, Void, Boolean> {
                 }
 
                 File file = new File(filePath);
-
-
                 Log.i(TAG, "lenght of the file: " + file.length());
 
                 String key = idViaggio +"/" + tipoFile + "/" + idUtente + "_" + newFileName;

@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -543,7 +542,7 @@ public class ViaggioActivityConFragment extends TabActivity implements AsyncResp
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
                 c.close();
-                bitmapImageTravel = (BitmapFactory.decodeFile(picturePath));
+                bitmapImageTravel = BitmapWorkerTask.decodeSampledBitmapFromPath(picturePath, 0, 0);
 
                 UtilS3AmazonCustom.uploadTravelCoverPicture(ViaggioActivityConFragment.this, picturePath,
                         codiceViaggio, email, bitmapImageTravel, imageTravel, selectedImage);

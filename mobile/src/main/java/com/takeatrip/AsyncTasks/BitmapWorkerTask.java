@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.takeatrip.Utilities.ExifUtil;
+
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 
@@ -204,6 +206,15 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
             if (options.outHeight > 1600 && options.outWidth > 3600) {
                 options.inSampleSize = 12;
             }
+            if (options.outHeight > 3600 && options.outWidth > 1600) {
+                options.inSampleSize = 12;
+            }
+            if (options.outHeight > 2400 && options.outWidth > 4800) {
+                options.inSampleSize = 16;
+            }
+            if (options.outHeight > 4800 && options.outWidth > 2400) {
+                options.inSampleSize = 16;
+            }
 
             if(reqWidth != 0 && reqHeight != 0){
                 options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
@@ -215,6 +226,9 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 
             mIcon11 = BitmapFactory.decodeFile(path, options);
             Log.i(TAG, "bitmap decoded: " + mIcon11);
+
+            mIcon11 = ExifUtil.rotateBitmap(path,mIcon11);
+            Log.i(TAG, "bitmap rotated: " + mIcon11);
 
         } catch (Exception e) {
             e.printStackTrace();
