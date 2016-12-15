@@ -295,9 +295,33 @@
             android:layout_toEndOf="@+id/imageView3"
             android:layout_marginTop="645dp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentStart="false"
+            android:text="Privacy Policy"
+            android:layout_alignParentEnd="false"
+            android:layout_marginTop="720dp"
+            />
 
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentStart="false"
+            android:id="@+id/viewPolicy"
+            android:layout_alignParentEnd="false"
+            android:layout_marginTop="740dp"
+            />
 
     </RelativeLayout>
+
+
 
 </android.support.v4.widget.NestedScrollView>

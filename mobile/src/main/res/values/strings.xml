@@ -295,6 +295,7 @@
     <string name="content_reported">Content reported</string>
     <string name="visit_stop">Visit the Stop!</string>
     <string name="text_showcase_stop">Click on picker and on the name of the stop to add contents</string>
+    <string name="url_privacy_policy">Click <a href="http://ec2-54-194-7-136.eu-west-1.compute.amazonaws.com/ppolicy">here</a> for view the policy.</string>
 
 
 </resources>
